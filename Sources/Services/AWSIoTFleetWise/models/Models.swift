@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -172,7 +175,7 @@ public struct AssociateVehicleFleetInput {
 
 extension AssociateVehicleFleetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AssociateVehicleFleetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AssociateVehicleFleetOutput {
         return AssociateVehicleFleetOutput()
     }
 }
@@ -184,7 +187,7 @@ public struct AssociateVehicleFleetOutput {
 
 enum AssociateVehicleFleetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -326,7 +329,7 @@ public struct BatchCreateVehicleInput {
 
 extension BatchCreateVehicleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> BatchCreateVehicleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BatchCreateVehicleOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -355,7 +358,7 @@ public struct BatchCreateVehicleOutput {
 
 enum BatchCreateVehicleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -402,7 +405,7 @@ public struct BatchUpdateVehicleInput {
 
 extension BatchUpdateVehicleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> BatchUpdateVehicleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BatchUpdateVehicleOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -431,7 +434,7 @@ public struct BatchUpdateVehicleOutput {
 
 enum BatchUpdateVehicleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -556,12 +559,12 @@ extension IoTFleetWiseClientTypes {
         public var arn: Swift.String?
         /// The time the campaign was created.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The description of the campaign.
         public var description: Swift.String?
         /// The last time the campaign was modified.
         /// This member is required.
-        public var lastModificationTime: ClientRuntime.Date?
+        public var lastModificationTime: Foundation.Date?
         /// The name of a campaign.
         public var name: Swift.String?
         /// The ARN of the signal catalog associated with the campaign.
@@ -581,9 +584,9 @@ extension IoTFleetWiseClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
-            lastModificationTime: ClientRuntime.Date? = nil,
+            lastModificationTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             signalCatalogArn: Swift.String? = nil,
             status: IoTFleetWiseClientTypes.CampaignStatus? = nil,
@@ -607,7 +610,7 @@ extension IoTFleetWiseClientTypes.CanDbcDefinition {
 
     static func write(value: IoTFleetWiseClientTypes.CanDbcDefinition?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["canDbcFiles"].writeList(value.canDbcFiles, memberWritingClosure: ClientRuntime.Data.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["canDbcFiles"].writeList(value.canDbcFiles, memberWritingClosure: Foundation.Data.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["networkInterface"].write(value.networkInterface)
         try writer["signalsMap"].writeMap(value.signalsMap, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
@@ -618,7 +621,7 @@ extension IoTFleetWiseClientTypes {
     public struct CanDbcDefinition {
         /// A list of DBC files. You can upload only one DBC file for each network interface and specify up to five (inclusive) files in the list. The DBC file can be a maximum size of 200 MB.
         /// This member is required.
-        public var canDbcFiles: [ClientRuntime.Data]?
+        public var canDbcFiles: [Foundation.Data]?
         /// Contains information about a network interface.
         /// This member is required.
         public var networkInterface: Swift.String?
@@ -626,7 +629,7 @@ extension IoTFleetWiseClientTypes {
         public var signalsMap: [Swift.String:Swift.String]?
 
         public init(
-            canDbcFiles: [ClientRuntime.Data]? = nil,
+            canDbcFiles: [Foundation.Data]? = nil,
             networkInterface: Swift.String? = nil,
             signalsMap: [Swift.String:Swift.String]? = nil
         )
@@ -1014,7 +1017,7 @@ public struct CreateCampaignInput {
     /// (Optional) Option for a vehicle to send diagnostic trouble codes to Amazon Web Services IoT FleetWise. If you want to send diagnostic trouble codes, use SEND_ACTIVE_DTCS. If it's not specified, OFF is used. Default: OFF
     public var diagnosticsMode: IoTFleetWiseClientTypes.DiagnosticsMode?
     /// (Optional) The time the campaign expires, in seconds since epoch (January 1, 1970 at midnight UTC time). Vehicle data isn't collected after the campaign expires. Default: 253402214400 (December 31, 9999, 00:00:00 UTC)
-    public var expiryTime: ClientRuntime.Date?
+    public var expiryTime: Foundation.Date?
     /// The name of the campaign to create.
     /// This member is required.
     public var name: Swift.String?
@@ -1030,7 +1033,7 @@ public struct CreateCampaignInput {
     /// (Optional) Whether to store collected data after a vehicle lost a connection with the cloud. After a connection is re-established, the data is automatically forwarded to Amazon Web Services IoT FleetWise. If you want to store collected data when a vehicle loses connection with the cloud, use TO_DISK. If it's not specified, OFF is used. Default: OFF
     public var spoolingMode: IoTFleetWiseClientTypes.SpoolingMode?
     /// (Optional) The time, in milliseconds, to deliver a campaign after it was approved. If it's not specified, 0 is used. Default: 0
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
     /// Metadata that can be used to manage the campaign.
     public var tags: [IoTFleetWiseClientTypes.Tag]?
     /// The ARN of the vehicle or fleet to deploy a campaign to.
@@ -1044,14 +1047,14 @@ public struct CreateCampaignInput {
         dataExtraDimensions: [Swift.String]? = nil,
         description: Swift.String? = nil,
         diagnosticsMode: IoTFleetWiseClientTypes.DiagnosticsMode? = nil,
-        expiryTime: ClientRuntime.Date? = nil,
+        expiryTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
         postTriggerCollectionDuration: Swift.Int? = nil,
         priority: Swift.Int? = nil,
         signalCatalogArn: Swift.String? = nil,
         signalsToCollect: [IoTFleetWiseClientTypes.SignalInformation]? = nil,
         spoolingMode: IoTFleetWiseClientTypes.SpoolingMode? = nil,
-        startTime: ClientRuntime.Date? = nil,
+        startTime: Foundation.Date? = nil,
         tags: [IoTFleetWiseClientTypes.Tag]? = nil,
         targetArn: Swift.String? = nil
     )
@@ -1077,7 +1080,7 @@ public struct CreateCampaignInput {
 
 extension CreateCampaignOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateCampaignOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateCampaignOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1106,7 +1109,7 @@ public struct CreateCampaignOutput {
 
 enum CreateCampaignOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1179,7 +1182,7 @@ public struct CreateDecoderManifestInput {
 
 extension CreateDecoderManifestOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateDecoderManifestOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateDecoderManifestOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1210,7 +1213,7 @@ public struct CreateDecoderManifestOutput {
 
 enum CreateDecoderManifestOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1274,7 +1277,7 @@ public struct CreateFleetInput {
 
 extension CreateFleetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateFleetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateFleetOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1305,7 +1308,7 @@ public struct CreateFleetOutput {
 
 enum CreateFleetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1375,7 +1378,7 @@ public struct CreateModelManifestInput {
 
 extension CreateModelManifestOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateModelManifestOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateModelManifestOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1406,7 +1409,7 @@ public struct CreateModelManifestOutput {
 
 enum CreateModelManifestOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1469,7 +1472,7 @@ public struct CreateSignalCatalogInput {
 
 extension CreateSignalCatalogOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateSignalCatalogOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateSignalCatalogOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1500,7 +1503,7 @@ public struct CreateSignalCatalogOutput {
 
 enum CreateSignalCatalogOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1611,7 +1614,7 @@ public struct CreateVehicleInput {
 
 extension CreateVehicleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateVehicleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateVehicleOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1645,7 +1648,7 @@ public struct CreateVehicleOutput {
 
 enum CreateVehicleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1964,12 +1967,12 @@ extension IoTFleetWiseClientTypes {
         public var arn: Swift.String?
         /// The time the decoder manifest was created in seconds since epoch (January 1, 1970 at midnight UTC time).
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// A brief description of the decoder manifest.
         public var description: Swift.String?
         /// The time the decoder manifest was last updated in seconds since epoch (January 1, 1970 at midnight UTC time).
         /// This member is required.
-        public var lastModificationTime: ClientRuntime.Date?
+        public var lastModificationTime: Foundation.Date?
         /// The detailed message for the decoder manifest. When a decoder manifest is in an INVALID status, the message contains detailed reason and help information.
         public var message: Swift.String?
         /// The ARN of a vehicle model (model manifest) associated with the decoder manifest.
@@ -1981,9 +1984,9 @@ extension IoTFleetWiseClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
-            lastModificationTime: ClientRuntime.Date? = nil,
+            lastModificationTime: Foundation.Date? = nil,
             message: Swift.String? = nil,
             modelManifestArn: Swift.String? = nil,
             name: Swift.String? = nil,
@@ -2080,7 +2083,7 @@ public struct DeleteCampaignInput {
 
 extension DeleteCampaignOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteCampaignOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteCampaignOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2109,7 +2112,7 @@ public struct DeleteCampaignOutput {
 
 enum DeleteCampaignOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2155,7 +2158,7 @@ public struct DeleteDecoderManifestInput {
 
 extension DeleteDecoderManifestOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteDecoderManifestOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteDecoderManifestOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2186,7 +2189,7 @@ public struct DeleteDecoderManifestOutput {
 
 enum DeleteDecoderManifestOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2233,7 +2236,7 @@ public struct DeleteFleetInput {
 
 extension DeleteFleetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteFleetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteFleetOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2262,7 +2265,7 @@ public struct DeleteFleetOutput {
 
 enum DeleteFleetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2308,7 +2311,7 @@ public struct DeleteModelManifestInput {
 
 extension DeleteModelManifestOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteModelManifestOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteModelManifestOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2339,7 +2342,7 @@ public struct DeleteModelManifestOutput {
 
 enum DeleteModelManifestOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2386,7 +2389,7 @@ public struct DeleteSignalCatalogInput {
 
 extension DeleteSignalCatalogOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteSignalCatalogOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteSignalCatalogOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2417,7 +2420,7 @@ public struct DeleteSignalCatalogOutput {
 
 enum DeleteSignalCatalogOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2464,7 +2467,7 @@ public struct DeleteVehicleInput {
 
 extension DeleteVehicleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteVehicleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteVehicleOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2495,7 +2498,7 @@ public struct DeleteVehicleOutput {
 
 enum DeleteVehicleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2575,7 +2578,7 @@ public struct DisassociateVehicleFleetInput {
 
 extension DisassociateVehicleFleetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DisassociateVehicleFleetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DisassociateVehicleFleetOutput {
         return DisassociateVehicleFleetOutput()
     }
 }
@@ -2587,7 +2590,7 @@ public struct DisassociateVehicleFleetOutput {
 
 enum DisassociateVehicleFleetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2688,24 +2691,24 @@ extension IoTFleetWiseClientTypes {
         public var arn: Swift.String?
         /// The time the fleet was created, in seconds since epoch (January 1, 1970 at midnight UTC time).
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// A brief description of the fleet.
         public var description: Swift.String?
         /// The unique ID of the fleet.
         /// This member is required.
         public var id: Swift.String?
         /// The time the fleet was last updated in seconds since epoch (January 1, 1970 at midnight UTC time).
-        public var lastModificationTime: ClientRuntime.Date?
+        public var lastModificationTime: Foundation.Date?
         /// The ARN of the signal catalog associated with the fleet.
         /// This member is required.
         public var signalCatalogArn: Swift.String?
 
         public init(
             arn: Swift.String? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
             id: Swift.String? = nil,
-            lastModificationTime: ClientRuntime.Date? = nil,
+            lastModificationTime: Foundation.Date? = nil,
             signalCatalogArn: Swift.String? = nil
         )
         {
@@ -2773,7 +2776,7 @@ public struct GetCampaignInput {
 
 extension GetCampaignOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetCampaignOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetCampaignOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2809,7 +2812,7 @@ public struct GetCampaignOutput {
     /// Whether to compress signals before transmitting data to Amazon Web Services IoT FleetWise. If OFF is specified, the signals aren't compressed. If it's not specified, SNAPPY is used.
     public var compression: IoTFleetWiseClientTypes.Compression?
     /// The time the campaign was created in seconds since epoch (January 1, 1970 at midnight UTC time).
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The destination where the campaign sends data. You can choose to send data to be stored in Amazon S3 or Amazon Timestream. Amazon S3 optimizes the cost of data storage and provides additional mechanisms to use vehicle data, such as data lakes, centralized data storage, data processing pipelines, and analytics. You can use Amazon Timestream to access and analyze time series data, and Timestream to query vehicle data so that you can identify trends and patterns.
     public var dataDestinationConfigs: [IoTFleetWiseClientTypes.DataDestinationConfig]?
     /// A list of vehicle attributes associated with the campaign.
@@ -2819,9 +2822,9 @@ public struct GetCampaignOutput {
     /// Option for a vehicle to send diagnostic trouble codes to Amazon Web Services IoT FleetWise.
     public var diagnosticsMode: IoTFleetWiseClientTypes.DiagnosticsMode?
     /// The time the campaign expires, in seconds since epoch (January 1, 1970 at midnight UTC time). Vehicle data won't be collected after the campaign expires.
-    public var expiryTime: ClientRuntime.Date?
+    public var expiryTime: Foundation.Date?
     /// The last time the campaign was modified.
-    public var lastModificationTime: ClientRuntime.Date?
+    public var lastModificationTime: Foundation.Date?
     /// The name of the campaign.
     public var name: Swift.String?
     /// How long (in seconds) to collect raw data after a triggering event initiates the collection.
@@ -2835,7 +2838,7 @@ public struct GetCampaignOutput {
     /// Whether to store collected data after a vehicle lost a connection with the cloud. After a connection is re-established, the data is automatically forwarded to Amazon Web Services IoT FleetWise.
     public var spoolingMode: IoTFleetWiseClientTypes.SpoolingMode?
     /// The time, in milliseconds, to deliver a campaign after it was approved.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
     /// The state of the campaign. The status can be one of: CREATING, WAITING_FOR_APPROVAL, RUNNING, and SUSPENDED.
     public var status: IoTFleetWiseClientTypes.CampaignStatus?
     /// The ARN of the vehicle or the fleet targeted by the campaign.
@@ -2845,20 +2848,20 @@ public struct GetCampaignOutput {
         arn: Swift.String? = nil,
         collectionScheme: IoTFleetWiseClientTypes.CollectionScheme? = nil,
         compression: IoTFleetWiseClientTypes.Compression? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         dataDestinationConfigs: [IoTFleetWiseClientTypes.DataDestinationConfig]? = nil,
         dataExtraDimensions: [Swift.String]? = nil,
         description: Swift.String? = nil,
         diagnosticsMode: IoTFleetWiseClientTypes.DiagnosticsMode? = nil,
-        expiryTime: ClientRuntime.Date? = nil,
-        lastModificationTime: ClientRuntime.Date? = nil,
+        expiryTime: Foundation.Date? = nil,
+        lastModificationTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
         postTriggerCollectionDuration: Swift.Int? = nil,
         priority: Swift.Int? = nil,
         signalCatalogArn: Swift.String? = nil,
         signalsToCollect: [IoTFleetWiseClientTypes.SignalInformation]? = nil,
         spoolingMode: IoTFleetWiseClientTypes.SpoolingMode? = nil,
-        startTime: ClientRuntime.Date? = nil,
+        startTime: Foundation.Date? = nil,
         status: IoTFleetWiseClientTypes.CampaignStatus? = nil,
         targetArn: Swift.String? = nil
     )
@@ -2887,7 +2890,7 @@ public struct GetCampaignOutput {
 
 enum GetCampaignOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2933,7 +2936,7 @@ public struct GetDecoderManifestInput {
 
 extension GetDecoderManifestOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetDecoderManifestOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetDecoderManifestOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2956,12 +2959,12 @@ public struct GetDecoderManifestOutput {
     public var arn: Swift.String?
     /// The time the decoder manifest was created in seconds since epoch (January 1, 1970 at midnight UTC time).
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// A brief description of the decoder manifest.
     public var description: Swift.String?
     /// The time the decoder manifest was last updated in seconds since epoch (January 1, 1970 at midnight UTC time).
     /// This member is required.
-    public var lastModificationTime: ClientRuntime.Date?
+    public var lastModificationTime: Foundation.Date?
     /// The detailed message for the decoder manifest. When a decoder manifest is in an INVALID status, the message contains detailed reason and help information.
     public var message: Swift.String?
     /// The ARN of a vehicle model (model manifest) associated with the decoder manifest.
@@ -2974,9 +2977,9 @@ public struct GetDecoderManifestOutput {
 
     public init(
         arn: Swift.String? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
-        lastModificationTime: ClientRuntime.Date? = nil,
+        lastModificationTime: Foundation.Date? = nil,
         message: Swift.String? = nil,
         modelManifestArn: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -2996,7 +2999,7 @@ public struct GetDecoderManifestOutput {
 
 enum GetDecoderManifestOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3034,7 +3037,7 @@ public struct GetEncryptionConfigurationInput {
 
 extension GetEncryptionConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetEncryptionConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetEncryptionConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3051,7 +3054,7 @@ extension GetEncryptionConfigurationOutput {
 
 public struct GetEncryptionConfigurationOutput {
     /// The time when encryption was configured in seconds since epoch (January 1, 1970 at midnight UTC time).
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The encryption status.
     /// This member is required.
     public var encryptionStatus: IoTFleetWiseClientTypes.EncryptionStatus?
@@ -3063,15 +3066,15 @@ public struct GetEncryptionConfigurationOutput {
     /// The ID of the KMS key that is used for encryption.
     public var kmsKeyId: Swift.String?
     /// The time when encryption was last updated in seconds since epoch (January 1, 1970 at midnight UTC time).
-    public var lastModificationTime: ClientRuntime.Date?
+    public var lastModificationTime: Foundation.Date?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         encryptionStatus: IoTFleetWiseClientTypes.EncryptionStatus? = nil,
         encryptionType: IoTFleetWiseClientTypes.EncryptionType? = nil,
         errorMessage: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
-        lastModificationTime: ClientRuntime.Date? = nil
+        lastModificationTime: Foundation.Date? = nil
     )
     {
         self.creationTime = creationTime
@@ -3085,7 +3088,7 @@ public struct GetEncryptionConfigurationOutput {
 
 enum GetEncryptionConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3132,7 +3135,7 @@ public struct GetFleetInput {
 
 extension GetFleetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetFleetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetFleetOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3153,7 +3156,7 @@ public struct GetFleetOutput {
     public var arn: Swift.String?
     /// The time the fleet was created in seconds since epoch (January 1, 1970 at midnight UTC time).
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// A brief description of the fleet.
     public var description: Swift.String?
     /// The ID of the fleet.
@@ -3161,17 +3164,17 @@ public struct GetFleetOutput {
     public var id: Swift.String?
     /// The time the fleet was last updated, in seconds since epoch (January 1, 1970 at midnight UTC time).
     /// This member is required.
-    public var lastModificationTime: ClientRuntime.Date?
+    public var lastModificationTime: Foundation.Date?
     /// The ARN of a signal catalog associated with the fleet.
     /// This member is required.
     public var signalCatalogArn: Swift.String?
 
     public init(
         arn: Swift.String? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         id: Swift.String? = nil,
-        lastModificationTime: ClientRuntime.Date? = nil,
+        lastModificationTime: Foundation.Date? = nil,
         signalCatalogArn: Swift.String? = nil
     )
     {
@@ -3186,7 +3189,7 @@ public struct GetFleetOutput {
 
 enum GetFleetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3225,7 +3228,7 @@ public struct GetLoggingOptionsInput {
 
 extension GetLoggingOptionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetLoggingOptionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetLoggingOptionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3250,7 +3253,7 @@ public struct GetLoggingOptionsOutput {
 
 enum GetLoggingOptionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3294,7 +3297,7 @@ public struct GetModelManifestInput {
 
 extension GetModelManifestOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetModelManifestOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetModelManifestOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3316,12 +3319,12 @@ public struct GetModelManifestOutput {
     public var arn: Swift.String?
     /// The time the vehicle model was created, in seconds since epoch (January 1, 1970 at midnight UTC time).
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// A brief description of the vehicle model.
     public var description: Swift.String?
     /// The last time the vehicle model was modified.
     /// This member is required.
-    public var lastModificationTime: ClientRuntime.Date?
+    public var lastModificationTime: Foundation.Date?
     /// The name of the vehicle model.
     /// This member is required.
     public var name: Swift.String?
@@ -3332,9 +3335,9 @@ public struct GetModelManifestOutput {
 
     public init(
         arn: Swift.String? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
-        lastModificationTime: ClientRuntime.Date? = nil,
+        lastModificationTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
         signalCatalogArn: Swift.String? = nil,
         status: IoTFleetWiseClientTypes.ManifestStatus? = nil
@@ -3352,7 +3355,7 @@ public struct GetModelManifestOutput {
 
 enum GetModelManifestOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3390,7 +3393,7 @@ public struct GetRegisterAccountStatusInput {
 
 extension GetRegisterAccountStatusOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetRegisterAccountStatusOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetRegisterAccountStatusOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3417,7 +3420,7 @@ public struct GetRegisterAccountStatusOutput {
     public var accountStatus: IoTFleetWiseClientTypes.RegistrationStatus?
     /// The time the account was registered, in seconds since epoch (January 1, 1970 at midnight UTC time).
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The unique ID of the Amazon Web Services account, provided at account creation.
     /// This member is required.
     public var customerAccountId: Swift.String?
@@ -3426,16 +3429,16 @@ public struct GetRegisterAccountStatusOutput {
     public var iamRegistrationResponse: IoTFleetWiseClientTypes.IamRegistrationResponse?
     /// The time this registration was last updated, in seconds since epoch (January 1, 1970 at midnight UTC time).
     /// This member is required.
-    public var lastModificationTime: ClientRuntime.Date?
+    public var lastModificationTime: Foundation.Date?
     /// Information about the registered Amazon Timestream resources or errors, if any.
     public var timestreamRegistrationResponse: IoTFleetWiseClientTypes.TimestreamRegistrationResponse?
 
     public init(
         accountStatus: IoTFleetWiseClientTypes.RegistrationStatus? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         customerAccountId: Swift.String? = nil,
         iamRegistrationResponse: IoTFleetWiseClientTypes.IamRegistrationResponse? = nil,
-        lastModificationTime: ClientRuntime.Date? = nil,
+        lastModificationTime: Foundation.Date? = nil,
         timestreamRegistrationResponse: IoTFleetWiseClientTypes.TimestreamRegistrationResponse? = nil
     )
     {
@@ -3450,7 +3453,7 @@ public struct GetRegisterAccountStatusOutput {
 
 enum GetRegisterAccountStatusOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3497,7 +3500,7 @@ public struct GetSignalCatalogInput {
 
 extension GetSignalCatalogOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetSignalCatalogOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetSignalCatalogOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3518,12 +3521,12 @@ public struct GetSignalCatalogOutput {
     public var arn: Swift.String?
     /// The time the signal catalog was created in seconds since epoch (January 1, 1970 at midnight UTC time).
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// A brief description of the signal catalog.
     public var description: Swift.String?
     /// The last time the signal catalog was modified.
     /// This member is required.
-    public var lastModificationTime: ClientRuntime.Date?
+    public var lastModificationTime: Foundation.Date?
     /// The name of the signal catalog.
     /// This member is required.
     public var name: Swift.String?
@@ -3532,9 +3535,9 @@ public struct GetSignalCatalogOutput {
 
     public init(
         arn: Swift.String? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
-        lastModificationTime: ClientRuntime.Date? = nil,
+        lastModificationTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
         nodeCounts: IoTFleetWiseClientTypes.NodeCounts? = nil
     )
@@ -3550,7 +3553,7 @@ public struct GetSignalCatalogOutput {
 
 enum GetSignalCatalogOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3596,7 +3599,7 @@ public struct GetVehicleInput {
 
 extension GetVehicleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetVehicleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetVehicleOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3618,11 +3621,11 @@ public struct GetVehicleOutput {
     /// Static information about a vehicle in a key-value pair. For example: "engineType" : "1.3 L R2"
     public var attributes: [Swift.String:Swift.String]?
     /// The time the vehicle was created in seconds since epoch (January 1, 1970 at midnight UTC time).
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The ARN of a decoder manifest associated with the vehicle.
     public var decoderManifestArn: Swift.String?
     /// The time the vehicle was last updated in seconds since epoch (January 1, 1970 at midnight UTC time).
-    public var lastModificationTime: ClientRuntime.Date?
+    public var lastModificationTime: Foundation.Date?
     /// The ARN of a vehicle model (model manifest) associated with the vehicle.
     public var modelManifestArn: Swift.String?
     /// The ID of the vehicle.
@@ -3631,9 +3634,9 @@ public struct GetVehicleOutput {
     public init(
         arn: Swift.String? = nil,
         attributes: [Swift.String:Swift.String]? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         decoderManifestArn: Swift.String? = nil,
-        lastModificationTime: ClientRuntime.Date? = nil,
+        lastModificationTime: Foundation.Date? = nil,
         modelManifestArn: Swift.String? = nil,
         vehicleName: Swift.String? = nil
     )
@@ -3650,7 +3653,7 @@ public struct GetVehicleOutput {
 
 enum GetVehicleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3669,7 +3672,7 @@ enum GetVehicleOutputError {
 
 extension GetVehicleStatusInput {
 
-    static func queryItemProvider(_ value: GetVehicleStatusInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+    static func queryItemProvider(_ value: GetVehicleStatusInput) throws -> [Smithy.URIQueryItem] {
         return []
     }
 }
@@ -3712,7 +3715,7 @@ public struct GetVehicleStatusInput {
 
 extension GetVehicleStatusOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetVehicleStatusOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetVehicleStatusOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3741,7 +3744,7 @@ public struct GetVehicleStatusOutput {
 
 enum GetVehicleStatusOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3862,7 +3865,7 @@ public struct ImportDecoderManifestInput {
 
 extension ImportDecoderManifestOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ImportDecoderManifestOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ImportDecoderManifestOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3893,7 +3896,7 @@ public struct ImportDecoderManifestOutput {
 
 enum ImportDecoderManifestOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3956,7 +3959,7 @@ public struct ImportSignalCatalogInput {
 
 extension ImportSignalCatalogOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ImportSignalCatalogOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ImportSignalCatalogOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3987,7 +3990,7 @@ public struct ImportSignalCatalogOutput {
 
 enum ImportSignalCatalogOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4301,7 +4304,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
 extension ListCampaignsInput {
 
-    static func queryItemProvider(_ value: ListCampaignsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+    static func queryItemProvider(_ value: ListCampaignsInput) throws -> [Smithy.URIQueryItem] {
         return []
     }
 }
@@ -4343,7 +4346,7 @@ public struct ListCampaignsInput {
 
 extension ListCampaignsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListCampaignsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListCampaignsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4372,7 +4375,7 @@ public struct ListCampaignsOutput {
 
 enum ListCampaignsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4389,7 +4392,7 @@ enum ListCampaignsOutputError {
 
 extension ListDecoderManifestNetworkInterfacesInput {
 
-    static func queryItemProvider(_ value: ListDecoderManifestNetworkInterfacesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+    static func queryItemProvider(_ value: ListDecoderManifestNetworkInterfacesInput) throws -> [Smithy.URIQueryItem] {
         return []
     }
 }
@@ -4432,7 +4435,7 @@ public struct ListDecoderManifestNetworkInterfacesInput {
 
 extension ListDecoderManifestNetworkInterfacesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListDecoderManifestNetworkInterfacesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListDecoderManifestNetworkInterfacesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4461,7 +4464,7 @@ public struct ListDecoderManifestNetworkInterfacesOutput {
 
 enum ListDecoderManifestNetworkInterfacesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4480,7 +4483,7 @@ enum ListDecoderManifestNetworkInterfacesOutputError {
 
 extension ListDecoderManifestSignalsInput {
 
-    static func queryItemProvider(_ value: ListDecoderManifestSignalsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+    static func queryItemProvider(_ value: ListDecoderManifestSignalsInput) throws -> [Smithy.URIQueryItem] {
         return []
     }
 }
@@ -4523,7 +4526,7 @@ public struct ListDecoderManifestSignalsInput {
 
 extension ListDecoderManifestSignalsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListDecoderManifestSignalsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListDecoderManifestSignalsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4552,7 +4555,7 @@ public struct ListDecoderManifestSignalsOutput {
 
 enum ListDecoderManifestSignalsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4571,7 +4574,7 @@ enum ListDecoderManifestSignalsOutputError {
 
 extension ListDecoderManifestsInput {
 
-    static func queryItemProvider(_ value: ListDecoderManifestsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+    static func queryItemProvider(_ value: ListDecoderManifestsInput) throws -> [Smithy.URIQueryItem] {
         return []
     }
 }
@@ -4613,7 +4616,7 @@ public struct ListDecoderManifestsInput {
 
 extension ListDecoderManifestsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListDecoderManifestsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListDecoderManifestsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4642,7 +4645,7 @@ public struct ListDecoderManifestsOutput {
 
 enum ListDecoderManifestsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4660,7 +4663,7 @@ enum ListDecoderManifestsOutputError {
 
 extension ListFleetsForVehicleInput {
 
-    static func queryItemProvider(_ value: ListFleetsForVehicleInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+    static func queryItemProvider(_ value: ListFleetsForVehicleInput) throws -> [Smithy.URIQueryItem] {
         return []
     }
 }
@@ -4703,7 +4706,7 @@ public struct ListFleetsForVehicleInput {
 
 extension ListFleetsForVehicleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListFleetsForVehicleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListFleetsForVehicleOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4732,7 +4735,7 @@ public struct ListFleetsForVehicleOutput {
 
 enum ListFleetsForVehicleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4751,7 +4754,7 @@ enum ListFleetsForVehicleOutputError {
 
 extension ListFleetsInput {
 
-    static func queryItemProvider(_ value: ListFleetsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+    static func queryItemProvider(_ value: ListFleetsInput) throws -> [Smithy.URIQueryItem] {
         return []
     }
 }
@@ -4789,7 +4792,7 @@ public struct ListFleetsInput {
 
 extension ListFleetsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListFleetsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListFleetsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4818,7 +4821,7 @@ public struct ListFleetsOutput {
 
 enum ListFleetsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4837,7 +4840,7 @@ enum ListFleetsOutputError {
 
 extension ListModelManifestNodesInput {
 
-    static func queryItemProvider(_ value: ListModelManifestNodesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+    static func queryItemProvider(_ value: ListModelManifestNodesInput) throws -> [Smithy.URIQueryItem] {
         return []
     }
 }
@@ -4880,7 +4883,7 @@ public struct ListModelManifestNodesInput {
 
 extension ListModelManifestNodesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListModelManifestNodesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListModelManifestNodesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4909,7 +4912,7 @@ public struct ListModelManifestNodesOutput {
 
 enum ListModelManifestNodesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4929,7 +4932,7 @@ enum ListModelManifestNodesOutputError {
 
 extension ListModelManifestsInput {
 
-    static func queryItemProvider(_ value: ListModelManifestsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+    static func queryItemProvider(_ value: ListModelManifestsInput) throws -> [Smithy.URIQueryItem] {
         return []
     }
 }
@@ -4971,7 +4974,7 @@ public struct ListModelManifestsInput {
 
 extension ListModelManifestsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListModelManifestsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListModelManifestsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5000,7 +5003,7 @@ public struct ListModelManifestsOutput {
 
 enum ListModelManifestsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5018,7 +5021,7 @@ enum ListModelManifestsOutputError {
 
 extension ListSignalCatalogNodesInput {
 
-    static func queryItemProvider(_ value: ListSignalCatalogNodesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+    static func queryItemProvider(_ value: ListSignalCatalogNodesInput) throws -> [Smithy.URIQueryItem] {
         return []
     }
 }
@@ -5065,7 +5068,7 @@ public struct ListSignalCatalogNodesInput {
 
 extension ListSignalCatalogNodesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListSignalCatalogNodesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListSignalCatalogNodesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5094,7 +5097,7 @@ public struct ListSignalCatalogNodesOutput {
 
 enum ListSignalCatalogNodesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5114,7 +5117,7 @@ enum ListSignalCatalogNodesOutputError {
 
 extension ListSignalCatalogsInput {
 
-    static func queryItemProvider(_ value: ListSignalCatalogsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+    static func queryItemProvider(_ value: ListSignalCatalogsInput) throws -> [Smithy.URIQueryItem] {
         return []
     }
 }
@@ -5152,7 +5155,7 @@ public struct ListSignalCatalogsInput {
 
 extension ListSignalCatalogsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListSignalCatalogsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListSignalCatalogsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5181,7 +5184,7 @@ public struct ListSignalCatalogsOutput {
 
 enum ListSignalCatalogsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5199,7 +5202,7 @@ enum ListSignalCatalogsOutputError {
 
 extension ListTagsForResourceInput {
 
-    static func queryItemProvider(_ value: ListTagsForResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+    static func queryItemProvider(_ value: ListTagsForResourceInput) throws -> [Smithy.URIQueryItem] {
         return []
     }
 }
@@ -5234,7 +5237,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5258,7 +5261,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5277,7 +5280,7 @@ enum ListTagsForResourceOutputError {
 
 extension ListVehiclesInFleetInput {
 
-    static func queryItemProvider(_ value: ListVehiclesInFleetInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+    static func queryItemProvider(_ value: ListVehiclesInFleetInput) throws -> [Smithy.URIQueryItem] {
         return []
     }
 }
@@ -5320,7 +5323,7 @@ public struct ListVehiclesInFleetInput {
 
 extension ListVehiclesInFleetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListVehiclesInFleetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListVehiclesInFleetOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5349,7 +5352,7 @@ public struct ListVehiclesInFleetOutput {
 
 enum ListVehiclesInFleetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5368,7 +5371,7 @@ enum ListVehiclesInFleetOutputError {
 
 extension ListVehiclesInput {
 
-    static func queryItemProvider(_ value: ListVehiclesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+    static func queryItemProvider(_ value: ListVehiclesInput) throws -> [Smithy.URIQueryItem] {
         return []
     }
 }
@@ -5410,7 +5413,7 @@ public struct ListVehiclesInput {
 
 extension ListVehiclesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListVehiclesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListVehiclesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5439,7 +5442,7 @@ public struct ListVehiclesOutput {
 
 enum ListVehiclesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5581,12 +5584,12 @@ extension IoTFleetWiseClientTypes {
         public var arn: Swift.String?
         /// The time the vehicle model was created, in seconds since epoch (January 1, 1970 at midnight UTC time).
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// A brief description of the vehicle model.
         public var description: Swift.String?
         /// The time the vehicle model was last updated, in seconds since epoch (January 1, 1970 at midnight UTC time).
         /// This member is required.
-        public var lastModificationTime: ClientRuntime.Date?
+        public var lastModificationTime: Foundation.Date?
         /// The name of the vehicle model.
         public var name: Swift.String?
         /// The ARN of the signal catalog associated with the vehicle model.
@@ -5596,9 +5599,9 @@ extension IoTFleetWiseClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
-            lastModificationTime: ClientRuntime.Date? = nil,
+            lastModificationTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             signalCatalogArn: Swift.String? = nil,
             status: IoTFleetWiseClientTypes.ManifestStatus? = nil
@@ -6255,7 +6258,7 @@ public struct PutEncryptionConfigurationInput {
 
 extension PutEncryptionConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutEncryptionConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutEncryptionConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6291,7 +6294,7 @@ public struct PutEncryptionConfigurationOutput {
 
 enum PutEncryptionConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6339,7 +6342,7 @@ public struct PutLoggingOptionsInput {
 
 extension PutLoggingOptionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutLoggingOptionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutLoggingOptionsOutput {
         return PutLoggingOptionsOutput()
     }
 }
@@ -6351,7 +6354,7 @@ public struct PutLoggingOptionsOutput {
 
 enum PutLoggingOptionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6522,7 +6525,7 @@ public struct RegisterAccountInput {
 
 extension RegisterAccountOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RegisterAccountOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RegisterAccountOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6539,13 +6542,13 @@ extension RegisterAccountOutput {
 public struct RegisterAccountOutput {
     /// The time the account was registered, in seconds since epoch (January 1, 1970 at midnight UTC time).
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The registered IAM resource that allows Amazon Web Services IoT FleetWise to send data to Amazon Timestream.
     /// This member is required.
     public var iamResources: IoTFleetWiseClientTypes.IamResources?
     /// The time this registration was last updated, in seconds since epoch (January 1, 1970 at midnight UTC time).
     /// This member is required.
-    public var lastModificationTime: ClientRuntime.Date?
+    public var lastModificationTime: Foundation.Date?
     /// The status of registering your Amazon Web Services account, IAM role, and Timestream resources.
     /// This member is required.
     public var registerAccountStatus: IoTFleetWiseClientTypes.RegistrationStatus?
@@ -6553,9 +6556,9 @@ public struct RegisterAccountOutput {
     public var timestreamResources: IoTFleetWiseClientTypes.TimestreamResources?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         iamResources: IoTFleetWiseClientTypes.IamResources? = nil,
-        lastModificationTime: ClientRuntime.Date? = nil,
+        lastModificationTime: Foundation.Date? = nil,
         registerAccountStatus: IoTFleetWiseClientTypes.RegistrationStatus? = nil,
         timestreamResources: IoTFleetWiseClientTypes.TimestreamResources? = nil
     )
@@ -6570,7 +6573,7 @@ public struct RegisterAccountOutput {
 
 enum RegisterAccountOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6830,16 +6833,16 @@ extension IoTFleetWiseClientTypes {
         /// The Amazon Resource Name (ARN) of the signal catalog.
         public var arn: Swift.String?
         /// The time the signal catalog was created in seconds since epoch (January 1, 1970 at midnight UTC time).
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The time the signal catalog was last updated in seconds since epoch (January 1, 1970 at midnight UTC time).
-        public var lastModificationTime: ClientRuntime.Date?
+        public var lastModificationTime: Foundation.Date?
         /// The name of the signal catalog.
         public var name: Swift.String?
 
         public init(
             arn: Swift.String? = nil,
-            creationTime: ClientRuntime.Date? = nil,
-            lastModificationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
+            lastModificationTime: Foundation.Date? = nil,
             name: Swift.String? = nil
         )
         {
@@ -7369,7 +7372,7 @@ extension IoTFleetWiseClientTypes {
 
 extension TagResourceInput {
 
-    static func queryItemProvider(_ value: TagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+    static func queryItemProvider(_ value: TagResourceInput) throws -> [Smithy.URIQueryItem] {
         return []
     }
 }
@@ -7409,7 +7412,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -7421,7 +7424,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7689,7 +7692,7 @@ extension IoTFleetWiseClientTypes {
 
 extension UntagResourceInput {
 
-    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [Smithy.URIQueryItem] {
         return []
     }
 }
@@ -7729,7 +7732,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -7741,7 +7744,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7846,7 +7849,7 @@ public struct UpdateCampaignInput {
 
 extension UpdateCampaignOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateCampaignOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateCampaignOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7888,7 +7891,7 @@ public struct UpdateCampaignOutput {
 
 enum UpdateCampaignOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7974,7 +7977,7 @@ public struct UpdateDecoderManifestInput {
 
 extension UpdateDecoderManifestOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateDecoderManifestOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateDecoderManifestOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8005,7 +8008,7 @@ public struct UpdateDecoderManifestOutput {
 
 enum UpdateDecoderManifestOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8058,7 +8061,7 @@ public struct UpdateFleetInput {
 
 extension UpdateFleetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateFleetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateFleetOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8087,7 +8090,7 @@ public struct UpdateFleetOutput {
 
 enum UpdateFleetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8183,7 +8186,7 @@ public struct UpdateModelManifestInput {
 
 extension UpdateModelManifestOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateModelManifestOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateModelManifestOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8214,7 +8217,7 @@ public struct UpdateModelManifestOutput {
 
 enum UpdateModelManifestOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8282,7 +8285,7 @@ public struct UpdateSignalCatalogInput {
 
 extension UpdateSignalCatalogOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateSignalCatalogOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateSignalCatalogOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8313,7 +8316,7 @@ public struct UpdateSignalCatalogOutput {
 
 enum UpdateSignalCatalogOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8419,7 +8422,7 @@ public struct UpdateVehicleInput {
 
 extension UpdateVehicleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateVehicleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateVehicleOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8448,7 +8451,7 @@ public struct UpdateVehicleOutput {
 
 enum UpdateVehicleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8862,13 +8865,13 @@ extension IoTFleetWiseClientTypes {
         public var attributes: [Swift.String:Swift.String]?
         /// The time the vehicle was created in seconds since epoch (January 1, 1970 at midnight UTC time).
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The ARN of a decoder manifest associated with the vehicle.
         /// This member is required.
         public var decoderManifestArn: Swift.String?
         /// The time the vehicle was last updated in seconds since epoch (January 1, 1970 at midnight UTC time).
         /// This member is required.
-        public var lastModificationTime: ClientRuntime.Date?
+        public var lastModificationTime: Foundation.Date?
         /// The ARN of a vehicle model (model manifest) associated with the vehicle.
         /// This member is required.
         public var modelManifestArn: Swift.String?
@@ -8879,9 +8882,9 @@ extension IoTFleetWiseClientTypes {
         public init(
             arn: Swift.String? = nil,
             attributes: [Swift.String:Swift.String]? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             decoderManifestArn: Swift.String? = nil,
-            lastModificationTime: ClientRuntime.Date? = nil,
+            lastModificationTime: Foundation.Date? = nil,
             modelManifestArn: Swift.String? = nil,
             vehicleName: Swift.String? = nil
         )

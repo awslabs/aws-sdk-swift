@@ -2,8 +2,12 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
+import struct Foundation.URL
 
 extension AddTagsInput {
 
@@ -47,7 +51,7 @@ public struct AddTagsInput {
 
 extension AddTagsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AddTagsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AddTagsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -77,7 +81,7 @@ public struct AddTagsOutput {
 
 enum AddTagsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -159,17 +163,17 @@ extension MachineLearningClientTypes {
         /// Long integer type that is a 64-bit signed number.
         public var computeTime: Swift.Int?
         /// The time that the BatchPrediction was created. The time is expressed in epoch time.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The AWS user account that invoked the BatchPrediction. The account type can be either an AWS root account or an AWS Identity and Access Management (IAM) user account.
         public var createdByIamUser: Swift.String?
         /// A timestamp represented in epoch time.
-        public var finishedAt: ClientRuntime.Date?
+        public var finishedAt: Foundation.Date?
         /// The location of the data file or directory in Amazon Simple Storage Service (Amazon S3).
         public var inputDataLocationS3: Swift.String?
         /// Long integer type that is a 64-bit signed number.
         public var invalidRecordCount: Swift.Int?
         /// The time of the most recent edit to the BatchPrediction. The time is expressed in epoch time.
-        public var lastUpdatedAt: ClientRuntime.Date?
+        public var lastUpdatedAt: Foundation.Date?
         /// A description of the most recent details about processing the batch prediction request.
         public var message: Swift.String?
         /// The ID of the MLModel that generated predictions for the BatchPrediction request.
@@ -179,7 +183,7 @@ extension MachineLearningClientTypes {
         /// The location of an Amazon S3 bucket or directory to receive the operation results. The following substrings are not allowed in the s3 key portion of the outputURI field: ':', '//', '/./', '/../'.
         public var outputUri: Swift.String?
         /// A timestamp represented in epoch time.
-        public var startedAt: ClientRuntime.Date?
+        public var startedAt: Foundation.Date?
         /// The status of the BatchPrediction. This element can have one of the following values:
         ///
         /// * PENDING - Amazon Machine Learning (Amazon ML) submitted a request to generate predictions for a batch of observations.
@@ -199,17 +203,17 @@ extension MachineLearningClientTypes {
             batchPredictionDataSourceId: Swift.String? = nil,
             batchPredictionId: Swift.String? = nil,
             computeTime: Swift.Int? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             createdByIamUser: Swift.String? = nil,
-            finishedAt: ClientRuntime.Date? = nil,
+            finishedAt: Foundation.Date? = nil,
             inputDataLocationS3: Swift.String? = nil,
             invalidRecordCount: Swift.Int? = nil,
-            lastUpdatedAt: ClientRuntime.Date? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
             message: Swift.String? = nil,
             mlModelId: Swift.String? = nil,
             name: Swift.String? = nil,
             outputUri: Swift.String? = nil,
-            startedAt: ClientRuntime.Date? = nil,
+            startedAt: Foundation.Date? = nil,
             status: MachineLearningClientTypes.EntityStatus? = nil,
             totalRecordCount: Swift.Int? = nil
         )
@@ -350,7 +354,7 @@ public struct CreateBatchPredictionInput {
 
 extension CreateBatchPredictionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateBatchPredictionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateBatchPredictionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -375,7 +379,7 @@ public struct CreateBatchPredictionOutput {
 
 enum CreateBatchPredictionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -468,7 +472,7 @@ public struct CreateDataSourceFromRDSInput {
 
 extension CreateDataSourceFromRDSOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateDataSourceFromRDSOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateDataSourceFromRDSOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -493,7 +497,7 @@ public struct CreateDataSourceFromRDSOutput {
 
 enum CreateDataSourceFromRDSOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -584,7 +588,7 @@ public struct CreateDataSourceFromRedshiftInput {
 
 extension CreateDataSourceFromRedshiftOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateDataSourceFromRedshiftOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateDataSourceFromRedshiftOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -609,7 +613,7 @@ public struct CreateDataSourceFromRedshiftOutput {
 
 enum CreateDataSourceFromRedshiftOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -677,7 +681,7 @@ public struct CreateDataSourceFromS3Input {
 
 extension CreateDataSourceFromS3Output {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateDataSourceFromS3Output {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateDataSourceFromS3Output {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -702,7 +706,7 @@ public struct CreateDataSourceFromS3Output {
 
 enum CreateDataSourceFromS3OutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -763,7 +767,7 @@ public struct CreateEvaluationInput {
 
 extension CreateEvaluationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateEvaluationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateEvaluationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -788,7 +792,7 @@ public struct CreateEvaluationOutput {
 
 enum CreateEvaluationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -883,7 +887,7 @@ public struct CreateMLModelInput {
 
 extension CreateMLModelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateMLModelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateMLModelOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -908,7 +912,7 @@ public struct CreateMLModelOutput {
 
 enum CreateMLModelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -952,7 +956,7 @@ public struct CreateRealtimeEndpointInput {
 
 extension CreateRealtimeEndpointOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateRealtimeEndpointOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateRealtimeEndpointOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -982,7 +986,7 @@ public struct CreateRealtimeEndpointOutput {
 
 enum CreateRealtimeEndpointOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1031,7 +1035,7 @@ extension MachineLearningClientTypes {
         /// Long integer type that is a 64-bit signed number.
         public var computeTime: Swift.Int?
         /// The time that the DataSource was created. The time is expressed in epoch time.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The AWS user account from which the DataSource was created. The account type can be either an AWS root account or an AWS Identity and Access Management (IAM) user account.
         public var createdByIamUser: Swift.String?
         /// The location and name of the data in Amazon Simple Storage Service (Amazon S3) that is used by a DataSource.
@@ -1043,9 +1047,9 @@ extension MachineLearningClientTypes {
         /// The ID that is assigned to the DataSource during creation.
         public var dataSourceId: Swift.String?
         /// A timestamp represented in epoch time.
-        public var finishedAt: ClientRuntime.Date?
+        public var finishedAt: Foundation.Date?
         /// The time of the most recent edit to the BatchPrediction. The time is expressed in epoch time.
-        public var lastUpdatedAt: ClientRuntime.Date?
+        public var lastUpdatedAt: Foundation.Date?
         /// A description of the most recent details about creating the DataSource.
         public var message: Swift.String?
         /// A user-supplied name or description of the DataSource.
@@ -1059,7 +1063,7 @@ extension MachineLearningClientTypes {
         /// The Amazon Resource Name (ARN) of an [AWS IAM Role](https://docs.aws.amazon.com/IAM/latest/UserGuide/roles-toplevel.html#roles-about-termsandconcepts), such as the following: arn:aws:iam::account:role/rolename.
         public var roleARN: Swift.String?
         /// A timestamp represented in epoch time.
-        public var startedAt: ClientRuntime.Date?
+        public var startedAt: Foundation.Date?
         /// The current status of the DataSource. This element can have one of the following values:
         ///
         /// * PENDING - Amazon Machine Learning (Amazon ML) submitted a request to create a DataSource.
@@ -1076,21 +1080,21 @@ extension MachineLearningClientTypes {
         public init(
             computeStatistics: Swift.Bool = false,
             computeTime: Swift.Int? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             createdByIamUser: Swift.String? = nil,
             dataLocationS3: Swift.String? = nil,
             dataRearrangement: Swift.String? = nil,
             dataSizeInBytes: Swift.Int? = nil,
             dataSourceId: Swift.String? = nil,
-            finishedAt: ClientRuntime.Date? = nil,
-            lastUpdatedAt: ClientRuntime.Date? = nil,
+            finishedAt: Foundation.Date? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
             message: Swift.String? = nil,
             name: Swift.String? = nil,
             numberOfFiles: Swift.Int? = nil,
             rdsMetadata: MachineLearningClientTypes.RDSMetadata? = nil,
             redshiftMetadata: MachineLearningClientTypes.RedshiftMetadata? = nil,
             roleARN: Swift.String? = nil,
-            startedAt: ClientRuntime.Date? = nil,
+            startedAt: Foundation.Date? = nil,
             status: MachineLearningClientTypes.EntityStatus? = nil
         )
         {
@@ -1202,7 +1206,7 @@ public struct DeleteBatchPredictionInput {
 
 extension DeleteBatchPredictionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBatchPredictionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteBatchPredictionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1227,7 +1231,7 @@ public struct DeleteBatchPredictionOutput {
 
 enum DeleteBatchPredictionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1271,7 +1275,7 @@ public struct DeleteDataSourceInput {
 
 extension DeleteDataSourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteDataSourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteDataSourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1296,7 +1300,7 @@ public struct DeleteDataSourceOutput {
 
 enum DeleteDataSourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1340,7 +1344,7 @@ public struct DeleteEvaluationInput {
 
 extension DeleteEvaluationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteEvaluationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteEvaluationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1365,7 +1369,7 @@ public struct DeleteEvaluationOutput {
 
 enum DeleteEvaluationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1409,7 +1413,7 @@ public struct DeleteMLModelInput {
 
 extension DeleteMLModelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteMLModelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteMLModelOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1434,7 +1438,7 @@ public struct DeleteMLModelOutput {
 
 enum DeleteMLModelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1478,7 +1482,7 @@ public struct DeleteRealtimeEndpointInput {
 
 extension DeleteRealtimeEndpointOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteRealtimeEndpointOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteRealtimeEndpointOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1508,7 +1512,7 @@ public struct DeleteRealtimeEndpointOutput {
 
 enum DeleteRealtimeEndpointOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1564,7 +1568,7 @@ public struct DeleteTagsInput {
 
 extension DeleteTagsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteTagsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteTagsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1594,7 +1598,7 @@ public struct DeleteTagsOutput {
 
 enum DeleteTagsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1715,7 +1719,7 @@ public struct DescribeBatchPredictionsInput {
 
 extension DescribeBatchPredictionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeBatchPredictionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeBatchPredictionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1745,7 +1749,7 @@ public struct DescribeBatchPredictionsOutput {
 
 enum DescribeBatchPredictionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1860,7 +1864,7 @@ public struct DescribeDataSourcesInput {
 
 extension DescribeDataSourcesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeDataSourcesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeDataSourcesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1890,7 +1894,7 @@ public struct DescribeDataSourcesOutput {
 
 enum DescribeDataSourcesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2009,7 +2013,7 @@ public struct DescribeEvaluationsInput {
 
 extension DescribeEvaluationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeEvaluationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeEvaluationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2039,7 +2043,7 @@ public struct DescribeEvaluationsOutput {
 
 enum DescribeEvaluationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2162,7 +2166,7 @@ public struct DescribeMLModelsInput {
 
 extension DescribeMLModelsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeMLModelsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeMLModelsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2192,7 +2196,7 @@ public struct DescribeMLModelsOutput {
 
 enum DescribeMLModelsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2241,7 +2245,7 @@ public struct DescribeTagsInput {
 
 extension DescribeTagsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeTagsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeTagsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2276,7 +2280,7 @@ public struct DescribeTagsOutput {
 
 enum DescribeTagsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2402,7 +2406,7 @@ extension MachineLearningClientTypes {
         /// Long integer type that is a 64-bit signed number.
         public var computeTime: Swift.Int?
         /// The time that the Evaluation was created. The time is expressed in epoch time.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The AWS user account that invoked the evaluation. The account type can be either an AWS root account or an AWS Identity and Access Management (IAM) user account.
         public var createdByIamUser: Swift.String?
         /// The ID of the DataSource that is used to evaluate the MLModel.
@@ -2410,11 +2414,11 @@ extension MachineLearningClientTypes {
         /// The ID that is assigned to the Evaluation at creation.
         public var evaluationId: Swift.String?
         /// A timestamp represented in epoch time.
-        public var finishedAt: ClientRuntime.Date?
+        public var finishedAt: Foundation.Date?
         /// The location and name of the data in Amazon Simple Storage Server (Amazon S3) that is used in the evaluation.
         public var inputDataLocationS3: Swift.String?
         /// The time of the most recent edit to the Evaluation. The time is expressed in epoch time.
-        public var lastUpdatedAt: ClientRuntime.Date?
+        public var lastUpdatedAt: Foundation.Date?
         /// A description of the most recent details about evaluating the MLModel.
         public var message: Swift.String?
         /// The ID of the MLModel that is the focus of the evaluation.
@@ -2433,7 +2437,7 @@ extension MachineLearningClientTypes {
         /// For more information about performance metrics, please see the [Amazon Machine Learning Developer Guide](https://docs.aws.amazon.com/machine-learning/latest/dg).
         public var performanceMetrics: MachineLearningClientTypes.PerformanceMetrics?
         /// A timestamp represented in epoch time.
-        public var startedAt: ClientRuntime.Date?
+        public var startedAt: Foundation.Date?
         /// The status of the evaluation. This element can have one of the following values:
         ///
         /// * PENDING - Amazon Machine Learning (Amazon ML) submitted a request to evaluate an MLModel.
@@ -2449,18 +2453,18 @@ extension MachineLearningClientTypes {
 
         public init(
             computeTime: Swift.Int? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             createdByIamUser: Swift.String? = nil,
             evaluationDataSourceId: Swift.String? = nil,
             evaluationId: Swift.String? = nil,
-            finishedAt: ClientRuntime.Date? = nil,
+            finishedAt: Foundation.Date? = nil,
             inputDataLocationS3: Swift.String? = nil,
-            lastUpdatedAt: ClientRuntime.Date? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
             message: Swift.String? = nil,
             mlModelId: Swift.String? = nil,
             name: Swift.String? = nil,
             performanceMetrics: MachineLearningClientTypes.PerformanceMetrics? = nil,
-            startedAt: ClientRuntime.Date? = nil,
+            startedAt: Foundation.Date? = nil,
             status: MachineLearningClientTypes.EntityStatus? = nil
         )
         {
@@ -2575,7 +2579,7 @@ public struct GetBatchPredictionInput {
 
 extension GetBatchPredictionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBatchPredictionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetBatchPredictionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2610,17 +2614,17 @@ public struct GetBatchPredictionOutput {
     /// The approximate CPU time in milliseconds that Amazon Machine Learning spent processing the BatchPrediction, normalized and scaled on computation resources. ComputeTime is only available if the BatchPrediction is in the COMPLETED state.
     public var computeTime: Swift.Int?
     /// The time when the BatchPrediction was created. The time is expressed in epoch time.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The AWS user account that invoked the BatchPrediction. The account type can be either an AWS root account or an AWS Identity and Access Management (IAM) user account.
     public var createdByIamUser: Swift.String?
     /// The epoch time when Amazon Machine Learning marked the BatchPrediction as COMPLETED or FAILED. FinishedAt is only available when the BatchPrediction is in the COMPLETED or FAILED state.
-    public var finishedAt: ClientRuntime.Date?
+    public var finishedAt: Foundation.Date?
     /// The location of the data file or directory in Amazon Simple Storage Service (Amazon S3).
     public var inputDataLocationS3: Swift.String?
     /// The number of invalid records that Amazon Machine Learning saw while processing the BatchPrediction.
     public var invalidRecordCount: Swift.Int?
     /// The time of the most recent edit to BatchPrediction. The time is expressed in epoch time.
-    public var lastUpdatedAt: ClientRuntime.Date?
+    public var lastUpdatedAt: Foundation.Date?
     /// A link to the file that contains logs of the CreateBatchPrediction operation.
     public var logUri: Swift.String?
     /// A description of the most recent details about processing the batch prediction request.
@@ -2632,7 +2636,7 @@ public struct GetBatchPredictionOutput {
     /// The location of an Amazon S3 bucket or directory to receive the operation results.
     public var outputUri: Swift.String?
     /// The epoch time when Amazon Machine Learning marked the BatchPrediction as INPROGRESS. StartedAt isn't available if the BatchPrediction is in the PENDING state.
-    public var startedAt: ClientRuntime.Date?
+    public var startedAt: Foundation.Date?
     /// The status of the BatchPrediction, which can be one of the following values:
     ///
     /// * PENDING - Amazon Machine Learning (Amazon ML) submitted a request to generate batch predictions.
@@ -2652,18 +2656,18 @@ public struct GetBatchPredictionOutput {
         batchPredictionDataSourceId: Swift.String? = nil,
         batchPredictionId: Swift.String? = nil,
         computeTime: Swift.Int? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         createdByIamUser: Swift.String? = nil,
-        finishedAt: ClientRuntime.Date? = nil,
+        finishedAt: Foundation.Date? = nil,
         inputDataLocationS3: Swift.String? = nil,
         invalidRecordCount: Swift.Int? = nil,
-        lastUpdatedAt: ClientRuntime.Date? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
         logUri: Swift.String? = nil,
         message: Swift.String? = nil,
         mlModelId: Swift.String? = nil,
         name: Swift.String? = nil,
         outputUri: Swift.String? = nil,
-        startedAt: ClientRuntime.Date? = nil,
+        startedAt: Foundation.Date? = nil,
         status: MachineLearningClientTypes.EntityStatus? = nil,
         totalRecordCount: Swift.Int? = nil
     )
@@ -2690,7 +2694,7 @@ public struct GetBatchPredictionOutput {
 
 enum GetBatchPredictionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2739,7 +2743,7 @@ public struct GetDataSourceInput {
 
 extension GetDataSourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetDataSourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetDataSourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2775,7 +2779,7 @@ public struct GetDataSourceOutput {
     /// The approximate CPU time in milliseconds that Amazon Machine Learning spent processing the DataSource, normalized and scaled on computation resources. ComputeTime is only available if the DataSource is in the COMPLETED state and the ComputeStatistics is set to true.
     public var computeTime: Swift.Int?
     /// The time that the DataSource was created. The time is expressed in epoch time.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The AWS user account from which the DataSource was created. The account type can be either an AWS root account or an AWS Identity and Access Management (IAM) user account.
     public var createdByIamUser: Swift.String?
     /// The location of the data file or directory in Amazon Simple Storage Service (Amazon S3).
@@ -2789,9 +2793,9 @@ public struct GetDataSourceOutput {
     /// The schema used by all of the data files of this DataSource. Note: This parameter is provided as part of the verbose format.
     public var dataSourceSchema: Swift.String?
     /// The epoch time when Amazon Machine Learning marked the DataSource as COMPLETED or FAILED. FinishedAt is only available when the DataSource is in the COMPLETED or FAILED state.
-    public var finishedAt: ClientRuntime.Date?
+    public var finishedAt: Foundation.Date?
     /// The time of the most recent edit to the DataSource. The time is expressed in epoch time.
-    public var lastUpdatedAt: ClientRuntime.Date?
+    public var lastUpdatedAt: Foundation.Date?
     /// A link to the file containing logs of CreateDataSourceFrom* operations.
     public var logUri: Swift.String?
     /// The user-supplied description of the most recent details about creating the DataSource.
@@ -2807,7 +2811,7 @@ public struct GetDataSourceOutput {
     /// The Amazon Resource Name (ARN) of an [AWS IAM Role](https://docs.aws.amazon.com/IAM/latest/UserGuide/roles-toplevel.html#roles-about-termsandconcepts), such as the following: arn:aws:iam::account:role/rolename.
     public var roleARN: Swift.String?
     /// The epoch time when Amazon Machine Learning marked the DataSource as INPROGRESS. StartedAt isn't available if the DataSource is in the PENDING state.
-    public var startedAt: ClientRuntime.Date?
+    public var startedAt: Foundation.Date?
     /// The current status of the DataSource. This element can have one of the following values:
     ///
     /// * PENDING - Amazon ML submitted a request to create a DataSource.
@@ -2824,15 +2828,15 @@ public struct GetDataSourceOutput {
     public init(
         computeStatistics: Swift.Bool = false,
         computeTime: Swift.Int? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         createdByIamUser: Swift.String? = nil,
         dataLocationS3: Swift.String? = nil,
         dataRearrangement: Swift.String? = nil,
         dataSizeInBytes: Swift.Int? = nil,
         dataSourceId: Swift.String? = nil,
         dataSourceSchema: Swift.String? = nil,
-        finishedAt: ClientRuntime.Date? = nil,
-        lastUpdatedAt: ClientRuntime.Date? = nil,
+        finishedAt: Foundation.Date? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
         logUri: Swift.String? = nil,
         message: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -2840,7 +2844,7 @@ public struct GetDataSourceOutput {
         rdsMetadata: MachineLearningClientTypes.RDSMetadata? = nil,
         redshiftMetadata: MachineLearningClientTypes.RedshiftMetadata? = nil,
         roleARN: Swift.String? = nil,
-        startedAt: ClientRuntime.Date? = nil,
+        startedAt: Foundation.Date? = nil,
         status: MachineLearningClientTypes.EntityStatus? = nil
     )
     {
@@ -2869,7 +2873,7 @@ public struct GetDataSourceOutput {
 
 enum GetDataSourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2913,7 +2917,7 @@ public struct GetEvaluationInput {
 
 extension GetEvaluationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetEvaluationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetEvaluationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2942,7 +2946,7 @@ public struct GetEvaluationOutput {
     /// The approximate CPU time in milliseconds that Amazon Machine Learning spent processing the Evaluation, normalized and scaled on computation resources. ComputeTime is only available if the Evaluation is in the COMPLETED state.
     public var computeTime: Swift.Int?
     /// The time that the Evaluation was created. The time is expressed in epoch time.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The AWS user account that invoked the evaluation. The account type can be either an AWS root account or an AWS Identity and Access Management (IAM) user account.
     public var createdByIamUser: Swift.String?
     /// The DataSource used for this evaluation.
@@ -2950,11 +2954,11 @@ public struct GetEvaluationOutput {
     /// The evaluation ID which is same as the EvaluationId in the request.
     public var evaluationId: Swift.String?
     /// The epoch time when Amazon Machine Learning marked the Evaluation as COMPLETED or FAILED. FinishedAt is only available when the Evaluation is in the COMPLETED or FAILED state.
-    public var finishedAt: ClientRuntime.Date?
+    public var finishedAt: Foundation.Date?
     /// The location of the data file or directory in Amazon Simple Storage Service (Amazon S3).
     public var inputDataLocationS3: Swift.String?
     /// The time of the most recent edit to the Evaluation. The time is expressed in epoch time.
-    public var lastUpdatedAt: ClientRuntime.Date?
+    public var lastUpdatedAt: Foundation.Date?
     /// A link to the file that contains logs of the CreateEvaluation operation.
     public var logUri: Swift.String?
     /// A description of the most recent details about evaluating the MLModel.
@@ -2975,7 +2979,7 @@ public struct GetEvaluationOutput {
     /// For more information about performance metrics, please see the [Amazon Machine Learning Developer Guide](https://docs.aws.amazon.com/machine-learning/latest/dg).
     public var performanceMetrics: MachineLearningClientTypes.PerformanceMetrics?
     /// The epoch time when Amazon Machine Learning marked the Evaluation as INPROGRESS. StartedAt isn't available if the Evaluation is in the PENDING state.
-    public var startedAt: ClientRuntime.Date?
+    public var startedAt: Foundation.Date?
     /// The status of the evaluation. This element can have one of the following values:
     ///
     /// * PENDING - Amazon Machine Language (Amazon ML) submitted a request to evaluate an MLModel.
@@ -2991,19 +2995,19 @@ public struct GetEvaluationOutput {
 
     public init(
         computeTime: Swift.Int? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         createdByIamUser: Swift.String? = nil,
         evaluationDataSourceId: Swift.String? = nil,
         evaluationId: Swift.String? = nil,
-        finishedAt: ClientRuntime.Date? = nil,
+        finishedAt: Foundation.Date? = nil,
         inputDataLocationS3: Swift.String? = nil,
-        lastUpdatedAt: ClientRuntime.Date? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
         logUri: Swift.String? = nil,
         message: Swift.String? = nil,
         mlModelId: Swift.String? = nil,
         name: Swift.String? = nil,
         performanceMetrics: MachineLearningClientTypes.PerformanceMetrics? = nil,
-        startedAt: ClientRuntime.Date? = nil,
+        startedAt: Foundation.Date? = nil,
         status: MachineLearningClientTypes.EntityStatus? = nil
     )
     {
@@ -3027,7 +3031,7 @@ public struct GetEvaluationOutput {
 
 enum GetEvaluationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3076,7 +3080,7 @@ public struct GetMLModelInput {
 
 extension GetMLModelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetMLModelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetMLModelOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3111,17 +3115,17 @@ public struct GetMLModelOutput {
     /// The approximate CPU time in milliseconds that Amazon Machine Learning spent processing the MLModel, normalized and scaled on computation resources. ComputeTime is only available if the MLModel is in the COMPLETED state.
     public var computeTime: Swift.Int?
     /// The time that the MLModel was created. The time is expressed in epoch time.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The AWS user account from which the MLModel was created. The account type can be either an AWS root account or an AWS Identity and Access Management (IAM) user account.
     public var createdByIamUser: Swift.String?
     /// The current endpoint of the MLModel
     public var endpointInfo: MachineLearningClientTypes.RealtimeEndpointInfo?
     /// The epoch time when Amazon Machine Learning marked the MLModel as COMPLETED or FAILED. FinishedAt is only available when the MLModel is in the COMPLETED or FAILED state.
-    public var finishedAt: ClientRuntime.Date?
+    public var finishedAt: Foundation.Date?
     /// The location of the data file or directory in Amazon Simple Storage Service (Amazon S3).
     public var inputDataLocationS3: Swift.String?
     /// The time of the most recent edit to the MLModel. The time is expressed in epoch time.
-    public var lastUpdatedAt: ClientRuntime.Date?
+    public var lastUpdatedAt: Foundation.Date?
     /// A link to the file that contains logs of the CreateMLModel operation.
     public var logUri: Swift.String?
     /// A description of the most recent details about accessing the MLModel.
@@ -3145,11 +3149,11 @@ public struct GetMLModelOutput {
     /// The scoring threshold is used in binary classification MLModel models. It marks the boundary between a positive prediction and a negative prediction. Output values greater than or equal to the threshold receive a positive result from the MLModel, such as true. Output values less than the threshold receive a negative response from the MLModel, such as false.
     public var scoreThreshold: Swift.Float?
     /// The time of the most recent edit to the ScoreThreshold. The time is expressed in epoch time.
-    public var scoreThresholdLastUpdatedAt: ClientRuntime.Date?
+    public var scoreThresholdLastUpdatedAt: Foundation.Date?
     /// Long integer type that is a 64-bit signed number.
     public var sizeInBytes: Swift.Int?
     /// The epoch time when Amazon Machine Learning marked the MLModel as INPROGRESS. StartedAt isn't available if the MLModel is in the PENDING state.
-    public var startedAt: ClientRuntime.Date?
+    public var startedAt: Foundation.Date?
     /// The current status of the MLModel. This element can have one of the following values:
     ///
     /// * PENDING - Amazon Machine Learning (Amazon ML) submitted a request to describe a MLModel.
@@ -3179,12 +3183,12 @@ public struct GetMLModelOutput {
 
     public init(
         computeTime: Swift.Int? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         createdByIamUser: Swift.String? = nil,
         endpointInfo: MachineLearningClientTypes.RealtimeEndpointInfo? = nil,
-        finishedAt: ClientRuntime.Date? = nil,
+        finishedAt: Foundation.Date? = nil,
         inputDataLocationS3: Swift.String? = nil,
-        lastUpdatedAt: ClientRuntime.Date? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
         logUri: Swift.String? = nil,
         message: Swift.String? = nil,
         mlModelId: Swift.String? = nil,
@@ -3193,9 +3197,9 @@ public struct GetMLModelOutput {
         recipe: Swift.String? = nil,
         schema: Swift.String? = nil,
         scoreThreshold: Swift.Float? = nil,
-        scoreThresholdLastUpdatedAt: ClientRuntime.Date? = nil,
+        scoreThresholdLastUpdatedAt: Foundation.Date? = nil,
         sizeInBytes: Swift.Int? = nil,
-        startedAt: ClientRuntime.Date? = nil,
+        startedAt: Foundation.Date? = nil,
         status: MachineLearningClientTypes.EntityStatus? = nil,
         trainingDataSourceId: Swift.String? = nil,
         trainingParameters: [Swift.String:Swift.String]? = nil
@@ -3227,7 +3231,7 @@ public struct GetMLModelOutput {
 
 enum GetMLModelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3479,17 +3483,17 @@ extension MachineLearningClientTypes {
         /// Long integer type that is a 64-bit signed number.
         public var computeTime: Swift.Int?
         /// The time that the MLModel was created. The time is expressed in epoch time.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The AWS user account from which the MLModel was created. The account type can be either an AWS root account or an AWS Identity and Access Management (IAM) user account.
         public var createdByIamUser: Swift.String?
         /// The current endpoint of the MLModel.
         public var endpointInfo: MachineLearningClientTypes.RealtimeEndpointInfo?
         /// A timestamp represented in epoch time.
-        public var finishedAt: ClientRuntime.Date?
+        public var finishedAt: Foundation.Date?
         /// The location of the data file or directory in Amazon Simple Storage Service (Amazon S3).
         public var inputDataLocationS3: Swift.String?
         /// The time of the most recent edit to the MLModel. The time is expressed in epoch time.
-        public var lastUpdatedAt: ClientRuntime.Date?
+        public var lastUpdatedAt: Foundation.Date?
         /// A description of the most recent details about accessing the MLModel.
         public var message: Swift.String?
         /// The ID assigned to the MLModel at creation.
@@ -3506,11 +3510,11 @@ extension MachineLearningClientTypes {
         public var name: Swift.String?
         public var scoreThreshold: Swift.Float?
         /// The time of the most recent edit to the ScoreThreshold. The time is expressed in epoch time.
-        public var scoreThresholdLastUpdatedAt: ClientRuntime.Date?
+        public var scoreThresholdLastUpdatedAt: Foundation.Date?
         /// Long integer type that is a 64-bit signed number.
         public var sizeInBytes: Swift.Int?
         /// A timestamp represented in epoch time.
-        public var startedAt: ClientRuntime.Date?
+        public var startedAt: Foundation.Date?
         /// The current status of an MLModel. This element can have one of the following values:
         ///
         /// * PENDING - Amazon Machine Learning (Amazon ML) submitted a request to create an MLModel.
@@ -3541,20 +3545,20 @@ extension MachineLearningClientTypes {
         public init(
             algorithm: MachineLearningClientTypes.Algorithm? = nil,
             computeTime: Swift.Int? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             createdByIamUser: Swift.String? = nil,
             endpointInfo: MachineLearningClientTypes.RealtimeEndpointInfo? = nil,
-            finishedAt: ClientRuntime.Date? = nil,
+            finishedAt: Foundation.Date? = nil,
             inputDataLocationS3: Swift.String? = nil,
-            lastUpdatedAt: ClientRuntime.Date? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
             message: Swift.String? = nil,
             mlModelId: Swift.String? = nil,
             mlModelType: MachineLearningClientTypes.MLModelType? = nil,
             name: Swift.String? = nil,
             scoreThreshold: Swift.Float? = nil,
-            scoreThresholdLastUpdatedAt: ClientRuntime.Date? = nil,
+            scoreThresholdLastUpdatedAt: Foundation.Date? = nil,
             sizeInBytes: Swift.Int? = nil,
-            startedAt: ClientRuntime.Date? = nil,
+            startedAt: Foundation.Date? = nil,
             status: MachineLearningClientTypes.EntityStatus? = nil,
             trainingDataSourceId: Swift.String? = nil,
             trainingParameters: [Swift.String:Swift.String]? = nil
@@ -3746,7 +3750,7 @@ public struct PredictInput {
 
 extension PredictOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PredictOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PredictOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3778,7 +3782,7 @@ public struct PredictOutput {
 
 enum PredictOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4113,7 +4117,7 @@ extension MachineLearningClientTypes {
     /// Describes the real-time endpoint information for an MLModel.
     public struct RealtimeEndpointInfo {
         /// The time that the request to create the real-time endpoint for the MLModel was received. The time is expressed in epoch time.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The current status of the real-time endpoint for the MLModel. This element can have one of the following values:
         ///
         /// * NONE - Endpoint does not exist or was previously deleted.
@@ -4128,7 +4132,7 @@ extension MachineLearningClientTypes {
         public var peakRequestsPerSecond: Swift.Int
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             endpointStatus: MachineLearningClientTypes.RealtimeEndpointStatus? = nil,
             endpointUrl: Swift.String? = nil,
             peakRequestsPerSecond: Swift.Int = 0
@@ -4622,7 +4626,7 @@ public struct UpdateBatchPredictionInput {
 
 extension UpdateBatchPredictionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateBatchPredictionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateBatchPredictionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4647,7 +4651,7 @@ public struct UpdateBatchPredictionOutput {
 
 enum UpdateBatchPredictionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4697,7 +4701,7 @@ public struct UpdateDataSourceInput {
 
 extension UpdateDataSourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateDataSourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateDataSourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4722,7 +4726,7 @@ public struct UpdateDataSourceOutput {
 
 enum UpdateDataSourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4772,7 +4776,7 @@ public struct UpdateEvaluationInput {
 
 extension UpdateEvaluationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateEvaluationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateEvaluationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4797,7 +4801,7 @@ public struct UpdateEvaluationOutput {
 
 enum UpdateEvaluationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4851,7 +4855,7 @@ public struct UpdateMLModelInput {
 
 extension UpdateMLModelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateMLModelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateMLModelOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4876,7 +4880,7 @@ public struct UpdateMLModelOutput {
 
 enum UpdateMLModelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4895,33 +4899,30 @@ public struct PredictInputEndpointURLHostMiddleware: ClientRuntime.Middleware {
 
     public init() { }
 
-    public func handle<H>(context: Context,
+    public func handle<H>(context: Smithy.Context,
                   input: PredictInput,
                   next: H) async throws -> ClientRuntime.OperationOutput<PredictOutput>
     where H: Handler,
     Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
+    Self.MOutput == H.Output
     {
-        if let endpoint = input.predictEndpoint, let url = ClientRuntime.URL(string: endpoint), let host = url.host {
-            var copiedContext = context
-            copiedContext.attributes.set(key: AttributeKey<String>(name: "Host"), value: host)
-            return try await next.handle(context: copiedContext, input: input)
+        if let endpoint = input.predictEndpoint, let url = Foundation.URL(string: endpoint), let host = url.host {
+            context.host = host
+            return try await next.handle(context: context, input: input)
         }
         return try await next.handle(context: context, input: input)
     }
 
     public typealias MInput = PredictInput
     public typealias MOutput = ClientRuntime.OperationOutput<PredictOutput>
-    public typealias Context = ClientRuntime.HttpContext
 }
 extension PredictInputEndpointURLHostMiddleware: HttpInterceptor {
     public typealias InputType = PredictInput
     public typealias OutputType = PredictOutput
 
-    public func modifyBeforeSerialization(context: some MutableInput<Self.InputType, HttpContext>) async throws {
-        if let endpoint = context.getInput().predictEndpoint, let url = ClientRuntime.URL(string: endpoint), let host = url.host {
-            context.getAttributes().set(key: AttributeKey<String>(name: "Host"), value: host)
+    public func modifyBeforeSerialization(context: some MutableInput<Self.InputType, Smithy.Context>) async throws {
+        if let endpoint = context.getInput().predictEndpoint, let url = Foundation.URL(string: endpoint), let host = url.host {
+            context.getAttributes().host = host
         }
     }
 }

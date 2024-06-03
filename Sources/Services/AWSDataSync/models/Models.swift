@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -74,7 +76,7 @@ public struct AddStorageSystemInput {
 
 extension AddStorageSystemOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AddStorageSystemOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AddStorageSystemOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -99,7 +101,7 @@ public struct AddStorageSystemOutput {
 
 enum AddStorageSystemOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -360,7 +362,7 @@ public struct CancelTaskExecutionInput {
 
 extension CancelTaskExecutionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CancelTaskExecutionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CancelTaskExecutionOutput {
         return CancelTaskExecutionOutput()
     }
 }
@@ -372,7 +374,7 @@ public struct CancelTaskExecutionOutput {
 
 enum CancelTaskExecutionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -482,7 +484,7 @@ public struct CreateAgentInput {
 
 extension CreateAgentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateAgentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateAgentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -507,7 +509,7 @@ public struct CreateAgentOutput {
 
 enum CreateAgentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -587,7 +589,7 @@ public struct CreateLocationAzureBlobInput {
 
 extension CreateLocationAzureBlobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateLocationAzureBlobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateLocationAzureBlobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -611,7 +613,7 @@ public struct CreateLocationAzureBlobOutput {
 
 enum CreateLocationAzureBlobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -686,7 +688,7 @@ public struct CreateLocationEfsInput {
 
 extension CreateLocationEfsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateLocationEfsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateLocationEfsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -711,7 +713,7 @@ public struct CreateLocationEfsOutput {
 
 enum CreateLocationEfsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -770,7 +772,7 @@ public struct CreateLocationFsxLustreInput {
 
 extension CreateLocationFsxLustreOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateLocationFsxLustreOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateLocationFsxLustreOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -794,7 +796,7 @@ public struct CreateLocationFsxLustreOutput {
 
 enum CreateLocationFsxLustreOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -866,7 +868,7 @@ public struct CreateLocationFsxOntapInput {
 
 extension CreateLocationFsxOntapOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateLocationFsxOntapOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateLocationFsxOntapOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -890,7 +892,7 @@ public struct CreateLocationFsxOntapOutput {
 
 enum CreateLocationFsxOntapOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -955,7 +957,7 @@ public struct CreateLocationFsxOpenZfsInput {
 
 extension CreateLocationFsxOpenZfsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateLocationFsxOpenZfsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateLocationFsxOpenZfsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -979,7 +981,7 @@ public struct CreateLocationFsxOpenZfsOutput {
 
 enum CreateLocationFsxOpenZfsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1064,7 +1066,7 @@ public struct CreateLocationFsxWindowsInput {
 
 extension CreateLocationFsxWindowsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateLocationFsxWindowsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateLocationFsxWindowsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1088,7 +1090,7 @@ public struct CreateLocationFsxWindowsOutput {
 
 enum CreateLocationFsxWindowsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1138,9 +1140,9 @@ public struct CreateLocationHdfsInput {
     /// The size of data blocks to write into the HDFS cluster. The block size must be a multiple of 512 bytes. The default block size is 128 mebibytes (MiB).
     public var blockSize: Swift.Int?
     /// The Kerberos key table (keytab) that contains mappings between the defined Kerberos principal and the encrypted keys. You can load the keytab from a file by providing the file's address. If you're using the CLI, it performs base64 encoding for you. Otherwise, provide the base64-encoded text. If KERBEROS is specified for AuthenticationType, this parameter is required.
-    public var kerberosKeytab: ClientRuntime.Data?
+    public var kerberosKeytab: Foundation.Data?
     /// The krb5.conf file that contains the Kerberos configuration information. You can load the krb5.conf file by providing the file's address. If you're using the CLI, it performs the base64 encoding for you. Otherwise, provide the base64-encoded text. If KERBEROS is specified for AuthenticationType, this parameter is required.
-    public var kerberosKrb5Conf: ClientRuntime.Data?
+    public var kerberosKrb5Conf: Foundation.Data?
     /// The Kerberos principal with access to the files and folders on the HDFS cluster. If KERBEROS is specified for AuthenticationType, this parameter is required.
     public var kerberosPrincipal: Swift.String?
     /// The URI of the HDFS cluster's Key Management Server (KMS).
@@ -1163,8 +1165,8 @@ public struct CreateLocationHdfsInput {
         agentArns: [Swift.String]? = nil,
         authenticationType: DataSyncClientTypes.HdfsAuthenticationType? = nil,
         blockSize: Swift.Int? = nil,
-        kerberosKeytab: ClientRuntime.Data? = nil,
-        kerberosKrb5Conf: ClientRuntime.Data? = nil,
+        kerberosKeytab: Foundation.Data? = nil,
+        kerberosKrb5Conf: Foundation.Data? = nil,
         kerberosPrincipal: Swift.String? = nil,
         kmsKeyProviderUri: Swift.String? = nil,
         nameNodes: [DataSyncClientTypes.HdfsNameNode]? = nil,
@@ -1193,7 +1195,7 @@ public struct CreateLocationHdfsInput {
 
 extension CreateLocationHdfsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateLocationHdfsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateLocationHdfsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1217,7 +1219,7 @@ public struct CreateLocationHdfsOutput {
 
 enum CreateLocationHdfsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1283,7 +1285,7 @@ public struct CreateLocationNfsInput {
 
 extension CreateLocationNfsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateLocationNfsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateLocationNfsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1308,7 +1310,7 @@ public struct CreateLocationNfsOutput {
 
 enum CreateLocationNfsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1372,7 +1374,7 @@ public struct CreateLocationObjectStorageInput {
     ///
     ///
     /// You can concatenate your certificates into a .pem file (which can be up to 32768 bytes before base64 encoding). The following example cat command creates an object_storage_certificates.pem file that includes three certificates: cat object_server_certificate.pem intermediate_certificate.pem ca_root_certificate.pem > object_storage_certificates.pem To use this parameter, configure ServerProtocol to HTTPS.
-    public var serverCertificate: ClientRuntime.Data?
+    public var serverCertificate: Foundation.Data?
     /// Specifies the domain name or IP address of the object storage server. A DataSync agent uses this hostname to mount the object storage server in a network.
     /// This member is required.
     public var serverHostname: Swift.String?
@@ -1390,7 +1392,7 @@ public struct CreateLocationObjectStorageInput {
         agentArns: [Swift.String]? = nil,
         bucketName: Swift.String? = nil,
         secretKey: Swift.String? = nil,
-        serverCertificate: ClientRuntime.Data? = nil,
+        serverCertificate: Foundation.Data? = nil,
         serverHostname: Swift.String? = nil,
         serverPort: Swift.Int? = nil,
         serverProtocol: DataSyncClientTypes.ObjectStorageServerProtocol? = nil,
@@ -1413,7 +1415,7 @@ public struct CreateLocationObjectStorageInput {
 
 extension CreateLocationObjectStorageOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateLocationObjectStorageOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateLocationObjectStorageOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1438,7 +1440,7 @@ public struct CreateLocationObjectStorageOutput {
 
 enum CreateLocationObjectStorageOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1516,7 +1518,7 @@ public struct CreateLocationS3Input {
 
 extension CreateLocationS3Output {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateLocationS3Output {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateLocationS3Output {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1541,7 +1543,7 @@ public struct CreateLocationS3Output {
 
 enum CreateLocationS3OutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1629,7 +1631,7 @@ public struct CreateLocationSmbInput {
 
 extension CreateLocationSmbOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateLocationSmbOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateLocationSmbOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1654,7 +1656,7 @@ public struct CreateLocationSmbOutput {
 
 enum CreateLocationSmbOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1749,7 +1751,7 @@ public struct CreateTaskInput {
 
 extension CreateTaskOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateTaskOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateTaskOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1774,7 +1776,7 @@ public struct CreateTaskOutput {
 
 enum CreateTaskOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1856,7 +1858,7 @@ public struct DeleteAgentInput {
 
 extension DeleteAgentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteAgentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteAgentOutput {
         return DeleteAgentOutput()
     }
 }
@@ -1868,7 +1870,7 @@ public struct DeleteAgentOutput {
 
 enum DeleteAgentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1912,7 +1914,7 @@ public struct DeleteLocationInput {
 
 extension DeleteLocationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteLocationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteLocationOutput {
         return DeleteLocationOutput()
     }
 }
@@ -1924,7 +1926,7 @@ public struct DeleteLocationOutput {
 
 enum DeleteLocationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1968,7 +1970,7 @@ public struct DeleteTaskInput {
 
 extension DeleteTaskOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteTaskOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteTaskOutput {
         return DeleteTaskOutput()
     }
 }
@@ -1980,7 +1982,7 @@ public struct DeleteTaskOutput {
 
 enum DeleteTaskOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2024,7 +2026,7 @@ public struct DescribeAgentInput {
 
 extension DescribeAgentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeAgentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeAgentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2046,11 +2048,11 @@ public struct DescribeAgentOutput {
     /// The ARN of the agent.
     public var agentArn: Swift.String?
     /// The time that the agent was [activated](https://docs.aws.amazon.com/datasync/latest/userguide/activate-agent.html).
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The type of [service endpoint](https://docs.aws.amazon.com/datasync/latest/userguide/choose-service-endpoint.html) that your agent is connected to.
     public var endpointType: DataSyncClientTypes.EndpointType?
     /// The last time that the agent was communicating with the DataSync service.
-    public var lastConnectionTime: ClientRuntime.Date?
+    public var lastConnectionTime: Foundation.Date?
     /// The name of the agent.
     public var name: Swift.String?
     /// The platform-related details about the agent, such as the version number.
@@ -2066,9 +2068,9 @@ public struct DescribeAgentOutput {
 
     public init(
         agentArn: Swift.String? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         endpointType: DataSyncClientTypes.EndpointType? = nil,
-        lastConnectionTime: ClientRuntime.Date? = nil,
+        lastConnectionTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
         platform: DataSyncClientTypes.Platform? = nil,
         privateLinkConfig: DataSyncClientTypes.PrivateLinkConfig? = nil,
@@ -2088,7 +2090,7 @@ public struct DescribeAgentOutput {
 
 enum DescribeAgentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2131,7 +2133,7 @@ public struct DescribeDiscoveryJobInput {
 
 extension DescribeDiscoveryJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeDiscoveryJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeDiscoveryJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2152,9 +2154,9 @@ public struct DescribeDiscoveryJobOutput {
     /// The ARN of the discovery job.
     public var discoveryJobArn: Swift.String?
     /// The time when the discovery job ended.
-    public var jobEndTime: ClientRuntime.Date?
+    public var jobEndTime: Foundation.Date?
     /// The time when the discovery job started.
-    public var jobStartTime: ClientRuntime.Date?
+    public var jobStartTime: Foundation.Date?
     /// Indicates the status of a discovery job. For more information, see [Discovery job statuses](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-job-statuses.html#discovery-job-statuses-table).
     public var status: DataSyncClientTypes.DiscoveryJobStatus?
     /// The ARN of the on-premises storage system you're running the discovery job on.
@@ -2163,8 +2165,8 @@ public struct DescribeDiscoveryJobOutput {
     public init(
         collectionDurationMinutes: Swift.Int? = nil,
         discoveryJobArn: Swift.String? = nil,
-        jobEndTime: ClientRuntime.Date? = nil,
-        jobStartTime: ClientRuntime.Date? = nil,
+        jobEndTime: Foundation.Date? = nil,
+        jobStartTime: Foundation.Date? = nil,
         status: DataSyncClientTypes.DiscoveryJobStatus? = nil,
         storageSystemArn: Swift.String? = nil
     )
@@ -2180,7 +2182,7 @@ public struct DescribeDiscoveryJobOutput {
 
 enum DescribeDiscoveryJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2223,7 +2225,7 @@ public struct DescribeLocationAzureBlobInput {
 
 extension DescribeLocationAzureBlobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeLocationAzureBlobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeLocationAzureBlobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2249,7 +2251,7 @@ public struct DescribeLocationAzureBlobOutput {
     /// The type of blob that you want your objects or files to be when transferring them into Azure Blob Storage. Currently, DataSync only supports moving data into Azure Blob Storage as block blobs. For more information on blob types, see the [Azure Blob Storage documentation](https://learn.microsoft.com/en-us/rest/api/storageservices/understanding-block-blobs--append-blobs--and-page-blobs).
     public var blobType: DataSyncClientTypes.AzureBlobType?
     /// The time that your Azure Blob Storage transfer location was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The ARN of your Azure Blob Storage transfer location.
     public var locationArn: Swift.String?
     /// The URL of the Azure Blob Storage container involved in your transfer.
@@ -2260,7 +2262,7 @@ public struct DescribeLocationAzureBlobOutput {
         agentArns: [Swift.String]? = nil,
         authenticationType: DataSyncClientTypes.AzureBlobAuthenticationType? = nil,
         blobType: DataSyncClientTypes.AzureBlobType? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         locationArn: Swift.String? = nil,
         locationUri: Swift.String? = nil
     )
@@ -2277,7 +2279,7 @@ public struct DescribeLocationAzureBlobOutput {
 
 enum DescribeLocationAzureBlobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2321,7 +2323,7 @@ public struct DescribeLocationEfsInput {
 
 extension DescribeLocationEfsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeLocationEfsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeLocationEfsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2342,7 +2344,7 @@ public struct DescribeLocationEfsOutput {
     /// The ARN of the access point that DataSync uses to access the Amazon EFS file system.
     public var accessPointArn: Swift.String?
     /// The time that the location was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The subnet and security groups that DataSync uses to access your Amazon EFS file system.
     public var ec2Config: DataSyncClientTypes.Ec2Config?
     /// The Identity and Access Management (IAM) role that DataSync assumes when mounting the Amazon EFS file system.
@@ -2356,7 +2358,7 @@ public struct DescribeLocationEfsOutput {
 
     public init(
         accessPointArn: Swift.String? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         ec2Config: DataSyncClientTypes.Ec2Config? = nil,
         fileSystemAccessRoleArn: Swift.String? = nil,
         inTransitEncryption: DataSyncClientTypes.EfsInTransitEncryption? = nil,
@@ -2376,7 +2378,7 @@ public struct DescribeLocationEfsOutput {
 
 enum DescribeLocationEfsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2419,7 +2421,7 @@ public struct DescribeLocationFsxLustreInput {
 
 extension DescribeLocationFsxLustreOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeLocationFsxLustreOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeLocationFsxLustreOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2434,7 +2436,7 @@ extension DescribeLocationFsxLustreOutput {
 
 public struct DescribeLocationFsxLustreOutput {
     /// The time that the FSx for Lustre location was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the FSx for Lustre location that was described.
     public var locationArn: Swift.String?
     /// The URI of the FSx for Lustre location that was described.
@@ -2443,7 +2445,7 @@ public struct DescribeLocationFsxLustreOutput {
     public var securityGroupArns: [Swift.String]?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         locationArn: Swift.String? = nil,
         locationUri: Swift.String? = nil,
         securityGroupArns: [Swift.String]? = nil
@@ -2458,7 +2460,7 @@ public struct DescribeLocationFsxLustreOutput {
 
 enum DescribeLocationFsxLustreOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2501,7 +2503,7 @@ public struct DescribeLocationFsxOntapInput {
 
 extension DescribeLocationFsxOntapOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeLocationFsxOntapOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeLocationFsxOntapOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2519,7 +2521,7 @@ extension DescribeLocationFsxOntapOutput {
 
 public struct DescribeLocationFsxOntapOutput {
     /// The time that the location was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The ARN of the FSx for ONTAP file system.
     public var fsxFilesystemArn: Swift.String?
     /// The ARN of the FSx for ONTAP file system location.
@@ -2534,7 +2536,7 @@ public struct DescribeLocationFsxOntapOutput {
     public var storageVirtualMachineArn: Swift.String?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         fsxFilesystemArn: Swift.String? = nil,
         locationArn: Swift.String? = nil,
         locationUri: Swift.String? = nil,
@@ -2555,7 +2557,7 @@ public struct DescribeLocationFsxOntapOutput {
 
 enum DescribeLocationFsxOntapOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2598,7 +2600,7 @@ public struct DescribeLocationFsxOpenZfsInput {
 
 extension DescribeLocationFsxOpenZfsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeLocationFsxOpenZfsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeLocationFsxOpenZfsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2614,7 +2616,7 @@ extension DescribeLocationFsxOpenZfsOutput {
 
 public struct DescribeLocationFsxOpenZfsOutput {
     /// The time that the FSx for OpenZFS location was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The ARN of the FSx for OpenZFS location that was described.
     public var locationArn: Swift.String?
     /// The uniform resource identifier (URI) of the FSx for OpenZFS location that was described. Example: fsxz://us-west-2.fs-1234567890abcdef02/fsx/folderA/folder
@@ -2625,7 +2627,7 @@ public struct DescribeLocationFsxOpenZfsOutput {
     public var securityGroupArns: [Swift.String]?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         locationArn: Swift.String? = nil,
         locationUri: Swift.String? = nil,
         `protocol`: DataSyncClientTypes.FsxProtocol? = nil,
@@ -2642,7 +2644,7 @@ public struct DescribeLocationFsxOpenZfsOutput {
 
 enum DescribeLocationFsxOpenZfsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2685,7 +2687,7 @@ public struct DescribeLocationFsxWindowsInput {
 
 extension DescribeLocationFsxWindowsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeLocationFsxWindowsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeLocationFsxWindowsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2702,7 +2704,7 @@ extension DescribeLocationFsxWindowsOutput {
 
 public struct DescribeLocationFsxWindowsOutput {
     /// The time that the FSx for Windows File Server location was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The name of the Microsoft Active Directory domain that the FSx for Windows File Server file system belongs to.
     public var domain: Swift.String?
     /// The ARN of the FSx for Windows File Server location.
@@ -2715,7 +2717,7 @@ public struct DescribeLocationFsxWindowsOutput {
     public var user: Swift.String?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         domain: Swift.String? = nil,
         locationArn: Swift.String? = nil,
         locationUri: Swift.String? = nil,
@@ -2734,7 +2736,7 @@ public struct DescribeLocationFsxWindowsOutput {
 
 enum DescribeLocationFsxWindowsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2777,7 +2779,7 @@ public struct DescribeLocationHdfsInput {
 
 extension DescribeLocationHdfsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeLocationHdfsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeLocationHdfsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2806,7 +2808,7 @@ public struct DescribeLocationHdfsOutput {
     /// The size of the data blocks to write into the HDFS cluster.
     public var blockSize: Swift.Int?
     /// The time that the HDFS location was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The Kerberos principal with access to the files and folders on the HDFS cluster. This parameter is used if the AuthenticationType is defined as KERBEROS.
     public var kerberosPrincipal: Swift.String?
     /// The URI of the HDFS cluster's Key Management Server (KMS).
@@ -2828,7 +2830,7 @@ public struct DescribeLocationHdfsOutput {
         agentArns: [Swift.String]? = nil,
         authenticationType: DataSyncClientTypes.HdfsAuthenticationType? = nil,
         blockSize: Swift.Int? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         kerberosPrincipal: Swift.String? = nil,
         kmsKeyProviderUri: Swift.String? = nil,
         locationArn: Swift.String? = nil,
@@ -2856,7 +2858,7 @@ public struct DescribeLocationHdfsOutput {
 
 enum DescribeLocationHdfsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2900,7 +2902,7 @@ public struct DescribeLocationNfsInput {
 
 extension DescribeLocationNfsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeLocationNfsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeLocationNfsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2917,7 +2919,7 @@ extension DescribeLocationNfsOutput {
 /// DescribeLocationNfsResponse
 public struct DescribeLocationNfsOutput {
     /// The time when the NFS location was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The ARN of the NFS location.
     public var locationArn: Swift.String?
     /// The URI of the NFS location.
@@ -2928,7 +2930,7 @@ public struct DescribeLocationNfsOutput {
     public var onPremConfig: DataSyncClientTypes.OnPremConfig?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         locationArn: Swift.String? = nil,
         locationUri: Swift.String? = nil,
         mountOptions: DataSyncClientTypes.NfsMountOptions? = nil,
@@ -2945,7 +2947,7 @@ public struct DescribeLocationNfsOutput {
 
 enum DescribeLocationNfsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2989,7 +2991,7 @@ public struct DescribeLocationObjectStorageInput {
 
 extension DescribeLocationObjectStorageOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeLocationObjectStorageOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeLocationObjectStorageOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3013,13 +3015,13 @@ public struct DescribeLocationObjectStorageOutput {
     /// The ARNs of the DataSync agents that can connect with your object storage system.
     public var agentArns: [Swift.String]?
     /// The time that the location was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The ARN of the object storage system location.
     public var locationArn: Swift.String?
     /// The URI of the object storage system location.
     public var locationUri: Swift.String?
     /// The certificate chain for DataSync to authenticate with your object storage system if the system uses a private or self-signed certificate authority (CA).
-    public var serverCertificate: ClientRuntime.Data?
+    public var serverCertificate: Foundation.Data?
     /// The port that your object storage server accepts inbound network traffic on (for example, port 443).
     public var serverPort: Swift.Int?
     /// The protocol that your object storage system uses to communicate.
@@ -3028,10 +3030,10 @@ public struct DescribeLocationObjectStorageOutput {
     public init(
         accessKey: Swift.String? = nil,
         agentArns: [Swift.String]? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         locationArn: Swift.String? = nil,
         locationUri: Swift.String? = nil,
-        serverCertificate: ClientRuntime.Data? = nil,
+        serverCertificate: Foundation.Data? = nil,
         serverPort: Swift.Int? = nil,
         serverProtocol: DataSyncClientTypes.ObjectStorageServerProtocol? = nil
     )
@@ -3049,7 +3051,7 @@ public struct DescribeLocationObjectStorageOutput {
 
 enum DescribeLocationObjectStorageOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3093,7 +3095,7 @@ public struct DescribeLocationS3Input {
 
 extension DescribeLocationS3Output {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeLocationS3Output {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeLocationS3Output {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3113,7 +3115,7 @@ public struct DescribeLocationS3Output {
     /// The ARNs of the DataSync agents deployed on your Outpost when using working with Amazon S3 on Outposts. For more information, see [Deploy your DataSync agent on Outposts](https://docs.aws.amazon.com/datasync/latest/userguide/deploy-agents.html#outposts-agent).
     public var agentArns: [Swift.String]?
     /// The time that the Amazon S3 location was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The ARN of the Amazon S3 location.
     public var locationArn: Swift.String?
     /// The URL of the Amazon S3 location that was described.
@@ -3125,7 +3127,7 @@ public struct DescribeLocationS3Output {
 
     public init(
         agentArns: [Swift.String]? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         locationArn: Swift.String? = nil,
         locationUri: Swift.String? = nil,
         s3Config: DataSyncClientTypes.S3Config? = nil,
@@ -3143,7 +3145,7 @@ public struct DescribeLocationS3Output {
 
 enum DescribeLocationS3OutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3187,7 +3189,7 @@ public struct DescribeLocationSmbInput {
 
 extension DescribeLocationSmbOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeLocationSmbOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeLocationSmbOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3208,7 +3210,7 @@ public struct DescribeLocationSmbOutput {
     /// The ARNs of the DataSync agents that can connect with your SMB file server.
     public var agentArns: [Swift.String]?
     /// The time that the SMB location was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The name of the Microsoft Active Directory domain that the SMB file server belongs to.
     public var domain: Swift.String?
     /// The ARN of the SMB location.
@@ -3222,7 +3224,7 @@ public struct DescribeLocationSmbOutput {
 
     public init(
         agentArns: [Swift.String]? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         domain: Swift.String? = nil,
         locationArn: Swift.String? = nil,
         locationUri: Swift.String? = nil,
@@ -3242,7 +3244,7 @@ public struct DescribeLocationSmbOutput {
 
 enum DescribeLocationSmbOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3285,7 +3287,7 @@ public struct DescribeStorageSystemInput {
 
 extension DescribeStorageSystemOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeStorageSystemOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeStorageSystemOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3312,7 +3314,7 @@ public struct DescribeStorageSystemOutput {
     /// Indicates whether your DataSync agent can connect to your on-premises storage system.
     public var connectivityStatus: DataSyncClientTypes.StorageSystemConnectivityStatus?
     /// The time when you added the on-premises storage system to DataSync Discovery.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// Describes the connectivity error that the DataSync agent is encountering with your on-premises storage system.
     public var errorMessage: Swift.String?
     /// The name that you gave your on-premises storage system when adding it to DataSync Discovery.
@@ -3330,7 +3332,7 @@ public struct DescribeStorageSystemOutput {
         agentArns: [Swift.String]? = nil,
         cloudWatchLogGroupArn: Swift.String? = nil,
         connectivityStatus: DataSyncClientTypes.StorageSystemConnectivityStatus? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         errorMessage: Swift.String? = nil,
         name: Swift.String? = nil,
         secretsManagerArn: Swift.String? = nil,
@@ -3354,7 +3356,7 @@ public struct DescribeStorageSystemOutput {
 
 enum DescribeStorageSystemOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3393,7 +3395,7 @@ public struct DescribeStorageSystemResourceMetricsInput {
     /// This member is required.
     public var discoveryJobArn: Swift.String?
     /// Specifies a time within the total duration that the discovery job ran. To see information gathered during a certain time frame, use this parameter with StartTime.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// Specifies how many results that you want in the response.
     public var maxResults: Swift.Int?
     /// Specifies an opaque string that indicates the position to begin the next list of results in the response.
@@ -3405,16 +3407,16 @@ public struct DescribeStorageSystemResourceMetricsInput {
     /// This member is required.
     public var resourceType: DataSyncClientTypes.DiscoveryResourceType?
     /// Specifies a time within the total duration that the discovery job ran. To see information gathered during a certain time frame, use this parameter with EndTime.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
 
     public init(
         discoveryJobArn: Swift.String? = nil,
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: DataSyncClientTypes.DiscoveryResourceType? = nil,
-        startTime: ClientRuntime.Date? = nil
+        startTime: Foundation.Date? = nil
     )
     {
         self.discoveryJobArn = discoveryJobArn
@@ -3429,7 +3431,7 @@ public struct DescribeStorageSystemResourceMetricsInput {
 
 extension DescribeStorageSystemResourceMetricsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeStorageSystemResourceMetricsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeStorageSystemResourceMetricsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3458,7 +3460,7 @@ public struct DescribeStorageSystemResourceMetricsOutput {
 
 enum DescribeStorageSystemResourceMetricsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3527,7 +3529,7 @@ public struct DescribeStorageSystemResourcesInput {
 
 extension DescribeStorageSystemResourcesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeStorageSystemResourcesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeStorageSystemResourcesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3556,7 +3558,7 @@ public struct DescribeStorageSystemResourcesOutput {
 
 enum DescribeStorageSystemResourcesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3600,7 +3602,7 @@ public struct DescribeTaskExecutionInput {
 
 extension DescribeTaskExecutionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeTaskExecutionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeTaskExecutionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3664,7 +3666,7 @@ public struct DescribeTaskExecutionOutput {
     /// The result of the task execution.
     public var result: DataSyncClientTypes.TaskExecutionResultDetail?
     /// The time when the task execution started.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
     /// The status of the task execution.
     public var status: DataSyncClientTypes.TaskExecutionStatus?
     /// The ARN of the task execution that you wanted information about. TaskExecutionArn is hierarchical and includes TaskArn for the task that was executed. For example, a TaskExecution value with the ARN arn:aws:datasync:us-east-1:111222333444:task/task-0208075f79cedf4a2/execution/exec-08ef1e88ec491019b executed the task with the ARN arn:aws:datasync:us-east-1:111222333444:task/task-0208075f79cedf4a2.
@@ -3689,7 +3691,7 @@ public struct DescribeTaskExecutionOutput {
         options: DataSyncClientTypes.Options? = nil,
         reportResult: DataSyncClientTypes.ReportResult? = nil,
         result: DataSyncClientTypes.TaskExecutionResultDetail? = nil,
-        startTime: ClientRuntime.Date? = nil,
+        startTime: Foundation.Date? = nil,
         status: DataSyncClientTypes.TaskExecutionStatus? = nil,
         taskExecutionArn: Swift.String? = nil,
         taskReportConfig: DataSyncClientTypes.TaskReportConfig? = nil
@@ -3720,7 +3722,7 @@ public struct DescribeTaskExecutionOutput {
 
 enum DescribeTaskExecutionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3764,7 +3766,7 @@ public struct DescribeTaskInput {
 
 extension DescribeTaskOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeTaskOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeTaskOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3797,7 +3799,7 @@ public struct DescribeTaskOutput {
     /// The Amazon Resource Name (ARN) of an Amazon CloudWatch log group for monitoring your task. For more information, see [Monitoring DataSync with Amazon CloudWatch](https://docs.aws.amazon.com/datasync/latest/userguide/monitor-datasync.html).
     public var cloudWatchLogGroupArn: Swift.String?
     /// The time that the task was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The ARN of the most recent task execution.
     public var currentTaskExecutionArn: Swift.String?
     /// The ARN of your transfer's destination location.
@@ -3835,7 +3837,7 @@ public struct DescribeTaskOutput {
 
     public init(
         cloudWatchLogGroupArn: Swift.String? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         currentTaskExecutionArn: Swift.String? = nil,
         destinationLocationArn: Swift.String? = nil,
         destinationNetworkInterfaceArns: [Swift.String]? = nil,
@@ -3879,7 +3881,7 @@ public struct DescribeTaskOutput {
 
 enum DescribeTaskOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4425,7 +4427,7 @@ public struct GenerateRecommendationsInput {
 
 extension GenerateRecommendationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GenerateRecommendationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GenerateRecommendationsOutput {
         return GenerateRecommendationsOutput()
     }
 }
@@ -4437,7 +4439,7 @@ public struct GenerateRecommendationsOutput {
 
 enum GenerateRecommendationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4821,7 +4823,7 @@ public struct ListAgentsInput {
 
 extension ListAgentsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAgentsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAgentsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4851,7 +4853,7 @@ public struct ListAgentsOutput {
 
 enum ListAgentsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4903,7 +4905,7 @@ public struct ListDiscoveryJobsInput {
 
 extension ListDiscoveryJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListDiscoveryJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListDiscoveryJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4932,7 +4934,7 @@ public struct ListDiscoveryJobsOutput {
 
 enum ListDiscoveryJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4985,7 +4987,7 @@ public struct ListLocationsInput {
 
 extension ListLocationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListLocationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListLocationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5015,7 +5017,7 @@ public struct ListLocationsOutput {
 
 enum ListLocationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5062,7 +5064,7 @@ public struct ListStorageSystemsInput {
 
 extension ListStorageSystemsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListStorageSystemsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListStorageSystemsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5091,7 +5093,7 @@ public struct ListStorageSystemsOutput {
 
 enum ListStorageSystemsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5145,7 +5147,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5175,7 +5177,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5228,7 +5230,7 @@ public struct ListTaskExecutionsInput {
 
 extension ListTaskExecutionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTaskExecutionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTaskExecutionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5258,7 +5260,7 @@ public struct ListTaskExecutionsOutput {
 
 enum ListTaskExecutionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5311,7 +5313,7 @@ public struct ListTasksInput {
 
 extension ListTasksOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTasksOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTasksOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5341,7 +5343,7 @@ public struct ListTasksOutput {
 
 enum ListTasksOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6795,7 +6797,7 @@ public struct RemoveStorageSystemInput {
 
 extension RemoveStorageSystemOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RemoveStorageSystemOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RemoveStorageSystemOutput {
         return RemoveStorageSystemOutput()
     }
 }
@@ -6807,7 +6809,7 @@ public struct RemoveStorageSystemOutput {
 
 enum RemoveStorageSystemOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7132,14 +7134,14 @@ extension DataSyncClientTypes {
         /// The type of on-premises storage system resource.
         public var resourceType: DataSyncClientTypes.DiscoveryResourceType?
         /// The time when DataSync Discovery collected this information from the resource.
-        public var timestamp: ClientRuntime.Date?
+        public var timestamp: Foundation.Date?
 
         public init(
             capacity: DataSyncClientTypes.Capacity? = nil,
             p95Metrics: DataSyncClientTypes.P95Metrics? = nil,
             resourceId: Swift.String? = nil,
             resourceType: DataSyncClientTypes.DiscoveryResourceType? = nil,
-            timestamp: ClientRuntime.Date? = nil
+            timestamp: Foundation.Date? = nil
         )
         {
             self.capacity = capacity
@@ -7531,7 +7533,7 @@ public struct StartDiscoveryJobInput {
 
 extension StartDiscoveryJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartDiscoveryJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartDiscoveryJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7555,7 +7557,7 @@ public struct StartDiscoveryJobOutput {
 
 enum StartDiscoveryJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7629,7 +7631,7 @@ public struct StartTaskExecutionInput {
 
 extension StartTaskExecutionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartTaskExecutionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartTaskExecutionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7654,7 +7656,7 @@ public struct StartTaskExecutionOutput {
 
 enum StartTaskExecutionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7697,7 +7699,7 @@ public struct StopDiscoveryJobInput {
 
 extension StopDiscoveryJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopDiscoveryJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopDiscoveryJobOutput {
         return StopDiscoveryJobOutput()
     }
 }
@@ -7709,7 +7711,7 @@ public struct StopDiscoveryJobOutput {
 
 enum StopDiscoveryJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7860,7 +7862,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -7872,7 +7874,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8285,12 +8287,12 @@ extension DataSyncClientTypes {
         /// Provides a reason if the task schedule is disabled. If your schedule is disabled by USER, you see a Manually disabled by user. message. If your schedule is disabled by SERVICE, you see an error message to help you understand why the task keeps failing. For information on resolving DataSync errors, see [Troubleshooting issues with DataSync transfers](https://docs.aws.amazon.com/datasync/latest/userguide/troubleshooting-datasync-locations-tasks.html).
         public var disabledReason: Swift.String?
         /// Indicates the last time the status of your task schedule changed. For example, if DataSync automatically disables your schedule because of a repeated error, you can see when the schedule was disabled.
-        public var statusUpdateTime: ClientRuntime.Date?
+        public var statusUpdateTime: Foundation.Date?
 
         public init(
             disabledBy: DataSyncClientTypes.ScheduleDisabledBy? = nil,
             disabledReason: Swift.String? = nil,
-            statusUpdateTime: ClientRuntime.Date? = nil
+            statusUpdateTime: Foundation.Date? = nil
         )
         {
             self.disabledBy = disabledBy
@@ -8481,7 +8483,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -8493,7 +8495,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8542,7 +8544,7 @@ public struct UpdateAgentInput {
 
 extension UpdateAgentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateAgentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateAgentOutput {
         return UpdateAgentOutput()
     }
 }
@@ -8554,7 +8556,7 @@ public struct UpdateAgentOutput {
 
 enum UpdateAgentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8603,7 +8605,7 @@ public struct UpdateDiscoveryJobInput {
 
 extension UpdateDiscoveryJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateDiscoveryJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateDiscoveryJobOutput {
         return UpdateDiscoveryJobOutput()
     }
 }
@@ -8615,7 +8617,7 @@ public struct UpdateDiscoveryJobOutput {
 
 enum UpdateDiscoveryJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8688,7 +8690,7 @@ public struct UpdateLocationAzureBlobInput {
 
 extension UpdateLocationAzureBlobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateLocationAzureBlobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateLocationAzureBlobOutput {
         return UpdateLocationAzureBlobOutput()
     }
 }
@@ -8700,7 +8702,7 @@ public struct UpdateLocationAzureBlobOutput {
 
 enum UpdateLocationAzureBlobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8748,9 +8750,9 @@ public struct UpdateLocationHdfsInput {
     /// The size of the data blocks to write into the HDFS cluster.
     public var blockSize: Swift.Int?
     /// The Kerberos key table (keytab) that contains mappings between the defined Kerberos principal and the encrypted keys. You can load the keytab from a file by providing the file's address. If you use the CLI, it performs base64 encoding for you. Otherwise, provide the base64-encoded text.
-    public var kerberosKeytab: ClientRuntime.Data?
+    public var kerberosKeytab: Foundation.Data?
     /// The krb5.conf file that contains the Kerberos configuration information. You can load the krb5.conf file by providing the file's address. If you're using the CLI, it performs the base64 encoding for you. Otherwise, provide the base64-encoded text.
-    public var kerberosKrb5Conf: ClientRuntime.Data?
+    public var kerberosKrb5Conf: Foundation.Data?
     /// The Kerberos principal with access to the files and folders on the HDFS cluster.
     public var kerberosPrincipal: Swift.String?
     /// The URI of the HDFS cluster's Key Management Server (KMS).
@@ -8773,8 +8775,8 @@ public struct UpdateLocationHdfsInput {
         agentArns: [Swift.String]? = nil,
         authenticationType: DataSyncClientTypes.HdfsAuthenticationType? = nil,
         blockSize: Swift.Int? = nil,
-        kerberosKeytab: ClientRuntime.Data? = nil,
-        kerberosKrb5Conf: ClientRuntime.Data? = nil,
+        kerberosKeytab: Foundation.Data? = nil,
+        kerberosKrb5Conf: Foundation.Data? = nil,
         kerberosPrincipal: Swift.String? = nil,
         kmsKeyProviderUri: Swift.String? = nil,
         locationArn: Swift.String? = nil,
@@ -8803,7 +8805,7 @@ public struct UpdateLocationHdfsInput {
 
 extension UpdateLocationHdfsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateLocationHdfsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateLocationHdfsOutput {
         return UpdateLocationHdfsOutput()
     }
 }
@@ -8815,7 +8817,7 @@ public struct UpdateLocationHdfsOutput {
 
 enum UpdateLocationHdfsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8873,7 +8875,7 @@ public struct UpdateLocationNfsInput {
 
 extension UpdateLocationNfsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateLocationNfsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateLocationNfsOutput {
         return UpdateLocationNfsOutput()
     }
 }
@@ -8885,7 +8887,7 @@ public struct UpdateLocationNfsOutput {
 
 enum UpdateLocationNfsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8945,7 +8947,7 @@ public struct UpdateLocationObjectStorageInput {
     ///
     ///
     /// You can concatenate your certificates into a .pem file (which can be up to 32768 bytes before base64 encoding). The following example cat command creates an object_storage_certificates.pem file that includes three certificates: cat object_server_certificate.pem intermediate_certificate.pem ca_root_certificate.pem > object_storage_certificates.pem To use this parameter, configure ServerProtocol to HTTPS. Updating this parameter doesn't interfere with tasks that you have in progress.
-    public var serverCertificate: ClientRuntime.Data?
+    public var serverCertificate: Foundation.Data?
     /// Specifies the port that your object storage server accepts inbound network traffic on (for example, port 443).
     public var serverPort: Swift.Int?
     /// Specifies the protocol that your object storage server uses to communicate.
@@ -8958,7 +8960,7 @@ public struct UpdateLocationObjectStorageInput {
         agentArns: [Swift.String]? = nil,
         locationArn: Swift.String? = nil,
         secretKey: Swift.String? = nil,
-        serverCertificate: ClientRuntime.Data? = nil,
+        serverCertificate: Foundation.Data? = nil,
         serverPort: Swift.Int? = nil,
         serverProtocol: DataSyncClientTypes.ObjectStorageServerProtocol? = nil,
         subdirectory: Swift.String? = nil
@@ -8977,7 +8979,7 @@ public struct UpdateLocationObjectStorageInput {
 
 extension UpdateLocationObjectStorageOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateLocationObjectStorageOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateLocationObjectStorageOutput {
         return UpdateLocationObjectStorageOutput()
     }
 }
@@ -8989,7 +8991,7 @@ public struct UpdateLocationObjectStorageOutput {
 
 enum UpdateLocationObjectStorageOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9067,7 +9069,7 @@ public struct UpdateLocationSmbInput {
 
 extension UpdateLocationSmbOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateLocationSmbOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateLocationSmbOutput {
         return UpdateLocationSmbOutput()
     }
 }
@@ -9079,7 +9081,7 @@ public struct UpdateLocationSmbOutput {
 
 enum UpdateLocationSmbOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9147,7 +9149,7 @@ public struct UpdateStorageSystemInput {
 
 extension UpdateStorageSystemOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateStorageSystemOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateStorageSystemOutput {
         return UpdateStorageSystemOutput()
     }
 }
@@ -9159,7 +9161,7 @@ public struct UpdateStorageSystemOutput {
 
 enum UpdateStorageSystemOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9208,7 +9210,7 @@ public struct UpdateTaskExecutionInput {
 
 extension UpdateTaskExecutionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateTaskExecutionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateTaskExecutionOutput {
         return UpdateTaskExecutionOutput()
     }
 }
@@ -9220,7 +9222,7 @@ public struct UpdateTaskExecutionOutput {
 
 enum UpdateTaskExecutionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9304,7 +9306,7 @@ public struct UpdateTaskInput {
 
 extension UpdateTaskOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateTaskOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateTaskOutput {
         return UpdateTaskOutput()
     }
 }
@@ -9316,7 +9318,7 @@ public struct UpdateTaskOutput {
 
 enum UpdateTaskOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

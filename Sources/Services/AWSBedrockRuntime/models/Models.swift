@@ -2,6 +2,11 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyEventStreams
+import SmithyEventStreamsAPI
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -98,8 +103,8 @@ extension InvokeModelInput: Swift.CustomDebugStringConvertible {
 
 extension InvokeModelInput {
 
-    static func headerProvider(_ value: InvokeModelInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: InvokeModelInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accept = value.accept {
             items.add(Header(name: "Accept", value: Swift.String(accept)))
         }
@@ -142,7 +147,7 @@ public struct InvokeModelInput {
     public var accept: Swift.String?
     /// The prompt and inference parameters in the format specified in the contentType in the header. To see the format and content of the request and response bodies for different models, refer to [Inference parameters](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html). For more information, see [Run inference](https://docs.aws.amazon.com/bedrock/latest/userguide/api-methods-run.html) in the Bedrock User Guide.
     /// This member is required.
-    public var body: ClientRuntime.Data?
+    public var body: Foundation.Data?
     /// The MIME type of the input data in the request. The default value is application/json.
     public var contentType: Swift.String?
     /// The unique identifier of the guardrail that you want to use. If you don't provide a value, no guardrail is applied to the invocation. An error will be thrown in the following situations.
@@ -169,7 +174,7 @@ public struct InvokeModelInput {
 
     public init(
         accept: Swift.String? = nil,
-        body: ClientRuntime.Data? = nil,
+        body: Foundation.Data? = nil,
         contentType: Swift.String? = nil,
         guardrailIdentifier: Swift.String? = nil,
         guardrailVersion: Swift.String? = nil,
@@ -194,7 +199,7 @@ extension InvokeModelOutput: Swift.CustomDebugStringConvertible {
 
 extension InvokeModelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> InvokeModelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> InvokeModelOutput {
         var value = InvokeModelOutput()
         if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
             value.contentType = contentTypeHeaderValue
@@ -214,13 +219,13 @@ extension InvokeModelOutput {
 public struct InvokeModelOutput {
     /// Inference response from the model in the format specified in the contentType header. To see the format and content of the request and response bodies for different models, refer to [Inference parameters](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html).
     /// This member is required.
-    public var body: ClientRuntime.Data?
+    public var body: Foundation.Data?
     /// The MIME type of the inference result.
     /// This member is required.
     public var contentType: Swift.String?
 
     public init(
-        body: ClientRuntime.Data? = nil,
+        body: Foundation.Data? = nil,
         contentType: Swift.String? = nil
     )
     {
@@ -231,7 +236,7 @@ public struct InvokeModelOutput {
 
 enum InvokeModelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -258,8 +263,8 @@ extension InvokeModelWithResponseStreamInput: Swift.CustomDebugStringConvertible
 
 extension InvokeModelWithResponseStreamInput {
 
-    static func headerProvider(_ value: InvokeModelWithResponseStreamInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: InvokeModelWithResponseStreamInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accept = value.accept {
             items.add(Header(name: "X-Amzn-Bedrock-Accept", value: Swift.String(accept)))
         }
@@ -302,7 +307,7 @@ public struct InvokeModelWithResponseStreamInput {
     public var accept: Swift.String?
     /// The prompt and inference parameters in the format specified in the contentType in the header. To see the format and content of the request and response bodies for different models, refer to [Inference parameters](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html). For more information, see [Run inference](https://docs.aws.amazon.com/bedrock/latest/userguide/api-methods-run.html) in the Bedrock User Guide.
     /// This member is required.
-    public var body: ClientRuntime.Data?
+    public var body: Foundation.Data?
     /// The MIME type of the input data in the request. The default value is application/json.
     public var contentType: Swift.String?
     /// The unique identifier of the guardrail that you want to use. If you don't provide a value, no guardrail is applied to the invocation. An error is thrown in the following situations.
@@ -329,7 +334,7 @@ public struct InvokeModelWithResponseStreamInput {
 
     public init(
         accept: Swift.String? = nil,
-        body: ClientRuntime.Data? = nil,
+        body: Foundation.Data? = nil,
         contentType: Swift.String? = nil,
         guardrailIdentifier: Swift.String? = nil,
         guardrailVersion: Swift.String? = nil,
@@ -349,14 +354,14 @@ public struct InvokeModelWithResponseStreamInput {
 
 extension InvokeModelWithResponseStreamOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> InvokeModelWithResponseStreamOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> InvokeModelWithResponseStreamOutput {
         var value = InvokeModelWithResponseStreamOutput()
         if let contentTypeHeaderValue = httpResponse.headers.value(for: "X-Amzn-Bedrock-Content-Type") {
             value.contentType = contentTypeHeaderValue
         }
         if case .stream(let stream) = httpResponse.body {
-            let messageDecoder = AWSClientRuntime.AWSEventStream.AWSMessageDecoder()
-            let decoderStream = ClientRuntime.EventStream.DefaultMessageDecoderStream(stream: stream, messageDecoder: messageDecoder, unmarshalClosure: BedrockRuntimeClientTypes.ResponseStream.unmarshal)
+            let messageDecoder = SmithyEventStreams.DefaultMessageDecoder()
+            let decoderStream = SmithyEventStreams.DefaultMessageDecoderStream(stream: stream, messageDecoder: messageDecoder, unmarshalClosure: BedrockRuntimeClientTypes.ResponseStream.unmarshal)
             value.body = decoderStream.toAsyncStream()
         }
         return value
@@ -383,7 +388,7 @@ public struct InvokeModelWithResponseStreamOutput {
 
 enum InvokeModelWithResponseStreamOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -614,10 +619,10 @@ extension BedrockRuntimeClientTypes {
     /// Payload content included in the response.
     public struct PayloadPart {
         /// Base64-encoded bytes of payload data.
-        public var bytes: ClientRuntime.Data?
+        public var bytes: Foundation.Data?
 
         public init(
-            bytes: ClientRuntime.Data? = nil
+            bytes: Foundation.Data? = nil
         )
         {
             self.bytes = bytes
@@ -664,7 +669,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 extension BedrockRuntimeClientTypes.ResponseStream {
-    static var unmarshal: ClientRuntime.UnmarshalClosure<BedrockRuntimeClientTypes.ResponseStream> {
+    static var unmarshal: SmithyEventStreamsAPI.UnmarshalClosure<BedrockRuntimeClientTypes.ResponseStream> {
         { message in
             switch try message.type() {
             case .event(let params):
@@ -676,7 +681,7 @@ extension BedrockRuntimeClientTypes.ResponseStream {
                     return .sdkUnknown("error processing event stream, unrecognized event: \(params.eventType)")
                 }
             case .exception(let params):
-                let makeError: (ClientRuntime.EventStream.Message, ClientRuntime.EventStream.MessageType.ExceptionParams) throws -> Swift.Error = { message, params in
+                let makeError: (SmithyEventStreamsAPI.Message, SmithyEventStreamsAPI.MessageType.ExceptionParams) throws -> Swift.Error = { message, params in
                     switch params.exceptionType {
                     case "internalServerException":
                         let value = try SmithyJSON.Reader.readFrom(message.payload, with: InternalServerException.read(from:))
@@ -694,17 +699,17 @@ extension BedrockRuntimeClientTypes.ResponseStream {
                         let value = try SmithyJSON.Reader.readFrom(message.payload, with: ModelTimeoutException.read(from:))
                         return value
                     default:
-                        let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)
+                        let httpResponse = SmithyHTTPAPI.HttpResponse(body: .data(message.payload), statusCode: .ok)
                         return AWSClientRuntime.UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':exceptionType': \(params.exceptionType); contentType: \(params.contentType ?? "nil")", requestID: nil, typeName: nil)
                     }
                 }
                 let error = try makeError(message, params)
                 throw error
             case .error(let params):
-                let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)
+                let httpResponse = SmithyHTTPAPI.HttpResponse(body: .data(message.payload), statusCode: .ok)
                 throw AWSClientRuntime.UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':errorType': \(params.errorCode); message: \(params.message ?? "nil")", requestID: nil, typeName: nil)
             case .unknown(messageType: let messageType):
-                throw ClientRuntime.ClientError.unknownError("unrecognized event stream message ':message-type': \(messageType)")
+                throw Smithy.ClientError.unknownError("unrecognized event stream message ':message-type': \(messageType)")
             }
         }
     }

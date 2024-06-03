@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -75,7 +78,7 @@ public struct CancelJobRunInput {
 
 extension CancelJobRunOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CancelJobRunOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CancelJobRunOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -104,7 +107,7 @@ public struct CancelJobRunOutput {
 
 enum CancelJobRunOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -494,7 +497,7 @@ public struct CreateJobTemplateInput {
 
 extension CreateJobTemplateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateJobTemplateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateJobTemplateOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -511,7 +514,7 @@ public struct CreateJobTemplateOutput {
     /// This output display the ARN of the created job template.
     public var arn: Swift.String?
     /// This output displays the date and time when the job template was created.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// This output display the created job template ID.
     public var id: Swift.String?
     /// This output displays the name of the created job template.
@@ -519,7 +522,7 @@ public struct CreateJobTemplateOutput {
 
     public init(
         arn: Swift.String? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil
     )
@@ -533,7 +536,7 @@ public struct CreateJobTemplateOutput {
 
 enum CreateJobTemplateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -625,7 +628,7 @@ public struct CreateManagedEndpointInput {
 
 extension CreateManagedEndpointOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateManagedEndpointOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateManagedEndpointOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -664,7 +667,7 @@ public struct CreateManagedEndpointOutput {
 
 enum CreateManagedEndpointOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -725,7 +728,7 @@ public struct CreateSecurityConfigurationInput {
 
 extension CreateSecurityConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateSecurityConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateSecurityConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -759,7 +762,7 @@ public struct CreateSecurityConfigurationOutput {
 
 enum CreateSecurityConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -824,7 +827,7 @@ public struct CreateVirtualClusterInput {
 
 extension CreateVirtualClusterOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateVirtualClusterOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateVirtualClusterOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -858,7 +861,7 @@ public struct CreateVirtualClusterOutput {
 
 enum CreateVirtualClusterOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -922,7 +925,7 @@ public struct DeleteJobTemplateInput {
 
 extension DeleteJobTemplateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteJobTemplateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteJobTemplateOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -946,7 +949,7 @@ public struct DeleteJobTemplateOutput {
 
 enum DeleteJobTemplateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -992,7 +995,7 @@ public struct DeleteManagedEndpointInput {
 
 extension DeleteManagedEndpointOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteManagedEndpointOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteManagedEndpointOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1021,7 +1024,7 @@ public struct DeleteManagedEndpointOutput {
 
 enum DeleteManagedEndpointOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1059,7 +1062,7 @@ public struct DeleteVirtualClusterInput {
 
 extension DeleteVirtualClusterOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteVirtualClusterOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteVirtualClusterOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1083,7 +1086,7 @@ public struct DeleteVirtualClusterOutput {
 
 enum DeleteVirtualClusterOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1129,7 +1132,7 @@ public struct DescribeJobRunInput {
 
 extension DescribeJobRunOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeJobRunOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeJobRunOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1153,7 +1156,7 @@ public struct DescribeJobRunOutput {
 
 enum DescribeJobRunOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1192,7 +1195,7 @@ public struct DescribeJobTemplateInput {
 
 extension DescribeJobTemplateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeJobTemplateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeJobTemplateOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1216,7 +1219,7 @@ public struct DescribeJobTemplateOutput {
 
 enum DescribeJobTemplateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1263,7 +1266,7 @@ public struct DescribeManagedEndpointInput {
 
 extension DescribeManagedEndpointOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeManagedEndpointOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeManagedEndpointOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1287,7 +1290,7 @@ public struct DescribeManagedEndpointOutput {
 
 enum DescribeManagedEndpointOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1326,7 +1329,7 @@ public struct DescribeSecurityConfigurationInput {
 
 extension DescribeSecurityConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeSecurityConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeSecurityConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1350,7 +1353,7 @@ public struct DescribeSecurityConfigurationOutput {
 
 enum DescribeSecurityConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1389,7 +1392,7 @@ public struct DescribeVirtualClusterInput {
 
 extension DescribeVirtualClusterOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeVirtualClusterOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeVirtualClusterOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1413,7 +1416,7 @@ public struct DescribeVirtualClusterOutput {
 
 enum DescribeVirtualClusterOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1568,7 +1571,7 @@ extension EMRcontainersClientTypes {
         /// The configuration settings that are used to override existing configurations for endpoints.
         public var configurationOverrides: EMRcontainersClientTypes.ConfigurationOverrides?
         /// The date and time when the endpoint was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The execution role ARN of the endpoint.
         public var executionRoleArn: Swift.String?
         /// The reasons why the endpoint has failed.
@@ -1601,7 +1604,7 @@ extension EMRcontainersClientTypes {
             certificateArn: Swift.String? = nil,
             certificateAuthority: EMRcontainersClientTypes.Certificate? = nil,
             configurationOverrides: EMRcontainersClientTypes.ConfigurationOverrides? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             executionRoleArn: Swift.String? = nil,
             failureReason: EMRcontainersClientTypes.FailureReason? = nil,
             id: Swift.String? = nil,
@@ -1780,7 +1783,7 @@ public struct GetManagedEndpointSessionCredentialsInput {
 
 extension GetManagedEndpointSessionCredentialsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetManagedEndpointSessionCredentialsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetManagedEndpointSessionCredentialsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1796,13 +1799,13 @@ public struct GetManagedEndpointSessionCredentialsOutput {
     /// The structure containing the session credentials.
     public var credentials: EMRcontainersClientTypes.Credentials?
     /// The date and time when the session token will expire.
-    public var expiresAt: ClientRuntime.Date?
+    public var expiresAt: Foundation.Date?
     /// The identifier of the session token returned.
     public var id: Swift.String?
 
     public init(
         credentials: EMRcontainersClientTypes.Credentials? = nil,
-        expiresAt: ClientRuntime.Date? = nil,
+        expiresAt: Foundation.Date? = nil,
         id: Swift.String? = nil
     )
     {
@@ -1814,7 +1817,7 @@ public struct GetManagedEndpointSessionCredentialsOutput {
 
 enum GetManagedEndpointSessionCredentialsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1971,7 +1974,7 @@ extension EMRcontainersClientTypes {
         /// The configuration settings that are used to override default configuration.
         public var configurationOverrides: EMRcontainersClientTypes.ConfigurationOverrides?
         /// The date and time when the job run was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The user who created the job run.
         public var createdBy: Swift.String?
         /// The execution role ARN of the job run.
@@ -1979,7 +1982,7 @@ extension EMRcontainersClientTypes {
         /// The reasons why the job run has failed.
         public var failureReason: EMRcontainersClientTypes.FailureReason?
         /// The date and time when the job run has finished.
-        public var finishedAt: ClientRuntime.Date?
+        public var finishedAt: Foundation.Date?
         /// The ID of the job run.
         public var id: Swift.String?
         /// Parameters of job driver for the job run.
@@ -2005,11 +2008,11 @@ extension EMRcontainersClientTypes {
             arn: Swift.String? = nil,
             clientToken: Swift.String? = nil,
             configurationOverrides: EMRcontainersClientTypes.ConfigurationOverrides? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             createdBy: Swift.String? = nil,
             executionRoleArn: Swift.String? = nil,
             failureReason: EMRcontainersClientTypes.FailureReason? = nil,
-            finishedAt: ClientRuntime.Date? = nil,
+            finishedAt: Foundation.Date? = nil,
             id: Swift.String? = nil,
             jobDriver: EMRcontainersClientTypes.JobDriver? = nil,
             name: Swift.String? = nil,
@@ -2113,7 +2116,7 @@ extension EMRcontainersClientTypes {
         /// The ARN of the job template.
         public var arn: Swift.String?
         /// The date and time when the job template was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The user who created the job template.
         public var createdBy: Swift.String?
         /// The error message in case the decryption of job template fails.
@@ -2132,7 +2135,7 @@ extension EMRcontainersClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             createdBy: Swift.String? = nil,
             decryptionError: Swift.String? = nil,
             id: Swift.String? = nil,
@@ -2265,31 +2268,31 @@ extension EMRcontainersClientTypes {
 
 extension ListJobRunsInput {
 
-    static func queryItemProvider(_ value: ListJobRunsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListJobRunsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let name = value.name {
-            let nameQueryItem = ClientRuntime.SDKURLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
+            let nameQueryItem = Smithy.URIQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
             items.append(nameQueryItem)
         }
         if let createdBefore = value.createdBefore {
-            let createdBeforeQueryItem = ClientRuntime.SDKURLQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: createdBefore)).urlPercentEncoding())
+            let createdBeforeQueryItem = Smithy.URIQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: createdBefore)).urlPercentEncoding())
             items.append(createdBeforeQueryItem)
         }
         if let createdAfter = value.createdAfter {
-            let createdAfterQueryItem = ClientRuntime.SDKURLQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: createdAfter)).urlPercentEncoding())
+            let createdAfterQueryItem = Smithy.URIQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: createdAfter)).urlPercentEncoding())
             items.append(createdAfterQueryItem)
         }
         if let states = value.states {
             states.forEach { queryItemValue in
-                let queryItem = ClientRuntime.SDKURLQueryItem(name: "states".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                let queryItem = Smithy.URIQueryItem(name: "states".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
                 items.append(queryItem)
             }
         }
@@ -2309,9 +2312,9 @@ extension ListJobRunsInput {
 
 public struct ListJobRunsInput {
     /// The date and time after which the job runs were submitted.
-    public var createdAfter: ClientRuntime.Date?
+    public var createdAfter: Foundation.Date?
     /// The date and time before which the job runs were submitted.
-    public var createdBefore: ClientRuntime.Date?
+    public var createdBefore: Foundation.Date?
     /// The maximum number of job runs that can be listed.
     public var maxResults: Swift.Int?
     /// The name of the job run.
@@ -2325,8 +2328,8 @@ public struct ListJobRunsInput {
     public var virtualClusterId: Swift.String?
 
     public init(
-        createdAfter: ClientRuntime.Date? = nil,
-        createdBefore: ClientRuntime.Date? = nil,
+        createdAfter: Foundation.Date? = nil,
+        createdBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil,
@@ -2346,7 +2349,7 @@ public struct ListJobRunsInput {
 
 extension ListJobRunsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListJobRunsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListJobRunsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2375,7 +2378,7 @@ public struct ListJobRunsOutput {
 
 enum ListJobRunsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2390,22 +2393,22 @@ enum ListJobRunsOutputError {
 
 extension ListJobTemplatesInput {
 
-    static func queryItemProvider(_ value: ListJobTemplatesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListJobTemplatesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let createdBefore = value.createdBefore {
-            let createdBeforeQueryItem = ClientRuntime.SDKURLQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: createdBefore)).urlPercentEncoding())
+            let createdBeforeQueryItem = Smithy.URIQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: createdBefore)).urlPercentEncoding())
             items.append(createdBeforeQueryItem)
         }
         if let createdAfter = value.createdAfter {
-            let createdAfterQueryItem = ClientRuntime.SDKURLQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: createdAfter)).urlPercentEncoding())
+            let createdAfterQueryItem = Smithy.URIQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: createdAfter)).urlPercentEncoding())
             items.append(createdAfterQueryItem)
         }
         return items
@@ -2421,17 +2424,17 @@ extension ListJobTemplatesInput {
 
 public struct ListJobTemplatesInput {
     /// The date and time after which the job templates were created.
-    public var createdAfter: ClientRuntime.Date?
+    public var createdAfter: Foundation.Date?
     /// The date and time before which the job templates were created.
-    public var createdBefore: ClientRuntime.Date?
+    public var createdBefore: Foundation.Date?
     /// The maximum number of job templates that can be listed.
     public var maxResults: Swift.Int?
     /// The token for the next set of job templates to return.
     public var nextToken: Swift.String?
 
     public init(
-        createdAfter: ClientRuntime.Date? = nil,
-        createdBefore: ClientRuntime.Date? = nil,
+        createdAfter: Foundation.Date? = nil,
+        createdBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
@@ -2445,7 +2448,7 @@ public struct ListJobTemplatesInput {
 
 extension ListJobTemplatesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListJobTemplatesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListJobTemplatesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2474,7 +2477,7 @@ public struct ListJobTemplatesOutput {
 
 enum ListJobTemplatesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2489,33 +2492,33 @@ enum ListJobTemplatesOutputError {
 
 extension ListManagedEndpointsInput {
 
-    static func queryItemProvider(_ value: ListManagedEndpointsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListManagedEndpointsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let types = value.types {
             types.forEach { queryItemValue in
-                let queryItem = ClientRuntime.SDKURLQueryItem(name: "types".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                let queryItem = Smithy.URIQueryItem(name: "types".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
                 items.append(queryItem)
             }
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let createdBefore = value.createdBefore {
-            let createdBeforeQueryItem = ClientRuntime.SDKURLQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: createdBefore)).urlPercentEncoding())
+            let createdBeforeQueryItem = Smithy.URIQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: createdBefore)).urlPercentEncoding())
             items.append(createdBeforeQueryItem)
         }
         if let createdAfter = value.createdAfter {
-            let createdAfterQueryItem = ClientRuntime.SDKURLQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: createdAfter)).urlPercentEncoding())
+            let createdAfterQueryItem = Smithy.URIQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: createdAfter)).urlPercentEncoding())
             items.append(createdAfterQueryItem)
         }
         if let states = value.states {
             states.forEach { queryItemValue in
-                let queryItem = ClientRuntime.SDKURLQueryItem(name: "states".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                let queryItem = Smithy.URIQueryItem(name: "states".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
                 items.append(queryItem)
             }
         }
@@ -2535,9 +2538,9 @@ extension ListManagedEndpointsInput {
 
 public struct ListManagedEndpointsInput {
     /// The date and time after which the endpoints are created.
-    public var createdAfter: ClientRuntime.Date?
+    public var createdAfter: Foundation.Date?
     /// The date and time before which the endpoints are created.
-    public var createdBefore: ClientRuntime.Date?
+    public var createdBefore: Foundation.Date?
     /// The maximum number of managed endpoints that can be listed.
     public var maxResults: Swift.Int?
     /// The token for the next set of managed endpoints to return.
@@ -2551,8 +2554,8 @@ public struct ListManagedEndpointsInput {
     public var virtualClusterId: Swift.String?
 
     public init(
-        createdAfter: ClientRuntime.Date? = nil,
-        createdBefore: ClientRuntime.Date? = nil,
+        createdAfter: Foundation.Date? = nil,
+        createdBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         states: [EMRcontainersClientTypes.EndpointState]? = nil,
@@ -2572,7 +2575,7 @@ public struct ListManagedEndpointsInput {
 
 extension ListManagedEndpointsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListManagedEndpointsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListManagedEndpointsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2601,7 +2604,7 @@ public struct ListManagedEndpointsOutput {
 
 enum ListManagedEndpointsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2616,22 +2619,22 @@ enum ListManagedEndpointsOutputError {
 
 extension ListSecurityConfigurationsInput {
 
-    static func queryItemProvider(_ value: ListSecurityConfigurationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListSecurityConfigurationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let createdBefore = value.createdBefore {
-            let createdBeforeQueryItem = ClientRuntime.SDKURLQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: createdBefore)).urlPercentEncoding())
+            let createdBeforeQueryItem = Smithy.URIQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: createdBefore)).urlPercentEncoding())
             items.append(createdBeforeQueryItem)
         }
         if let createdAfter = value.createdAfter {
-            let createdAfterQueryItem = ClientRuntime.SDKURLQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: createdAfter)).urlPercentEncoding())
+            let createdAfterQueryItem = Smithy.URIQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: createdAfter)).urlPercentEncoding())
             items.append(createdAfterQueryItem)
         }
         return items
@@ -2647,17 +2650,17 @@ extension ListSecurityConfigurationsInput {
 
 public struct ListSecurityConfigurationsInput {
     /// The date and time after which the security configuration was created.
-    public var createdAfter: ClientRuntime.Date?
+    public var createdAfter: Foundation.Date?
     /// The date and time before which the security configuration was created.
-    public var createdBefore: ClientRuntime.Date?
+    public var createdBefore: Foundation.Date?
     /// The maximum number of security configurations the operation can list.
     public var maxResults: Swift.Int?
     /// The token for the next set of security configurations to return.
     public var nextToken: Swift.String?
 
     public init(
-        createdAfter: ClientRuntime.Date? = nil,
-        createdBefore: ClientRuntime.Date? = nil,
+        createdAfter: Foundation.Date? = nil,
+        createdBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
@@ -2671,7 +2674,7 @@ public struct ListSecurityConfigurationsInput {
 
 extension ListSecurityConfigurationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListSecurityConfigurationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListSecurityConfigurationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2700,7 +2703,7 @@ public struct ListSecurityConfigurationsOutput {
 
 enum ListSecurityConfigurationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2738,7 +2741,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2762,7 +2765,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2778,39 +2781,39 @@ enum ListTagsForResourceOutputError {
 
 extension ListVirtualClustersInput {
 
-    static func queryItemProvider(_ value: ListVirtualClustersInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListVirtualClustersInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let containerProviderId = value.containerProviderId {
-            let containerProviderIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "containerProviderId".urlPercentEncoding(), value: Swift.String(containerProviderId).urlPercentEncoding())
+            let containerProviderIdQueryItem = Smithy.URIQueryItem(name: "containerProviderId".urlPercentEncoding(), value: Swift.String(containerProviderId).urlPercentEncoding())
             items.append(containerProviderIdQueryItem)
         }
         if let eksAccessEntryIntegrated = value.eksAccessEntryIntegrated {
-            let eksAccessEntryIntegratedQueryItem = ClientRuntime.SDKURLQueryItem(name: "eksAccessEntryIntegrated".urlPercentEncoding(), value: Swift.String(eksAccessEntryIntegrated).urlPercentEncoding())
+            let eksAccessEntryIntegratedQueryItem = Smithy.URIQueryItem(name: "eksAccessEntryIntegrated".urlPercentEncoding(), value: Swift.String(eksAccessEntryIntegrated).urlPercentEncoding())
             items.append(eksAccessEntryIntegratedQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let containerProviderType = value.containerProviderType {
-            let containerProviderTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "containerProviderType".urlPercentEncoding(), value: Swift.String(containerProviderType.rawValue).urlPercentEncoding())
+            let containerProviderTypeQueryItem = Smithy.URIQueryItem(name: "containerProviderType".urlPercentEncoding(), value: Swift.String(containerProviderType.rawValue).urlPercentEncoding())
             items.append(containerProviderTypeQueryItem)
         }
         if let createdBefore = value.createdBefore {
-            let createdBeforeQueryItem = ClientRuntime.SDKURLQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: createdBefore)).urlPercentEncoding())
+            let createdBeforeQueryItem = Smithy.URIQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: createdBefore)).urlPercentEncoding())
             items.append(createdBeforeQueryItem)
         }
         if let createdAfter = value.createdAfter {
-            let createdAfterQueryItem = ClientRuntime.SDKURLQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: createdAfter)).urlPercentEncoding())
+            let createdAfterQueryItem = Smithy.URIQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: createdAfter)).urlPercentEncoding())
             items.append(createdAfterQueryItem)
         }
         if let states = value.states {
             states.forEach { queryItemValue in
-                let queryItem = ClientRuntime.SDKURLQueryItem(name: "states".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                let queryItem = Smithy.URIQueryItem(name: "states".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
                 items.append(queryItem)
             }
         }
@@ -2831,9 +2834,9 @@ public struct ListVirtualClustersInput {
     /// The container provider type of the virtual cluster. Amazon EKS is the only supported type as of now.
     public var containerProviderType: EMRcontainersClientTypes.ContainerProviderType?
     /// The date and time after which the virtual clusters are created.
-    public var createdAfter: ClientRuntime.Date?
+    public var createdAfter: Foundation.Date?
     /// The date and time before which the virtual clusters are created.
-    public var createdBefore: ClientRuntime.Date?
+    public var createdBefore: Foundation.Date?
     /// Optional Boolean that specifies whether the operation should return the virtual clusters that have the access entry integration enabled or disabled. If not specified, the operation returns all applicable virtual clusters.
     public var eksAccessEntryIntegrated: Swift.Bool?
     /// The maximum number of virtual clusters that can be listed.
@@ -2846,8 +2849,8 @@ public struct ListVirtualClustersInput {
     public init(
         containerProviderId: Swift.String? = nil,
         containerProviderType: EMRcontainersClientTypes.ContainerProviderType? = nil,
-        createdAfter: ClientRuntime.Date? = nil,
-        createdBefore: ClientRuntime.Date? = nil,
+        createdAfter: Foundation.Date? = nil,
+        createdBefore: Foundation.Date? = nil,
         eksAccessEntryIntegrated: Swift.Bool? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -2867,7 +2870,7 @@ public struct ListVirtualClustersInput {
 
 extension ListVirtualClustersOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListVirtualClustersOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListVirtualClustersOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2896,7 +2899,7 @@ public struct ListVirtualClustersOutput {
 
 enum ListVirtualClustersOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3359,7 +3362,7 @@ extension EMRcontainersClientTypes {
         /// The ARN (Amazon Resource Name) of the security configuration.
         public var arn: Swift.String?
         /// The date and time that the job run was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The user who created the job run.
         public var createdBy: Swift.String?
         /// The ID of the security configuration.
@@ -3373,7 +3376,7 @@ extension EMRcontainersClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             createdBy: Swift.String? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil,
@@ -3598,7 +3601,7 @@ public struct StartJobRunInput {
 
 extension StartJobRunOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartJobRunOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartJobRunOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3637,7 +3640,7 @@ public struct StartJobRunOutput {
 
 enum StartJobRunOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3732,7 +3735,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -3744,7 +3747,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3826,14 +3829,14 @@ extension EMRcontainersClientTypes {
 
 extension UntagResourceInput {
 
-    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let tagKeys = value.tagKeys else {
             let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
         tagKeys.forEach { queryItemValue in
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
             items.append(queryItem)
         }
         return items
@@ -3870,7 +3873,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -3882,7 +3885,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3958,7 +3961,7 @@ extension EMRcontainersClientTypes {
         /// The container provider of the virtual cluster.
         public var containerProvider: EMRcontainersClientTypes.ContainerProvider?
         /// The date and time when the virtual cluster is created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The ID of the virtual cluster.
         public var id: Swift.String?
         /// The name of the virtual cluster.
@@ -3973,7 +3976,7 @@ extension EMRcontainersClientTypes {
         public init(
             arn: Swift.String? = nil,
             containerProvider: EMRcontainersClientTypes.ContainerProvider? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             securityConfigurationId: Swift.String? = nil,

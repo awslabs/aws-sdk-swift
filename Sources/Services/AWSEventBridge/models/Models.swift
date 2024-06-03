@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -35,7 +37,7 @@ public struct ActivateEventSourceInput {
 
 extension ActivateEventSourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ActivateEventSourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ActivateEventSourceOutput {
         return ActivateEventSourceOutput()
     }
 }
@@ -47,7 +49,7 @@ public struct ActivateEventSourceOutput {
 
 enum ActivateEventSourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -91,7 +93,7 @@ extension EventBridgeClientTypes {
         /// The ARN of the connection specified for the API destination.
         public var connectionArn: Swift.String?
         /// A time stamp for the time that the API destination was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The method to use to connect to the HTTP endpoint.
         public var httpMethod: EventBridgeClientTypes.ApiDestinationHttpMethod?
         /// The URL to the endpoint for the API destination.
@@ -99,7 +101,7 @@ extension EventBridgeClientTypes {
         /// The maximum number of invocations per second to send to the HTTP endpoint.
         public var invocationRateLimitPerSecond: Swift.Int?
         /// A time stamp for the time that the API destination was last modified.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// The name of the API destination.
         public var name: Swift.String?
 
@@ -107,11 +109,11 @@ extension EventBridgeClientTypes {
             apiDestinationArn: Swift.String? = nil,
             apiDestinationState: EventBridgeClientTypes.ApiDestinationState? = nil,
             connectionArn: Swift.String? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             httpMethod: EventBridgeClientTypes.ApiDestinationHttpMethod? = nil,
             invocationEndpoint: Swift.String? = nil,
             invocationRateLimitPerSecond: Swift.Int? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil
         )
         {
@@ -261,7 +263,7 @@ extension EventBridgeClientTypes {
         /// The name of the archive.
         public var archiveName: Swift.String?
         /// The time stamp for the time that the archive was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The number of events in the archive.
         public var eventCount: Swift.Int
         /// The ARN of the event bus associated with the archive. Only events from this event bus are sent to the archive.
@@ -277,7 +279,7 @@ extension EventBridgeClientTypes {
 
         public init(
             archiveName: Swift.String? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             eventCount: Swift.Int = 0,
             eventSourceArn: Swift.String? = nil,
             retentionDays: Swift.Int? = nil,
@@ -556,7 +558,7 @@ public struct CancelReplayInput {
 
 extension CancelReplayOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CancelReplayOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CancelReplayOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -590,7 +592,7 @@ public struct CancelReplayOutput {
 
 enum CancelReplayOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -750,11 +752,11 @@ extension EventBridgeClientTypes {
         /// The state of the connection.
         public var connectionState: EventBridgeClientTypes.ConnectionState?
         /// A time stamp for the time that the connection was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// A time stamp for the time that the connection was last authorized.
-        public var lastAuthorizedTime: ClientRuntime.Date?
+        public var lastAuthorizedTime: Foundation.Date?
         /// A time stamp for the time that the connection was last modified.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// The name of the connection.
         public var name: Swift.String?
         /// The reason that the connection is in the connection state.
@@ -764,9 +766,9 @@ extension EventBridgeClientTypes {
             authorizationType: EventBridgeClientTypes.ConnectionAuthorizationType? = nil,
             connectionArn: Swift.String? = nil,
             connectionState: EventBridgeClientTypes.ConnectionState? = nil,
-            creationTime: ClientRuntime.Date? = nil,
-            lastAuthorizedTime: ClientRuntime.Date? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
+            lastAuthorizedTime: Foundation.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             stateReason: Swift.String? = nil
         )
@@ -1297,7 +1299,7 @@ public struct CreateApiDestinationInput {
 
 extension CreateApiDestinationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateApiDestinationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateApiDestinationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1316,15 +1318,15 @@ public struct CreateApiDestinationOutput {
     /// The state of the API destination that was created by the request.
     public var apiDestinationState: EventBridgeClientTypes.ApiDestinationState?
     /// A time stamp indicating the time that the API destination was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// A time stamp indicating the time that the API destination was last modified.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
 
     public init(
         apiDestinationArn: Swift.String? = nil,
         apiDestinationState: EventBridgeClientTypes.ApiDestinationState? = nil,
-        creationTime: ClientRuntime.Date? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil
+        creationTime: Foundation.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil
     )
     {
         self.apiDestinationArn = apiDestinationArn
@@ -1336,7 +1338,7 @@ public struct CreateApiDestinationOutput {
 
 enum CreateApiDestinationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1402,7 +1404,7 @@ public struct CreateArchiveInput {
 
 extension CreateArchiveOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateArchiveOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateArchiveOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1419,7 +1421,7 @@ public struct CreateArchiveOutput {
     /// The ARN of the archive that was created.
     public var archiveArn: Swift.String?
     /// The time at which the archive was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The state of the archive that was created.
     public var state: EventBridgeClientTypes.ArchiveState?
     /// The reason that the archive is in the state.
@@ -1427,7 +1429,7 @@ public struct CreateArchiveOutput {
 
     public init(
         archiveArn: Swift.String? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         state: EventBridgeClientTypes.ArchiveState? = nil,
         stateReason: Swift.String? = nil
     )
@@ -1441,7 +1443,7 @@ public struct CreateArchiveOutput {
 
 enum CreateArchiveOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1694,7 +1696,7 @@ extension EventBridgeClientTypes {
 
 extension CreateConnectionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateConnectionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateConnectionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1713,15 +1715,15 @@ public struct CreateConnectionOutput {
     /// The state of the connection that was created by the request.
     public var connectionState: EventBridgeClientTypes.ConnectionState?
     /// A time stamp for the time that the connection was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// A time stamp for the time that the connection was last updated.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
 
     public init(
         connectionArn: Swift.String? = nil,
         connectionState: EventBridgeClientTypes.ConnectionState? = nil,
-        creationTime: ClientRuntime.Date? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil
+        creationTime: Foundation.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil
     )
     {
         self.connectionArn = connectionArn
@@ -1733,7 +1735,7 @@ public struct CreateConnectionOutput {
 
 enum CreateConnectionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1804,7 +1806,7 @@ public struct CreateEndpointInput {
 
 extension CreateEndpointOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateEndpointOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateEndpointOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1858,7 +1860,7 @@ public struct CreateEndpointOutput {
 
 enum CreateEndpointOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1936,7 +1938,7 @@ public struct CreateEventBusInput {
 
 extension CreateEventBusOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateEventBusOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateEventBusOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1975,7 +1977,7 @@ public struct CreateEventBusOutput {
 
 enum CreateEventBusOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2029,7 +2031,7 @@ public struct CreatePartnerEventSourceInput {
 
 extension CreatePartnerEventSourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreatePartnerEventSourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreatePartnerEventSourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2053,7 +2055,7 @@ public struct CreatePartnerEventSourceOutput {
 
 enum CreatePartnerEventSourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2099,7 +2101,7 @@ public struct DeactivateEventSourceInput {
 
 extension DeactivateEventSourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeactivateEventSourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeactivateEventSourceOutput {
         return DeactivateEventSourceOutput()
     }
 }
@@ -2111,7 +2113,7 @@ public struct DeactivateEventSourceOutput {
 
 enum DeactivateEventSourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2188,7 +2190,7 @@ public struct DeauthorizeConnectionInput {
 
 extension DeauthorizeConnectionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeauthorizeConnectionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeauthorizeConnectionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2208,18 +2210,18 @@ public struct DeauthorizeConnectionOutput {
     /// The state of the connection.
     public var connectionState: EventBridgeClientTypes.ConnectionState?
     /// A time stamp for the time that the connection was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// A time stamp for the time that the connection was last authorized.
-    public var lastAuthorizedTime: ClientRuntime.Date?
+    public var lastAuthorizedTime: Foundation.Date?
     /// A time stamp for the time that the connection was last updated.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
 
     public init(
         connectionArn: Swift.String? = nil,
         connectionState: EventBridgeClientTypes.ConnectionState? = nil,
-        creationTime: ClientRuntime.Date? = nil,
-        lastAuthorizedTime: ClientRuntime.Date? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil
+        creationTime: Foundation.Date? = nil,
+        lastAuthorizedTime: Foundation.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil
     )
     {
         self.connectionArn = connectionArn
@@ -2232,7 +2234,7 @@ public struct DeauthorizeConnectionOutput {
 
 enum DeauthorizeConnectionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2276,7 +2278,7 @@ public struct DeleteApiDestinationInput {
 
 extension DeleteApiDestinationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteApiDestinationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteApiDestinationOutput {
         return DeleteApiDestinationOutput()
     }
 }
@@ -2288,7 +2290,7 @@ public struct DeleteApiDestinationOutput {
 
 enum DeleteApiDestinationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2332,7 +2334,7 @@ public struct DeleteArchiveInput {
 
 extension DeleteArchiveOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteArchiveOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteArchiveOutput {
         return DeleteArchiveOutput()
     }
 }
@@ -2344,7 +2346,7 @@ public struct DeleteArchiveOutput {
 
 enum DeleteArchiveOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2388,7 +2390,7 @@ public struct DeleteConnectionInput {
 
 extension DeleteConnectionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteConnectionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteConnectionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2408,18 +2410,18 @@ public struct DeleteConnectionOutput {
     /// The state of the connection before it was deleted.
     public var connectionState: EventBridgeClientTypes.ConnectionState?
     /// A time stamp for the time that the connection was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// A time stamp for the time that the connection was last authorized before it wa deleted.
-    public var lastAuthorizedTime: ClientRuntime.Date?
+    public var lastAuthorizedTime: Foundation.Date?
     /// A time stamp for the time that the connection was last modified before it was deleted.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
 
     public init(
         connectionArn: Swift.String? = nil,
         connectionState: EventBridgeClientTypes.ConnectionState? = nil,
-        creationTime: ClientRuntime.Date? = nil,
-        lastAuthorizedTime: ClientRuntime.Date? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil
+        creationTime: Foundation.Date? = nil,
+        lastAuthorizedTime: Foundation.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil
     )
     {
         self.connectionArn = connectionArn
@@ -2432,7 +2434,7 @@ public struct DeleteConnectionOutput {
 
 enum DeleteConnectionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2476,7 +2478,7 @@ public struct DeleteEndpointInput {
 
 extension DeleteEndpointOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteEndpointOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteEndpointOutput {
         return DeleteEndpointOutput()
     }
 }
@@ -2488,7 +2490,7 @@ public struct DeleteEndpointOutput {
 
 enum DeleteEndpointOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2532,7 +2534,7 @@ public struct DeleteEventBusInput {
 
 extension DeleteEventBusOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteEventBusOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteEventBusOutput {
         return DeleteEventBusOutput()
     }
 }
@@ -2544,7 +2546,7 @@ public struct DeleteEventBusOutput {
 
 enum DeleteEventBusOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2593,7 +2595,7 @@ public struct DeletePartnerEventSourceInput {
 
 extension DeletePartnerEventSourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeletePartnerEventSourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeletePartnerEventSourceOutput {
         return DeletePartnerEventSourceOutput()
     }
 }
@@ -2605,7 +2607,7 @@ public struct DeletePartnerEventSourceOutput {
 
 enum DeletePartnerEventSourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2659,7 +2661,7 @@ public struct DeleteRuleInput {
 
 extension DeleteRuleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteRuleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteRuleOutput {
         return DeleteRuleOutput()
     }
 }
@@ -2671,7 +2673,7 @@ public struct DeleteRuleOutput {
 
 enum DeleteRuleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2716,7 +2718,7 @@ public struct DescribeApiDestinationInput {
 
 extension DescribeApiDestinationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeApiDestinationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeApiDestinationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2743,7 +2745,7 @@ public struct DescribeApiDestinationOutput {
     /// The ARN of the connection specified for the API destination retrieved.
     public var connectionArn: Swift.String?
     /// A time stamp for the time that the API destination was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The description for the API destination retrieved.
     public var description: Swift.String?
     /// The method to use to connect to the HTTP endpoint.
@@ -2753,7 +2755,7 @@ public struct DescribeApiDestinationOutput {
     /// The maximum number of invocations per second to specified for the API destination. Note that if you set the invocation rate maximum to a value lower the rate necessary to send all events received on to the destination HTTP endpoint, some events may not be delivered within the 24-hour retry window. If you plan to set the rate lower than the rate necessary to deliver all events, consider using a dead-letter queue to catch events that are not delivered within 24 hours.
     public var invocationRateLimitPerSecond: Swift.Int?
     /// A time stamp for the time that the API destination was last modified.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The name of the API destination retrieved.
     public var name: Swift.String?
 
@@ -2761,12 +2763,12 @@ public struct DescribeApiDestinationOutput {
         apiDestinationArn: Swift.String? = nil,
         apiDestinationState: EventBridgeClientTypes.ApiDestinationState? = nil,
         connectionArn: Swift.String? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         httpMethod: EventBridgeClientTypes.ApiDestinationHttpMethod? = nil,
         invocationEndpoint: Swift.String? = nil,
         invocationRateLimitPerSecond: Swift.Int? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         name: Swift.String? = nil
     )
     {
@@ -2785,7 +2787,7 @@ public struct DescribeApiDestinationOutput {
 
 enum DescribeApiDestinationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2828,7 +2830,7 @@ public struct DescribeArchiveInput {
 
 extension DescribeArchiveOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeArchiveOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeArchiveOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2854,7 +2856,7 @@ public struct DescribeArchiveOutput {
     /// The name of the archive.
     public var archiveName: Swift.String?
     /// The time at which the archive was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The description of the archive.
     public var description: Swift.String?
     /// The number of events in the archive.
@@ -2875,7 +2877,7 @@ public struct DescribeArchiveOutput {
     public init(
         archiveArn: Swift.String? = nil,
         archiveName: Swift.String? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         eventCount: Swift.Int = 0,
         eventPattern: Swift.String? = nil,
@@ -2902,7 +2904,7 @@ public struct DescribeArchiveOutput {
 
 enum DescribeArchiveOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2946,7 +2948,7 @@ public struct DescribeConnectionInput {
 
 extension DescribeConnectionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeConnectionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeConnectionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2976,13 +2978,13 @@ public struct DescribeConnectionOutput {
     /// The state of the connection retrieved.
     public var connectionState: EventBridgeClientTypes.ConnectionState?
     /// A time stamp for the time that the connection was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The description for the connection retrieved.
     public var description: Swift.String?
     /// A time stamp for the time that the connection was last authorized.
-    public var lastAuthorizedTime: ClientRuntime.Date?
+    public var lastAuthorizedTime: Foundation.Date?
     /// A time stamp for the time that the connection was last modified.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The name of the connection retrieved.
     public var name: Swift.String?
     /// The ARN of the secret created from the authorization parameters specified for the connection.
@@ -2995,10 +2997,10 @@ public struct DescribeConnectionOutput {
         authorizationType: EventBridgeClientTypes.ConnectionAuthorizationType? = nil,
         connectionArn: Swift.String? = nil,
         connectionState: EventBridgeClientTypes.ConnectionState? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
-        lastAuthorizedTime: ClientRuntime.Date? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastAuthorizedTime: Foundation.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
         secretArn: Swift.String? = nil,
         stateReason: Swift.String? = nil
@@ -3020,7 +3022,7 @@ public struct DescribeConnectionOutput {
 
 enum DescribeConnectionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3068,7 +3070,7 @@ public struct DescribeEndpointInput {
 
 extension DescribeEndpointOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeEndpointOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeEndpointOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3094,7 +3096,7 @@ public struct DescribeEndpointOutput {
     /// The ARN of the endpoint you asked for information about.
     public var arn: Swift.String?
     /// The time the endpoint you asked for information about was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The description of the endpoint you asked for information about.
     public var description: Swift.String?
     /// The ID of the endpoint you asked for information about.
@@ -3104,7 +3106,7 @@ public struct DescribeEndpointOutput {
     /// The event buses being used by the endpoint you asked for information about.
     public var eventBuses: [EventBridgeClientTypes.EndpointEventBus]?
     /// The last time the endpoint you asked for information about was modified.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The name of the endpoint you asked for information about.
     public var name: Swift.String?
     /// Whether replication is enabled or disabled for the endpoint you asked for information about.
@@ -3120,12 +3122,12 @@ public struct DescribeEndpointOutput {
 
     public init(
         arn: Swift.String? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         endpointId: Swift.String? = nil,
         endpointUrl: Swift.String? = nil,
         eventBuses: [EventBridgeClientTypes.EndpointEventBus]? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
         replicationConfig: EventBridgeClientTypes.ReplicationConfig? = nil,
         roleArn: Swift.String? = nil,
@@ -3152,7 +3154,7 @@ public struct DescribeEndpointOutput {
 
 enum DescribeEndpointOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3194,7 +3196,7 @@ public struct DescribeEventBusInput {
 
 extension DescribeEventBusOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeEventBusOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeEventBusOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3215,7 +3217,7 @@ public struct DescribeEventBusOutput {
     /// The Amazon Resource Name (ARN) of the account permitted to write events to the current account.
     public var arn: Swift.String?
     /// The time the event bus was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// Configuration details of the Amazon SQS queue for EventBridge to use as a dead-letter queue (DLQ). For more information, see [Event retry policy and using dead-letter queues] in the EventBridge User Guide.
     public var deadLetterConfig: EventBridgeClientTypes.DeadLetterConfig?
     /// The event bus description.
@@ -3223,7 +3225,7 @@ public struct DescribeEventBusOutput {
     /// The identifier of the KMS customer managed key for EventBridge to use to encrypt events on this event bus, if one has been specified. For more information, see [Data encryption in EventBridge](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-encryption.html) in the Amazon EventBridge User Guide.
     public var kmsKeyIdentifier: Swift.String?
     /// The time the event bus was last modified.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The name of the event bus. Currently, this is always default.
     public var name: Swift.String?
     /// The policy that enables the external account to send events to your account.
@@ -3231,11 +3233,11 @@ public struct DescribeEventBusOutput {
 
     public init(
         arn: Swift.String? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         deadLetterConfig: EventBridgeClientTypes.DeadLetterConfig? = nil,
         description: Swift.String? = nil,
         kmsKeyIdentifier: Swift.String? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
         policy: Swift.String? = nil
     )
@@ -3253,7 +3255,7 @@ public struct DescribeEventBusOutput {
 
 enum DescribeEventBusOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3296,7 +3298,7 @@ public struct DescribeEventSourceInput {
 
 extension DescribeEventSourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeEventSourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeEventSourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3317,9 +3319,9 @@ public struct DescribeEventSourceOutput {
     /// The name of the SaaS partner that created the event source.
     public var createdBy: Swift.String?
     /// The date and time that the event source was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The date and time that the event source will expire if you do not create a matching event bus.
-    public var expirationTime: ClientRuntime.Date?
+    public var expirationTime: Foundation.Date?
     /// The name of the partner event source.
     public var name: Swift.String?
     /// The state of the event source. If it is ACTIVE, you have already created a matching event bus for this event source, and that event bus is active. If it is PENDING, either you haven't yet created a matching event bus, or that event bus is deactivated. If it is DELETED, you have created a matching event bus, but the event source has since been deleted.
@@ -3328,8 +3330,8 @@ public struct DescribeEventSourceOutput {
     public init(
         arn: Swift.String? = nil,
         createdBy: Swift.String? = nil,
-        creationTime: ClientRuntime.Date? = nil,
-        expirationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
+        expirationTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
         state: EventBridgeClientTypes.EventSourceState? = nil
     )
@@ -3345,7 +3347,7 @@ public struct DescribeEventSourceOutput {
 
 enum DescribeEventSourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3389,7 +3391,7 @@ public struct DescribePartnerEventSourceInput {
 
 extension DescribePartnerEventSourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribePartnerEventSourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribePartnerEventSourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3418,7 +3420,7 @@ public struct DescribePartnerEventSourceOutput {
 
 enum DescribePartnerEventSourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3462,7 +3464,7 @@ public struct DescribeReplayInput {
 
 extension DescribeReplayOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeReplayOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeReplayOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3489,21 +3491,21 @@ public struct DescribeReplayOutput {
     /// A ReplayDestination object that contains details about the replay.
     public var destination: EventBridgeClientTypes.ReplayDestination?
     /// The time stamp for the last event that was replayed from the archive.
-    public var eventEndTime: ClientRuntime.Date?
+    public var eventEndTime: Foundation.Date?
     /// The time that the event was last replayed.
-    public var eventLastReplayedTime: ClientRuntime.Date?
+    public var eventLastReplayedTime: Foundation.Date?
     /// The ARN of the archive events were replayed from.
     public var eventSourceArn: Swift.String?
     /// The time stamp of the first event that was last replayed from the archive.
-    public var eventStartTime: ClientRuntime.Date?
+    public var eventStartTime: Foundation.Date?
     /// The ARN of the replay.
     public var replayArn: Swift.String?
     /// A time stamp for the time that the replay stopped.
-    public var replayEndTime: ClientRuntime.Date?
+    public var replayEndTime: Foundation.Date?
     /// The name of the replay.
     public var replayName: Swift.String?
     /// A time stamp for the time that the replay started.
-    public var replayStartTime: ClientRuntime.Date?
+    public var replayStartTime: Foundation.Date?
     /// The current state of the replay.
     public var state: EventBridgeClientTypes.ReplayState?
     /// The reason that the replay is in the current state.
@@ -3512,14 +3514,14 @@ public struct DescribeReplayOutput {
     public init(
         description: Swift.String? = nil,
         destination: EventBridgeClientTypes.ReplayDestination? = nil,
-        eventEndTime: ClientRuntime.Date? = nil,
-        eventLastReplayedTime: ClientRuntime.Date? = nil,
+        eventEndTime: Foundation.Date? = nil,
+        eventLastReplayedTime: Foundation.Date? = nil,
         eventSourceArn: Swift.String? = nil,
-        eventStartTime: ClientRuntime.Date? = nil,
+        eventStartTime: Foundation.Date? = nil,
         replayArn: Swift.String? = nil,
-        replayEndTime: ClientRuntime.Date? = nil,
+        replayEndTime: Foundation.Date? = nil,
         replayName: Swift.String? = nil,
-        replayStartTime: ClientRuntime.Date? = nil,
+        replayStartTime: Foundation.Date? = nil,
         state: EventBridgeClientTypes.ReplayState? = nil,
         stateReason: Swift.String? = nil
     )
@@ -3541,7 +3543,7 @@ public struct DescribeReplayOutput {
 
 enum DescribeReplayOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3589,7 +3591,7 @@ public struct DescribeRuleInput {
 
 extension DescribeRuleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeRuleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeRuleOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3658,7 +3660,7 @@ public struct DescribeRuleOutput {
 
 enum DescribeRuleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3706,7 +3708,7 @@ public struct DisableRuleInput {
 
 extension DisableRuleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DisableRuleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DisableRuleOutput {
         return DisableRuleOutput()
     }
 }
@@ -3718,7 +3720,7 @@ public struct DisableRuleOutput {
 
 enum DisableRuleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3878,7 +3880,7 @@ public struct EnableRuleInput {
 
 extension EnableRuleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> EnableRuleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> EnableRuleOutput {
         return EnableRuleOutput()
     }
 }
@@ -3890,7 +3892,7 @@ public struct EnableRuleOutput {
 
 enum EnableRuleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3933,7 +3935,7 @@ extension EventBridgeClientTypes {
         /// The ARN of the endpoint.
         public var arn: Swift.String?
         /// The time the endpoint was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// A description for the endpoint.
         public var description: Swift.String?
         /// The URL subdomain of the endpoint. For example, if the URL for Endpoint is https://abcde.veo.endpoints.event.amazonaws.com, then the EndpointId is abcde.veo.
@@ -3943,7 +3945,7 @@ extension EventBridgeClientTypes {
         /// The event buses being used by the endpoint.
         public var eventBuses: [EventBridgeClientTypes.EndpointEventBus]?
         /// The last time the endpoint was modified.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// The name of the endpoint.
         public var name: Swift.String?
         /// Whether event replication was enabled or disabled for this endpoint. The default state is ENABLED which means you must supply a RoleArn. If you don't have a RoleArn or you don't want event replication enabled, set the state to DISABLED.
@@ -3959,12 +3961,12 @@ extension EventBridgeClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
             endpointId: Swift.String? = nil,
             endpointUrl: Swift.String? = nil,
             eventBuses: [EventBridgeClientTypes.EndpointEventBus]? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             replicationConfig: EventBridgeClientTypes.ReplicationConfig? = nil,
             roleArn: Swift.String? = nil,
@@ -4090,11 +4092,11 @@ extension EventBridgeClientTypes {
         /// The ARN of the event bus.
         public var arn: Swift.String?
         /// The time the event bus was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The event bus description.
         public var description: Swift.String?
         /// The time the event bus was last modified.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// The name of the event bus.
         public var name: Swift.String?
         /// The permissions policy of the event bus, describing which other Amazon Web Services accounts can write events to this event bus.
@@ -4102,9 +4104,9 @@ extension EventBridgeClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             policy: Swift.String? = nil
         )
@@ -4143,9 +4145,9 @@ extension EventBridgeClientTypes {
         /// The name of the partner that created the event source.
         public var createdBy: Swift.String?
         /// The date and time the event source was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The date and time that the event source will expire, if the Amazon Web Services account doesn't create a matching event bus for it.
-        public var expirationTime: ClientRuntime.Date?
+        public var expirationTime: Foundation.Date?
         /// The name of the event source.
         public var name: Swift.String?
         /// The state of the event source. If it is ACTIVE, you have already created a matching event bus for this event source, and that event bus is active. If it is PENDING, either you haven't yet created a matching event bus, or that event bus is deactivated. If it is DELETED, you have created a matching event bus, but the event source has since been deleted.
@@ -4154,8 +4156,8 @@ extension EventBridgeClientTypes {
         public init(
             arn: Swift.String? = nil,
             createdBy: Swift.String? = nil,
-            creationTime: ClientRuntime.Date? = nil,
-            expirationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
+            expirationTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             state: EventBridgeClientTypes.EventSourceState? = nil
         )
@@ -4649,7 +4651,7 @@ public struct ListApiDestinationsInput {
 
 extension ListApiDestinationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListApiDestinationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListApiDestinationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4678,7 +4680,7 @@ public struct ListApiDestinationsOutput {
 
 enum ListApiDestinationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4739,7 +4741,7 @@ public struct ListArchivesInput {
 
 extension ListArchivesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListArchivesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListArchivesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4768,7 +4770,7 @@ public struct ListArchivesOutput {
 
 enum ListArchivesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4825,7 +4827,7 @@ public struct ListConnectionsInput {
 
 extension ListConnectionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListConnectionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListConnectionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4854,7 +4856,7 @@ public struct ListConnectionsOutput {
 
 enum ListConnectionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4910,7 +4912,7 @@ public struct ListEndpointsInput {
 
 extension ListEndpointsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListEndpointsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListEndpointsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4939,7 +4941,7 @@ public struct ListEndpointsOutput {
 
 enum ListEndpointsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4990,7 +4992,7 @@ public struct ListEventBusesInput {
 
 extension ListEventBusesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListEventBusesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListEventBusesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5019,7 +5021,7 @@ public struct ListEventBusesOutput {
 
 enum ListEventBusesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5070,7 +5072,7 @@ public struct ListEventSourcesInput {
 
 extension ListEventSourcesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListEventSourcesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListEventSourcesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5099,7 +5101,7 @@ public struct ListEventSourcesOutput {
 
 enum ListEventSourcesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5152,7 +5154,7 @@ public struct ListPartnerEventSourceAccountsInput {
 
 extension ListPartnerEventSourceAccountsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPartnerEventSourceAccountsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPartnerEventSourceAccountsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5181,7 +5183,7 @@ public struct ListPartnerEventSourceAccountsOutput {
 
 enum ListPartnerEventSourceAccountsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5235,7 +5237,7 @@ public struct ListPartnerEventSourcesInput {
 
 extension ListPartnerEventSourcesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPartnerEventSourcesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPartnerEventSourcesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5264,7 +5266,7 @@ public struct ListPartnerEventSourcesOutput {
 
 enum ListPartnerEventSourcesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5326,7 +5328,7 @@ public struct ListReplaysInput {
 
 extension ListReplaysOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListReplaysOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListReplaysOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5355,7 +5357,7 @@ public struct ListReplaysOutput {
 
 enum ListReplaysOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5412,7 +5414,7 @@ public struct ListRuleNamesByTargetInput {
 
 extension ListRuleNamesByTargetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListRuleNamesByTargetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListRuleNamesByTargetOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5441,7 +5443,7 @@ public struct ListRuleNamesByTargetOutput {
 
 enum ListRuleNamesByTargetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5498,7 +5500,7 @@ public struct ListRulesInput {
 
 extension ListRulesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListRulesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListRulesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5527,7 +5529,7 @@ public struct ListRulesOutput {
 
 enum ListRulesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5570,7 +5572,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5594,7 +5596,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5652,7 +5654,7 @@ public struct ListTargetsByRuleInput {
 
 extension ListTargetsByRuleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTargetsByRuleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTargetsByRuleOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5681,7 +5683,7 @@ public struct ListTargetsByRuleOutput {
 
 enum ListTargetsByRuleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5849,16 +5851,16 @@ extension EventBridgeClientTypes {
         /// The Amazon Web Services account ID that the partner event source was offered to.
         public var account: Swift.String?
         /// The date and time the event source was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The date and time that the event source will expire, if the Amazon Web Services account doesn't create a matching event bus for it.
-        public var expirationTime: ClientRuntime.Date?
+        public var expirationTime: Foundation.Date?
         /// The state of the event source. If it is ACTIVE, you have already created a matching event bus for this event source, and that event bus is active. If it is PENDING, either you haven't yet created a matching event bus, or that event bus is deactivated. If it is DELETED, you have created a matching event bus, but the event source has since been deleted.
         public var state: EventBridgeClientTypes.EventSourceState?
 
         public init(
             account: Swift.String? = nil,
-            creationTime: ClientRuntime.Date? = nil,
-            expirationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
+            expirationTime: Foundation.Date? = nil,
             state: EventBridgeClientTypes.EventSourceState? = nil
         )
         {
@@ -6136,7 +6138,7 @@ public struct PutEventsInput {
 
 extension PutEventsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutEventsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutEventsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6165,7 +6167,7 @@ public struct PutEventsOutput {
 
 enum PutEventsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6205,7 +6207,7 @@ extension EventBridgeClientTypes {
         /// The source of the event. Detail, DetailType, and Source are required for EventBridge to successfully send an event to an event bus. If you include event entries in a request that do not include each of those properties, EventBridge fails that entry. If you submit a request in which none of the entries have each of these properties, EventBridge fails the entire request.
         public var source: Swift.String?
         /// The time stamp of the event, per [RFC3339](https://www.rfc-editor.org/rfc/rfc3339.txt). If no time stamp is provided, the time stamp of the [PutEvents](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_PutEvents.html) call is used.
-        public var time: ClientRuntime.Date?
+        public var time: Foundation.Date?
         /// An X-Ray trace header, which is an http header (X-Amzn-Trace-Id) that contains the trace-id associated with the event. To learn more about X-Ray trace headers, see [Tracing header](https://docs.aws.amazon.com/xray/latest/devguide/xray-concepts.html#xray-concepts-tracingheader) in the X-Ray Developer Guide.
         public var traceHeader: Swift.String?
 
@@ -6215,7 +6217,7 @@ extension EventBridgeClientTypes {
             eventBusName: Swift.String? = nil,
             resources: [Swift.String]? = nil,
             source: Swift.String? = nil,
-            time: ClientRuntime.Date? = nil,
+            time: Foundation.Date? = nil,
             traceHeader: Swift.String? = nil
         )
         {
@@ -6318,7 +6320,7 @@ public struct PutPartnerEventsInput {
 
 extension PutPartnerEventsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutPartnerEventsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutPartnerEventsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6347,7 +6349,7 @@ public struct PutPartnerEventsOutput {
 
 enum PutPartnerEventsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6384,14 +6386,14 @@ extension EventBridgeClientTypes {
         /// The event source that is generating the entry. Detail, DetailType, and Source are required for EventBridge to successfully send an event to an event bus. If you include event entries in a request that do not include each of those properties, EventBridge fails that entry. If you submit a request in which none of the entries have each of these properties, EventBridge fails the entire request.
         public var source: Swift.String?
         /// The date and time of the event.
-        public var time: ClientRuntime.Date?
+        public var time: Foundation.Date?
 
         public init(
             detail: Swift.String? = nil,
             detailType: Swift.String? = nil,
             resources: [Swift.String]? = nil,
             source: Swift.String? = nil,
-            time: ClientRuntime.Date? = nil
+            time: Foundation.Date? = nil
         )
         {
             self.detail = detail
@@ -6494,7 +6496,7 @@ public struct PutPermissionInput {
 
 extension PutPermissionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutPermissionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutPermissionOutput {
         return PutPermissionOutput()
     }
 }
@@ -6506,7 +6508,7 @@ public struct PutPermissionOutput {
 
 enum PutPermissionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6593,7 +6595,7 @@ public struct PutRuleInput {
 
 extension PutRuleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutRuleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutRuleOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6617,7 +6619,7 @@ public struct PutRuleOutput {
 
 enum PutRuleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6675,7 +6677,7 @@ public struct PutTargetsInput {
 
 extension PutTargetsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutTargetsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutTargetsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6704,7 +6706,7 @@ public struct PutTargetsOutput {
 
 enum PutTargetsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6868,7 +6870,7 @@ public struct RemovePermissionInput {
 
 extension RemovePermissionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RemovePermissionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RemovePermissionOutput {
         return RemovePermissionOutput()
     }
 }
@@ -6880,7 +6882,7 @@ public struct RemovePermissionOutput {
 
 enum RemovePermissionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6941,7 +6943,7 @@ public struct RemoveTargetsInput {
 
 extension RemoveTargetsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RemoveTargetsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RemoveTargetsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6970,7 +6972,7 @@ public struct RemoveTargetsOutput {
 
 enum RemoveTargetsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7043,32 +7045,32 @@ extension EventBridgeClientTypes {
     /// A Replay object that contains details about a replay.
     public struct Replay {
         /// A time stamp for the time to start replaying events. Any event with a creation time prior to the EventEndTime specified is replayed.
-        public var eventEndTime: ClientRuntime.Date?
+        public var eventEndTime: Foundation.Date?
         /// A time stamp for the time that the last event was replayed.
-        public var eventLastReplayedTime: ClientRuntime.Date?
+        public var eventLastReplayedTime: Foundation.Date?
         /// The ARN of the archive to replay event from.
         public var eventSourceArn: Swift.String?
         /// A time stamp for the time to start replaying events. This is determined by the time in the event as described in [Time](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_PutEventsRequestEntry.html#eventbridge-Type-PutEventsRequestEntry-Time).
-        public var eventStartTime: ClientRuntime.Date?
+        public var eventStartTime: Foundation.Date?
         /// A time stamp for the time that the replay completed.
-        public var replayEndTime: ClientRuntime.Date?
+        public var replayEndTime: Foundation.Date?
         /// The name of the replay.
         public var replayName: Swift.String?
         /// A time stamp for the time that the replay started.
-        public var replayStartTime: ClientRuntime.Date?
+        public var replayStartTime: Foundation.Date?
         /// The current state of the replay.
         public var state: EventBridgeClientTypes.ReplayState?
         /// A description of why the replay is in the current state.
         public var stateReason: Swift.String?
 
         public init(
-            eventEndTime: ClientRuntime.Date? = nil,
-            eventLastReplayedTime: ClientRuntime.Date? = nil,
+            eventEndTime: Foundation.Date? = nil,
+            eventLastReplayedTime: Foundation.Date? = nil,
             eventSourceArn: Swift.String? = nil,
-            eventStartTime: ClientRuntime.Date? = nil,
-            replayEndTime: ClientRuntime.Date? = nil,
+            eventStartTime: Foundation.Date? = nil,
+            replayEndTime: Foundation.Date? = nil,
             replayName: Swift.String? = nil,
-            replayStartTime: ClientRuntime.Date? = nil,
+            replayStartTime: Foundation.Date? = nil,
             state: EventBridgeClientTypes.ReplayState? = nil,
             stateReason: Swift.String? = nil
         )
@@ -7705,13 +7707,13 @@ public struct StartReplayInput {
     public var destination: EventBridgeClientTypes.ReplayDestination?
     /// A time stamp for the time to stop replaying events. Only events that occurred between the EventStartTime and EventEndTime are replayed.
     /// This member is required.
-    public var eventEndTime: ClientRuntime.Date?
+    public var eventEndTime: Foundation.Date?
     /// The ARN of the archive to replay events from.
     /// This member is required.
     public var eventSourceArn: Swift.String?
     /// A time stamp for the time to start replaying events. Only events that occurred between the EventStartTime and EventEndTime are replayed.
     /// This member is required.
-    public var eventStartTime: ClientRuntime.Date?
+    public var eventStartTime: Foundation.Date?
     /// The name of the replay to start.
     /// This member is required.
     public var replayName: Swift.String?
@@ -7719,9 +7721,9 @@ public struct StartReplayInput {
     public init(
         description: Swift.String? = nil,
         destination: EventBridgeClientTypes.ReplayDestination? = nil,
-        eventEndTime: ClientRuntime.Date? = nil,
+        eventEndTime: Foundation.Date? = nil,
         eventSourceArn: Swift.String? = nil,
-        eventStartTime: ClientRuntime.Date? = nil,
+        eventStartTime: Foundation.Date? = nil,
         replayName: Swift.String? = nil
     )
     {
@@ -7736,7 +7738,7 @@ public struct StartReplayInput {
 
 extension StartReplayOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartReplayOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartReplayOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7753,7 +7755,7 @@ public struct StartReplayOutput {
     /// The ARN of the replay.
     public var replayArn: Swift.String?
     /// The time at which the replay started.
-    public var replayStartTime: ClientRuntime.Date?
+    public var replayStartTime: Foundation.Date?
     /// The state of the replay.
     public var state: EventBridgeClientTypes.ReplayState?
     /// The reason that the replay is in the state.
@@ -7761,7 +7763,7 @@ public struct StartReplayOutput {
 
     public init(
         replayArn: Swift.String? = nil,
-        replayStartTime: ClientRuntime.Date? = nil,
+        replayStartTime: Foundation.Date? = nil,
         state: EventBridgeClientTypes.ReplayState? = nil,
         stateReason: Swift.String? = nil
     )
@@ -7775,7 +7777,7 @@ public struct StartReplayOutput {
 
 enum StartReplayOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7866,7 +7868,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -7878,7 +7880,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8072,7 +8074,7 @@ public struct TestEventPatternInput {
 
 extension TestEventPatternOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TestEventPatternOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TestEventPatternOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8096,7 +8098,7 @@ public struct TestEventPatternOutput {
 
 enum TestEventPatternOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8145,7 +8147,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -8157,7 +8159,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8227,7 +8229,7 @@ public struct UpdateApiDestinationInput {
 
 extension UpdateApiDestinationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateApiDestinationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateApiDestinationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8246,15 +8248,15 @@ public struct UpdateApiDestinationOutput {
     /// The state of the API destination that was updated.
     public var apiDestinationState: EventBridgeClientTypes.ApiDestinationState?
     /// A time stamp for the time that the API destination was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// A time stamp for the time that the API destination was last modified.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
 
     public init(
         apiDestinationArn: Swift.String? = nil,
         apiDestinationState: EventBridgeClientTypes.ApiDestinationState? = nil,
-        creationTime: ClientRuntime.Date? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil
+        creationTime: Foundation.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil
     )
     {
         self.apiDestinationArn = apiDestinationArn
@@ -8266,7 +8268,7 @@ public struct UpdateApiDestinationOutput {
 
 enum UpdateApiDestinationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8326,7 +8328,7 @@ public struct UpdateArchiveInput {
 
 extension UpdateArchiveOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateArchiveOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateArchiveOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8343,7 +8345,7 @@ public struct UpdateArchiveOutput {
     /// The ARN of the archive.
     public var archiveArn: Swift.String?
     /// The time at which the archive was updated.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The state of the archive.
     public var state: EventBridgeClientTypes.ArchiveState?
     /// The reason that the archive is in the current state.
@@ -8351,7 +8353,7 @@ public struct UpdateArchiveOutput {
 
     public init(
         archiveArn: Swift.String? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         state: EventBridgeClientTypes.ArchiveState? = nil,
         stateReason: Swift.String? = nil
     )
@@ -8365,7 +8367,7 @@ public struct UpdateArchiveOutput {
 
 enum UpdateArchiveOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8606,7 +8608,7 @@ extension EventBridgeClientTypes {
 
 extension UpdateConnectionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateConnectionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateConnectionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8626,18 +8628,18 @@ public struct UpdateConnectionOutput {
     /// The state of the connection that was updated.
     public var connectionState: EventBridgeClientTypes.ConnectionState?
     /// A time stamp for the time that the connection was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// A time stamp for the time that the connection was last authorized.
-    public var lastAuthorizedTime: ClientRuntime.Date?
+    public var lastAuthorizedTime: Foundation.Date?
     /// A time stamp for the time that the connection was last modified.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
 
     public init(
         connectionArn: Swift.String? = nil,
         connectionState: EventBridgeClientTypes.ConnectionState? = nil,
-        creationTime: ClientRuntime.Date? = nil,
-        lastAuthorizedTime: ClientRuntime.Date? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil
+        creationTime: Foundation.Date? = nil,
+        lastAuthorizedTime: Foundation.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil
     )
     {
         self.connectionArn = connectionArn
@@ -8650,7 +8652,7 @@ public struct UpdateConnectionOutput {
 
 enum UpdateConnectionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8720,7 +8722,7 @@ public struct UpdateEndpointInput {
 
 extension UpdateEndpointOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateEndpointOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateEndpointOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8784,7 +8786,7 @@ public struct UpdateEndpointOutput {
 
 enum UpdateEndpointOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8851,7 +8853,7 @@ public struct UpdateEventBusInput {
 
 extension UpdateEventBusOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateEventBusOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateEventBusOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8895,7 +8897,7 @@ public struct UpdateEventBusOutput {
 
 enum UpdateEventBusOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

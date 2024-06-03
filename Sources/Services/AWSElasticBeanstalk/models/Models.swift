@@ -2,7 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
 import SmithyFormURL
+import SmithyHTTPAPI
 import SmithyReadWrite
 import SmithyXML
 
@@ -43,7 +45,7 @@ public struct AbortEnvironmentUpdateInput {
 
 extension AbortEnvironmentUpdateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AbortEnvironmentUpdateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AbortEnvironmentUpdateOutput {
         return AbortEnvironmentUpdateOutput()
     }
 }
@@ -55,7 +57,7 @@ public struct AbortEnvironmentUpdateOutput {
 
 enum AbortEnvironmentUpdateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -193,9 +195,9 @@ extension ElasticBeanstalkClientTypes {
         /// The names of the configuration templates associated with this application.
         public var configurationTemplates: [Swift.String]?
         /// The date when the application was created.
-        public var dateCreated: ClientRuntime.Date?
+        public var dateCreated: Foundation.Date?
         /// The date when the application was last modified.
-        public var dateUpdated: ClientRuntime.Date?
+        public var dateUpdated: Foundation.Date?
         /// User-defined description of the application.
         public var description: Swift.String?
         /// The lifecycle settings for the application.
@@ -207,8 +209,8 @@ extension ElasticBeanstalkClientTypes {
             applicationArn: Swift.String? = nil,
             applicationName: Swift.String? = nil,
             configurationTemplates: [Swift.String]? = nil,
-            dateCreated: ClientRuntime.Date? = nil,
-            dateUpdated: ClientRuntime.Date? = nil,
+            dateCreated: Foundation.Date? = nil,
+            dateUpdated: Foundation.Date? = nil,
             description: Swift.String? = nil,
             resourceLifecycleConfig: ElasticBeanstalkClientTypes.ApplicationResourceLifecycleConfig? = nil,
             versions: [Swift.String]? = nil
@@ -334,9 +336,9 @@ extension ElasticBeanstalkClientTypes {
         /// Reference to the artifact from the AWS CodeBuild build.
         public var buildArn: Swift.String?
         /// The creation date of the application version.
-        public var dateCreated: ClientRuntime.Date?
+        public var dateCreated: Foundation.Date?
         /// The last modified date of the application version.
-        public var dateUpdated: ClientRuntime.Date?
+        public var dateUpdated: Foundation.Date?
         /// The description of the application version.
         public var description: Swift.String?
         /// If the version's source code was retrieved from AWS CodeCommit, the location of the source code for the application version.
@@ -362,8 +364,8 @@ extension ElasticBeanstalkClientTypes {
             applicationName: Swift.String? = nil,
             applicationVersionArn: Swift.String? = nil,
             buildArn: Swift.String? = nil,
-            dateCreated: ClientRuntime.Date? = nil,
-            dateUpdated: ClientRuntime.Date? = nil,
+            dateCreated: Foundation.Date? = nil,
+            dateUpdated: Foundation.Date? = nil,
             description: Swift.String? = nil,
             sourceBuildInformation: ElasticBeanstalkClientTypes.SourceBuildInformation? = nil,
             sourceBundle: ElasticBeanstalkClientTypes.S3Location? = nil,
@@ -504,7 +506,7 @@ public struct ApplyEnvironmentManagedActionInput {
 
 extension ApplyEnvironmentManagedActionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ApplyEnvironmentManagedActionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ApplyEnvironmentManagedActionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ApplyEnvironmentManagedActionResult"]
@@ -544,7 +546,7 @@ public struct ApplyEnvironmentManagedActionOutput {
 
 enum ApplyEnvironmentManagedActionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -596,7 +598,7 @@ public struct AssociateEnvironmentOperationsRoleInput {
 
 extension AssociateEnvironmentOperationsRoleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AssociateEnvironmentOperationsRoleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AssociateEnvironmentOperationsRoleOutput {
         return AssociateEnvironmentOperationsRoleOutput()
     }
 }
@@ -608,7 +610,7 @@ public struct AssociateEnvironmentOperationsRoleOutput {
 
 enum AssociateEnvironmentOperationsRoleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -818,7 +820,7 @@ public struct CheckDNSAvailabilityInput {
 
 extension CheckDNSAvailabilityOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CheckDNSAvailabilityOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CheckDNSAvailabilityOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CheckDNSAvailabilityResult"]
@@ -852,7 +854,7 @@ public struct CheckDNSAvailabilityOutput {
 
 enum CheckDNSAvailabilityOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -943,7 +945,7 @@ public struct ComposeEnvironmentsInput {
 
 extension ComposeEnvironmentsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ComposeEnvironmentsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ComposeEnvironmentsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ComposeEnvironmentsResult"]
@@ -973,7 +975,7 @@ public struct ComposeEnvironmentsOutput {
 
 enum ComposeEnvironmentsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1250,9 +1252,9 @@ extension ElasticBeanstalkClientTypes {
         /// The name of the application associated with this configuration set.
         public var applicationName: Swift.String?
         /// The date (in UTC time) when this configuration set was created.
-        public var dateCreated: ClientRuntime.Date?
+        public var dateCreated: Foundation.Date?
         /// The date (in UTC time) when this configuration set was last modified.
-        public var dateUpdated: ClientRuntime.Date?
+        public var dateUpdated: Foundation.Date?
         /// If this configuration set is associated with an environment, the DeploymentStatus parameter indicates the deployment status of this configuration set:
         ///
         /// * null: This configuration is not associated with a running environment.
@@ -1278,8 +1280,8 @@ extension ElasticBeanstalkClientTypes {
 
         public init(
             applicationName: Swift.String? = nil,
-            dateCreated: ClientRuntime.Date? = nil,
-            dateUpdated: ClientRuntime.Date? = nil,
+            dateCreated: Foundation.Date? = nil,
+            dateUpdated: Foundation.Date? = nil,
             deploymentStatus: ElasticBeanstalkClientTypes.ConfigurationDeploymentStatus? = nil,
             description: Swift.String? = nil,
             environmentName: Swift.String? = nil,
@@ -1352,7 +1354,7 @@ public struct CreateApplicationInput {
 
 extension CreateApplicationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateApplicationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateApplicationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateApplicationResult"]
@@ -1377,7 +1379,7 @@ public struct CreateApplicationOutput {
 
 enum CreateApplicationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1463,7 +1465,7 @@ public struct CreateApplicationVersionInput {
 
 extension CreateApplicationVersionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateApplicationVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateApplicationVersionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateApplicationVersionResult"]
@@ -1488,7 +1490,7 @@ public struct CreateApplicationVersionOutput {
 
 enum CreateApplicationVersionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1578,7 +1580,7 @@ public struct CreateConfigurationTemplateInput {
 
 extension CreateConfigurationTemplateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateConfigurationTemplateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateConfigurationTemplateOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateConfigurationTemplateResult"]
@@ -1602,9 +1604,9 @@ public struct CreateConfigurationTemplateOutput {
     /// The name of the application associated with this configuration set.
     public var applicationName: Swift.String?
     /// The date (in UTC time) when this configuration set was created.
-    public var dateCreated: ClientRuntime.Date?
+    public var dateCreated: Foundation.Date?
     /// The date (in UTC time) when this configuration set was last modified.
-    public var dateUpdated: ClientRuntime.Date?
+    public var dateUpdated: Foundation.Date?
     /// If this configuration set is associated with an environment, the DeploymentStatus parameter indicates the deployment status of this configuration set:
     ///
     /// * null: This configuration is not associated with a running environment.
@@ -1630,8 +1632,8 @@ public struct CreateConfigurationTemplateOutput {
 
     public init(
         applicationName: Swift.String? = nil,
-        dateCreated: ClientRuntime.Date? = nil,
-        dateUpdated: ClientRuntime.Date? = nil,
+        dateCreated: Foundation.Date? = nil,
+        dateUpdated: Foundation.Date? = nil,
         deploymentStatus: ElasticBeanstalkClientTypes.ConfigurationDeploymentStatus? = nil,
         description: Swift.String? = nil,
         environmentName: Swift.String? = nil,
@@ -1656,7 +1658,7 @@ public struct CreateConfigurationTemplateOutput {
 
 enum CreateConfigurationTemplateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1768,7 +1770,7 @@ public struct CreateEnvironmentInput {
 
 extension CreateEnvironmentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateEnvironmentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateEnvironmentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateEnvironmentResult"]
@@ -1807,9 +1809,9 @@ public struct CreateEnvironmentOutput {
     /// The URL to the CNAME for this environment.
     public var cname: Swift.String?
     /// The creation date for this environment.
-    public var dateCreated: ClientRuntime.Date?
+    public var dateCreated: Foundation.Date?
     /// The last modified date for this environment.
-    public var dateUpdated: ClientRuntime.Date?
+    public var dateUpdated: Foundation.Date?
     /// Describes this environment.
     public var description: Swift.String?
     /// For load-balanced, autoscaling environments, the URL to the LoadBalancer. For single-instance environments, the IP address of the instance.
@@ -1868,8 +1870,8 @@ public struct CreateEnvironmentOutput {
         abortableOperationInProgress: Swift.Bool? = nil,
         applicationName: Swift.String? = nil,
         cname: Swift.String? = nil,
-        dateCreated: ClientRuntime.Date? = nil,
-        dateUpdated: ClientRuntime.Date? = nil,
+        dateCreated: Foundation.Date? = nil,
+        dateUpdated: Foundation.Date? = nil,
         description: Swift.String? = nil,
         endpointURL: Swift.String? = nil,
         environmentArn: Swift.String? = nil,
@@ -1914,7 +1916,7 @@ public struct CreateEnvironmentOutput {
 
 enum CreateEnvironmentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1987,7 +1989,7 @@ public struct CreatePlatformVersionInput {
 
 extension CreatePlatformVersionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreatePlatformVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreatePlatformVersionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreatePlatformVersionResult"]
@@ -2016,7 +2018,7 @@ public struct CreatePlatformVersionOutput {
 
 enum CreatePlatformVersionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2054,7 +2056,7 @@ public struct CreateStorageLocationInput {
 
 extension CreateStorageLocationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateStorageLocationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateStorageLocationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateStorageLocationResult"]
@@ -2079,7 +2081,7 @@ public struct CreateStorageLocationOutput {
 
 enum CreateStorageLocationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2162,7 +2164,7 @@ public struct DeleteApplicationInput {
 
 extension DeleteApplicationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteApplicationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteApplicationOutput {
         return DeleteApplicationOutput()
     }
 }
@@ -2174,7 +2176,7 @@ public struct DeleteApplicationOutput {
 
 enum DeleteApplicationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2230,7 +2232,7 @@ public struct DeleteApplicationVersionInput {
 
 extension DeleteApplicationVersionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteApplicationVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteApplicationVersionOutput {
         return DeleteApplicationVersionOutput()
     }
 }
@@ -2242,7 +2244,7 @@ public struct DeleteApplicationVersionOutput {
 
 enum DeleteApplicationVersionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2296,7 +2298,7 @@ public struct DeleteConfigurationTemplateInput {
 
 extension DeleteConfigurationTemplateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteConfigurationTemplateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteConfigurationTemplateOutput {
         return DeleteConfigurationTemplateOutput()
     }
 }
@@ -2308,7 +2310,7 @@ public struct DeleteConfigurationTemplateOutput {
 
 enum DeleteConfigurationTemplateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2359,7 +2361,7 @@ public struct DeleteEnvironmentConfigurationInput {
 
 extension DeleteEnvironmentConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteEnvironmentConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteEnvironmentConfigurationOutput {
         return DeleteEnvironmentConfigurationOutput()
     }
 }
@@ -2371,7 +2373,7 @@ public struct DeleteEnvironmentConfigurationOutput {
 
 enum DeleteEnvironmentConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2413,7 +2415,7 @@ public struct DeletePlatformVersionInput {
 
 extension DeletePlatformVersionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeletePlatformVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeletePlatformVersionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DeletePlatformVersionResult"]
@@ -2437,7 +2439,7 @@ public struct DeletePlatformVersionOutput {
 
 enum DeletePlatformVersionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2471,7 +2473,7 @@ extension ElasticBeanstalkClientTypes {
         /// The ID of the deployment. This number increases by one each time that you deploy source code or change instance configuration settings.
         public var deploymentId: Swift.Int?
         /// For in-progress deployments, the time that the deployment started. For completed deployments, the time that the deployment ended.
-        public var deploymentTime: ClientRuntime.Date?
+        public var deploymentTime: Foundation.Date?
         /// The status of the deployment:
         ///
         /// * In Progress : The deployment is in progress.
@@ -2485,7 +2487,7 @@ extension ElasticBeanstalkClientTypes {
 
         public init(
             deploymentId: Swift.Int? = nil,
-            deploymentTime: ClientRuntime.Date? = nil,
+            deploymentTime: Foundation.Date? = nil,
             status: Swift.String? = nil,
             versionLabel: Swift.String? = nil
         )
@@ -2523,7 +2525,7 @@ public struct DescribeAccountAttributesInput {
 
 extension DescribeAccountAttributesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeAccountAttributesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeAccountAttributesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeAccountAttributesResult"]
@@ -2547,7 +2549,7 @@ public struct DescribeAccountAttributesOutput {
 
 enum DescribeAccountAttributesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2606,7 +2608,7 @@ public struct DescribeApplicationVersionsInput {
 
 extension DescribeApplicationVersionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeApplicationVersionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeApplicationVersionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeApplicationVersionsResult"]
@@ -2636,7 +2638,7 @@ public struct DescribeApplicationVersionsOutput {
 
 enum DescribeApplicationVersionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2679,7 +2681,7 @@ public struct DescribeApplicationsInput {
 
 extension DescribeApplicationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeApplicationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeApplicationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeApplicationsResult"]
@@ -2704,7 +2706,7 @@ public struct DescribeApplicationsOutput {
 
 enum DescribeApplicationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2772,7 +2774,7 @@ public struct DescribeConfigurationOptionsInput {
 
 extension DescribeConfigurationOptionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeConfigurationOptionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeConfigurationOptionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeConfigurationOptionsResult"]
@@ -2807,7 +2809,7 @@ public struct DescribeConfigurationOptionsOutput {
 
 enum DescribeConfigurationOptionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2862,7 +2864,7 @@ public struct DescribeConfigurationSettingsInput {
 
 extension DescribeConfigurationSettingsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeConfigurationSettingsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeConfigurationSettingsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeConfigurationSettingsResult"]
@@ -2887,7 +2889,7 @@ public struct DescribeConfigurationSettingsOutput {
 
 enum DescribeConfigurationSettingsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2941,7 +2943,7 @@ public struct DescribeEnvironmentHealthInput {
 
 extension DescribeEnvironmentHealthOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeEnvironmentHealthOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeEnvironmentHealthOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeEnvironmentHealthResult"]
@@ -2973,7 +2975,7 @@ public struct DescribeEnvironmentHealthOutput {
     /// Summary health information for the instances in the environment.
     public var instancesHealth: ElasticBeanstalkClientTypes.InstanceHealthSummary?
     /// The date and time that the health information was retrieved.
-    public var refreshedAt: ClientRuntime.Date?
+    public var refreshedAt: Foundation.Date?
     /// The environment's operational status. Ready, Launching, Updating, Terminating, or Terminated.
     public var status: ElasticBeanstalkClientTypes.EnvironmentHealth?
 
@@ -2984,7 +2986,7 @@ public struct DescribeEnvironmentHealthOutput {
         environmentName: Swift.String? = nil,
         healthStatus: Swift.String? = nil,
         instancesHealth: ElasticBeanstalkClientTypes.InstanceHealthSummary? = nil,
-        refreshedAt: ClientRuntime.Date? = nil,
+        refreshedAt: Foundation.Date? = nil,
         status: ElasticBeanstalkClientTypes.EnvironmentHealth? = nil
     )
     {
@@ -3001,7 +3003,7 @@ public struct DescribeEnvironmentHealthOutput {
 
 enum DescribeEnvironmentHealthOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3061,7 +3063,7 @@ public struct DescribeEnvironmentManagedActionHistoryInput {
 
 extension DescribeEnvironmentManagedActionHistoryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeEnvironmentManagedActionHistoryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeEnvironmentManagedActionHistoryOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeEnvironmentManagedActionHistoryResult"]
@@ -3091,7 +3093,7 @@ public struct DescribeEnvironmentManagedActionHistoryOutput {
 
 enum DescribeEnvironmentManagedActionHistoryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3145,7 +3147,7 @@ public struct DescribeEnvironmentManagedActionsInput {
 
 extension DescribeEnvironmentManagedActionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeEnvironmentManagedActionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeEnvironmentManagedActionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeEnvironmentManagedActionsResult"]
@@ -3170,7 +3172,7 @@ public struct DescribeEnvironmentManagedActionsOutput {
 
 enum DescribeEnvironmentManagedActionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3219,7 +3221,7 @@ public struct DescribeEnvironmentResourcesInput {
 
 extension DescribeEnvironmentResourcesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeEnvironmentResourcesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeEnvironmentResourcesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeEnvironmentResourcesResult"]
@@ -3244,7 +3246,7 @@ public struct DescribeEnvironmentResourcesOutput {
 
 enum DescribeEnvironmentResourcesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3291,7 +3293,7 @@ public struct DescribeEnvironmentsInput {
     /// Indicates whether to include deleted environments: true: Environments that have been deleted after IncludedDeletedBackTo are displayed. false: Do not include deleted environments.
     public var includeDeleted: Swift.Bool?
     /// If specified when IncludeDeleted is set to true, then environments deleted after this date are displayed.
-    public var includedDeletedBackTo: ClientRuntime.Date?
+    public var includedDeletedBackTo: Foundation.Date?
     /// For a paginated request. Specify a maximum number of environments to include in each response. If no MaxRecords is specified, all available environments are retrieved in a single response.
     public var maxRecords: Swift.Int?
     /// For a paginated request. Specify a token from a previous response page to retrieve the next response page. All other parameter values must be identical to the ones specified in the initial request. If no NextToken is specified, the first page is retrieved.
@@ -3304,7 +3306,7 @@ public struct DescribeEnvironmentsInput {
         environmentIds: [Swift.String]? = nil,
         environmentNames: [Swift.String]? = nil,
         includeDeleted: Swift.Bool? = nil,
-        includedDeletedBackTo: ClientRuntime.Date? = nil,
+        includedDeletedBackTo: Foundation.Date? = nil,
         maxRecords: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         versionLabel: Swift.String? = nil
@@ -3323,7 +3325,7 @@ public struct DescribeEnvironmentsInput {
 
 extension DescribeEnvironmentsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeEnvironmentsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeEnvironmentsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeEnvironmentsResult"]
@@ -3353,7 +3355,7 @@ public struct DescribeEnvironmentsOutput {
 
 enum DescribeEnvironmentsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3397,7 +3399,7 @@ public struct DescribeEventsInput {
     /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those associated with this application.
     public var applicationName: Swift.String?
     /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to those that occur up to, but not including, the EndTime.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to those associated with this environment.
     public var environmentId: Swift.String?
     /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to those associated with this environment.
@@ -3413,7 +3415,7 @@ public struct DescribeEventsInput {
     /// If specified, limits the events returned from this call to include only those with the specified severity or higher.
     public var severity: ElasticBeanstalkClientTypes.EventSeverity?
     /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to those that occur on or after this time.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
     /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to those that are associated with this environment configuration.
     public var templateName: Swift.String?
     /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to those associated with this application version.
@@ -3421,7 +3423,7 @@ public struct DescribeEventsInput {
 
     public init(
         applicationName: Swift.String? = nil,
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         environmentId: Swift.String? = nil,
         environmentName: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
@@ -3429,7 +3431,7 @@ public struct DescribeEventsInput {
         platformArn: Swift.String? = nil,
         requestId: Swift.String? = nil,
         severity: ElasticBeanstalkClientTypes.EventSeverity? = nil,
-        startTime: ClientRuntime.Date? = nil,
+        startTime: Foundation.Date? = nil,
         templateName: Swift.String? = nil,
         versionLabel: Swift.String? = nil
     )
@@ -3451,7 +3453,7 @@ public struct DescribeEventsInput {
 
 extension DescribeEventsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeEventsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeEventsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeEventsResult"]
@@ -3481,7 +3483,7 @@ public struct DescribeEventsOutput {
 
 enum DescribeEventsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3539,7 +3541,7 @@ public struct DescribeInstancesHealthInput {
 
 extension DescribeInstancesHealthOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeInstancesHealthOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeInstancesHealthOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeInstancesHealthResult"]
@@ -3558,12 +3560,12 @@ public struct DescribeInstancesHealthOutput {
     /// Pagination token for the next page of results, if available.
     public var nextToken: Swift.String?
     /// The date and time that the health information was retrieved.
-    public var refreshedAt: ClientRuntime.Date?
+    public var refreshedAt: Foundation.Date?
 
     public init(
         instanceHealthList: [ElasticBeanstalkClientTypes.SingleInstanceHealth]? = nil,
         nextToken: Swift.String? = nil,
-        refreshedAt: ClientRuntime.Date? = nil
+        refreshedAt: Foundation.Date? = nil
     )
     {
         self.instanceHealthList = instanceHealthList
@@ -3574,7 +3576,7 @@ public struct DescribeInstancesHealthOutput {
 
 enum DescribeInstancesHealthOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3618,7 +3620,7 @@ public struct DescribePlatformVersionInput {
 
 extension DescribePlatformVersionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribePlatformVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribePlatformVersionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribePlatformVersionResult"]
@@ -3642,7 +3644,7 @@ public struct DescribePlatformVersionOutput {
 
 enum DescribePlatformVersionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3688,7 +3690,7 @@ public struct DisassociateEnvironmentOperationsRoleInput {
 
 extension DisassociateEnvironmentOperationsRoleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DisassociateEnvironmentOperationsRoleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DisassociateEnvironmentOperationsRoleOutput {
         return DisassociateEnvironmentOperationsRoleOutput()
     }
 }
@@ -3700,7 +3702,7 @@ public struct DisassociateEnvironmentOperationsRoleOutput {
 
 enum DisassociateEnvironmentOperationsRoleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3792,9 +3794,9 @@ extension ElasticBeanstalkClientTypes {
         /// The URL to the CNAME for this environment.
         public var cname: Swift.String?
         /// The creation date for this environment.
-        public var dateCreated: ClientRuntime.Date?
+        public var dateCreated: Foundation.Date?
         /// The last modified date for this environment.
-        public var dateUpdated: ClientRuntime.Date?
+        public var dateUpdated: Foundation.Date?
         /// Describes this environment.
         public var description: Swift.String?
         /// For load-balanced, autoscaling environments, the URL to the LoadBalancer. For single-instance environments, the IP address of the instance.
@@ -3853,8 +3855,8 @@ extension ElasticBeanstalkClientTypes {
             abortableOperationInProgress: Swift.Bool? = nil,
             applicationName: Swift.String? = nil,
             cname: Swift.String? = nil,
-            dateCreated: ClientRuntime.Date? = nil,
-            dateUpdated: ClientRuntime.Date? = nil,
+            dateCreated: Foundation.Date? = nil,
+            dateUpdated: Foundation.Date? = nil,
             description: Swift.String? = nil,
             endpointURL: Swift.String? = nil,
             environmentArn: Swift.String? = nil,
@@ -4054,13 +4056,13 @@ extension ElasticBeanstalkClientTypes {
         /// The retrieved information. Currently contains a presigned Amazon S3 URL. The files are deleted after 15 minutes. Anyone in possession of this URL can access the files before they are deleted. Make the URL available only to trusted parties.
         public var message: Swift.String?
         /// The time stamp when this information was retrieved.
-        public var sampleTimestamp: ClientRuntime.Date?
+        public var sampleTimestamp: Foundation.Date?
 
         public init(
             ec2InstanceId: Swift.String? = nil,
             infoType: ElasticBeanstalkClientTypes.EnvironmentInfoType? = nil,
             message: Swift.String? = nil,
-            sampleTimestamp: ClientRuntime.Date? = nil
+            sampleTimestamp: Foundation.Date? = nil
         )
         {
             self.ec2InstanceId = ec2InstanceId
@@ -4343,7 +4345,7 @@ extension ElasticBeanstalkClientTypes {
         /// The name of the environment associated with this event.
         public var environmentName: Swift.String?
         /// The date when the event occurred.
-        public var eventDate: ClientRuntime.Date?
+        public var eventDate: Foundation.Date?
         /// The event message.
         public var message: Swift.String?
         /// The ARN of the platform version.
@@ -4360,7 +4362,7 @@ extension ElasticBeanstalkClientTypes {
         public init(
             applicationName: Swift.String? = nil,
             environmentName: Swift.String? = nil,
-            eventDate: ClientRuntime.Date? = nil,
+            eventDate: Foundation.Date? = nil,
             message: Swift.String? = nil,
             platformArn: Swift.String? = nil,
             requestId: Swift.String? = nil,
@@ -4824,7 +4826,7 @@ public struct ListAvailableSolutionStacksInput {
 
 extension ListAvailableSolutionStacksOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAvailableSolutionStacksOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAvailableSolutionStacksOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListAvailableSolutionStacksResult"]
@@ -4854,7 +4856,7 @@ public struct ListAvailableSolutionStacksOutput {
 
 enum ListAvailableSolutionStacksOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4941,7 +4943,7 @@ public struct ListPlatformBranchesInput {
 
 extension ListPlatformBranchesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPlatformBranchesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPlatformBranchesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListPlatformBranchesResult"]
@@ -4970,7 +4972,7 @@ public struct ListPlatformBranchesOutput {
 
 enum ListPlatformBranchesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5022,7 +5024,7 @@ public struct ListPlatformVersionsInput {
 
 extension ListPlatformVersionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPlatformVersionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPlatformVersionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListPlatformVersionsResult"]
@@ -5051,7 +5053,7 @@ public struct ListPlatformVersionsOutput {
 
 enum ListPlatformVersionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5096,7 +5098,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListTagsForResourceResult"]
@@ -5125,7 +5127,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5258,14 +5260,14 @@ extension ElasticBeanstalkClientTypes {
         /// The status of the managed action. If the action is Scheduled, you can apply it immediately with [ApplyEnvironmentManagedAction].
         public var status: ElasticBeanstalkClientTypes.ActionStatus?
         /// The start time of the maintenance window in which the managed action will execute.
-        public var windowStartTime: ClientRuntime.Date?
+        public var windowStartTime: Foundation.Date?
 
         public init(
             actionDescription: Swift.String? = nil,
             actionId: Swift.String? = nil,
             actionType: ElasticBeanstalkClientTypes.ActionType? = nil,
             status: ElasticBeanstalkClientTypes.ActionStatus? = nil,
-            windowStartTime: ClientRuntime.Date? = nil
+            windowStartTime: Foundation.Date? = nil
         )
         {
             self.actionDescription = actionDescription
@@ -5305,13 +5307,13 @@ extension ElasticBeanstalkClientTypes {
         /// The type of the managed action.
         public var actionType: ElasticBeanstalkClientTypes.ActionType?
         /// The date and time that the action started executing.
-        public var executedTime: ClientRuntime.Date?
+        public var executedTime: Foundation.Date?
         /// If the action failed, a description of the failure.
         public var failureDescription: Swift.String?
         /// If the action failed, the type of failure.
         public var failureType: ElasticBeanstalkClientTypes.FailureType?
         /// The date and time that the action finished executing.
-        public var finishedTime: ClientRuntime.Date?
+        public var finishedTime: Foundation.Date?
         /// The status of the action.
         public var status: ElasticBeanstalkClientTypes.ActionHistoryStatus?
 
@@ -5319,10 +5321,10 @@ extension ElasticBeanstalkClientTypes {
             actionDescription: Swift.String? = nil,
             actionId: Swift.String? = nil,
             actionType: ElasticBeanstalkClientTypes.ActionType? = nil,
-            executedTime: ClientRuntime.Date? = nil,
+            executedTime: Foundation.Date? = nil,
             failureDescription: Swift.String? = nil,
             failureType: ElasticBeanstalkClientTypes.FailureType? = nil,
-            finishedTime: ClientRuntime.Date? = nil,
+            finishedTime: Foundation.Date? = nil,
             status: ElasticBeanstalkClientTypes.ActionHistoryStatus? = nil
         )
         {
@@ -5650,9 +5652,9 @@ extension ElasticBeanstalkClientTypes {
         /// The custom AMIs supported by the platform version.
         public var customAmiList: [ElasticBeanstalkClientTypes.CustomAmi]?
         /// The date when the platform version was created.
-        public var dateCreated: ClientRuntime.Date?
+        public var dateCreated: Foundation.Date?
         /// The date when the platform version was last updated.
-        public var dateUpdated: ClientRuntime.Date?
+        public var dateUpdated: Foundation.Date?
         /// The description of the platform version.
         public var description: Swift.String?
         /// The frameworks supported by the platform version.
@@ -5692,8 +5694,8 @@ extension ElasticBeanstalkClientTypes {
 
         public init(
             customAmiList: [ElasticBeanstalkClientTypes.CustomAmi]? = nil,
-            dateCreated: ClientRuntime.Date? = nil,
-            dateUpdated: ClientRuntime.Date? = nil,
+            dateCreated: Foundation.Date? = nil,
+            dateUpdated: Foundation.Date? = nil,
             description: Swift.String? = nil,
             frameworks: [ElasticBeanstalkClientTypes.PlatformFramework]? = nil,
             maintainer: Swift.String? = nil,
@@ -6069,7 +6071,7 @@ public struct RebuildEnvironmentInput {
 
 extension RebuildEnvironmentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RebuildEnvironmentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RebuildEnvironmentOutput {
         return RebuildEnvironmentOutput()
     }
 }
@@ -6081,7 +6083,7 @@ public struct RebuildEnvironmentOutput {
 
 enum RebuildEnvironmentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6136,7 +6138,7 @@ public struct RequestEnvironmentInfoInput {
 
 extension RequestEnvironmentInfoOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RequestEnvironmentInfoOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RequestEnvironmentInfoOutput {
         return RequestEnvironmentInfoOutput()
     }
 }
@@ -6148,7 +6150,7 @@ public struct RequestEnvironmentInfoOutput {
 
 enum RequestEnvironmentInfoOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6344,7 +6346,7 @@ public struct RestartAppServerInput {
 
 extension RestartAppServerOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RestartAppServerOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RestartAppServerOutput {
         return RestartAppServerOutput()
     }
 }
@@ -6356,7 +6358,7 @@ public struct RestartAppServerOutput {
 
 enum RestartAppServerOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6410,7 +6412,7 @@ public struct RetrieveEnvironmentInfoInput {
 
 extension RetrieveEnvironmentInfoOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RetrieveEnvironmentInfoOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RetrieveEnvironmentInfoOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["RetrieveEnvironmentInfoResult"]
@@ -6435,7 +6437,7 @@ public struct RetrieveEnvironmentInfoOutput {
 
 enum RetrieveEnvironmentInfoOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6638,7 +6640,7 @@ extension ElasticBeanstalkClientTypes {
         /// The instance's type.
         public var instanceType: Swift.String?
         /// The time at which the EC2 instance was launched.
-        public var launchedAt: ClientRuntime.Date?
+        public var launchedAt: Foundation.Date?
         /// Operating system metrics from the instance.
         public var system: ElasticBeanstalkClientTypes.SystemStatus?
 
@@ -6651,7 +6653,7 @@ extension ElasticBeanstalkClientTypes {
             healthStatus: Swift.String? = nil,
             instanceId: Swift.String? = nil,
             instanceType: Swift.String? = nil,
-            launchedAt: ClientRuntime.Date? = nil,
+            launchedAt: Foundation.Date? = nil,
             system: ElasticBeanstalkClientTypes.SystemStatus? = nil
         )
         {
@@ -6972,7 +6974,7 @@ public struct SwapEnvironmentCNAMEsInput {
 
 extension SwapEnvironmentCNAMEsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SwapEnvironmentCNAMEsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SwapEnvironmentCNAMEsOutput {
         return SwapEnvironmentCNAMEsOutput()
     }
 }
@@ -6984,7 +6986,7 @@ public struct SwapEnvironmentCNAMEsOutput {
 
 enum SwapEnvironmentCNAMEsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7117,7 +7119,7 @@ public struct TerminateEnvironmentInput {
 
 extension TerminateEnvironmentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TerminateEnvironmentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TerminateEnvironmentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["TerminateEnvironmentResult"]
@@ -7156,9 +7158,9 @@ public struct TerminateEnvironmentOutput {
     /// The URL to the CNAME for this environment.
     public var cname: Swift.String?
     /// The creation date for this environment.
-    public var dateCreated: ClientRuntime.Date?
+    public var dateCreated: Foundation.Date?
     /// The last modified date for this environment.
-    public var dateUpdated: ClientRuntime.Date?
+    public var dateUpdated: Foundation.Date?
     /// Describes this environment.
     public var description: Swift.String?
     /// For load-balanced, autoscaling environments, the URL to the LoadBalancer. For single-instance environments, the IP address of the instance.
@@ -7217,8 +7219,8 @@ public struct TerminateEnvironmentOutput {
         abortableOperationInProgress: Swift.Bool? = nil,
         applicationName: Swift.String? = nil,
         cname: Swift.String? = nil,
-        dateCreated: ClientRuntime.Date? = nil,
-        dateUpdated: ClientRuntime.Date? = nil,
+        dateCreated: Foundation.Date? = nil,
+        dateUpdated: Foundation.Date? = nil,
         description: Swift.String? = nil,
         endpointURL: Swift.String? = nil,
         environmentArn: Swift.String? = nil,
@@ -7263,7 +7265,7 @@ public struct TerminateEnvironmentOutput {
 
 enum TerminateEnvironmentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7605,7 +7607,7 @@ public struct UpdateApplicationInput {
 
 extension UpdateApplicationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateApplicationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateApplicationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["UpdateApplicationResult"]
@@ -7630,7 +7632,7 @@ public struct UpdateApplicationOutput {
 
 enum UpdateApplicationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7679,7 +7681,7 @@ public struct UpdateApplicationResourceLifecycleInput {
 
 extension UpdateApplicationResourceLifecycleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateApplicationResourceLifecycleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateApplicationResourceLifecycleOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["UpdateApplicationResourceLifecycleResult"]
@@ -7708,7 +7710,7 @@ public struct UpdateApplicationResourceLifecycleOutput {
 
 enum UpdateApplicationResourceLifecycleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7764,7 +7766,7 @@ public struct UpdateApplicationVersionInput {
 
 extension UpdateApplicationVersionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateApplicationVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateApplicationVersionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["UpdateApplicationVersionResult"]
@@ -7789,7 +7791,7 @@ public struct UpdateApplicationVersionOutput {
 
 enum UpdateApplicationVersionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7854,7 +7856,7 @@ public struct UpdateConfigurationTemplateInput {
 
 extension UpdateConfigurationTemplateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateConfigurationTemplateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateConfigurationTemplateOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["UpdateConfigurationTemplateResult"]
@@ -7878,9 +7880,9 @@ public struct UpdateConfigurationTemplateOutput {
     /// The name of the application associated with this configuration set.
     public var applicationName: Swift.String?
     /// The date (in UTC time) when this configuration set was created.
-    public var dateCreated: ClientRuntime.Date?
+    public var dateCreated: Foundation.Date?
     /// The date (in UTC time) when this configuration set was last modified.
-    public var dateUpdated: ClientRuntime.Date?
+    public var dateUpdated: Foundation.Date?
     /// If this configuration set is associated with an environment, the DeploymentStatus parameter indicates the deployment status of this configuration set:
     ///
     /// * null: This configuration is not associated with a running environment.
@@ -7906,8 +7908,8 @@ public struct UpdateConfigurationTemplateOutput {
 
     public init(
         applicationName: Swift.String? = nil,
-        dateCreated: ClientRuntime.Date? = nil,
-        dateUpdated: ClientRuntime.Date? = nil,
+        dateCreated: Foundation.Date? = nil,
+        dateUpdated: Foundation.Date? = nil,
         deploymentStatus: ElasticBeanstalkClientTypes.ConfigurationDeploymentStatus? = nil,
         description: Swift.String? = nil,
         environmentName: Swift.String? = nil,
@@ -7932,7 +7934,7 @@ public struct UpdateConfigurationTemplateOutput {
 
 enum UpdateConfigurationTemplateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8032,7 +8034,7 @@ public struct UpdateEnvironmentInput {
 
 extension UpdateEnvironmentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateEnvironmentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateEnvironmentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["UpdateEnvironmentResult"]
@@ -8071,9 +8073,9 @@ public struct UpdateEnvironmentOutput {
     /// The URL to the CNAME for this environment.
     public var cname: Swift.String?
     /// The creation date for this environment.
-    public var dateCreated: ClientRuntime.Date?
+    public var dateCreated: Foundation.Date?
     /// The last modified date for this environment.
-    public var dateUpdated: ClientRuntime.Date?
+    public var dateUpdated: Foundation.Date?
     /// Describes this environment.
     public var description: Swift.String?
     /// For load-balanced, autoscaling environments, the URL to the LoadBalancer. For single-instance environments, the IP address of the instance.
@@ -8132,8 +8134,8 @@ public struct UpdateEnvironmentOutput {
         abortableOperationInProgress: Swift.Bool? = nil,
         applicationName: Swift.String? = nil,
         cname: Swift.String? = nil,
-        dateCreated: ClientRuntime.Date? = nil,
-        dateUpdated: ClientRuntime.Date? = nil,
+        dateCreated: Foundation.Date? = nil,
+        dateUpdated: Foundation.Date? = nil,
         description: Swift.String? = nil,
         endpointURL: Swift.String? = nil,
         environmentArn: Swift.String? = nil,
@@ -8178,7 +8180,7 @@ public struct UpdateEnvironmentOutput {
 
 enum UpdateEnvironmentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8233,7 +8235,7 @@ public struct UpdateTagsForResourceInput {
 
 extension UpdateTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateTagsForResourceOutput {
         return UpdateTagsForResourceOutput()
     }
 }
@@ -8245,7 +8247,7 @@ public struct UpdateTagsForResourceOutput {
 
 enum UpdateTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8310,7 +8312,7 @@ public struct ValidateConfigurationSettingsInput {
 
 extension ValidateConfigurationSettingsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ValidateConfigurationSettingsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ValidateConfigurationSettingsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ValidateConfigurationSettingsResult"]
@@ -8335,7 +8337,7 @@ public struct ValidateConfigurationSettingsOutput {
 
 enum ValidateConfigurationSettingsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

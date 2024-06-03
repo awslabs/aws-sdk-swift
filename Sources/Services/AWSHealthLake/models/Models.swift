@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -197,7 +199,7 @@ public struct CreateFHIRDatastoreInput {
 
 extension CreateFHIRDatastoreOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateFHIRDatastoreOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateFHIRDatastoreOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -240,7 +242,7 @@ public struct CreateFHIRDatastoreOutput {
 
 enum CreateFHIRDatastoreOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -270,17 +272,17 @@ extension HealthLakeClientTypes {
     /// The filters applied to data store query.
     public struct DatastoreFilter {
         /// A filter that allows the user to set cutoff dates for records. All data stores created after the specified date will be included in the results.
-        public var createdAfter: ClientRuntime.Date?
+        public var createdAfter: Foundation.Date?
         /// A filter that allows the user to set cutoff dates for records. All data stores created before the specified date will be included in the results.
-        public var createdBefore: ClientRuntime.Date?
+        public var createdBefore: Foundation.Date?
         /// Allows the user to filter data store results by name.
         public var datastoreName: Swift.String?
         /// Allows the user to filter data store results by status.
         public var datastoreStatus: HealthLakeClientTypes.DatastoreStatus?
 
         public init(
-            createdAfter: ClientRuntime.Date? = nil,
-            createdBefore: ClientRuntime.Date? = nil,
+            createdAfter: Foundation.Date? = nil,
+            createdBefore: Foundation.Date? = nil,
             datastoreName: Swift.String? = nil,
             datastoreStatus: HealthLakeClientTypes.DatastoreStatus? = nil
         )
@@ -318,7 +320,7 @@ extension HealthLakeClientTypes {
     /// Displays the properties of the data store, including the ID, ARN, name, and the status of the data store.
     public struct DatastoreProperties {
         /// The time that a data store was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The Amazon Resource Name used in the creation of the data store.
         /// This member is required.
         public var datastoreArn: Swift.String?
@@ -346,7 +348,7 @@ extension HealthLakeClientTypes {
         public var sseConfiguration: HealthLakeClientTypes.SseConfiguration?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             datastoreArn: Swift.String? = nil,
             datastoreEndpoint: Swift.String? = nil,
             datastoreId: Swift.String? = nil,
@@ -443,7 +445,7 @@ public struct DeleteFHIRDatastoreInput {
 
 extension DeleteFHIRDatastoreOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteFHIRDatastoreOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteFHIRDatastoreOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -486,7 +488,7 @@ public struct DeleteFHIRDatastoreOutput {
 
 enum DeleteFHIRDatastoreOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -533,7 +535,7 @@ public struct DescribeFHIRDatastoreInput {
 
 extension DescribeFHIRDatastoreOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeFHIRDatastoreOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeFHIRDatastoreOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -558,7 +560,7 @@ public struct DescribeFHIRDatastoreOutput {
 
 enum DescribeFHIRDatastoreOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -609,7 +611,7 @@ public struct DescribeFHIRExportJobInput {
 
 extension DescribeFHIRExportJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeFHIRExportJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeFHIRExportJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -634,7 +636,7 @@ public struct DescribeFHIRExportJobOutput {
 
 enum DescribeFHIRExportJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -685,7 +687,7 @@ public struct DescribeFHIRImportJobInput {
 
 extension DescribeFHIRImportJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeFHIRImportJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeFHIRImportJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -710,7 +712,7 @@ public struct DescribeFHIRImportJobOutput {
 
 enum DescribeFHIRImportJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -812,7 +814,7 @@ extension HealthLakeClientTypes {
         /// This member is required.
         public var datastoreId: Swift.String?
         /// The time an export job completed.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// The AWS generated ID for an export job.
         /// This member is required.
         public var jobId: Swift.String?
@@ -828,18 +830,18 @@ extension HealthLakeClientTypes {
         public var outputDataConfig: HealthLakeClientTypes.OutputDataConfig?
         /// The time an export job was initiated.
         /// This member is required.
-        public var submitTime: ClientRuntime.Date?
+        public var submitTime: Foundation.Date?
 
         public init(
             dataAccessRoleArn: Swift.String? = nil,
             datastoreId: Swift.String? = nil,
-            endTime: ClientRuntime.Date? = nil,
+            endTime: Foundation.Date? = nil,
             jobId: Swift.String? = nil,
             jobName: Swift.String? = nil,
             jobStatus: HealthLakeClientTypes.JobStatus? = nil,
             message: Swift.String? = nil,
             outputDataConfig: HealthLakeClientTypes.OutputDataConfig? = nil,
-            submitTime: ClientRuntime.Date? = nil
+            submitTime: Foundation.Date? = nil
         )
         {
             self.dataAccessRoleArn = dataAccessRoleArn
@@ -963,7 +965,7 @@ extension HealthLakeClientTypes {
         /// This member is required.
         public var datastoreId: Swift.String?
         /// The time that the Import job was completed.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// The input data configuration that was supplied when the Import job was created.
         /// This member is required.
         public var inputDataConfig: HealthLakeClientTypes.InputDataConfig?
@@ -983,12 +985,12 @@ extension HealthLakeClientTypes {
         public var message: Swift.String?
         /// The time that the Import job was submitted for processing.
         /// This member is required.
-        public var submitTime: ClientRuntime.Date?
+        public var submitTime: Foundation.Date?
 
         public init(
             dataAccessRoleArn: Swift.String? = nil,
             datastoreId: Swift.String? = nil,
-            endTime: ClientRuntime.Date? = nil,
+            endTime: Foundation.Date? = nil,
             inputDataConfig: HealthLakeClientTypes.InputDataConfig? = nil,
             jobId: Swift.String? = nil,
             jobName: Swift.String? = nil,
@@ -996,7 +998,7 @@ extension HealthLakeClientTypes {
             jobProgressReport: HealthLakeClientTypes.JobProgressReport? = nil,
             jobStatus: HealthLakeClientTypes.JobStatus? = nil,
             message: Swift.String? = nil,
-            submitTime: ClientRuntime.Date? = nil
+            submitTime: Foundation.Date? = nil
         )
         {
             self.dataAccessRoleArn = dataAccessRoleArn
@@ -1274,7 +1276,7 @@ public struct ListFHIRDatastoresInput {
 
 extension ListFHIRDatastoresOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListFHIRDatastoresOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListFHIRDatastoresOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1304,7 +1306,7 @@ public struct ListFHIRDatastoresOutput {
 
 enum ListFHIRDatastoresOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1352,9 +1354,9 @@ public struct ListFHIRExportJobsInput {
     /// A pagination token used to identify the next page of results to return for a ListFHIRExportJobs query.
     public var nextToken: Swift.String?
     /// This parameter limits the response to FHIR export jobs submitted after a user specified date.
-    public var submittedAfter: ClientRuntime.Date?
+    public var submittedAfter: Foundation.Date?
     /// This parameter limits the response to FHIR export jobs submitted before a user specified date.
-    public var submittedBefore: ClientRuntime.Date?
+    public var submittedBefore: Foundation.Date?
 
     public init(
         datastoreId: Swift.String? = nil,
@@ -1362,8 +1364,8 @@ public struct ListFHIRExportJobsInput {
         jobStatus: HealthLakeClientTypes.JobStatus? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
-        submittedAfter: ClientRuntime.Date? = nil,
-        submittedBefore: ClientRuntime.Date? = nil
+        submittedAfter: Foundation.Date? = nil,
+        submittedBefore: Foundation.Date? = nil
     )
     {
         self.datastoreId = datastoreId
@@ -1378,7 +1380,7 @@ public struct ListFHIRExportJobsInput {
 
 extension ListFHIRExportJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListFHIRExportJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListFHIRExportJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1408,7 +1410,7 @@ public struct ListFHIRExportJobsOutput {
 
 enum ListFHIRExportJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1458,9 +1460,9 @@ public struct ListFHIRImportJobsInput {
     /// A pagination token used to identify the next page of results to return for a ListFHIRImportJobs query.
     public var nextToken: Swift.String?
     /// This parameter limits the response to FHIR import jobs submitted after a user specified date.
-    public var submittedAfter: ClientRuntime.Date?
+    public var submittedAfter: Foundation.Date?
     /// This parameter limits the response to FHIR import jobs submitted before a user specified date.
-    public var submittedBefore: ClientRuntime.Date?
+    public var submittedBefore: Foundation.Date?
 
     public init(
         datastoreId: Swift.String? = nil,
@@ -1468,8 +1470,8 @@ public struct ListFHIRImportJobsInput {
         jobStatus: HealthLakeClientTypes.JobStatus? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
-        submittedAfter: ClientRuntime.Date? = nil,
-        submittedBefore: ClientRuntime.Date? = nil
+        submittedAfter: Foundation.Date? = nil,
+        submittedBefore: Foundation.Date? = nil
     )
     {
         self.datastoreId = datastoreId
@@ -1484,7 +1486,7 @@ public struct ListFHIRImportJobsInput {
 
 extension ListFHIRImportJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListFHIRImportJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListFHIRImportJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1514,7 +1516,7 @@ public struct ListFHIRImportJobsOutput {
 
 enum ListFHIRImportJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1560,7 +1562,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1584,7 +1586,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1850,7 +1852,7 @@ public struct StartFHIRExportJobInput {
 
 extension StartFHIRExportJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartFHIRExportJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartFHIRExportJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1886,7 +1888,7 @@ public struct StartFHIRExportJobOutput {
 
 enum StartFHIRExportJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1961,7 +1963,7 @@ public struct StartFHIRImportJobInput {
 
 extension StartFHIRImportJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartFHIRImportJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartFHIRImportJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1997,7 +1999,7 @@ public struct StartFHIRImportJobOutput {
 
 enum StartFHIRImportJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2088,7 +2090,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -2100,7 +2102,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2186,7 +2188,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -2198,7 +2200,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

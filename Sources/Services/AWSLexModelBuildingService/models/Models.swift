@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -108,11 +111,11 @@ extension LexModelBuildingClientTypes {
         /// Settings that determine how Amazon Lex uses conversation logs for the alias.
         public var conversationLogs: LexModelBuildingClientTypes.ConversationLogsResponse?
         /// The date that the bot alias was created.
-        public var createdDate: ClientRuntime.Date?
+        public var createdDate: Foundation.Date?
         /// A description of the bot alias.
         public var description: Swift.String?
         /// The date that the bot alias was updated. When you create a resource, the creation date and last updated date are the same.
-        public var lastUpdatedDate: ClientRuntime.Date?
+        public var lastUpdatedDate: Foundation.Date?
         /// The name of the bot alias.
         public var name: Swift.String?
 
@@ -121,9 +124,9 @@ extension LexModelBuildingClientTypes {
             botVersion: Swift.String? = nil,
             checksum: Swift.String? = nil,
             conversationLogs: LexModelBuildingClientTypes.ConversationLogsResponse? = nil,
-            createdDate: ClientRuntime.Date? = nil,
+            createdDate: Foundation.Date? = nil,
             description: Swift.String? = nil,
-            lastUpdatedDate: ClientRuntime.Date? = nil,
+            lastUpdatedDate: Foundation.Date? = nil,
             name: Swift.String? = nil
         )
         {
@@ -173,7 +176,7 @@ extension LexModelBuildingClientTypes {
         /// The name of the Amazon Lex bot to which this association is being made. Currently, Amazon Lex supports associations with Facebook and Slack, and Twilio.
         public var botName: Swift.String?
         /// The date that the association between the Amazon Lex bot and the channel was created.
-        public var createdDate: ClientRuntime.Date?
+        public var createdDate: Foundation.Date?
         /// A text description of the association you are creating.
         public var description: Swift.String?
         /// If status is FAILED, Amazon Lex provides the reason that it failed to create the association.
@@ -195,7 +198,7 @@ extension LexModelBuildingClientTypes {
             botAlias: Swift.String? = nil,
             botConfiguration: [Swift.String:Swift.String]? = nil,
             botName: Swift.String? = nil,
-            createdDate: ClientRuntime.Date? = nil,
+            createdDate: Foundation.Date? = nil,
             description: Swift.String? = nil,
             failureReason: Swift.String? = nil,
             name: Swift.String? = nil,
@@ -236,11 +239,11 @@ extension LexModelBuildingClientTypes {
     /// Provides information about a bot. .
     public struct BotMetadata {
         /// The date that the bot was created.
-        public var createdDate: ClientRuntime.Date?
+        public var createdDate: Foundation.Date?
         /// A description of the bot.
         public var description: Swift.String?
         /// The date that the bot was updated. When you create a bot, the creation date and last updated date are the same.
-        public var lastUpdatedDate: ClientRuntime.Date?
+        public var lastUpdatedDate: Foundation.Date?
         /// The name of the bot.
         public var name: Swift.String?
         /// The status of the bot.
@@ -249,9 +252,9 @@ extension LexModelBuildingClientTypes {
         public var version: Swift.String?
 
         public init(
-            createdDate: ClientRuntime.Date? = nil,
+            createdDate: Foundation.Date? = nil,
             description: Swift.String? = nil,
-            lastUpdatedDate: ClientRuntime.Date? = nil,
+            lastUpdatedDate: Foundation.Date? = nil,
             name: Swift.String? = nil,
             status: LexModelBuildingClientTypes.Status? = nil,
             version: Swift.String? = nil
@@ -630,7 +633,7 @@ public struct CreateBotVersionInput {
 
 extension CreateBotVersionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateBotVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateBotVersionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -666,7 +669,7 @@ public struct CreateBotVersionOutput {
     /// The message that Amazon Lex uses when it doesn't understand the user's request. For more information, see [PutBot].
     public var clarificationPrompt: LexModelBuildingClientTypes.Prompt?
     /// The date when the bot version was created.
-    public var createdDate: ClientRuntime.Date?
+    public var createdDate: Foundation.Date?
     /// A description of the bot.
     public var description: Swift.String?
     /// Indicates whether utterances entered by the user should be sent to Amazon Comprehend for sentiment analysis.
@@ -680,7 +683,7 @@ public struct CreateBotVersionOutput {
     /// An array of Intent objects. For more information, see [PutBot].
     public var intents: [LexModelBuildingClientTypes.Intent]?
     /// The date when the $LATEST version of this bot was updated.
-    public var lastUpdatedDate: ClientRuntime.Date?
+    public var lastUpdatedDate: Foundation.Date?
     /// Specifies the target locale for the bot.
     public var locale: LexModelBuildingClientTypes.Locale?
     /// The name of the bot.
@@ -697,14 +700,14 @@ public struct CreateBotVersionOutput {
         checksum: Swift.String? = nil,
         childDirected: Swift.Bool? = nil,
         clarificationPrompt: LexModelBuildingClientTypes.Prompt? = nil,
-        createdDate: ClientRuntime.Date? = nil,
+        createdDate: Foundation.Date? = nil,
         description: Swift.String? = nil,
         detectSentiment: Swift.Bool? = nil,
         enableModelImprovements: Swift.Bool? = nil,
         failureReason: Swift.String? = nil,
         idleSessionTTLInSeconds: Swift.Int? = nil,
         intents: [LexModelBuildingClientTypes.Intent]? = nil,
-        lastUpdatedDate: ClientRuntime.Date? = nil,
+        lastUpdatedDate: Foundation.Date? = nil,
         locale: LexModelBuildingClientTypes.Locale? = nil,
         name: Swift.String? = nil,
         status: LexModelBuildingClientTypes.Status? = nil,
@@ -734,7 +737,7 @@ public struct CreateBotVersionOutput {
 
 enum CreateBotVersionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -788,7 +791,7 @@ public struct CreateIntentVersionInput {
 
 extension CreateIntentVersionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateIntentVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateIntentVersionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -823,7 +826,7 @@ public struct CreateIntentVersionOutput {
     /// If defined, the prompt that Amazon Lex uses to confirm the user's intent before fulfilling it.
     public var confirmationPrompt: LexModelBuildingClientTypes.Prompt?
     /// The date that the intent was created.
-    public var createdDate: ClientRuntime.Date?
+    public var createdDate: Foundation.Date?
     /// A description of the intent.
     public var description: Swift.String?
     /// If defined, Amazon Lex invokes this Lambda function for each user input.
@@ -837,7 +840,7 @@ public struct CreateIntentVersionOutput {
     /// Configuration information, if any, for connecting an Amazon Kendra index with the AMAZON.KendraSearchIntent intent.
     public var kendraConfiguration: LexModelBuildingClientTypes.KendraConfiguration?
     /// The date that the intent was updated.
-    public var lastUpdatedDate: ClientRuntime.Date?
+    public var lastUpdatedDate: Foundation.Date?
     /// The name of the intent.
     public var name: Swift.String?
     /// An array of OutputContext objects that lists the contexts that the intent activates when the intent is fulfilled.
@@ -857,14 +860,14 @@ public struct CreateIntentVersionOutput {
         checksum: Swift.String? = nil,
         conclusionStatement: LexModelBuildingClientTypes.Statement? = nil,
         confirmationPrompt: LexModelBuildingClientTypes.Prompt? = nil,
-        createdDate: ClientRuntime.Date? = nil,
+        createdDate: Foundation.Date? = nil,
         description: Swift.String? = nil,
         dialogCodeHook: LexModelBuildingClientTypes.CodeHook? = nil,
         followUpPrompt: LexModelBuildingClientTypes.FollowUpPrompt? = nil,
         fulfillmentActivity: LexModelBuildingClientTypes.FulfillmentActivity? = nil,
         inputContexts: [LexModelBuildingClientTypes.InputContext]? = nil,
         kendraConfiguration: LexModelBuildingClientTypes.KendraConfiguration? = nil,
-        lastUpdatedDate: ClientRuntime.Date? = nil,
+        lastUpdatedDate: Foundation.Date? = nil,
         name: Swift.String? = nil,
         outputContexts: [LexModelBuildingClientTypes.OutputContext]? = nil,
         parentIntentSignature: Swift.String? = nil,
@@ -897,7 +900,7 @@ public struct CreateIntentVersionOutput {
 
 enum CreateIntentVersionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -951,7 +954,7 @@ public struct CreateSlotTypeVersionInput {
 
 extension CreateSlotTypeVersionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateSlotTypeVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateSlotTypeVersionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -974,13 +977,13 @@ public struct CreateSlotTypeVersionOutput {
     /// Checksum of the $LATEST version of the slot type.
     public var checksum: Swift.String?
     /// The date that the slot type was created.
-    public var createdDate: ClientRuntime.Date?
+    public var createdDate: Foundation.Date?
     /// A description of the slot type.
     public var description: Swift.String?
     /// A list of EnumerationValue objects that defines the values that the slot type can take.
     public var enumerationValues: [LexModelBuildingClientTypes.EnumerationValue]?
     /// The date that the slot type was updated. When you create a resource, the creation date and last update date are the same.
-    public var lastUpdatedDate: ClientRuntime.Date?
+    public var lastUpdatedDate: Foundation.Date?
     /// The name of the slot type.
     public var name: Swift.String?
     /// The built-in slot type used a the parent of the slot type.
@@ -994,10 +997,10 @@ public struct CreateSlotTypeVersionOutput {
 
     public init(
         checksum: Swift.String? = nil,
-        createdDate: ClientRuntime.Date? = nil,
+        createdDate: Foundation.Date? = nil,
         description: Swift.String? = nil,
         enumerationValues: [LexModelBuildingClientTypes.EnumerationValue]? = nil,
-        lastUpdatedDate: ClientRuntime.Date? = nil,
+        lastUpdatedDate: Foundation.Date? = nil,
         name: Swift.String? = nil,
         parentSlotTypeSignature: Swift.String? = nil,
         slotTypeConfigurations: [LexModelBuildingClientTypes.SlotTypeConfiguration]? = nil,
@@ -1020,7 +1023,7 @@ public struct CreateSlotTypeVersionOutput {
 
 enum CreateSlotTypeVersionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1070,7 +1073,7 @@ public struct DeleteBotAliasInput {
 
 extension DeleteBotAliasOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBotAliasOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteBotAliasOutput {
         return DeleteBotAliasOutput()
     }
 }
@@ -1082,7 +1085,7 @@ public struct DeleteBotAliasOutput {
 
 enum DeleteBotAliasOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1140,7 +1143,7 @@ public struct DeleteBotChannelAssociationInput {
 
 extension DeleteBotChannelAssociationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBotChannelAssociationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteBotChannelAssociationOutput {
         return DeleteBotChannelAssociationOutput()
     }
 }
@@ -1152,7 +1155,7 @@ public struct DeleteBotChannelAssociationOutput {
 
 enum DeleteBotChannelAssociationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1193,7 +1196,7 @@ public struct DeleteBotInput {
 
 extension DeleteBotOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBotOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteBotOutput {
         return DeleteBotOutput()
     }
 }
@@ -1205,7 +1208,7 @@ public struct DeleteBotOutput {
 
 enum DeleteBotOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1255,7 +1258,7 @@ public struct DeleteBotVersionInput {
 
 extension DeleteBotVersionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBotVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteBotVersionOutput {
         return DeleteBotVersionOutput()
     }
 }
@@ -1267,7 +1270,7 @@ public struct DeleteBotVersionOutput {
 
 enum DeleteBotVersionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1309,7 +1312,7 @@ public struct DeleteIntentInput {
 
 extension DeleteIntentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteIntentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteIntentOutput {
         return DeleteIntentOutput()
     }
 }
@@ -1321,7 +1324,7 @@ public struct DeleteIntentOutput {
 
 enum DeleteIntentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1371,7 +1374,7 @@ public struct DeleteIntentVersionInput {
 
 extension DeleteIntentVersionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteIntentVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteIntentVersionOutput {
         return DeleteIntentVersionOutput()
     }
 }
@@ -1383,7 +1386,7 @@ public struct DeleteIntentVersionOutput {
 
 enum DeleteIntentVersionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1425,7 +1428,7 @@ public struct DeleteSlotTypeInput {
 
 extension DeleteSlotTypeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteSlotTypeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteSlotTypeOutput {
         return DeleteSlotTypeOutput()
     }
 }
@@ -1437,7 +1440,7 @@ public struct DeleteSlotTypeOutput {
 
 enum DeleteSlotTypeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1487,7 +1490,7 @@ public struct DeleteSlotTypeVersionInput {
 
 extension DeleteSlotTypeVersionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteSlotTypeVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteSlotTypeVersionOutput {
         return DeleteSlotTypeVersionOutput()
     }
 }
@@ -1499,7 +1502,7 @@ public struct DeleteSlotTypeVersionOutput {
 
 enum DeleteSlotTypeVersionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1549,7 +1552,7 @@ public struct DeleteUtterancesInput {
 
 extension DeleteUtterancesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteUtterancesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteUtterancesOutput {
         return DeleteUtterancesOutput()
     }
 }
@@ -1561,7 +1564,7 @@ public struct DeleteUtterancesOutput {
 
 enum DeleteUtterancesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1853,7 +1856,7 @@ public struct GetBotAliasInput {
 
 extension GetBotAliasOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBotAliasOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetBotAliasOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1880,11 +1883,11 @@ public struct GetBotAliasOutput {
     /// The settings that determine how Amazon Lex uses conversation logs for the alias.
     public var conversationLogs: LexModelBuildingClientTypes.ConversationLogsResponse?
     /// The date that the bot alias was created.
-    public var createdDate: ClientRuntime.Date?
+    public var createdDate: Foundation.Date?
     /// A description of the bot alias.
     public var description: Swift.String?
     /// The date that the bot alias was updated. When you create a resource, the creation date and the last updated date are the same.
-    public var lastUpdatedDate: ClientRuntime.Date?
+    public var lastUpdatedDate: Foundation.Date?
     /// The name of the bot alias.
     public var name: Swift.String?
 
@@ -1893,9 +1896,9 @@ public struct GetBotAliasOutput {
         botVersion: Swift.String? = nil,
         checksum: Swift.String? = nil,
         conversationLogs: LexModelBuildingClientTypes.ConversationLogsResponse? = nil,
-        createdDate: ClientRuntime.Date? = nil,
+        createdDate: Foundation.Date? = nil,
         description: Swift.String? = nil,
-        lastUpdatedDate: ClientRuntime.Date? = nil,
+        lastUpdatedDate: Foundation.Date? = nil,
         name: Swift.String? = nil
     )
     {
@@ -1912,7 +1915,7 @@ public struct GetBotAliasOutput {
 
 enum GetBotAliasOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1929,18 +1932,18 @@ enum GetBotAliasOutputError {
 
 extension GetBotAliasesInput {
 
-    static func queryItemProvider(_ value: GetBotAliasesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetBotAliasesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nameContains = value.nameContains {
-            let nameContainsQueryItem = ClientRuntime.SDKURLQueryItem(name: "nameContains".urlPercentEncoding(), value: Swift.String(nameContains).urlPercentEncoding())
+            let nameContainsQueryItem = Smithy.URIQueryItem(name: "nameContains".urlPercentEncoding(), value: Swift.String(nameContains).urlPercentEncoding())
             items.append(nameContainsQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -1984,7 +1987,7 @@ public struct GetBotAliasesInput {
 
 extension GetBotAliasesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBotAliasesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetBotAliasesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2013,7 +2016,7 @@ public struct GetBotAliasesOutput {
 
 enum GetBotAliasesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2073,7 +2076,7 @@ extension GetBotChannelAssociationOutput: Swift.CustomDebugStringConvertible {
 
 extension GetBotChannelAssociationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBotChannelAssociationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetBotChannelAssociationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2099,7 +2102,7 @@ public struct GetBotChannelAssociationOutput {
     /// The name of the Amazon Lex bot.
     public var botName: Swift.String?
     /// The date that the association between the bot and the channel was created.
-    public var createdDate: ClientRuntime.Date?
+    public var createdDate: Foundation.Date?
     /// A description of the association between the bot and the channel.
     public var description: Swift.String?
     /// If status is FAILED, Amazon Lex provides the reason that it failed to create the association.
@@ -2121,7 +2124,7 @@ public struct GetBotChannelAssociationOutput {
         botAlias: Swift.String? = nil,
         botConfiguration: [Swift.String:Swift.String]? = nil,
         botName: Swift.String? = nil,
-        createdDate: ClientRuntime.Date? = nil,
+        createdDate: Foundation.Date? = nil,
         description: Swift.String? = nil,
         failureReason: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -2143,7 +2146,7 @@ public struct GetBotChannelAssociationOutput {
 
 enum GetBotChannelAssociationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2160,18 +2163,18 @@ enum GetBotChannelAssociationOutputError {
 
 extension GetBotChannelAssociationsInput {
 
-    static func queryItemProvider(_ value: GetBotChannelAssociationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetBotChannelAssociationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nameContains = value.nameContains {
-            let nameContainsQueryItem = ClientRuntime.SDKURLQueryItem(name: "nameContains".urlPercentEncoding(), value: Swift.String(nameContains).urlPercentEncoding())
+            let nameContainsQueryItem = Smithy.URIQueryItem(name: "nameContains".urlPercentEncoding(), value: Swift.String(nameContains).urlPercentEncoding())
             items.append(nameContainsQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -2223,7 +2226,7 @@ public struct GetBotChannelAssociationsInput {
 
 extension GetBotChannelAssociationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBotChannelAssociationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetBotChannelAssociationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2252,7 +2255,7 @@ public struct GetBotChannelAssociationsOutput {
 
 enum GetBotChannelAssociationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2299,7 +2302,7 @@ public struct GetBotInput {
 
 extension GetBotOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBotOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetBotOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2336,7 +2339,7 @@ public struct GetBotOutput {
     /// The message Amazon Lex uses when it doesn't understand the user's request. For more information, see [PutBot].
     public var clarificationPrompt: LexModelBuildingClientTypes.Prompt?
     /// The date that the bot was created.
-    public var createdDate: ClientRuntime.Date?
+    public var createdDate: Foundation.Date?
     /// A description of the bot.
     public var description: Swift.String?
     /// Indicates whether user utterances should be sent to Amazon Comprehend for sentiment analysis.
@@ -2350,7 +2353,7 @@ public struct GetBotOutput {
     /// An array of intent objects. For more information, see [PutBot].
     public var intents: [LexModelBuildingClientTypes.Intent]?
     /// The date that the bot was updated. When you create a resource, the creation date and last updated date are the same.
-    public var lastUpdatedDate: ClientRuntime.Date?
+    public var lastUpdatedDate: Foundation.Date?
     /// The target locale for the bot.
     public var locale: LexModelBuildingClientTypes.Locale?
     /// The name of the bot.
@@ -2369,14 +2372,14 @@ public struct GetBotOutput {
         checksum: Swift.String? = nil,
         childDirected: Swift.Bool? = nil,
         clarificationPrompt: LexModelBuildingClientTypes.Prompt? = nil,
-        createdDate: ClientRuntime.Date? = nil,
+        createdDate: Foundation.Date? = nil,
         description: Swift.String? = nil,
         detectSentiment: Swift.Bool? = nil,
         enableModelImprovements: Swift.Bool? = nil,
         failureReason: Swift.String? = nil,
         idleSessionTTLInSeconds: Swift.Int? = nil,
         intents: [LexModelBuildingClientTypes.Intent]? = nil,
-        lastUpdatedDate: ClientRuntime.Date? = nil,
+        lastUpdatedDate: Foundation.Date? = nil,
         locale: LexModelBuildingClientTypes.Locale? = nil,
         name: Swift.String? = nil,
         nluIntentConfidenceThreshold: Swift.Double? = nil,
@@ -2408,7 +2411,7 @@ public struct GetBotOutput {
 
 enum GetBotOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2425,14 +2428,14 @@ enum GetBotOutputError {
 
 extension GetBotVersionsInput {
 
-    static func queryItemProvider(_ value: GetBotVersionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetBotVersionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -2472,7 +2475,7 @@ public struct GetBotVersionsInput {
 
 extension GetBotVersionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBotVersionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetBotVersionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2501,7 +2504,7 @@ public struct GetBotVersionsOutput {
 
 enum GetBotVersionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2518,18 +2521,18 @@ enum GetBotVersionsOutputError {
 
 extension GetBotsInput {
 
-    static func queryItemProvider(_ value: GetBotsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetBotsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nameContains = value.nameContains {
-            let nameContainsQueryItem = ClientRuntime.SDKURLQueryItem(name: "nameContains".urlPercentEncoding(), value: Swift.String(nameContains).urlPercentEncoding())
+            let nameContainsQueryItem = Smithy.URIQueryItem(name: "nameContains".urlPercentEncoding(), value: Swift.String(nameContains).urlPercentEncoding())
             items.append(nameContainsQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -2565,7 +2568,7 @@ public struct GetBotsInput {
 
 extension GetBotsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBotsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetBotsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2594,7 +2597,7 @@ public struct GetBotsOutput {
 
 enum GetBotsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2634,7 +2637,7 @@ public struct GetBuiltinIntentInput {
 
 extension GetBuiltinIntentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBuiltinIntentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetBuiltinIntentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2668,7 +2671,7 @@ public struct GetBuiltinIntentOutput {
 
 enum GetBuiltinIntentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2685,22 +2688,22 @@ enum GetBuiltinIntentOutputError {
 
 extension GetBuiltinIntentsInput {
 
-    static func queryItemProvider(_ value: GetBuiltinIntentsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetBuiltinIntentsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let signatureContains = value.signatureContains {
-            let signatureContainsQueryItem = ClientRuntime.SDKURLQueryItem(name: "signatureContains".urlPercentEncoding(), value: Swift.String(signatureContains).urlPercentEncoding())
+            let signatureContainsQueryItem = Smithy.URIQueryItem(name: "signatureContains".urlPercentEncoding(), value: Swift.String(signatureContains).urlPercentEncoding())
             items.append(signatureContainsQueryItem)
         }
         if let locale = value.locale {
-            let localeQueryItem = ClientRuntime.SDKURLQueryItem(name: "locale".urlPercentEncoding(), value: Swift.String(locale.rawValue).urlPercentEncoding())
+            let localeQueryItem = Smithy.URIQueryItem(name: "locale".urlPercentEncoding(), value: Swift.String(locale.rawValue).urlPercentEncoding())
             items.append(localeQueryItem)
         }
         return items
@@ -2740,7 +2743,7 @@ public struct GetBuiltinIntentsInput {
 
 extension GetBuiltinIntentsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBuiltinIntentsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetBuiltinIntentsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2769,7 +2772,7 @@ public struct GetBuiltinIntentsOutput {
 
 enum GetBuiltinIntentsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2785,22 +2788,22 @@ enum GetBuiltinIntentsOutputError {
 
 extension GetBuiltinSlotTypesInput {
 
-    static func queryItemProvider(_ value: GetBuiltinSlotTypesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetBuiltinSlotTypesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let signatureContains = value.signatureContains {
-            let signatureContainsQueryItem = ClientRuntime.SDKURLQueryItem(name: "signatureContains".urlPercentEncoding(), value: Swift.String(signatureContains).urlPercentEncoding())
+            let signatureContainsQueryItem = Smithy.URIQueryItem(name: "signatureContains".urlPercentEncoding(), value: Swift.String(signatureContains).urlPercentEncoding())
             items.append(signatureContainsQueryItem)
         }
         if let locale = value.locale {
-            let localeQueryItem = ClientRuntime.SDKURLQueryItem(name: "locale".urlPercentEncoding(), value: Swift.String(locale.rawValue).urlPercentEncoding())
+            let localeQueryItem = Smithy.URIQueryItem(name: "locale".urlPercentEncoding(), value: Swift.String(locale.rawValue).urlPercentEncoding())
             items.append(localeQueryItem)
         }
         return items
@@ -2840,7 +2843,7 @@ public struct GetBuiltinSlotTypesInput {
 
 extension GetBuiltinSlotTypesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBuiltinSlotTypesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetBuiltinSlotTypesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2869,7 +2872,7 @@ public struct GetBuiltinSlotTypesOutput {
 
 enum GetBuiltinSlotTypesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2885,31 +2888,31 @@ enum GetBuiltinSlotTypesOutputError {
 
 extension GetExportInput {
 
-    static func queryItemProvider(_ value: GetExportInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetExportInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let exportType = value.exportType else {
             let message = "Creating a URL Query Item failed. exportType is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let exportTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "exportType".urlPercentEncoding(), value: Swift.String(exportType.rawValue).urlPercentEncoding())
+        let exportTypeQueryItem = Smithy.URIQueryItem(name: "exportType".urlPercentEncoding(), value: Swift.String(exportType.rawValue).urlPercentEncoding())
         items.append(exportTypeQueryItem)
         guard let name = value.name else {
             let message = "Creating a URL Query Item failed. name is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let nameQueryItem = ClientRuntime.SDKURLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
+        let nameQueryItem = Smithy.URIQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
         items.append(nameQueryItem)
         guard let version = value.version else {
             let message = "Creating a URL Query Item failed. version is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let versionQueryItem = ClientRuntime.SDKURLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(version).urlPercentEncoding())
+        let versionQueryItem = Smithy.URIQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(version).urlPercentEncoding())
         items.append(versionQueryItem)
         guard let resourceType = value.resourceType else {
             let message = "Creating a URL Query Item failed. resourceType is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let resourceTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(resourceType.rawValue).urlPercentEncoding())
+        let resourceTypeQueryItem = Smithy.URIQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(resourceType.rawValue).urlPercentEncoding())
         items.append(resourceTypeQueryItem)
         return items
     }
@@ -2952,7 +2955,7 @@ public struct GetExportInput {
 
 extension GetExportOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetExportOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetExportOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3012,7 +3015,7 @@ public struct GetExportOutput {
 
 enum GetExportOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3052,7 +3055,7 @@ public struct GetImportInput {
 
 extension GetImportOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetImportOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetImportOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3070,7 +3073,7 @@ extension GetImportOutput {
 
 public struct GetImportOutput {
     /// A timestamp for the date and time that the import job was created.
-    public var createdDate: ClientRuntime.Date?
+    public var createdDate: Foundation.Date?
     /// A string that describes why an import job failed to complete.
     public var failureReason: [Swift.String]?
     /// The identifier for the specific import job.
@@ -3085,7 +3088,7 @@ public struct GetImportOutput {
     public var resourceType: LexModelBuildingClientTypes.ResourceType?
 
     public init(
-        createdDate: ClientRuntime.Date? = nil,
+        createdDate: Foundation.Date? = nil,
         failureReason: [Swift.String]? = nil,
         importId: Swift.String? = nil,
         importStatus: LexModelBuildingClientTypes.ImportStatus? = nil,
@@ -3106,7 +3109,7 @@ public struct GetImportOutput {
 
 enum GetImportOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3154,7 +3157,7 @@ public struct GetIntentInput {
 
 extension GetIntentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetIntentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetIntentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3189,7 +3192,7 @@ public struct GetIntentOutput {
     /// If defined in the bot, Amazon Lex uses prompt to confirm the intent before fulfilling the user's request. For more information, see [PutIntent].
     public var confirmationPrompt: LexModelBuildingClientTypes.Prompt?
     /// The date that the intent was created.
-    public var createdDate: ClientRuntime.Date?
+    public var createdDate: Foundation.Date?
     /// A description of the intent.
     public var description: Swift.String?
     /// If defined in the bot, Amazon Amazon Lex invokes this Lambda function for each user input. For more information, see [PutIntent].
@@ -3203,7 +3206,7 @@ public struct GetIntentOutput {
     /// Configuration information, if any, to connect to an Amazon Kendra index with the AMAZON.KendraSearchIntent intent.
     public var kendraConfiguration: LexModelBuildingClientTypes.KendraConfiguration?
     /// The date that the intent was updated. When you create a resource, the creation date and the last updated date are the same.
-    public var lastUpdatedDate: ClientRuntime.Date?
+    public var lastUpdatedDate: Foundation.Date?
     /// The name of the intent.
     public var name: Swift.String?
     /// An array of OutputContext objects that lists the contexts that the intent activates when the intent is fulfilled.
@@ -3223,14 +3226,14 @@ public struct GetIntentOutput {
         checksum: Swift.String? = nil,
         conclusionStatement: LexModelBuildingClientTypes.Statement? = nil,
         confirmationPrompt: LexModelBuildingClientTypes.Prompt? = nil,
-        createdDate: ClientRuntime.Date? = nil,
+        createdDate: Foundation.Date? = nil,
         description: Swift.String? = nil,
         dialogCodeHook: LexModelBuildingClientTypes.CodeHook? = nil,
         followUpPrompt: LexModelBuildingClientTypes.FollowUpPrompt? = nil,
         fulfillmentActivity: LexModelBuildingClientTypes.FulfillmentActivity? = nil,
         inputContexts: [LexModelBuildingClientTypes.InputContext]? = nil,
         kendraConfiguration: LexModelBuildingClientTypes.KendraConfiguration? = nil,
-        lastUpdatedDate: ClientRuntime.Date? = nil,
+        lastUpdatedDate: Foundation.Date? = nil,
         name: Swift.String? = nil,
         outputContexts: [LexModelBuildingClientTypes.OutputContext]? = nil,
         parentIntentSignature: Swift.String? = nil,
@@ -3263,7 +3266,7 @@ public struct GetIntentOutput {
 
 enum GetIntentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3280,14 +3283,14 @@ enum GetIntentOutputError {
 
 extension GetIntentVersionsInput {
 
-    static func queryItemProvider(_ value: GetIntentVersionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetIntentVersionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -3327,7 +3330,7 @@ public struct GetIntentVersionsInput {
 
 extension GetIntentVersionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetIntentVersionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetIntentVersionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3356,7 +3359,7 @@ public struct GetIntentVersionsOutput {
 
 enum GetIntentVersionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3373,18 +3376,18 @@ enum GetIntentVersionsOutputError {
 
 extension GetIntentsInput {
 
-    static func queryItemProvider(_ value: GetIntentsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetIntentsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nameContains = value.nameContains {
-            let nameContainsQueryItem = ClientRuntime.SDKURLQueryItem(name: "nameContains".urlPercentEncoding(), value: Swift.String(nameContains).urlPercentEncoding())
+            let nameContainsQueryItem = Smithy.URIQueryItem(name: "nameContains".urlPercentEncoding(), value: Swift.String(nameContains).urlPercentEncoding())
             items.append(nameContainsQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -3420,7 +3423,7 @@ public struct GetIntentsInput {
 
 extension GetIntentsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetIntentsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetIntentsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3449,7 +3452,7 @@ public struct GetIntentsOutput {
 
 enum GetIntentsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3489,7 +3492,7 @@ public struct GetMigrationInput {
 
 extension GetMigrationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetMigrationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetMigrationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3522,7 +3525,7 @@ public struct GetMigrationOutput {
     /// * UPDATE_EXISTING - Overwrites the existing Amazon Lex V2 bot metadata and the locale being migrated. It doesn't change any other locales in the Amazon Lex V2 bot. If the locale doesn't exist, a new locale is created in the Amazon Lex V2 bot.
     public var migrationStrategy: LexModelBuildingClientTypes.MigrationStrategy?
     /// The date and time that the migration started.
-    public var migrationTimestamp: ClientRuntime.Date?
+    public var migrationTimestamp: Foundation.Date?
     /// The locale of the Amazon Lex V1 bot migrated to Amazon Lex V2.
     public var v1BotLocale: LexModelBuildingClientTypes.Locale?
     /// The name of the Amazon Lex V1 bot migrated to Amazon Lex V2.
@@ -3539,7 +3542,7 @@ public struct GetMigrationOutput {
         migrationId: Swift.String? = nil,
         migrationStatus: LexModelBuildingClientTypes.MigrationStatus? = nil,
         migrationStrategy: LexModelBuildingClientTypes.MigrationStrategy? = nil,
-        migrationTimestamp: ClientRuntime.Date? = nil,
+        migrationTimestamp: Foundation.Date? = nil,
         v1BotLocale: LexModelBuildingClientTypes.Locale? = nil,
         v1BotName: Swift.String? = nil,
         v1BotVersion: Swift.String? = nil,
@@ -3562,7 +3565,7 @@ public struct GetMigrationOutput {
 
 enum GetMigrationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3579,30 +3582,30 @@ enum GetMigrationOutputError {
 
 extension GetMigrationsInput {
 
-    static func queryItemProvider(_ value: GetMigrationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetMigrationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let v1BotNameContains = value.v1BotNameContains {
-            let v1BotNameContainsQueryItem = ClientRuntime.SDKURLQueryItem(name: "v1BotNameContains".urlPercentEncoding(), value: Swift.String(v1BotNameContains).urlPercentEncoding())
+            let v1BotNameContainsQueryItem = Smithy.URIQueryItem(name: "v1BotNameContains".urlPercentEncoding(), value: Swift.String(v1BotNameContains).urlPercentEncoding())
             items.append(v1BotNameContainsQueryItem)
         }
         if let sortByOrder = value.sortByOrder {
-            let sortByOrderQueryItem = ClientRuntime.SDKURLQueryItem(name: "sortByOrder".urlPercentEncoding(), value: Swift.String(sortByOrder.rawValue).urlPercentEncoding())
+            let sortByOrderQueryItem = Smithy.URIQueryItem(name: "sortByOrder".urlPercentEncoding(), value: Swift.String(sortByOrder.rawValue).urlPercentEncoding())
             items.append(sortByOrderQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let migrationStatusEquals = value.migrationStatusEquals {
-            let migrationStatusEqualsQueryItem = ClientRuntime.SDKURLQueryItem(name: "migrationStatusEquals".urlPercentEncoding(), value: Swift.String(migrationStatusEquals.rawValue).urlPercentEncoding())
+            let migrationStatusEqualsQueryItem = Smithy.URIQueryItem(name: "migrationStatusEquals".urlPercentEncoding(), value: Swift.String(migrationStatusEquals.rawValue).urlPercentEncoding())
             items.append(migrationStatusEqualsQueryItem)
         }
         if let sortByAttribute = value.sortByAttribute {
-            let sortByAttributeQueryItem = ClientRuntime.SDKURLQueryItem(name: "sortByAttribute".urlPercentEncoding(), value: Swift.String(sortByAttribute.rawValue).urlPercentEncoding())
+            let sortByAttributeQueryItem = Smithy.URIQueryItem(name: "sortByAttribute".urlPercentEncoding(), value: Swift.String(sortByAttribute.rawValue).urlPercentEncoding())
             items.append(sortByAttributeQueryItem)
         }
         return items
@@ -3650,7 +3653,7 @@ public struct GetMigrationsInput {
 
 extension GetMigrationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetMigrationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetMigrationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3679,7 +3682,7 @@ public struct GetMigrationsOutput {
 
 enum GetMigrationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3726,7 +3729,7 @@ public struct GetSlotTypeInput {
 
 extension GetSlotTypeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetSlotTypeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetSlotTypeOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3749,13 +3752,13 @@ public struct GetSlotTypeOutput {
     /// Checksum of the $LATEST version of the slot type.
     public var checksum: Swift.String?
     /// The date that the slot type was created.
-    public var createdDate: ClientRuntime.Date?
+    public var createdDate: Foundation.Date?
     /// A description of the slot type.
     public var description: Swift.String?
     /// A list of EnumerationValue objects that defines the values that the slot type can take.
     public var enumerationValues: [LexModelBuildingClientTypes.EnumerationValue]?
     /// The date that the slot type was updated. When you create a resource, the creation date and last update date are the same.
-    public var lastUpdatedDate: ClientRuntime.Date?
+    public var lastUpdatedDate: Foundation.Date?
     /// The name of the slot type.
     public var name: Swift.String?
     /// The built-in slot type used as a parent for the slot type.
@@ -3769,10 +3772,10 @@ public struct GetSlotTypeOutput {
 
     public init(
         checksum: Swift.String? = nil,
-        createdDate: ClientRuntime.Date? = nil,
+        createdDate: Foundation.Date? = nil,
         description: Swift.String? = nil,
         enumerationValues: [LexModelBuildingClientTypes.EnumerationValue]? = nil,
-        lastUpdatedDate: ClientRuntime.Date? = nil,
+        lastUpdatedDate: Foundation.Date? = nil,
         name: Swift.String? = nil,
         parentSlotTypeSignature: Swift.String? = nil,
         slotTypeConfigurations: [LexModelBuildingClientTypes.SlotTypeConfiguration]? = nil,
@@ -3795,7 +3798,7 @@ public struct GetSlotTypeOutput {
 
 enum GetSlotTypeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3812,14 +3815,14 @@ enum GetSlotTypeOutputError {
 
 extension GetSlotTypeVersionsInput {
 
-    static func queryItemProvider(_ value: GetSlotTypeVersionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetSlotTypeVersionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -3859,7 +3862,7 @@ public struct GetSlotTypeVersionsInput {
 
 extension GetSlotTypeVersionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetSlotTypeVersionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetSlotTypeVersionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3888,7 +3891,7 @@ public struct GetSlotTypeVersionsOutput {
 
 enum GetSlotTypeVersionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3905,18 +3908,18 @@ enum GetSlotTypeVersionsOutputError {
 
 extension GetSlotTypesInput {
 
-    static func queryItemProvider(_ value: GetSlotTypesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetSlotTypesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nameContains = value.nameContains {
-            let nameContainsQueryItem = ClientRuntime.SDKURLQueryItem(name: "nameContains".urlPercentEncoding(), value: Swift.String(nameContains).urlPercentEncoding())
+            let nameContainsQueryItem = Smithy.URIQueryItem(name: "nameContains".urlPercentEncoding(), value: Swift.String(nameContains).urlPercentEncoding())
             items.append(nameContainsQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -3952,7 +3955,7 @@ public struct GetSlotTypesInput {
 
 extension GetSlotTypesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetSlotTypesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetSlotTypesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3981,7 +3984,7 @@ public struct GetSlotTypesOutput {
 
 enum GetSlotTypesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3998,21 +4001,21 @@ enum GetSlotTypesOutputError {
 
 extension GetUtterancesViewInput {
 
-    static func queryItemProvider(_ value: GetUtterancesViewInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "view", value: "aggregation"))
+    static func queryItemProvider(_ value: GetUtterancesViewInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "view", value: "aggregation"))
         guard let statusType = value.statusType else {
             let message = "Creating a URL Query Item failed. statusType is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let statusTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "status_type".urlPercentEncoding(), value: Swift.String(statusType.rawValue).urlPercentEncoding())
+        let statusTypeQueryItem = Smithy.URIQueryItem(name: "status_type".urlPercentEncoding(), value: Swift.String(statusType.rawValue).urlPercentEncoding())
         items.append(statusTypeQueryItem)
         guard let botVersions = value.botVersions else {
             let message = "Creating a URL Query Item failed. botVersions is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
         botVersions.forEach { queryItemValue in
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "bot_versions".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "bot_versions".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
             items.append(queryItem)
         }
         return items
@@ -4054,7 +4057,7 @@ public struct GetUtterancesViewInput {
 
 extension GetUtterancesViewOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetUtterancesViewOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetUtterancesViewOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4083,7 +4086,7 @@ public struct GetUtterancesViewOutput {
 
 enum GetUtterancesViewOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4218,20 +4221,20 @@ extension LexModelBuildingClientTypes {
     /// Provides information about an intent.
     public struct IntentMetadata {
         /// The date that the intent was created.
-        public var createdDate: ClientRuntime.Date?
+        public var createdDate: Foundation.Date?
         /// A description of the intent.
         public var description: Swift.String?
         /// The date that the intent was updated. When you create an intent, the creation date and last updated date are the same.
-        public var lastUpdatedDate: ClientRuntime.Date?
+        public var lastUpdatedDate: Foundation.Date?
         /// The name of the intent.
         public var name: Swift.String?
         /// The version of the intent.
         public var version: Swift.String?
 
         public init(
-            createdDate: ClientRuntime.Date? = nil,
+            createdDate: Foundation.Date? = nil,
             description: Swift.String? = nil,
-            lastUpdatedDate: ClientRuntime.Date? = nil,
+            lastUpdatedDate: Foundation.Date? = nil,
             name: Swift.String? = nil,
             version: Swift.String? = nil
         )
@@ -4399,7 +4402,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4423,7 +4426,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4883,7 +4886,7 @@ extension LexModelBuildingClientTypes {
         /// The strategy used to conduct the migration.
         public var migrationStrategy: LexModelBuildingClientTypes.MigrationStrategy?
         /// The date and time that the migration started.
-        public var migrationTimestamp: ClientRuntime.Date?
+        public var migrationTimestamp: Foundation.Date?
         /// The locale of the Amazon Lex V1 bot that is the source of the migration.
         public var v1BotLocale: LexModelBuildingClientTypes.Locale?
         /// The name of the Amazon Lex V1 bot that is the source of the migration.
@@ -4899,7 +4902,7 @@ extension LexModelBuildingClientTypes {
             migrationId: Swift.String? = nil,
             migrationStatus: LexModelBuildingClientTypes.MigrationStatus? = nil,
             migrationStrategy: LexModelBuildingClientTypes.MigrationStrategy? = nil,
-            migrationTimestamp: ClientRuntime.Date? = nil,
+            migrationTimestamp: Foundation.Date? = nil,
             v1BotLocale: LexModelBuildingClientTypes.Locale? = nil,
             v1BotName: Swift.String? = nil,
             v1BotVersion: Swift.String? = nil,
@@ -5210,7 +5213,7 @@ public struct PutBotAliasInput {
 
 extension PutBotAliasOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutBotAliasOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutBotAliasOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5238,11 +5241,11 @@ public struct PutBotAliasOutput {
     /// The settings that determine how Amazon Lex uses conversation logs for the alias.
     public var conversationLogs: LexModelBuildingClientTypes.ConversationLogsResponse?
     /// The date that the bot alias was created.
-    public var createdDate: ClientRuntime.Date?
+    public var createdDate: Foundation.Date?
     /// A description of the alias.
     public var description: Swift.String?
     /// The date that the bot alias was updated. When you create a resource, the creation date and the last updated date are the same.
-    public var lastUpdatedDate: ClientRuntime.Date?
+    public var lastUpdatedDate: Foundation.Date?
     /// The name of the alias.
     public var name: Swift.String?
     /// A list of tags associated with a bot.
@@ -5253,9 +5256,9 @@ public struct PutBotAliasOutput {
         botVersion: Swift.String? = nil,
         checksum: Swift.String? = nil,
         conversationLogs: LexModelBuildingClientTypes.ConversationLogsResponse? = nil,
-        createdDate: ClientRuntime.Date? = nil,
+        createdDate: Foundation.Date? = nil,
         description: Swift.String? = nil,
-        lastUpdatedDate: ClientRuntime.Date? = nil,
+        lastUpdatedDate: Foundation.Date? = nil,
         name: Swift.String? = nil,
         tags: [LexModelBuildingClientTypes.Tag]? = nil
     )
@@ -5274,7 +5277,7 @@ public struct PutBotAliasOutput {
 
 enum PutBotAliasOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5435,7 +5438,7 @@ public struct PutBotInput {
 
 extension PutBotOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutBotOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutBotOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5476,7 +5479,7 @@ public struct PutBotOutput {
     /// True if a new version of the bot was created. If the createVersion field was not specified in the request, the createVersion field is set to false in the response.
     public var createVersion: Swift.Bool?
     /// The date that the bot was created.
-    public var createdDate: ClientRuntime.Date?
+    public var createdDate: Foundation.Date?
     /// A description of the bot.
     public var description: Swift.String?
     /// true if the bot is configured to send user utterances to Amazon Comprehend for sentiment analysis. If the detectSentiment field was not specified in the request, the detectSentiment field is false in the response.
@@ -5490,7 +5493,7 @@ public struct PutBotOutput {
     /// An array of Intent objects. For more information, see [PutBot].
     public var intents: [LexModelBuildingClientTypes.Intent]?
     /// The date that the bot was updated. When you create a resource, the creation date and last updated date are the same.
-    public var lastUpdatedDate: ClientRuntime.Date?
+    public var lastUpdatedDate: Foundation.Date?
     /// The target locale for the bot.
     public var locale: LexModelBuildingClientTypes.Locale?
     /// The name of the bot.
@@ -5512,14 +5515,14 @@ public struct PutBotOutput {
         childDirected: Swift.Bool? = nil,
         clarificationPrompt: LexModelBuildingClientTypes.Prompt? = nil,
         createVersion: Swift.Bool? = nil,
-        createdDate: ClientRuntime.Date? = nil,
+        createdDate: Foundation.Date? = nil,
         description: Swift.String? = nil,
         detectSentiment: Swift.Bool? = nil,
         enableModelImprovements: Swift.Bool? = nil,
         failureReason: Swift.String? = nil,
         idleSessionTTLInSeconds: Swift.Int? = nil,
         intents: [LexModelBuildingClientTypes.Intent]? = nil,
-        lastUpdatedDate: ClientRuntime.Date? = nil,
+        lastUpdatedDate: Foundation.Date? = nil,
         locale: LexModelBuildingClientTypes.Locale? = nil,
         name: Swift.String? = nil,
         nluIntentConfidenceThreshold: Swift.Double? = nil,
@@ -5554,7 +5557,7 @@ public struct PutBotOutput {
 
 enum PutBotOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5688,7 +5691,7 @@ public struct PutIntentInput {
 
 extension PutIntentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutIntentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutIntentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5726,7 +5729,7 @@ public struct PutIntentOutput {
     /// True if a new version of the intent was created. If the createVersion field was not specified in the request, the createVersion field is set to false in the response.
     public var createVersion: Swift.Bool?
     /// The date that the intent was created.
-    public var createdDate: ClientRuntime.Date?
+    public var createdDate: Foundation.Date?
     /// A description of the intent.
     public var description: Swift.String?
     /// If defined in the intent, Amazon Lex invokes this Lambda function for each user input.
@@ -5740,7 +5743,7 @@ public struct PutIntentOutput {
     /// Configuration information, if any, required to connect to an Amazon Kendra index and use the AMAZON.KendraSearchIntent intent.
     public var kendraConfiguration: LexModelBuildingClientTypes.KendraConfiguration?
     /// The date that the intent was updated. When you create a resource, the creation date and last update dates are the same.
-    public var lastUpdatedDate: ClientRuntime.Date?
+    public var lastUpdatedDate: Foundation.Date?
     /// The name of the intent.
     public var name: Swift.String?
     /// An array of OutputContext objects that lists the contexts that the intent activates when the intent is fulfilled.
@@ -5761,14 +5764,14 @@ public struct PutIntentOutput {
         conclusionStatement: LexModelBuildingClientTypes.Statement? = nil,
         confirmationPrompt: LexModelBuildingClientTypes.Prompt? = nil,
         createVersion: Swift.Bool? = nil,
-        createdDate: ClientRuntime.Date? = nil,
+        createdDate: Foundation.Date? = nil,
         description: Swift.String? = nil,
         dialogCodeHook: LexModelBuildingClientTypes.CodeHook? = nil,
         followUpPrompt: LexModelBuildingClientTypes.FollowUpPrompt? = nil,
         fulfillmentActivity: LexModelBuildingClientTypes.FulfillmentActivity? = nil,
         inputContexts: [LexModelBuildingClientTypes.InputContext]? = nil,
         kendraConfiguration: LexModelBuildingClientTypes.KendraConfiguration? = nil,
-        lastUpdatedDate: ClientRuntime.Date? = nil,
+        lastUpdatedDate: Foundation.Date? = nil,
         name: Swift.String? = nil,
         outputContexts: [LexModelBuildingClientTypes.OutputContext]? = nil,
         parentIntentSignature: Swift.String? = nil,
@@ -5802,7 +5805,7 @@ public struct PutIntentOutput {
 
 enum PutIntentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5892,7 +5895,7 @@ public struct PutSlotTypeInput {
 
 extension PutSlotTypeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutSlotTypeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutSlotTypeOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5918,13 +5921,13 @@ public struct PutSlotTypeOutput {
     /// True if a new version of the slot type was created. If the createVersion field was not specified in the request, the createVersion field is set to false in the response.
     public var createVersion: Swift.Bool?
     /// The date that the slot type was created.
-    public var createdDate: ClientRuntime.Date?
+    public var createdDate: Foundation.Date?
     /// A description of the slot type.
     public var description: Swift.String?
     /// A list of EnumerationValue objects that defines the values that the slot type can take.
     public var enumerationValues: [LexModelBuildingClientTypes.EnumerationValue]?
     /// The date that the slot type was updated. When you create a slot type, the creation date and last update date are the same.
-    public var lastUpdatedDate: ClientRuntime.Date?
+    public var lastUpdatedDate: Foundation.Date?
     /// The name of the slot type.
     public var name: Swift.String?
     /// The built-in slot type used as the parent of the slot type.
@@ -5939,10 +5942,10 @@ public struct PutSlotTypeOutput {
     public init(
         checksum: Swift.String? = nil,
         createVersion: Swift.Bool? = nil,
-        createdDate: ClientRuntime.Date? = nil,
+        createdDate: Foundation.Date? = nil,
         description: Swift.String? = nil,
         enumerationValues: [LexModelBuildingClientTypes.EnumerationValue]? = nil,
-        lastUpdatedDate: ClientRuntime.Date? = nil,
+        lastUpdatedDate: Foundation.Date? = nil,
         name: Swift.String? = nil,
         parentSlotTypeSignature: Swift.String? = nil,
         slotTypeConfigurations: [LexModelBuildingClientTypes.SlotTypeConfiguration]? = nil,
@@ -5966,7 +5969,7 @@ public struct PutSlotTypeOutput {
 
 enum PutSlotTypeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6367,20 +6370,20 @@ extension LexModelBuildingClientTypes {
     /// Provides information about a slot type..
     public struct SlotTypeMetadata {
         /// The date that the slot type was created.
-        public var createdDate: ClientRuntime.Date?
+        public var createdDate: Foundation.Date?
         /// A description of the slot type.
         public var description: Swift.String?
         /// The date that the slot type was updated. When you create a resource, the creation date and last updated date are the same.
-        public var lastUpdatedDate: ClientRuntime.Date?
+        public var lastUpdatedDate: Foundation.Date?
         /// The name of the slot type.
         public var name: Swift.String?
         /// The version of the slot type.
         public var version: Swift.String?
 
         public init(
-            createdDate: ClientRuntime.Date? = nil,
+            createdDate: Foundation.Date? = nil,
             description: Swift.String? = nil,
-            lastUpdatedDate: ClientRuntime.Date? = nil,
+            lastUpdatedDate: Foundation.Date? = nil,
             name: Swift.String? = nil,
             version: Swift.String? = nil
         )
@@ -6524,7 +6527,7 @@ public struct StartImportInput {
     public var mergeStrategy: LexModelBuildingClientTypes.MergeStrategy?
     /// A zip archive in binary format. The archive should contain one file, a JSON file containing the resource to import. The resource should match the type specified in the resourceType field.
     /// This member is required.
-    public var payload: ClientRuntime.Data?
+    public var payload: Foundation.Data?
     /// Specifies the type of resource to export. Each resource also exports any resources that it depends on.
     ///
     /// * A bot exports dependent intents.
@@ -6537,7 +6540,7 @@ public struct StartImportInput {
 
     public init(
         mergeStrategy: LexModelBuildingClientTypes.MergeStrategy? = nil,
-        payload: ClientRuntime.Data? = nil,
+        payload: Foundation.Data? = nil,
         resourceType: LexModelBuildingClientTypes.ResourceType? = nil,
         tags: [LexModelBuildingClientTypes.Tag]? = nil
     )
@@ -6551,7 +6554,7 @@ public struct StartImportInput {
 
 extension StartImportOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartImportOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartImportOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6569,7 +6572,7 @@ extension StartImportOutput {
 
 public struct StartImportOutput {
     /// A timestamp for the date and time that the import job was requested.
-    public var createdDate: ClientRuntime.Date?
+    public var createdDate: Foundation.Date?
     /// The identifier for the specific import job.
     public var importId: Swift.String?
     /// The status of the import job. If the status is FAILED, you can get the reason for the failure using the GetImport operation.
@@ -6584,7 +6587,7 @@ public struct StartImportOutput {
     public var tags: [LexModelBuildingClientTypes.Tag]?
 
     public init(
-        createdDate: ClientRuntime.Date? = nil,
+        createdDate: Foundation.Date? = nil,
         importId: Swift.String? = nil,
         importStatus: LexModelBuildingClientTypes.ImportStatus? = nil,
         mergeStrategy: LexModelBuildingClientTypes.MergeStrategy? = nil,
@@ -6605,7 +6608,7 @@ public struct StartImportOutput {
 
 enum StartImportOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6681,7 +6684,7 @@ public struct StartMigrationInput {
 
 extension StartMigrationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartMigrationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartMigrationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6704,7 +6707,7 @@ public struct StartMigrationOutput {
     /// The strategy used to conduct the migration.
     public var migrationStrategy: LexModelBuildingClientTypes.MigrationStrategy?
     /// The date and time that the migration started.
-    public var migrationTimestamp: ClientRuntime.Date?
+    public var migrationTimestamp: Foundation.Date?
     /// The locale used for the Amazon Lex V1 bot.
     public var v1BotLocale: LexModelBuildingClientTypes.Locale?
     /// The name of the Amazon Lex V1 bot that you are migrating to Amazon Lex V2.
@@ -6719,7 +6722,7 @@ public struct StartMigrationOutput {
     public init(
         migrationId: Swift.String? = nil,
         migrationStrategy: LexModelBuildingClientTypes.MigrationStrategy? = nil,
-        migrationTimestamp: ClientRuntime.Date? = nil,
+        migrationTimestamp: Foundation.Date? = nil,
         v1BotLocale: LexModelBuildingClientTypes.Locale? = nil,
         v1BotName: Swift.String? = nil,
         v1BotVersion: Swift.String? = nil,
@@ -6740,7 +6743,7 @@ public struct StartMigrationOutput {
 
 enum StartMigrationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6938,7 +6941,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -6950,7 +6953,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6968,14 +6971,14 @@ enum TagResourceOutputError {
 
 extension UntagResourceInput {
 
-    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let tagKeys = value.tagKeys else {
             let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
         tagKeys.forEach { queryItemValue in
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
             items.append(queryItem)
         }
         return items
@@ -7012,7 +7015,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -7024,7 +7027,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7062,17 +7065,17 @@ extension LexModelBuildingClientTypes {
         /// The total number of individuals that used the utterance.
         public var distinctUsers: Swift.Int?
         /// The date that the utterance was first recorded.
-        public var firstUtteredDate: ClientRuntime.Date?
+        public var firstUtteredDate: Foundation.Date?
         /// The date that the utterance was last recorded.
-        public var lastUtteredDate: ClientRuntime.Date?
+        public var lastUtteredDate: Foundation.Date?
         /// The text that was entered by the user or the text representation of an audio clip.
         public var utteranceString: Swift.String?
 
         public init(
             count: Swift.Int? = nil,
             distinctUsers: Swift.Int? = nil,
-            firstUtteredDate: ClientRuntime.Date? = nil,
-            lastUtteredDate: ClientRuntime.Date? = nil,
+            firstUtteredDate: Foundation.Date? = nil,
+            lastUtteredDate: Foundation.Date? = nil,
             utteranceString: Swift.String? = nil
         )
         {

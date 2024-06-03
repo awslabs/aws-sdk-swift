@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -207,14 +210,14 @@ extension BedrockAgentClientTypes {
         public var description: Swift.String?
         /// The time at which the action group was last updated.
         /// This member is required.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
 
         public init(
             actionGroupId: Swift.String? = nil,
             actionGroupName: Swift.String? = nil,
             actionGroupState: BedrockAgentClientTypes.ActionGroupState? = nil,
             description: Swift.String? = nil,
-            updatedAt: ClientRuntime.Date? = nil
+            updatedAt: Foundation.Date? = nil
         )
         {
             self.actionGroupId = actionGroupId
@@ -299,7 +302,7 @@ extension BedrockAgentClientTypes {
         public var clientToken: Swift.String?
         /// The time at which the agent was created.
         /// This member is required.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the KMS key that encrypts the agent.
         public var customerEncryptionKeyArn: Swift.String?
         /// The description of the agent.
@@ -316,14 +319,14 @@ extension BedrockAgentClientTypes {
         /// Instructions that tell the agent what it should do and how it should interact with users.
         public var instruction: Swift.String?
         /// The time at which the agent was last prepared.
-        public var preparedAt: ClientRuntime.Date?
+        public var preparedAt: Foundation.Date?
         /// Contains configurations to override prompt templates in different parts of an agent sequence. For more information, see [Advanced prompts](https://docs.aws.amazon.com/bedrock/latest/userguide/advanced-prompts.html).
         public var promptOverrideConfiguration: BedrockAgentClientTypes.PromptOverrideConfiguration?
         /// Contains recommended actions to take for the agent-related API that you invoked to succeed.
         public var recommendedActions: [Swift.String]?
         /// The time at which the agent was last updated.
         /// This member is required.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
 
         public init(
             agentArn: Swift.String? = nil,
@@ -333,7 +336,7 @@ extension BedrockAgentClientTypes {
             agentStatus: BedrockAgentClientTypes.AgentStatus? = nil,
             agentVersion: Swift.String? = nil,
             clientToken: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             customerEncryptionKeyArn: Swift.String? = nil,
             description: Swift.String? = nil,
             failureReasons: [Swift.String]? = nil,
@@ -341,10 +344,10 @@ extension BedrockAgentClientTypes {
             guardrailConfiguration: BedrockAgentClientTypes.GuardrailConfiguration? = nil,
             idleSessionTTLInSeconds: Swift.Int? = nil,
             instruction: Swift.String? = nil,
-            preparedAt: ClientRuntime.Date? = nil,
+            preparedAt: Foundation.Date? = nil,
             promptOverrideConfiguration: BedrockAgentClientTypes.PromptOverrideConfiguration? = nil,
             recommendedActions: [Swift.String]? = nil,
-            updatedAt: ClientRuntime.Date? = nil
+            updatedAt: Foundation.Date? = nil
         )
         {
             self.agentArn = agentArn
@@ -419,7 +422,7 @@ extension BedrockAgentClientTypes {
         public var clientToken: Swift.String?
         /// The time at which the action group was created.
         /// This member is required.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The description of the action group.
         public var description: Swift.String?
         /// Defines functions that each define parameters that the agent needs to invoke from the user. Each function represents an action in an action group.
@@ -428,7 +431,7 @@ extension BedrockAgentClientTypes {
         public var parentActionSignature: BedrockAgentClientTypes.ActionGroupSignature?
         /// The time at which the action group was last updated.
         /// This member is required.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
 
         public init(
             actionGroupExecutor: BedrockAgentClientTypes.ActionGroupExecutor? = nil,
@@ -439,11 +442,11 @@ extension BedrockAgentClientTypes {
             agentVersion: Swift.String? = nil,
             apiSchema: BedrockAgentClientTypes.APISchema? = nil,
             clientToken: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
             functionSchema: BedrockAgentClientTypes.FunctionSchema? = nil,
             parentActionSignature: BedrockAgentClientTypes.ActionGroupSignature? = nil,
-            updatedAt: ClientRuntime.Date? = nil
+            updatedAt: Foundation.Date? = nil
         )
         {
             self.actionGroupExecutor = actionGroupExecutor
@@ -519,7 +522,7 @@ extension BedrockAgentClientTypes {
         public var clientToken: Swift.String?
         /// The time at which the alias of the agent was created.
         /// This member is required.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The description of the alias of the agent.
         public var description: Swift.String?
         /// Information on the failure of Provisioned Throughput assigned to an agent alias.
@@ -529,7 +532,7 @@ extension BedrockAgentClientTypes {
         public var routingConfiguration: [BedrockAgentClientTypes.AgentAliasRoutingConfigurationListItem]?
         /// The time at which the alias was last updated.
         /// This member is required.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
 
         public init(
             agentAliasArn: Swift.String? = nil,
@@ -539,11 +542,11 @@ extension BedrockAgentClientTypes {
             agentAliasStatus: BedrockAgentClientTypes.AgentAliasStatus? = nil,
             agentId: Swift.String? = nil,
             clientToken: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
             failureReasons: [Swift.String]? = nil,
             routingConfiguration: [BedrockAgentClientTypes.AgentAliasRoutingConfigurationListItem]? = nil,
-            updatedAt: ClientRuntime.Date? = nil
+            updatedAt: Foundation.Date? = nil
         )
         {
             self.agentAliasArn = agentAliasArn
@@ -579,16 +582,16 @@ extension BedrockAgentClientTypes {
     /// Contains details about the history of the alias.
     public struct AgentAliasHistoryEvent {
         /// The date that the alias stopped being associated to the version in the routingConfiguration object
-        public var endDate: ClientRuntime.Date?
+        public var endDate: Foundation.Date?
         /// Contains details about the version of the agent with which the alias is associated.
         public var routingConfiguration: [BedrockAgentClientTypes.AgentAliasRoutingConfigurationListItem]?
         /// The date that the alias began being associated to the version in the routingConfiguration object.
-        public var startDate: ClientRuntime.Date?
+        public var startDate: Foundation.Date?
 
         public init(
-            endDate: ClientRuntime.Date? = nil,
+            endDate: Foundation.Date? = nil,
             routingConfiguration: [BedrockAgentClientTypes.AgentAliasRoutingConfigurationListItem]? = nil,
-            startDate: ClientRuntime.Date? = nil
+            startDate: Foundation.Date? = nil
         )
         {
             self.endDate = endDate
@@ -704,23 +707,23 @@ extension BedrockAgentClientTypes {
         public var agentAliasStatus: BedrockAgentClientTypes.AgentAliasStatus?
         /// The time at which the alias of the agent was created.
         /// This member is required.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The description of the alias.
         public var description: Swift.String?
         /// Contains details about the version of the agent with which the alias is associated.
         public var routingConfiguration: [BedrockAgentClientTypes.AgentAliasRoutingConfigurationListItem]?
         /// The time at which the alias was last updated.
         /// This member is required.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
 
         public init(
             agentAliasId: Swift.String? = nil,
             agentAliasName: Swift.String? = nil,
             agentAliasStatus: BedrockAgentClientTypes.AgentAliasStatus? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
             routingConfiguration: [BedrockAgentClientTypes.AgentAliasRoutingConfigurationListItem]? = nil,
-            updatedAt: ClientRuntime.Date? = nil
+            updatedAt: Foundation.Date? = nil
         )
         {
             self.agentAliasId = agentAliasId
@@ -762,7 +765,7 @@ extension BedrockAgentClientTypes {
         public var agentVersion: Swift.String?
         /// The time at which the association between the agent and the knowledge base was created.
         /// This member is required.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The description of the association between the agent and the knowledge base.
         /// This member is required.
         public var description: Swift.String?
@@ -774,16 +777,16 @@ extension BedrockAgentClientTypes {
         public var knowledgeBaseState: BedrockAgentClientTypes.KnowledgeBaseState?
         /// The time at which the association between the agent and the knowledge base was last updated.
         /// This member is required.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
 
         public init(
             agentId: Swift.String? = nil,
             agentVersion: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
             knowledgeBaseId: Swift.String? = nil,
             knowledgeBaseState: BedrockAgentClientTypes.KnowledgeBaseState? = nil,
-            updatedAt: ClientRuntime.Date? = nil
+            updatedAt: Foundation.Date? = nil
         )
         {
             self.agentId = agentId
@@ -824,13 +827,13 @@ extension BedrockAgentClientTypes {
         public var knowledgeBaseState: BedrockAgentClientTypes.KnowledgeBaseState?
         /// The time at which the knowledge base associated with an agent was last updated.
         /// This member is required.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
 
         public init(
             description: Swift.String? = nil,
             knowledgeBaseId: Swift.String? = nil,
             knowledgeBaseState: BedrockAgentClientTypes.KnowledgeBaseState? = nil,
-            updatedAt: ClientRuntime.Date? = nil
+            updatedAt: Foundation.Date? = nil
         )
         {
             self.description = description
@@ -925,7 +928,7 @@ extension BedrockAgentClientTypes {
         public var latestAgentVersion: Swift.String?
         /// The time at which the agent was last updated.
         /// This member is required.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
 
         public init(
             agentId: Swift.String? = nil,
@@ -934,7 +937,7 @@ extension BedrockAgentClientTypes {
             description: Swift.String? = nil,
             guardrailConfiguration: BedrockAgentClientTypes.GuardrailConfiguration? = nil,
             latestAgentVersion: Swift.String? = nil,
-            updatedAt: ClientRuntime.Date? = nil
+            updatedAt: Foundation.Date? = nil
         )
         {
             self.agentId = agentId
@@ -1000,7 +1003,7 @@ extension BedrockAgentClientTypes {
         public var agentStatus: BedrockAgentClientTypes.AgentStatus?
         /// The time at which the version was created.
         /// This member is required.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the KMS key that encrypts the agent.
         public var customerEncryptionKeyArn: Swift.String?
         /// The description of the version.
@@ -1022,7 +1025,7 @@ extension BedrockAgentClientTypes {
         public var recommendedActions: [Swift.String]?
         /// The time at which the version was last updated.
         /// This member is required.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
         /// The version number.
         /// This member is required.
         public var version: Swift.String?
@@ -1033,7 +1036,7 @@ extension BedrockAgentClientTypes {
             agentName: Swift.String? = nil,
             agentResourceRoleArn: Swift.String? = nil,
             agentStatus: BedrockAgentClientTypes.AgentStatus? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             customerEncryptionKeyArn: Swift.String? = nil,
             description: Swift.String? = nil,
             failureReasons: [Swift.String]? = nil,
@@ -1043,7 +1046,7 @@ extension BedrockAgentClientTypes {
             instruction: Swift.String? = nil,
             promptOverrideConfiguration: BedrockAgentClientTypes.PromptOverrideConfiguration? = nil,
             recommendedActions: [Swift.String]? = nil,
-            updatedAt: ClientRuntime.Date? = nil,
+            updatedAt: Foundation.Date? = nil,
             version: Swift.String? = nil
         )
         {
@@ -1099,23 +1102,23 @@ extension BedrockAgentClientTypes {
         public var agentVersion: Swift.String?
         /// The time at which the version was created.
         /// This member is required.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The description of the version of the agent.
         public var description: Swift.String?
         /// The details of the guardrails configuration in the agent version summary.
         public var guardrailConfiguration: BedrockAgentClientTypes.GuardrailConfiguration?
         /// The time at which the version was last updated.
         /// This member is required.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
 
         public init(
             agentName: Swift.String? = nil,
             agentStatus: BedrockAgentClientTypes.AgentStatus? = nil,
             agentVersion: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
             guardrailConfiguration: BedrockAgentClientTypes.GuardrailConfiguration? = nil,
-            updatedAt: ClientRuntime.Date? = nil
+            updatedAt: Foundation.Date? = nil
         )
         {
             self.agentName = agentName
@@ -1187,7 +1190,7 @@ public struct AssociateAgentKnowledgeBaseInput {
 
 extension AssociateAgentKnowledgeBaseOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AssociateAgentKnowledgeBaseOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AssociateAgentKnowledgeBaseOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1212,7 +1215,7 @@ public struct AssociateAgentKnowledgeBaseOutput {
 
 enum AssociateAgentKnowledgeBaseOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1421,7 +1424,7 @@ public struct CreateAgentActionGroupInput {
 
 extension CreateAgentActionGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateAgentActionGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateAgentActionGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1446,7 +1449,7 @@ public struct CreateAgentActionGroupOutput {
 
 enum CreateAgentActionGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1522,7 +1525,7 @@ public struct CreateAgentAliasInput {
 
 extension CreateAgentAliasOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateAgentAliasOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateAgentAliasOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1547,7 +1550,7 @@ public struct CreateAgentAliasOutput {
 
 enum CreateAgentAliasOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1650,7 +1653,7 @@ public struct CreateAgentInput {
 
 extension CreateAgentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateAgentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateAgentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1675,7 +1678,7 @@ public struct CreateAgentOutput {
 
 enum CreateAgentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1761,7 +1764,7 @@ public struct CreateDataSourceInput {
 
 extension CreateDataSourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateDataSourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateDataSourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1786,7 +1789,7 @@ public struct CreateDataSourceOutput {
 
 enum CreateDataSourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1867,7 +1870,7 @@ public struct CreateKnowledgeBaseInput {
 
 extension CreateKnowledgeBaseOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateKnowledgeBaseOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateKnowledgeBaseOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1892,7 +1895,7 @@ public struct CreateKnowledgeBaseOutput {
 
 enum CreateKnowledgeBaseOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2019,7 +2022,7 @@ extension BedrockAgentClientTypes {
     public struct DataSource {
         /// The time at which the data source was created.
         /// This member is required.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The data deletion policy for a data source.
         public var dataDeletionPolicy: BedrockAgentClientTypes.DataDeletionPolicy?
         /// Contains details about how the data source is stored.
@@ -2049,12 +2052,12 @@ extension BedrockAgentClientTypes {
         public var status: BedrockAgentClientTypes.DataSourceStatus?
         /// The time at which the data source was last updated.
         /// This member is required.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
         /// Contains details about how to ingest the documents in the data source.
         public var vectorIngestionConfiguration: BedrockAgentClientTypes.VectorIngestionConfiguration?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             dataDeletionPolicy: BedrockAgentClientTypes.DataDeletionPolicy? = nil,
             dataSourceConfiguration: BedrockAgentClientTypes.DataSourceConfiguration? = nil,
             dataSourceId: Swift.String? = nil,
@@ -2064,7 +2067,7 @@ extension BedrockAgentClientTypes {
             name: Swift.String? = nil,
             serverSideEncryptionConfiguration: BedrockAgentClientTypes.ServerSideEncryptionConfiguration? = nil,
             status: BedrockAgentClientTypes.DataSourceStatus? = nil,
-            updatedAt: ClientRuntime.Date? = nil,
+            updatedAt: Foundation.Date? = nil,
             vectorIngestionConfiguration: BedrockAgentClientTypes.VectorIngestionConfiguration? = nil
         )
         {
@@ -2189,7 +2192,7 @@ extension BedrockAgentClientTypes {
         public var status: BedrockAgentClientTypes.DataSourceStatus?
         /// The time at which the data source was last updated.
         /// This member is required.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
 
         public init(
             dataSourceId: Swift.String? = nil,
@@ -2197,7 +2200,7 @@ extension BedrockAgentClientTypes {
             knowledgeBaseId: Swift.String? = nil,
             name: Swift.String? = nil,
             status: BedrockAgentClientTypes.DataSourceStatus? = nil,
-            updatedAt: ClientRuntime.Date? = nil
+            updatedAt: Foundation.Date? = nil
         )
         {
             self.dataSourceId = dataSourceId
@@ -2239,10 +2242,10 @@ extension BedrockAgentClientTypes {
 
 extension DeleteAgentActionGroupInput {
 
-    static func queryItemProvider(_ value: DeleteAgentActionGroupInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteAgentActionGroupInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let skipResourceInUseCheck = value.skipResourceInUseCheck {
-            let skipResourceInUseCheckQueryItem = ClientRuntime.SDKURLQueryItem(name: "skipResourceInUseCheck".urlPercentEncoding(), value: Swift.String(skipResourceInUseCheck).urlPercentEncoding())
+            let skipResourceInUseCheckQueryItem = Smithy.URIQueryItem(name: "skipResourceInUseCheck".urlPercentEncoding(), value: Swift.String(skipResourceInUseCheck).urlPercentEncoding())
             items.append(skipResourceInUseCheckQueryItem)
         }
         return items
@@ -2294,7 +2297,7 @@ public struct DeleteAgentActionGroupInput {
 
 extension DeleteAgentActionGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteAgentActionGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteAgentActionGroupOutput {
         return DeleteAgentActionGroupOutput()
     }
 }
@@ -2306,7 +2309,7 @@ public struct DeleteAgentActionGroupOutput {
 
 enum DeleteAgentActionGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2356,7 +2359,7 @@ public struct DeleteAgentAliasInput {
 
 extension DeleteAgentAliasOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteAgentAliasOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteAgentAliasOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2393,7 +2396,7 @@ public struct DeleteAgentAliasOutput {
 
 enum DeleteAgentAliasOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2411,10 +2414,10 @@ enum DeleteAgentAliasOutputError {
 
 extension DeleteAgentInput {
 
-    static func queryItemProvider(_ value: DeleteAgentInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteAgentInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let skipResourceInUseCheck = value.skipResourceInUseCheck {
-            let skipResourceInUseCheckQueryItem = ClientRuntime.SDKURLQueryItem(name: "skipResourceInUseCheck".urlPercentEncoding(), value: Swift.String(skipResourceInUseCheck).urlPercentEncoding())
+            let skipResourceInUseCheckQueryItem = Smithy.URIQueryItem(name: "skipResourceInUseCheck".urlPercentEncoding(), value: Swift.String(skipResourceInUseCheck).urlPercentEncoding())
             items.append(skipResourceInUseCheckQueryItem)
         }
         return items
@@ -2450,7 +2453,7 @@ public struct DeleteAgentInput {
 
 extension DeleteAgentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteAgentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteAgentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2481,7 +2484,7 @@ public struct DeleteAgentOutput {
 
 enum DeleteAgentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2500,10 +2503,10 @@ enum DeleteAgentOutputError {
 
 extension DeleteAgentVersionInput {
 
-    static func queryItemProvider(_ value: DeleteAgentVersionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteAgentVersionInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let skipResourceInUseCheck = value.skipResourceInUseCheck {
-            let skipResourceInUseCheckQueryItem = ClientRuntime.SDKURLQueryItem(name: "skipResourceInUseCheck".urlPercentEncoding(), value: Swift.String(skipResourceInUseCheck).urlPercentEncoding())
+            let skipResourceInUseCheckQueryItem = Smithy.URIQueryItem(name: "skipResourceInUseCheck".urlPercentEncoding(), value: Swift.String(skipResourceInUseCheck).urlPercentEncoding())
             items.append(skipResourceInUseCheckQueryItem)
         }
         return items
@@ -2547,7 +2550,7 @@ public struct DeleteAgentVersionInput {
 
 extension DeleteAgentVersionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteAgentVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteAgentVersionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2584,7 +2587,7 @@ public struct DeleteAgentVersionOutput {
 
 enum DeleteAgentVersionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2634,7 +2637,7 @@ public struct DeleteDataSourceInput {
 
 extension DeleteDataSourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteDataSourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteDataSourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2671,7 +2674,7 @@ public struct DeleteDataSourceOutput {
 
 enum DeleteDataSourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2713,7 +2716,7 @@ public struct DeleteKnowledgeBaseInput {
 
 extension DeleteKnowledgeBaseOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteKnowledgeBaseOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteKnowledgeBaseOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2744,7 +2747,7 @@ public struct DeleteKnowledgeBaseOutput {
 
 enum DeleteKnowledgeBaseOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2802,7 +2805,7 @@ public struct DisassociateAgentKnowledgeBaseInput {
 
 extension DisassociateAgentKnowledgeBaseOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DisassociateAgentKnowledgeBaseOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DisassociateAgentKnowledgeBaseOutput {
         return DisassociateAgentKnowledgeBaseOutput()
     }
 }
@@ -2814,7 +2817,7 @@ public struct DisassociateAgentKnowledgeBaseOutput {
 
 enum DisassociateAgentKnowledgeBaseOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3009,7 +3012,7 @@ public struct GetAgentActionGroupInput {
 
 extension GetAgentActionGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetAgentActionGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetAgentActionGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3034,7 +3037,7 @@ public struct GetAgentActionGroupOutput {
 
 enum GetAgentActionGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3083,7 +3086,7 @@ public struct GetAgentAliasInput {
 
 extension GetAgentAliasOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetAgentAliasOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetAgentAliasOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3108,7 +3111,7 @@ public struct GetAgentAliasOutput {
 
 enum GetAgentAliasOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3188,7 +3191,7 @@ public struct GetAgentKnowledgeBaseInput {
 
 extension GetAgentKnowledgeBaseOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetAgentKnowledgeBaseOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetAgentKnowledgeBaseOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3213,7 +3216,7 @@ public struct GetAgentKnowledgeBaseOutput {
 
 enum GetAgentKnowledgeBaseOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3231,7 +3234,7 @@ enum GetAgentKnowledgeBaseOutputError {
 
 extension GetAgentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetAgentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetAgentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3256,7 +3259,7 @@ public struct GetAgentOutput {
 
 enum GetAgentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3305,7 +3308,7 @@ public struct GetAgentVersionInput {
 
 extension GetAgentVersionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetAgentVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetAgentVersionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3330,7 +3333,7 @@ public struct GetAgentVersionOutput {
 
 enum GetAgentVersionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3379,7 +3382,7 @@ public struct GetDataSourceInput {
 
 extension GetDataSourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetDataSourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetDataSourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3404,7 +3407,7 @@ public struct GetDataSourceOutput {
 
 enum GetDataSourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3461,7 +3464,7 @@ public struct GetIngestionJobInput {
 
 extension GetIngestionJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetIngestionJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetIngestionJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3486,7 +3489,7 @@ public struct GetIngestionJobOutput {
 
 enum GetIngestionJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3527,7 +3530,7 @@ public struct GetKnowledgeBaseInput {
 
 extension GetKnowledgeBaseOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetKnowledgeBaseOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetKnowledgeBaseOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3552,7 +3555,7 @@ public struct GetKnowledgeBaseOutput {
 
 enum GetKnowledgeBaseOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3702,7 +3705,7 @@ extension BedrockAgentClientTypes {
         public var knowledgeBaseId: Swift.String?
         /// The time at which the ingestion job started.
         /// This member is required.
-        public var startedAt: ClientRuntime.Date?
+        public var startedAt: Foundation.Date?
         /// Contains statistics about the ingestion job.
         public var statistics: BedrockAgentClientTypes.IngestionJobStatistics?
         /// The status of the ingestion job.
@@ -3710,7 +3713,7 @@ extension BedrockAgentClientTypes {
         public var status: BedrockAgentClientTypes.IngestionJobStatus?
         /// The time at which the ingestion job was last updated.
         /// This member is required.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
 
         public init(
             dataSourceId: Swift.String? = nil,
@@ -3718,10 +3721,10 @@ extension BedrockAgentClientTypes {
             failureReasons: [Swift.String]? = nil,
             ingestionJobId: Swift.String? = nil,
             knowledgeBaseId: Swift.String? = nil,
-            startedAt: ClientRuntime.Date? = nil,
+            startedAt: Foundation.Date? = nil,
             statistics: BedrockAgentClientTypes.IngestionJobStatistics? = nil,
             status: BedrockAgentClientTypes.IngestionJobStatus? = nil,
-            updatedAt: ClientRuntime.Date? = nil
+            updatedAt: Foundation.Date? = nil
         )
         {
             self.dataSourceId = dataSourceId
@@ -4011,7 +4014,7 @@ extension BedrockAgentClientTypes {
         public var knowledgeBaseId: Swift.String?
         /// The time at which the ingestion job was started.
         /// This member is required.
-        public var startedAt: ClientRuntime.Date?
+        public var startedAt: Foundation.Date?
         /// Contains statistics for the ingestion job.
         public var statistics: BedrockAgentClientTypes.IngestionJobStatistics?
         /// The status of the ingestion job.
@@ -4019,17 +4022,17 @@ extension BedrockAgentClientTypes {
         public var status: BedrockAgentClientTypes.IngestionJobStatus?
         /// The time at which the ingestion job was last updated.
         /// This member is required.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
 
         public init(
             dataSourceId: Swift.String? = nil,
             description: Swift.String? = nil,
             ingestionJobId: Swift.String? = nil,
             knowledgeBaseId: Swift.String? = nil,
-            startedAt: ClientRuntime.Date? = nil,
+            startedAt: Foundation.Date? = nil,
             statistics: BedrockAgentClientTypes.IngestionJobStatistics? = nil,
             status: BedrockAgentClientTypes.IngestionJobStatus? = nil,
-            updatedAt: ClientRuntime.Date? = nil
+            updatedAt: Foundation.Date? = nil
         )
         {
             self.dataSourceId = dataSourceId
@@ -4107,7 +4110,7 @@ extension BedrockAgentClientTypes {
     public struct KnowledgeBase {
         /// The time at which the knowledge base was created.
         /// This member is required.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The description of the knowledge base.
         public var description: Swift.String?
         /// A list of reasons that the API operation on the knowledge base failed.
@@ -4145,10 +4148,10 @@ extension BedrockAgentClientTypes {
         public var storageConfiguration: BedrockAgentClientTypes.StorageConfiguration?
         /// The time at which the knowledge base was last updated.
         /// This member is required.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
             failureReasons: [Swift.String]? = nil,
             knowledgeBaseArn: Swift.String? = nil,
@@ -4158,7 +4161,7 @@ extension BedrockAgentClientTypes {
             roleArn: Swift.String? = nil,
             status: BedrockAgentClientTypes.KnowledgeBaseStatus? = nil,
             storageConfiguration: BedrockAgentClientTypes.StorageConfiguration? = nil,
-            updatedAt: ClientRuntime.Date? = nil
+            updatedAt: Foundation.Date? = nil
         )
         {
             self.createdAt = createdAt
@@ -4353,14 +4356,14 @@ extension BedrockAgentClientTypes {
         public var status: BedrockAgentClientTypes.KnowledgeBaseStatus?
         /// The time at which the knowledge base was last updated.
         /// This member is required.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
 
         public init(
             description: Swift.String? = nil,
             knowledgeBaseId: Swift.String? = nil,
             name: Swift.String? = nil,
             status: BedrockAgentClientTypes.KnowledgeBaseStatus? = nil,
-            updatedAt: ClientRuntime.Date? = nil
+            updatedAt: Foundation.Date? = nil
         )
         {
             self.description = description
@@ -4449,7 +4452,7 @@ public struct ListAgentActionGroupsInput {
 
 extension ListAgentActionGroupsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAgentActionGroupsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAgentActionGroupsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4479,7 +4482,7 @@ public struct ListAgentActionGroupsOutput {
 
 enum ListAgentActionGroupsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4537,7 +4540,7 @@ public struct ListAgentAliasesInput {
 
 extension ListAgentAliasesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAgentAliasesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAgentAliasesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4567,7 +4570,7 @@ public struct ListAgentAliasesOutput {
 
 enum ListAgentAliasesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4633,7 +4636,7 @@ public struct ListAgentKnowledgeBasesInput {
 
 extension ListAgentKnowledgeBasesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAgentKnowledgeBasesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAgentKnowledgeBasesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4663,7 +4666,7 @@ public struct ListAgentKnowledgeBasesOutput {
 
 enum ListAgentKnowledgeBasesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4721,7 +4724,7 @@ public struct ListAgentVersionsInput {
 
 extension ListAgentVersionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAgentVersionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAgentVersionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4751,7 +4754,7 @@ public struct ListAgentVersionsOutput {
 
 enum ListAgentVersionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4801,7 +4804,7 @@ public struct ListAgentsInput {
 
 extension ListAgentsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAgentsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAgentsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4831,7 +4834,7 @@ public struct ListAgentsOutput {
 
 enum ListAgentsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4888,7 +4891,7 @@ public struct ListDataSourcesInput {
 
 extension ListDataSourcesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListDataSourcesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListDataSourcesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4918,7 +4921,7 @@ public struct ListDataSourcesOutput {
 
 enum ListDataSourcesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4994,7 +4997,7 @@ public struct ListIngestionJobsInput {
 
 extension ListIngestionJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListIngestionJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListIngestionJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5024,7 +5027,7 @@ public struct ListIngestionJobsOutput {
 
 enum ListIngestionJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5074,7 +5077,7 @@ public struct ListKnowledgeBasesInput {
 
 extension ListKnowledgeBasesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListKnowledgeBasesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListKnowledgeBasesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5104,7 +5107,7 @@ public struct ListKnowledgeBasesOutput {
 
 enum ListKnowledgeBasesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5144,7 +5147,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5168,7 +5171,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5565,7 +5568,7 @@ public struct PrepareAgentInput {
 
 extension PrepareAgentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PrepareAgentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PrepareAgentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5590,13 +5593,13 @@ public struct PrepareAgentOutput {
     public var agentVersion: Swift.String?
     /// The time at which the DRAFT version of the agent was last prepared.
     /// This member is required.
-    public var preparedAt: ClientRuntime.Date?
+    public var preparedAt: Foundation.Date?
 
     public init(
         agentId: Swift.String? = nil,
         agentStatus: BedrockAgentClientTypes.AgentStatus? = nil,
         agentVersion: Swift.String? = nil,
-        preparedAt: ClientRuntime.Date? = nil
+        preparedAt: Foundation.Date? = nil
     )
     {
         self.agentId = agentId
@@ -5608,7 +5611,7 @@ public struct PrepareAgentOutput {
 
 enum PrepareAgentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6280,7 +6283,7 @@ public struct StartIngestionJobInput {
 
 extension StartIngestionJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartIngestionJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartIngestionJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6305,7 +6308,7 @@ public struct StartIngestionJobOutput {
 
 enum StartIngestionJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6423,7 +6426,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -6435,7 +6438,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6529,14 +6532,14 @@ extension BedrockAgentClientTypes {
 
 extension UntagResourceInput {
 
-    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let tagKeys = value.tagKeys else {
             let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
         tagKeys.forEach { queryItemValue in
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
             items.append(queryItem)
         }
         return items
@@ -6573,7 +6576,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -6585,7 +6588,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6685,7 +6688,7 @@ public struct UpdateAgentActionGroupInput {
 
 extension UpdateAgentActionGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateAgentActionGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateAgentActionGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6710,7 +6713,7 @@ public struct UpdateAgentActionGroupOutput {
 
 enum UpdateAgentActionGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6784,7 +6787,7 @@ public struct UpdateAgentAliasInput {
 
 extension UpdateAgentAliasOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateAgentAliasOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateAgentAliasOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6809,7 +6812,7 @@ public struct UpdateAgentAliasOutput {
 
 enum UpdateAgentAliasOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6968,7 +6971,7 @@ public struct UpdateAgentKnowledgeBaseInput {
 
 extension UpdateAgentKnowledgeBaseOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateAgentKnowledgeBaseOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateAgentKnowledgeBaseOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6993,7 +6996,7 @@ public struct UpdateAgentKnowledgeBaseOutput {
 
 enum UpdateAgentKnowledgeBaseOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7012,7 +7015,7 @@ enum UpdateAgentKnowledgeBaseOutputError {
 
 extension UpdateAgentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateAgentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateAgentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7037,7 +7040,7 @@ public struct UpdateAgentOutput {
 
 enum UpdateAgentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7127,7 +7130,7 @@ public struct UpdateDataSourceInput {
 
 extension UpdateDataSourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateDataSourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateDataSourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7152,7 +7155,7 @@ public struct UpdateDataSourceOutput {
 
 enum UpdateDataSourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7230,7 +7233,7 @@ public struct UpdateKnowledgeBaseInput {
 
 extension UpdateKnowledgeBaseOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateKnowledgeBaseOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateKnowledgeBaseOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7255,7 +7258,7 @@ public struct UpdateKnowledgeBaseOutput {
 
 enum UpdateKnowledgeBaseOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

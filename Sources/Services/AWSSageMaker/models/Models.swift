@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -116,9 +118,9 @@ extension SageMakerClientTypes {
         /// The type of the action.
         public var actionType: Swift.String?
         /// When the action was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// When the action was last modified.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// The source of the action.
         public var source: SageMakerClientTypes.ActionSource?
         /// The status of the action.
@@ -128,8 +130,8 @@ extension SageMakerClientTypes {
             actionArn: Swift.String? = nil,
             actionName: Swift.String? = nil,
             actionType: Swift.String? = nil,
-            creationTime: ClientRuntime.Date? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             source: SageMakerClientTypes.ActionSource? = nil,
             status: SageMakerClientTypes.ActionStatus? = nil
         )
@@ -195,7 +197,7 @@ public struct AddAssociationInput {
 
 extension AddAssociationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AddAssociationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AddAssociationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -224,7 +226,7 @@ public struct AddAssociationOutput {
 
 enum AddAssociationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -273,7 +275,7 @@ public struct AddTagsInput {
 
 extension AddTagsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AddTagsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AddTagsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -297,7 +299,7 @@ public struct AddTagsOutput {
 
 enum AddTagsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -808,14 +810,14 @@ extension SageMakerClientTypes {
         public var algorithmStatus: SageMakerClientTypes.AlgorithmStatus?
         /// A timestamp that shows when the algorithm was created.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
 
         public init(
             algorithmArn: Swift.String? = nil,
             algorithmDescription: Swift.String? = nil,
             algorithmName: Swift.String? = nil,
             algorithmStatus: SageMakerClientTypes.AlgorithmStatus? = nil,
-            creationTime: ClientRuntime.Date? = nil
+            creationTime: Foundation.Date? = nil
         )
         {
             self.algorithmArn = algorithmArn
@@ -1562,7 +1564,7 @@ extension SageMakerClientTypes {
         /// The type of app.
         public var appType: SageMakerClientTypes.AppType?
         /// The creation time.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The domain ID.
         public var domainId: Swift.String?
         /// Specifies the ARN's of a SageMaker image and SageMaker image version, and the instance type that the version runs on.
@@ -1577,7 +1579,7 @@ extension SageMakerClientTypes {
         public init(
             appName: Swift.String? = nil,
             appType: SageMakerClientTypes.AppType? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             domainId: Swift.String? = nil,
             resourceSpec: SageMakerClientTypes.ResourceSpec? = nil,
             spaceName: Swift.String? = nil,
@@ -1624,22 +1626,22 @@ extension SageMakerClientTypes {
         /// The configuration for the file system and the runtime, such as the environment variables and entry point.
         public var codeEditorAppImageConfig: SageMakerClientTypes.CodeEditorAppImageConfig?
         /// When the AppImageConfig was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The configuration for the file system and the runtime, such as the environment variables and entry point.
         public var jupyterLabAppImageConfig: SageMakerClientTypes.JupyterLabAppImageConfig?
         /// The configuration for the file system and kernels in the SageMaker image.
         public var kernelGatewayImageConfig: SageMakerClientTypes.KernelGatewayImageConfig?
         /// When the AppImageConfig was last modified.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
 
         public init(
             appImageConfigArn: Swift.String? = nil,
             appImageConfigName: Swift.String? = nil,
             codeEditorAppImageConfig: SageMakerClientTypes.CodeEditorAppImageConfig? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             jupyterLabAppImageConfig: SageMakerClientTypes.JupyterLabAppImageConfig? = nil,
             kernelGatewayImageConfig: SageMakerClientTypes.KernelGatewayImageConfig? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil
+            lastModifiedTime: Foundation.Date? = nil
         )
         {
             self.appImageConfigArn = appImageConfigArn
@@ -2521,9 +2523,9 @@ extension SageMakerClientTypes {
         /// The type of the artifact.
         public var artifactType: Swift.String?
         /// When the artifact was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// When the artifact was last modified.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// The source of the artifact.
         public var source: SageMakerClientTypes.ArtifactSource?
 
@@ -2531,8 +2533,8 @@ extension SageMakerClientTypes {
             artifactArn: Swift.String? = nil,
             artifactName: Swift.String? = nil,
             artifactType: Swift.String? = nil,
-            creationTime: ClientRuntime.Date? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             source: SageMakerClientTypes.ArtifactSource? = nil
         )
         {
@@ -2612,7 +2614,7 @@ public struct AssociateTrialComponentInput {
 
 extension AssociateTrialComponentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AssociateTrialComponentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AssociateTrialComponentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2641,7 +2643,7 @@ public struct AssociateTrialComponentOutput {
 
 enum AssociateTrialComponentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2718,7 +2720,7 @@ extension SageMakerClientTypes {
         /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
         public var createdBy: SageMakerClientTypes.UserContext?
         /// When the association was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the destination.
         public var destinationArn: Swift.String?
         /// The name of the destination.
@@ -2735,7 +2737,7 @@ extension SageMakerClientTypes {
         public init(
             associationType: SageMakerClientTypes.AssociationEdgeType? = nil,
             createdBy: SageMakerClientTypes.UserContext? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             destinationArn: Swift.String? = nil,
             destinationName: Swift.String? = nil,
             destinationType: Swift.String? = nil,
@@ -3275,9 +3277,9 @@ extension SageMakerClientTypes {
         public var candidateSteps: [SageMakerClientTypes.AutoMLCandidateStep]?
         /// The creation time.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The end time.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// The failure reason.
         public var failureReason: Swift.String?
         /// The best candidate result from an AutoML training job.
@@ -3288,7 +3290,7 @@ extension SageMakerClientTypes {
         public var inferenceContainers: [SageMakerClientTypes.AutoMLContainerDefinition]?
         /// The last modified time.
         /// This member is required.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// The objective's status.
         /// This member is required.
         public var objectiveStatus: SageMakerClientTypes.ObjectiveStatus?
@@ -3298,13 +3300,13 @@ extension SageMakerClientTypes {
             candidateProperties: SageMakerClientTypes.CandidateProperties? = nil,
             candidateStatus: SageMakerClientTypes.CandidateStatus? = nil,
             candidateSteps: [SageMakerClientTypes.AutoMLCandidateStep]? = nil,
-            creationTime: ClientRuntime.Date? = nil,
-            endTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
+            endTime: Foundation.Date? = nil,
             failureReason: Swift.String? = nil,
             finalAutoMLJobObjectiveMetric: SageMakerClientTypes.FinalAutoMLJobObjectiveMetric? = nil,
             inferenceContainerDefinitions: [Swift.String:[SageMakerClientTypes.AutoMLContainerDefinition]]? = nil,
             inferenceContainers: [SageMakerClientTypes.AutoMLContainerDefinition]? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             objectiveStatus: SageMakerClientTypes.ObjectiveStatus? = nil
         )
         {
@@ -4077,14 +4079,14 @@ extension SageMakerClientTypes {
         public var autoMLJobStatus: SageMakerClientTypes.AutoMLJobStatus?
         /// When the AutoML job was created.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The end time of an AutoML job.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// The failure reason of an AutoML job.
         public var failureReason: Swift.String?
         /// When the AutoML job was last modified.
         /// This member is required.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// The list of reasons for partial failures within an AutoML job.
         public var partialFailureReasons: [SageMakerClientTypes.AutoMLPartialFailureReason]?
 
@@ -4093,10 +4095,10 @@ extension SageMakerClientTypes {
             autoMLJobName: Swift.String? = nil,
             autoMLJobSecondaryStatus: SageMakerClientTypes.AutoMLJobSecondaryStatus? = nil,
             autoMLJobStatus: SageMakerClientTypes.AutoMLJobStatus? = nil,
-            creationTime: ClientRuntime.Date? = nil,
-            endTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
+            endTime: Foundation.Date? = nil,
             failureReason: Swift.String? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             partialFailureReasons: [SageMakerClientTypes.AutoMLPartialFailureReason]? = nil
         )
         {
@@ -5039,7 +5041,7 @@ public struct BatchDescribeModelPackageInput {
 
 extension BatchDescribeModelPackageOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> BatchDescribeModelPackageOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BatchDescribeModelPackageOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5068,7 +5070,7 @@ public struct BatchDescribeModelPackageOutput {
 
 enum BatchDescribeModelPackageOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5101,7 +5103,7 @@ extension SageMakerClientTypes {
     public struct BatchDescribeModelPackageSummary {
         /// The creation time of the mortgage package summary.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// Defines how to perform inference generation after a training job is run.
         /// This member is required.
         public var inferenceSpecification: SageMakerClientTypes.InferenceSpecification?
@@ -5122,7 +5124,7 @@ extension SageMakerClientTypes {
         public var modelPackageVersion: Swift.Int?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             inferenceSpecification: SageMakerClientTypes.InferenceSpecification? = nil,
             modelApprovalStatus: SageMakerClientTypes.ModelApprovalStatus? = nil,
             modelPackageArn: Swift.String? = nil,
@@ -7232,7 +7234,7 @@ extension SageMakerClientTypes {
         /// The type of the instance.
         public var instanceType: SageMakerClientTypes.ClusterInstanceType?
         /// The time when the instance is launched.
-        public var launchTime: ClientRuntime.Date?
+        public var launchTime: Foundation.Date?
         /// The LifeCycle configuration applied to the instance.
         public var lifeCycleConfig: SageMakerClientTypes.ClusterLifeCycleConfig?
         /// The number of threads per CPU core you specified under CreateCluster.
@@ -7243,7 +7245,7 @@ extension SageMakerClientTypes {
             instanceId: Swift.String? = nil,
             instanceStatus: SageMakerClientTypes.ClusterInstanceStatusDetails? = nil,
             instanceType: SageMakerClientTypes.ClusterInstanceType? = nil,
-            launchTime: ClientRuntime.Date? = nil,
+            launchTime: Foundation.Date? = nil,
             lifeCycleConfig: SageMakerClientTypes.ClusterLifeCycleConfig? = nil,
             threadsPerCore: Swift.Int? = nil
         )
@@ -7291,14 +7293,14 @@ extension SageMakerClientTypes {
         public var instanceType: SageMakerClientTypes.ClusterInstanceType?
         /// The time when the instance is launched.
         /// This member is required.
-        public var launchTime: ClientRuntime.Date?
+        public var launchTime: Foundation.Date?
 
         public init(
             instanceGroupName: Swift.String? = nil,
             instanceId: Swift.String? = nil,
             instanceStatus: SageMakerClientTypes.ClusterInstanceStatusDetails? = nil,
             instanceType: SageMakerClientTypes.ClusterInstanceType? = nil,
-            launchTime: ClientRuntime.Date? = nil
+            launchTime: Foundation.Date? = nil
         )
         {
             self.instanceGroupName = instanceGroupName
@@ -7411,13 +7413,13 @@ extension SageMakerClientTypes {
         public var clusterStatus: SageMakerClientTypes.ClusterStatus?
         /// The time when the SageMaker HyperPod cluster is created.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
 
         public init(
             clusterArn: Swift.String? = nil,
             clusterName: Swift.String? = nil,
             clusterStatus: SageMakerClientTypes.ClusterStatus? = nil,
-            creationTime: ClientRuntime.Date? = nil
+            creationTime: Foundation.Date? = nil
         )
         {
             self.clusterArn = clusterArn
@@ -7627,19 +7629,19 @@ extension SageMakerClientTypes {
         public var codeRepositoryName: Swift.String?
         /// The date and time that the Git repository was created.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// Configuration details for the Git repository, including the URL where it is located and the ARN of the Amazon Web Services Secrets Manager secret that contains the credentials used to access the repository.
         public var gitConfig: SageMakerClientTypes.GitConfig?
         /// The date and time that the Git repository was last modified.
         /// This member is required.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
 
         public init(
             codeRepositoryArn: Swift.String? = nil,
             codeRepositoryName: Swift.String? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             gitConfig: SageMakerClientTypes.GitConfig? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil
+            lastModifiedTime: Foundation.Date? = nil
         )
         {
             self.codeRepositoryArn = codeRepositoryArn
@@ -7907,7 +7909,7 @@ extension SageMakerClientTypes {
     /// A summary of a model compilation job.
     public struct CompilationJobSummary {
         /// The time when the model compilation job completed.
-        public var compilationEndTime: ClientRuntime.Date?
+        public var compilationEndTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the model compilation job.
         /// This member is required.
         public var compilationJobArn: Swift.String?
@@ -7918,7 +7920,7 @@ extension SageMakerClientTypes {
         /// This member is required.
         public var compilationJobStatus: SageMakerClientTypes.CompilationJobStatus?
         /// The time when the model compilation job started.
-        public var compilationStartTime: ClientRuntime.Date?
+        public var compilationStartTime: Foundation.Date?
         /// The type of device that the model will run on after the compilation job has completed.
         public var compilationTargetDevice: SageMakerClientTypes.TargetDevice?
         /// The type of accelerator that the model will run on after the compilation job has completed.
@@ -7929,22 +7931,22 @@ extension SageMakerClientTypes {
         public var compilationTargetPlatformOs: SageMakerClientTypes.TargetPlatformOs?
         /// The time when the model compilation job was created.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The time when the model compilation job was last modified.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
 
         public init(
-            compilationEndTime: ClientRuntime.Date? = nil,
+            compilationEndTime: Foundation.Date? = nil,
             compilationJobArn: Swift.String? = nil,
             compilationJobName: Swift.String? = nil,
             compilationJobStatus: SageMakerClientTypes.CompilationJobStatus? = nil,
-            compilationStartTime: ClientRuntime.Date? = nil,
+            compilationStartTime: Foundation.Date? = nil,
             compilationTargetDevice: SageMakerClientTypes.TargetDevice? = nil,
             compilationTargetPlatformAccelerator: SageMakerClientTypes.TargetPlatformAccelerator? = nil,
             compilationTargetPlatformArch: SageMakerClientTypes.TargetPlatformArch? = nil,
             compilationTargetPlatformOs: SageMakerClientTypes.TargetPlatformOs? = nil,
-            creationTime: ClientRuntime.Date? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil
+            creationTime: Foundation.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil
         )
         {
             self.compilationEndTime = compilationEndTime
@@ -8368,9 +8370,9 @@ extension SageMakerClientTypes {
         /// The type of the context.
         public var contextType: Swift.String?
         /// When the context was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// When the context was last modified.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// The source of the context.
         public var source: SageMakerClientTypes.ContextSource?
 
@@ -8378,8 +8380,8 @@ extension SageMakerClientTypes {
             contextArn: Swift.String? = nil,
             contextName: Swift.String? = nil,
             contextType: Swift.String? = nil,
-            creationTime: ClientRuntime.Date? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             source: SageMakerClientTypes.ContextSource? = nil
         )
         {
@@ -8583,7 +8585,7 @@ public struct CreateActionInput {
 
 extension CreateActionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateActionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateActionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8607,7 +8609,7 @@ public struct CreateActionOutput {
 
 enum CreateActionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8700,7 +8702,7 @@ public struct CreateAlgorithmInput {
 
 extension CreateAlgorithmOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateAlgorithmOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateAlgorithmOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8725,7 +8727,7 @@ public struct CreateAlgorithmOutput {
 
 enum CreateAlgorithmOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8786,7 +8788,7 @@ public struct CreateAppImageConfigInput {
 
 extension CreateAppImageConfigOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateAppImageConfigOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateAppImageConfigOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8810,7 +8812,7 @@ public struct CreateAppImageConfigOutput {
 
 enum CreateAppImageConfigOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8884,7 +8886,7 @@ public struct CreateAppInput {
 
 extension CreateAppOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateAppOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateAppOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8908,7 +8910,7 @@ public struct CreateAppOutput {
 
 enum CreateAppOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8977,7 +8979,7 @@ public struct CreateArtifactInput {
 
 extension CreateArtifactOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateArtifactOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateArtifactOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -9001,7 +9003,7 @@ public struct CreateArtifactOutput {
 
 enum CreateArtifactOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9091,7 +9093,7 @@ public struct CreateAutoMLJobInput {
 
 extension CreateAutoMLJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateAutoMLJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateAutoMLJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -9116,7 +9118,7 @@ public struct CreateAutoMLJobOutput {
 
 enum CreateAutoMLJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9222,7 +9224,7 @@ public struct CreateAutoMLJobV2Input {
 
 extension CreateAutoMLJobV2Output {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateAutoMLJobV2Output {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateAutoMLJobV2Output {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -9247,7 +9249,7 @@ public struct CreateAutoMLJobV2Output {
 
 enum CreateAutoMLJobV2OutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9306,7 +9308,7 @@ public struct CreateClusterInput {
 
 extension CreateClusterOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateClusterOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateClusterOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -9331,7 +9333,7 @@ public struct CreateClusterOutput {
 
 enum CreateClusterOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9385,7 +9387,7 @@ public struct CreateCodeRepositoryInput {
 
 extension CreateCodeRepositoryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateCodeRepositoryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateCodeRepositoryOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -9410,7 +9412,7 @@ public struct CreateCodeRepositoryOutput {
 
 enum CreateCodeRepositoryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9500,7 +9502,7 @@ public struct CreateCompilationJobInput {
 
 extension CreateCompilationJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateCompilationJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateCompilationJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -9527,7 +9529,7 @@ public struct CreateCompilationJobOutput {
 
 enum CreateCompilationJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9597,7 +9599,7 @@ public struct CreateContextInput {
 
 extension CreateContextOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateContextOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateContextOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -9621,7 +9623,7 @@ public struct CreateContextOutput {
 
 enum CreateContextOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9713,7 +9715,7 @@ public struct CreateDataQualityJobDefinitionInput {
 
 extension CreateDataQualityJobDefinitionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateDataQualityJobDefinitionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateDataQualityJobDefinitionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -9738,7 +9740,7 @@ public struct CreateDataQualityJobDefinitionOutput {
 
 enum CreateDataQualityJobDefinitionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9807,7 +9809,7 @@ public struct CreateDeviceFleetInput {
 
 extension CreateDeviceFleetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateDeviceFleetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateDeviceFleetOutput {
         return CreateDeviceFleetOutput()
     }
 }
@@ -9819,7 +9821,7 @@ public struct CreateDeviceFleetOutput {
 
 enum CreateDeviceFleetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9926,7 +9928,7 @@ public struct CreateDomainInput {
 
 extension CreateDomainOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateDomainOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateDomainOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -9955,7 +9957,7 @@ public struct CreateDomainOutput {
 
 enum CreateDomainOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10020,7 +10022,7 @@ public struct CreateEdgeDeploymentPlanInput {
 
 extension CreateEdgeDeploymentPlanOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateEdgeDeploymentPlanOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateEdgeDeploymentPlanOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -10045,7 +10047,7 @@ public struct CreateEdgeDeploymentPlanOutput {
 
 enum CreateEdgeDeploymentPlanOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10093,7 +10095,7 @@ public struct CreateEdgeDeploymentStageInput {
 
 extension CreateEdgeDeploymentStageOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateEdgeDeploymentStageOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateEdgeDeploymentStageOutput {
         return CreateEdgeDeploymentStageOutput()
     }
 }
@@ -10105,7 +10107,7 @@ public struct CreateEdgeDeploymentStageOutput {
 
 enum CreateEdgeDeploymentStageOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10187,7 +10189,7 @@ public struct CreateEdgePackagingJobInput {
 
 extension CreateEdgePackagingJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateEdgePackagingJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateEdgePackagingJobOutput {
         return CreateEdgePackagingJobOutput()
     }
 }
@@ -10199,7 +10201,7 @@ public struct CreateEdgePackagingJobOutput {
 
 enum CreateEdgePackagingJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10303,7 +10305,7 @@ public struct CreateEndpointConfigInput {
 
 extension CreateEndpointConfigOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateEndpointConfigOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateEndpointConfigOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -10328,7 +10330,7 @@ public struct CreateEndpointConfigOutput {
 
 enum CreateEndpointConfigOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10386,7 +10388,7 @@ public struct CreateEndpointInput {
 
 extension CreateEndpointOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateEndpointOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateEndpointOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -10411,7 +10413,7 @@ public struct CreateEndpointOutput {
 
 enum CreateEndpointOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10468,7 +10470,7 @@ public struct CreateExperimentInput {
 
 extension CreateExperimentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateExperimentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateExperimentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -10492,7 +10494,7 @@ public struct CreateExperimentOutput {
 
 enum CreateExperimentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10605,7 +10607,7 @@ public struct CreateFeatureGroupInput {
 
 extension CreateFeatureGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateFeatureGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateFeatureGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -10630,7 +10632,7 @@ public struct CreateFeatureGroupOutput {
 
 enum CreateFeatureGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10705,7 +10707,7 @@ public struct CreateFlowDefinitionInput {
 
 extension CreateFlowDefinitionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateFlowDefinitionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateFlowDefinitionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -10730,7 +10732,7 @@ public struct CreateFlowDefinitionOutput {
 
 enum CreateFlowDefinitionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10799,7 +10801,7 @@ public struct CreateHubInput {
 
 extension CreateHubOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateHubOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateHubOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -10824,7 +10826,7 @@ public struct CreateHubOutput {
 
 enum CreateHubOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10878,7 +10880,7 @@ public struct CreateHumanTaskUiInput {
 
 extension CreateHumanTaskUiOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateHumanTaskUiOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateHumanTaskUiOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -10903,7 +10905,7 @@ public struct CreateHumanTaskUiOutput {
 
 enum CreateHumanTaskUiOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10989,7 +10991,7 @@ public struct CreateHyperParameterTuningJobInput {
 
 extension CreateHyperParameterTuningJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateHyperParameterTuningJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateHyperParameterTuningJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -11014,7 +11016,7 @@ public struct CreateHyperParameterTuningJobOutput {
 
 enum CreateHyperParameterTuningJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11078,7 +11080,7 @@ public struct CreateImageInput {
 
 extension CreateImageOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateImageOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateImageOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -11102,7 +11104,7 @@ public struct CreateImageOutput {
 
 enum CreateImageOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11215,7 +11217,7 @@ public struct CreateImageVersionInput {
 
 extension CreateImageVersionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateImageVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateImageVersionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -11239,7 +11241,7 @@ public struct CreateImageVersionOutput {
 
 enum CreateImageVersionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11312,7 +11314,7 @@ public struct CreateInferenceComponentInput {
 
 extension CreateInferenceComponentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateInferenceComponentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateInferenceComponentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -11337,7 +11339,7 @@ public struct CreateInferenceComponentOutput {
 
 enum CreateInferenceComponentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11447,7 +11449,7 @@ public struct CreateInferenceExperimentInput {
 
 extension CreateInferenceExperimentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateInferenceExperimentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateInferenceExperimentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -11472,7 +11474,7 @@ public struct CreateInferenceExperimentOutput {
 
 enum CreateInferenceExperimentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11553,7 +11555,7 @@ public struct CreateInferenceRecommendationsJobInput {
 
 extension CreateInferenceRecommendationsJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateInferenceRecommendationsJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateInferenceRecommendationsJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -11578,7 +11580,7 @@ public struct CreateInferenceRecommendationsJobOutput {
 
 enum CreateInferenceRecommendationsJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11716,7 +11718,7 @@ public struct CreateLabelingJobInput {
 
 extension CreateLabelingJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateLabelingJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateLabelingJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -11741,7 +11743,7 @@ public struct CreateLabelingJobOutput {
 
 enum CreateLabelingJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11834,7 +11836,7 @@ public struct CreateModelBiasJobDefinitionInput {
 
 extension CreateModelBiasJobDefinitionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateModelBiasJobDefinitionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateModelBiasJobDefinitionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -11859,7 +11861,7 @@ public struct CreateModelBiasJobDefinitionOutput {
 
 enum CreateModelBiasJobDefinitionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11919,7 +11921,7 @@ public struct CreateModelCardExportJobInput {
 
 extension CreateModelCardExportJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateModelCardExportJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateModelCardExportJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -11944,7 +11946,7 @@ public struct CreateModelCardExportJobOutput {
 
 enum CreateModelCardExportJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12023,7 +12025,7 @@ public struct CreateModelCardInput {
 
 extension CreateModelCardOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateModelCardOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateModelCardOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -12048,7 +12050,7 @@ public struct CreateModelCardOutput {
 
 enum CreateModelCardOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12141,7 +12143,7 @@ public struct CreateModelExplainabilityJobDefinitionInput {
 
 extension CreateModelExplainabilityJobDefinitionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateModelExplainabilityJobDefinitionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateModelExplainabilityJobDefinitionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -12166,7 +12168,7 @@ public struct CreateModelExplainabilityJobDefinitionOutput {
 
 enum CreateModelExplainabilityJobDefinitionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12244,7 +12246,7 @@ public struct CreateModelInput {
 
 extension CreateModelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateModelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateModelOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -12269,7 +12271,7 @@ public struct CreateModelOutput {
 
 enum CreateModelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12321,7 +12323,7 @@ public struct CreateModelPackageGroupInput {
 
 extension CreateModelPackageGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateModelPackageGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateModelPackageGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -12346,7 +12348,7 @@ public struct CreateModelPackageGroupOutput {
 
 enum CreateModelPackageGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12488,7 +12490,7 @@ public struct CreateModelPackageInput {
 
 extension CreateModelPackageOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateModelPackageOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateModelPackageOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -12513,7 +12515,7 @@ public struct CreateModelPackageOutput {
 
 enum CreateModelPackageOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12606,7 +12608,7 @@ public struct CreateModelQualityJobDefinitionInput {
 
 extension CreateModelQualityJobDefinitionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateModelQualityJobDefinitionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateModelQualityJobDefinitionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -12631,7 +12633,7 @@ public struct CreateModelQualityJobDefinitionOutput {
 
 enum CreateModelQualityJobDefinitionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12685,7 +12687,7 @@ public struct CreateMonitoringScheduleInput {
 
 extension CreateMonitoringScheduleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateMonitoringScheduleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateMonitoringScheduleOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -12710,7 +12712,7 @@ public struct CreateMonitoringScheduleOutput {
 
 enum CreateMonitoringScheduleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12868,7 +12870,7 @@ public struct CreateNotebookInstanceLifecycleConfigInput {
 
 extension CreateNotebookInstanceLifecycleConfigOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateNotebookInstanceLifecycleConfigOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateNotebookInstanceLifecycleConfigOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -12892,7 +12894,7 @@ public struct CreateNotebookInstanceLifecycleConfigOutput {
 
 enum CreateNotebookInstanceLifecycleConfigOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12906,7 +12908,7 @@ enum CreateNotebookInstanceLifecycleConfigOutputError {
 
 extension CreateNotebookInstanceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateNotebookInstanceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateNotebookInstanceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -12930,7 +12932,7 @@ public struct CreateNotebookInstanceOutput {
 
 enum CreateNotebookInstanceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -13014,7 +13016,7 @@ public struct CreatePipelineInput {
 
 extension CreatePipelineOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreatePipelineOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreatePipelineOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -13038,7 +13040,7 @@ public struct CreatePipelineOutput {
 
 enum CreatePipelineOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -13120,7 +13122,7 @@ public struct CreatePresignedDomainUrlInput {
 
 extension CreatePresignedDomainUrlOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreatePresignedDomainUrlOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreatePresignedDomainUrlOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -13144,7 +13146,7 @@ public struct CreatePresignedDomainUrlOutput {
 
 enum CreatePresignedDomainUrlOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -13191,7 +13193,7 @@ public struct CreatePresignedNotebookInstanceUrlInput {
 
 extension CreatePresignedNotebookInstanceUrlOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreatePresignedNotebookInstanceUrlOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreatePresignedNotebookInstanceUrlOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -13215,7 +13217,7 @@ public struct CreatePresignedNotebookInstanceUrlOutput {
 
 enum CreatePresignedNotebookInstanceUrlOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -13315,7 +13317,7 @@ public struct CreateProcessingJobInput {
 
 extension CreateProcessingJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateProcessingJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateProcessingJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -13340,7 +13342,7 @@ public struct CreateProcessingJobOutput {
 
 enum CreateProcessingJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -13400,7 +13402,7 @@ public struct CreateProjectInput {
 
 extension CreateProjectOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateProjectOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateProjectOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -13431,7 +13433,7 @@ public struct CreateProjectOutput {
 
 enum CreateProjectOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -13504,7 +13506,7 @@ public struct CreateSpaceInput {
 
 extension CreateSpaceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateSpaceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateSpaceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -13528,7 +13530,7 @@ public struct CreateSpaceOutput {
 
 enum CreateSpaceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -13588,7 +13590,7 @@ public struct CreateStudioLifecycleConfigInput {
 
 extension CreateStudioLifecycleConfigOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateStudioLifecycleConfigOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateStudioLifecycleConfigOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -13612,7 +13614,7 @@ public struct CreateStudioLifecycleConfigOutput {
 
 enum CreateStudioLifecycleConfigOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -13785,7 +13787,7 @@ public struct CreateTrainingJobInput {
 
 extension CreateTrainingJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateTrainingJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateTrainingJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -13810,7 +13812,7 @@ public struct CreateTrainingJobOutput {
 
 enum CreateTrainingJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -13929,7 +13931,7 @@ public struct CreateTransformJobInput {
 
 extension CreateTransformJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateTransformJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateTransformJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -13954,7 +13956,7 @@ public struct CreateTransformJobOutput {
 
 enum CreateTransformJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -13996,7 +13998,7 @@ public struct CreateTrialComponentInput {
     /// The name of the component as displayed. The name doesn't need to be unique. If DisplayName isn't specified, TrialComponentName is displayed.
     public var displayName: Swift.String?
     /// When the component ended.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// The input artifacts for the component. Examples of input artifacts are datasets, algorithms, hyperparameters, source code, and instance types.
     public var inputArtifacts: [Swift.String:SageMakerClientTypes.TrialComponentArtifact]?
     /// Metadata properties of the tracking entity, trial, or trial component.
@@ -14006,7 +14008,7 @@ public struct CreateTrialComponentInput {
     /// The hyperparameters for the component.
     public var parameters: [Swift.String:SageMakerClientTypes.TrialComponentParameterValue]?
     /// When the component started.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
     /// The status of the component. States include:
     ///
     /// * InProgress
@@ -14023,12 +14025,12 @@ public struct CreateTrialComponentInput {
 
     public init(
         displayName: Swift.String? = nil,
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         inputArtifacts: [Swift.String:SageMakerClientTypes.TrialComponentArtifact]? = nil,
         metadataProperties: SageMakerClientTypes.MetadataProperties? = nil,
         outputArtifacts: [Swift.String:SageMakerClientTypes.TrialComponentArtifact]? = nil,
         parameters: [Swift.String:SageMakerClientTypes.TrialComponentParameterValue]? = nil,
-        startTime: ClientRuntime.Date? = nil,
+        startTime: Foundation.Date? = nil,
         status: SageMakerClientTypes.TrialComponentStatus? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil,
         trialComponentName: Swift.String? = nil
@@ -14049,7 +14051,7 @@ public struct CreateTrialComponentInput {
 
 extension CreateTrialComponentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateTrialComponentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateTrialComponentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -14073,7 +14075,7 @@ public struct CreateTrialComponentOutput {
 
 enum CreateTrialComponentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -14136,7 +14138,7 @@ public struct CreateTrialInput {
 
 extension CreateTrialOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateTrialOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateTrialOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -14160,7 +14162,7 @@ public struct CreateTrialOutput {
 
 enum CreateTrialOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -14229,7 +14231,7 @@ public struct CreateUserProfileInput {
 
 extension CreateUserProfileOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateUserProfileOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateUserProfileOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -14253,7 +14255,7 @@ public struct CreateUserProfileOutput {
 
 enum CreateUserProfileOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -14321,7 +14323,7 @@ public struct CreateWorkforceInput {
 
 extension CreateWorkforceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateWorkforceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateWorkforceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -14346,7 +14348,7 @@ public struct CreateWorkforceOutput {
 
 enum CreateWorkforceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -14419,7 +14421,7 @@ public struct CreateWorkteamInput {
 
 extension CreateWorkteamOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateWorkteamOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateWorkteamOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -14443,7 +14445,7 @@ public struct CreateWorkteamOutput {
 
 enum CreateWorkteamOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -15314,7 +15316,7 @@ extension SageMakerClientTypes {
     /// Information about the status of the rule evaluation.
     public struct DebugRuleEvaluationStatus {
         /// Timestamp when the rule evaluation status was last modified.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// The name of the rule configuration.
         public var ruleConfigurationName: Swift.String?
         /// The Amazon Resource Name (ARN) of the rule evaluation job.
@@ -15325,7 +15327,7 @@ extension SageMakerClientTypes {
         public var statusDetails: Swift.String?
 
         public init(
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             ruleConfigurationName: Swift.String? = nil,
             ruleEvaluationJobArn: Swift.String? = nil,
             ruleEvaluationStatus: SageMakerClientTypes.RuleEvaluationStatus? = nil,
@@ -15515,7 +15517,7 @@ public struct DeleteActionInput {
 
 extension DeleteActionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteActionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteActionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -15539,7 +15541,7 @@ public struct DeleteActionOutput {
 
 enum DeleteActionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -15581,7 +15583,7 @@ public struct DeleteAlgorithmInput {
 
 extension DeleteAlgorithmOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteAlgorithmOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteAlgorithmOutput {
         return DeleteAlgorithmOutput()
     }
 }
@@ -15593,7 +15595,7 @@ public struct DeleteAlgorithmOutput {
 
 enum DeleteAlgorithmOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -15635,7 +15637,7 @@ public struct DeleteAppImageConfigInput {
 
 extension DeleteAppImageConfigOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteAppImageConfigOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteAppImageConfigOutput {
         return DeleteAppImageConfigOutput()
     }
 }
@@ -15647,7 +15649,7 @@ public struct DeleteAppImageConfigOutput {
 
 enum DeleteAppImageConfigOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -15711,7 +15713,7 @@ public struct DeleteAppInput {
 
 extension DeleteAppOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteAppOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteAppOutput {
         return DeleteAppOutput()
     }
 }
@@ -15723,7 +15725,7 @@ public struct DeleteAppOutput {
 
 enum DeleteAppOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -15770,7 +15772,7 @@ public struct DeleteArtifactInput {
 
 extension DeleteArtifactOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteArtifactOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteArtifactOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -15794,7 +15796,7 @@ public struct DeleteArtifactOutput {
 
 enum DeleteArtifactOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -15842,7 +15844,7 @@ public struct DeleteAssociationInput {
 
 extension DeleteAssociationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteAssociationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteAssociationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -15871,7 +15873,7 @@ public struct DeleteAssociationOutput {
 
 enum DeleteAssociationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -15913,7 +15915,7 @@ public struct DeleteClusterInput {
 
 extension DeleteClusterOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteClusterOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteClusterOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -15938,7 +15940,7 @@ public struct DeleteClusterOutput {
 
 enum DeleteClusterOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -15981,7 +15983,7 @@ public struct DeleteCodeRepositoryInput {
 
 extension DeleteCodeRepositoryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteCodeRepositoryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteCodeRepositoryOutput {
         return DeleteCodeRepositoryOutput()
     }
 }
@@ -15993,7 +15995,7 @@ public struct DeleteCodeRepositoryOutput {
 
 enum DeleteCodeRepositoryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -16034,7 +16036,7 @@ public struct DeleteCompilationJobInput {
 
 extension DeleteCompilationJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteCompilationJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteCompilationJobOutput {
         return DeleteCompilationJobOutput()
     }
 }
@@ -16046,7 +16048,7 @@ public struct DeleteCompilationJobOutput {
 
 enum DeleteCompilationJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -16088,7 +16090,7 @@ public struct DeleteContextInput {
 
 extension DeleteContextOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteContextOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteContextOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -16112,7 +16114,7 @@ public struct DeleteContextOutput {
 
 enum DeleteContextOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -16154,7 +16156,7 @@ public struct DeleteDataQualityJobDefinitionInput {
 
 extension DeleteDataQualityJobDefinitionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteDataQualityJobDefinitionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteDataQualityJobDefinitionOutput {
         return DeleteDataQualityJobDefinitionOutput()
     }
 }
@@ -16166,7 +16168,7 @@ public struct DeleteDataQualityJobDefinitionOutput {
 
 enum DeleteDataQualityJobDefinitionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -16208,7 +16210,7 @@ public struct DeleteDeviceFleetInput {
 
 extension DeleteDeviceFleetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteDeviceFleetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteDeviceFleetOutput {
         return DeleteDeviceFleetOutput()
     }
 }
@@ -16220,7 +16222,7 @@ public struct DeleteDeviceFleetOutput {
 
 enum DeleteDeviceFleetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -16267,7 +16269,7 @@ public struct DeleteDomainInput {
 
 extension DeleteDomainOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteDomainOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteDomainOutput {
         return DeleteDomainOutput()
     }
 }
@@ -16279,7 +16281,7 @@ public struct DeleteDomainOutput {
 
 enum DeleteDomainOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -16322,7 +16324,7 @@ public struct DeleteEdgeDeploymentPlanInput {
 
 extension DeleteEdgeDeploymentPlanOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteEdgeDeploymentPlanOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteEdgeDeploymentPlanOutput {
         return DeleteEdgeDeploymentPlanOutput()
     }
 }
@@ -16334,7 +16336,7 @@ public struct DeleteEdgeDeploymentPlanOutput {
 
 enum DeleteEdgeDeploymentPlanOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -16382,7 +16384,7 @@ public struct DeleteEdgeDeploymentStageInput {
 
 extension DeleteEdgeDeploymentStageOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteEdgeDeploymentStageOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteEdgeDeploymentStageOutput {
         return DeleteEdgeDeploymentStageOutput()
     }
 }
@@ -16394,7 +16396,7 @@ public struct DeleteEdgeDeploymentStageOutput {
 
 enum DeleteEdgeDeploymentStageOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -16436,7 +16438,7 @@ public struct DeleteEndpointConfigInput {
 
 extension DeleteEndpointConfigOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteEndpointConfigOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteEndpointConfigOutput {
         return DeleteEndpointConfigOutput()
     }
 }
@@ -16448,7 +16450,7 @@ public struct DeleteEndpointConfigOutput {
 
 enum DeleteEndpointConfigOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -16489,7 +16491,7 @@ public struct DeleteEndpointInput {
 
 extension DeleteEndpointOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteEndpointOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteEndpointOutput {
         return DeleteEndpointOutput()
     }
 }
@@ -16501,7 +16503,7 @@ public struct DeleteEndpointOutput {
 
 enum DeleteEndpointOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -16542,7 +16544,7 @@ public struct DeleteExperimentInput {
 
 extension DeleteExperimentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteExperimentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteExperimentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -16566,7 +16568,7 @@ public struct DeleteExperimentOutput {
 
 enum DeleteExperimentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -16608,7 +16610,7 @@ public struct DeleteFeatureGroupInput {
 
 extension DeleteFeatureGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteFeatureGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteFeatureGroupOutput {
         return DeleteFeatureGroupOutput()
     }
 }
@@ -16620,7 +16622,7 @@ public struct DeleteFeatureGroupOutput {
 
 enum DeleteFeatureGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -16662,7 +16664,7 @@ public struct DeleteFlowDefinitionInput {
 
 extension DeleteFlowDefinitionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteFlowDefinitionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteFlowDefinitionOutput {
         return DeleteFlowDefinitionOutput()
     }
 }
@@ -16674,7 +16676,7 @@ public struct DeleteFlowDefinitionOutput {
 
 enum DeleteFlowDefinitionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -16735,7 +16737,7 @@ public struct DeleteHubContentInput {
 
 extension DeleteHubContentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteHubContentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteHubContentOutput {
         return DeleteHubContentOutput()
     }
 }
@@ -16747,7 +16749,7 @@ public struct DeleteHubContentOutput {
 
 enum DeleteHubContentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -16790,7 +16792,7 @@ public struct DeleteHubInput {
 
 extension DeleteHubOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteHubOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteHubOutput {
         return DeleteHubOutput()
     }
 }
@@ -16802,7 +16804,7 @@ public struct DeleteHubOutput {
 
 enum DeleteHubOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -16845,7 +16847,7 @@ public struct DeleteHumanTaskUiInput {
 
 extension DeleteHumanTaskUiOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteHumanTaskUiOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteHumanTaskUiOutput {
         return DeleteHumanTaskUiOutput()
     }
 }
@@ -16857,7 +16859,7 @@ public struct DeleteHumanTaskUiOutput {
 
 enum DeleteHumanTaskUiOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -16899,7 +16901,7 @@ public struct DeleteHyperParameterTuningJobInput {
 
 extension DeleteHyperParameterTuningJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteHyperParameterTuningJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteHyperParameterTuningJobOutput {
         return DeleteHyperParameterTuningJobOutput()
     }
 }
@@ -16911,7 +16913,7 @@ public struct DeleteHyperParameterTuningJobOutput {
 
 enum DeleteHyperParameterTuningJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -16952,7 +16954,7 @@ public struct DeleteImageInput {
 
 extension DeleteImageOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteImageOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteImageOutput {
         return DeleteImageOutput()
     }
 }
@@ -16964,7 +16966,7 @@ public struct DeleteImageOutput {
 
 enum DeleteImageOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -17017,7 +17019,7 @@ public struct DeleteImageVersionInput {
 
 extension DeleteImageVersionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteImageVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteImageVersionOutput {
         return DeleteImageVersionOutput()
     }
 }
@@ -17029,7 +17031,7 @@ public struct DeleteImageVersionOutput {
 
 enum DeleteImageVersionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -17072,7 +17074,7 @@ public struct DeleteInferenceComponentInput {
 
 extension DeleteInferenceComponentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteInferenceComponentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteInferenceComponentOutput {
         return DeleteInferenceComponentOutput()
     }
 }
@@ -17084,7 +17086,7 @@ public struct DeleteInferenceComponentOutput {
 
 enum DeleteInferenceComponentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -17125,7 +17127,7 @@ public struct DeleteInferenceExperimentInput {
 
 extension DeleteInferenceExperimentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteInferenceExperimentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteInferenceExperimentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -17150,7 +17152,7 @@ public struct DeleteInferenceExperimentOutput {
 
 enum DeleteInferenceExperimentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -17193,7 +17195,7 @@ public struct DeleteModelBiasJobDefinitionInput {
 
 extension DeleteModelBiasJobDefinitionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteModelBiasJobDefinitionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteModelBiasJobDefinitionOutput {
         return DeleteModelBiasJobDefinitionOutput()
     }
 }
@@ -17205,7 +17207,7 @@ public struct DeleteModelBiasJobDefinitionOutput {
 
 enum DeleteModelBiasJobDefinitionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -17247,7 +17249,7 @@ public struct DeleteModelCardInput {
 
 extension DeleteModelCardOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteModelCardOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteModelCardOutput {
         return DeleteModelCardOutput()
     }
 }
@@ -17259,7 +17261,7 @@ public struct DeleteModelCardOutput {
 
 enum DeleteModelCardOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -17302,7 +17304,7 @@ public struct DeleteModelExplainabilityJobDefinitionInput {
 
 extension DeleteModelExplainabilityJobDefinitionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteModelExplainabilityJobDefinitionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteModelExplainabilityJobDefinitionOutput {
         return DeleteModelExplainabilityJobDefinitionOutput()
     }
 }
@@ -17314,7 +17316,7 @@ public struct DeleteModelExplainabilityJobDefinitionOutput {
 
 enum DeleteModelExplainabilityJobDefinitionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -17356,7 +17358,7 @@ public struct DeleteModelInput {
 
 extension DeleteModelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteModelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteModelOutput {
         return DeleteModelOutput()
     }
 }
@@ -17368,7 +17370,7 @@ public struct DeleteModelOutput {
 
 enum DeleteModelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -17409,7 +17411,7 @@ public struct DeleteModelPackageGroupInput {
 
 extension DeleteModelPackageGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteModelPackageGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteModelPackageGroupOutput {
         return DeleteModelPackageGroupOutput()
     }
 }
@@ -17421,7 +17423,7 @@ public struct DeleteModelPackageGroupOutput {
 
 enum DeleteModelPackageGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -17463,7 +17465,7 @@ public struct DeleteModelPackageGroupPolicyInput {
 
 extension DeleteModelPackageGroupPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteModelPackageGroupPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteModelPackageGroupPolicyOutput {
         return DeleteModelPackageGroupPolicyOutput()
     }
 }
@@ -17475,7 +17477,7 @@ public struct DeleteModelPackageGroupPolicyOutput {
 
 enum DeleteModelPackageGroupPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -17516,7 +17518,7 @@ public struct DeleteModelPackageInput {
 
 extension DeleteModelPackageOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteModelPackageOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteModelPackageOutput {
         return DeleteModelPackageOutput()
     }
 }
@@ -17528,7 +17530,7 @@ public struct DeleteModelPackageOutput {
 
 enum DeleteModelPackageOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -17570,7 +17572,7 @@ public struct DeleteModelQualityJobDefinitionInput {
 
 extension DeleteModelQualityJobDefinitionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteModelQualityJobDefinitionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteModelQualityJobDefinitionOutput {
         return DeleteModelQualityJobDefinitionOutput()
     }
 }
@@ -17582,7 +17584,7 @@ public struct DeleteModelQualityJobDefinitionOutput {
 
 enum DeleteModelQualityJobDefinitionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -17624,7 +17626,7 @@ public struct DeleteMonitoringScheduleInput {
 
 extension DeleteMonitoringScheduleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteMonitoringScheduleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteMonitoringScheduleOutput {
         return DeleteMonitoringScheduleOutput()
     }
 }
@@ -17636,7 +17638,7 @@ public struct DeleteMonitoringScheduleOutput {
 
 enum DeleteMonitoringScheduleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -17706,7 +17708,7 @@ public struct DeleteNotebookInstanceLifecycleConfigInput {
 
 extension DeleteNotebookInstanceLifecycleConfigOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteNotebookInstanceLifecycleConfigOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteNotebookInstanceLifecycleConfigOutput {
         return DeleteNotebookInstanceLifecycleConfigOutput()
     }
 }
@@ -17718,7 +17720,7 @@ public struct DeleteNotebookInstanceLifecycleConfigOutput {
 
 enum DeleteNotebookInstanceLifecycleConfigOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -17731,7 +17733,7 @@ enum DeleteNotebookInstanceLifecycleConfigOutputError {
 
 extension DeleteNotebookInstanceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteNotebookInstanceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteNotebookInstanceOutput {
         return DeleteNotebookInstanceOutput()
     }
 }
@@ -17743,7 +17745,7 @@ public struct DeleteNotebookInstanceOutput {
 
 enum DeleteNotebookInstanceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -17790,7 +17792,7 @@ public struct DeletePipelineInput {
 
 extension DeletePipelineOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeletePipelineOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeletePipelineOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -17814,7 +17816,7 @@ public struct DeletePipelineOutput {
 
 enum DeletePipelineOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -17857,7 +17859,7 @@ public struct DeleteProjectInput {
 
 extension DeleteProjectOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteProjectOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteProjectOutput {
         return DeleteProjectOutput()
     }
 }
@@ -17869,7 +17871,7 @@ public struct DeleteProjectOutput {
 
 enum DeleteProjectOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -17917,7 +17919,7 @@ public struct DeleteSpaceInput {
 
 extension DeleteSpaceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteSpaceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteSpaceOutput {
         return DeleteSpaceOutput()
     }
 }
@@ -17929,7 +17931,7 @@ public struct DeleteSpaceOutput {
 
 enum DeleteSpaceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -17972,7 +17974,7 @@ public struct DeleteStudioLifecycleConfigInput {
 
 extension DeleteStudioLifecycleConfigOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteStudioLifecycleConfigOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteStudioLifecycleConfigOutput {
         return DeleteStudioLifecycleConfigOutput()
     }
 }
@@ -17984,7 +17986,7 @@ public struct DeleteStudioLifecycleConfigOutput {
 
 enum DeleteStudioLifecycleConfigOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -18033,7 +18035,7 @@ public struct DeleteTagsInput {
 
 extension DeleteTagsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteTagsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteTagsOutput {
         return DeleteTagsOutput()
     }
 }
@@ -18045,7 +18047,7 @@ public struct DeleteTagsOutput {
 
 enum DeleteTagsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -18086,7 +18088,7 @@ public struct DeleteTrialComponentInput {
 
 extension DeleteTrialComponentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteTrialComponentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteTrialComponentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -18110,7 +18112,7 @@ public struct DeleteTrialComponentOutput {
 
 enum DeleteTrialComponentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -18152,7 +18154,7 @@ public struct DeleteTrialInput {
 
 extension DeleteTrialOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteTrialOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteTrialOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -18176,7 +18178,7 @@ public struct DeleteTrialOutput {
 
 enum DeleteTrialOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -18224,7 +18226,7 @@ public struct DeleteUserProfileInput {
 
 extension DeleteUserProfileOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteUserProfileOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteUserProfileOutput {
         return DeleteUserProfileOutput()
     }
 }
@@ -18236,7 +18238,7 @@ public struct DeleteUserProfileOutput {
 
 enum DeleteUserProfileOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -18279,7 +18281,7 @@ public struct DeleteWorkforceInput {
 
 extension DeleteWorkforceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteWorkforceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteWorkforceOutput {
         return DeleteWorkforceOutput()
     }
 }
@@ -18291,7 +18293,7 @@ public struct DeleteWorkforceOutput {
 
 enum DeleteWorkforceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -18332,7 +18334,7 @@ public struct DeleteWorkteamInput {
 
 extension DeleteWorkteamOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteWorkteamOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteWorkteamOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -18357,7 +18359,7 @@ public struct DeleteWorkteamOutput {
 
 enum DeleteWorkteamOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -18385,14 +18387,14 @@ extension SageMakerClientTypes {
     /// Gets the Amazon EC2 Container Registry path of the docker image of the model that is hosted in this [ProductionVariant](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ProductionVariant.html). If you used the registry/repository[:tag] form to specify the image path of the primary container when you created the model hosted in this ProductionVariant, the path resolves to a path of the form registry/repository[@digest]. A digest is a hash value that identifies a specific version of an image. For information about Amazon ECR paths, see [Pulling an Image](https://docs.aws.amazon.com/AmazonECR/latest/userguide/docker-pull-ecr-image.html) in the Amazon ECR User Guide.
     public struct DeployedImage {
         /// The date and time when the image path for the model resolved to the ResolvedImage
-        public var resolutionTime: ClientRuntime.Date?
+        public var resolutionTime: Foundation.Date?
         /// The specific digest path of the image hosted in this ProductionVariant.
         public var resolvedImage: Swift.String?
         /// The image path you specified when you created the model.
         public var specifiedImage: Swift.String?
 
         public init(
-            resolutionTime: ClientRuntime.Date? = nil,
+            resolutionTime: Foundation.Date? = nil,
             resolvedImage: Swift.String? = nil,
             specifiedImage: Swift.String? = nil
         )
@@ -18597,7 +18599,7 @@ public struct DeregisterDevicesInput {
 
 extension DeregisterDevicesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeregisterDevicesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeregisterDevicesOutput {
         return DeregisterDevicesOutput()
     }
 }
@@ -18609,7 +18611,7 @@ public struct DeregisterDevicesOutput {
 
 enum DeregisterDevicesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -18676,7 +18678,7 @@ public struct DescribeActionInput {
 
 extension DescribeActionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeActionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeActionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -18708,13 +18710,13 @@ public struct DescribeActionOutput {
     /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
     public var createdBy: SageMakerClientTypes.UserContext?
     /// When the action was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The description of the action.
     public var description: Swift.String?
     /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
     public var lastModifiedBy: SageMakerClientTypes.UserContext?
     /// When the action was last modified.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the lineage group.
     public var lineageGroupArn: Swift.String?
     /// Metadata properties of the tracking entity, trial, or trial component.
@@ -18731,10 +18733,10 @@ public struct DescribeActionOutput {
         actionName: Swift.String? = nil,
         actionType: Swift.String? = nil,
         createdBy: SageMakerClientTypes.UserContext? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         lastModifiedBy: SageMakerClientTypes.UserContext? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         lineageGroupArn: Swift.String? = nil,
         metadataProperties: SageMakerClientTypes.MetadataProperties? = nil,
         properties: [Swift.String:Swift.String]? = nil,
@@ -18760,7 +18762,7 @@ public struct DescribeActionOutput {
 
 enum DescribeActionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -18802,7 +18804,7 @@ public struct DescribeAlgorithmInput {
 
 extension DescribeAlgorithmOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeAlgorithmOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeAlgorithmOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -18841,7 +18843,7 @@ public struct DescribeAlgorithmOutput {
     public var certifyForMarketplace: Swift.Bool?
     /// A timestamp specifying when the algorithm was created.
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// Details about inference jobs that the algorithm runs.
     public var inferenceSpecification: SageMakerClientTypes.InferenceSpecification?
     /// The product identifier of the algorithm.
@@ -18859,7 +18861,7 @@ public struct DescribeAlgorithmOutput {
         algorithmStatus: SageMakerClientTypes.AlgorithmStatus? = nil,
         algorithmStatusDetails: SageMakerClientTypes.AlgorithmStatusDetails? = nil,
         certifyForMarketplace: Swift.Bool? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         inferenceSpecification: SageMakerClientTypes.InferenceSpecification? = nil,
         productId: Swift.String? = nil,
         trainingSpecification: SageMakerClientTypes.TrainingSpecification? = nil,
@@ -18882,7 +18884,7 @@ public struct DescribeAlgorithmOutput {
 
 enum DescribeAlgorithmOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -18923,7 +18925,7 @@ public struct DescribeAppImageConfigInput {
 
 extension DescribeAppImageConfigOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeAppImageConfigOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeAppImageConfigOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -18947,22 +18949,22 @@ public struct DescribeAppImageConfigOutput {
     /// The configuration of the Code Editor app.
     public var codeEditorAppImageConfig: SageMakerClientTypes.CodeEditorAppImageConfig?
     /// When the AppImageConfig was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The configuration of the JupyterLab app.
     public var jupyterLabAppImageConfig: SageMakerClientTypes.JupyterLabAppImageConfig?
     /// The configuration of a KernelGateway app.
     public var kernelGatewayImageConfig: SageMakerClientTypes.KernelGatewayImageConfig?
     /// When the AppImageConfig was last modified.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
 
     public init(
         appImageConfigArn: Swift.String? = nil,
         appImageConfigName: Swift.String? = nil,
         codeEditorAppImageConfig: SageMakerClientTypes.CodeEditorAppImageConfig? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         jupyterLabAppImageConfig: SageMakerClientTypes.JupyterLabAppImageConfig? = nil,
         kernelGatewayImageConfig: SageMakerClientTypes.KernelGatewayImageConfig? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil
+        lastModifiedTime: Foundation.Date? = nil
     )
     {
         self.appImageConfigArn = appImageConfigArn
@@ -18977,7 +18979,7 @@ public struct DescribeAppImageConfigOutput {
 
 enum DescribeAppImageConfigOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -19041,7 +19043,7 @@ public struct DescribeAppInput {
 
 extension DescribeAppOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeAppOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeAppOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -19070,15 +19072,15 @@ public struct DescribeAppOutput {
     /// The type of app.
     public var appType: SageMakerClientTypes.AppType?
     /// The creation time of the application. After an application has been shut down for 24 hours, SageMaker deletes all metadata for the application. To be considered an update and retain application metadata, applications must be restarted within 24 hours after the previous application has been shut down. After this time window, creation of an application is considered a new application rather than an update of the previous application.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The domain ID.
     public var domainId: Swift.String?
     /// The failure reason.
     public var failureReason: Swift.String?
     /// The timestamp of the last health check.
-    public var lastHealthCheckTimestamp: ClientRuntime.Date?
+    public var lastHealthCheckTimestamp: Foundation.Date?
     /// The timestamp of the last user's activity. LastUserActivityTimestamp is also updated when SageMaker performs health checks without user activity. As a result, this value is set to the same value as LastHealthCheckTimestamp.
-    public var lastUserActivityTimestamp: ClientRuntime.Date?
+    public var lastUserActivityTimestamp: Foundation.Date?
     /// The instance type and the Amazon Resource Name (ARN) of the SageMaker image created on the instance.
     public var resourceSpec: SageMakerClientTypes.ResourceSpec?
     /// The name of the space. If this value is not set, then UserProfileName must be set.
@@ -19092,11 +19094,11 @@ public struct DescribeAppOutput {
         appArn: Swift.String? = nil,
         appName: Swift.String? = nil,
         appType: SageMakerClientTypes.AppType? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         domainId: Swift.String? = nil,
         failureReason: Swift.String? = nil,
-        lastHealthCheckTimestamp: ClientRuntime.Date? = nil,
-        lastUserActivityTimestamp: ClientRuntime.Date? = nil,
+        lastHealthCheckTimestamp: Foundation.Date? = nil,
+        lastUserActivityTimestamp: Foundation.Date? = nil,
         resourceSpec: SageMakerClientTypes.ResourceSpec? = nil,
         spaceName: Swift.String? = nil,
         status: SageMakerClientTypes.AppStatus? = nil,
@@ -19120,7 +19122,7 @@ public struct DescribeAppOutput {
 
 enum DescribeAppOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -19162,7 +19164,7 @@ public struct DescribeArtifactInput {
 
 extension DescribeArtifactOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeArtifactOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeArtifactOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -19192,11 +19194,11 @@ public struct DescribeArtifactOutput {
     /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
     public var createdBy: SageMakerClientTypes.UserContext?
     /// When the artifact was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
     public var lastModifiedBy: SageMakerClientTypes.UserContext?
     /// When the artifact was last modified.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the lineage group.
     public var lineageGroupArn: Swift.String?
     /// Metadata properties of the tracking entity, trial, or trial component.
@@ -19211,9 +19213,9 @@ public struct DescribeArtifactOutput {
         artifactName: Swift.String? = nil,
         artifactType: Swift.String? = nil,
         createdBy: SageMakerClientTypes.UserContext? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         lastModifiedBy: SageMakerClientTypes.UserContext? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         lineageGroupArn: Swift.String? = nil,
         metadataProperties: SageMakerClientTypes.MetadataProperties? = nil,
         properties: [Swift.String:Swift.String]? = nil,
@@ -19236,7 +19238,7 @@ public struct DescribeArtifactOutput {
 
 enum DescribeArtifactOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -19278,7 +19280,7 @@ public struct DescribeAutoMLJobInput {
 
 extension DescribeAutoMLJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeAutoMLJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeAutoMLJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -19331,9 +19333,9 @@ public struct DescribeAutoMLJobOutput {
     public var bestCandidate: SageMakerClientTypes.AutoMLCandidate?
     /// Returns the creation time of the AutoML job.
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// Returns the end time of the AutoML job.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// Returns the failure reason for an AutoML job, when applicable.
     public var failureReason: Swift.String?
     /// Indicates whether the output for an AutoML job generates candidate definitions only.
@@ -19343,7 +19345,7 @@ public struct DescribeAutoMLJobOutput {
     public var inputDataConfig: [SageMakerClientTypes.AutoMLChannel]?
     /// Returns the job's last modified time.
     /// This member is required.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// Indicates whether the model was deployed automatically to an endpoint and the name of that endpoint if deployed automatically.
     public var modelDeployConfig: SageMakerClientTypes.ModelDeployConfig?
     /// Provides information about endpoint for the model deployment.
@@ -19370,12 +19372,12 @@ public struct DescribeAutoMLJobOutput {
         autoMLJobSecondaryStatus: SageMakerClientTypes.AutoMLJobSecondaryStatus? = nil,
         autoMLJobStatus: SageMakerClientTypes.AutoMLJobStatus? = nil,
         bestCandidate: SageMakerClientTypes.AutoMLCandidate? = nil,
-        creationTime: ClientRuntime.Date? = nil,
-        endTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
+        endTime: Foundation.Date? = nil,
         failureReason: Swift.String? = nil,
         generateCandidateDefinitionsOnly: Swift.Bool? = nil,
         inputDataConfig: [SageMakerClientTypes.AutoMLChannel]? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         modelDeployConfig: SageMakerClientTypes.ModelDeployConfig? = nil,
         modelDeployResult: SageMakerClientTypes.ModelDeployResult? = nil,
         outputDataConfig: SageMakerClientTypes.AutoMLOutputDataConfig? = nil,
@@ -19411,7 +19413,7 @@ public struct DescribeAutoMLJobOutput {
 
 enum DescribeAutoMLJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -19453,7 +19455,7 @@ public struct DescribeAutoMLJobV2Input {
 
 extension DescribeAutoMLJobV2Output {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeAutoMLJobV2Output {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeAutoMLJobV2Output {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -19512,16 +19514,16 @@ public struct DescribeAutoMLJobV2Output {
     public var bestCandidate: SageMakerClientTypes.AutoMLCandidate?
     /// Returns the creation time of the AutoML job V2.
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// Returns the configuration settings of how the data are split into train and validation datasets.
     public var dataSplitConfig: SageMakerClientTypes.AutoMLDataSplitConfig?
     /// Returns the end time of the AutoML job V2.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// Returns the reason for the failure of the AutoML job V2, when applicable.
     public var failureReason: Swift.String?
     /// Returns the job's last modified time.
     /// This member is required.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// Indicates whether the model was deployed automatically to an endpoint and the name of that endpoint if deployed automatically.
     public var modelDeployConfig: SageMakerClientTypes.ModelDeployConfig?
     /// Provides information about endpoint for the model deployment.
@@ -19550,11 +19552,11 @@ public struct DescribeAutoMLJobV2Output {
         autoMLProblemTypeConfig: SageMakerClientTypes.AutoMLProblemTypeConfig? = nil,
         autoMLProblemTypeConfigName: SageMakerClientTypes.AutoMLProblemTypeConfigName? = nil,
         bestCandidate: SageMakerClientTypes.AutoMLCandidate? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         dataSplitConfig: SageMakerClientTypes.AutoMLDataSplitConfig? = nil,
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         failureReason: Swift.String? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         modelDeployConfig: SageMakerClientTypes.ModelDeployConfig? = nil,
         modelDeployResult: SageMakerClientTypes.ModelDeployResult? = nil,
         outputDataConfig: SageMakerClientTypes.AutoMLOutputDataConfig? = nil,
@@ -19591,7 +19593,7 @@ public struct DescribeAutoMLJobV2Output {
 
 enum DescribeAutoMLJobV2OutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -19667,7 +19669,7 @@ public struct DescribeClusterNodeInput {
 
 extension DescribeClusterNodeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeClusterNodeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeClusterNodeOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -19692,7 +19694,7 @@ public struct DescribeClusterNodeOutput {
 
 enum DescribeClusterNodeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -19706,7 +19708,7 @@ enum DescribeClusterNodeOutputError {
 
 extension DescribeClusterOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeClusterOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeClusterOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -19732,7 +19734,7 @@ public struct DescribeClusterOutput {
     /// This member is required.
     public var clusterStatus: SageMakerClientTypes.ClusterStatus?
     /// The time when the SageMaker Cluster is created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The failure message of the SageMaker HyperPod cluster.
     public var failureMessage: Swift.String?
     /// The instance groups of the SageMaker HyperPod cluster.
@@ -19745,7 +19747,7 @@ public struct DescribeClusterOutput {
         clusterArn: Swift.String? = nil,
         clusterName: Swift.String? = nil,
         clusterStatus: SageMakerClientTypes.ClusterStatus? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         failureMessage: Swift.String? = nil,
         instanceGroups: [SageMakerClientTypes.ClusterInstanceGroupDetails]? = nil,
         vpcConfig: SageMakerClientTypes.VpcConfig? = nil
@@ -19763,7 +19765,7 @@ public struct DescribeClusterOutput {
 
 enum DescribeClusterOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -19805,7 +19807,7 @@ public struct DescribeCodeRepositoryInput {
 
 extension DescribeCodeRepositoryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeCodeRepositoryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeCodeRepositoryOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -19828,19 +19830,19 @@ public struct DescribeCodeRepositoryOutput {
     public var codeRepositoryName: Swift.String?
     /// The date and time that the repository was created.
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// Configuration details about the repository, including the URL where the repository is located, the default branch, and the Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that contains the credentials used to access the repository.
     public var gitConfig: SageMakerClientTypes.GitConfig?
     /// The date and time that the repository was last changed.
     /// This member is required.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
 
     public init(
         codeRepositoryArn: Swift.String? = nil,
         codeRepositoryName: Swift.String? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         gitConfig: SageMakerClientTypes.GitConfig? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil
+        lastModifiedTime: Foundation.Date? = nil
     )
     {
         self.codeRepositoryArn = codeRepositoryArn
@@ -19853,7 +19855,7 @@ public struct DescribeCodeRepositoryOutput {
 
 enum DescribeCodeRepositoryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -19894,7 +19896,7 @@ public struct DescribeCompilationJobInput {
 
 extension DescribeCompilationJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeCompilationJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeCompilationJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -19923,7 +19925,7 @@ extension DescribeCompilationJobOutput {
 
 public struct DescribeCompilationJobOutput {
     /// The time when the model compilation job on a compilation job instance ended. For a successful or stopped job, this is when the job's model artifacts have finished uploading. For a failed job, this is when Amazon SageMaker detected that the job failed.
-    public var compilationEndTime: ClientRuntime.Date?
+    public var compilationEndTime: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the model compilation job.
     /// This member is required.
     public var compilationJobArn: Swift.String?
@@ -19934,10 +19936,10 @@ public struct DescribeCompilationJobOutput {
     /// This member is required.
     public var compilationJobStatus: SageMakerClientTypes.CompilationJobStatus?
     /// The time when the model compilation job started the CompilationJob instances. You are billed for the time between this timestamp and the timestamp in the CompilationEndTime field. In Amazon CloudWatch Logs, the start time might be later than this time. That's because it takes time to download the compilation job, which depends on the size of the compilation job container.
-    public var compilationStartTime: ClientRuntime.Date?
+    public var compilationStartTime: Foundation.Date?
     /// The time that the model compilation job was created.
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// Information that SageMaker Neo automatically derived about the model.
     public var derivedInformation: SageMakerClientTypes.DerivedInformation?
     /// If a model compilation job failed, the reason it failed.
@@ -19950,7 +19952,7 @@ public struct DescribeCompilationJobOutput {
     public var inputConfig: SageMakerClientTypes.InputConfig?
     /// The time that the status of the model compilation job was last modified.
     /// This member is required.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// Information about the location in Amazon S3 that has been configured for storing the model artifacts used in the compilation job.
     /// This member is required.
     public var modelArtifacts: SageMakerClientTypes.ModelArtifacts?
@@ -19971,17 +19973,17 @@ public struct DescribeCompilationJobOutput {
     public var vpcConfig: SageMakerClientTypes.NeoVpcConfig?
 
     public init(
-        compilationEndTime: ClientRuntime.Date? = nil,
+        compilationEndTime: Foundation.Date? = nil,
         compilationJobArn: Swift.String? = nil,
         compilationJobName: Swift.String? = nil,
         compilationJobStatus: SageMakerClientTypes.CompilationJobStatus? = nil,
-        compilationStartTime: ClientRuntime.Date? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        compilationStartTime: Foundation.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         derivedInformation: SageMakerClientTypes.DerivedInformation? = nil,
         failureReason: Swift.String? = nil,
         inferenceImage: Swift.String? = nil,
         inputConfig: SageMakerClientTypes.InputConfig? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         modelArtifacts: SageMakerClientTypes.ModelArtifacts? = nil,
         modelDigests: SageMakerClientTypes.ModelDigests? = nil,
         modelPackageVersionArn: Swift.String? = nil,
@@ -20014,7 +20016,7 @@ public struct DescribeCompilationJobOutput {
 
 enum DescribeCompilationJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -20056,7 +20058,7 @@ public struct DescribeContextInput {
 
 extension DescribeContextOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeContextOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeContextOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -20086,13 +20088,13 @@ public struct DescribeContextOutput {
     /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
     public var createdBy: SageMakerClientTypes.UserContext?
     /// When the context was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The description of the context.
     public var description: Swift.String?
     /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
     public var lastModifiedBy: SageMakerClientTypes.UserContext?
     /// When the context was last modified.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the lineage group.
     public var lineageGroupArn: Swift.String?
     /// A list of the context's properties.
@@ -20105,10 +20107,10 @@ public struct DescribeContextOutput {
         contextName: Swift.String? = nil,
         contextType: Swift.String? = nil,
         createdBy: SageMakerClientTypes.UserContext? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         lastModifiedBy: SageMakerClientTypes.UserContext? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         lineageGroupArn: Swift.String? = nil,
         properties: [Swift.String:Swift.String]? = nil,
         source: SageMakerClientTypes.ContextSource? = nil
@@ -20130,7 +20132,7 @@ public struct DescribeContextOutput {
 
 enum DescribeContextOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -20172,7 +20174,7 @@ public struct DescribeDataQualityJobDefinitionInput {
 
 extension DescribeDataQualityJobDefinitionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeDataQualityJobDefinitionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeDataQualityJobDefinitionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -20195,7 +20197,7 @@ extension DescribeDataQualityJobDefinitionOutput {
 public struct DescribeDataQualityJobDefinitionOutput {
     /// The time that the data quality monitoring job definition was created.
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// Information about the container that runs the data quality monitoring job.
     /// This member is required.
     public var dataQualityAppSpecification: SageMakerClientTypes.DataQualityAppSpecification?
@@ -20225,7 +20227,7 @@ public struct DescribeDataQualityJobDefinitionOutput {
     public var stoppingCondition: SageMakerClientTypes.MonitoringStoppingCondition?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         dataQualityAppSpecification: SageMakerClientTypes.DataQualityAppSpecification? = nil,
         dataQualityBaselineConfig: SageMakerClientTypes.DataQualityBaselineConfig? = nil,
         dataQualityJobInput: SageMakerClientTypes.DataQualityJobInput? = nil,
@@ -20254,7 +20256,7 @@ public struct DescribeDataQualityJobDefinitionOutput {
 
 enum DescribeDataQualityJobDefinitionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -20296,7 +20298,7 @@ public struct DescribeDeviceFleetInput {
 
 extension DescribeDeviceFleetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeDeviceFleetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeDeviceFleetOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -20316,7 +20318,7 @@ extension DescribeDeviceFleetOutput {
 public struct DescribeDeviceFleetOutput {
     /// Timestamp of when the device fleet was created.
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// A description of the fleet.
     public var description: Swift.String?
     /// The The Amazon Resource Name (ARN) of the fleet.
@@ -20329,7 +20331,7 @@ public struct DescribeDeviceFleetOutput {
     public var iotRoleAlias: Swift.String?
     /// Timestamp of when the device fleet was last updated.
     /// This member is required.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The output configuration for storing sampled data.
     /// This member is required.
     public var outputConfig: SageMakerClientTypes.EdgeOutputConfig?
@@ -20337,12 +20339,12 @@ public struct DescribeDeviceFleetOutput {
     public var roleArn: Swift.String?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         deviceFleetArn: Swift.String? = nil,
         deviceFleetName: Swift.String? = nil,
         iotRoleAlias: Swift.String? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         outputConfig: SageMakerClientTypes.EdgeOutputConfig? = nil,
         roleArn: Swift.String? = nil
     )
@@ -20360,7 +20362,7 @@ public struct DescribeDeviceFleetOutput {
 
 enum DescribeDeviceFleetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -20413,7 +20415,7 @@ public struct DescribeDeviceInput {
 
 extension DescribeDeviceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeDeviceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeDeviceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -20449,7 +20451,7 @@ public struct DescribeDeviceOutput {
     /// The Amazon Web Services Internet of Things (IoT) object thing name associated with the device.
     public var iotThingName: Swift.String?
     /// The last heartbeat received from the device.
-    public var latestHeartbeat: ClientRuntime.Date?
+    public var latestHeartbeat: Foundation.Date?
     /// The maximum number of models.
     public var maxModels: Swift.Int?
     /// Models on the device.
@@ -20458,7 +20460,7 @@ public struct DescribeDeviceOutput {
     public var nextToken: Swift.String?
     /// The timestamp of the last registration or de-reregistration.
     /// This member is required.
-    public var registrationTime: ClientRuntime.Date?
+    public var registrationTime: Foundation.Date?
 
     public init(
         agentVersion: Swift.String? = nil,
@@ -20467,11 +20469,11 @@ public struct DescribeDeviceOutput {
         deviceFleetName: Swift.String? = nil,
         deviceName: Swift.String? = nil,
         iotThingName: Swift.String? = nil,
-        latestHeartbeat: ClientRuntime.Date? = nil,
+        latestHeartbeat: Foundation.Date? = nil,
         maxModels: Swift.Int? = nil,
         models: [SageMakerClientTypes.EdgeModel]? = nil,
         nextToken: Swift.String? = nil,
-        registrationTime: ClientRuntime.Date? = nil
+        registrationTime: Foundation.Date? = nil
     )
     {
         self.agentVersion = agentVersion
@@ -20490,7 +20492,7 @@ public struct DescribeDeviceOutput {
 
 enum DescribeDeviceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -20532,7 +20534,7 @@ public struct DescribeDomainInput {
 
 extension DescribeDomainOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeDomainOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeDomainOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -20575,7 +20577,7 @@ public struct DescribeDomainOutput {
     /// The domain's authentication mode.
     public var authMode: SageMakerClientTypes.AuthMode?
     /// The creation time.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The default settings used to create a space.
     public var defaultSpaceSettings: SageMakerClientTypes.DefaultSpaceSettings?
     /// Settings which are applied to UserProfiles in this domain if settings are not explicitly specified in a given UserProfile.
@@ -20598,7 +20600,7 @@ public struct DescribeDomainOutput {
     /// The Amazon Web Services KMS customer managed key used to encrypt the EFS volume attached to the domain.
     public var kmsKeyId: Swift.String?
     /// The last modified time.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The ID of the security group that authorizes traffic between the RSessionGateway apps and the RStudioServerPro app.
     public var securityGroupIdForDomainBoundary: Swift.String?
     /// The ARN of the application managed by SageMaker in IAM Identity Center. This value is only returned for domains created after October 1, 2023.
@@ -20618,7 +20620,7 @@ public struct DescribeDomainOutput {
         appNetworkAccessType: SageMakerClientTypes.AppNetworkAccessType? = nil,
         appSecurityGroupManagement: SageMakerClientTypes.AppSecurityGroupManagement? = nil,
         authMode: SageMakerClientTypes.AuthMode? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         defaultSpaceSettings: SageMakerClientTypes.DefaultSpaceSettings? = nil,
         defaultUserSettings: SageMakerClientTypes.UserSettings? = nil,
         domainArn: Swift.String? = nil,
@@ -20629,7 +20631,7 @@ public struct DescribeDomainOutput {
         homeEfsFileSystemId: Swift.String? = nil,
         homeEfsFileSystemKmsKeyId: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         securityGroupIdForDomainBoundary: Swift.String? = nil,
         singleSignOnApplicationArn: Swift.String? = nil,
         singleSignOnManagedApplicationInstanceId: Swift.String? = nil,
@@ -20666,7 +20668,7 @@ public struct DescribeDomainOutput {
 
 enum DescribeDomainOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -20718,7 +20720,7 @@ public struct DescribeEdgeDeploymentPlanInput {
 
 extension DescribeEdgeDeploymentPlanOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeEdgeDeploymentPlanOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeEdgeDeploymentPlanOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -20740,7 +20742,7 @@ extension DescribeEdgeDeploymentPlanOutput {
 
 public struct DescribeEdgeDeploymentPlanOutput {
     /// The time when the edge deployment plan was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The device fleet used for this edge deployment plan.
     /// This member is required.
     public var deviceFleetName: Swift.String?
@@ -20757,7 +20759,7 @@ public struct DescribeEdgeDeploymentPlanOutput {
     /// The number of edge devices with the successful deployment.
     public var edgeDeploymentSuccess: Swift.Int?
     /// The time when the edge deployment plan was last updated.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// List of models associated with the edge deployment plan.
     /// This member is required.
     public var modelConfigs: [SageMakerClientTypes.EdgeDeploymentModelConfig]?
@@ -20768,14 +20770,14 @@ public struct DescribeEdgeDeploymentPlanOutput {
     public var stages: [SageMakerClientTypes.DeploymentStageStatusSummary]?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         deviceFleetName: Swift.String? = nil,
         edgeDeploymentFailed: Swift.Int? = nil,
         edgeDeploymentPending: Swift.Int? = nil,
         edgeDeploymentPlanArn: Swift.String? = nil,
         edgeDeploymentPlanName: Swift.String? = nil,
         edgeDeploymentSuccess: Swift.Int? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         modelConfigs: [SageMakerClientTypes.EdgeDeploymentModelConfig]? = nil,
         nextToken: Swift.String? = nil,
         stages: [SageMakerClientTypes.DeploymentStageStatusSummary]? = nil
@@ -20797,7 +20799,7 @@ public struct DescribeEdgeDeploymentPlanOutput {
 
 enum DescribeEdgeDeploymentPlanOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -20839,7 +20841,7 @@ public struct DescribeEdgePackagingJobInput {
 
 extension DescribeEdgePackagingJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeEdgePackagingJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeEdgePackagingJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -20867,7 +20869,7 @@ public struct DescribeEdgePackagingJobOutput {
     /// The name of the SageMaker Neo compilation job that is used to locate model artifacts that are being packaged.
     public var compilationJobName: Swift.String?
     /// The timestamp of when the packaging job was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the edge packaging job.
     /// This member is required.
     public var edgePackagingJobArn: Swift.String?
@@ -20880,7 +20882,7 @@ public struct DescribeEdgePackagingJobOutput {
     /// Returns a message describing the job status and error messages.
     public var edgePackagingJobStatusMessage: Swift.String?
     /// The timestamp of when the job was last updated.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The Amazon Simple Storage (S3) URI where model artifacts ares stored.
     public var modelArtifact: Swift.String?
     /// The name of the model.
@@ -20900,12 +20902,12 @@ public struct DescribeEdgePackagingJobOutput {
 
     public init(
         compilationJobName: Swift.String? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         edgePackagingJobArn: Swift.String? = nil,
         edgePackagingJobName: Swift.String? = nil,
         edgePackagingJobStatus: SageMakerClientTypes.EdgePackagingJobStatus? = nil,
         edgePackagingJobStatusMessage: Swift.String? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         modelArtifact: Swift.String? = nil,
         modelName: Swift.String? = nil,
         modelSignature: Swift.String? = nil,
@@ -20936,7 +20938,7 @@ public struct DescribeEdgePackagingJobOutput {
 
 enum DescribeEdgePackagingJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -20978,7 +20980,7 @@ public struct DescribeEndpointConfigInput {
 
 extension DescribeEndpointConfigOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeEndpointConfigOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeEndpointConfigOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -21004,7 +21006,7 @@ public struct DescribeEndpointConfigOutput {
     public var asyncInferenceConfig: SageMakerClientTypes.AsyncInferenceConfig?
     /// A timestamp that shows when the endpoint configuration was created.
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// Configuration to control how SageMaker captures inference data.
     public var dataCaptureConfig: SageMakerClientTypes.DataCaptureConfig?
     /// Indicates whether all model containers deployed to the endpoint are isolated. If they are, no inbound or outbound network calls can be made to or from the model containers.
@@ -21031,7 +21033,7 @@ public struct DescribeEndpointConfigOutput {
 
     public init(
         asyncInferenceConfig: SageMakerClientTypes.AsyncInferenceConfig? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         dataCaptureConfig: SageMakerClientTypes.DataCaptureConfig? = nil,
         enableNetworkIsolation: Swift.Bool? = nil,
         endpointConfigArn: Swift.String? = nil,
@@ -21061,7 +21063,7 @@ public struct DescribeEndpointConfigOutput {
 
 enum DescribeEndpointConfigOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -21102,7 +21104,7 @@ public struct DescribeEndpointInput {
 
 extension DescribeEndpointOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeEndpointOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeEndpointOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -21130,7 +21132,7 @@ public struct DescribeEndpointOutput {
     public var asyncInferenceConfig: SageMakerClientTypes.AsyncInferenceConfig?
     /// A timestamp that shows when the endpoint was created.
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The currently active data capture configuration used by your Endpoint.
     public var dataCaptureConfig: SageMakerClientTypes.DataCaptureConfigSummary?
     /// The Amazon Resource Name (ARN) of the endpoint.
@@ -21170,7 +21172,7 @@ public struct DescribeEndpointOutput {
     public var lastDeploymentConfig: SageMakerClientTypes.DeploymentConfig?
     /// A timestamp that shows when the endpoint was last modified.
     /// This member is required.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// Returns the summary of an in-progress deployment. This field is only returned when the endpoint is creating or updating with a new endpoint configuration.
     public var pendingDeploymentSummary: SageMakerClientTypes.PendingDeploymentSummary?
     /// An array of [ProductionVariantSummary](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ProductionVariantSummary.html) objects, one for each model hosted behind this endpoint.
@@ -21180,7 +21182,7 @@ public struct DescribeEndpointOutput {
 
     public init(
         asyncInferenceConfig: SageMakerClientTypes.AsyncInferenceConfig? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         dataCaptureConfig: SageMakerClientTypes.DataCaptureConfigSummary? = nil,
         endpointArn: Swift.String? = nil,
         endpointConfigName: Swift.String? = nil,
@@ -21189,7 +21191,7 @@ public struct DescribeEndpointOutput {
         explainerConfig: SageMakerClientTypes.ExplainerConfig? = nil,
         failureReason: Swift.String? = nil,
         lastDeploymentConfig: SageMakerClientTypes.DeploymentConfig? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         pendingDeploymentSummary: SageMakerClientTypes.PendingDeploymentSummary? = nil,
         productionVariants: [SageMakerClientTypes.ProductionVariantSummary]? = nil,
         shadowProductionVariants: [SageMakerClientTypes.ProductionVariantSummary]? = nil
@@ -21214,7 +21216,7 @@ public struct DescribeEndpointOutput {
 
 enum DescribeEndpointOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -21255,7 +21257,7 @@ public struct DescribeExperimentInput {
 
 extension DescribeExperimentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeExperimentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeExperimentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -21277,7 +21279,7 @@ public struct DescribeExperimentOutput {
     /// Who created the experiment.
     public var createdBy: SageMakerClientTypes.UserContext?
     /// When the experiment was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The description of the experiment.
     public var description: Swift.String?
     /// The name of the experiment as displayed. If DisplayName isn't specified, ExperimentName is displayed.
@@ -21289,19 +21291,19 @@ public struct DescribeExperimentOutput {
     /// Who last modified the experiment.
     public var lastModifiedBy: SageMakerClientTypes.UserContext?
     /// When the experiment was last modified.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the source and, optionally, the type.
     public var source: SageMakerClientTypes.ExperimentSource?
 
     public init(
         createdBy: SageMakerClientTypes.UserContext? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         displayName: Swift.String? = nil,
         experimentArn: Swift.String? = nil,
         experimentName: Swift.String? = nil,
         lastModifiedBy: SageMakerClientTypes.UserContext? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         source: SageMakerClientTypes.ExperimentSource? = nil
     )
     {
@@ -21319,7 +21321,7 @@ public struct DescribeExperimentOutput {
 
 enum DescribeExperimentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -21366,7 +21368,7 @@ public struct DescribeFeatureGroupInput {
 
 extension DescribeFeatureGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeFeatureGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeFeatureGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -21396,7 +21398,7 @@ extension DescribeFeatureGroupOutput {
 public struct DescribeFeatureGroupOutput {
     /// A timestamp indicating when SageMaker created the FeatureGroup.
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// A free form description of the feature group.
     public var description: Swift.String?
     /// The name of the feature that stores the EventTime of a Record in a FeatureGroup. An EventTime is a point in time when a new event occurs that corresponds to the creation or update of a Record in a FeatureGroup. All Records in the FeatureGroup have a corresponding EventTime.
@@ -21420,7 +21422,7 @@ public struct DescribeFeatureGroupOutput {
     /// The status of the feature group.
     public var featureGroupStatus: SageMakerClientTypes.FeatureGroupStatus?
     /// A timestamp indicating when the feature group was last updated.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// A value indicating whether the update made to the feature group was successful.
     public var lastUpdateStatus: SageMakerClientTypes.LastUpdateStatus?
     /// A token to resume pagination of the list of Features (FeatureDefinitions).
@@ -21453,7 +21455,7 @@ public struct DescribeFeatureGroupOutput {
     public var throughputConfig: SageMakerClientTypes.ThroughputConfigDescription?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         eventTimeFeatureName: Swift.String? = nil,
         failureReason: Swift.String? = nil,
@@ -21461,7 +21463,7 @@ public struct DescribeFeatureGroupOutput {
         featureGroupArn: Swift.String? = nil,
         featureGroupName: Swift.String? = nil,
         featureGroupStatus: SageMakerClientTypes.FeatureGroupStatus? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         lastUpdateStatus: SageMakerClientTypes.LastUpdateStatus? = nil,
         nextToken: Swift.String? = nil,
         offlineStoreConfig: SageMakerClientTypes.OfflineStoreConfig? = nil,
@@ -21496,7 +21498,7 @@ public struct DescribeFeatureGroupOutput {
 
 enum DescribeFeatureGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -21544,7 +21546,7 @@ public struct DescribeFeatureMetadataInput {
 
 extension DescribeFeatureMetadataOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeFeatureMetadataOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeFeatureMetadataOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -21564,7 +21566,7 @@ extension DescribeFeatureMetadataOutput {
 public struct DescribeFeatureMetadataOutput {
     /// A timestamp indicating when the feature was created.
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The description you added to describe the feature.
     public var description: Swift.String?
     /// The Amazon Resource Number (ARN) of the feature group that contains the feature.
@@ -21581,18 +21583,18 @@ public struct DescribeFeatureMetadataOutput {
     public var featureType: SageMakerClientTypes.FeatureType?
     /// A timestamp indicating when the metadata for the feature group was modified. For example, if you add a parameter describing the feature, the timestamp changes to reflect the last time you
     /// This member is required.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The key-value pairs that you added to describe the feature.
     public var parameters: [SageMakerClientTypes.FeatureParameter]?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         featureGroupArn: Swift.String? = nil,
         featureGroupName: Swift.String? = nil,
         featureName: Swift.String? = nil,
         featureType: SageMakerClientTypes.FeatureType? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         parameters: [SageMakerClientTypes.FeatureParameter]? = nil
     )
     {
@@ -21609,7 +21611,7 @@ public struct DescribeFeatureMetadataOutput {
 
 enum DescribeFeatureMetadataOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -21651,7 +21653,7 @@ public struct DescribeFlowDefinitionInput {
 
 extension DescribeFlowDefinitionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeFlowDefinitionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeFlowDefinitionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -21673,7 +21675,7 @@ extension DescribeFlowDefinitionOutput {
 public struct DescribeFlowDefinitionOutput {
     /// The timestamp when the flow definition was created.
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The reason your flow definition failed.
     public var failureReason: Swift.String?
     /// The Amazon Resource Name (ARN) of the flow defintion.
@@ -21699,7 +21701,7 @@ public struct DescribeFlowDefinitionOutput {
     public var roleArn: Swift.String?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         failureReason: Swift.String? = nil,
         flowDefinitionArn: Swift.String? = nil,
         flowDefinitionName: Swift.String? = nil,
@@ -21726,7 +21728,7 @@ public struct DescribeFlowDefinitionOutput {
 
 enum DescribeFlowDefinitionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -21785,7 +21787,7 @@ public struct DescribeHubContentInput {
 
 extension DescribeHubContentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeHubContentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeHubContentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -21813,7 +21815,7 @@ extension DescribeHubContentOutput {
 public struct DescribeHubContentOutput {
     /// The date and time that hub content was created.
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The document schema version for the hub content.
     /// This member is required.
     public var documentSchemaVersion: Swift.String?
@@ -21855,7 +21857,7 @@ public struct DescribeHubContentOutput {
     public var hubName: Swift.String?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         documentSchemaVersion: Swift.String? = nil,
         failureReason: Swift.String? = nil,
         hubArn: Swift.String? = nil,
@@ -21894,7 +21896,7 @@ public struct DescribeHubContentOutput {
 
 enum DescribeHubContentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -21936,7 +21938,7 @@ public struct DescribeHubInput {
 
 extension DescribeHubOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeHubOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeHubOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -21958,7 +21960,7 @@ extension DescribeHubOutput {
 public struct DescribeHubOutput {
     /// The date and time that the hub was created.
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The failure reason if importing hub content failed.
     public var failureReason: Swift.String?
     /// The Amazon Resource Name (ARN) of the hub.
@@ -21978,12 +21980,12 @@ public struct DescribeHubOutput {
     public var hubStatus: SageMakerClientTypes.HubStatus?
     /// The date and time that the hub was last modified.
     /// This member is required.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The Amazon S3 storage configuration for the hub.
     public var s3StorageConfig: SageMakerClientTypes.HubS3StorageConfig?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         failureReason: Swift.String? = nil,
         hubArn: Swift.String? = nil,
         hubDescription: Swift.String? = nil,
@@ -21991,7 +21993,7 @@ public struct DescribeHubOutput {
         hubName: Swift.String? = nil,
         hubSearchKeywords: [Swift.String]? = nil,
         hubStatus: SageMakerClientTypes.HubStatus? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         s3StorageConfig: SageMakerClientTypes.HubS3StorageConfig? = nil
     )
     {
@@ -22010,7 +22012,7 @@ public struct DescribeHubOutput {
 
 enum DescribeHubOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -22052,7 +22054,7 @@ public struct DescribeHumanTaskUiInput {
 
 extension DescribeHumanTaskUiOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeHumanTaskUiOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeHumanTaskUiOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -22069,7 +22071,7 @@ extension DescribeHumanTaskUiOutput {
 public struct DescribeHumanTaskUiOutput {
     /// The timestamp when the human task user interface was created.
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the human task user interface (worker task template).
     /// This member is required.
     public var humanTaskUiArn: Swift.String?
@@ -22083,7 +22085,7 @@ public struct DescribeHumanTaskUiOutput {
     public var uiTemplate: SageMakerClientTypes.UiTemplateInfo?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         humanTaskUiArn: Swift.String? = nil,
         humanTaskUiName: Swift.String? = nil,
         humanTaskUiStatus: SageMakerClientTypes.HumanTaskUiStatus? = nil,
@@ -22100,7 +22102,7 @@ public struct DescribeHumanTaskUiOutput {
 
 enum DescribeHumanTaskUiOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -22142,7 +22144,7 @@ public struct DescribeHyperParameterTuningJobInput {
 
 extension DescribeHyperParameterTuningJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeHyperParameterTuningJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeHyperParameterTuningJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -22178,11 +22180,11 @@ public struct DescribeHyperParameterTuningJobOutput {
     public var consumedResources: SageMakerClientTypes.HyperParameterTuningJobConsumedResources?
     /// The date and time that the tuning job started.
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// If the tuning job failed, the reason it failed.
     public var failureReason: Swift.String?
     /// The date and time that the tuning job ended.
-    public var hyperParameterTuningEndTime: ClientRuntime.Date?
+    public var hyperParameterTuningEndTime: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the tuning job.
     /// This member is required.
     public var hyperParameterTuningJobArn: Swift.String?
@@ -22196,7 +22198,7 @@ public struct DescribeHyperParameterTuningJobOutput {
     /// This member is required.
     public var hyperParameterTuningJobStatus: SageMakerClientTypes.HyperParameterTuningJobStatus?
     /// The date and time that the status of the tuning job was modified.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The [ObjectiveStatusCounters](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ObjectiveStatusCounters.html) object that specifies the number of training jobs, categorized by the status of their final objective metric, that this tuning job launched.
     /// This member is required.
     public var objectiveStatusCounters: SageMakerClientTypes.ObjectiveStatusCounters?
@@ -22218,14 +22220,14 @@ public struct DescribeHyperParameterTuningJobOutput {
         autotune: SageMakerClientTypes.Autotune? = nil,
         bestTrainingJob: SageMakerClientTypes.HyperParameterTrainingJobSummary? = nil,
         consumedResources: SageMakerClientTypes.HyperParameterTuningJobConsumedResources? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         failureReason: Swift.String? = nil,
-        hyperParameterTuningEndTime: ClientRuntime.Date? = nil,
+        hyperParameterTuningEndTime: Foundation.Date? = nil,
         hyperParameterTuningJobArn: Swift.String? = nil,
         hyperParameterTuningJobConfig: SageMakerClientTypes.HyperParameterTuningJobConfig? = nil,
         hyperParameterTuningJobName: Swift.String? = nil,
         hyperParameterTuningJobStatus: SageMakerClientTypes.HyperParameterTuningJobStatus? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         objectiveStatusCounters: SageMakerClientTypes.ObjectiveStatusCounters? = nil,
         overallBestTrainingJob: SageMakerClientTypes.HyperParameterTrainingJobSummary? = nil,
         trainingJobDefinition: SageMakerClientTypes.HyperParameterTrainingJobDefinition? = nil,
@@ -22258,7 +22260,7 @@ public struct DescribeHyperParameterTuningJobOutput {
 
 enum DescribeHyperParameterTuningJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -22300,7 +22302,7 @@ public struct DescribeImageInput {
 
 extension DescribeImageOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeImageOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeImageOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -22320,7 +22322,7 @@ extension DescribeImageOutput {
 
 public struct DescribeImageOutput {
     /// When the image was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The description of the image.
     public var description: Swift.String?
     /// The name of the image as displayed.
@@ -22334,19 +22336,19 @@ public struct DescribeImageOutput {
     /// The status of the image.
     public var imageStatus: SageMakerClientTypes.ImageStatus?
     /// When the image was last modified.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The ARN of the IAM role that enables Amazon SageMaker to perform tasks on your behalf.
     public var roleArn: Swift.String?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         displayName: Swift.String? = nil,
         failureReason: Swift.String? = nil,
         imageArn: Swift.String? = nil,
         imageName: Swift.String? = nil,
         imageStatus: SageMakerClientTypes.ImageStatus? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         roleArn: Swift.String? = nil
     )
     {
@@ -22364,7 +22366,7 @@ public struct DescribeImageOutput {
 
 enum DescribeImageOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -22416,7 +22418,7 @@ public struct DescribeImageVersionInput {
 
 extension DescribeImageVersionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeImageVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeImageVersionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -22447,7 +22449,7 @@ public struct DescribeImageVersionOutput {
     /// The registry path of the container image that contains this image version.
     public var containerImage: Swift.String?
     /// When the version was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// When a create or delete operation fails, the reason for the failure.
     public var failureReason: Swift.String?
     /// Indicates Horovod compatibility.
@@ -22467,7 +22469,7 @@ public struct DescribeImageVersionOutput {
     /// * NOTEBOOK_KERNEL: The image version is compatible with SageMaker notebook kernels.
     public var jobType: SageMakerClientTypes.JobType?
     /// When the version was last modified.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The machine learning framework vended in the image version.
     public var mlFramework: Swift.String?
     /// Indicates CPU or GPU compatibility.
@@ -22496,14 +22498,14 @@ public struct DescribeImageVersionOutput {
     public init(
         baseImage: Swift.String? = nil,
         containerImage: Swift.String? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         failureReason: Swift.String? = nil,
         horovod: Swift.Bool? = nil,
         imageArn: Swift.String? = nil,
         imageVersionArn: Swift.String? = nil,
         imageVersionStatus: SageMakerClientTypes.ImageVersionStatus? = nil,
         jobType: SageMakerClientTypes.JobType? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         mlFramework: Swift.String? = nil,
         processor: SageMakerClientTypes.Processor? = nil,
         programmingLang: Swift.String? = nil,
@@ -22533,7 +22535,7 @@ public struct DescribeImageVersionOutput {
 
 enum DescribeImageVersionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -22575,7 +22577,7 @@ public struct DescribeInferenceComponentInput {
 
 extension DescribeInferenceComponentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeInferenceComponentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeInferenceComponentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -22598,7 +22600,7 @@ extension DescribeInferenceComponentOutput {
 public struct DescribeInferenceComponentOutput {
     /// The time when the inference component was created.
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the endpoint that hosts the inference component.
     /// This member is required.
     public var endpointArn: Swift.String?
@@ -22617,7 +22619,7 @@ public struct DescribeInferenceComponentOutput {
     public var inferenceComponentStatus: SageMakerClientTypes.InferenceComponentStatus?
     /// The time when the inference component was last updated.
     /// This member is required.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// Details about the runtime settings for the model that is deployed with the inference component.
     public var runtimeConfig: SageMakerClientTypes.InferenceComponentRuntimeConfigSummary?
     /// Details about the resources that are deployed with this inference component.
@@ -22626,14 +22628,14 @@ public struct DescribeInferenceComponentOutput {
     public var variantName: Swift.String?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         endpointArn: Swift.String? = nil,
         endpointName: Swift.String? = nil,
         failureReason: Swift.String? = nil,
         inferenceComponentArn: Swift.String? = nil,
         inferenceComponentName: Swift.String? = nil,
         inferenceComponentStatus: SageMakerClientTypes.InferenceComponentStatus? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         runtimeConfig: SageMakerClientTypes.InferenceComponentRuntimeConfigSummary? = nil,
         specification: SageMakerClientTypes.InferenceComponentSpecificationSummary? = nil,
         variantName: Swift.String? = nil
@@ -22655,7 +22657,7 @@ public struct DescribeInferenceComponentOutput {
 
 enum DescribeInferenceComponentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -22696,7 +22698,7 @@ public struct DescribeInferenceExperimentInput {
 
 extension DescribeInferenceExperimentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeInferenceExperimentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeInferenceExperimentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -22726,9 +22728,9 @@ public struct DescribeInferenceExperimentOutput {
     /// This member is required.
     public var arn: Swift.String?
     /// The timestamp at which the inference experiment was completed.
-    public var completionTime: ClientRuntime.Date?
+    public var completionTime: Foundation.Date?
     /// The timestamp at which you created the inference experiment.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The Amazon S3 location and configuration for storing inference request and response data.
     public var dataStorageConfig: SageMakerClientTypes.InferenceExperimentDataStorageConfig?
     /// The description of the inference experiment.
@@ -22739,7 +22741,7 @@ public struct DescribeInferenceExperimentOutput {
     /// The Amazon Web Services Key Management Service (Amazon Web Services KMS) key that Amazon SageMaker uses to encrypt data on the storage volume attached to the ML compute instance that hosts the endpoint. For more information, see [CreateInferenceExperiment](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateInferenceExperiment.html).
     public var kmsKey: Swift.String?
     /// The timestamp at which you last modified the inference experiment.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// An array of ModelVariantConfigSummary objects. There is one for each variant in the inference experiment. Each ModelVariantConfigSummary object in the array describes the infrastructure configuration for deploying the corresponding variant.
     /// This member is required.
     public var modelVariants: [SageMakerClientTypes.ModelVariantConfigSummary]?
@@ -22779,13 +22781,13 @@ public struct DescribeInferenceExperimentOutput {
 
     public init(
         arn: Swift.String? = nil,
-        completionTime: ClientRuntime.Date? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        completionTime: Foundation.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         dataStorageConfig: SageMakerClientTypes.InferenceExperimentDataStorageConfig? = nil,
         description: Swift.String? = nil,
         endpointMetadata: SageMakerClientTypes.EndpointMetadata? = nil,
         kmsKey: Swift.String? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         modelVariants: [SageMakerClientTypes.ModelVariantConfigSummary]? = nil,
         name: Swift.String? = nil,
         roleArn: Swift.String? = nil,
@@ -22817,7 +22819,7 @@ public struct DescribeInferenceExperimentOutput {
 
 enum DescribeInferenceExperimentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -22859,7 +22861,7 @@ public struct DescribeInferenceRecommendationsJobInput {
 
 extension DescribeInferenceRecommendationsJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeInferenceRecommendationsJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeInferenceRecommendationsJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -22884,10 +22886,10 @@ extension DescribeInferenceRecommendationsJobOutput {
 
 public struct DescribeInferenceRecommendationsJobOutput {
     /// A timestamp that shows when the job completed.
-    public var completionTime: ClientRuntime.Date?
+    public var completionTime: Foundation.Date?
     /// A timestamp that shows when the job was created.
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The performance results from running an Inference Recommender job on an existing endpoint.
     public var endpointPerformances: [SageMakerClientTypes.EndpointPerformance]?
     /// If the job fails, provides information why the job failed.
@@ -22910,7 +22912,7 @@ public struct DescribeInferenceRecommendationsJobOutput {
     public var jobType: SageMakerClientTypes.RecommendationJobType?
     /// A timestamp that shows when the job was last modified.
     /// This member is required.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role you provided when you initiated the job.
     /// This member is required.
     public var roleArn: Swift.String?
@@ -22921,8 +22923,8 @@ public struct DescribeInferenceRecommendationsJobOutput {
     public var stoppingConditions: SageMakerClientTypes.RecommendationJobStoppingConditions?
 
     public init(
-        completionTime: ClientRuntime.Date? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        completionTime: Foundation.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         endpointPerformances: [SageMakerClientTypes.EndpointPerformance]? = nil,
         failureReason: Swift.String? = nil,
         inferenceRecommendations: [SageMakerClientTypes.InferenceRecommendation]? = nil,
@@ -22931,7 +22933,7 @@ public struct DescribeInferenceRecommendationsJobOutput {
         jobDescription: Swift.String? = nil,
         jobName: Swift.String? = nil,
         jobType: SageMakerClientTypes.RecommendationJobType? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         roleArn: Swift.String? = nil,
         status: SageMakerClientTypes.RecommendationJobStatus? = nil,
         stoppingConditions: SageMakerClientTypes.RecommendationJobStoppingConditions? = nil
@@ -22956,7 +22958,7 @@ public struct DescribeInferenceRecommendationsJobOutput {
 
 enum DescribeInferenceRecommendationsJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -22998,7 +23000,7 @@ public struct DescribeLabelingJobInput {
 
 extension DescribeLabelingJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeLabelingJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeLabelingJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -23028,7 +23030,7 @@ extension DescribeLabelingJobOutput {
 public struct DescribeLabelingJobOutput {
     /// The date and time that the labeling job was created.
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// If the job failed, the reason that it failed.
     public var failureReason: Swift.String?
     /// Configuration information required for human workers to complete a labeling task.
@@ -23109,7 +23111,7 @@ public struct DescribeLabelingJobOutput {
     public var labelingJobStatus: SageMakerClientTypes.LabelingJobStatus?
     /// The date and time that the labeling job was last updated.
     /// This member is required.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The location of the job's output data and the Amazon Web Services Key Management Service key ID for the key used to encrypt the output data, if any.
     /// This member is required.
     public var outputConfig: SageMakerClientTypes.LabelingJobOutputConfig?
@@ -23122,7 +23124,7 @@ public struct DescribeLabelingJobOutput {
     public var tags: [SageMakerClientTypes.Tag]?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         failureReason: Swift.String? = nil,
         humanTaskConfig: SageMakerClientTypes.HumanTaskConfig? = nil,
         inputConfig: SageMakerClientTypes.LabelingJobInputConfig? = nil,
@@ -23135,7 +23137,7 @@ public struct DescribeLabelingJobOutput {
         labelingJobName: Swift.String? = nil,
         labelingJobOutput: SageMakerClientTypes.LabelingJobOutput? = nil,
         labelingJobStatus: SageMakerClientTypes.LabelingJobStatus? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         outputConfig: SageMakerClientTypes.LabelingJobOutputConfig? = nil,
         roleArn: Swift.String? = nil,
         stoppingConditions: SageMakerClientTypes.LabelingJobStoppingConditions? = nil,
@@ -23165,7 +23167,7 @@ public struct DescribeLabelingJobOutput {
 
 enum DescribeLabelingJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -23207,7 +23209,7 @@ public struct DescribeLineageGroupInput {
 
 extension DescribeLineageGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeLineageGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeLineageGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -23228,7 +23230,7 @@ public struct DescribeLineageGroupOutput {
     /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
     public var createdBy: SageMakerClientTypes.UserContext?
     /// The creation time of lineage group.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The description of the lineage group.
     public var description: Swift.String?
     /// The display name of the lineage group.
@@ -23236,7 +23238,7 @@ public struct DescribeLineageGroupOutput {
     /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
     public var lastModifiedBy: SageMakerClientTypes.UserContext?
     /// The last modified time of the lineage group.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the lineage group.
     public var lineageGroupArn: Swift.String?
     /// The name of the lineage group.
@@ -23244,11 +23246,11 @@ public struct DescribeLineageGroupOutput {
 
     public init(
         createdBy: SageMakerClientTypes.UserContext? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         displayName: Swift.String? = nil,
         lastModifiedBy: SageMakerClientTypes.UserContext? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         lineageGroupArn: Swift.String? = nil,
         lineageGroupName: Swift.String? = nil
     )
@@ -23266,7 +23268,7 @@ public struct DescribeLineageGroupOutput {
 
 enum DescribeLineageGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -23308,7 +23310,7 @@ public struct DescribeModelBiasJobDefinitionInput {
 
 extension DescribeModelBiasJobDefinitionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeModelBiasJobDefinitionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeModelBiasJobDefinitionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -23331,7 +23333,7 @@ extension DescribeModelBiasJobDefinitionOutput {
 public struct DescribeModelBiasJobDefinitionOutput {
     /// The time at which the model bias job was created.
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the model bias job.
     /// This member is required.
     public var jobDefinitionArn: Swift.String?
@@ -23361,7 +23363,7 @@ public struct DescribeModelBiasJobDefinitionOutput {
     public var stoppingCondition: SageMakerClientTypes.MonitoringStoppingCondition?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         jobDefinitionArn: Swift.String? = nil,
         jobDefinitionName: Swift.String? = nil,
         jobResources: SageMakerClientTypes.MonitoringResources? = nil,
@@ -23390,7 +23392,7 @@ public struct DescribeModelBiasJobDefinitionOutput {
 
 enum DescribeModelBiasJobDefinitionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -23432,7 +23434,7 @@ public struct DescribeModelCardExportJobInput {
 
 extension DescribeModelCardExportJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeModelCardExportJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeModelCardExportJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -23454,14 +23456,14 @@ extension DescribeModelCardExportJobOutput {
 public struct DescribeModelCardExportJobOutput {
     /// The date and time that the model export job was created.
     /// This member is required.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The exported model card artifacts.
     public var exportArtifacts: SageMakerClientTypes.ModelCardExportArtifacts?
     /// The failure reason if the model export job fails.
     public var failureReason: Swift.String?
     /// The date and time that the model export job was last modified.
     /// This member is required.
-    public var lastModifiedAt: ClientRuntime.Date?
+    public var lastModifiedAt: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the model card export job.
     /// This member is required.
     public var modelCardExportJobArn: Swift.String?
@@ -23488,10 +23490,10 @@ public struct DescribeModelCardExportJobOutput {
     public var status: SageMakerClientTypes.ModelCardExportJobStatus?
 
     public init(
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         exportArtifacts: SageMakerClientTypes.ModelCardExportArtifacts? = nil,
         failureReason: Swift.String? = nil,
-        lastModifiedAt: ClientRuntime.Date? = nil,
+        lastModifiedAt: Foundation.Date? = nil,
         modelCardExportJobArn: Swift.String? = nil,
         modelCardExportJobName: Swift.String? = nil,
         modelCardName: Swift.String? = nil,
@@ -23515,7 +23517,7 @@ public struct DescribeModelCardExportJobOutput {
 
 enum DescribeModelCardExportJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -23567,7 +23569,7 @@ extension DescribeModelCardOutput: Swift.CustomDebugStringConvertible {
 
 extension DescribeModelCardOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeModelCardOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeModelCardOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -23596,11 +23598,11 @@ public struct DescribeModelCardOutput {
     public var createdBy: SageMakerClientTypes.UserContext?
     /// The date and time the model card was created.
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
     public var lastModifiedBy: SageMakerClientTypes.UserContext?
     /// The date and time the model card was last modified.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the model card.
     /// This member is required.
     public var modelCardArn: Swift.String?
@@ -23641,9 +23643,9 @@ public struct DescribeModelCardOutput {
     public init(
         content: Swift.String? = nil,
         createdBy: SageMakerClientTypes.UserContext? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         lastModifiedBy: SageMakerClientTypes.UserContext? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         modelCardArn: Swift.String? = nil,
         modelCardName: Swift.String? = nil,
         modelCardProcessingStatus: SageMakerClientTypes.ModelCardProcessingStatus? = nil,
@@ -23668,7 +23670,7 @@ public struct DescribeModelCardOutput {
 
 enum DescribeModelCardOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -23710,7 +23712,7 @@ public struct DescribeModelExplainabilityJobDefinitionInput {
 
 extension DescribeModelExplainabilityJobDefinitionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeModelExplainabilityJobDefinitionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeModelExplainabilityJobDefinitionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -23733,7 +23735,7 @@ extension DescribeModelExplainabilityJobDefinitionOutput {
 public struct DescribeModelExplainabilityJobDefinitionOutput {
     /// The time at which the model explainability job was created.
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the model explainability job.
     /// This member is required.
     public var jobDefinitionArn: Swift.String?
@@ -23763,7 +23765,7 @@ public struct DescribeModelExplainabilityJobDefinitionOutput {
     public var stoppingCondition: SageMakerClientTypes.MonitoringStoppingCondition?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         jobDefinitionArn: Swift.String? = nil,
         jobDefinitionName: Swift.String? = nil,
         jobResources: SageMakerClientTypes.MonitoringResources? = nil,
@@ -23792,7 +23794,7 @@ public struct DescribeModelExplainabilityJobDefinitionOutput {
 
 enum DescribeModelExplainabilityJobDefinitionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -23834,7 +23836,7 @@ public struct DescribeModelInput {
 
 extension DescribeModelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeModelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeModelOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -23858,7 +23860,7 @@ public struct DescribeModelOutput {
     public var containers: [SageMakerClientTypes.ContainerDefinition]?
     /// A timestamp that shows when the model was created.
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// A set of recommended deployment configurations for the model.
     public var deploymentRecommendation: SageMakerClientTypes.DeploymentRecommendation?
     /// If True, no inbound or outbound network calls can be made to or from the model container.
@@ -23880,7 +23882,7 @@ public struct DescribeModelOutput {
 
     public init(
         containers: [SageMakerClientTypes.ContainerDefinition]? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         deploymentRecommendation: SageMakerClientTypes.DeploymentRecommendation? = nil,
         enableNetworkIsolation: Swift.Bool? = nil,
         executionRoleArn: Swift.String? = nil,
@@ -23906,7 +23908,7 @@ public struct DescribeModelOutput {
 
 enum DescribeModelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -23947,7 +23949,7 @@ public struct DescribeModelPackageGroupInput {
 
 extension DescribeModelPackageGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeModelPackageGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeModelPackageGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -23968,7 +23970,7 @@ public struct DescribeModelPackageGroupOutput {
     public var createdBy: SageMakerClientTypes.UserContext?
     /// The time that the model group was created.
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the model group.
     /// This member is required.
     public var modelPackageGroupArn: Swift.String?
@@ -23983,7 +23985,7 @@ public struct DescribeModelPackageGroupOutput {
 
     public init(
         createdBy: SageMakerClientTypes.UserContext? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         modelPackageGroupArn: Swift.String? = nil,
         modelPackageGroupDescription: Swift.String? = nil,
         modelPackageGroupName: Swift.String? = nil,
@@ -24001,7 +24003,7 @@ public struct DescribeModelPackageGroupOutput {
 
 enum DescribeModelPackageGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -24042,7 +24044,7 @@ public struct DescribeModelPackageInput {
 
 extension DescribeModelPackageOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeModelPackageOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeModelPackageOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -24089,7 +24091,7 @@ public struct DescribeModelPackageOutput {
     public var createdBy: SageMakerClientTypes.UserContext?
     /// A timestamp specifying when the model package was created.
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The metadata properties associated with the model package versions.
     public var customerMetadataProperties: [Swift.String:Swift.String]?
     /// The machine learning domain of the model package you specified. Common machine learning domains include computer vision and natural language processing.
@@ -24101,7 +24103,7 @@ public struct DescribeModelPackageOutput {
     /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
     public var lastModifiedBy: SageMakerClientTypes.UserContext?
     /// The last time that the model package was modified.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// Metadata properties of the tracking entity, trial, or trial component.
     public var metadataProperties: SageMakerClientTypes.MetadataProperties?
     /// The approval status of the model package.
@@ -24144,13 +24146,13 @@ public struct DescribeModelPackageOutput {
         approvalDescription: Swift.String? = nil,
         certifyForMarketplace: Swift.Bool? = nil,
         createdBy: SageMakerClientTypes.UserContext? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         customerMetadataProperties: [Swift.String:Swift.String]? = nil,
         domain: Swift.String? = nil,
         driftCheckBaselines: SageMakerClientTypes.DriftCheckBaselines? = nil,
         inferenceSpecification: SageMakerClientTypes.InferenceSpecification? = nil,
         lastModifiedBy: SageMakerClientTypes.UserContext? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         metadataProperties: SageMakerClientTypes.MetadataProperties? = nil,
         modelApprovalStatus: SageMakerClientTypes.ModelApprovalStatus? = nil,
         modelMetrics: SageMakerClientTypes.ModelMetrics? = nil,
@@ -24201,7 +24203,7 @@ public struct DescribeModelPackageOutput {
 
 enum DescribeModelPackageOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -24242,7 +24244,7 @@ public struct DescribeModelQualityJobDefinitionInput {
 
 extension DescribeModelQualityJobDefinitionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeModelQualityJobDefinitionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeModelQualityJobDefinitionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -24265,7 +24267,7 @@ extension DescribeModelQualityJobDefinitionOutput {
 public struct DescribeModelQualityJobDefinitionOutput {
     /// The time at which the model quality job was created.
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the model quality job.
     /// This member is required.
     public var jobDefinitionArn: Swift.String?
@@ -24295,7 +24297,7 @@ public struct DescribeModelQualityJobDefinitionOutput {
     public var stoppingCondition: SageMakerClientTypes.MonitoringStoppingCondition?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         jobDefinitionArn: Swift.String? = nil,
         jobDefinitionName: Swift.String? = nil,
         jobResources: SageMakerClientTypes.MonitoringResources? = nil,
@@ -24324,7 +24326,7 @@ public struct DescribeModelQualityJobDefinitionOutput {
 
 enum DescribeModelQualityJobDefinitionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -24366,7 +24368,7 @@ public struct DescribeMonitoringScheduleInput {
 
 extension DescribeMonitoringScheduleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeMonitoringScheduleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeMonitoringScheduleOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -24388,14 +24390,14 @@ extension DescribeMonitoringScheduleOutput {
 public struct DescribeMonitoringScheduleOutput {
     /// The time at which the monitoring job was created.
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The name of the endpoint for the monitoring job.
     public var endpointName: Swift.String?
     /// A string, up to one KB in size, that contains the reason a monitoring job failed, if it failed.
     public var failureReason: Swift.String?
     /// The time at which the monitoring job was last modified.
     /// This member is required.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// Describes metadata on the last execution to run, if there was one.
     public var lastMonitoringExecutionSummary: SageMakerClientTypes.MonitoringExecutionSummary?
     /// The Amazon Resource Name (ARN) of the monitoring schedule.
@@ -24422,10 +24424,10 @@ public struct DescribeMonitoringScheduleOutput {
     public var monitoringType: SageMakerClientTypes.MonitoringType?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         endpointName: Swift.String? = nil,
         failureReason: Swift.String? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         lastMonitoringExecutionSummary: SageMakerClientTypes.MonitoringExecutionSummary? = nil,
         monitoringScheduleArn: Swift.String? = nil,
         monitoringScheduleConfig: SageMakerClientTypes.MonitoringScheduleConfig? = nil,
@@ -24449,7 +24451,7 @@ public struct DescribeMonitoringScheduleOutput {
 
 enum DescribeMonitoringScheduleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -24519,7 +24521,7 @@ public struct DescribeNotebookInstanceLifecycleConfigInput {
 
 extension DescribeNotebookInstanceLifecycleConfigOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeNotebookInstanceLifecycleConfigOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeNotebookInstanceLifecycleConfigOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -24536,9 +24538,9 @@ extension DescribeNotebookInstanceLifecycleConfigOutput {
 
 public struct DescribeNotebookInstanceLifecycleConfigOutput {
     /// A timestamp that tells when the lifecycle configuration was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// A timestamp that tells when the lifecycle configuration was last modified.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the lifecycle configuration.
     public var notebookInstanceLifecycleConfigArn: Swift.String?
     /// The name of the lifecycle configuration.
@@ -24549,8 +24551,8 @@ public struct DescribeNotebookInstanceLifecycleConfigOutput {
     public var onStart: [SageMakerClientTypes.NotebookInstanceLifecycleHook]?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         notebookInstanceLifecycleConfigArn: Swift.String? = nil,
         notebookInstanceLifecycleConfigName: Swift.String? = nil,
         onCreate: [SageMakerClientTypes.NotebookInstanceLifecycleHook]? = nil,
@@ -24568,7 +24570,7 @@ public struct DescribeNotebookInstanceLifecycleConfigOutput {
 
 enum DescribeNotebookInstanceLifecycleConfigOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -24581,7 +24583,7 @@ enum DescribeNotebookInstanceLifecycleConfigOutputError {
 
 extension DescribeNotebookInstanceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeNotebookInstanceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeNotebookInstanceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -24618,7 +24620,7 @@ public struct DescribeNotebookInstanceOutput {
     /// An array of up to three Git repositories associated with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see [Associating Git Repositories with SageMaker Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
     public var additionalCodeRepositories: [Swift.String]?
     /// A timestamp. Use this parameter to return the time when the notebook instance was created
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The Git repository associated with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see [Associating Git Repositories with SageMaker Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
     public var defaultCodeRepository: Swift.String?
     /// Describes whether SageMaker provides internet access to the notebook instance. If this value is set to Disabled, the notebook instance does not have internet access, and cannot connect to SageMaker training and endpoint services. For more information, see [Notebook Instances Are Internet-Enabled by Default](https://docs.aws.amazon.com/sagemaker/latest/dg/appendix-additional-considerations.html#appendix-notebook-and-internet-access).
@@ -24632,7 +24634,7 @@ public struct DescribeNotebookInstanceOutput {
     /// The Amazon Web Services KMS key ID SageMaker uses to encrypt data when storing it on the ML storage volume attached to the instance.
     public var kmsKeyId: Swift.String?
     /// A timestamp. Use this parameter to retrieve the time when the notebook instance was last modified.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The network interface IDs that SageMaker created at the time of creating the instance.
     public var networkInterfaceId: Swift.String?
     /// The Amazon Resource Name (ARN) of the notebook instance.
@@ -24661,14 +24663,14 @@ public struct DescribeNotebookInstanceOutput {
     public init(
         acceleratorTypes: [SageMakerClientTypes.NotebookInstanceAcceleratorType]? = nil,
         additionalCodeRepositories: [Swift.String]? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         defaultCodeRepository: Swift.String? = nil,
         directInternetAccess: SageMakerClientTypes.DirectInternetAccess? = nil,
         failureReason: Swift.String? = nil,
         instanceMetadataServiceConfiguration: SageMakerClientTypes.InstanceMetadataServiceConfiguration? = nil,
         instanceType: SageMakerClientTypes.InstanceType? = nil,
         kmsKeyId: Swift.String? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         networkInterfaceId: Swift.String? = nil,
         notebookInstanceArn: Swift.String? = nil,
         notebookInstanceLifecycleConfigName: Swift.String? = nil,
@@ -24710,7 +24712,7 @@ public struct DescribeNotebookInstanceOutput {
 
 enum DescribeNotebookInstanceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -24751,7 +24753,7 @@ public struct DescribePipelineDefinitionForExecutionInput {
 
 extension DescribePipelineDefinitionForExecutionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribePipelineDefinitionForExecutionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribePipelineDefinitionForExecutionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -24764,12 +24766,12 @@ extension DescribePipelineDefinitionForExecutionOutput {
 
 public struct DescribePipelineDefinitionForExecutionOutput {
     /// The time when the pipeline was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The JSON pipeline definition.
     public var pipelineDefinition: Swift.String?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         pipelineDefinition: Swift.String? = nil
     )
     {
@@ -24780,7 +24782,7 @@ public struct DescribePipelineDefinitionForExecutionOutput {
 
 enum DescribePipelineDefinitionForExecutionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -24822,7 +24824,7 @@ public struct DescribePipelineExecutionInput {
 
 extension DescribePipelineExecutionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribePipelineExecutionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribePipelineExecutionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -24848,13 +24850,13 @@ public struct DescribePipelineExecutionOutput {
     /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
     public var createdBy: SageMakerClientTypes.UserContext?
     /// The time when the pipeline execution was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// If the execution failed, a message describing why.
     public var failureReason: Swift.String?
     /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
     public var lastModifiedBy: SageMakerClientTypes.UserContext?
     /// The time when the pipeline execution was modified last.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The parallelism configuration applied to the pipeline.
     public var parallelismConfiguration: SageMakerClientTypes.ParallelismConfiguration?
     /// The Amazon Resource Name (ARN) of the pipeline.
@@ -24874,10 +24876,10 @@ public struct DescribePipelineExecutionOutput {
 
     public init(
         createdBy: SageMakerClientTypes.UserContext? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         failureReason: Swift.String? = nil,
         lastModifiedBy: SageMakerClientTypes.UserContext? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         parallelismConfiguration: SageMakerClientTypes.ParallelismConfiguration? = nil,
         pipelineArn: Swift.String? = nil,
         pipelineExecutionArn: Swift.String? = nil,
@@ -24906,7 +24908,7 @@ public struct DescribePipelineExecutionOutput {
 
 enum DescribePipelineExecutionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -24948,7 +24950,7 @@ public struct DescribePipelineInput {
 
 extension DescribePipelineOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribePipelineOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribePipelineOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -24974,13 +24976,13 @@ public struct DescribePipelineOutput {
     /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
     public var createdBy: SageMakerClientTypes.UserContext?
     /// The time when the pipeline was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
     public var lastModifiedBy: SageMakerClientTypes.UserContext?
     /// The time when the pipeline was last modified.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The time when the pipeline was last run.
-    public var lastRunTime: ClientRuntime.Date?
+    public var lastRunTime: Foundation.Date?
     /// Lists the parallelism configuration applied to the pipeline.
     public var parallelismConfiguration: SageMakerClientTypes.ParallelismConfiguration?
     /// The Amazon Resource Name (ARN) of the pipeline.
@@ -25000,10 +25002,10 @@ public struct DescribePipelineOutput {
 
     public init(
         createdBy: SageMakerClientTypes.UserContext? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         lastModifiedBy: SageMakerClientTypes.UserContext? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
-        lastRunTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
+        lastRunTime: Foundation.Date? = nil,
         parallelismConfiguration: SageMakerClientTypes.ParallelismConfiguration? = nil,
         pipelineArn: Swift.String? = nil,
         pipelineDefinition: Swift.String? = nil,
@@ -25032,7 +25034,7 @@ public struct DescribePipelineOutput {
 
 enum DescribePipelineOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -25074,7 +25076,7 @@ public struct DescribeProcessingJobInput {
 
 extension DescribeProcessingJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeProcessingJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeProcessingJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -25112,7 +25114,7 @@ public struct DescribeProcessingJobOutput {
     public var autoMLJobArn: Swift.String?
     /// The time at which the processing job was created.
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The environment variables set in the Docker container.
     public var environment: [Swift.String:Swift.String]?
     /// An optional string, up to one KB in size, that contains metadata from the processing container when the processing job exits.
@@ -25122,13 +25124,13 @@ public struct DescribeProcessingJobOutput {
     /// A string, up to one KB in size, that contains the reason a processing job failed, if it failed.
     public var failureReason: Swift.String?
     /// The time at which the processing job was last modified.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The ARN of a monitoring schedule for an endpoint associated with this processing job.
     public var monitoringScheduleArn: Swift.String?
     /// Networking options for a processing job.
     public var networkConfig: SageMakerClientTypes.NetworkConfig?
     /// The time at which the processing job completed.
-    public var processingEndTime: ClientRuntime.Date?
+    public var processingEndTime: Foundation.Date?
     /// The inputs for a processing job.
     public var processingInputs: [SageMakerClientTypes.ProcessingInput]?
     /// The Amazon Resource Name (ARN) of the processing job.
@@ -25146,7 +25148,7 @@ public struct DescribeProcessingJobOutput {
     /// This member is required.
     public var processingResources: SageMakerClientTypes.ProcessingResources?
     /// The time at which the processing job started.
-    public var processingStartTime: ClientRuntime.Date?
+    public var processingStartTime: Foundation.Date?
     /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can assume to perform tasks on your behalf.
     public var roleArn: Swift.String?
     /// The time limit for how long the processing job is allowed to run.
@@ -25157,22 +25159,22 @@ public struct DescribeProcessingJobOutput {
     public init(
         appSpecification: SageMakerClientTypes.AppSpecification? = nil,
         autoMLJobArn: Swift.String? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         environment: [Swift.String:Swift.String]? = nil,
         exitMessage: Swift.String? = nil,
         experimentConfig: SageMakerClientTypes.ExperimentConfig? = nil,
         failureReason: Swift.String? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         monitoringScheduleArn: Swift.String? = nil,
         networkConfig: SageMakerClientTypes.NetworkConfig? = nil,
-        processingEndTime: ClientRuntime.Date? = nil,
+        processingEndTime: Foundation.Date? = nil,
         processingInputs: [SageMakerClientTypes.ProcessingInput]? = nil,
         processingJobArn: Swift.String? = nil,
         processingJobName: Swift.String? = nil,
         processingJobStatus: SageMakerClientTypes.ProcessingJobStatus? = nil,
         processingOutputConfig: SageMakerClientTypes.ProcessingOutputConfig? = nil,
         processingResources: SageMakerClientTypes.ProcessingResources? = nil,
-        processingStartTime: ClientRuntime.Date? = nil,
+        processingStartTime: Foundation.Date? = nil,
         roleArn: Swift.String? = nil,
         stoppingCondition: SageMakerClientTypes.ProcessingStoppingCondition? = nil,
         trainingJobArn: Swift.String? = nil
@@ -25204,7 +25206,7 @@ public struct DescribeProcessingJobOutput {
 
 enum DescribeProcessingJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -25246,7 +25248,7 @@ public struct DescribeProjectInput {
 
 extension DescribeProjectOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeProjectOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeProjectOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -25271,11 +25273,11 @@ public struct DescribeProjectOutput {
     public var createdBy: SageMakerClientTypes.UserContext?
     /// The time when the project was created.
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
     public var lastModifiedBy: SageMakerClientTypes.UserContext?
     /// The timestamp when project was last modified.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the project.
     /// This member is required.
     public var projectArn: Swift.String?
@@ -25298,9 +25300,9 @@ public struct DescribeProjectOutput {
 
     public init(
         createdBy: SageMakerClientTypes.UserContext? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         lastModifiedBy: SageMakerClientTypes.UserContext? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         projectArn: Swift.String? = nil,
         projectDescription: Swift.String? = nil,
         projectId: Swift.String? = nil,
@@ -25326,7 +25328,7 @@ public struct DescribeProjectOutput {
 
 enum DescribeProjectOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -25373,7 +25375,7 @@ public struct DescribeSpaceInput {
 
 extension DescribeSpaceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeSpaceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeSpaceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -25397,7 +25399,7 @@ extension DescribeSpaceOutput {
 
 public struct DescribeSpaceOutput {
     /// The creation time.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The ID of the associated domain.
     public var domainId: Swift.String?
     /// The failure reason.
@@ -25405,7 +25407,7 @@ public struct DescribeSpaceOutput {
     /// The ID of the space's profile in the Amazon EFS volume.
     public var homeEfsFileSystemUid: Swift.String?
     /// The last modified time.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The collection of ownership settings for a space.
     public var ownershipSettings: SageMakerClientTypes.OwnershipSettings?
     /// The space's Amazon Resource Name (ARN).
@@ -25430,11 +25432,11 @@ public struct DescribeSpaceOutput {
     public var url: Swift.String?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         domainId: Swift.String? = nil,
         failureReason: Swift.String? = nil,
         homeEfsFileSystemUid: Swift.String? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         ownershipSettings: SageMakerClientTypes.OwnershipSettings? = nil,
         spaceArn: Swift.String? = nil,
         spaceDisplayName: Swift.String? = nil,
@@ -25463,7 +25465,7 @@ public struct DescribeSpaceOutput {
 
 enum DescribeSpaceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -25505,7 +25507,7 @@ public struct DescribeStudioLifecycleConfigInput {
 
 extension DescribeStudioLifecycleConfigOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeStudioLifecycleConfigOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeStudioLifecycleConfigOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -25522,9 +25524,9 @@ extension DescribeStudioLifecycleConfigOutput {
 
 public struct DescribeStudioLifecycleConfigOutput {
     /// The creation time of the Amazon SageMaker Studio Lifecycle Configuration.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// This value is equivalent to CreationTime because Amazon SageMaker Studio Lifecycle Configurations are immutable.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The App type that the Lifecycle Configuration is attached to.
     public var studioLifecycleConfigAppType: SageMakerClientTypes.StudioLifecycleConfigAppType?
     /// The ARN of the Lifecycle Configuration to describe.
@@ -25535,8 +25537,8 @@ public struct DescribeStudioLifecycleConfigOutput {
     public var studioLifecycleConfigName: Swift.String?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         studioLifecycleConfigAppType: SageMakerClientTypes.StudioLifecycleConfigAppType? = nil,
         studioLifecycleConfigArn: Swift.String? = nil,
         studioLifecycleConfigContent: Swift.String? = nil,
@@ -25554,7 +25556,7 @@ public struct DescribeStudioLifecycleConfigOutput {
 
 enum DescribeStudioLifecycleConfigOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -25596,7 +25598,7 @@ public struct DescribeSubscribedWorkteamInput {
 
 extension DescribeSubscribedWorkteamOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeSubscribedWorkteamOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeSubscribedWorkteamOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -25621,7 +25623,7 @@ public struct DescribeSubscribedWorkteamOutput {
 
 enum DescribeSubscribedWorkteamOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -25662,7 +25664,7 @@ public struct DescribeTrainingJobInput {
 
 extension DescribeTrainingJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeTrainingJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeTrainingJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -25726,7 +25728,7 @@ public struct DescribeTrainingJobOutput {
     public var checkpointConfig: SageMakerClientTypes.CheckpointConfig?
     /// A timestamp that indicates when the training job was created.
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// Configuration information for the Amazon SageMaker Debugger hook parameters, metric and tensor collections, and storage paths. To learn more about how to configure the DebugHookConfig parameter, see [Use the SageMaker and Debugger Configuration API Operations to Create, Update, and Debug Your Training Job](https://docs.aws.amazon.com/sagemaker/latest/dg/debugger-createtrainingjob-api.html).
     public var debugHookConfig: SageMakerClientTypes.DebugHookConfig?
     /// Configuration information for Amazon SageMaker Debugger rules for debugging output tensors.
@@ -25762,7 +25764,7 @@ public struct DescribeTrainingJobOutput {
     /// The Amazon Resource Name (ARN) of the SageMaker Ground Truth labeling job that created the transform or training job.
     public var labelingJobArn: Swift.String?
     /// A timestamp that indicates when the status of the training job was last modified.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// Information about the Amazon S3 location that is configured for storing model artifacts.
     /// This member is required.
     public var modelArtifacts: SageMakerClientTypes.ModelArtifacts?
@@ -25839,7 +25841,7 @@ public struct DescribeTrainingJobOutput {
     /// Configuration of storage locations for the Amazon SageMaker Debugger TensorBoard output data.
     public var tensorBoardOutputConfig: SageMakerClientTypes.TensorBoardOutputConfig?
     /// Indicates the time when the training job ends on training instances. You are billed for the time interval between the value of TrainingStartTime and this time. For successful jobs and stopped jobs, this is the time after model artifacts are uploaded. For failed jobs, this is the time when SageMaker detects a job failure.
-    public var trainingEndTime: ClientRuntime.Date?
+    public var trainingEndTime: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the training job.
     /// This member is required.
     public var trainingJobArn: Swift.String?
@@ -25863,7 +25865,7 @@ public struct DescribeTrainingJobOutput {
     /// This member is required.
     public var trainingJobStatus: SageMakerClientTypes.TrainingJobStatus?
     /// Indicates the time when the training job starts on training instances. You are billed for the time interval between this time and the value of TrainingEndTime. The start time in CloudWatch Logs might be later than this time. The difference is due to the time it takes to download the training data and to the size of the training container.
-    public var trainingStartTime: ClientRuntime.Date?
+    public var trainingStartTime: Foundation.Date?
     /// The training time in seconds.
     public var trainingTimeInSeconds: Swift.Int?
     /// The Amazon Resource Name (ARN) of the associated hyperparameter tuning job if the training job was launched by a hyperparameter tuning job.
@@ -25878,7 +25880,7 @@ public struct DescribeTrainingJobOutput {
         autoMLJobArn: Swift.String? = nil,
         billableTimeInSeconds: Swift.Int? = nil,
         checkpointConfig: SageMakerClientTypes.CheckpointConfig? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         debugHookConfig: SageMakerClientTypes.DebugHookConfig? = nil,
         debugRuleConfigurations: [SageMakerClientTypes.DebugRuleConfiguration]? = nil,
         debugRuleEvaluationStatuses: [SageMakerClientTypes.DebugRuleEvaluationStatus]? = nil,
@@ -25893,7 +25895,7 @@ public struct DescribeTrainingJobOutput {
         infraCheckConfig: SageMakerClientTypes.InfraCheckConfig? = nil,
         inputDataConfig: [SageMakerClientTypes.Channel]? = nil,
         labelingJobArn: Swift.String? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         modelArtifacts: SageMakerClientTypes.ModelArtifacts? = nil,
         outputDataConfig: SageMakerClientTypes.OutputDataConfig? = nil,
         profilerConfig: SageMakerClientTypes.ProfilerConfig? = nil,
@@ -25908,11 +25910,11 @@ public struct DescribeTrainingJobOutput {
         secondaryStatusTransitions: [SageMakerClientTypes.SecondaryStatusTransition]? = nil,
         stoppingCondition: SageMakerClientTypes.StoppingCondition? = nil,
         tensorBoardOutputConfig: SageMakerClientTypes.TensorBoardOutputConfig? = nil,
-        trainingEndTime: ClientRuntime.Date? = nil,
+        trainingEndTime: Foundation.Date? = nil,
         trainingJobArn: Swift.String? = nil,
         trainingJobName: Swift.String? = nil,
         trainingJobStatus: SageMakerClientTypes.TrainingJobStatus? = nil,
-        trainingStartTime: ClientRuntime.Date? = nil,
+        trainingStartTime: Foundation.Date? = nil,
         trainingTimeInSeconds: Swift.Int? = nil,
         tuningJobArn: Swift.String? = nil,
         vpcConfig: SageMakerClientTypes.VpcConfig? = nil,
@@ -25967,7 +25969,7 @@ public struct DescribeTrainingJobOutput {
 
 enum DescribeTrainingJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -26009,7 +26011,7 @@ public struct DescribeTransformJobInput {
 
 extension DescribeTransformJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeTransformJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeTransformJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -26046,7 +26048,7 @@ public struct DescribeTransformJobOutput {
     public var batchStrategy: SageMakerClientTypes.BatchStrategy?
     /// A timestamp that shows when the transform Job was created.
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// Configuration to control how SageMaker captures inference data.
     public var dataCaptureConfig: SageMakerClientTypes.BatchDataCaptureConfig?
     /// The data structure used to specify the data to be used for inference in a batch transform job and to associate the data that is relevant to the prediction results in the output. The input filter provided allows you to exclude input data that is not needed for inference in a batch transform job. The output filter provided allows you to include input data relevant to interpreting the predictions in the output from the job. For more information, see [Associate Prediction Results with their Corresponding Input Records](https://docs.aws.amazon.com/sagemaker/latest/dg/batch-transform-data-processing.html).
@@ -26075,7 +26077,7 @@ public struct DescribeTransformJobOutput {
     /// This member is required.
     public var modelName: Swift.String?
     /// Indicates when the transform job has been completed, or has stopped or failed. You are billed for the time interval between this time and the value of TransformStartTime.
-    public var transformEndTime: ClientRuntime.Date?
+    public var transformEndTime: Foundation.Date?
     /// Describes the dataset to be transformed and the Amazon S3 location where it is stored.
     /// This member is required.
     public var transformInput: SageMakerClientTypes.TransformInput?
@@ -26094,12 +26096,12 @@ public struct DescribeTransformJobOutput {
     /// This member is required.
     public var transformResources: SageMakerClientTypes.TransformResources?
     /// Indicates when the transform job starts on ML instances. You are billed for the time interval between this time and the value of TransformEndTime.
-    public var transformStartTime: ClientRuntime.Date?
+    public var transformStartTime: Foundation.Date?
 
     public init(
         autoMLJobArn: Swift.String? = nil,
         batchStrategy: SageMakerClientTypes.BatchStrategy? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         dataCaptureConfig: SageMakerClientTypes.BatchDataCaptureConfig? = nil,
         dataProcessing: SageMakerClientTypes.DataProcessing? = nil,
         environment: [Swift.String:Swift.String]? = nil,
@@ -26110,14 +26112,14 @@ public struct DescribeTransformJobOutput {
         maxPayloadInMB: Swift.Int? = nil,
         modelClientConfig: SageMakerClientTypes.ModelClientConfig? = nil,
         modelName: Swift.String? = nil,
-        transformEndTime: ClientRuntime.Date? = nil,
+        transformEndTime: Foundation.Date? = nil,
         transformInput: SageMakerClientTypes.TransformInput? = nil,
         transformJobArn: Swift.String? = nil,
         transformJobName: Swift.String? = nil,
         transformJobStatus: SageMakerClientTypes.TransformJobStatus? = nil,
         transformOutput: SageMakerClientTypes.TransformOutput? = nil,
         transformResources: SageMakerClientTypes.TransformResources? = nil,
-        transformStartTime: ClientRuntime.Date? = nil
+        transformStartTime: Foundation.Date? = nil
     )
     {
         self.autoMLJobArn = autoMLJobArn
@@ -26146,7 +26148,7 @@ public struct DescribeTransformJobOutput {
 
 enum DescribeTransformJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -26188,7 +26190,7 @@ public struct DescribeTrialComponentInput {
 
 extension DescribeTrialComponentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeTrialComponentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeTrialComponentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -26219,17 +26221,17 @@ public struct DescribeTrialComponentOutput {
     /// Who created the trial component.
     public var createdBy: SageMakerClientTypes.UserContext?
     /// When the component was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The name of the component as displayed. If DisplayName isn't specified, TrialComponentName is displayed.
     public var displayName: Swift.String?
     /// When the component ended.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// The input artifacts of the component.
     public var inputArtifacts: [Swift.String:SageMakerClientTypes.TrialComponentArtifact]?
     /// Who last modified the component.
     public var lastModifiedBy: SageMakerClientTypes.UserContext?
     /// When the component was last modified.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the lineage group.
     public var lineageGroupArn: Swift.String?
     /// Metadata properties of the tracking entity, trial, or trial component.
@@ -26245,7 +26247,7 @@ public struct DescribeTrialComponentOutput {
     /// A list of ARNs and, if applicable, job types for multiple sources of an experiment run.
     public var sources: [SageMakerClientTypes.TrialComponentSource]?
     /// When the component started.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
     /// The status of the component. States include:
     ///
     /// * InProgress
@@ -26261,12 +26263,12 @@ public struct DescribeTrialComponentOutput {
 
     public init(
         createdBy: SageMakerClientTypes.UserContext? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         displayName: Swift.String? = nil,
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         inputArtifacts: [Swift.String:SageMakerClientTypes.TrialComponentArtifact]? = nil,
         lastModifiedBy: SageMakerClientTypes.UserContext? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         lineageGroupArn: Swift.String? = nil,
         metadataProperties: SageMakerClientTypes.MetadataProperties? = nil,
         metrics: [SageMakerClientTypes.TrialComponentMetricSummary]? = nil,
@@ -26274,7 +26276,7 @@ public struct DescribeTrialComponentOutput {
         parameters: [Swift.String:SageMakerClientTypes.TrialComponentParameterValue]? = nil,
         source: SageMakerClientTypes.TrialComponentSource? = nil,
         sources: [SageMakerClientTypes.TrialComponentSource]? = nil,
-        startTime: ClientRuntime.Date? = nil,
+        startTime: Foundation.Date? = nil,
         status: SageMakerClientTypes.TrialComponentStatus? = nil,
         trialComponentArn: Swift.String? = nil,
         trialComponentName: Swift.String? = nil
@@ -26303,7 +26305,7 @@ public struct DescribeTrialComponentOutput {
 
 enum DescribeTrialComponentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -26345,7 +26347,7 @@ public struct DescribeTrialInput {
 
 extension DescribeTrialOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeTrialOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeTrialOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -26368,7 +26370,7 @@ public struct DescribeTrialOutput {
     /// Who created the trial.
     public var createdBy: SageMakerClientTypes.UserContext?
     /// When the trial was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The name of the trial as displayed. If DisplayName isn't specified, TrialName is displayed.
     public var displayName: Swift.String?
     /// The name of the experiment the trial is part of.
@@ -26376,7 +26378,7 @@ public struct DescribeTrialOutput {
     /// Who last modified the trial.
     public var lastModifiedBy: SageMakerClientTypes.UserContext?
     /// When the trial was last modified.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// Metadata properties of the tracking entity, trial, or trial component.
     public var metadataProperties: SageMakerClientTypes.MetadataProperties?
     /// The Amazon Resource Name (ARN) of the source and, optionally, the job type.
@@ -26388,11 +26390,11 @@ public struct DescribeTrialOutput {
 
     public init(
         createdBy: SageMakerClientTypes.UserContext? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         displayName: Swift.String? = nil,
         experimentName: Swift.String? = nil,
         lastModifiedBy: SageMakerClientTypes.UserContext? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         metadataProperties: SageMakerClientTypes.MetadataProperties? = nil,
         source: SageMakerClientTypes.TrialSource? = nil,
         trialArn: Swift.String? = nil,
@@ -26414,7 +26416,7 @@ public struct DescribeTrialOutput {
 
 enum DescribeTrialOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -26462,7 +26464,7 @@ public struct DescribeUserProfileInput {
 
 extension DescribeUserProfileOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeUserProfileOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeUserProfileOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -26484,7 +26486,7 @@ extension DescribeUserProfileOutput {
 
 public struct DescribeUserProfileOutput {
     /// The creation time.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The ID of the domain that contains the profile.
     public var domainId: Swift.String?
     /// The failure reason.
@@ -26492,7 +26494,7 @@ public struct DescribeUserProfileOutput {
     /// The ID of the user's profile in the Amazon Elastic File System volume.
     public var homeEfsFileSystemUid: Swift.String?
     /// The last modified time.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The IAM Identity Center user identifier.
     public var singleSignOnUserIdentifier: Swift.String?
     /// The IAM Identity Center user value.
@@ -26507,11 +26509,11 @@ public struct DescribeUserProfileOutput {
     public var userSettings: SageMakerClientTypes.UserSettings?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         domainId: Swift.String? = nil,
         failureReason: Swift.String? = nil,
         homeEfsFileSystemUid: Swift.String? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         singleSignOnUserIdentifier: Swift.String? = nil,
         singleSignOnUserValue: Swift.String? = nil,
         status: SageMakerClientTypes.UserProfileStatus? = nil,
@@ -26536,7 +26538,7 @@ public struct DescribeUserProfileOutput {
 
 enum DescribeUserProfileOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -26579,7 +26581,7 @@ public struct DescribeWorkforceInput {
 
 extension DescribeWorkforceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeWorkforceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeWorkforceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -26604,7 +26606,7 @@ public struct DescribeWorkforceOutput {
 
 enum DescribeWorkforceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -26645,7 +26647,7 @@ public struct DescribeWorkteamInput {
 
 extension DescribeWorkteamOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeWorkteamOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeWorkteamOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -26670,7 +26672,7 @@ public struct DescribeWorkteamOutput {
 
 enum DescribeWorkteamOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -26893,7 +26895,7 @@ extension SageMakerClientTypes {
         /// The name of the deployed stage.
         public var deployedStageName: Swift.String?
         /// The time when the deployment on the device started.
-        public var deploymentStartTime: ClientRuntime.Date?
+        public var deploymentStartTime: Foundation.Date?
         /// The description of the device.
         public var description: Swift.String?
         /// The ARN of the device.
@@ -26920,7 +26922,7 @@ extension SageMakerClientTypes {
 
         public init(
             deployedStageName: Swift.String? = nil,
-            deploymentStartTime: ClientRuntime.Date? = nil,
+            deploymentStartTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
             deviceArn: Swift.String? = nil,
             deviceDeploymentStatus: SageMakerClientTypes.DeviceDeploymentStatus? = nil,
@@ -26965,7 +26967,7 @@ extension SageMakerClientTypes {
     /// Summary of the device fleet.
     public struct DeviceFleetSummary {
         /// Timestamp of when the device fleet was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// Amazon Resource Name (ARN) of the device fleet.
         /// This member is required.
         public var deviceFleetArn: Swift.String?
@@ -26973,13 +26975,13 @@ extension SageMakerClientTypes {
         /// This member is required.
         public var deviceFleetName: Swift.String?
         /// Timestamp of when the device fleet was last updated.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             deviceFleetArn: Swift.String? = nil,
             deviceFleetName: Swift.String? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil
+            lastModifiedTime: Foundation.Date? = nil
         )
         {
             self.creationTime = creationTime
@@ -27142,11 +27144,11 @@ extension SageMakerClientTypes {
         /// The Amazon Web Services Internet of Things (IoT) object thing name associated with the device..
         public var iotThingName: Swift.String?
         /// The last heartbeat received from the device.
-        public var latestHeartbeat: ClientRuntime.Date?
+        public var latestHeartbeat: Foundation.Date?
         /// Models on the device.
         public var models: [SageMakerClientTypes.EdgeModelSummary]?
         /// The timestamp of the last registration or de-reregistration.
-        public var registrationTime: ClientRuntime.Date?
+        public var registrationTime: Foundation.Date?
 
         public init(
             agentVersion: Swift.String? = nil,
@@ -27155,9 +27157,9 @@ extension SageMakerClientTypes {
             deviceFleetName: Swift.String? = nil,
             deviceName: Swift.String? = nil,
             iotThingName: Swift.String? = nil,
-            latestHeartbeat: ClientRuntime.Date? = nil,
+            latestHeartbeat: Foundation.Date? = nil,
             models: [SageMakerClientTypes.EdgeModelSummary]? = nil,
-            registrationTime: ClientRuntime.Date? = nil
+            registrationTime: Foundation.Date? = nil
         )
         {
             self.agentVersion = agentVersion
@@ -27288,7 +27290,7 @@ public struct DisableSagemakerServicecatalogPortfolioInput {
 
 extension DisableSagemakerServicecatalogPortfolioOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DisableSagemakerServicecatalogPortfolioOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DisableSagemakerServicecatalogPortfolioOutput {
         return DisableSagemakerServicecatalogPortfolioOutput()
     }
 }
@@ -27300,7 +27302,7 @@ public struct DisableSagemakerServicecatalogPortfolioOutput {
 
 enum DisableSagemakerServicecatalogPortfolioOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -27347,7 +27349,7 @@ public struct DisassociateTrialComponentInput {
 
 extension DisassociateTrialComponentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DisassociateTrialComponentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DisassociateTrialComponentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -27376,7 +27378,7 @@ public struct DisassociateTrialComponentOutput {
 
 enum DisassociateTrialComponentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -27445,7 +27447,7 @@ extension SageMakerClientTypes {
     /// The domain's details.
     public struct DomainDetails {
         /// The creation time.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The domain's Amazon Resource Name (ARN).
         public var domainArn: Swift.String?
         /// The domain ID.
@@ -27453,18 +27455,18 @@ extension SageMakerClientTypes {
         /// The domain name.
         public var domainName: Swift.String?
         /// The last modified time.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// The status.
         public var status: SageMakerClientTypes.DomainStatus?
         /// The domain's URL.
         public var url: Swift.String?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             domainArn: Swift.String? = nil,
             domainId: Swift.String? = nil,
             domainName: Swift.String? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             status: SageMakerClientTypes.DomainStatus? = nil,
             url: Swift.String? = nil
         )
@@ -28133,7 +28135,7 @@ extension SageMakerClientTypes {
     /// Contains information summarizing an edge deployment plan.
     public struct EdgeDeploymentPlanSummary {
         /// The time when the edge deployment plan was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The name of the device fleet used for the deployment.
         /// This member is required.
         public var deviceFleetName: Swift.String?
@@ -28153,17 +28155,17 @@ extension SageMakerClientTypes {
         /// This member is required.
         public var edgeDeploymentSuccess: Swift.Int?
         /// The time when the edge deployment plan was last updated.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             deviceFleetName: Swift.String? = nil,
             edgeDeploymentFailed: Swift.Int? = nil,
             edgeDeploymentPending: Swift.Int? = nil,
             edgeDeploymentPlanArn: Swift.String? = nil,
             edgeDeploymentPlanName: Swift.String? = nil,
             edgeDeploymentSuccess: Swift.Int? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil
+            lastModifiedTime: Foundation.Date? = nil
         )
         {
             self.creationTime = creationTime
@@ -28204,7 +28206,7 @@ extension SageMakerClientTypes {
         /// This member is required.
         public var edgeDeploymentPendingInStage: Swift.Int?
         /// The time when the deployment API started.
-        public var edgeDeploymentStageStartTime: ClientRuntime.Date?
+        public var edgeDeploymentStageStartTime: Foundation.Date?
         /// A detailed message about deployment status in current stage.
         public var edgeDeploymentStatusMessage: Swift.String?
         /// The number of edge devices with the successful deployment in the current stage.
@@ -28217,7 +28219,7 @@ extension SageMakerClientTypes {
         public init(
             edgeDeploymentFailedInStage: Swift.Int? = nil,
             edgeDeploymentPendingInStage: Swift.Int? = nil,
-            edgeDeploymentStageStartTime: ClientRuntime.Date? = nil,
+            edgeDeploymentStageStartTime: Foundation.Date? = nil,
             edgeDeploymentStatusMessage: Swift.String? = nil,
             edgeDeploymentSuccessInStage: Swift.Int? = nil,
             stageStatus: SageMakerClientTypes.StageStatus? = nil
@@ -28251,9 +28253,9 @@ extension SageMakerClientTypes {
     /// The model on the edge device.
     public struct EdgeModel {
         /// The timestamp of the last inference that was made.
-        public var latestInference: ClientRuntime.Date?
+        public var latestInference: Foundation.Date?
         /// The timestamp of the last data sample taken.
-        public var latestSampleTime: ClientRuntime.Date?
+        public var latestSampleTime: Foundation.Date?
         /// The name of the model.
         /// This member is required.
         public var modelName: Swift.String?
@@ -28262,8 +28264,8 @@ extension SageMakerClientTypes {
         public var modelVersion: Swift.String?
 
         public init(
-            latestInference: ClientRuntime.Date? = nil,
-            latestSampleTime: ClientRuntime.Date? = nil,
+            latestInference: Foundation.Date? = nil,
+            latestSampleTime: Foundation.Date? = nil,
             modelName: Swift.String? = nil,
             modelVersion: Swift.String? = nil
         )
@@ -28491,7 +28493,7 @@ extension SageMakerClientTypes {
         /// The name of the SageMaker Neo compilation job.
         public var compilationJobName: Swift.String?
         /// The timestamp of when the job was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the edge packaging job.
         /// This member is required.
         public var edgePackagingJobArn: Swift.String?
@@ -28502,7 +28504,7 @@ extension SageMakerClientTypes {
         /// This member is required.
         public var edgePackagingJobStatus: SageMakerClientTypes.EdgePackagingJobStatus?
         /// The timestamp of when the edge packaging job was last updated.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// The name of the model.
         public var modelName: Swift.String?
         /// The version of the model.
@@ -28510,11 +28512,11 @@ extension SageMakerClientTypes {
 
         public init(
             compilationJobName: Swift.String? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             edgePackagingJobArn: Swift.String? = nil,
             edgePackagingJobName: Swift.String? = nil,
             edgePackagingJobStatus: SageMakerClientTypes.EdgePackagingJobStatus? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             modelName: Swift.String? = nil,
             modelVersion: Swift.String? = nil
         )
@@ -28651,7 +28653,7 @@ public struct EnableSagemakerServicecatalogPortfolioInput {
 
 extension EnableSagemakerServicecatalogPortfolioOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> EnableSagemakerServicecatalogPortfolioOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> EnableSagemakerServicecatalogPortfolioOutput {
         return EnableSagemakerServicecatalogPortfolioOutput()
     }
 }
@@ -28663,7 +28665,7 @@ public struct EnableSagemakerServicecatalogPortfolioOutput {
 
 enum EnableSagemakerServicecatalogPortfolioOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -28729,7 +28731,7 @@ extension SageMakerClientTypes {
     public struct Endpoint {
         /// The time that the endpoint was created.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The currently active data capture configuration used by your Endpoint.
         public var dataCaptureConfig: SageMakerClientTypes.DataCaptureConfigSummary?
         /// The Amazon Resource Name (ARN) of the endpoint.
@@ -28748,7 +28750,7 @@ extension SageMakerClientTypes {
         public var failureReason: Swift.String?
         /// The last time the endpoint was modified.
         /// This member is required.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// A list of monitoring schedules for the endpoint. For information about model monitoring, see [Amazon SageMaker Model Monitor](https://docs.aws.amazon.com/sagemaker/latest/dg/model-monitor.html).
         public var monitoringSchedules: [SageMakerClientTypes.MonitoringSchedule]?
         /// A list of the production variants hosted on the endpoint. Each production variant is a model.
@@ -28759,14 +28761,14 @@ extension SageMakerClientTypes {
         public var tags: [SageMakerClientTypes.Tag]?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             dataCaptureConfig: SageMakerClientTypes.DataCaptureConfigSummary? = nil,
             endpointArn: Swift.String? = nil,
             endpointConfigName: Swift.String? = nil,
             endpointName: Swift.String? = nil,
             endpointStatus: SageMakerClientTypes.EndpointStatus? = nil,
             failureReason: Swift.String? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             monitoringSchedules: [SageMakerClientTypes.MonitoringSchedule]? = nil,
             productionVariants: [SageMakerClientTypes.ProductionVariantSummary]? = nil,
             shadowProductionVariants: [SageMakerClientTypes.ProductionVariantSummary]? = nil,
@@ -28836,7 +28838,7 @@ extension SageMakerClientTypes {
     public struct EndpointConfigSummary {
         /// A timestamp that shows when the endpoint configuration was created.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the endpoint configuration.
         /// This member is required.
         public var endpointConfigArn: Swift.String?
@@ -28845,7 +28847,7 @@ extension SageMakerClientTypes {
         public var endpointConfigName: Swift.String?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             endpointConfigArn: Swift.String? = nil,
             endpointConfigName: Swift.String? = nil
         )
@@ -29255,7 +29257,7 @@ extension SageMakerClientTypes {
     public struct EndpointSummary {
         /// A timestamp that shows when the endpoint was created.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the endpoint.
         /// This member is required.
         public var endpointArn: Swift.String?
@@ -29286,14 +29288,14 @@ extension SageMakerClientTypes {
         public var endpointStatus: SageMakerClientTypes.EndpointStatus?
         /// A timestamp that shows when the endpoint was last modified.
         /// This member is required.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             endpointArn: Swift.String? = nil,
             endpointName: Swift.String? = nil,
             endpointStatus: SageMakerClientTypes.EndpointStatus? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil
+            lastModifiedTime: Foundation.Date? = nil
         )
         {
             self.creationTime = creationTime
@@ -29474,7 +29476,7 @@ extension SageMakerClientTypes {
         /// Who created the experiment.
         public var createdBy: SageMakerClientTypes.UserContext?
         /// When the experiment was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The description of the experiment.
         public var description: Swift.String?
         /// The name of the experiment as displayed. If DisplayName isn't specified, ExperimentName is displayed.
@@ -29486,7 +29488,7 @@ extension SageMakerClientTypes {
         /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
         public var lastModifiedBy: SageMakerClientTypes.UserContext?
         /// When the experiment was last modified.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// The source of the experiment.
         public var source: SageMakerClientTypes.ExperimentSource?
         /// The list of tags that are associated with the experiment. You can use [Search](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Search.html) API to search on the tags.
@@ -29494,13 +29496,13 @@ extension SageMakerClientTypes {
 
         public init(
             createdBy: SageMakerClientTypes.UserContext? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
             displayName: Swift.String? = nil,
             experimentArn: Swift.String? = nil,
             experimentName: Swift.String? = nil,
             lastModifiedBy: SageMakerClientTypes.UserContext? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             source: SageMakerClientTypes.ExperimentSource? = nil,
             tags: [SageMakerClientTypes.Tag]? = nil
         )
@@ -29626,7 +29628,7 @@ extension SageMakerClientTypes {
     /// A summary of the properties of an experiment. To get the complete set of properties, call the [DescribeExperiment](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeExperiment.html) API and provide the ExperimentName.
     public struct ExperimentSummary {
         /// When the experiment was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The name of the experiment as displayed. If DisplayName isn't specified, ExperimentName is displayed.
         public var displayName: Swift.String?
         /// The Amazon Resource Name (ARN) of the experiment.
@@ -29636,15 +29638,15 @@ extension SageMakerClientTypes {
         /// The source of the experiment.
         public var experimentSource: SageMakerClientTypes.ExperimentSource?
         /// When the experiment was last modified.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             displayName: Swift.String? = nil,
             experimentArn: Swift.String? = nil,
             experimentName: Swift.String? = nil,
             experimentSource: SageMakerClientTypes.ExperimentSource? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil
+            lastModifiedTime: Foundation.Date? = nil
         )
         {
             self.creationTime = creationTime
@@ -29865,7 +29867,7 @@ extension SageMakerClientTypes {
     /// Amazon SageMaker Feature Store stores features in a collection called Feature Group. A Feature Group can be visualized as a table which has rows, with a unique identifier for each row where each column in the table is a feature. In principle, a Feature Group is composed of features and values per features.
     public struct FeatureGroup {
         /// The time a FeatureGroup was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// A free form description of a FeatureGroup.
         public var description: Swift.String?
         /// The name of the feature that stores the EventTime of a Record in a FeatureGroup. A EventTime is point in time when a new event occurs that corresponds to the creation or update of a Record in FeatureGroup. All Records in the FeatureGroup must have a corresponding EventTime.
@@ -29881,7 +29883,7 @@ extension SageMakerClientTypes {
         /// A FeatureGroup status.
         public var featureGroupStatus: SageMakerClientTypes.FeatureGroupStatus?
         /// A timestamp indicating the last time you updated the feature group.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// A value that indicates whether the feature group was updated successfully.
         public var lastUpdateStatus: SageMakerClientTypes.LastUpdateStatus?
         /// The configuration of an OfflineStore. Provide an OfflineStoreConfig in a request to CreateFeatureGroup to create an OfflineStore. To encrypt an OfflineStore using at rest data encryption, specify Amazon Web Services Key Management Service (KMS) key ID, or KMSKeyId, in S3StorageConfig.
@@ -29898,7 +29900,7 @@ extension SageMakerClientTypes {
         public var tags: [SageMakerClientTypes.Tag]?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
             eventTimeFeatureName: Swift.String? = nil,
             failureReason: Swift.String? = nil,
@@ -29906,7 +29908,7 @@ extension SageMakerClientTypes {
             featureGroupArn: Swift.String? = nil,
             featureGroupName: Swift.String? = nil,
             featureGroupStatus: SageMakerClientTypes.FeatureGroupStatus? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             lastUpdateStatus: SageMakerClientTypes.LastUpdateStatus? = nil,
             offlineStoreConfig: SageMakerClientTypes.OfflineStoreConfig? = nil,
             offlineStoreStatus: SageMakerClientTypes.OfflineStoreStatus? = nil,
@@ -30058,7 +30060,7 @@ extension SageMakerClientTypes {
     public struct FeatureGroupSummary {
         /// A timestamp indicating the time of creation time of the FeatureGroup.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// Unique identifier for the FeatureGroup.
         /// This member is required.
         public var featureGroupArn: Swift.String?
@@ -30071,7 +30073,7 @@ extension SageMakerClientTypes {
         public var offlineStoreStatus: SageMakerClientTypes.OfflineStoreStatus?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             featureGroupArn: Swift.String? = nil,
             featureGroupName: Swift.String? = nil,
             featureGroupStatus: SageMakerClientTypes.FeatureGroupStatus? = nil,
@@ -30109,7 +30111,7 @@ extension SageMakerClientTypes {
     /// The metadata for a feature. It can either be metadata that you specify, or metadata that is updated automatically.
     public struct FeatureMetadata {
         /// A timestamp indicating when the feature was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// An optional description that you specify to better describe the feature.
         public var description: Swift.String?
         /// The Amazon Resource Number (ARN) of the feature group.
@@ -30121,18 +30123,18 @@ extension SageMakerClientTypes {
         /// The data type of the feature.
         public var featureType: SageMakerClientTypes.FeatureType?
         /// A timestamp indicating when the feature was last modified.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// Optional key-value pairs that you specify to better describe the feature.
         public var parameters: [SageMakerClientTypes.FeatureParameter]?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
             featureGroupArn: Swift.String? = nil,
             featureGroupName: Swift.String? = nil,
             featureName: Swift.String? = nil,
             featureType: SageMakerClientTypes.FeatureType? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             parameters: [SageMakerClientTypes.FeatureParameter]? = nil
         )
         {
@@ -30772,7 +30774,7 @@ extension SageMakerClientTypes {
     public struct FlowDefinitionSummary {
         /// The timestamp when SageMaker created the flow definition.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The reason why the flow definition creation failed. A failure reason is returned only when the flow definition status is Failed.
         public var failureReason: Swift.String?
         /// The Amazon Resource Name (ARN) of the flow definition.
@@ -30786,7 +30788,7 @@ extension SageMakerClientTypes {
         public var flowDefinitionStatus: SageMakerClientTypes.FlowDefinitionStatus?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             failureReason: Swift.String? = nil,
             flowDefinitionArn: Swift.String? = nil,
             flowDefinitionName: Swift.String? = nil,
@@ -30914,7 +30916,7 @@ public struct GetDeviceFleetReportInput {
 
 extension GetDeviceFleetReportOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetDeviceFleetReportOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetDeviceFleetReportOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -30949,7 +30951,7 @@ public struct GetDeviceFleetReportOutput {
     /// The output configuration for storing sample data collected by the fleet.
     public var outputConfig: SageMakerClientTypes.EdgeOutputConfig?
     /// Timestamp of when the report was generated.
-    public var reportGenerated: ClientRuntime.Date?
+    public var reportGenerated: Foundation.Date?
 
     public init(
         agentVersions: [SageMakerClientTypes.AgentVersion]? = nil,
@@ -30959,7 +30961,7 @@ public struct GetDeviceFleetReportOutput {
         deviceStats: SageMakerClientTypes.DeviceStats? = nil,
         modelStats: [SageMakerClientTypes.EdgeModelStat]? = nil,
         outputConfig: SageMakerClientTypes.EdgeOutputConfig? = nil,
-        reportGenerated: ClientRuntime.Date? = nil
+        reportGenerated: Foundation.Date? = nil
     )
     {
         self.agentVersions = agentVersions
@@ -30975,7 +30977,7 @@ public struct GetDeviceFleetReportOutput {
 
 enum GetDeviceFleetReportOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -31016,7 +31018,7 @@ public struct GetLineageGroupPolicyInput {
 
 extension GetLineageGroupPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetLineageGroupPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetLineageGroupPolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -31045,7 +31047,7 @@ public struct GetLineageGroupPolicyOutput {
 
 enum GetLineageGroupPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -31087,7 +31089,7 @@ public struct GetModelPackageGroupPolicyInput {
 
 extension GetModelPackageGroupPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetModelPackageGroupPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetModelPackageGroupPolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -31112,7 +31114,7 @@ public struct GetModelPackageGroupPolicyOutput {
 
 enum GetModelPackageGroupPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -31145,7 +31147,7 @@ public struct GetSagemakerServicecatalogPortfolioStatusInput {
 
 extension GetSagemakerServicecatalogPortfolioStatusOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetSagemakerServicecatalogPortfolioStatusOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetSagemakerServicecatalogPortfolioStatusOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -31169,7 +31171,7 @@ public struct GetSagemakerServicecatalogPortfolioStatusOutput {
 
 enum GetSagemakerServicecatalogPortfolioStatusOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -31230,7 +31232,7 @@ public struct GetScalingConfigurationRecommendationInput {
 
 extension GetScalingConfigurationRecommendationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetScalingConfigurationRecommendationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetScalingConfigurationRecommendationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -31284,7 +31286,7 @@ public struct GetScalingConfigurationRecommendationOutput {
 
 enum GetScalingConfigurationRecommendationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -31331,7 +31333,7 @@ public struct GetSearchSuggestionsInput {
 
 extension GetSearchSuggestionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetSearchSuggestionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetSearchSuggestionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -31355,7 +31357,7 @@ public struct GetSearchSuggestionsOutput {
 
 enum GetSearchSuggestionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -31520,7 +31522,7 @@ extension SageMakerClientTypes {
     public struct HubContentInfo {
         /// The date and time that the hub content was created.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The version of the hub content document schema.
         /// This member is required.
         public var documentSchemaVersion: Swift.String?
@@ -31547,7 +31549,7 @@ extension SageMakerClientTypes {
         public var hubContentVersion: Swift.String?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             documentSchemaVersion: Swift.String? = nil,
             hubContentArn: Swift.String? = nil,
             hubContentDescription: Swift.String? = nil,
@@ -31695,7 +31697,7 @@ extension SageMakerClientTypes {
     public struct HubInfo {
         /// The date and time that the hub was created.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the hub.
         /// This member is required.
         public var hubArn: Swift.String?
@@ -31713,17 +31715,17 @@ extension SageMakerClientTypes {
         public var hubStatus: SageMakerClientTypes.HubStatus?
         /// The date and time that the hub was last modified.
         /// This member is required.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             hubArn: Swift.String? = nil,
             hubDescription: Swift.String? = nil,
             hubDisplayName: Swift.String? = nil,
             hubName: Swift.String? = nil,
             hubSearchKeywords: [Swift.String]? = nil,
             hubStatus: SageMakerClientTypes.HubStatus? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil
+            lastModifiedTime: Foundation.Date? = nil
         )
         {
             self.creationTime = creationTime
@@ -32978,7 +32980,7 @@ extension SageMakerClientTypes {
     public struct HumanTaskUiSummary {
         /// A timestamp when SageMaker created the human task user interface.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the human task user interface.
         /// This member is required.
         public var humanTaskUiArn: Swift.String?
@@ -32987,7 +32989,7 @@ extension SageMakerClientTypes {
         public var humanTaskUiName: Swift.String?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             humanTaskUiArn: Swift.String? = nil,
             humanTaskUiName: Swift.String? = nil
         )
@@ -33317,7 +33319,7 @@ extension SageMakerClientTypes {
     public struct HyperParameterTrainingJobSummary {
         /// The date and time that the training job was created.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The reason that the training job failed.
         public var failureReason: Swift.String?
         /// The [FinalHyperParameterTuningJobObjectiveMetric](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_FinalHyperParameterTuningJobObjectiveMetric.html) object that specifies the value of the objective metric of the tuning job that launched this training job.
@@ -33337,7 +33339,7 @@ extension SageMakerClientTypes {
         /// * Failed: The final objective metric for the training job was not evaluated, and was not used in the hyperparameter tuning process. This typically occurs when the training job failed or did not emit an objective metric.
         public var objectiveStatus: SageMakerClientTypes.ObjectiveStatus?
         /// Specifies the time when the training job ends on training instances. You are billed for the time interval between the value of TrainingStartTime and this time. For successful jobs and stopped jobs, this is the time after model artifacts are uploaded. For failed jobs, this is the time when SageMaker detects a job failure.
-        public var trainingEndTime: ClientRuntime.Date?
+        public var trainingEndTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the training job.
         /// This member is required.
         public var trainingJobArn: Swift.String?
@@ -33350,7 +33352,7 @@ extension SageMakerClientTypes {
         /// This member is required.
         public var trainingJobStatus: SageMakerClientTypes.TrainingJobStatus?
         /// The date and time that the training job started.
-        public var trainingStartTime: ClientRuntime.Date?
+        public var trainingStartTime: Foundation.Date?
         /// A list of the hyperparameters for which you specified ranges to search.
         /// This member is required.
         public var tunedHyperParameters: [Swift.String:Swift.String]?
@@ -33358,16 +33360,16 @@ extension SageMakerClientTypes {
         public var tuningJobName: Swift.String?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             failureReason: Swift.String? = nil,
             finalHyperParameterTuningJobObjectiveMetric: SageMakerClientTypes.FinalHyperParameterTuningJobObjectiveMetric? = nil,
             objectiveStatus: SageMakerClientTypes.ObjectiveStatus? = nil,
-            trainingEndTime: ClientRuntime.Date? = nil,
+            trainingEndTime: Foundation.Date? = nil,
             trainingJobArn: Swift.String? = nil,
             trainingJobDefinitionName: Swift.String? = nil,
             trainingJobName: Swift.String? = nil,
             trainingJobStatus: SageMakerClientTypes.TrainingJobStatus? = nil,
-            trainingStartTime: ClientRuntime.Date? = nil,
+            trainingStartTime: Foundation.Date? = nil,
             tunedHyperParameters: [Swift.String:Swift.String]? = nil,
             tuningJobName: Swift.String? = nil
         )
@@ -33476,12 +33478,12 @@ extension SageMakerClientTypes {
     /// A structure that contains runtime information about both current and completed hyperparameter tuning jobs.
     public struct HyperParameterTuningJobCompletionDetails {
         /// The time in timestamp format that AMT detected model convergence, as defined by a lack of significant improvement over time based on criteria developed over a wide range of diverse benchmarking tests.
-        public var convergenceDetectedTime: ClientRuntime.Date?
+        public var convergenceDetectedTime: Foundation.Date?
         /// The number of training jobs launched by a tuning job that are not improving (1% or less) as measured by model performance evaluated against an objective function.
         public var numberOfTrainingJobsObjectiveNotImproving: Swift.Int?
 
         public init(
-            convergenceDetectedTime: ClientRuntime.Date? = nil,
+            convergenceDetectedTime: Foundation.Date? = nil,
             numberOfTrainingJobsObjectiveNotImproving: Swift.Int? = nil
         )
         {
@@ -33696,11 +33698,11 @@ extension SageMakerClientTypes {
         /// The total amount of resources consumed by a hyperparameter tuning job.
         public var consumedResources: SageMakerClientTypes.HyperParameterTuningJobConsumedResources?
         /// The time that a hyperparameter tuning job was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The error that was created when a hyperparameter tuning job failed.
         public var failureReason: Swift.String?
         /// The time that a hyperparameter tuning job ended.
-        public var hyperParameterTuningEndTime: ClientRuntime.Date?
+        public var hyperParameterTuningEndTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of a hyperparameter tuning job.
         public var hyperParameterTuningJobArn: Swift.String?
         /// Configures a hyperparameter tuning job.
@@ -33710,7 +33712,7 @@ extension SageMakerClientTypes {
         /// The status of a hyperparameter tuning job.
         public var hyperParameterTuningJobStatus: SageMakerClientTypes.HyperParameterTuningJobStatus?
         /// The time that a hyperparameter tuning job was last modified.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// Specifies the number of training jobs that this hyperparameter tuning job launched, categorized by the status of their objective metric. The objective metric status shows whether the final objective metric for the training job has been evaluated by the tuning job and used in the hyperparameter tuning process.
         public var objectiveStatusCounters: SageMakerClientTypes.ObjectiveStatusCounters?
         /// The container for the summary information about a training job.
@@ -33731,14 +33733,14 @@ extension SageMakerClientTypes {
         public init(
             bestTrainingJob: SageMakerClientTypes.HyperParameterTrainingJobSummary? = nil,
             consumedResources: SageMakerClientTypes.HyperParameterTuningJobConsumedResources? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             failureReason: Swift.String? = nil,
-            hyperParameterTuningEndTime: ClientRuntime.Date? = nil,
+            hyperParameterTuningEndTime: Foundation.Date? = nil,
             hyperParameterTuningJobArn: Swift.String? = nil,
             hyperParameterTuningJobConfig: SageMakerClientTypes.HyperParameterTuningJobConfig? = nil,
             hyperParameterTuningJobName: Swift.String? = nil,
             hyperParameterTuningJobStatus: SageMakerClientTypes.HyperParameterTuningJobStatus? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             objectiveStatusCounters: SageMakerClientTypes.ObjectiveStatusCounters? = nil,
             overallBestTrainingJob: SageMakerClientTypes.HyperParameterTrainingJobSummary? = nil,
             tags: [SageMakerClientTypes.Tag]? = nil,
@@ -33939,9 +33941,9 @@ extension SageMakerClientTypes {
     public struct HyperParameterTuningJobSummary {
         /// The date and time that the tuning job was created.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The date and time that the tuning job ended.
-        public var hyperParameterTuningEndTime: ClientRuntime.Date?
+        public var hyperParameterTuningEndTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the tuning job.
         /// This member is required.
         public var hyperParameterTuningJobArn: Swift.String?
@@ -33952,7 +33954,7 @@ extension SageMakerClientTypes {
         /// This member is required.
         public var hyperParameterTuningJobStatus: SageMakerClientTypes.HyperParameterTuningJobStatus?
         /// The date and time that the tuning job was modified.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// The [ObjectiveStatusCounters](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ObjectiveStatusCounters.html) object that specifies the numbers of training jobs, categorized by objective metric status, that this tuning job launched.
         /// This member is required.
         public var objectiveStatusCounters: SageMakerClientTypes.ObjectiveStatusCounters?
@@ -33966,12 +33968,12 @@ extension SageMakerClientTypes {
         public var trainingJobStatusCounters: SageMakerClientTypes.TrainingJobStatusCounters?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
-            hyperParameterTuningEndTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
+            hyperParameterTuningEndTime: Foundation.Date? = nil,
             hyperParameterTuningJobArn: Swift.String? = nil,
             hyperParameterTuningJobName: Swift.String? = nil,
             hyperParameterTuningJobStatus: SageMakerClientTypes.HyperParameterTuningJobStatus? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             objectiveStatusCounters: SageMakerClientTypes.ObjectiveStatusCounters? = nil,
             resourceLimits: SageMakerClientTypes.ResourceLimits? = nil,
             strategy: SageMakerClientTypes.HyperParameterTuningJobStrategyType? = nil,
@@ -34310,7 +34312,7 @@ extension SageMakerClientTypes {
     public struct Image {
         /// When the image was created.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The description of the image.
         public var description: Swift.String?
         /// The name of the image as displayed.
@@ -34328,17 +34330,17 @@ extension SageMakerClientTypes {
         public var imageStatus: SageMakerClientTypes.ImageStatus?
         /// When the image was last modified.
         /// This member is required.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
             displayName: Swift.String? = nil,
             failureReason: Swift.String? = nil,
             imageArn: Swift.String? = nil,
             imageName: Swift.String? = nil,
             imageStatus: SageMakerClientTypes.ImageStatus? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil
+            lastModifiedTime: Foundation.Date? = nil
         )
         {
             self.creationTime = creationTime
@@ -34553,7 +34555,7 @@ extension SageMakerClientTypes {
     public struct ImageVersion {
         /// When the version was created.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// When a create or delete operation fails, the reason for the failure.
         public var failureReason: Swift.String?
         /// The ARN of the image the version is based on.
@@ -34567,18 +34569,18 @@ extension SageMakerClientTypes {
         public var imageVersionStatus: SageMakerClientTypes.ImageVersionStatus?
         /// When the version was last modified.
         /// This member is required.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// The version number.
         /// This member is required.
         public var version: Swift.Int?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             failureReason: Swift.String? = nil,
             imageArn: Swift.String? = nil,
             imageVersionArn: Swift.String? = nil,
             imageVersionStatus: SageMakerClientTypes.ImageVersionStatus? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             version: Swift.Int? = nil
         )
         {
@@ -34777,7 +34779,7 @@ public struct ImportHubContentInput {
 
 extension ImportHubContentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ImportHubContentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ImportHubContentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -34808,7 +34810,7 @@ public struct ImportHubContentOutput {
 
 enum ImportHubContentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -35208,7 +35210,7 @@ extension SageMakerClientTypes {
     public struct InferenceComponentSummary {
         /// The time when the inference component was created.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the endpoint that hosts the inference component.
         /// This member is required.
         public var endpointArn: Swift.String?
@@ -35225,19 +35227,19 @@ extension SageMakerClientTypes {
         public var inferenceComponentStatus: SageMakerClientTypes.InferenceComponentStatus?
         /// The time when the inference component was last updated.
         /// This member is required.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// The name of the production variant that hosts the inference component.
         /// This member is required.
         public var variantName: Swift.String?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             endpointArn: Swift.String? = nil,
             endpointName: Swift.String? = nil,
             inferenceComponentArn: Swift.String? = nil,
             inferenceComponentName: Swift.String? = nil,
             inferenceComponentStatus: SageMakerClientTypes.InferenceComponentStatus? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             variantName: Swift.String? = nil
         )
         {
@@ -35384,13 +35386,13 @@ extension SageMakerClientTypes {
     /// The start and end times of an inference experiment. The maximum duration that you can set for an inference experiment is 30 days.
     public struct InferenceExperimentSchedule {
         /// The timestamp at which the inference experiment ended or will end.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// The timestamp at which the inference experiment started or will start.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
 
         public init(
-            endTime: ClientRuntime.Date? = nil,
-            startTime: ClientRuntime.Date? = nil
+            endTime: Foundation.Date? = nil,
+            startTime: Foundation.Date? = nil
         )
         {
             self.endTime = endTime
@@ -35499,15 +35501,15 @@ extension SageMakerClientTypes {
     /// Lists a summary of properties of an inference experiment.
     public struct InferenceExperimentSummary {
         /// The timestamp at which the inference experiment was completed.
-        public var completionTime: ClientRuntime.Date?
+        public var completionTime: Foundation.Date?
         /// The timestamp at which the inference experiment was created.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The description of the inference experiment.
         public var description: Swift.String?
         /// The timestamp when you last modified the inference experiment.
         /// This member is required.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// The name of the inference experiment.
         /// This member is required.
         public var name: Swift.String?
@@ -35525,10 +35527,10 @@ extension SageMakerClientTypes {
         public var type: SageMakerClientTypes.InferenceExperimentType?
 
         public init(
-            completionTime: ClientRuntime.Date? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            completionTime: Foundation.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             schedule: SageMakerClientTypes.InferenceExperimentSchedule? = nil,
@@ -35633,9 +35635,9 @@ extension SageMakerClientTypes {
         /// This member is required.
         public var endpointConfiguration: SageMakerClientTypes.EndpointOutputConfiguration?
         /// A timestamp that shows when the benchmark completed.
-        public var invocationEndTime: ClientRuntime.Date?
+        public var invocationEndTime: Foundation.Date?
         /// A timestamp that shows when the benchmark started.
-        public var invocationStartTime: ClientRuntime.Date?
+        public var invocationStartTime: Foundation.Date?
         /// The metrics used to decide what recommendation to make.
         /// This member is required.
         public var metrics: SageMakerClientTypes.RecommendationMetrics?
@@ -35647,8 +35649,8 @@ extension SageMakerClientTypes {
 
         public init(
             endpointConfiguration: SageMakerClientTypes.EndpointOutputConfiguration? = nil,
-            invocationEndTime: ClientRuntime.Date? = nil,
-            invocationStartTime: ClientRuntime.Date? = nil,
+            invocationEndTime: Foundation.Date? = nil,
+            invocationStartTime: Foundation.Date? = nil,
             metrics: SageMakerClientTypes.RecommendationMetrics? = nil,
             modelConfiguration: SageMakerClientTypes.ModelConfiguration? = nil,
             recommendationId: Swift.String? = nil
@@ -35691,10 +35693,10 @@ extension SageMakerClientTypes {
     /// A structure that contains a list of recommendation jobs.
     public struct InferenceRecommendationsJob {
         /// A timestamp that shows when the job completed.
-        public var completionTime: ClientRuntime.Date?
+        public var completionTime: Foundation.Date?
         /// A timestamp that shows when the job was created.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// If the job fails, provides information why the job failed.
         public var failureReason: Swift.String?
         /// The Amazon Resource Name (ARN) of the recommendation job.
@@ -35711,7 +35713,7 @@ extension SageMakerClientTypes {
         public var jobType: SageMakerClientTypes.RecommendationJobType?
         /// A timestamp that shows when the job was last modified.
         /// This member is required.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// The name of the created model.
         public var modelName: Swift.String?
         /// The Amazon Resource Name (ARN) of a versioned model package.
@@ -35726,14 +35728,14 @@ extension SageMakerClientTypes {
         public var status: SageMakerClientTypes.RecommendationJobStatus?
 
         public init(
-            completionTime: ClientRuntime.Date? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            completionTime: Foundation.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             failureReason: Swift.String? = nil,
             jobArn: Swift.String? = nil,
             jobDescription: Swift.String? = nil,
             jobName: Swift.String? = nil,
             jobType: SageMakerClientTypes.RecommendationJobType? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             modelName: Swift.String? = nil,
             modelPackageVersionArn: Swift.String? = nil,
             roleArn: Swift.String? = nil,
@@ -37390,7 +37392,7 @@ extension SageMakerClientTypes {
     public struct LabelingJobForWorkteamSummary {
         /// The date and time that the labeling job was created.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// A unique identifier for a labeling job. You can use this to refer to a specific labeling job.
         /// This member is required.
         public var jobReferenceCode: Swift.String?
@@ -37405,7 +37407,7 @@ extension SageMakerClientTypes {
         public var workRequesterAccountId: Swift.String?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             jobReferenceCode: Swift.String? = nil,
             labelCounters: SageMakerClientTypes.LabelCountersForWorkteam? = nil,
             labelingJobName: Swift.String? = nil,
@@ -37756,7 +37758,7 @@ extension SageMakerClientTypes {
         public var annotationConsolidationLambdaArn: Swift.String?
         /// The date and time that the job was created (timestamp).
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// If the LabelingJobStatus field is Failed, this field contains a description of the error.
         public var failureReason: Swift.String?
         /// Input configuration for the labeling job.
@@ -37777,7 +37779,7 @@ extension SageMakerClientTypes {
         public var labelingJobStatus: SageMakerClientTypes.LabelingJobStatus?
         /// The date and time that the job was last modified (timestamp).
         /// This member is required.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of a Lambda function. The function is run before each data object is sent to a worker.
         /// This member is required.
         public var preHumanTaskLambdaArn: Swift.String?
@@ -37787,7 +37789,7 @@ extension SageMakerClientTypes {
 
         public init(
             annotationConsolidationLambdaArn: Swift.String? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             failureReason: Swift.String? = nil,
             inputConfig: SageMakerClientTypes.LabelingJobInputConfig? = nil,
             labelCounters: SageMakerClientTypes.LabelCounters? = nil,
@@ -37795,7 +37797,7 @@ extension SageMakerClientTypes {
             labelingJobName: Swift.String? = nil,
             labelingJobOutput: SageMakerClientTypes.LabelingJobOutput? = nil,
             labelingJobStatus: SageMakerClientTypes.LabelingJobStatus? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             preHumanTaskLambdaArn: Swift.String? = nil,
             workteamArn: Swift.String? = nil
         )
@@ -37930,20 +37932,20 @@ extension SageMakerClientTypes {
     /// Lists a summary of the properties of a lineage group. A lineage group provides a group of shareable lineage entity resources.
     public struct LineageGroupSummary {
         /// The creation time of the lineage group summary.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The display name of the lineage group summary.
         public var displayName: Swift.String?
         /// The last modified time of the lineage group summary.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the lineage group resource.
         public var lineageGroupArn: Swift.String?
         /// The name or Amazon Resource Name (ARN) of the lineage group.
         public var lineageGroupName: Swift.String?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             displayName: Swift.String? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             lineageGroupArn: Swift.String? = nil,
             lineageGroupName: Swift.String? = nil
         )
@@ -38019,9 +38021,9 @@ public struct ListActionsInput {
     /// A filter that returns only actions of the specified type.
     public var actionType: Swift.String?
     /// A filter that returns only actions created on or after the specified time.
-    public var createdAfter: ClientRuntime.Date?
+    public var createdAfter: Foundation.Date?
     /// A filter that returns only actions created on or before the specified time.
-    public var createdBefore: ClientRuntime.Date?
+    public var createdBefore: Foundation.Date?
     /// The maximum number of actions to return in the response. The default value is 10.
     public var maxResults: Swift.Int?
     /// If the previous call to ListActions didn't return the full set of actions, the call returns a token for getting the next set of actions.
@@ -38035,8 +38037,8 @@ public struct ListActionsInput {
 
     public init(
         actionType: Swift.String? = nil,
-        createdAfter: ClientRuntime.Date? = nil,
-        createdBefore: ClientRuntime.Date? = nil,
+        createdAfter: Foundation.Date? = nil,
+        createdBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.SortActionsBy? = nil,
@@ -38057,7 +38059,7 @@ public struct ListActionsInput {
 
 extension ListActionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListActionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListActionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -38086,7 +38088,7 @@ public struct ListActionsOutput {
 
 enum ListActionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -38121,9 +38123,9 @@ extension ListAlgorithmsInput {
 
 public struct ListAlgorithmsInput {
     /// A filter that returns only algorithms created after the specified time (timestamp).
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// A filter that returns only algorithms created before the specified time (timestamp).
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// The maximum number of algorithms to return in the response.
     public var maxResults: Swift.Int?
     /// A string in the algorithm name. This filter returns only algorithms whose name contains the specified string.
@@ -38136,8 +38138,8 @@ public struct ListAlgorithmsInput {
     public var sortOrder: SageMakerClientTypes.SortOrder?
 
     public init(
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nameContains: Swift.String? = nil,
         nextToken: Swift.String? = nil,
@@ -38157,7 +38159,7 @@ public struct ListAlgorithmsInput {
 
 extension ListAlgorithmsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAlgorithmsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAlgorithmsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -38187,7 +38189,7 @@ public struct ListAlgorithmsOutput {
 
 enum ListAlgorithmsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -38248,7 +38250,7 @@ public struct ListAliasesInput {
 
 extension ListAliasesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAliasesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAliasesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -38277,7 +38279,7 @@ public struct ListAliasesOutput {
 
 enum ListAliasesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -38314,15 +38316,15 @@ extension ListAppImageConfigsInput {
 
 public struct ListAppImageConfigsInput {
     /// A filter that returns only AppImageConfigs created on or after the specified time.
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// A filter that returns only AppImageConfigs created on or before the specified time.
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// The total number of items to return in the response. If the total number of items available is more than the value specified, a NextToken is provided in the response. To resume pagination, provide the NextToken value in the as part of a subsequent call. The default value is 10.
     public var maxResults: Swift.Int?
     /// A filter that returns only AppImageConfigs modified on or after the specified time.
-    public var modifiedTimeAfter: ClientRuntime.Date?
+    public var modifiedTimeAfter: Foundation.Date?
     /// A filter that returns only AppImageConfigs modified on or before the specified time.
-    public var modifiedTimeBefore: ClientRuntime.Date?
+    public var modifiedTimeBefore: Foundation.Date?
     /// A filter that returns only AppImageConfigs whose name contains the specified string.
     public var nameContains: Swift.String?
     /// If the previous call to ListImages didn't return the full set of AppImageConfigs, the call returns a token for getting the next set of AppImageConfigs.
@@ -38333,11 +38335,11 @@ public struct ListAppImageConfigsInput {
     public var sortOrder: SageMakerClientTypes.SortOrder?
 
     public init(
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
-        modifiedTimeAfter: ClientRuntime.Date? = nil,
-        modifiedTimeBefore: ClientRuntime.Date? = nil,
+        modifiedTimeAfter: Foundation.Date? = nil,
+        modifiedTimeBefore: Foundation.Date? = nil,
         nameContains: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.AppImageConfigSortKey? = nil,
@@ -38358,7 +38360,7 @@ public struct ListAppImageConfigsInput {
 
 extension ListAppImageConfigsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAppImageConfigsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAppImageConfigsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -38387,7 +38389,7 @@ public struct ListAppImageConfigsOutput {
 
 enum ListAppImageConfigsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -38457,7 +38459,7 @@ public struct ListAppsInput {
 
 extension ListAppsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAppsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAppsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -38486,7 +38488,7 @@ public struct ListAppsOutput {
 
 enum ListAppsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -38523,9 +38525,9 @@ public struct ListArtifactsInput {
     /// A filter that returns only artifacts of the specified type.
     public var artifactType: Swift.String?
     /// A filter that returns only artifacts created on or after the specified time.
-    public var createdAfter: ClientRuntime.Date?
+    public var createdAfter: Foundation.Date?
     /// A filter that returns only artifacts created on or before the specified time.
-    public var createdBefore: ClientRuntime.Date?
+    public var createdBefore: Foundation.Date?
     /// The maximum number of artifacts to return in the response. The default value is 10.
     public var maxResults: Swift.Int?
     /// If the previous call to ListArtifacts didn't return the full set of artifacts, the call returns a token for getting the next set of artifacts.
@@ -38539,8 +38541,8 @@ public struct ListArtifactsInput {
 
     public init(
         artifactType: Swift.String? = nil,
-        createdAfter: ClientRuntime.Date? = nil,
-        createdBefore: ClientRuntime.Date? = nil,
+        createdAfter: Foundation.Date? = nil,
+        createdBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.SortArtifactsBy? = nil,
@@ -38561,7 +38563,7 @@ public struct ListArtifactsInput {
 
 extension ListArtifactsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListArtifactsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListArtifactsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -38590,7 +38592,7 @@ public struct ListArtifactsOutput {
 
 enum ListArtifactsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -38631,9 +38633,9 @@ public struct ListAssociationsInput {
     /// A filter that returns only associations of the specified type.
     public var associationType: SageMakerClientTypes.AssociationEdgeType?
     /// A filter that returns only associations created on or after the specified time.
-    public var createdAfter: ClientRuntime.Date?
+    public var createdAfter: Foundation.Date?
     /// A filter that returns only associations created on or before the specified time.
-    public var createdBefore: ClientRuntime.Date?
+    public var createdBefore: Foundation.Date?
     /// A filter that returns only associations with the specified destination Amazon Resource Name (ARN).
     public var destinationArn: Swift.String?
     /// A filter that returns only associations with the specified destination type.
@@ -38653,8 +38655,8 @@ public struct ListAssociationsInput {
 
     public init(
         associationType: SageMakerClientTypes.AssociationEdgeType? = nil,
-        createdAfter: ClientRuntime.Date? = nil,
-        createdBefore: ClientRuntime.Date? = nil,
+        createdAfter: Foundation.Date? = nil,
+        createdBefore: Foundation.Date? = nil,
         destinationArn: Swift.String? = nil,
         destinationType: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
@@ -38681,7 +38683,7 @@ public struct ListAssociationsInput {
 
 extension ListAssociationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAssociationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAssociationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -38710,7 +38712,7 @@ public struct ListAssociationsOutput {
 
 enum ListAssociationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -38748,13 +38750,13 @@ extension ListAutoMLJobsInput {
 
 public struct ListAutoMLJobsInput {
     /// Request a list of jobs, using a filter for time.
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// Request a list of jobs, using a filter for time.
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// Request a list of jobs, using a filter for time.
-    public var lastModifiedTimeAfter: ClientRuntime.Date?
+    public var lastModifiedTimeAfter: Foundation.Date?
     /// Request a list of jobs, using a filter for time.
-    public var lastModifiedTimeBefore: ClientRuntime.Date?
+    public var lastModifiedTimeBefore: Foundation.Date?
     /// Request a list of jobs up to a specified limit.
     public var maxResults: Swift.Int?
     /// Request a list of jobs, using a search filter for name.
@@ -38769,10 +38771,10 @@ public struct ListAutoMLJobsInput {
     public var statusEquals: SageMakerClientTypes.AutoMLJobStatus?
 
     public init(
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
-        lastModifiedTimeAfter: ClientRuntime.Date? = nil,
-        lastModifiedTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
+        lastModifiedTimeAfter: Foundation.Date? = nil,
+        lastModifiedTimeBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nameContains: Swift.String? = nil,
         nextToken: Swift.String? = nil,
@@ -38796,7 +38798,7 @@ public struct ListAutoMLJobsInput {
 
 extension ListAutoMLJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAutoMLJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAutoMLJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -38826,7 +38828,7 @@ public struct ListAutoMLJobsOutput {
 
 enum ListAutoMLJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -38897,7 +38899,7 @@ public struct ListCandidatesForAutoMLJobInput {
 
 extension ListCandidatesForAutoMLJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListCandidatesForAutoMLJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListCandidatesForAutoMLJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -38927,7 +38929,7 @@ public struct ListCandidatesForAutoMLJobOutput {
 
 enum ListCandidatesForAutoMLJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -38977,9 +38979,9 @@ public struct ListClusterNodesInput {
     ///
     ///
     /// For more information about the timestamp format, see [Timestamp](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-types.html#parameter-type-timestamp) in the Amazon Web Services Command Line Interface User Guide.
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// A filter that returns nodes in a SageMaker HyperPod cluster created before the specified time. The acceptable formats are the same as the timestamp formats for CreationTimeAfter. For more information about the timestamp format, see [Timestamp](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-types.html#parameter-type-timestamp) in the Amazon Web Services Command Line Interface User Guide.
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// A filter that returns the instance groups whose name contain a specified string.
     public var instanceGroupNameContains: Swift.String?
     /// The maximum number of nodes to return in the response.
@@ -38993,8 +38995,8 @@ public struct ListClusterNodesInput {
 
     public init(
         clusterName: Swift.String? = nil,
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
         instanceGroupNameContains: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -39015,7 +39017,7 @@ public struct ListClusterNodesInput {
 
 extension ListClusterNodesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListClusterNodesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListClusterNodesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -39046,7 +39048,7 @@ public struct ListClusterNodesOutput {
 
 enum ListClusterNodesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -39092,9 +39094,9 @@ public struct ListClustersInput {
     ///
     ///
     /// For more information about the timestamp format, see [Timestamp](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-types.html#parameter-type-timestamp) in the Amazon Web Services Command Line Interface User Guide.
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// Set an end time for the time range during which you want to list SageMaker HyperPod clusters. A filter that returns nodes in a SageMaker HyperPod cluster created before the specified time. The acceptable formats are the same as the timestamp formats for CreationTimeAfter. For more information about the timestamp format, see [Timestamp](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-types.html#parameter-type-timestamp) in the Amazon Web Services Command Line Interface User Guide.
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// Set the maximum number of SageMaker HyperPod clusters to list.
     public var maxResults: Swift.Int?
     /// Set the maximum number of instances to print in the list.
@@ -39107,8 +39109,8 @@ public struct ListClustersInput {
     public var sortOrder: SageMakerClientTypes.SortOrder?
 
     public init(
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nameContains: Swift.String? = nil,
         nextToken: Swift.String? = nil,
@@ -39128,7 +39130,7 @@ public struct ListClustersInput {
 
 extension ListClustersOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListClustersOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListClustersOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -39159,7 +39161,7 @@ public struct ListClustersOutput {
 
 enum ListClustersOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -39195,13 +39197,13 @@ extension ListCodeRepositoriesInput {
 
 public struct ListCodeRepositoriesInput {
     /// A filter that returns only Git repositories that were created after the specified time.
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// A filter that returns only Git repositories that were created before the specified time.
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// A filter that returns only Git repositories that were last modified after the specified time.
-    public var lastModifiedTimeAfter: ClientRuntime.Date?
+    public var lastModifiedTimeAfter: Foundation.Date?
     /// A filter that returns only Git repositories that were last modified before the specified time.
-    public var lastModifiedTimeBefore: ClientRuntime.Date?
+    public var lastModifiedTimeBefore: Foundation.Date?
     /// The maximum number of Git repositories to return in the response.
     public var maxResults: Swift.Int?
     /// A string in the Git repositories name. This filter returns only repositories whose name contains the specified string.
@@ -39214,10 +39216,10 @@ public struct ListCodeRepositoriesInput {
     public var sortOrder: SageMakerClientTypes.CodeRepositorySortOrder?
 
     public init(
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
-        lastModifiedTimeAfter: ClientRuntime.Date? = nil,
-        lastModifiedTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
+        lastModifiedTimeAfter: Foundation.Date? = nil,
+        lastModifiedTimeBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nameContains: Swift.String? = nil,
         nextToken: Swift.String? = nil,
@@ -39239,7 +39241,7 @@ public struct ListCodeRepositoriesInput {
 
 extension ListCodeRepositoriesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListCodeRepositoriesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListCodeRepositoriesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -39279,7 +39281,7 @@ public struct ListCodeRepositoriesOutput {
 
 enum ListCodeRepositoriesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -39316,13 +39318,13 @@ extension ListCompilationJobsInput {
 
 public struct ListCompilationJobsInput {
     /// A filter that returns the model compilation jobs that were created after a specified time.
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// A filter that returns the model compilation jobs that were created before a specified time.
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// A filter that returns the model compilation jobs that were modified after a specified time.
-    public var lastModifiedTimeAfter: ClientRuntime.Date?
+    public var lastModifiedTimeAfter: Foundation.Date?
     /// A filter that returns the model compilation jobs that were modified before a specified time.
-    public var lastModifiedTimeBefore: ClientRuntime.Date?
+    public var lastModifiedTimeBefore: Foundation.Date?
     /// The maximum number of model compilation jobs to return in the response.
     public var maxResults: Swift.Int?
     /// A filter that returns the model compilation jobs whose name contains a specified string.
@@ -39337,10 +39339,10 @@ public struct ListCompilationJobsInput {
     public var statusEquals: SageMakerClientTypes.CompilationJobStatus?
 
     public init(
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
-        lastModifiedTimeAfter: ClientRuntime.Date? = nil,
-        lastModifiedTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
+        lastModifiedTimeAfter: Foundation.Date? = nil,
+        lastModifiedTimeBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nameContains: Swift.String? = nil,
         nextToken: Swift.String? = nil,
@@ -39364,7 +39366,7 @@ public struct ListCompilationJobsInput {
 
 extension ListCompilationJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListCompilationJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListCompilationJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -39394,7 +39396,7 @@ public struct ListCompilationJobsOutput {
 
 enum ListCompilationJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -39463,9 +39465,9 @@ public struct ListContextsInput {
     /// A filter that returns only contexts of the specified type.
     public var contextType: Swift.String?
     /// A filter that returns only contexts created on or after the specified time.
-    public var createdAfter: ClientRuntime.Date?
+    public var createdAfter: Foundation.Date?
     /// A filter that returns only contexts created on or before the specified time.
-    public var createdBefore: ClientRuntime.Date?
+    public var createdBefore: Foundation.Date?
     /// The maximum number of contexts to return in the response. The default value is 10.
     public var maxResults: Swift.Int?
     /// If the previous call to ListContexts didn't return the full set of contexts, the call returns a token for getting the next set of contexts.
@@ -39479,8 +39481,8 @@ public struct ListContextsInput {
 
     public init(
         contextType: Swift.String? = nil,
-        createdAfter: ClientRuntime.Date? = nil,
-        createdBefore: ClientRuntime.Date? = nil,
+        createdAfter: Foundation.Date? = nil,
+        createdBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.SortContextsBy? = nil,
@@ -39501,7 +39503,7 @@ public struct ListContextsInput {
 
 extension ListContextsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListContextsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListContextsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -39530,7 +39532,7 @@ public struct ListContextsOutput {
 
 enum ListContextsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -39566,9 +39568,9 @@ extension ListDataQualityJobDefinitionsInput {
 
 public struct ListDataQualityJobDefinitionsInput {
     /// A filter that returns only data quality monitoring job definitions created after the specified time.
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// A filter that returns only data quality monitoring job definitions created before the specified time.
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// A filter that lists the data quality job definitions associated with the specified endpoint.
     public var endpointName: Swift.String?
     /// The maximum number of data quality monitoring job definitions to return in the response.
@@ -39583,8 +39585,8 @@ public struct ListDataQualityJobDefinitionsInput {
     public var sortOrder: SageMakerClientTypes.SortOrder?
 
     public init(
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
         endpointName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nameContains: Swift.String? = nil,
@@ -39606,7 +39608,7 @@ public struct ListDataQualityJobDefinitionsInput {
 
 extension ListDataQualityJobDefinitionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListDataQualityJobDefinitionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListDataQualityJobDefinitionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -39636,7 +39638,7 @@ public struct ListDataQualityJobDefinitionsOutput {
 
 enum ListDataQualityJobDefinitionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -39672,13 +39674,13 @@ extension ListDeviceFleetsInput {
 
 public struct ListDeviceFleetsInput {
     /// Filter fleets where packaging job was created after specified time.
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// Filter fleets where the edge packaging job was created before specified time.
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// Select fleets where the job was updated after X
-    public var lastModifiedTimeAfter: ClientRuntime.Date?
+    public var lastModifiedTimeAfter: Foundation.Date?
     /// Select fleets where the job was updated before X
-    public var lastModifiedTimeBefore: ClientRuntime.Date?
+    public var lastModifiedTimeBefore: Foundation.Date?
     /// The maximum number of results to select.
     public var maxResults: Swift.Int?
     /// Filter for fleets containing this name in their fleet device name.
@@ -39691,10 +39693,10 @@ public struct ListDeviceFleetsInput {
     public var sortOrder: SageMakerClientTypes.SortOrder?
 
     public init(
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
-        lastModifiedTimeAfter: ClientRuntime.Date? = nil,
-        lastModifiedTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
+        lastModifiedTimeAfter: Foundation.Date? = nil,
+        lastModifiedTimeBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nameContains: Swift.String? = nil,
         nextToken: Swift.String? = nil,
@@ -39716,7 +39718,7 @@ public struct ListDeviceFleetsInput {
 
 extension ListDeviceFleetsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListDeviceFleetsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListDeviceFleetsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -39746,7 +39748,7 @@ public struct ListDeviceFleetsOutput {
 
 enum ListDeviceFleetsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -39812,7 +39814,7 @@ public struct ListDevicesInput {
     /// Filter for fleets containing this name in their device fleet name.
     public var deviceFleetName: Swift.String?
     /// Select fleets where the job was updated after X
-    public var latestHeartbeatAfter: ClientRuntime.Date?
+    public var latestHeartbeatAfter: Foundation.Date?
     /// Maximum number of results to select.
     public var maxResults: Swift.Int?
     /// A filter that searches devices that contains this name in any of their models.
@@ -39822,7 +39824,7 @@ public struct ListDevicesInput {
 
     public init(
         deviceFleetName: Swift.String? = nil,
-        latestHeartbeatAfter: ClientRuntime.Date? = nil,
+        latestHeartbeatAfter: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         modelName: Swift.String? = nil,
         nextToken: Swift.String? = nil
@@ -39838,7 +39840,7 @@ public struct ListDevicesInput {
 
 extension ListDevicesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListDevicesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListDevicesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -39868,7 +39870,7 @@ public struct ListDevicesOutput {
 
 enum ListDevicesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -39913,7 +39915,7 @@ public struct ListDomainsInput {
 
 extension ListDomainsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListDomainsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListDomainsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -39942,7 +39944,7 @@ public struct ListDomainsOutput {
 
 enum ListDomainsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -39979,15 +39981,15 @@ extension ListEdgeDeploymentPlansInput {
 
 public struct ListEdgeDeploymentPlansInput {
     /// Selects edge deployment plans created after this time.
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// Selects edge deployment plans created before this time.
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// Selects edge deployment plans with a device fleet name containing this name.
     public var deviceFleetNameContains: Swift.String?
     /// Selects edge deployment plans that were last updated after this time.
-    public var lastModifiedTimeAfter: ClientRuntime.Date?
+    public var lastModifiedTimeAfter: Foundation.Date?
     /// Selects edge deployment plans that were last updated before this time.
-    public var lastModifiedTimeBefore: ClientRuntime.Date?
+    public var lastModifiedTimeBefore: Foundation.Date?
     /// The maximum number of results to select (50 by default).
     public var maxResults: Swift.Int?
     /// Selects edge deployment plans with names containing this name.
@@ -40000,11 +40002,11 @@ public struct ListEdgeDeploymentPlansInput {
     public var sortOrder: SageMakerClientTypes.SortOrder?
 
     public init(
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
         deviceFleetNameContains: Swift.String? = nil,
-        lastModifiedTimeAfter: ClientRuntime.Date? = nil,
-        lastModifiedTimeBefore: ClientRuntime.Date? = nil,
+        lastModifiedTimeAfter: Foundation.Date? = nil,
+        lastModifiedTimeBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nameContains: Swift.String? = nil,
         nextToken: Swift.String? = nil,
@@ -40027,7 +40029,7 @@ public struct ListEdgeDeploymentPlansInput {
 
 extension ListEdgeDeploymentPlansOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListEdgeDeploymentPlansOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListEdgeDeploymentPlansOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -40057,7 +40059,7 @@ public struct ListEdgeDeploymentPlansOutput {
 
 enum ListEdgeDeploymentPlansOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -40130,13 +40132,13 @@ extension ListEdgePackagingJobsInput {
 
 public struct ListEdgePackagingJobsInput {
     /// Select jobs where the job was created after specified time.
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// Select jobs where the job was created before specified time.
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// Select jobs where the job was updated after specified time.
-    public var lastModifiedTimeAfter: ClientRuntime.Date?
+    public var lastModifiedTimeAfter: Foundation.Date?
     /// Select jobs where the job was updated before specified time.
-    public var lastModifiedTimeBefore: ClientRuntime.Date?
+    public var lastModifiedTimeBefore: Foundation.Date?
     /// Maximum number of results to select.
     public var maxResults: Swift.Int?
     /// Filter for jobs where the model name contains this string.
@@ -40153,10 +40155,10 @@ public struct ListEdgePackagingJobsInput {
     public var statusEquals: SageMakerClientTypes.EdgePackagingJobStatus?
 
     public init(
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
-        lastModifiedTimeAfter: ClientRuntime.Date? = nil,
-        lastModifiedTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
+        lastModifiedTimeAfter: Foundation.Date? = nil,
+        lastModifiedTimeBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         modelNameContains: Swift.String? = nil,
         nameContains: Swift.String? = nil,
@@ -40182,7 +40184,7 @@ public struct ListEdgePackagingJobsInput {
 
 extension ListEdgePackagingJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListEdgePackagingJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListEdgePackagingJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -40212,7 +40214,7 @@ public struct ListEdgePackagingJobsOutput {
 
 enum ListEdgePackagingJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -40284,9 +40286,9 @@ extension ListEndpointConfigsInput {
 
 public struct ListEndpointConfigsInput {
     /// A filter that returns only endpoint configurations with a creation time greater than or equal to the specified time (timestamp).
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// A filter that returns only endpoint configurations created before the specified time (timestamp).
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// The maximum number of training jobs to return in the response.
     public var maxResults: Swift.Int?
     /// A string in the endpoint configuration name. This filter returns only endpoint configurations whose name contains the specified string.
@@ -40299,8 +40301,8 @@ public struct ListEndpointConfigsInput {
     public var sortOrder: SageMakerClientTypes.OrderKey?
 
     public init(
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nameContains: Swift.String? = nil,
         nextToken: Swift.String? = nil,
@@ -40320,7 +40322,7 @@ public struct ListEndpointConfigsInput {
 
 extension ListEndpointConfigsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListEndpointConfigsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListEndpointConfigsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -40350,7 +40352,7 @@ public struct ListEndpointConfigsOutput {
 
 enum ListEndpointConfigsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -40387,13 +40389,13 @@ extension ListEndpointsInput {
 
 public struct ListEndpointsInput {
     /// A filter that returns only endpoints with a creation time greater than or equal to the specified time (timestamp).
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// A filter that returns only endpoints that were created before the specified time (timestamp).
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// A filter that returns only endpoints that were modified after the specified timestamp.
-    public var lastModifiedTimeAfter: ClientRuntime.Date?
+    public var lastModifiedTimeAfter: Foundation.Date?
     /// A filter that returns only endpoints that were modified before the specified timestamp.
-    public var lastModifiedTimeBefore: ClientRuntime.Date?
+    public var lastModifiedTimeBefore: Foundation.Date?
     /// The maximum number of endpoints to return in the response. This value defaults to 10.
     public var maxResults: Swift.Int?
     /// A string in endpoint names. This filter returns only endpoints whose name contains the specified string.
@@ -40408,10 +40410,10 @@ public struct ListEndpointsInput {
     public var statusEquals: SageMakerClientTypes.EndpointStatus?
 
     public init(
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
-        lastModifiedTimeAfter: ClientRuntime.Date? = nil,
-        lastModifiedTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
+        lastModifiedTimeAfter: Foundation.Date? = nil,
+        lastModifiedTimeBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nameContains: Swift.String? = nil,
         nextToken: Swift.String? = nil,
@@ -40435,7 +40437,7 @@ public struct ListEndpointsInput {
 
 extension ListEndpointsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListEndpointsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListEndpointsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -40465,7 +40467,7 @@ public struct ListEndpointsOutput {
 
 enum ListEndpointsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -40498,9 +40500,9 @@ extension ListExperimentsInput {
 
 public struct ListExperimentsInput {
     /// A filter that returns only experiments created after the specified time.
-    public var createdAfter: ClientRuntime.Date?
+    public var createdAfter: Foundation.Date?
     /// A filter that returns only experiments created before the specified time.
-    public var createdBefore: ClientRuntime.Date?
+    public var createdBefore: Foundation.Date?
     /// The maximum number of experiments to return in the response. The default value is 10.
     public var maxResults: Swift.Int?
     /// If the previous call to ListExperiments didn't return the full set of experiments, the call returns a token for getting the next set of experiments.
@@ -40511,8 +40513,8 @@ public struct ListExperimentsInput {
     public var sortOrder: SageMakerClientTypes.SortOrder?
 
     public init(
-        createdAfter: ClientRuntime.Date? = nil,
-        createdBefore: ClientRuntime.Date? = nil,
+        createdAfter: Foundation.Date? = nil,
+        createdBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.SortExperimentsBy? = nil,
@@ -40530,7 +40532,7 @@ public struct ListExperimentsInput {
 
 extension ListExperimentsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListExperimentsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListExperimentsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -40559,7 +40561,7 @@ public struct ListExperimentsOutput {
 
 enum ListExperimentsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -40595,9 +40597,9 @@ extension ListFeatureGroupsInput {
 
 public struct ListFeatureGroupsInput {
     /// Use this parameter to search for FeatureGroupss created after a specific date and time.
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// Use this parameter to search for FeatureGroupss created before a specific date and time.
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// A FeatureGroup status. Filters by FeatureGroup status.
     public var featureGroupStatusEquals: SageMakerClientTypes.FeatureGroupStatus?
     /// The maximum number of results returned by ListFeatureGroups.
@@ -40614,8 +40616,8 @@ public struct ListFeatureGroupsInput {
     public var sortOrder: SageMakerClientTypes.FeatureGroupSortOrder?
 
     public init(
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
         featureGroupStatusEquals: SageMakerClientTypes.FeatureGroupStatus? = nil,
         maxResults: Swift.Int? = nil,
         nameContains: Swift.String? = nil,
@@ -40639,7 +40641,7 @@ public struct ListFeatureGroupsInput {
 
 extension ListFeatureGroupsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListFeatureGroupsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListFeatureGroupsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -40669,7 +40671,7 @@ public struct ListFeatureGroupsOutput {
 
 enum ListFeatureGroupsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -40701,9 +40703,9 @@ extension ListFlowDefinitionsInput {
 
 public struct ListFlowDefinitionsInput {
     /// A filter that returns only flow definitions with a creation time greater than or equal to the specified timestamp.
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// A filter that returns only flow definitions that were created before the specified timestamp.
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// The total number of items to return. If the total number of available items is more than the value specified in MaxResults, then a NextToken will be provided in the output that you can use to resume pagination.
     public var maxResults: Swift.Int?
     /// A token to resume pagination.
@@ -40712,8 +40714,8 @@ public struct ListFlowDefinitionsInput {
     public var sortOrder: SageMakerClientTypes.SortOrder?
 
     public init(
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
@@ -40729,7 +40731,7 @@ public struct ListFlowDefinitionsInput {
 
 extension ListFlowDefinitionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListFlowDefinitionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListFlowDefinitionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -40759,7 +40761,7 @@ public struct ListFlowDefinitionsOutput {
 
 enum ListFlowDefinitionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -40797,9 +40799,9 @@ extension ListHubContentVersionsInput {
 
 public struct ListHubContentVersionsInput {
     /// Only list hub content versions that were created after the time specified.
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// Only list hub content versions that were created before the time specified.
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// The name of the hub content.
     /// This member is required.
     public var hubContentName: Swift.String?
@@ -40823,8 +40825,8 @@ public struct ListHubContentVersionsInput {
     public var sortOrder: SageMakerClientTypes.SortOrder?
 
     public init(
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
         hubContentName: Swift.String? = nil,
         hubContentType: SageMakerClientTypes.HubContentType? = nil,
         hubName: Swift.String? = nil,
@@ -40852,7 +40854,7 @@ public struct ListHubContentVersionsInput {
 
 extension ListHubContentVersionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListHubContentVersionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListHubContentVersionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -40882,7 +40884,7 @@ public struct ListHubContentVersionsOutput {
 
 enum ListHubContentVersionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -40920,9 +40922,9 @@ extension ListHubContentsInput {
 
 public struct ListHubContentsInput {
     /// Only list hub content that was created after the time specified.
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// Only list hub content that was created before the time specified.
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// The type of hub content to list.
     /// This member is required.
     public var hubContentType: SageMakerClientTypes.HubContentType?
@@ -40943,8 +40945,8 @@ public struct ListHubContentsInput {
     public var sortOrder: SageMakerClientTypes.SortOrder?
 
     public init(
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
         hubContentType: SageMakerClientTypes.HubContentType? = nil,
         hubName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
@@ -40970,7 +40972,7 @@ public struct ListHubContentsInput {
 
 extension ListHubContentsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListHubContentsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListHubContentsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -41000,7 +41002,7 @@ public struct ListHubContentsOutput {
 
 enum ListHubContentsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -41037,13 +41039,13 @@ extension ListHubsInput {
 
 public struct ListHubsInput {
     /// Only list hubs that were created after the time specified.
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// Only list hubs that were created before the time specified.
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// Only list hubs that were last modified after the time specified.
-    public var lastModifiedTimeAfter: ClientRuntime.Date?
+    public var lastModifiedTimeAfter: Foundation.Date?
     /// Only list hubs that were last modified before the time specified.
-    public var lastModifiedTimeBefore: ClientRuntime.Date?
+    public var lastModifiedTimeBefore: Foundation.Date?
     /// The maximum number of hubs to list.
     public var maxResults: Swift.Int?
     /// Only list hubs with names that contain the specified string.
@@ -41056,10 +41058,10 @@ public struct ListHubsInput {
     public var sortOrder: SageMakerClientTypes.SortOrder?
 
     public init(
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
-        lastModifiedTimeAfter: ClientRuntime.Date? = nil,
-        lastModifiedTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
+        lastModifiedTimeAfter: Foundation.Date? = nil,
+        lastModifiedTimeBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nameContains: Swift.String? = nil,
         nextToken: Swift.String? = nil,
@@ -41081,7 +41083,7 @@ public struct ListHubsInput {
 
 extension ListHubsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListHubsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListHubsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -41111,7 +41113,7 @@ public struct ListHubsOutput {
 
 enum ListHubsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -41143,9 +41145,9 @@ extension ListHumanTaskUisInput {
 
 public struct ListHumanTaskUisInput {
     /// A filter that returns only human task user interfaces with a creation time greater than or equal to the specified timestamp.
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// A filter that returns only human task user interfaces that were created before the specified timestamp.
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// The total number of items to return. If the total number of available items is more than the value specified in MaxResults, then a NextToken will be provided in the output that you can use to resume pagination.
     public var maxResults: Swift.Int?
     /// A token to resume pagination.
@@ -41154,8 +41156,8 @@ public struct ListHumanTaskUisInput {
     public var sortOrder: SageMakerClientTypes.SortOrder?
 
     public init(
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
@@ -41171,7 +41173,7 @@ public struct ListHumanTaskUisInput {
 
 extension ListHumanTaskUisOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListHumanTaskUisOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListHumanTaskUisOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -41201,7 +41203,7 @@ public struct ListHumanTaskUisOutput {
 
 enum ListHumanTaskUisOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -41238,13 +41240,13 @@ extension ListHyperParameterTuningJobsInput {
 
 public struct ListHyperParameterTuningJobsInput {
     /// A filter that returns only tuning jobs that were created after the specified time.
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// A filter that returns only tuning jobs that were created before the specified time.
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// A filter that returns only tuning jobs that were modified after the specified time.
-    public var lastModifiedTimeAfter: ClientRuntime.Date?
+    public var lastModifiedTimeAfter: Foundation.Date?
     /// A filter that returns only tuning jobs that were modified before the specified time.
-    public var lastModifiedTimeBefore: ClientRuntime.Date?
+    public var lastModifiedTimeBefore: Foundation.Date?
     /// The maximum number of tuning jobs to return. The default value is 10.
     public var maxResults: Swift.Int?
     /// A string in the tuning job name. This filter returns only tuning jobs whose name contains the specified string.
@@ -41259,10 +41261,10 @@ public struct ListHyperParameterTuningJobsInput {
     public var statusEquals: SageMakerClientTypes.HyperParameterTuningJobStatus?
 
     public init(
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
-        lastModifiedTimeAfter: ClientRuntime.Date? = nil,
-        lastModifiedTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
+        lastModifiedTimeAfter: Foundation.Date? = nil,
+        lastModifiedTimeBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nameContains: Swift.String? = nil,
         nextToken: Swift.String? = nil,
@@ -41286,7 +41288,7 @@ public struct ListHyperParameterTuningJobsInput {
 
 extension ListHyperParameterTuningJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListHyperParameterTuningJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListHyperParameterTuningJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -41316,7 +41318,7 @@ public struct ListHyperParameterTuningJobsOutput {
 
 enum ListHyperParameterTuningJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -41352,16 +41354,16 @@ extension ListImageVersionsInput {
 
 public struct ListImageVersionsInput {
     /// A filter that returns only versions created on or after the specified time.
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// A filter that returns only versions created on or before the specified time.
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// The name of the image to list the versions of.
     /// This member is required.
     public var imageName: Swift.String?
     /// A filter that returns only versions modified on or after the specified time.
-    public var lastModifiedTimeAfter: ClientRuntime.Date?
+    public var lastModifiedTimeAfter: Foundation.Date?
     /// A filter that returns only versions modified on or before the specified time.
-    public var lastModifiedTimeBefore: ClientRuntime.Date?
+    public var lastModifiedTimeBefore: Foundation.Date?
     /// The maximum number of versions to return in the response. The default value is 10.
     public var maxResults: Swift.Int?
     /// If the previous call to ListImageVersions didn't return the full set of versions, the call returns a token for getting the next set of versions.
@@ -41372,11 +41374,11 @@ public struct ListImageVersionsInput {
     public var sortOrder: SageMakerClientTypes.ImageVersionSortOrder?
 
     public init(
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
         imageName: Swift.String? = nil,
-        lastModifiedTimeAfter: ClientRuntime.Date? = nil,
-        lastModifiedTimeBefore: ClientRuntime.Date? = nil,
+        lastModifiedTimeAfter: Foundation.Date? = nil,
+        lastModifiedTimeBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.ImageVersionSortBy? = nil,
@@ -41397,7 +41399,7 @@ public struct ListImageVersionsInput {
 
 extension ListImageVersionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListImageVersionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListImageVersionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -41426,7 +41428,7 @@ public struct ListImageVersionsOutput {
 
 enum ListImageVersionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -41463,13 +41465,13 @@ extension ListImagesInput {
 
 public struct ListImagesInput {
     /// A filter that returns only images created on or after the specified time.
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// A filter that returns only images created on or before the specified time.
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// A filter that returns only images modified on or after the specified time.
-    public var lastModifiedTimeAfter: ClientRuntime.Date?
+    public var lastModifiedTimeAfter: Foundation.Date?
     /// A filter that returns only images modified on or before the specified time.
-    public var lastModifiedTimeBefore: ClientRuntime.Date?
+    public var lastModifiedTimeBefore: Foundation.Date?
     /// The maximum number of images to return in the response. The default value is 10.
     public var maxResults: Swift.Int?
     /// A filter that returns only images whose name contains the specified string.
@@ -41482,10 +41484,10 @@ public struct ListImagesInput {
     public var sortOrder: SageMakerClientTypes.ImageSortOrder?
 
     public init(
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
-        lastModifiedTimeAfter: ClientRuntime.Date? = nil,
-        lastModifiedTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
+        lastModifiedTimeAfter: Foundation.Date? = nil,
+        lastModifiedTimeBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nameContains: Swift.String? = nil,
         nextToken: Swift.String? = nil,
@@ -41507,7 +41509,7 @@ public struct ListImagesInput {
 
 extension ListImagesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListImagesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListImagesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -41536,7 +41538,7 @@ public struct ListImagesOutput {
 
 enum ListImagesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -41575,15 +41577,15 @@ extension ListInferenceComponentsInput {
 
 public struct ListInferenceComponentsInput {
     /// Filters the results to only those inference components that were created after the specified time.
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// Filters the results to only those inference components that were created before the specified time.
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// An endpoint name to filter the listed inference components. The response includes only those inference components that are hosted at the specified endpoint.
     public var endpointNameEquals: Swift.String?
     /// Filters the results to only those inference components that were updated after the specified time.
-    public var lastModifiedTimeAfter: ClientRuntime.Date?
+    public var lastModifiedTimeAfter: Foundation.Date?
     /// Filters the results to only those inference components that were updated before the specified time.
-    public var lastModifiedTimeBefore: ClientRuntime.Date?
+    public var lastModifiedTimeBefore: Foundation.Date?
     /// The maximum number of inference components to return in the response. This value defaults to 10.
     public var maxResults: Swift.Int?
     /// Filters the results to only those inference components with a name that contains the specified string.
@@ -41600,11 +41602,11 @@ public struct ListInferenceComponentsInput {
     public var variantNameEquals: Swift.String?
 
     public init(
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
         endpointNameEquals: Swift.String? = nil,
-        lastModifiedTimeAfter: ClientRuntime.Date? = nil,
-        lastModifiedTimeBefore: ClientRuntime.Date? = nil,
+        lastModifiedTimeAfter: Foundation.Date? = nil,
+        lastModifiedTimeBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nameContains: Swift.String? = nil,
         nextToken: Swift.String? = nil,
@@ -41631,7 +41633,7 @@ public struct ListInferenceComponentsInput {
 
 extension ListInferenceComponentsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListInferenceComponentsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListInferenceComponentsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -41661,7 +41663,7 @@ public struct ListInferenceComponentsOutput {
 
 enum ListInferenceComponentsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -41699,13 +41701,13 @@ extension ListInferenceExperimentsInput {
 
 public struct ListInferenceExperimentsInput {
     /// Selects inference experiments which were created after this timestamp.
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// Selects inference experiments which were created before this timestamp.
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// Selects inference experiments which were last modified after this timestamp.
-    public var lastModifiedTimeAfter: ClientRuntime.Date?
+    public var lastModifiedTimeAfter: Foundation.Date?
     /// Selects inference experiments which were last modified before this timestamp.
-    public var lastModifiedTimeBefore: ClientRuntime.Date?
+    public var lastModifiedTimeBefore: Foundation.Date?
     /// The maximum number of results to select.
     public var maxResults: Swift.Int?
     /// Selects inference experiments whose names contain this name.
@@ -41722,10 +41724,10 @@ public struct ListInferenceExperimentsInput {
     public var type: SageMakerClientTypes.InferenceExperimentType?
 
     public init(
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
-        lastModifiedTimeAfter: ClientRuntime.Date? = nil,
-        lastModifiedTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
+        lastModifiedTimeAfter: Foundation.Date? = nil,
+        lastModifiedTimeBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nameContains: Swift.String? = nil,
         nextToken: Swift.String? = nil,
@@ -41751,7 +41753,7 @@ public struct ListInferenceExperimentsInput {
 
 extension ListInferenceExperimentsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListInferenceExperimentsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListInferenceExperimentsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -41780,7 +41782,7 @@ public struct ListInferenceExperimentsOutput {
 
 enum ListInferenceExperimentsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -41841,7 +41843,7 @@ public struct ListInferenceRecommendationsJobStepsInput {
 
 extension ListInferenceRecommendationsJobStepsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListInferenceRecommendationsJobStepsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListInferenceRecommendationsJobStepsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -41870,7 +41872,7 @@ public struct ListInferenceRecommendationsJobStepsOutput {
 
 enum ListInferenceRecommendationsJobStepsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -41910,13 +41912,13 @@ extension ListInferenceRecommendationsJobsInput {
 
 public struct ListInferenceRecommendationsJobsInput {
     /// A filter that returns only jobs created after the specified time (timestamp).
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// A filter that returns only jobs created before the specified time (timestamp).
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// A filter that returns only jobs that were last modified after the specified time (timestamp).
-    public var lastModifiedTimeAfter: ClientRuntime.Date?
+    public var lastModifiedTimeAfter: Foundation.Date?
     /// A filter that returns only jobs that were last modified before the specified time (timestamp).
-    public var lastModifiedTimeBefore: ClientRuntime.Date?
+    public var lastModifiedTimeBefore: Foundation.Date?
     /// The maximum number of recommendations to return in the response.
     public var maxResults: Swift.Int?
     /// A filter that returns only jobs that were created for this model.
@@ -41935,10 +41937,10 @@ public struct ListInferenceRecommendationsJobsInput {
     public var statusEquals: SageMakerClientTypes.RecommendationJobStatus?
 
     public init(
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
-        lastModifiedTimeAfter: ClientRuntime.Date? = nil,
-        lastModifiedTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
+        lastModifiedTimeAfter: Foundation.Date? = nil,
+        lastModifiedTimeBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         modelNameEquals: Swift.String? = nil,
         modelPackageVersionArnEquals: Swift.String? = nil,
@@ -41966,7 +41968,7 @@ public struct ListInferenceRecommendationsJobsInput {
 
 extension ListInferenceRecommendationsJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListInferenceRecommendationsJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListInferenceRecommendationsJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -41996,7 +41998,7 @@ public struct ListInferenceRecommendationsJobsOutput {
 
 enum ListInferenceRecommendationsJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -42063,9 +42065,9 @@ extension ListLabelingJobsForWorkteamInput {
 
 public struct ListLabelingJobsForWorkteamInput {
     /// A filter that returns only labeling jobs created after the specified time (timestamp).
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// A filter that returns only labeling jobs created before the specified time (timestamp).
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// A filter the limits jobs to only the ones whose job reference code contains the specified string.
     public var jobReferenceCodeContains: Swift.String?
     /// The maximum number of labeling jobs to return in each page of the response.
@@ -42081,8 +42083,8 @@ public struct ListLabelingJobsForWorkteamInput {
     public var workteamArn: Swift.String?
 
     public init(
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
         jobReferenceCodeContains: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -42104,7 +42106,7 @@ public struct ListLabelingJobsForWorkteamInput {
 
 extension ListLabelingJobsForWorkteamOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListLabelingJobsForWorkteamOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListLabelingJobsForWorkteamOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -42134,7 +42136,7 @@ public struct ListLabelingJobsForWorkteamOutput {
 
 enum ListLabelingJobsForWorkteamOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -42198,13 +42200,13 @@ extension ListLabelingJobsInput {
 
 public struct ListLabelingJobsInput {
     /// A filter that returns only labeling jobs created after the specified time (timestamp).
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// A filter that returns only labeling jobs created before the specified time (timestamp).
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// A filter that returns only labeling jobs modified after the specified time (timestamp).
-    public var lastModifiedTimeAfter: ClientRuntime.Date?
+    public var lastModifiedTimeAfter: Foundation.Date?
     /// A filter that returns only labeling jobs modified before the specified time (timestamp).
-    public var lastModifiedTimeBefore: ClientRuntime.Date?
+    public var lastModifiedTimeBefore: Foundation.Date?
     /// The maximum number of labeling jobs to return in each page of the response.
     public var maxResults: Swift.Int?
     /// A string in the labeling job name. This filter returns only labeling jobs whose name contains the specified string.
@@ -42219,10 +42221,10 @@ public struct ListLabelingJobsInput {
     public var statusEquals: SageMakerClientTypes.LabelingJobStatus?
 
     public init(
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
-        lastModifiedTimeAfter: ClientRuntime.Date? = nil,
-        lastModifiedTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
+        lastModifiedTimeAfter: Foundation.Date? = nil,
+        lastModifiedTimeBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nameContains: Swift.String? = nil,
         nextToken: Swift.String? = nil,
@@ -42246,7 +42248,7 @@ public struct ListLabelingJobsInput {
 
 extension ListLabelingJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListLabelingJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListLabelingJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -42275,7 +42277,7 @@ public struct ListLabelingJobsOutput {
 
 enum ListLabelingJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -42308,9 +42310,9 @@ extension ListLineageGroupsInput {
 
 public struct ListLineageGroupsInput {
     /// A timestamp to filter against lineage groups created after a certain point in time.
-    public var createdAfter: ClientRuntime.Date?
+    public var createdAfter: Foundation.Date?
     /// A timestamp to filter against lineage groups created before a certain point in time.
-    public var createdBefore: ClientRuntime.Date?
+    public var createdBefore: Foundation.Date?
     /// The maximum number of endpoints to return in the response. This value defaults to 10.
     public var maxResults: Swift.Int?
     /// If the response is truncated, SageMaker returns this token. To retrieve the next set of algorithms, use it in the subsequent request.
@@ -42321,8 +42323,8 @@ public struct ListLineageGroupsInput {
     public var sortOrder: SageMakerClientTypes.SortOrder?
 
     public init(
-        createdAfter: ClientRuntime.Date? = nil,
-        createdBefore: ClientRuntime.Date? = nil,
+        createdAfter: Foundation.Date? = nil,
+        createdBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.SortLineageGroupsBy? = nil,
@@ -42340,7 +42342,7 @@ public struct ListLineageGroupsInput {
 
 extension ListLineageGroupsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListLineageGroupsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListLineageGroupsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -42369,7 +42371,7 @@ public struct ListLineageGroupsOutput {
 
 enum ListLineageGroupsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -42404,9 +42406,9 @@ extension ListModelBiasJobDefinitionsInput {
 
 public struct ListModelBiasJobDefinitionsInput {
     /// A filter that returns only model bias jobs created after a specified time.
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// A filter that returns only model bias jobs created before a specified time.
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// Name of the endpoint to monitor for model bias.
     public var endpointName: Swift.String?
     /// The maximum number of model bias jobs to return in the response. The default value is 10.
@@ -42421,8 +42423,8 @@ public struct ListModelBiasJobDefinitionsInput {
     public var sortOrder: SageMakerClientTypes.SortOrder?
 
     public init(
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
         endpointName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nameContains: Swift.String? = nil,
@@ -42444,7 +42446,7 @@ public struct ListModelBiasJobDefinitionsInput {
 
 extension ListModelBiasJobDefinitionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListModelBiasJobDefinitionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListModelBiasJobDefinitionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -42474,7 +42476,7 @@ public struct ListModelBiasJobDefinitionsOutput {
 
 enum ListModelBiasJobDefinitionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -42511,9 +42513,9 @@ extension ListModelCardExportJobsInput {
 
 public struct ListModelCardExportJobsInput {
     /// Only list model card export jobs that were created after the time specified.
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// Only list model card export jobs that were created before the time specified.
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// The maximum number of model card export jobs to list.
     public var maxResults: Swift.Int?
     /// Only list model card export jobs with names that contain the specified string.
@@ -42533,8 +42535,8 @@ public struct ListModelCardExportJobsInput {
     public var statusEquals: SageMakerClientTypes.ModelCardExportJobStatus?
 
     public init(
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         modelCardExportJobNameContains: Swift.String? = nil,
         modelCardName: Swift.String? = nil,
@@ -42560,7 +42562,7 @@ public struct ListModelCardExportJobsInput {
 
 extension ListModelCardExportJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListModelCardExportJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListModelCardExportJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -42590,7 +42592,7 @@ public struct ListModelCardExportJobsOutput {
 
 enum ListModelCardExportJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -42625,9 +42627,9 @@ extension ListModelCardVersionsInput {
 
 public struct ListModelCardVersionsInput {
     /// Only list model card versions that were created after the time specified.
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// Only list model card versions that were created before the time specified.
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// The maximum number of model card versions to list.
     public var maxResults: Swift.Int?
     /// List model card versions for the model card with the specified name or Amazon Resource Name (ARN).
@@ -42643,8 +42645,8 @@ public struct ListModelCardVersionsInput {
     public var sortOrder: SageMakerClientTypes.ModelCardSortOrder?
 
     public init(
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         modelCardName: Swift.String? = nil,
         modelCardStatus: SageMakerClientTypes.ModelCardStatus? = nil,
@@ -42666,7 +42668,7 @@ public struct ListModelCardVersionsInput {
 
 extension ListModelCardVersionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListModelCardVersionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListModelCardVersionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -42696,7 +42698,7 @@ public struct ListModelCardVersionsOutput {
 
 enum ListModelCardVersionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -42732,9 +42734,9 @@ extension ListModelCardsInput {
 
 public struct ListModelCardsInput {
     /// Only list model cards that were created after the time specified.
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// Only list model cards that were created before the time specified.
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// The maximum number of model cards to list.
     public var maxResults: Swift.Int?
     /// Only list model cards with the specified approval status.
@@ -42749,8 +42751,8 @@ public struct ListModelCardsInput {
     public var sortOrder: SageMakerClientTypes.ModelCardSortOrder?
 
     public init(
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         modelCardStatus: SageMakerClientTypes.ModelCardStatus? = nil,
         nameContains: Swift.String? = nil,
@@ -42772,7 +42774,7 @@ public struct ListModelCardsInput {
 
 extension ListModelCardsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListModelCardsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListModelCardsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -42802,7 +42804,7 @@ public struct ListModelCardsOutput {
 
 enum ListModelCardsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -42837,9 +42839,9 @@ extension ListModelExplainabilityJobDefinitionsInput {
 
 public struct ListModelExplainabilityJobDefinitionsInput {
     /// A filter that returns only model explainability jobs created after a specified time.
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// A filter that returns only model explainability jobs created before a specified time.
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// Name of the endpoint to monitor for model explainability.
     public var endpointName: Swift.String?
     /// The maximum number of jobs to return in the response. The default value is 10.
@@ -42854,8 +42856,8 @@ public struct ListModelExplainabilityJobDefinitionsInput {
     public var sortOrder: SageMakerClientTypes.SortOrder?
 
     public init(
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
         endpointName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nameContains: Swift.String? = nil,
@@ -42877,7 +42879,7 @@ public struct ListModelExplainabilityJobDefinitionsInput {
 
 extension ListModelExplainabilityJobDefinitionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListModelExplainabilityJobDefinitionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListModelExplainabilityJobDefinitionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -42907,7 +42909,7 @@ public struct ListModelExplainabilityJobDefinitionsOutput {
 
 enum ListModelExplainabilityJobDefinitionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -42957,7 +42959,7 @@ public struct ListModelMetadataInput {
 
 extension ListModelMetadataOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListModelMetadataOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListModelMetadataOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -42987,7 +42989,7 @@ public struct ListModelMetadataOutput {
 
 enum ListModelMetadataOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -43021,9 +43023,9 @@ extension ListModelPackageGroupsInput {
 
 public struct ListModelPackageGroupsInput {
     /// A filter that returns only model groups created after the specified time.
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// A filter that returns only model groups created before the specified time.
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// The maximum number of results to return in the response.
     public var maxResults: Swift.Int?
     /// A string in the model group name. This filter returns only model groups whose name contains the specified string.
@@ -43036,8 +43038,8 @@ public struct ListModelPackageGroupsInput {
     public var sortOrder: SageMakerClientTypes.SortOrder?
 
     public init(
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nameContains: Swift.String? = nil,
         nextToken: Swift.String? = nil,
@@ -43057,7 +43059,7 @@ public struct ListModelPackageGroupsInput {
 
 extension ListModelPackageGroupsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListModelPackageGroupsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListModelPackageGroupsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -43087,7 +43089,7 @@ public struct ListModelPackageGroupsOutput {
 
 enum ListModelPackageGroupsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -43124,9 +43126,9 @@ extension ListModelPackagesInput {
 
 public struct ListModelPackagesInput {
     /// A filter that returns only model packages created after the specified time (timestamp).
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// A filter that returns only model packages created before the specified time (timestamp).
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// The maximum number of model packages to return in the response.
     public var maxResults: Swift.Int?
     /// A filter that returns only the model packages with the specified approval status.
@@ -43151,8 +43153,8 @@ public struct ListModelPackagesInput {
     public var sortOrder: SageMakerClientTypes.SortOrder?
 
     public init(
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         modelApprovalStatus: SageMakerClientTypes.ModelApprovalStatus? = nil,
         modelPackageGroupName: Swift.String? = nil,
@@ -43178,7 +43180,7 @@ public struct ListModelPackagesInput {
 
 extension ListModelPackagesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListModelPackagesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListModelPackagesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -43208,7 +43210,7 @@ public struct ListModelPackagesOutput {
 
 enum ListModelPackagesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -43243,9 +43245,9 @@ extension ListModelQualityJobDefinitionsInput {
 
 public struct ListModelQualityJobDefinitionsInput {
     /// A filter that returns only model quality monitoring job definitions created after the specified time.
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// A filter that returns only model quality monitoring job definitions created before the specified time.
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// A filter that returns only model quality monitoring job definitions that are associated with the specified endpoint.
     public var endpointName: Swift.String?
     /// The maximum number of results to return in a call to ListModelQualityJobDefinitions.
@@ -43260,8 +43262,8 @@ public struct ListModelQualityJobDefinitionsInput {
     public var sortOrder: SageMakerClientTypes.SortOrder?
 
     public init(
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
         endpointName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nameContains: Swift.String? = nil,
@@ -43283,7 +43285,7 @@ public struct ListModelQualityJobDefinitionsInput {
 
 extension ListModelQualityJobDefinitionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListModelQualityJobDefinitionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListModelQualityJobDefinitionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -43313,7 +43315,7 @@ public struct ListModelQualityJobDefinitionsOutput {
 
 enum ListModelQualityJobDefinitionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -43347,9 +43349,9 @@ extension ListModelsInput {
 
 public struct ListModelsInput {
     /// A filter that returns only models with a creation time greater than or equal to the specified time (timestamp).
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// A filter that returns only models created before the specified time (timestamp).
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// The maximum number of models to return in the response.
     public var maxResults: Swift.Int?
     /// A string in the model name. This filter returns only models whose name contains the specified string.
@@ -43362,8 +43364,8 @@ public struct ListModelsInput {
     public var sortOrder: SageMakerClientTypes.OrderKey?
 
     public init(
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nameContains: Swift.String? = nil,
         nextToken: Swift.String? = nil,
@@ -43383,7 +43385,7 @@ public struct ListModelsInput {
 
 extension ListModelsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListModelsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListModelsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -43413,7 +43415,7 @@ public struct ListModelsOutput {
 
 enum ListModelsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -43449,9 +43451,9 @@ extension ListMonitoringAlertHistoryInput {
 
 public struct ListMonitoringAlertHistoryInput {
     /// A filter that returns only alerts created on or after the specified time.
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// A filter that returns only alerts created on or before the specified time.
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// The maximum number of results to display. The default is 100.
     public var maxResults: Swift.Int?
     /// The name of a monitoring alert.
@@ -43468,8 +43470,8 @@ public struct ListMonitoringAlertHistoryInput {
     public var statusEquals: SageMakerClientTypes.MonitoringAlertStatus?
 
     public init(
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         monitoringAlertName: Swift.String? = nil,
         monitoringScheduleName: Swift.String? = nil,
@@ -43493,7 +43495,7 @@ public struct ListMonitoringAlertHistoryInput {
 
 extension ListMonitoringAlertHistoryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListMonitoringAlertHistoryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListMonitoringAlertHistoryOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -43522,7 +43524,7 @@ public struct ListMonitoringAlertHistoryOutput {
 
 enum ListMonitoringAlertHistoryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -43574,7 +43576,7 @@ public struct ListMonitoringAlertsInput {
 
 extension ListMonitoringAlertsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListMonitoringAlertsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListMonitoringAlertsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -43603,7 +43605,7 @@ public struct ListMonitoringAlertsOutput {
 
 enum ListMonitoringAlertsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -43646,15 +43648,15 @@ extension ListMonitoringExecutionsInput {
 
 public struct ListMonitoringExecutionsInput {
     /// A filter that returns only jobs created after a specified time.
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// A filter that returns only jobs created before a specified time.
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// Name of a specific endpoint to fetch jobs for.
     public var endpointName: Swift.String?
     /// A filter that returns only jobs modified before a specified time.
-    public var lastModifiedTimeAfter: ClientRuntime.Date?
+    public var lastModifiedTimeAfter: Foundation.Date?
     /// A filter that returns only jobs modified after a specified time.
-    public var lastModifiedTimeBefore: ClientRuntime.Date?
+    public var lastModifiedTimeBefore: Foundation.Date?
     /// The maximum number of jobs to return in the response. The default value is 10.
     public var maxResults: Swift.Int?
     /// Gets a list of the monitoring job runs of the specified monitoring job definitions.
@@ -43666,9 +43668,9 @@ public struct ListMonitoringExecutionsInput {
     /// The token returned if the response is truncated. To retrieve the next set of job executions, use it in the next request.
     public var nextToken: Swift.String?
     /// Filter for jobs scheduled after a specified time.
-    public var scheduledTimeAfter: ClientRuntime.Date?
+    public var scheduledTimeAfter: Foundation.Date?
     /// Filter for jobs scheduled before a specified time.
-    public var scheduledTimeBefore: ClientRuntime.Date?
+    public var scheduledTimeBefore: Foundation.Date?
     /// Whether to sort the results by the Status, CreationTime, or ScheduledTime field. The default is CreationTime.
     public var sortBy: SageMakerClientTypes.MonitoringExecutionSortKey?
     /// Whether to sort the results in Ascending or Descending order. The default is Descending.
@@ -43677,18 +43679,18 @@ public struct ListMonitoringExecutionsInput {
     public var statusEquals: SageMakerClientTypes.ExecutionStatus?
 
     public init(
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
         endpointName: Swift.String? = nil,
-        lastModifiedTimeAfter: ClientRuntime.Date? = nil,
-        lastModifiedTimeBefore: ClientRuntime.Date? = nil,
+        lastModifiedTimeAfter: Foundation.Date? = nil,
+        lastModifiedTimeBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         monitoringJobDefinitionName: Swift.String? = nil,
         monitoringScheduleName: Swift.String? = nil,
         monitoringTypeEquals: SageMakerClientTypes.MonitoringType? = nil,
         nextToken: Swift.String? = nil,
-        scheduledTimeAfter: ClientRuntime.Date? = nil,
-        scheduledTimeBefore: ClientRuntime.Date? = nil,
+        scheduledTimeAfter: Foundation.Date? = nil,
+        scheduledTimeBefore: Foundation.Date? = nil,
         sortBy: SageMakerClientTypes.MonitoringExecutionSortKey? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil,
         statusEquals: SageMakerClientTypes.ExecutionStatus? = nil
@@ -43714,7 +43716,7 @@ public struct ListMonitoringExecutionsInput {
 
 extension ListMonitoringExecutionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListMonitoringExecutionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListMonitoringExecutionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -43744,7 +43746,7 @@ public struct ListMonitoringExecutionsOutput {
 
 enum ListMonitoringExecutionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -43784,15 +43786,15 @@ extension ListMonitoringSchedulesInput {
 
 public struct ListMonitoringSchedulesInput {
     /// A filter that returns only monitoring schedules created after a specified time.
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// A filter that returns only monitoring schedules created before a specified time.
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// Name of a specific endpoint to fetch schedules for.
     public var endpointName: Swift.String?
     /// A filter that returns only monitoring schedules modified after a specified time.
-    public var lastModifiedTimeAfter: ClientRuntime.Date?
+    public var lastModifiedTimeAfter: Foundation.Date?
     /// A filter that returns only monitoring schedules modified before a specified time.
-    public var lastModifiedTimeBefore: ClientRuntime.Date?
+    public var lastModifiedTimeBefore: Foundation.Date?
     /// The maximum number of jobs to return in the response. The default value is 10.
     public var maxResults: Swift.Int?
     /// Gets a list of the monitoring schedules for the specified monitoring job definition.
@@ -43811,11 +43813,11 @@ public struct ListMonitoringSchedulesInput {
     public var statusEquals: SageMakerClientTypes.ScheduleStatus?
 
     public init(
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
         endpointName: Swift.String? = nil,
-        lastModifiedTimeAfter: ClientRuntime.Date? = nil,
-        lastModifiedTimeBefore: ClientRuntime.Date? = nil,
+        lastModifiedTimeAfter: Foundation.Date? = nil,
+        lastModifiedTimeBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         monitoringJobDefinitionName: Swift.String? = nil,
         monitoringTypeEquals: SageMakerClientTypes.MonitoringType? = nil,
@@ -43844,7 +43846,7 @@ public struct ListMonitoringSchedulesInput {
 
 extension ListMonitoringSchedulesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListMonitoringSchedulesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListMonitoringSchedulesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -43874,7 +43876,7 @@ public struct ListMonitoringSchedulesOutput {
 
 enum ListMonitoringSchedulesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -43910,13 +43912,13 @@ extension ListNotebookInstanceLifecycleConfigsInput {
 
 public struct ListNotebookInstanceLifecycleConfigsInput {
     /// A filter that returns only lifecycle configurations that were created after the specified time (timestamp).
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// A filter that returns only lifecycle configurations that were created before the specified time (timestamp).
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// A filter that returns only lifecycle configurations that were modified after the specified time (timestamp).
-    public var lastModifiedTimeAfter: ClientRuntime.Date?
+    public var lastModifiedTimeAfter: Foundation.Date?
     /// A filter that returns only lifecycle configurations that were modified before the specified time (timestamp).
-    public var lastModifiedTimeBefore: ClientRuntime.Date?
+    public var lastModifiedTimeBefore: Foundation.Date?
     /// The maximum number of lifecycle configurations to return in the response.
     public var maxResults: Swift.Int?
     /// A string in the lifecycle configuration name. This filter returns only lifecycle configurations whose name contains the specified string.
@@ -43929,10 +43931,10 @@ public struct ListNotebookInstanceLifecycleConfigsInput {
     public var sortOrder: SageMakerClientTypes.NotebookInstanceLifecycleConfigSortOrder?
 
     public init(
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
-        lastModifiedTimeAfter: ClientRuntime.Date? = nil,
-        lastModifiedTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
+        lastModifiedTimeAfter: Foundation.Date? = nil,
+        lastModifiedTimeBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nameContains: Swift.String? = nil,
         nextToken: Swift.String? = nil,
@@ -43954,7 +43956,7 @@ public struct ListNotebookInstanceLifecycleConfigsInput {
 
 extension ListNotebookInstanceLifecycleConfigsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListNotebookInstanceLifecycleConfigsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListNotebookInstanceLifecycleConfigsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -43983,7 +43985,7 @@ public struct ListNotebookInstanceLifecycleConfigsOutput {
 
 enum ListNotebookInstanceLifecycleConfigsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -44025,15 +44027,15 @@ public struct ListNotebookInstancesInput {
     /// A filter that returns only notebook instances with associated with the specified git repository.
     public var additionalCodeRepositoryEquals: Swift.String?
     /// A filter that returns only notebook instances that were created after the specified time (timestamp).
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// A filter that returns only notebook instances that were created before the specified time (timestamp).
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// A string in the name or URL of a Git repository associated with this notebook instance. This filter returns only notebook instances associated with a git repository with a name that contains the specified string.
     public var defaultCodeRepositoryContains: Swift.String?
     /// A filter that returns only notebook instances that were modified after the specified time (timestamp).
-    public var lastModifiedTimeAfter: ClientRuntime.Date?
+    public var lastModifiedTimeAfter: Foundation.Date?
     /// A filter that returns only notebook instances that were modified before the specified time (timestamp).
-    public var lastModifiedTimeBefore: ClientRuntime.Date?
+    public var lastModifiedTimeBefore: Foundation.Date?
     /// The maximum number of notebook instances to return.
     public var maxResults: Swift.Int?
     /// A string in the notebook instances' name. This filter returns only notebook instances whose name contains the specified string.
@@ -44051,11 +44053,11 @@ public struct ListNotebookInstancesInput {
 
     public init(
         additionalCodeRepositoryEquals: Swift.String? = nil,
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
         defaultCodeRepositoryContains: Swift.String? = nil,
-        lastModifiedTimeAfter: ClientRuntime.Date? = nil,
-        lastModifiedTimeBefore: ClientRuntime.Date? = nil,
+        lastModifiedTimeAfter: Foundation.Date? = nil,
+        lastModifiedTimeBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nameContains: Swift.String? = nil,
         nextToken: Swift.String? = nil,
@@ -44083,7 +44085,7 @@ public struct ListNotebookInstancesInput {
 
 extension ListNotebookInstancesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListNotebookInstancesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListNotebookInstancesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -44112,7 +44114,7 @@ public struct ListNotebookInstancesOutput {
 
 enum ListNotebookInstancesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -44167,7 +44169,7 @@ public struct ListPipelineExecutionStepsInput {
 
 extension ListPipelineExecutionStepsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPipelineExecutionStepsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPipelineExecutionStepsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -44196,7 +44198,7 @@ public struct ListPipelineExecutionStepsOutput {
 
 enum ListPipelineExecutionStepsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -44231,9 +44233,9 @@ extension ListPipelineExecutionsInput {
 
 public struct ListPipelineExecutionsInput {
     /// A filter that returns the pipeline executions that were created after a specified time.
-    public var createdAfter: ClientRuntime.Date?
+    public var createdAfter: Foundation.Date?
     /// A filter that returns the pipeline executions that were created before a specified time.
-    public var createdBefore: ClientRuntime.Date?
+    public var createdBefore: Foundation.Date?
     /// The maximum number of pipeline executions to return in the response.
     public var maxResults: Swift.Int?
     /// If the result of the previous ListPipelineExecutions request was truncated, the response includes a NextToken. To retrieve the next set of pipeline executions, use the token in the next request.
@@ -44247,8 +44249,8 @@ public struct ListPipelineExecutionsInput {
     public var sortOrder: SageMakerClientTypes.SortOrder?
 
     public init(
-        createdAfter: ClientRuntime.Date? = nil,
-        createdBefore: ClientRuntime.Date? = nil,
+        createdAfter: Foundation.Date? = nil,
+        createdBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         pipelineName: Swift.String? = nil,
@@ -44268,7 +44270,7 @@ public struct ListPipelineExecutionsInput {
 
 extension ListPipelineExecutionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPipelineExecutionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPipelineExecutionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -44297,7 +44299,7 @@ public struct ListPipelineExecutionsOutput {
 
 enum ListPipelineExecutionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -44349,7 +44351,7 @@ public struct ListPipelineParametersForExecutionInput {
 
 extension ListPipelineParametersForExecutionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPipelineParametersForExecutionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPipelineParametersForExecutionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -44378,7 +44380,7 @@ public struct ListPipelineParametersForExecutionOutput {
 
 enum ListPipelineParametersForExecutionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -44413,9 +44415,9 @@ extension ListPipelinesInput {
 
 public struct ListPipelinesInput {
     /// A filter that returns the pipelines that were created after a specified time.
-    public var createdAfter: ClientRuntime.Date?
+    public var createdAfter: Foundation.Date?
     /// A filter that returns the pipelines that were created before a specified time.
-    public var createdBefore: ClientRuntime.Date?
+    public var createdBefore: Foundation.Date?
     /// The maximum number of pipelines to return in the response.
     public var maxResults: Swift.Int?
     /// If the result of the previous ListPipelines request was truncated, the response includes a NextToken. To retrieve the next set of pipelines, use the token in the next request.
@@ -44428,8 +44430,8 @@ public struct ListPipelinesInput {
     public var sortOrder: SageMakerClientTypes.SortOrder?
 
     public init(
-        createdAfter: ClientRuntime.Date? = nil,
-        createdBefore: ClientRuntime.Date? = nil,
+        createdAfter: Foundation.Date? = nil,
+        createdBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         pipelineNamePrefix: Swift.String? = nil,
@@ -44449,7 +44451,7 @@ public struct ListPipelinesInput {
 
 extension ListPipelinesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPipelinesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPipelinesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -44478,7 +44480,7 @@ public struct ListPipelinesOutput {
 
 enum ListPipelinesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -44515,13 +44517,13 @@ extension ListProcessingJobsInput {
 
 public struct ListProcessingJobsInput {
     /// A filter that returns only processing jobs created after the specified time.
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// A filter that returns only processing jobs created after the specified time.
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// A filter that returns only processing jobs modified after the specified time.
-    public var lastModifiedTimeAfter: ClientRuntime.Date?
+    public var lastModifiedTimeAfter: Foundation.Date?
     /// A filter that returns only processing jobs modified before the specified time.
-    public var lastModifiedTimeBefore: ClientRuntime.Date?
+    public var lastModifiedTimeBefore: Foundation.Date?
     /// The maximum number of processing jobs to return in the response.
     public var maxResults: Swift.Int?
     /// A string in the processing job name. This filter returns only processing jobs whose name contains the specified string.
@@ -44536,10 +44538,10 @@ public struct ListProcessingJobsInput {
     public var statusEquals: SageMakerClientTypes.ProcessingJobStatus?
 
     public init(
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
-        lastModifiedTimeAfter: ClientRuntime.Date? = nil,
-        lastModifiedTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
+        lastModifiedTimeAfter: Foundation.Date? = nil,
+        lastModifiedTimeBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nameContains: Swift.String? = nil,
         nextToken: Swift.String? = nil,
@@ -44563,7 +44565,7 @@ public struct ListProcessingJobsInput {
 
 extension ListProcessingJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListProcessingJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListProcessingJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -44593,7 +44595,7 @@ public struct ListProcessingJobsOutput {
 
 enum ListProcessingJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -44627,9 +44629,9 @@ extension ListProjectsInput {
 
 public struct ListProjectsInput {
     /// A filter that returns the projects that were created after a specified time.
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// A filter that returns the projects that were created before a specified time.
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// The maximum number of projects to return in the response.
     public var maxResults: Swift.Int?
     /// A filter that returns the projects whose name contains a specified string.
@@ -44642,8 +44644,8 @@ public struct ListProjectsInput {
     public var sortOrder: SageMakerClientTypes.ProjectSortOrder?
 
     public init(
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nameContains: Swift.String? = nil,
         nextToken: Swift.String? = nil,
@@ -44663,7 +44665,7 @@ public struct ListProjectsInput {
 
 extension ListProjectsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListProjectsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListProjectsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -44693,7 +44695,7 @@ public struct ListProjectsOutput {
 
 enum ListProjectsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -44727,9 +44729,9 @@ extension ListResourceCatalogsInput {
 
 public struct ListResourceCatalogsInput {
     /// Use this parameter to search for ResourceCatalogs created after a specific date and time.
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// Use this parameter to search for ResourceCatalogs created before a specific date and time.
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// The maximum number of results returned by ListResourceCatalogs.
     public var maxResults: Swift.Int?
     /// A string that partially matches one or more ResourceCatalogs names. Filters ResourceCatalog by name.
@@ -44742,8 +44744,8 @@ public struct ListResourceCatalogsInput {
     public var sortOrder: SageMakerClientTypes.ResourceCatalogSortOrder?
 
     public init(
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nameContains: Swift.String? = nil,
         nextToken: Swift.String? = nil,
@@ -44763,7 +44765,7 @@ public struct ListResourceCatalogsInput {
 
 extension ListResourceCatalogsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListResourceCatalogsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListResourceCatalogsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -44792,7 +44794,7 @@ public struct ListResourceCatalogsOutput {
 
 enum ListResourceCatalogsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -44857,7 +44859,7 @@ public struct ListSpacesInput {
 
 extension ListSpacesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListSpacesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListSpacesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -44886,7 +44888,7 @@ public struct ListSpacesOutput {
 
 enum ListSpacesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -44948,7 +44950,7 @@ public struct ListStageDevicesInput {
 
 extension ListStageDevicesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListStageDevicesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListStageDevicesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -44978,7 +44980,7 @@ public struct ListStageDevicesOutput {
 
 enum ListStageDevicesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -45017,15 +45019,15 @@ public struct ListStudioLifecycleConfigsInput {
     /// A parameter to search for the App Type to which the Lifecycle Configuration is attached.
     public var appTypeEquals: SageMakerClientTypes.StudioLifecycleConfigAppType?
     /// A filter that returns only Lifecycle Configurations created on or after the specified time.
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// A filter that returns only Lifecycle Configurations created on or before the specified time.
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// The total number of items to return in the response. If the total number of items available is more than the value specified, a NextToken is provided in the response. To resume pagination, provide the NextToken value in the as part of a subsequent call. The default value is 10.
     public var maxResults: Swift.Int?
     /// A filter that returns only Lifecycle Configurations modified after the specified time.
-    public var modifiedTimeAfter: ClientRuntime.Date?
+    public var modifiedTimeAfter: Foundation.Date?
     /// A filter that returns only Lifecycle Configurations modified before the specified time.
-    public var modifiedTimeBefore: ClientRuntime.Date?
+    public var modifiedTimeBefore: Foundation.Date?
     /// A string in the Lifecycle Configuration name. This filter returns only Lifecycle Configurations whose name contains the specified string.
     public var nameContains: Swift.String?
     /// If the previous call to ListStudioLifecycleConfigs didn't return the full set of Lifecycle Configurations, the call returns a token for getting the next set of Lifecycle Configurations.
@@ -45037,11 +45039,11 @@ public struct ListStudioLifecycleConfigsInput {
 
     public init(
         appTypeEquals: SageMakerClientTypes.StudioLifecycleConfigAppType? = nil,
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
-        modifiedTimeAfter: ClientRuntime.Date? = nil,
-        modifiedTimeBefore: ClientRuntime.Date? = nil,
+        modifiedTimeAfter: Foundation.Date? = nil,
+        modifiedTimeBefore: Foundation.Date? = nil,
         nameContains: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         sortBy: SageMakerClientTypes.StudioLifecycleConfigSortKey? = nil,
@@ -45063,7 +45065,7 @@ public struct ListStudioLifecycleConfigsInput {
 
 extension ListStudioLifecycleConfigsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListStudioLifecycleConfigsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListStudioLifecycleConfigsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -45092,7 +45094,7 @@ public struct ListStudioLifecycleConfigsOutput {
 
 enum ListStudioLifecycleConfigsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -45143,7 +45145,7 @@ public struct ListSubscribedWorkteamsInput {
 
 extension ListSubscribedWorkteamsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListSubscribedWorkteamsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListSubscribedWorkteamsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -45173,7 +45175,7 @@ public struct ListSubscribedWorkteamsOutput {
 
 enum ListSubscribedWorkteamsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -45224,7 +45226,7 @@ public struct ListTagsInput {
 
 extension ListTagsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -45253,7 +45255,7 @@ public struct ListTagsOutput {
 
 enum ListTagsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -45319,7 +45321,7 @@ public struct ListTrainingJobsForHyperParameterTuningJobInput {
 
 extension ListTrainingJobsForHyperParameterTuningJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTrainingJobsForHyperParameterTuningJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTrainingJobsForHyperParameterTuningJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -45349,7 +45351,7 @@ public struct ListTrainingJobsForHyperParameterTuningJobOutput {
 
 enum ListTrainingJobsForHyperParameterTuningJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -45388,13 +45390,13 @@ extension ListTrainingJobsInput {
 
 public struct ListTrainingJobsInput {
     /// A filter that returns only training jobs created after the specified time (timestamp).
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// A filter that returns only training jobs created before the specified time (timestamp).
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// A filter that returns only training jobs modified after the specified time (timestamp).
-    public var lastModifiedTimeAfter: ClientRuntime.Date?
+    public var lastModifiedTimeAfter: Foundation.Date?
     /// A filter that returns only training jobs modified before the specified time (timestamp).
-    public var lastModifiedTimeBefore: ClientRuntime.Date?
+    public var lastModifiedTimeBefore: Foundation.Date?
     /// The maximum number of training jobs to return in the response.
     public var maxResults: Swift.Int?
     /// A string in the training job name. This filter returns only training jobs whose name contains the specified string.
@@ -45411,10 +45413,10 @@ public struct ListTrainingJobsInput {
     public var warmPoolStatusEquals: SageMakerClientTypes.WarmPoolResourceStatus?
 
     public init(
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
-        lastModifiedTimeAfter: ClientRuntime.Date? = nil,
-        lastModifiedTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
+        lastModifiedTimeAfter: Foundation.Date? = nil,
+        lastModifiedTimeBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nameContains: Swift.String? = nil,
         nextToken: Swift.String? = nil,
@@ -45440,7 +45442,7 @@ public struct ListTrainingJobsInput {
 
 extension ListTrainingJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTrainingJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTrainingJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -45470,7 +45472,7 @@ public struct ListTrainingJobsOutput {
 
 enum ListTrainingJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -45507,13 +45509,13 @@ extension ListTransformJobsInput {
 
 public struct ListTransformJobsInput {
     /// A filter that returns only transform jobs created after the specified time.
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// A filter that returns only transform jobs created before the specified time.
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// A filter that returns only transform jobs modified after the specified time.
-    public var lastModifiedTimeAfter: ClientRuntime.Date?
+    public var lastModifiedTimeAfter: Foundation.Date?
     /// A filter that returns only transform jobs modified before the specified time.
-    public var lastModifiedTimeBefore: ClientRuntime.Date?
+    public var lastModifiedTimeBefore: Foundation.Date?
     /// The maximum number of transform jobs to return in the response. The default value is 10.
     public var maxResults: Swift.Int?
     /// A string in the transform job name. This filter returns only transform jobs whose name contains the specified string.
@@ -45528,10 +45530,10 @@ public struct ListTransformJobsInput {
     public var statusEquals: SageMakerClientTypes.TransformJobStatus?
 
     public init(
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
-        lastModifiedTimeAfter: ClientRuntime.Date? = nil,
-        lastModifiedTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
+        lastModifiedTimeAfter: Foundation.Date? = nil,
+        lastModifiedTimeBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nameContains: Swift.String? = nil,
         nextToken: Swift.String? = nil,
@@ -45555,7 +45557,7 @@ public struct ListTransformJobsInput {
 
 extension ListTransformJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTransformJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTransformJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -45585,7 +45587,7 @@ public struct ListTransformJobsOutput {
 
 enum ListTransformJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -45621,9 +45623,9 @@ extension ListTrialComponentsInput {
 
 public struct ListTrialComponentsInput {
     /// A filter that returns only components created after the specified time.
-    public var createdAfter: ClientRuntime.Date?
+    public var createdAfter: Foundation.Date?
     /// A filter that returns only components created before the specified time.
-    public var createdBefore: ClientRuntime.Date?
+    public var createdBefore: Foundation.Date?
     /// A filter that returns only components that are part of the specified experiment. If you specify ExperimentName, you can't filter by SourceArn or TrialName.
     public var experimentName: Swift.String?
     /// The maximum number of components to return in the response. The default value is 10.
@@ -45640,8 +45642,8 @@ public struct ListTrialComponentsInput {
     public var trialName: Swift.String?
 
     public init(
-        createdAfter: ClientRuntime.Date? = nil,
-        createdBefore: ClientRuntime.Date? = nil,
+        createdAfter: Foundation.Date? = nil,
+        createdBefore: Foundation.Date? = nil,
         experimentName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -45665,7 +45667,7 @@ public struct ListTrialComponentsInput {
 
 extension ListTrialComponentsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTrialComponentsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTrialComponentsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -45694,7 +45696,7 @@ public struct ListTrialComponentsOutput {
 
 enum ListTrialComponentsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -45730,9 +45732,9 @@ extension ListTrialsInput {
 
 public struct ListTrialsInput {
     /// A filter that returns only trials created after the specified time.
-    public var createdAfter: ClientRuntime.Date?
+    public var createdAfter: Foundation.Date?
     /// A filter that returns only trials created before the specified time.
-    public var createdBefore: ClientRuntime.Date?
+    public var createdBefore: Foundation.Date?
     /// A filter that returns only trials that are part of the specified experiment.
     public var experimentName: Swift.String?
     /// The maximum number of trials to return in the response. The default value is 10.
@@ -45747,8 +45749,8 @@ public struct ListTrialsInput {
     public var trialComponentName: Swift.String?
 
     public init(
-        createdAfter: ClientRuntime.Date? = nil,
-        createdBefore: ClientRuntime.Date? = nil,
+        createdAfter: Foundation.Date? = nil,
+        createdBefore: Foundation.Date? = nil,
         experimentName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -45770,7 +45772,7 @@ public struct ListTrialsInput {
 
 extension ListTrialsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTrialsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTrialsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -45799,7 +45801,7 @@ public struct ListTrialsOutput {
 
 enum ListTrialsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -45865,7 +45867,7 @@ public struct ListUserProfilesInput {
 
 extension ListUserProfilesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListUserProfilesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListUserProfilesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -45894,7 +45896,7 @@ public struct ListUserProfilesOutput {
 
 enum ListUserProfilesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -45954,7 +45956,7 @@ public struct ListWorkforcesInput {
 
 extension ListWorkforcesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListWorkforcesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListWorkforcesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -45984,7 +45986,7 @@ public struct ListWorkforcesOutput {
 
 enum ListWorkforcesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -46073,7 +46075,7 @@ public struct ListWorkteamsInput {
 
 extension ListWorkteamsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListWorkteamsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListWorkteamsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -46103,7 +46105,7 @@ public struct ListWorkteamsOutput {
 
 enum ListWorkteamsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -46276,13 +46278,13 @@ extension SageMakerClientTypes {
         /// The name of the metric.
         public var metricName: Swift.String?
         /// The date and time that the algorithm emitted the metric.
-        public var timestamp: ClientRuntime.Date?
+        public var timestamp: Foundation.Date?
         /// The value of the metric.
         public var value: Swift.Float?
 
         public init(
             metricName: Swift.String? = nil,
-            timestamp: ClientRuntime.Date? = nil,
+            timestamp: Foundation.Date? = nil,
             value: Swift.Float? = nil
         )
         {
@@ -46505,7 +46507,7 @@ extension SageMakerClientTypes {
         /// The containers in the inference pipeline.
         public var containers: [SageMakerClientTypes.ContainerDefinition]?
         /// A timestamp that indicates when the model was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// A set of recommended deployment configurations for the model.
         public var deploymentRecommendation: SageMakerClientTypes.DeploymentRecommendation?
         /// Isolates the model container. No inbound or outbound network calls can be made to or from the model container.
@@ -46527,7 +46529,7 @@ extension SageMakerClientTypes {
 
         public init(
             containers: [SageMakerClientTypes.ContainerDefinition]? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             deploymentRecommendation: SageMakerClientTypes.DeploymentRecommendation? = nil,
             enableNetworkIsolation: Swift.Bool? = nil,
             executionRoleArn: Swift.String? = nil,
@@ -46841,11 +46843,11 @@ extension SageMakerClientTypes {
         /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
         public var createdBy: SageMakerClientTypes.UserContext?
         /// The date and time that the model card was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
         public var lastModifiedBy: SageMakerClientTypes.UserContext?
         /// The date and time that the model card was last modified.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the model card.
         public var modelCardArn: Swift.String?
         /// The unique name of the model card.
@@ -46876,9 +46878,9 @@ extension SageMakerClientTypes {
         public init(
             content: Swift.String? = nil,
             createdBy: SageMakerClientTypes.UserContext? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             lastModifiedBy: SageMakerClientTypes.UserContext? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             modelCardArn: Swift.String? = nil,
             modelCardName: Swift.String? = nil,
             modelCardStatus: SageMakerClientTypes.ModelCardStatus? = nil,
@@ -47051,10 +47053,10 @@ extension SageMakerClientTypes {
     public struct ModelCardExportJobSummary {
         /// The date and time that the model card export job was created.
         /// This member is required.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The date and time that the model card export job was last modified..
         /// This member is required.
-        public var lastModifiedAt: ClientRuntime.Date?
+        public var lastModifiedAt: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the model card export job.
         /// This member is required.
         public var modelCardExportJobArn: Swift.String?
@@ -47072,8 +47074,8 @@ extension SageMakerClientTypes {
         public var status: SageMakerClientTypes.ModelCardExportJobStatus?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
-            lastModifiedAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
+            lastModifiedAt: Foundation.Date? = nil,
             modelCardExportJobArn: Swift.String? = nil,
             modelCardExportJobName: Swift.String? = nil,
             modelCardName: Swift.String? = nil,
@@ -47309,9 +47311,9 @@ extension SageMakerClientTypes {
     public struct ModelCardSummary {
         /// The date and time that the model card was created.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The date and time that the model card was last modified.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the model card.
         /// This member is required.
         public var modelCardArn: Swift.String?
@@ -47331,8 +47333,8 @@ extension SageMakerClientTypes {
         public var modelCardStatus: SageMakerClientTypes.ModelCardStatus?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             modelCardArn: Swift.String? = nil,
             modelCardName: Swift.String? = nil,
             modelCardStatus: SageMakerClientTypes.ModelCardStatus? = nil
@@ -47394,9 +47396,9 @@ extension SageMakerClientTypes {
     public struct ModelCardVersionSummary {
         /// The date and time that the model card version was created.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The time date and time that the model card version was last modified.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the model card.
         /// This member is required.
         public var modelCardArn: Swift.String?
@@ -47419,8 +47421,8 @@ extension SageMakerClientTypes {
         public var modelCardVersion: Swift.Int?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             modelCardArn: Swift.String? = nil,
             modelCardName: Swift.String? = nil,
             modelCardStatus: SageMakerClientTypes.ModelCardStatus? = nil,
@@ -47559,7 +47561,7 @@ extension SageMakerClientTypes {
     public struct ModelDashboardEndpoint {
         /// A timestamp that indicates when the endpoint was created.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the endpoint.
         /// This member is required.
         public var endpointArn: Swift.String?
@@ -47571,14 +47573,14 @@ extension SageMakerClientTypes {
         public var endpointStatus: SageMakerClientTypes.EndpointStatus?
         /// The last time the endpoint was modified.
         /// This member is required.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             endpointArn: Swift.String? = nil,
             endpointName: Swift.String? = nil,
             endpointStatus: SageMakerClientTypes.EndpointStatus? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil
+            lastModifiedTime: Foundation.Date? = nil
         )
         {
             self.creationTime = creationTime
@@ -47690,11 +47692,11 @@ extension SageMakerClientTypes {
         /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
         public var createdBy: SageMakerClientTypes.UserContext?
         /// A timestamp that indicates when the model card was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
         public var lastModifiedBy: SageMakerClientTypes.UserContext?
         /// A timestamp that indicates when the model card was last updated.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) for a model card.
         public var modelCardArn: Swift.String?
         /// The name of a model card.
@@ -47714,9 +47716,9 @@ extension SageMakerClientTypes {
 
         public init(
             createdBy: SageMakerClientTypes.UserContext? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             lastModifiedBy: SageMakerClientTypes.UserContext? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             modelCardArn: Swift.String? = nil,
             modelCardName: Swift.String? = nil,
             modelCardStatus: SageMakerClientTypes.ModelCardStatus? = nil,
@@ -47771,13 +47773,13 @@ extension SageMakerClientTypes {
         /// Input object for the batch transform job.
         public var batchTransformInput: SageMakerClientTypes.BatchTransformInput?
         /// A timestamp that indicates when the monitoring schedule was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The endpoint which is monitored.
         public var endpointName: Swift.String?
         /// If a monitoring job failed, provides the reason.
         public var failureReason: Swift.String?
         /// A timestamp that indicates when the monitoring schedule was last updated.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// Summary of information about the last monitoring job to run.
         public var lastMonitoringExecutionSummary: SageMakerClientTypes.MonitoringExecutionSummary?
         /// A JSON array where each element is a summary for a monitoring alert.
@@ -47795,10 +47797,10 @@ extension SageMakerClientTypes {
 
         public init(
             batchTransformInput: SageMakerClientTypes.BatchTransformInput? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             endpointName: Swift.String? = nil,
             failureReason: Swift.String? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             lastMonitoringExecutionSummary: SageMakerClientTypes.MonitoringExecutionSummary? = nil,
             monitoringAlertSummaries: [SageMakerClientTypes.MonitoringAlertSummary]? = nil,
             monitoringScheduleArn: Swift.String? = nil,
@@ -48476,7 +48478,7 @@ extension SageMakerClientTypes {
         /// Information about the user who created or modified an experiment, trial, trial component, lineage group, or project.
         public var createdBy: SageMakerClientTypes.UserContext?
         /// The time that the model package was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The metadata properties for the model package.
         public var customerMetadataProperties: [Swift.String:Swift.String]?
         /// The machine learning domain of your model package and its components. Common machine learning domains include computer vision and natural language processing.
@@ -48488,7 +48490,7 @@ extension SageMakerClientTypes {
         /// Information about the user who created or modified an experiment, trial, trial component, lineage group, or project.
         public var lastModifiedBy: SageMakerClientTypes.UserContext?
         /// The last time the model package was modified.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// Metadata properties of the tracking entity, trial, or trial component.
         public var metadataProperties: SageMakerClientTypes.MetadataProperties?
         /// The approval status of the model. This can be one of the following values.
@@ -48545,13 +48547,13 @@ extension SageMakerClientTypes {
             approvalDescription: Swift.String? = nil,
             certifyForMarketplace: Swift.Bool? = nil,
             createdBy: SageMakerClientTypes.UserContext? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             customerMetadataProperties: [Swift.String:Swift.String]? = nil,
             domain: Swift.String? = nil,
             driftCheckBaselines: SageMakerClientTypes.DriftCheckBaselines? = nil,
             inferenceSpecification: SageMakerClientTypes.InferenceSpecification? = nil,
             lastModifiedBy: SageMakerClientTypes.UserContext? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             metadataProperties: SageMakerClientTypes.MetadataProperties? = nil,
             modelApprovalStatus: SageMakerClientTypes.ModelApprovalStatus? = nil,
             modelMetrics: SageMakerClientTypes.ModelMetrics? = nil,
@@ -48724,7 +48726,7 @@ extension SageMakerClientTypes {
         /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
         public var createdBy: SageMakerClientTypes.UserContext?
         /// The time that the model group was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the model group.
         public var modelPackageGroupArn: Swift.String?
         /// The description for the model group.
@@ -48750,7 +48752,7 @@ extension SageMakerClientTypes {
 
         public init(
             createdBy: SageMakerClientTypes.UserContext? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             modelPackageGroupArn: Swift.String? = nil,
             modelPackageGroupDescription: Swift.String? = nil,
             modelPackageGroupName: Swift.String? = nil,
@@ -48859,7 +48861,7 @@ extension SageMakerClientTypes {
     public struct ModelPackageGroupSummary {
         /// The time that the model group was created.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the model group.
         /// This member is required.
         public var modelPackageGroupArn: Swift.String?
@@ -48873,7 +48875,7 @@ extension SageMakerClientTypes {
         public var modelPackageGroupStatus: SageMakerClientTypes.ModelPackageGroupStatus?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             modelPackageGroupArn: Swift.String? = nil,
             modelPackageGroupDescription: Swift.String? = nil,
             modelPackageGroupName: Swift.String? = nil,
@@ -49049,7 +49051,7 @@ extension SageMakerClientTypes {
     public struct ModelPackageSummary {
         /// A timestamp that shows when the model package was created.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The approval status of the model. This can be one of the following values.
         ///
         /// * APPROVED - The model is approved
@@ -49074,7 +49076,7 @@ extension SageMakerClientTypes {
         public var modelPackageVersion: Swift.Int?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             modelApprovalStatus: SageMakerClientTypes.ModelApprovalStatus? = nil,
             modelPackageArn: Swift.String? = nil,
             modelPackageDescription: Swift.String? = nil,
@@ -49502,7 +49504,7 @@ extension SageMakerClientTypes {
     public struct ModelSummary {
         /// A timestamp that indicates when the model was created.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the model.
         /// This member is required.
         public var modelArn: Swift.String?
@@ -49511,7 +49513,7 @@ extension SageMakerClientTypes {
         public var modelName: Swift.String?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             modelArn: Swift.String? = nil,
             modelName: Swift.String? = nil
         )
@@ -49762,7 +49764,7 @@ extension SageMakerClientTypes {
         public var alertStatus: SageMakerClientTypes.MonitoringAlertStatus?
         /// A timestamp that indicates when the first alert transition occurred in an alert history. An alert transition can be from status InAlert to OK, or from OK to InAlert.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The name of a monitoring alert.
         /// This member is required.
         public var monitoringAlertName: Swift.String?
@@ -49772,7 +49774,7 @@ extension SageMakerClientTypes {
 
         public init(
             alertStatus: SageMakerClientTypes.MonitoringAlertStatus? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             monitoringAlertName: Swift.String? = nil,
             monitoringScheduleName: Swift.String? = nil
         )
@@ -49842,7 +49844,7 @@ extension SageMakerClientTypes {
         public var alertStatus: SageMakerClientTypes.MonitoringAlertStatus?
         /// A timestamp that indicates when a monitor alert was created.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// Within EvaluationPeriod, how many execution failures will raise an alert.
         /// This member is required.
         public var datapointsToAlert: Swift.Int?
@@ -49851,7 +49853,7 @@ extension SageMakerClientTypes {
         public var evaluationPeriod: Swift.Int?
         /// A timestamp that indicates when a monitor alert was last updated.
         /// This member is required.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// The name of a monitoring alert.
         /// This member is required.
         public var monitoringAlertName: Swift.String?
@@ -49859,10 +49861,10 @@ extension SageMakerClientTypes {
         public init(
             actions: SageMakerClientTypes.MonitoringAlertActions? = nil,
             alertStatus: SageMakerClientTypes.MonitoringAlertStatus? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             datapointsToAlert: Swift.Int? = nil,
             evaluationPeriod: Swift.Int? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             monitoringAlertName: Swift.String? = nil
         )
         {
@@ -50190,14 +50192,14 @@ extension SageMakerClientTypes {
     public struct MonitoringExecutionSummary {
         /// The time at which the monitoring job was created.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The name of the endpoint used to run the monitoring job.
         public var endpointName: Swift.String?
         /// Contains the reason a monitoring job failed, if it failed.
         public var failureReason: Swift.String?
         /// A timestamp that indicates the last time the monitoring job was modified.
         /// This member is required.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// The status of the monitoring job.
         /// This member is required.
         public var monitoringExecutionStatus: SageMakerClientTypes.ExecutionStatus?
@@ -50212,19 +50214,19 @@ extension SageMakerClientTypes {
         public var processingJobArn: Swift.String?
         /// The time the monitoring job was scheduled.
         /// This member is required.
-        public var scheduledTime: ClientRuntime.Date?
+        public var scheduledTime: Foundation.Date?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             endpointName: Swift.String? = nil,
             failureReason: Swift.String? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             monitoringExecutionStatus: SageMakerClientTypes.ExecutionStatus? = nil,
             monitoringJobDefinitionName: Swift.String? = nil,
             monitoringScheduleName: Swift.String? = nil,
             monitoringType: SageMakerClientTypes.MonitoringType? = nil,
             processingJobArn: Swift.String? = nil,
-            scheduledTime: ClientRuntime.Date? = nil
+            scheduledTime: Foundation.Date? = nil
         )
         {
             self.creationTime = creationTime
@@ -50441,7 +50443,7 @@ extension SageMakerClientTypes {
     public struct MonitoringJobDefinitionSummary {
         /// The time that the monitoring job was created.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The name of the endpoint that the job monitors.
         /// This member is required.
         public var endpointName: Swift.String?
@@ -50453,7 +50455,7 @@ extension SageMakerClientTypes {
         public var monitoringJobDefinitionName: Swift.String?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             endpointName: Swift.String? = nil,
             monitoringJobDefinitionArn: Swift.String? = nil,
             monitoringJobDefinitionName: Swift.String? = nil
@@ -50767,13 +50769,13 @@ extension SageMakerClientTypes {
     /// A schedule for a model monitoring job. For information about model monitor, see [Amazon SageMaker Model Monitor](https://docs.aws.amazon.com/sagemaker/latest/dg/model-monitor.html).
     public struct MonitoringSchedule {
         /// The time that the monitoring schedule was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The endpoint that hosts the model being monitored.
         public var endpointName: Swift.String?
         /// If the monitoring schedule failed, the reason it failed.
         public var failureReason: Swift.String?
         /// The last time the monitoring schedule was changed.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// Summary of information about the last monitoring job to run.
         public var lastMonitoringExecutionSummary: SageMakerClientTypes.MonitoringExecutionSummary?
         /// The Amazon Resource Name (ARN) of the monitoring schedule.
@@ -50798,10 +50800,10 @@ extension SageMakerClientTypes {
         public var tags: [SageMakerClientTypes.Tag]?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             endpointName: Swift.String? = nil,
             failureReason: Swift.String? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             lastMonitoringExecutionSummary: SageMakerClientTypes.MonitoringExecutionSummary? = nil,
             monitoringScheduleArn: Swift.String? = nil,
             monitoringScheduleConfig: SageMakerClientTypes.MonitoringScheduleConfig? = nil,
@@ -50930,12 +50932,12 @@ extension SageMakerClientTypes {
     public struct MonitoringScheduleSummary {
         /// The creation time of the monitoring schedule.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The name of the endpoint using the monitoring schedule.
         public var endpointName: Swift.String?
         /// The last time the monitoring schedule was modified.
         /// This member is required.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// The name of the monitoring job definition that the schedule is for.
         public var monitoringJobDefinitionName: Swift.String?
         /// The Amazon Resource Name (ARN) of the monitoring schedule.
@@ -50951,9 +50953,9 @@ extension SageMakerClientTypes {
         public var monitoringType: SageMakerClientTypes.MonitoringType?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             endpointName: Swift.String? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             monitoringJobDefinitionName: Swift.String? = nil,
             monitoringScheduleArn: Swift.String? = nil,
             monitoringScheduleName: Swift.String? = nil,
@@ -51339,9 +51341,9 @@ extension SageMakerClientTypes {
     /// Provides a summary of a notebook instance lifecycle configuration.
     public struct NotebookInstanceLifecycleConfigSummary {
         /// A timestamp that tells when the lifecycle configuration was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// A timestamp that tells when the lifecycle configuration was last modified.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the lifecycle configuration.
         /// This member is required.
         public var notebookInstanceLifecycleConfigArn: Swift.String?
@@ -51350,8 +51352,8 @@ extension SageMakerClientTypes {
         public var notebookInstanceLifecycleConfigName: Swift.String?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             notebookInstanceLifecycleConfigArn: Swift.String? = nil,
             notebookInstanceLifecycleConfigName: Swift.String? = nil
         )
@@ -51526,13 +51528,13 @@ extension SageMakerClientTypes {
         /// An array of up to three Git repositories associated with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see [Associating Git Repositories with SageMaker Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
         public var additionalCodeRepositories: [Swift.String]?
         /// A timestamp that shows when the notebook instance was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The Git repository associated with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see [Associating Git Repositories with SageMaker Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
         public var defaultCodeRepository: Swift.String?
         /// The type of ML compute instance that the notebook instance is running on.
         public var instanceType: SageMakerClientTypes.InstanceType?
         /// A timestamp that shows when the notebook instance was last modified.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the notebook instance.
         /// This member is required.
         public var notebookInstanceArn: Swift.String?
@@ -51548,10 +51550,10 @@ extension SageMakerClientTypes {
 
         public init(
             additionalCodeRepositories: [Swift.String]? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             defaultCodeRepository: Swift.String? = nil,
             instanceType: SageMakerClientTypes.InstanceType? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             notebookInstanceArn: Swift.String? = nil,
             notebookInstanceLifecycleConfigName: Swift.String? = nil,
             notebookInstanceName: Swift.String? = nil,
@@ -52798,13 +52800,13 @@ extension SageMakerClientTypes {
         /// An array of [PendingProductionVariantSummary](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_PendingProductionVariantSummary.html) objects, one for each model hosted behind this endpoint in shadow mode with production traffic replicated from the model specified on ProductionVariants for the in-progress deployment.
         public var shadowProductionVariants: [SageMakerClientTypes.PendingProductionVariantSummary]?
         /// The start time of the deployment.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
 
         public init(
             endpointConfigName: Swift.String? = nil,
             productionVariants: [SageMakerClientTypes.PendingProductionVariantSummary]? = nil,
             shadowProductionVariants: [SageMakerClientTypes.PendingProductionVariantSummary]? = nil,
-            startTime: ClientRuntime.Date? = nil
+            startTime: Foundation.Date? = nil
         )
         {
             self.endpointConfigName = endpointConfigName
@@ -52974,13 +52976,13 @@ extension SageMakerClientTypes {
         /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
         public var createdBy: SageMakerClientTypes.UserContext?
         /// The creation time of the pipeline.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
         public var lastModifiedBy: SageMakerClientTypes.UserContext?
         /// The time that the pipeline was last modified.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// The time when the pipeline was last run.
-        public var lastRunTime: ClientRuntime.Date?
+        public var lastRunTime: Foundation.Date?
         /// The parallelism configuration applied to the pipeline.
         public var parallelismConfiguration: SageMakerClientTypes.ParallelismConfiguration?
         /// The Amazon Resource Name (ARN) of the pipeline.
@@ -53000,10 +53002,10 @@ extension SageMakerClientTypes {
 
         public init(
             createdBy: SageMakerClientTypes.UserContext? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             lastModifiedBy: SageMakerClientTypes.UserContext? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
-            lastRunTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            lastRunTime: Foundation.Date? = nil,
             parallelismConfiguration: SageMakerClientTypes.ParallelismConfiguration? = nil,
             pipelineArn: Swift.String? = nil,
             pipelineDescription: Swift.String? = nil,
@@ -53097,13 +53099,13 @@ extension SageMakerClientTypes {
         /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
         public var createdBy: SageMakerClientTypes.UserContext?
         /// The creation time of the pipeline execution.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// If the execution failed, a message describing why.
         public var failureReason: Swift.String?
         /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
         public var lastModifiedBy: SageMakerClientTypes.UserContext?
         /// The time that the pipeline execution was last modified.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// The parallelism configuration applied to the pipeline execution.
         public var parallelismConfiguration: SageMakerClientTypes.ParallelismConfiguration?
         /// The Amazon Resource Name (ARN) of the pipeline that was executed.
@@ -53125,10 +53127,10 @@ extension SageMakerClientTypes {
 
         public init(
             createdBy: SageMakerClientTypes.UserContext? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             failureReason: Swift.String? = nil,
             lastModifiedBy: SageMakerClientTypes.UserContext? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             parallelismConfiguration: SageMakerClientTypes.ParallelismConfiguration? = nil,
             pipelineArn: Swift.String? = nil,
             pipelineExecutionArn: Swift.String? = nil,
@@ -53225,7 +53227,7 @@ extension SageMakerClientTypes {
         /// If this pipeline execution step was cached, details on the cache hit.
         public var cacheHitResult: SageMakerClientTypes.CacheHitResult?
         /// The time that the step stopped executing.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// The reason why the step failed execution. This is only returned if the step failed its execution.
         public var failureReason: Swift.String?
         /// Metadata to run the pipeline step.
@@ -53233,7 +53235,7 @@ extension SageMakerClientTypes {
         /// The ARN from an execution of the current pipeline from which results are reused for this step.
         public var selectiveExecutionResult: SageMakerClientTypes.SelectiveExecutionResult?
         /// The time that the step started executing.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
         /// The description of the step.
         public var stepDescription: Swift.String?
         /// The display name of the step.
@@ -53246,11 +53248,11 @@ extension SageMakerClientTypes {
         public init(
             attemptCount: Swift.Int? = nil,
             cacheHitResult: SageMakerClientTypes.CacheHitResult? = nil,
-            endTime: ClientRuntime.Date? = nil,
+            endTime: Foundation.Date? = nil,
             failureReason: Swift.String? = nil,
             metadata: SageMakerClientTypes.PipelineExecutionStepMetadata? = nil,
             selectiveExecutionResult: SageMakerClientTypes.SelectiveExecutionResult? = nil,
-            startTime: ClientRuntime.Date? = nil,
+            startTime: Foundation.Date? = nil,
             stepDescription: Swift.String? = nil,
             stepDisplayName: Swift.String? = nil,
             stepName: Swift.String? = nil,
@@ -53425,7 +53427,7 @@ extension SageMakerClientTypes {
         /// The status of the pipeline execution.
         public var pipelineExecutionStatus: SageMakerClientTypes.PipelineExecutionStatus?
         /// The start time of the pipeline execution.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
 
         public init(
             pipelineExecutionArn: Swift.String? = nil,
@@ -53433,7 +53435,7 @@ extension SageMakerClientTypes {
             pipelineExecutionDisplayName: Swift.String? = nil,
             pipelineExecutionFailureReason: Swift.String? = nil,
             pipelineExecutionStatus: SageMakerClientTypes.PipelineExecutionStatus? = nil,
-            startTime: ClientRuntime.Date? = nil
+            startTime: Foundation.Date? = nil
         )
         {
             self.pipelineExecutionArn = pipelineExecutionArn
@@ -53528,11 +53530,11 @@ extension SageMakerClientTypes {
     /// A summary of a pipeline.
     public struct PipelineSummary {
         /// The creation time of the pipeline.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The last time that a pipeline execution began.
-        public var lastExecutionTime: ClientRuntime.Date?
+        public var lastExecutionTime: Foundation.Date?
         /// The time that the pipeline was last modified.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the pipeline.
         public var pipelineArn: Swift.String?
         /// The description of the pipeline.
@@ -53545,9 +53547,9 @@ extension SageMakerClientTypes {
         public var roleArn: Swift.String?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
-            lastExecutionTime: ClientRuntime.Date? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
+            lastExecutionTime: Foundation.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             pipelineArn: Swift.String? = nil,
             pipelineDescription: Swift.String? = nil,
             pipelineDisplayName: Swift.String? = nil,
@@ -53954,7 +53956,7 @@ extension SageMakerClientTypes {
         /// The Amazon Resource Name (ARN) of the AutoML job associated with this processing job.
         public var autoMLJobArn: Swift.String?
         /// The time the processing job was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// Sets the environment variables in the Docker container.
         public var environment: [Swift.String:Swift.String]?
         /// A string, up to one KB in size, that contains metadata from the processing container when the processing job exits.
@@ -53970,13 +53972,13 @@ extension SageMakerClientTypes {
         /// A string, up to one KB in size, that contains the reason a processing job failed, if it failed.
         public var failureReason: Swift.String?
         /// The time the processing job was last modified.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// The ARN of a monitoring schedule for an endpoint associated with this processing job.
         public var monitoringScheduleArn: Swift.String?
         /// Networking options for a job, such as network traffic encryption between containers, whether to allow inbound and outbound network calls to and from containers, and the VPC subnets and security groups to use for VPC-enabled jobs.
         public var networkConfig: SageMakerClientTypes.NetworkConfig?
         /// The time that the processing job ended.
-        public var processingEndTime: ClientRuntime.Date?
+        public var processingEndTime: Foundation.Date?
         /// List of input configurations for the processing job.
         public var processingInputs: [SageMakerClientTypes.ProcessingInput]?
         /// The ARN of the processing job.
@@ -53990,7 +53992,7 @@ extension SageMakerClientTypes {
         /// Identifies the resources, ML compute instances, and ML storage volumes to deploy for a processing job. In distributed training, you specify more than one instance.
         public var processingResources: SageMakerClientTypes.ProcessingResources?
         /// The time that the processing job started.
-        public var processingStartTime: ClientRuntime.Date?
+        public var processingStartTime: Foundation.Date?
         /// The ARN of the role used to create the processing job.
         public var roleArn: Swift.String?
         /// Configures conditions under which the processing job should be stopped, such as how long the processing job has been running. After the condition is met, the processing job is stopped.
@@ -54003,22 +54005,22 @@ extension SageMakerClientTypes {
         public init(
             appSpecification: SageMakerClientTypes.AppSpecification? = nil,
             autoMLJobArn: Swift.String? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             environment: [Swift.String:Swift.String]? = nil,
             exitMessage: Swift.String? = nil,
             experimentConfig: SageMakerClientTypes.ExperimentConfig? = nil,
             failureReason: Swift.String? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             monitoringScheduleArn: Swift.String? = nil,
             networkConfig: SageMakerClientTypes.NetworkConfig? = nil,
-            processingEndTime: ClientRuntime.Date? = nil,
+            processingEndTime: Foundation.Date? = nil,
             processingInputs: [SageMakerClientTypes.ProcessingInput]? = nil,
             processingJobArn: Swift.String? = nil,
             processingJobName: Swift.String? = nil,
             processingJobStatus: SageMakerClientTypes.ProcessingJobStatus? = nil,
             processingOutputConfig: SageMakerClientTypes.ProcessingOutputConfig? = nil,
             processingResources: SageMakerClientTypes.ProcessingResources? = nil,
-            processingStartTime: ClientRuntime.Date? = nil,
+            processingStartTime: Foundation.Date? = nil,
             roleArn: Swift.String? = nil,
             stoppingCondition: SageMakerClientTypes.ProcessingStoppingCondition? = nil,
             tags: [SageMakerClientTypes.Tag]? = nil,
@@ -54138,15 +54140,15 @@ extension SageMakerClientTypes {
     public struct ProcessingJobSummary {
         /// The time at which the processing job was created.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// An optional string, up to one KB in size, that contains metadata from the processing container when the processing job exits.
         public var exitMessage: Swift.String?
         /// A string, up to one KB in size, that contains the reason a processing job failed, if it failed.
         public var failureReason: Swift.String?
         /// A timestamp that indicates the last time the processing job was modified.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// The time at which the processing job completed.
-        public var processingEndTime: ClientRuntime.Date?
+        public var processingEndTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the processing job..
         /// This member is required.
         public var processingJobArn: Swift.String?
@@ -54158,11 +54160,11 @@ extension SageMakerClientTypes {
         public var processingJobStatus: SageMakerClientTypes.ProcessingJobStatus?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             exitMessage: Swift.String? = nil,
             failureReason: Swift.String? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
-            processingEndTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            processingEndTime: Foundation.Date? = nil,
             processingJobArn: Swift.String? = nil,
             processingJobName: Swift.String? = nil,
             processingJobStatus: SageMakerClientTypes.ProcessingJobStatus? = nil
@@ -55563,7 +55565,7 @@ extension SageMakerClientTypes {
     /// Describes the status of the production variant.
     public struct ProductionVariantStatus {
         /// The start time of the current status change.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
         /// The endpoint variant status which describes the current deployment stage status or operational status.
         ///
         /// * Creating: Creating inference resources for the production variant.
@@ -55581,7 +55583,7 @@ extension SageMakerClientTypes {
         public var statusMessage: Swift.String?
 
         public init(
-            startTime: ClientRuntime.Date? = nil,
+            startTime: Foundation.Date? = nil,
             status: SageMakerClientTypes.VariantStatus? = nil,
             statusMessage: Swift.String? = nil
         )
@@ -55846,7 +55848,7 @@ extension SageMakerClientTypes {
     /// Information about the status of the rule evaluation.
     public struct ProfilerRuleEvaluationStatus {
         /// Timestamp when the rule evaluation status was last modified.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// The name of the rule configuration.
         public var ruleConfigurationName: Swift.String?
         /// The Amazon Resource Name (ARN) of the rule evaluation job.
@@ -55857,7 +55859,7 @@ extension SageMakerClientTypes {
         public var statusDetails: Swift.String?
 
         public init(
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             ruleConfigurationName: Swift.String? = nil,
             ruleEvaluationJobArn: Swift.String? = nil,
             ruleEvaluationStatus: SageMakerClientTypes.RuleEvaluationStatus? = nil,
@@ -55930,11 +55932,11 @@ extension SageMakerClientTypes {
         /// Who created the project.
         public var createdBy: SageMakerClientTypes.UserContext?
         /// A timestamp specifying when the project was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
         public var lastModifiedBy: SageMakerClientTypes.UserContext?
         /// A timestamp container for when the project was last modified.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the project.
         public var projectArn: Swift.String?
         /// The description of the project.
@@ -55954,9 +55956,9 @@ extension SageMakerClientTypes {
 
         public init(
             createdBy: SageMakerClientTypes.UserContext? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             lastModifiedBy: SageMakerClientTypes.UserContext? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             projectArn: Swift.String? = nil,
             projectDescription: Swift.String? = nil,
             projectId: Swift.String? = nil,
@@ -56115,7 +56117,7 @@ extension SageMakerClientTypes {
     public struct ProjectSummary {
         /// The time that the project was created.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the project.
         /// This member is required.
         public var projectArn: Swift.String?
@@ -56132,7 +56134,7 @@ extension SageMakerClientTypes {
         public var projectStatus: SageMakerClientTypes.ProjectStatus?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             projectArn: Swift.String? = nil,
             projectDescription: Swift.String? = nil,
             projectId: Swift.String? = nil,
@@ -56505,7 +56507,7 @@ public struct PutModelPackageGroupPolicyInput {
 
 extension PutModelPackageGroupPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutModelPackageGroupPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutModelPackageGroupPolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -56530,7 +56532,7 @@ public struct PutModelPackageGroupPolicyOutput {
 
 enum PutModelPackageGroupPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -56631,26 +56633,26 @@ extension SageMakerClientTypes {
     /// A set of filters to narrow the set of lineage entities connected to the StartArn(s) returned by the QueryLineage API action.
     public struct QueryFilters {
         /// Filter the lineage entities connected to the StartArn(s) after the create date.
-        public var createdAfter: ClientRuntime.Date?
+        public var createdAfter: Foundation.Date?
         /// Filter the lineage entities connected to the StartArn(s) by created date.
-        public var createdBefore: ClientRuntime.Date?
+        public var createdBefore: Foundation.Date?
         /// Filter the lineage entities connected to the StartArn(s) by the type of the lineage entity.
         public var lineageTypes: [SageMakerClientTypes.LineageType]?
         /// Filter the lineage entities connected to the StartArn(s) after the last modified date.
-        public var modifiedAfter: ClientRuntime.Date?
+        public var modifiedAfter: Foundation.Date?
         /// Filter the lineage entities connected to the StartArn(s) before the last modified date.
-        public var modifiedBefore: ClientRuntime.Date?
+        public var modifiedBefore: Foundation.Date?
         /// Filter the lineage entities connected to the StartArn(s) by a set if property key value pairs. If multiple pairs are provided, an entity is included in the results if it matches any of the provided pairs.
         public var properties: [Swift.String:Swift.String]?
         /// Filter the lineage entities connected to the StartArn by type. For example: DataSet, Model, Endpoint, or ModelDeployment.
         public var types: [Swift.String]?
 
         public init(
-            createdAfter: ClientRuntime.Date? = nil,
-            createdBefore: ClientRuntime.Date? = nil,
+            createdAfter: Foundation.Date? = nil,
+            createdBefore: Foundation.Date? = nil,
             lineageTypes: [SageMakerClientTypes.LineageType]? = nil,
-            modifiedAfter: ClientRuntime.Date? = nil,
-            modifiedBefore: ClientRuntime.Date? = nil,
+            modifiedAfter: Foundation.Date? = nil,
+            modifiedBefore: Foundation.Date? = nil,
             properties: [Swift.String:Swift.String]? = nil,
             types: [Swift.String]? = nil
         )
@@ -56736,7 +56738,7 @@ public struct QueryLineageInput {
 
 extension QueryLineageOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> QueryLineageOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> QueryLineageOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -56770,7 +56772,7 @@ public struct QueryLineageOutput {
 
 enum QueryLineageOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -57216,9 +57218,9 @@ extension SageMakerClientTypes {
         /// The reason why a benchmark failed.
         public var failureReason: Swift.String?
         /// A timestamp that shows when the benchmark completed.
-        public var invocationEndTime: ClientRuntime.Date?
+        public var invocationEndTime: Foundation.Date?
         /// A timestamp that shows when the benchmark started.
-        public var invocationStartTime: ClientRuntime.Date?
+        public var invocationStartTime: Foundation.Date?
         /// The metrics of recommendations.
         public var metrics: SageMakerClientTypes.RecommendationMetrics?
         /// Defines the model configuration. Includes the specification name and environment parameters.
@@ -57229,8 +57231,8 @@ extension SageMakerClientTypes {
             endpointConfiguration: SageMakerClientTypes.EndpointOutputConfiguration? = nil,
             endpointMetrics: SageMakerClientTypes.InferenceMetrics? = nil,
             failureReason: Swift.String? = nil,
-            invocationEndTime: ClientRuntime.Date? = nil,
-            invocationStartTime: ClientRuntime.Date? = nil,
+            invocationEndTime: Foundation.Date? = nil,
+            invocationStartTime: Foundation.Date? = nil,
             metrics: SageMakerClientTypes.RecommendationMetrics? = nil,
             modelConfiguration: SageMakerClientTypes.ModelConfiguration? = nil
         )
@@ -57990,7 +57992,7 @@ public struct RegisterDevicesInput {
 
 extension RegisterDevicesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RegisterDevicesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RegisterDevicesOutput {
         return RegisterDevicesOutput()
     }
 }
@@ -58002,7 +58004,7 @@ public struct RegisterDevicesOutput {
 
 enum RegisterDevicesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -58141,7 +58143,7 @@ public struct RenderUiTemplateInput {
 
 extension RenderUiTemplateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RenderUiTemplateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RenderUiTemplateOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -58172,7 +58174,7 @@ public struct RenderUiTemplateOutput {
 
 enum RenderUiTemplateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -58357,7 +58359,7 @@ extension SageMakerClientTypes {
     public struct ResourceCatalog {
         /// The time the ResourceCatalog was created.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// A free form description of the ResourceCatalog.
         /// This member is required.
         public var description: Swift.String?
@@ -58369,7 +58371,7 @@ extension SageMakerClientTypes {
         public var resourceCatalogName: Swift.String?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
             resourceCatalogArn: Swift.String? = nil,
             resourceCatalogName: Swift.String? = nil
@@ -58915,7 +58917,7 @@ public struct RetryPipelineExecutionInput {
 
 extension RetryPipelineExecutionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RetryPipelineExecutionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RetryPipelineExecutionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -58939,7 +58941,7 @@ public struct RetryPipelineExecutionOutput {
 
 enum RetryPipelineExecutionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -59785,7 +59787,7 @@ public struct SearchInput {
 
 extension SearchOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SearchOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SearchOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -59814,7 +59816,7 @@ public struct SearchOutput {
 
 enum SearchOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -60041,10 +60043,10 @@ extension SageMakerClientTypes {
     /// An array element of SecondaryStatusTransitions for [DescribeTrainingJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeTrainingJob.html). It provides additional details about a status that the training job has transitioned through. A training job can be in one of several states, for example, starting, downloading, training, or uploading. Within each state, there are a number of intermediate states. For example, within the starting state, SageMaker could be starting the training job or launching the ML instances. These transitional states are referred to as the job's secondary status.
     public struct SecondaryStatusTransition {
         /// A timestamp that shows when the training job transitioned out of this secondary status state into another secondary status state or when the training job has ended.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// A timestamp that shows when the training job transitioned to the current secondary status state.
         /// This member is required.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
         /// Contains a secondary status information from a training job. Status might be one of the following secondary statuses: InProgress
         ///
         /// * Starting - Starting the training job.
@@ -60115,8 +60117,8 @@ extension SageMakerClientTypes {
         public var statusMessage: Swift.String?
 
         public init(
-            endTime: ClientRuntime.Date? = nil,
-            startTime: ClientRuntime.Date? = nil,
+            endTime: Foundation.Date? = nil,
+            startTime: Foundation.Date? = nil,
             status: SageMakerClientTypes.SecondaryStatus? = nil,
             statusMessage: Swift.String? = nil
         )
@@ -60266,7 +60268,7 @@ public struct SendPipelineExecutionStepFailureInput {
 
 extension SendPipelineExecutionStepFailureOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SendPipelineExecutionStepFailureOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SendPipelineExecutionStepFailureOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -60290,7 +60292,7 @@ public struct SendPipelineExecutionStepFailureOutput {
 
 enum SendPipelineExecutionStepFailureOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -60344,7 +60346,7 @@ public struct SendPipelineExecutionStepSuccessInput {
 
 extension SendPipelineExecutionStepSuccessOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SendPipelineExecutionStepSuccessOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SendPipelineExecutionStepSuccessOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -60368,7 +60370,7 @@ public struct SendPipelineExecutionStepSuccessOutput {
 
 enum SendPipelineExecutionStepSuccessOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -61287,11 +61289,11 @@ extension SageMakerClientTypes {
     /// The space's details.
     public struct SpaceDetails {
         /// The creation time.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The ID of the associated domain.
         public var domainId: Swift.String?
         /// The last modified time.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// Specifies summary information about the ownership settings.
         public var ownershipSettingsSummary: SageMakerClientTypes.OwnershipSettingsSummary?
         /// The name of the space that appears in the Studio UI.
@@ -61306,9 +61308,9 @@ extension SageMakerClientTypes {
         public var status: SageMakerClientTypes.SpaceStatus?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             domainId: Swift.String? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             ownershipSettingsSummary: SageMakerClientTypes.OwnershipSettingsSummary? = nil,
             spaceDisplayName: Swift.String? = nil,
             spaceName: Swift.String? = nil,
@@ -61789,7 +61791,7 @@ public struct StartEdgeDeploymentStageInput {
 
 extension StartEdgeDeploymentStageOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartEdgeDeploymentStageOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartEdgeDeploymentStageOutput {
         return StartEdgeDeploymentStageOutput()
     }
 }
@@ -61801,7 +61803,7 @@ public struct StartEdgeDeploymentStageOutput {
 
 enum StartEdgeDeploymentStageOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -61842,7 +61844,7 @@ public struct StartInferenceExperimentInput {
 
 extension StartInferenceExperimentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartInferenceExperimentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartInferenceExperimentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -61867,7 +61869,7 @@ public struct StartInferenceExperimentOutput {
 
 enum StartInferenceExperimentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -61910,7 +61912,7 @@ public struct StartMonitoringScheduleInput {
 
 extension StartMonitoringScheduleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartMonitoringScheduleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartMonitoringScheduleOutput {
         return StartMonitoringScheduleOutput()
     }
 }
@@ -61922,7 +61924,7 @@ public struct StartMonitoringScheduleOutput {
 
 enum StartMonitoringScheduleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -61964,7 +61966,7 @@ public struct StartNotebookInstanceInput {
 
 extension StartNotebookInstanceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartNotebookInstanceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartNotebookInstanceOutput {
         return StartNotebookInstanceOutput()
     }
 }
@@ -61976,7 +61978,7 @@ public struct StartNotebookInstanceOutput {
 
 enum StartNotebookInstanceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -62049,7 +62051,7 @@ public struct StartPipelineExecutionInput {
 
 extension StartPipelineExecutionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartPipelineExecutionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartPipelineExecutionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -62073,7 +62075,7 @@ public struct StartPipelineExecutionOutput {
 
 enum StartPipelineExecutionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -62196,7 +62198,7 @@ public struct StopAutoMLJobInput {
 
 extension StopAutoMLJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopAutoMLJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopAutoMLJobOutput {
         return StopAutoMLJobOutput()
     }
 }
@@ -62208,7 +62210,7 @@ public struct StopAutoMLJobOutput {
 
 enum StopAutoMLJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -62250,7 +62252,7 @@ public struct StopCompilationJobInput {
 
 extension StopCompilationJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopCompilationJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopCompilationJobOutput {
         return StopCompilationJobOutput()
     }
 }
@@ -62262,7 +62264,7 @@ public struct StopCompilationJobOutput {
 
 enum StopCompilationJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -62310,7 +62312,7 @@ public struct StopEdgeDeploymentStageInput {
 
 extension StopEdgeDeploymentStageOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopEdgeDeploymentStageOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopEdgeDeploymentStageOutput {
         return StopEdgeDeploymentStageOutput()
     }
 }
@@ -62322,7 +62324,7 @@ public struct StopEdgeDeploymentStageOutput {
 
 enum StopEdgeDeploymentStageOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -62363,7 +62365,7 @@ public struct StopEdgePackagingJobInput {
 
 extension StopEdgePackagingJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopEdgePackagingJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopEdgePackagingJobOutput {
         return StopEdgePackagingJobOutput()
     }
 }
@@ -62375,7 +62377,7 @@ public struct StopEdgePackagingJobOutput {
 
 enum StopEdgePackagingJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -62416,7 +62418,7 @@ public struct StopHyperParameterTuningJobInput {
 
 extension StopHyperParameterTuningJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopHyperParameterTuningJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopHyperParameterTuningJobOutput {
         return StopHyperParameterTuningJobOutput()
     }
 }
@@ -62428,7 +62430,7 @@ public struct StopHyperParameterTuningJobOutput {
 
 enum StopHyperParameterTuningJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -62501,7 +62503,7 @@ public struct StopInferenceExperimentInput {
 
 extension StopInferenceExperimentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopInferenceExperimentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopInferenceExperimentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -62526,7 +62528,7 @@ public struct StopInferenceExperimentOutput {
 
 enum StopInferenceExperimentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -62569,7 +62571,7 @@ public struct StopInferenceRecommendationsJobInput {
 
 extension StopInferenceRecommendationsJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopInferenceRecommendationsJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopInferenceRecommendationsJobOutput {
         return StopInferenceRecommendationsJobOutput()
     }
 }
@@ -62581,7 +62583,7 @@ public struct StopInferenceRecommendationsJobOutput {
 
 enum StopInferenceRecommendationsJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -62623,7 +62625,7 @@ public struct StopLabelingJobInput {
 
 extension StopLabelingJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopLabelingJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopLabelingJobOutput {
         return StopLabelingJobOutput()
     }
 }
@@ -62635,7 +62637,7 @@ public struct StopLabelingJobOutput {
 
 enum StopLabelingJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -62677,7 +62679,7 @@ public struct StopMonitoringScheduleInput {
 
 extension StopMonitoringScheduleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopMonitoringScheduleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopMonitoringScheduleOutput {
         return StopMonitoringScheduleOutput()
     }
 }
@@ -62689,7 +62691,7 @@ public struct StopMonitoringScheduleOutput {
 
 enum StopMonitoringScheduleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -62731,7 +62733,7 @@ public struct StopNotebookInstanceInput {
 
 extension StopNotebookInstanceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopNotebookInstanceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopNotebookInstanceOutput {
         return StopNotebookInstanceOutput()
     }
 }
@@ -62743,7 +62745,7 @@ public struct StopNotebookInstanceOutput {
 
 enum StopNotebookInstanceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -62790,7 +62792,7 @@ public struct StopPipelineExecutionInput {
 
 extension StopPipelineExecutionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopPipelineExecutionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopPipelineExecutionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -62814,7 +62816,7 @@ public struct StopPipelineExecutionOutput {
 
 enum StopPipelineExecutionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -62857,7 +62859,7 @@ public struct StopProcessingJobInput {
 
 extension StopProcessingJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopProcessingJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopProcessingJobOutput {
         return StopProcessingJobOutput()
     }
 }
@@ -62869,7 +62871,7 @@ public struct StopProcessingJobOutput {
 
 enum StopProcessingJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -62911,7 +62913,7 @@ public struct StopTrainingJobInput {
 
 extension StopTrainingJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopTrainingJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopTrainingJobOutput {
         return StopTrainingJobOutput()
     }
 }
@@ -62923,7 +62925,7 @@ public struct StopTrainingJobOutput {
 
 enum StopTrainingJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -62965,7 +62967,7 @@ public struct StopTransformJobInput {
 
 extension StopTransformJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopTransformJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopTransformJobOutput {
         return StopTransformJobOutput()
     }
 }
@@ -62977,7 +62979,7 @@ public struct StopTransformJobOutput {
 
 enum StopTransformJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -63114,9 +63116,9 @@ extension SageMakerClientTypes {
     /// Details of the Amazon SageMaker Studio Lifecycle Configuration.
     public struct StudioLifecycleConfigDetails {
         /// The creation time of the Amazon SageMaker Studio Lifecycle Configuration.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// This value is equivalent to CreationTime because Amazon SageMaker Studio Lifecycle Configurations are immutable.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// The App type to which the Lifecycle Configuration is attached.
         public var studioLifecycleConfigAppType: SageMakerClientTypes.StudioLifecycleConfigAppType?
         /// The Amazon Resource Name (ARN) of the Lifecycle Configuration.
@@ -63125,8 +63127,8 @@ extension SageMakerClientTypes {
         public var studioLifecycleConfigName: Swift.String?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             studioLifecycleConfigAppType: SageMakerClientTypes.StudioLifecycleConfigAppType? = nil,
             studioLifecycleConfigArn: Swift.String? = nil,
             studioLifecycleConfigName: Swift.String? = nil
@@ -64862,7 +64864,7 @@ extension SageMakerClientTypes {
         /// Contains information about the output location for managed spot training checkpoint data.
         public var checkpointConfig: SageMakerClientTypes.CheckpointConfig?
         /// A timestamp that indicates when the training job was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// Configuration information for the Amazon SageMaker Debugger hook parameters, metric and tensor collections, and storage paths. To learn more about how to configure the DebugHookConfig parameter, see [Use the SageMaker and Debugger Configuration API Operations to Create, Update, and Debug Your Training Job](https://docs.aws.amazon.com/sagemaker/latest/dg/debugger-createtrainingjob-api.html).
         public var debugHookConfig: SageMakerClientTypes.DebugHookConfig?
         /// Information about the debug rule configuration.
@@ -64896,7 +64898,7 @@ extension SageMakerClientTypes {
         /// The Amazon Resource Name (ARN) of the labeling job.
         public var labelingJobArn: Swift.String?
         /// A timestamp that indicates when the status of the training job was last modified.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// Information about the Amazon S3 location that is configured for storing model artifacts.
         public var modelArtifacts: SageMakerClientTypes.ModelArtifacts?
         /// The S3 path where model artifacts that you configured when creating the job are stored. SageMaker creates subfolders for model artifacts.
@@ -64959,7 +64961,7 @@ extension SageMakerClientTypes {
         /// Configuration of storage locations for the Amazon SageMaker Debugger TensorBoard output data.
         public var tensorBoardOutputConfig: SageMakerClientTypes.TensorBoardOutputConfig?
         /// Indicates the time when the training job ends on training instances. You are billed for the time interval between the value of TrainingStartTime and this time. For successful jobs and stopped jobs, this is the time after model artifacts are uploaded. For failed jobs, this is the time when SageMaker detects a job failure.
-        public var trainingEndTime: ClientRuntime.Date?
+        public var trainingEndTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the training job.
         public var trainingJobArn: Swift.String?
         /// The name of the training job.
@@ -64980,7 +64982,7 @@ extension SageMakerClientTypes {
         /// For more detailed information, see SecondaryStatus.
         public var trainingJobStatus: SageMakerClientTypes.TrainingJobStatus?
         /// Indicates the time when the training job starts on training instances. You are billed for the time interval between this time and the value of TrainingEndTime. The start time in CloudWatch Logs might be later than this time. The difference is due to the time it takes to download the training data and to the size of the training container.
-        public var trainingStartTime: ClientRuntime.Date?
+        public var trainingStartTime: Foundation.Date?
         /// The training time in seconds.
         public var trainingTimeInSeconds: Swift.Int?
         /// The Amazon Resource Name (ARN) of the associated hyperparameter tuning job if the training job was launched by a hyperparameter tuning job.
@@ -64993,7 +64995,7 @@ extension SageMakerClientTypes {
             autoMLJobArn: Swift.String? = nil,
             billableTimeInSeconds: Swift.Int? = nil,
             checkpointConfig: SageMakerClientTypes.CheckpointConfig? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             debugHookConfig: SageMakerClientTypes.DebugHookConfig? = nil,
             debugRuleConfigurations: [SageMakerClientTypes.DebugRuleConfiguration]? = nil,
             debugRuleEvaluationStatuses: [SageMakerClientTypes.DebugRuleEvaluationStatus]? = nil,
@@ -65007,7 +65009,7 @@ extension SageMakerClientTypes {
             hyperParameters: [Swift.String:Swift.String]? = nil,
             inputDataConfig: [SageMakerClientTypes.Channel]? = nil,
             labelingJobArn: Swift.String? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             modelArtifacts: SageMakerClientTypes.ModelArtifacts? = nil,
             outputDataConfig: SageMakerClientTypes.OutputDataConfig? = nil,
             profilerConfig: SageMakerClientTypes.ProfilerConfig? = nil,
@@ -65019,11 +65021,11 @@ extension SageMakerClientTypes {
             stoppingCondition: SageMakerClientTypes.StoppingCondition? = nil,
             tags: [SageMakerClientTypes.Tag]? = nil,
             tensorBoardOutputConfig: SageMakerClientTypes.TensorBoardOutputConfig? = nil,
-            trainingEndTime: ClientRuntime.Date? = nil,
+            trainingEndTime: Foundation.Date? = nil,
             trainingJobArn: Swift.String? = nil,
             trainingJobName: Swift.String? = nil,
             trainingJobStatus: SageMakerClientTypes.TrainingJobStatus? = nil,
-            trainingStartTime: ClientRuntime.Date? = nil,
+            trainingStartTime: Foundation.Date? = nil,
             trainingTimeInSeconds: Swift.Int? = nil,
             tuningJobArn: Swift.String? = nil,
             vpcConfig: SageMakerClientTypes.VpcConfig? = nil
@@ -65333,11 +65335,11 @@ extension SageMakerClientTypes {
     public struct TrainingJobSummary {
         /// A timestamp that shows when the training job was created.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// Timestamp when the training job was last modified.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// A timestamp that shows when the training job ended. This field is set only if the training job has one of the terminal statuses (Completed, Failed, or Stopped).
-        public var trainingEndTime: ClientRuntime.Date?
+        public var trainingEndTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the training job.
         /// This member is required.
         public var trainingJobArn: Swift.String?
@@ -65351,9 +65353,9 @@ extension SageMakerClientTypes {
         public var warmPoolStatus: SageMakerClientTypes.WarmPoolStatus?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
-            trainingEndTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            trainingEndTime: Foundation.Date? = nil,
             trainingJobArn: Swift.String? = nil,
             trainingJobName: Swift.String? = nil,
             trainingJobStatus: SageMakerClientTypes.TrainingJobStatus? = nil,
@@ -65948,7 +65950,7 @@ extension SageMakerClientTypes {
         /// Specifies the number of records to include in a mini-batch for an HTTP inference request. A record is a single unit of input data that inference can be made on. For example, a single line in a CSV file is a record.
         public var batchStrategy: SageMakerClientTypes.BatchStrategy?
         /// A timestamp that shows when the transform Job was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// Configuration to control how SageMaker captures inference data for batch transform jobs.
         public var dataCaptureConfig: SageMakerClientTypes.BatchDataCaptureConfig?
         /// The data structure used to specify the data to be used for inference in a batch transform job and to associate the data that is relevant to the prediction results in the output. The input filter provided allows you to exclude input data that is not needed for inference in a batch transform job. The output filter provided allows you to include input data relevant to interpreting the predictions in the output from the job. For more information, see [Associate Prediction Results with their Corresponding Input Records](https://docs.aws.amazon.com/sagemaker/latest/dg/batch-transform-data-processing.html).
@@ -65978,7 +65980,7 @@ extension SageMakerClientTypes {
         /// A list of tags associated with the transform job.
         public var tags: [SageMakerClientTypes.Tag]?
         /// Indicates when the transform job has been completed, or has stopped or failed. You are billed for the time interval between this time and the value of TransformStartTime.
-        public var transformEndTime: ClientRuntime.Date?
+        public var transformEndTime: Foundation.Date?
         /// Describes the input source of a transform job and the way the transform job consumes it.
         public var transformInput: SageMakerClientTypes.TransformInput?
         /// The Amazon Resource Name (ARN) of the transform job.
@@ -66002,12 +66004,12 @@ extension SageMakerClientTypes {
         /// Describes the resources, including ML instance types and ML instance count, to use for transform job.
         public var transformResources: SageMakerClientTypes.TransformResources?
         /// Indicates when the transform job starts on ML instances. You are billed for the time interval between this time and the value of TransformEndTime.
-        public var transformStartTime: ClientRuntime.Date?
+        public var transformStartTime: Foundation.Date?
 
         public init(
             autoMLJobArn: Swift.String? = nil,
             batchStrategy: SageMakerClientTypes.BatchStrategy? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             dataCaptureConfig: SageMakerClientTypes.BatchDataCaptureConfig? = nil,
             dataProcessing: SageMakerClientTypes.DataProcessing? = nil,
             environment: [Swift.String:Swift.String]? = nil,
@@ -66019,14 +66021,14 @@ extension SageMakerClientTypes {
             modelClientConfig: SageMakerClientTypes.ModelClientConfig? = nil,
             modelName: Swift.String? = nil,
             tags: [SageMakerClientTypes.Tag]? = nil,
-            transformEndTime: ClientRuntime.Date? = nil,
+            transformEndTime: Foundation.Date? = nil,
             transformInput: SageMakerClientTypes.TransformInput? = nil,
             transformJobArn: Swift.String? = nil,
             transformJobName: Swift.String? = nil,
             transformJobStatus: SageMakerClientTypes.TransformJobStatus? = nil,
             transformOutput: SageMakerClientTypes.TransformOutput? = nil,
             transformResources: SageMakerClientTypes.TransformResources? = nil,
-            transformStartTime: ClientRuntime.Date? = nil
+            transformStartTime: Foundation.Date? = nil
         )
         {
             self.autoMLJobArn = autoMLJobArn
@@ -66211,13 +66213,13 @@ extension SageMakerClientTypes {
     public struct TransformJobSummary {
         /// A timestamp that shows when the transform Job was created.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// If the transform job failed, the reason it failed.
         public var failureReason: Swift.String?
         /// Indicates when the transform job was last modified.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// Indicates when the transform job ends on compute instances. For successful jobs and stopped jobs, this is the exact time recorded after the results are uploaded. For failed jobs, this is when Amazon SageMaker detected that the job failed.
-        public var transformEndTime: ClientRuntime.Date?
+        public var transformEndTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the transform job.
         /// This member is required.
         public var transformJobArn: Swift.String?
@@ -66229,10 +66231,10 @@ extension SageMakerClientTypes {
         public var transformJobStatus: SageMakerClientTypes.TransformJobStatus?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             failureReason: Swift.String? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
-            transformEndTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            transformEndTime: Foundation.Date? = nil,
             transformJobArn: Swift.String? = nil,
             transformJobName: Swift.String? = nil,
             transformJobStatus: SageMakerClientTypes.TransformJobStatus? = nil
@@ -66434,7 +66436,7 @@ extension SageMakerClientTypes {
         /// Who created the trial.
         public var createdBy: SageMakerClientTypes.UserContext?
         /// When the trial was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The name of the trial as displayed. If DisplayName isn't specified, TrialName is displayed.
         public var displayName: Swift.String?
         /// The name of the experiment the trial is part of.
@@ -66442,7 +66444,7 @@ extension SageMakerClientTypes {
         /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
         public var lastModifiedBy: SageMakerClientTypes.UserContext?
         /// Who last modified the trial.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// Metadata properties of the tracking entity, trial, or trial component.
         public var metadataProperties: SageMakerClientTypes.MetadataProperties?
         /// The source of the trial.
@@ -66458,11 +66460,11 @@ extension SageMakerClientTypes {
 
         public init(
             createdBy: SageMakerClientTypes.UserContext? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             displayName: Swift.String? = nil,
             experimentName: Swift.String? = nil,
             lastModifiedBy: SageMakerClientTypes.UserContext? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             metadataProperties: SageMakerClientTypes.MetadataProperties? = nil,
             source: SageMakerClientTypes.TrialSource? = nil,
             tags: [SageMakerClientTypes.Tag]? = nil,
@@ -66524,17 +66526,17 @@ extension SageMakerClientTypes {
         /// Who created the trial component.
         public var createdBy: SageMakerClientTypes.UserContext?
         /// When the component was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The name of the component as displayed. If DisplayName isn't specified, TrialComponentName is displayed.
         public var displayName: Swift.String?
         /// When the component ended.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// The input artifacts of the component.
         public var inputArtifacts: [Swift.String:SageMakerClientTypes.TrialComponentArtifact]?
         /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
         public var lastModifiedBy: SageMakerClientTypes.UserContext?
         /// When the component was last modified.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the lineage group resource.
         public var lineageGroupArn: Swift.String?
         /// Metadata properties of the tracking entity, trial, or trial component.
@@ -66554,7 +66556,7 @@ extension SageMakerClientTypes {
         /// Details of the source of the component.
         public var sourceDetail: SageMakerClientTypes.TrialComponentSourceDetail?
         /// When the component started.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
         /// The status of the trial component.
         public var status: SageMakerClientTypes.TrialComponentStatus?
         /// The list of tags that are associated with the component. You can use [Search](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Search.html) API to search on the tags.
@@ -66566,12 +66568,12 @@ extension SageMakerClientTypes {
 
         public init(
             createdBy: SageMakerClientTypes.UserContext? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             displayName: Swift.String? = nil,
-            endTime: ClientRuntime.Date? = nil,
+            endTime: Foundation.Date? = nil,
             inputArtifacts: [Swift.String:SageMakerClientTypes.TrialComponentArtifact]? = nil,
             lastModifiedBy: SageMakerClientTypes.UserContext? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             lineageGroupArn: Swift.String? = nil,
             metadataProperties: SageMakerClientTypes.MetadataProperties? = nil,
             metrics: [SageMakerClientTypes.TrialComponentMetricSummary]? = nil,
@@ -66581,7 +66583,7 @@ extension SageMakerClientTypes {
             runName: Swift.String? = nil,
             source: SageMakerClientTypes.TrialComponentSource? = nil,
             sourceDetail: SageMakerClientTypes.TrialComponentSourceDetail? = nil,
-            startTime: ClientRuntime.Date? = nil,
+            startTime: Foundation.Date? = nil,
             status: SageMakerClientTypes.TrialComponentStatus? = nil,
             tags: [SageMakerClientTypes.Tag]? = nil,
             trialComponentArn: Swift.String? = nil,
@@ -66690,7 +66692,7 @@ extension SageMakerClientTypes {
         /// The standard deviation of the metric.
         public var stdDev: Swift.Double?
         /// When the metric was last updated.
-        public var timeStamp: ClientRuntime.Date?
+        public var timeStamp: Foundation.Date?
 
         public init(
             avg: Swift.Double? = nil,
@@ -66701,7 +66703,7 @@ extension SageMakerClientTypes {
             min: Swift.Double? = nil,
             sourceArn: Swift.String? = nil,
             stdDev: Swift.Double? = nil,
-            timeStamp: ClientRuntime.Date? = nil
+            timeStamp: Foundation.Date? = nil
         )
         {
             self.avg = avg
@@ -66816,7 +66818,7 @@ extension SageMakerClientTypes {
         /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
         public var createdBy: SageMakerClientTypes.UserContext?
         /// When the component was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the trial component.
         public var trialComponentArn: Swift.String?
         /// The name of the trial component.
@@ -66826,7 +66828,7 @@ extension SageMakerClientTypes {
 
         public init(
             createdBy: SageMakerClientTypes.UserContext? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             trialComponentArn: Swift.String? = nil,
             trialComponentName: Swift.String? = nil,
             trialComponentSource: SageMakerClientTypes.TrialComponentSource? = nil
@@ -66978,17 +66980,17 @@ extension SageMakerClientTypes {
         /// Who created the trial component.
         public var createdBy: SageMakerClientTypes.UserContext?
         /// When the component was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The name of the component as displayed. If DisplayName isn't specified, TrialComponentName is displayed.
         public var displayName: Swift.String?
         /// When the component ended.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// Who last modified the component.
         public var lastModifiedBy: SageMakerClientTypes.UserContext?
         /// When the component was last modified.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// When the component started.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
         /// The status of the component. States include:
         ///
         /// * InProgress
@@ -67006,12 +67008,12 @@ extension SageMakerClientTypes {
 
         public init(
             createdBy: SageMakerClientTypes.UserContext? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             displayName: Swift.String? = nil,
-            endTime: ClientRuntime.Date? = nil,
+            endTime: Foundation.Date? = nil,
             lastModifiedBy: SageMakerClientTypes.UserContext? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
-            startTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            startTime: Foundation.Date? = nil,
             status: SageMakerClientTypes.TrialComponentStatus? = nil,
             trialComponentArn: Swift.String? = nil,
             trialComponentName: Swift.String? = nil,
@@ -67085,11 +67087,11 @@ extension SageMakerClientTypes {
     /// A summary of the properties of a trial. To get the complete set of properties, call the [DescribeTrial](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeTrial.html) API and provide the TrialName.
     public struct TrialSummary {
         /// When the trial was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The name of the trial as displayed. If DisplayName isn't specified, TrialName is displayed.
         public var displayName: Swift.String?
         /// When the trial was last modified.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the trial.
         public var trialArn: Swift.String?
         /// The name of the trial.
@@ -67098,9 +67100,9 @@ extension SageMakerClientTypes {
         public var trialSource: SageMakerClientTypes.TrialSource?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             displayName: Swift.String? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             trialArn: Swift.String? = nil,
             trialName: Swift.String? = nil,
             trialSource: SageMakerClientTypes.TrialSource? = nil
@@ -67469,7 +67471,7 @@ public struct UpdateActionInput {
 
 extension UpdateActionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateActionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateActionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -67493,7 +67495,7 @@ public struct UpdateActionOutput {
 
 enum UpdateActionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -67551,7 +67553,7 @@ public struct UpdateAppImageConfigInput {
 
 extension UpdateAppImageConfigOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateAppImageConfigOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateAppImageConfigOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -67575,7 +67577,7 @@ public struct UpdateAppImageConfigOutput {
 
 enum UpdateAppImageConfigOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -67632,7 +67634,7 @@ public struct UpdateArtifactInput {
 
 extension UpdateArtifactOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateArtifactOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateArtifactOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -67656,7 +67658,7 @@ public struct UpdateArtifactOutput {
 
 enum UpdateArtifactOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -67705,7 +67707,7 @@ public struct UpdateClusterInput {
 
 extension UpdateClusterOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateClusterOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateClusterOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -67730,7 +67732,7 @@ public struct UpdateClusterOutput {
 
 enum UpdateClusterOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -67774,7 +67776,7 @@ public struct UpdateClusterSoftwareInput {
 
 extension UpdateClusterSoftwareOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateClusterSoftwareOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateClusterSoftwareOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -67799,7 +67801,7 @@ public struct UpdateClusterSoftwareOutput {
 
 enum UpdateClusterSoftwareOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -67847,7 +67849,7 @@ public struct UpdateCodeRepositoryInput {
 
 extension UpdateCodeRepositoryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateCodeRepositoryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateCodeRepositoryOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -67872,7 +67874,7 @@ public struct UpdateCodeRepositoryOutput {
 
 enum UpdateCodeRepositoryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -67929,7 +67931,7 @@ public struct UpdateContextInput {
 
 extension UpdateContextOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateContextOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateContextOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -67953,7 +67955,7 @@ public struct UpdateContextOutput {
 
 enum UpdateContextOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -68017,7 +68019,7 @@ public struct UpdateDeviceFleetInput {
 
 extension UpdateDeviceFleetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateDeviceFleetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateDeviceFleetOutput {
         return UpdateDeviceFleetOutput()
     }
 }
@@ -68029,7 +68031,7 @@ public struct UpdateDeviceFleetOutput {
 
 enum UpdateDeviceFleetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -68077,7 +68079,7 @@ public struct UpdateDevicesInput {
 
 extension UpdateDevicesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateDevicesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateDevicesOutput {
         return UpdateDevicesOutput()
     }
 }
@@ -68089,7 +68091,7 @@ public struct UpdateDevicesOutput {
 
 enum UpdateDevicesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -68167,7 +68169,7 @@ public struct UpdateDomainInput {
 
 extension UpdateDomainOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateDomainOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateDomainOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -68191,7 +68193,7 @@ public struct UpdateDomainOutput {
 
 enum UpdateDomainOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -68261,7 +68263,7 @@ public struct UpdateEndpointInput {
 
 extension UpdateEndpointOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateEndpointOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateEndpointOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -68286,7 +68288,7 @@ public struct UpdateEndpointOutput {
 
 enum UpdateEndpointOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -68334,7 +68336,7 @@ public struct UpdateEndpointWeightsAndCapacitiesInput {
 
 extension UpdateEndpointWeightsAndCapacitiesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateEndpointWeightsAndCapacitiesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateEndpointWeightsAndCapacitiesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -68359,7 +68361,7 @@ public struct UpdateEndpointWeightsAndCapacitiesOutput {
 
 enum UpdateEndpointWeightsAndCapacitiesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -68411,7 +68413,7 @@ public struct UpdateExperimentInput {
 
 extension UpdateExperimentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateExperimentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateExperimentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -68435,7 +68437,7 @@ public struct UpdateExperimentOutput {
 
 enum UpdateExperimentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -68493,7 +68495,7 @@ public struct UpdateFeatureGroupInput {
 
 extension UpdateFeatureGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateFeatureGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateFeatureGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -68518,7 +68520,7 @@ public struct UpdateFeatureGroupOutput {
 
 enum UpdateFeatureGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -68582,7 +68584,7 @@ public struct UpdateFeatureMetadataInput {
 
 extension UpdateFeatureMetadataOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateFeatureMetadataOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateFeatureMetadataOutput {
         return UpdateFeatureMetadataOutput()
     }
 }
@@ -68594,7 +68596,7 @@ public struct UpdateFeatureMetadataOutput {
 
 enum UpdateFeatureMetadataOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -68651,7 +68653,7 @@ public struct UpdateHubInput {
 
 extension UpdateHubOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateHubOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateHubOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -68676,7 +68678,7 @@ public struct UpdateHubOutput {
 
 enum UpdateHubOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -68738,7 +68740,7 @@ public struct UpdateImageInput {
 
 extension UpdateImageOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateImageOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateImageOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -68762,7 +68764,7 @@ public struct UpdateImageOutput {
 
 enum UpdateImageOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -68878,7 +68880,7 @@ public struct UpdateImageVersionInput {
 
 extension UpdateImageVersionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateImageVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateImageVersionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -68902,7 +68904,7 @@ public struct UpdateImageVersionOutput {
 
 enum UpdateImageVersionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -68955,7 +68957,7 @@ public struct UpdateInferenceComponentInput {
 
 extension UpdateInferenceComponentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateInferenceComponentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateInferenceComponentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -68980,7 +68982,7 @@ public struct UpdateInferenceComponentOutput {
 
 enum UpdateInferenceComponentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -69028,7 +69030,7 @@ public struct UpdateInferenceComponentRuntimeConfigInput {
 
 extension UpdateInferenceComponentRuntimeConfigOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateInferenceComponentRuntimeConfigOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateInferenceComponentRuntimeConfigOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -69053,7 +69055,7 @@ public struct UpdateInferenceComponentRuntimeConfigOutput {
 
 enum UpdateInferenceComponentRuntimeConfigOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -69120,7 +69122,7 @@ public struct UpdateInferenceExperimentInput {
 
 extension UpdateInferenceExperimentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateInferenceExperimentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateInferenceExperimentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -69145,7 +69147,7 @@ public struct UpdateInferenceExperimentOutput {
 
 enum UpdateInferenceExperimentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -69211,7 +69213,7 @@ public struct UpdateModelCardInput {
 
 extension UpdateModelCardOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateModelCardOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateModelCardOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -69236,7 +69238,7 @@ public struct UpdateModelCardOutput {
 
 enum UpdateModelCardOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -69321,7 +69323,7 @@ public struct UpdateModelPackageInput {
 
 extension UpdateModelPackageOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateModelPackageOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateModelPackageOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -69346,7 +69348,7 @@ public struct UpdateModelPackageOutput {
 
 enum UpdateModelPackageOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -69406,7 +69408,7 @@ public struct UpdateMonitoringAlertInput {
 
 extension UpdateMonitoringAlertOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateMonitoringAlertOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateMonitoringAlertOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -69436,7 +69438,7 @@ public struct UpdateMonitoringAlertOutput {
 
 enum UpdateMonitoringAlertOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -69485,7 +69487,7 @@ public struct UpdateMonitoringScheduleInput {
 
 extension UpdateMonitoringScheduleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateMonitoringScheduleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateMonitoringScheduleOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -69510,7 +69512,7 @@ public struct UpdateMonitoringScheduleOutput {
 
 enum UpdateMonitoringScheduleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -69656,7 +69658,7 @@ public struct UpdateNotebookInstanceLifecycleConfigInput {
 
 extension UpdateNotebookInstanceLifecycleConfigOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateNotebookInstanceLifecycleConfigOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateNotebookInstanceLifecycleConfigOutput {
         return UpdateNotebookInstanceLifecycleConfigOutput()
     }
 }
@@ -69668,7 +69670,7 @@ public struct UpdateNotebookInstanceLifecycleConfigOutput {
 
 enum UpdateNotebookInstanceLifecycleConfigOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -69682,7 +69684,7 @@ enum UpdateNotebookInstanceLifecycleConfigOutputError {
 
 extension UpdateNotebookInstanceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateNotebookInstanceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateNotebookInstanceOutput {
         return UpdateNotebookInstanceOutput()
     }
 }
@@ -69694,7 +69696,7 @@ public struct UpdateNotebookInstanceOutput {
 
 enum UpdateNotebookInstanceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -69751,7 +69753,7 @@ public struct UpdatePipelineExecutionInput {
 
 extension UpdatePipelineExecutionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdatePipelineExecutionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdatePipelineExecutionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -69775,7 +69777,7 @@ public struct UpdatePipelineExecutionOutput {
 
 enum UpdatePipelineExecutionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -69848,7 +69850,7 @@ public struct UpdatePipelineInput {
 
 extension UpdatePipelineOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdatePipelineOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdatePipelineOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -69872,7 +69874,7 @@ public struct UpdatePipelineOutput {
 
 enum UpdatePipelineOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -69930,7 +69932,7 @@ public struct UpdateProjectInput {
 
 extension UpdateProjectOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateProjectOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateProjectOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -69955,7 +69957,7 @@ public struct UpdateProjectOutput {
 
 enum UpdateProjectOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -70013,7 +70015,7 @@ public struct UpdateSpaceInput {
 
 extension UpdateSpaceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateSpaceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateSpaceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -70037,7 +70039,7 @@ public struct UpdateSpaceOutput {
 
 enum UpdateSpaceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -70101,7 +70103,7 @@ public struct UpdateTrainingJobInput {
 
 extension UpdateTrainingJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateTrainingJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateTrainingJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -70126,7 +70128,7 @@ public struct UpdateTrainingJobOutput {
 
 enum UpdateTrainingJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -70168,7 +70170,7 @@ public struct UpdateTrialComponentInput {
     /// The name of the component as displayed. The name doesn't need to be unique. If DisplayName isn't specified, TrialComponentName is displayed.
     public var displayName: Swift.String?
     /// When the component ended.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// Replaces all of the component's input artifacts with the specified artifacts or adds new input artifacts. Existing input artifacts are replaced if the trial component is updated with an identical input artifact key.
     public var inputArtifacts: [Swift.String:SageMakerClientTypes.TrialComponentArtifact]?
     /// The input artifacts to remove from the component.
@@ -70182,7 +70184,7 @@ public struct UpdateTrialComponentInput {
     /// The hyperparameters to remove from the component.
     public var parametersToRemove: [Swift.String]?
     /// When the component started.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
     /// The new status of the component.
     public var status: SageMakerClientTypes.TrialComponentStatus?
     /// The name of the component to update.
@@ -70191,14 +70193,14 @@ public struct UpdateTrialComponentInput {
 
     public init(
         displayName: Swift.String? = nil,
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         inputArtifacts: [Swift.String:SageMakerClientTypes.TrialComponentArtifact]? = nil,
         inputArtifactsToRemove: [Swift.String]? = nil,
         outputArtifacts: [Swift.String:SageMakerClientTypes.TrialComponentArtifact]? = nil,
         outputArtifactsToRemove: [Swift.String]? = nil,
         parameters: [Swift.String:SageMakerClientTypes.TrialComponentParameterValue]? = nil,
         parametersToRemove: [Swift.String]? = nil,
-        startTime: ClientRuntime.Date? = nil,
+        startTime: Foundation.Date? = nil,
         status: SageMakerClientTypes.TrialComponentStatus? = nil,
         trialComponentName: Swift.String? = nil
     )
@@ -70219,7 +70221,7 @@ public struct UpdateTrialComponentInput {
 
 extension UpdateTrialComponentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateTrialComponentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateTrialComponentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -70243,7 +70245,7 @@ public struct UpdateTrialComponentOutput {
 
 enum UpdateTrialComponentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -70291,7 +70293,7 @@ public struct UpdateTrialInput {
 
 extension UpdateTrialOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateTrialOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateTrialOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -70315,7 +70317,7 @@ public struct UpdateTrialOutput {
 
 enum UpdateTrialOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -70369,7 +70371,7 @@ public struct UpdateUserProfileInput {
 
 extension UpdateUserProfileOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateUserProfileOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateUserProfileOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -70393,7 +70395,7 @@ public struct UpdateUserProfileOutput {
 
 enum UpdateUserProfileOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -70452,7 +70454,7 @@ public struct UpdateWorkforceInput {
 
 extension UpdateWorkforceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateWorkforceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateWorkforceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -70477,7 +70479,7 @@ public struct UpdateWorkforceOutput {
 
 enum UpdateWorkforceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -70539,7 +70541,7 @@ public struct UpdateWorkteamInput {
 
 extension UpdateWorkteamOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateWorkteamOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateWorkteamOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -70564,7 +70566,7 @@ public struct UpdateWorkteamOutput {
 
 enum UpdateWorkteamOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -70635,20 +70637,20 @@ extension SageMakerClientTypes {
     /// The user profile details.
     public struct UserProfileDetails {
         /// The creation time.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The domain ID.
         public var domainId: Swift.String?
         /// The last modified time.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// The status.
         public var status: SageMakerClientTypes.UserProfileStatus?
         /// The user profile name.
         public var userProfileName: Swift.String?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             domainId: Swift.String? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             status: SageMakerClientTypes.UserProfileStatus? = nil,
             userProfileName: Swift.String? = nil
         )
@@ -71270,11 +71272,11 @@ extension SageMakerClientTypes {
         /// The configuration of an Amazon Cognito workforce. A single Cognito workforce is created using and corresponds to a single [ Amazon Cognito user pool](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools.html).
         public var cognitoConfig: SageMakerClientTypes.CognitoConfig?
         /// The date that the workforce is created.
-        public var createDate: ClientRuntime.Date?
+        public var createDate: Foundation.Date?
         /// The reason your workforce failed.
         public var failureReason: Swift.String?
         /// The most recent date that [UpdateWorkforce](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_UpdateWorkforce.html) was used to successfully add one or more IP address ranges ([CIDRs](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html)) to a private workforce's allow list.
-        public var lastUpdatedDate: ClientRuntime.Date?
+        public var lastUpdatedDate: Foundation.Date?
         /// The configuration of an OIDC Identity Provider (IdP) private workforce.
         public var oidcConfig: SageMakerClientTypes.OidcConfigForResponse?
         /// A list of one to ten IP address ranges ([CIDRs](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html)) to be added to the workforce allow list. By default, a workforce isn't restricted to specific IP addresses.
@@ -71294,9 +71296,9 @@ extension SageMakerClientTypes {
 
         public init(
             cognitoConfig: SageMakerClientTypes.CognitoConfig? = nil,
-            createDate: ClientRuntime.Date? = nil,
+            createDate: Foundation.Date? = nil,
             failureReason: Swift.String? = nil,
-            lastUpdatedDate: ClientRuntime.Date? = nil,
+            lastUpdatedDate: Foundation.Date? = nil,
             oidcConfig: SageMakerClientTypes.OidcConfigForResponse? = nil,
             sourceIpConfig: SageMakerClientTypes.SourceIpConfig? = nil,
             status: SageMakerClientTypes.WorkforceStatus? = nil,
@@ -71499,12 +71501,12 @@ extension SageMakerClientTypes {
     /// Provides details about a labeling work team.
     public struct Workteam {
         /// The date and time that the work team was created (timestamp).
-        public var createDate: ClientRuntime.Date?
+        public var createDate: Foundation.Date?
         /// A description of the work team.
         /// This member is required.
         public var description: Swift.String?
         /// The date and time that the work team was last updated (timestamp).
-        public var lastUpdatedDate: ClientRuntime.Date?
+        public var lastUpdatedDate: Foundation.Date?
         /// A list of MemberDefinition objects that contains objects that identify the workers that make up the work team. Workforces can be created using Amazon Cognito or your own OIDC Identity Provider (IdP). For private workforces created using Amazon Cognito use CognitoMemberDefinition. For workforces created using your own OIDC identity provider (IdP) use OidcMemberDefinition.
         /// This member is required.
         public var memberDefinitions: [SageMakerClientTypes.MemberDefinition]?
@@ -71526,9 +71528,9 @@ extension SageMakerClientTypes {
         public var workteamName: Swift.String?
 
         public init(
-            createDate: ClientRuntime.Date? = nil,
+            createDate: Foundation.Date? = nil,
             description: Swift.String? = nil,
-            lastUpdatedDate: ClientRuntime.Date? = nil,
+            lastUpdatedDate: Foundation.Date? = nil,
             memberDefinitions: [SageMakerClientTypes.MemberDefinition]? = nil,
             notificationConfiguration: SageMakerClientTypes.NotificationConfiguration? = nil,
             productListingIds: [Swift.String]? = nil,

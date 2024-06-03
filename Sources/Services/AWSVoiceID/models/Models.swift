@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -89,7 +91,7 @@ public struct AssociateFraudsterInput {
 
 extension AssociateFraudsterOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AssociateFraudsterOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AssociateFraudsterOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -113,7 +115,7 @@ public struct AssociateFraudsterOutput {
 
 enum AssociateFraudsterOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -228,9 +230,9 @@ extension VoiceIDClientTypes {
     /// The authentication result produced by Voice ID, processed against the current session state and streamed audio of the speaker.
     public struct AuthenticationResult {
         /// A timestamp of when audio aggregation ended for this authentication result.
-        public var audioAggregationEndedAt: ClientRuntime.Date?
+        public var audioAggregationEndedAt: Foundation.Date?
         /// A timestamp of when audio aggregation started for this authentication result.
-        public var audioAggregationStartedAt: ClientRuntime.Date?
+        public var audioAggregationStartedAt: Foundation.Date?
         /// The unique identifier for this authentication result. Because there can be multiple authentications for a given session, this field helps to identify if the returned result is from a previous streaming activity or a new result. Note that in absence of any new streaming activity, AcceptanceThreshold changes, or SpeakerId changes, Voice ID always returns cached Authentication Result for this API.
         public var authenticationResultId: Swift.String?
         /// The AuthenticationConfiguration used to generate this authentication result.
@@ -245,8 +247,8 @@ extension VoiceIDClientTypes {
         public var score: Swift.Int?
 
         public init(
-            audioAggregationEndedAt: ClientRuntime.Date? = nil,
-            audioAggregationStartedAt: ClientRuntime.Date? = nil,
+            audioAggregationEndedAt: Foundation.Date? = nil,
+            audioAggregationStartedAt: Foundation.Date? = nil,
             authenticationResultId: Swift.String? = nil,
             configuration: VoiceIDClientTypes.AuthenticationConfiguration? = nil,
             customerSpeakerId: Swift.String? = nil,
@@ -431,7 +433,7 @@ public struct CreateDomainInput {
 
 extension CreateDomainOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateDomainOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateDomainOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -455,7 +457,7 @@ public struct CreateDomainOutput {
 
 enum CreateDomainOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -524,7 +526,7 @@ public struct CreateWatchlistInput {
 
 extension CreateWatchlistOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateWatchlistOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateWatchlistOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -548,7 +550,7 @@ public struct CreateWatchlistOutput {
 
 enum CreateWatchlistOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -596,7 +598,7 @@ public struct DeleteDomainInput {
 
 extension DeleteDomainOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteDomainOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteDomainOutput {
         return DeleteDomainOutput()
     }
 }
@@ -608,7 +610,7 @@ public struct DeleteDomainOutput {
 
 enum DeleteDomainOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -666,7 +668,7 @@ public struct DeleteFraudsterInput {
 
 extension DeleteFraudsterOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteFraudsterOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteFraudsterOutput {
         return DeleteFraudsterOutput()
     }
 }
@@ -678,7 +680,7 @@ public struct DeleteFraudsterOutput {
 
 enum DeleteFraudsterOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -736,7 +738,7 @@ public struct DeleteSpeakerInput {
 
 extension DeleteSpeakerOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteSpeakerOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteSpeakerOutput {
         return DeleteSpeakerOutput()
     }
 }
@@ -748,7 +750,7 @@ public struct DeleteSpeakerOutput {
 
 enum DeleteSpeakerOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -801,7 +803,7 @@ public struct DeleteWatchlistInput {
 
 extension DeleteWatchlistOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteWatchlistOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteWatchlistOutput {
         return DeleteWatchlistOutput()
     }
 }
@@ -813,7 +815,7 @@ public struct DeleteWatchlistOutput {
 
 enum DeleteWatchlistOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -860,7 +862,7 @@ public struct DescribeDomainInput {
 
 extension DescribeDomainOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeDomainOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeDomainOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -884,7 +886,7 @@ public struct DescribeDomainOutput {
 
 enum DescribeDomainOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -941,7 +943,7 @@ public struct DescribeFraudsterInput {
 
 extension DescribeFraudsterOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeFraudsterOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeFraudsterOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -965,7 +967,7 @@ public struct DescribeFraudsterOutput {
 
 enum DescribeFraudsterOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1017,7 +1019,7 @@ public struct DescribeFraudsterRegistrationJobInput {
 
 extension DescribeFraudsterRegistrationJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeFraudsterRegistrationJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeFraudsterRegistrationJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1041,7 +1043,7 @@ public struct DescribeFraudsterRegistrationJobOutput {
 
 enum DescribeFraudsterRegistrationJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1093,7 +1095,7 @@ public struct DescribeSpeakerEnrollmentJobInput {
 
 extension DescribeSpeakerEnrollmentJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeSpeakerEnrollmentJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeSpeakerEnrollmentJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1117,7 +1119,7 @@ public struct DescribeSpeakerEnrollmentJobOutput {
 
 enum DescribeSpeakerEnrollmentJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1174,7 +1176,7 @@ public struct DescribeSpeakerInput {
 
 extension DescribeSpeakerOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeSpeakerOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeSpeakerOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1198,7 +1200,7 @@ public struct DescribeSpeakerOutput {
 
 enum DescribeSpeakerOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1250,7 +1252,7 @@ public struct DescribeWatchlistInput {
 
 extension DescribeWatchlistOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeWatchlistOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeWatchlistOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1274,7 +1276,7 @@ public struct DescribeWatchlistOutput {
 
 enum DescribeWatchlistOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1337,7 +1339,7 @@ public struct DisassociateFraudsterInput {
 
 extension DisassociateFraudsterOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DisassociateFraudsterOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DisassociateFraudsterOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1361,7 +1363,7 @@ public struct DisassociateFraudsterOutput {
 
 enum DisassociateFraudsterOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1408,7 +1410,7 @@ extension VoiceIDClientTypes {
         /// The Amazon Resource Name (ARN) for the domain.
         public var arn: Swift.String?
         /// The timestamp of when the domain was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The description of the domain.
         public var description: Swift.String?
         /// The identifier of the domain.
@@ -1422,20 +1424,20 @@ extension VoiceIDClientTypes {
         /// Details about the most recent server-side encryption configuration update. When the server-side encryption configuration is changed, dependency on the old KMS key is removed through an asynchronous process. When this update is complete, the domain's data can only be accessed using the new KMS key.
         public var serverSideEncryptionUpdateDetails: VoiceIDClientTypes.ServerSideEncryptionUpdateDetails?
         /// The timestamp of when the domain was last update.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
         /// The watchlist details of a domain. Contains the default watchlist ID of the domain.
         public var watchlistDetails: VoiceIDClientTypes.WatchlistDetails?
 
         public init(
             arn: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
             domainId: Swift.String? = nil,
             domainStatus: VoiceIDClientTypes.DomainStatus? = nil,
             name: Swift.String? = nil,
             serverSideEncryptionConfiguration: VoiceIDClientTypes.ServerSideEncryptionConfiguration? = nil,
             serverSideEncryptionUpdateDetails: VoiceIDClientTypes.ServerSideEncryptionUpdateDetails? = nil,
-            updatedAt: ClientRuntime.Date? = nil,
+            updatedAt: Foundation.Date? = nil,
             watchlistDetails: VoiceIDClientTypes.WatchlistDetails? = nil
         )
         {
@@ -1516,7 +1518,7 @@ extension VoiceIDClientTypes {
         /// The Amazon Resource Name (ARN) for the domain.
         public var arn: Swift.String?
         /// The timestamp of when the domain was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The description of the domain.
         public var description: Swift.String?
         /// The identifier of the domain.
@@ -1530,20 +1532,20 @@ extension VoiceIDClientTypes {
         /// Details about the most recent server-side encryption configuration update. When the server-side encryption configuration is changed, dependency on the old KMS key is removed through an asynchronous process. When this update is complete, the domain's data can only be accessed using the new KMS key.
         public var serverSideEncryptionUpdateDetails: VoiceIDClientTypes.ServerSideEncryptionUpdateDetails?
         /// The timestamp of when the domain was last updated.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
         /// Provides information about watchlistDetails and DefaultWatchlistID.
         public var watchlistDetails: VoiceIDClientTypes.WatchlistDetails?
 
         public init(
             arn: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
             domainId: Swift.String? = nil,
             domainStatus: VoiceIDClientTypes.DomainStatus? = nil,
             name: Swift.String? = nil,
             serverSideEncryptionConfiguration: VoiceIDClientTypes.ServerSideEncryptionConfiguration? = nil,
             serverSideEncryptionUpdateDetails: VoiceIDClientTypes.ServerSideEncryptionUpdateDetails? = nil,
-            updatedAt: ClientRuntime.Date? = nil,
+            updatedAt: Foundation.Date? = nil,
             watchlistDetails: VoiceIDClientTypes.WatchlistDetails? = nil
         )
         {
@@ -1707,7 +1709,7 @@ public struct EvaluateSessionInput {
 
 extension EvaluateSessionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> EvaluateSessionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> EvaluateSessionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1756,7 +1758,7 @@ public struct EvaluateSessionOutput {
 
 enum EvaluateSessionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1974,9 +1976,9 @@ extension VoiceIDClientTypes {
     /// The fraud detection result produced by Voice ID, processed against the current session state and streamed audio of the speaker.
     public struct FraudDetectionResult {
         /// A timestamp of when audio aggregation ended for this fraud detection result.
-        public var audioAggregationEndedAt: ClientRuntime.Date?
+        public var audioAggregationEndedAt: Foundation.Date?
         /// A timestamp of when audio aggregation started for this fraud detection result.
-        public var audioAggregationStartedAt: ClientRuntime.Date?
+        public var audioAggregationStartedAt: Foundation.Date?
         /// The FraudDetectionConfiguration used to generate this fraud detection result.
         public var configuration: VoiceIDClientTypes.FraudDetectionConfiguration?
         /// The fraud detection decision produced by Voice ID, processed against the current session state and streamed audio of the speaker.
@@ -1989,8 +1991,8 @@ extension VoiceIDClientTypes {
         public var riskDetails: VoiceIDClientTypes.FraudRiskDetails?
 
         public init(
-            audioAggregationEndedAt: ClientRuntime.Date? = nil,
-            audioAggregationStartedAt: ClientRuntime.Date? = nil,
+            audioAggregationEndedAt: Foundation.Date? = nil,
+            audioAggregationStartedAt: Foundation.Date? = nil,
             configuration: VoiceIDClientTypes.FraudDetectionConfiguration? = nil,
             decision: VoiceIDClientTypes.FraudDetectionDecision? = nil,
             fraudDetectionResultId: Swift.String? = nil,
@@ -2060,7 +2062,7 @@ extension VoiceIDClientTypes {
     /// Contains all the information about a fraudster.
     public struct Fraudster {
         /// The timestamp of when Voice ID identified the fraudster.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The identifier of the domain that contains the fraudster.
         public var domainId: Swift.String?
         /// The service-generated identifier for the fraudster.
@@ -2069,7 +2071,7 @@ extension VoiceIDClientTypes {
         public var watchlistIds: [Swift.String]?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             domainId: Swift.String? = nil,
             generatedFraudsterId: Swift.String? = nil,
             watchlistIds: [Swift.String]? = nil
@@ -2114,13 +2116,13 @@ extension VoiceIDClientTypes {
     /// Contains all the information about a fraudster registration job.
     public struct FraudsterRegistrationJob {
         /// A timestamp of when the fraudster registration job was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The IAM role Amazon Resource Name (ARN) that grants Voice ID permissions to access customer's buckets to read the input manifest file and write the job output file.
         public var dataAccessRoleArn: Swift.String?
         /// The identifier of the domain that contains the fraudster registration job.
         public var domainId: Swift.String?
         /// A timestamp of when the fraudster registration job ended.
-        public var endedAt: ClientRuntime.Date?
+        public var endedAt: Foundation.Date?
         /// Contains details that are populated when an entire batch job fails. In cases of individual registration job failures, the batch job as a whole doesn't fail; it is completed with a JobStatus of COMPLETED_WITH_ERRORS. You can use the job output file to identify the individual registration requests that failed.
         public var failureDetails: VoiceIDClientTypes.FailureDetails?
         /// The input data config containing an S3 URI for the input manifest file that contains the list of fraudster registration job requests.
@@ -2139,10 +2141,10 @@ extension VoiceIDClientTypes {
         public var registrationConfig: VoiceIDClientTypes.RegistrationConfig?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             dataAccessRoleArn: Swift.String? = nil,
             domainId: Swift.String? = nil,
-            endedAt: ClientRuntime.Date? = nil,
+            endedAt: Foundation.Date? = nil,
             failureDetails: VoiceIDClientTypes.FailureDetails? = nil,
             inputDataConfig: VoiceIDClientTypes.InputDataConfig? = nil,
             jobId: Swift.String? = nil,
@@ -2234,11 +2236,11 @@ extension VoiceIDClientTypes {
     /// Contains a summary of information about a fraudster registration job.
     public struct FraudsterRegistrationJobSummary {
         /// A timestamp of when the fraudster registration job was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The identifier of the domain that contains the fraudster registration job.
         public var domainId: Swift.String?
         /// A timestamp of when the fraudster registration job ended.
-        public var endedAt: ClientRuntime.Date?
+        public var endedAt: Foundation.Date?
         /// Contains details that are populated when an entire batch job fails. In cases of individual registration job failures, the batch job as a whole doesn't fail; it is completed with a JobStatus of COMPLETED_WITH_ERRORS. You can use the job output file to identify the individual registration requests that failed.
         public var failureDetails: VoiceIDClientTypes.FailureDetails?
         /// The service-generated identifier for the fraudster registration job.
@@ -2251,9 +2253,9 @@ extension VoiceIDClientTypes {
         public var jobStatus: VoiceIDClientTypes.FraudsterRegistrationJobStatus?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             domainId: Swift.String? = nil,
-            endedAt: ClientRuntime.Date? = nil,
+            endedAt: Foundation.Date? = nil,
             failureDetails: VoiceIDClientTypes.FailureDetails? = nil,
             jobId: Swift.String? = nil,
             jobName: Swift.String? = nil,
@@ -2291,7 +2293,7 @@ extension VoiceIDClientTypes {
     /// Contains a summary of information about a fraudster.
     public struct FraudsterSummary {
         /// The timestamp of when the fraudster summary was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The identifier of the domain that contains the fraudster summary.
         public var domainId: Swift.String?
         /// The service-generated identifier for the fraudster.
@@ -2300,7 +2302,7 @@ extension VoiceIDClientTypes {
         public var watchlistIds: [Swift.String]?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             domainId: Swift.String? = nil,
             generatedFraudsterId: Swift.String? = nil,
             watchlistIds: [Swift.String]? = nil
@@ -2476,7 +2478,7 @@ public struct ListDomainsInput {
 
 extension ListDomainsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListDomainsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListDomainsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2505,7 +2507,7 @@ public struct ListDomainsOutput {
 
 enum ListDomainsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2565,7 +2567,7 @@ public struct ListFraudsterRegistrationJobsInput {
 
 extension ListFraudsterRegistrationJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListFraudsterRegistrationJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListFraudsterRegistrationJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2594,7 +2596,7 @@ public struct ListFraudsterRegistrationJobsOutput {
 
 enum ListFraudsterRegistrationJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2655,7 +2657,7 @@ public struct ListFraudstersInput {
 
 extension ListFraudstersOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListFraudstersOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListFraudstersOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2684,7 +2686,7 @@ public struct ListFraudstersOutput {
 
 enum ListFraudstersOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2745,7 +2747,7 @@ public struct ListSpeakerEnrollmentJobsInput {
 
 extension ListSpeakerEnrollmentJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListSpeakerEnrollmentJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListSpeakerEnrollmentJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2774,7 +2776,7 @@ public struct ListSpeakerEnrollmentJobsOutput {
 
 enum ListSpeakerEnrollmentJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2830,7 +2832,7 @@ public struct ListSpeakersInput {
 
 extension ListSpeakersOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListSpeakersOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListSpeakersOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2859,7 +2861,7 @@ public struct ListSpeakersOutput {
 
 enum ListSpeakersOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2905,7 +2907,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2929,7 +2931,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2985,7 +2987,7 @@ public struct ListWatchlistsInput {
 
 extension ListWatchlistsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListWatchlistsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListWatchlistsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3014,7 +3016,7 @@ public struct ListWatchlistsOutput {
 
 enum ListWatchlistsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3071,7 +3073,7 @@ public struct OptOutSpeakerInput {
 
 extension OptOutSpeakerOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> OptOutSpeakerOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> OptOutSpeakerOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3095,7 +3097,7 @@ public struct OptOutSpeakerOutput {
 
 enum OptOutSpeakerOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3442,7 +3444,7 @@ extension VoiceIDClientTypes {
     /// Contains all the information about a speaker.
     public struct Speaker {
         /// A timestamp of when the speaker was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The client-provided identifier for the speaker.
         public var customerSpeakerId: Swift.String?
         /// The identifier of the domain that contains the speaker.
@@ -3450,20 +3452,20 @@ extension VoiceIDClientTypes {
         /// The service-generated identifier for the speaker.
         public var generatedSpeakerId: Swift.String?
         /// The timestamp of when the speaker was last accessed for enrollment, re-enrollment or a successful authentication. This timestamp is accurate to one hour.
-        public var lastAccessedAt: ClientRuntime.Date?
+        public var lastAccessedAt: Foundation.Date?
         /// The current status of the speaker.
         public var status: VoiceIDClientTypes.SpeakerStatus?
         /// A timestamp of the speaker's last update.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             customerSpeakerId: Swift.String? = nil,
             domainId: Swift.String? = nil,
             generatedSpeakerId: Swift.String? = nil,
-            lastAccessedAt: ClientRuntime.Date? = nil,
+            lastAccessedAt: Foundation.Date? = nil,
             status: VoiceIDClientTypes.SpeakerStatus? = nil,
-            updatedAt: ClientRuntime.Date? = nil
+            updatedAt: Foundation.Date? = nil
         )
         {
             self.createdAt = createdAt
@@ -3508,13 +3510,13 @@ extension VoiceIDClientTypes {
     /// Contains all the information about a speaker enrollment job.
     public struct SpeakerEnrollmentJob {
         /// A timestamp of when the speaker enrollment job was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The IAM role Amazon Resource Name (ARN) that grants Voice ID permissions to access customer's buckets to read the input manifest file and write the job output file.
         public var dataAccessRoleArn: Swift.String?
         /// The identifier of the domain that contains the speaker enrollment job.
         public var domainId: Swift.String?
         /// A timestamp of when the speaker enrollment job ended.
-        public var endedAt: ClientRuntime.Date?
+        public var endedAt: Foundation.Date?
         /// The configuration that defines the action to take when the speaker is already enrolled in Voice ID, and the FraudDetectionConfig to use.
         public var enrollmentConfig: VoiceIDClientTypes.EnrollmentConfig?
         /// Contains details that are populated when an entire batch job fails. In cases of individual registration job failures, the batch job as a whole doesn't fail; it is completed with a JobStatus of COMPLETED_WITH_ERRORS. You can use the job output file to identify the individual registration requests that failed.
@@ -3533,10 +3535,10 @@ extension VoiceIDClientTypes {
         public var outputDataConfig: VoiceIDClientTypes.OutputDataConfig?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             dataAccessRoleArn: Swift.String? = nil,
             domainId: Swift.String? = nil,
-            endedAt: ClientRuntime.Date? = nil,
+            endedAt: Foundation.Date? = nil,
             enrollmentConfig: VoiceIDClientTypes.EnrollmentConfig? = nil,
             failureDetails: VoiceIDClientTypes.FailureDetails? = nil,
             inputDataConfig: VoiceIDClientTypes.InputDataConfig? = nil,
@@ -3628,11 +3630,11 @@ extension VoiceIDClientTypes {
     /// Contains a summary of information about a speaker enrollment job.
     public struct SpeakerEnrollmentJobSummary {
         /// A timestamp of when of the speaker enrollment job was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The identifier of the domain that contains the speaker enrollment job.
         public var domainId: Swift.String?
         /// A timestamp of when the speaker enrollment job ended.
-        public var endedAt: ClientRuntime.Date?
+        public var endedAt: Foundation.Date?
         /// Contains details that are populated when an entire batch job fails. In cases of individual registration job failures, the batch job as a whole doesn't fail; it is completed with a JobStatus of COMPLETED_WITH_ERRORS. You can use the job output file to identify the individual registration requests that failed.
         public var failureDetails: VoiceIDClientTypes.FailureDetails?
         /// The service-generated identifier for the speaker enrollment job.
@@ -3645,9 +3647,9 @@ extension VoiceIDClientTypes {
         public var jobStatus: VoiceIDClientTypes.SpeakerEnrollmentJobStatus?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             domainId: Swift.String? = nil,
-            endedAt: ClientRuntime.Date? = nil,
+            endedAt: Foundation.Date? = nil,
             failureDetails: VoiceIDClientTypes.FailureDetails? = nil,
             jobId: Swift.String? = nil,
             jobName: Swift.String? = nil,
@@ -3728,7 +3730,7 @@ extension VoiceIDClientTypes {
     /// Contains a summary of information about a speaker.
     public struct SpeakerSummary {
         /// A timestamp showing the speaker's creation time.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The client-provided identifier for the speaker.
         public var customerSpeakerId: Swift.String?
         /// The identifier of the domain that contains the speaker.
@@ -3736,20 +3738,20 @@ extension VoiceIDClientTypes {
         /// The service-generated identifier for the speaker.
         public var generatedSpeakerId: Swift.String?
         /// The timestamp when the speaker was last accessed for enrollment, re-enrollment or a successful authentication. This timestamp is accurate to one hour.
-        public var lastAccessedAt: ClientRuntime.Date?
+        public var lastAccessedAt: Foundation.Date?
         /// The current status of the speaker.
         public var status: VoiceIDClientTypes.SpeakerStatus?
         /// A timestamp showing the speaker's last update.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             customerSpeakerId: Swift.String? = nil,
             domainId: Swift.String? = nil,
             generatedSpeakerId: Swift.String? = nil,
-            lastAccessedAt: ClientRuntime.Date? = nil,
+            lastAccessedAt: Foundation.Date? = nil,
             status: VoiceIDClientTypes.SpeakerStatus? = nil,
-            updatedAt: ClientRuntime.Date? = nil
+            updatedAt: Foundation.Date? = nil
         )
         {
             self.createdAt = createdAt
@@ -3832,7 +3834,7 @@ public struct StartFraudsterRegistrationJobInput {
 
 extension StartFraudsterRegistrationJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartFraudsterRegistrationJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartFraudsterRegistrationJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3856,7 +3858,7 @@ public struct StartFraudsterRegistrationJobOutput {
 
 enum StartFraudsterRegistrationJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3942,7 +3944,7 @@ public struct StartSpeakerEnrollmentJobInput {
 
 extension StartSpeakerEnrollmentJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartSpeakerEnrollmentJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartSpeakerEnrollmentJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3966,7 +3968,7 @@ public struct StartSpeakerEnrollmentJobOutput {
 
 enum StartSpeakerEnrollmentJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4096,7 +4098,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -4108,7 +4110,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4198,7 +4200,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -4210,7 +4212,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4279,7 +4281,7 @@ public struct UpdateDomainInput {
 
 extension UpdateDomainOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateDomainOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateDomainOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4303,7 +4305,7 @@ public struct UpdateDomainOutput {
 
 enum UpdateDomainOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4371,7 +4373,7 @@ public struct UpdateWatchlistInput {
 
 extension UpdateWatchlistOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateWatchlistOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateWatchlistOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4395,7 +4397,7 @@ public struct UpdateWatchlistOutput {
 
 enum UpdateWatchlistOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4503,7 +4505,7 @@ extension VoiceIDClientTypes {
     /// Contains all the information about a watchlist.
     public struct Watchlist {
         /// The timestamp of when the watchlist was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// Whether the specified watchlist is the default watchlist of a domain.
         public var defaultWatchlist: Swift.Bool
         /// The description of the watchlist.
@@ -4513,17 +4515,17 @@ extension VoiceIDClientTypes {
         /// The name for the watchlist.
         public var name: Swift.String?
         /// The timestamp of when the watchlist was updated.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
         /// The identifier of the watchlist.
         public var watchlistId: Swift.String?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             defaultWatchlist: Swift.Bool = false,
             description: Swift.String? = nil,
             domainId: Swift.String? = nil,
             name: Swift.String? = nil,
-            updatedAt: ClientRuntime.Date? = nil,
+            updatedAt: Foundation.Date? = nil,
             watchlistId: Swift.String? = nil
         )
         {
@@ -4591,7 +4593,7 @@ extension VoiceIDClientTypes {
     /// Contains a summary of information about a watchlist.
     public struct WatchlistSummary {
         /// The timestamp of when the watchlist was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// Whether the specified watchlist is the default watchlist of a domain.
         public var defaultWatchlist: Swift.Bool
         /// The description of the watchlist.
@@ -4601,17 +4603,17 @@ extension VoiceIDClientTypes {
         /// The name for the watchlist.
         public var name: Swift.String?
         /// The timestamp of when the watchlist was last updated.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
         /// The identifier of the watchlist.
         public var watchlistId: Swift.String?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             defaultWatchlist: Swift.Bool = false,
             description: Swift.String? = nil,
             domainId: Swift.String? = nil,
             name: Swift.String? = nil,
-            updatedAt: ClientRuntime.Date? = nil,
+            updatedAt: Foundation.Date? = nil,
             watchlistId: Swift.String? = nil
         )
         {

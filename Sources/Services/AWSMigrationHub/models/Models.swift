@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -62,12 +64,12 @@ extension MigrationHubClientTypes {
         /// The current status of an application.
         public var applicationStatus: MigrationHubClientTypes.ApplicationStatus?
         /// The timestamp when the application status was last updated.
-        public var lastUpdatedTime: ClientRuntime.Date?
+        public var lastUpdatedTime: Foundation.Date?
 
         public init(
             applicationId: Swift.String? = nil,
             applicationStatus: MigrationHubClientTypes.ApplicationStatus? = nil,
-            lastUpdatedTime: ClientRuntime.Date? = nil
+            lastUpdatedTime: Foundation.Date? = nil
         )
         {
             self.applicationId = applicationId
@@ -157,7 +159,7 @@ public struct AssociateCreatedArtifactInput {
 
 extension AssociateCreatedArtifactOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AssociateCreatedArtifactOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AssociateCreatedArtifactOutput {
         return AssociateCreatedArtifactOutput()
     }
 }
@@ -169,7 +171,7 @@ public struct AssociateCreatedArtifactOutput {
 
 enum AssociateCreatedArtifactOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -236,7 +238,7 @@ public struct AssociateDiscoveredResourceInput {
 
 extension AssociateDiscoveredResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AssociateDiscoveredResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AssociateDiscoveredResourceOutput {
         return AssociateDiscoveredResourceOutput()
     }
 }
@@ -248,7 +250,7 @@ public struct AssociateDiscoveredResourceOutput {
 
 enum AssociateDiscoveredResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -304,7 +306,7 @@ public struct CreateProgressUpdateStreamInput {
 
 extension CreateProgressUpdateStreamOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateProgressUpdateStreamOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateProgressUpdateStreamOutput {
         return CreateProgressUpdateStreamOutput()
     }
 }
@@ -316,7 +318,7 @@ public struct CreateProgressUpdateStreamOutput {
 
 enum CreateProgressUpdateStreamOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -408,7 +410,7 @@ public struct DeleteProgressUpdateStreamInput {
 
 extension DeleteProgressUpdateStreamOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteProgressUpdateStreamOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteProgressUpdateStreamOutput {
         return DeleteProgressUpdateStreamOutput()
     }
 }
@@ -420,7 +422,7 @@ public struct DeleteProgressUpdateStreamOutput {
 
 enum DeleteProgressUpdateStreamOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -470,7 +472,7 @@ public struct DescribeApplicationStateInput {
 
 extension DescribeApplicationStateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeApplicationStateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeApplicationStateOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -485,11 +487,11 @@ public struct DescribeApplicationStateOutput {
     /// Status of the application - Not Started, In-Progress, Complete.
     public var applicationStatus: MigrationHubClientTypes.ApplicationStatus?
     /// The timestamp when the application status was last updated.
-    public var lastUpdatedTime: ClientRuntime.Date?
+    public var lastUpdatedTime: Foundation.Date?
 
     public init(
         applicationStatus: MigrationHubClientTypes.ApplicationStatus? = nil,
-        lastUpdatedTime: ClientRuntime.Date? = nil
+        lastUpdatedTime: Foundation.Date? = nil
     )
     {
         self.applicationStatus = applicationStatus
@@ -499,7 +501,7 @@ public struct DescribeApplicationStateOutput {
 
 enum DescribeApplicationStateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -554,7 +556,7 @@ public struct DescribeMigrationTaskInput {
 
 extension DescribeMigrationTaskOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeMigrationTaskOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeMigrationTaskOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -578,7 +580,7 @@ public struct DescribeMigrationTaskOutput {
 
 enum DescribeMigrationTaskOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -643,7 +645,7 @@ public struct DisassociateCreatedArtifactInput {
 
 extension DisassociateCreatedArtifactOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DisassociateCreatedArtifactOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DisassociateCreatedArtifactOutput {
         return DisassociateCreatedArtifactOutput()
     }
 }
@@ -655,7 +657,7 @@ public struct DisassociateCreatedArtifactOutput {
 
 enum DisassociateCreatedArtifactOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -722,7 +724,7 @@ public struct DisassociateDiscoveredResourceInput {
 
 extension DisassociateDiscoveredResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DisassociateDiscoveredResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DisassociateDiscoveredResourceOutput {
         return DisassociateDiscoveredResourceOutput()
     }
 }
@@ -734,7 +736,7 @@ public struct DisassociateDiscoveredResourceOutput {
 
 enum DisassociateDiscoveredResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -907,7 +909,7 @@ public struct ImportMigrationTaskInput {
 
 extension ImportMigrationTaskOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ImportMigrationTaskOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ImportMigrationTaskOutput {
         return ImportMigrationTaskOutput()
     }
 }
@@ -919,7 +921,7 @@ public struct ImportMigrationTaskOutput {
 
 enum ImportMigrationTaskOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1052,7 +1054,7 @@ public struct ListApplicationStatesInput {
 
 extension ListApplicationStatesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListApplicationStatesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListApplicationStatesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1081,7 +1083,7 @@ public struct ListApplicationStatesOutput {
 
 enum ListApplicationStatesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1144,7 +1146,7 @@ public struct ListCreatedArtifactsInput {
 
 extension ListCreatedArtifactsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListCreatedArtifactsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListCreatedArtifactsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1173,7 +1175,7 @@ public struct ListCreatedArtifactsOutput {
 
 enum ListCreatedArtifactsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1237,7 +1239,7 @@ public struct ListDiscoveredResourcesInput {
 
 extension ListDiscoveredResourcesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListDiscoveredResourcesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListDiscoveredResourcesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1266,7 +1268,7 @@ public struct ListDiscoveredResourcesOutput {
 
 enum ListDiscoveredResourcesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1323,7 +1325,7 @@ public struct ListMigrationTasksInput {
 
 extension ListMigrationTasksOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListMigrationTasksOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListMigrationTasksOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1352,7 +1354,7 @@ public struct ListMigrationTasksOutput {
 
 enum ListMigrationTasksOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1405,7 +1407,7 @@ public struct ListProgressUpdateStreamsInput {
 
 extension ListProgressUpdateStreamsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListProgressUpdateStreamsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListProgressUpdateStreamsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1434,7 +1436,7 @@ public struct ListProgressUpdateStreamsOutput {
 
 enum ListProgressUpdateStreamsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1479,14 +1481,14 @@ extension MigrationHubClientTypes {
         /// Task object encapsulating task information.
         public var task: MigrationHubClientTypes.Task?
         /// The timestamp when the task was gathered.
-        public var updateDateTime: ClientRuntime.Date?
+        public var updateDateTime: Foundation.Date?
 
         public init(
             migrationTaskName: Swift.String? = nil,
             progressUpdateStream: Swift.String? = nil,
             resourceAttributeList: [MigrationHubClientTypes.ResourceAttribute]? = nil,
             task: MigrationHubClientTypes.Task? = nil,
-            updateDateTime: ClientRuntime.Date? = nil
+            updateDateTime: Foundation.Date? = nil
         )
         {
             self.migrationTaskName = migrationTaskName
@@ -1528,7 +1530,7 @@ extension MigrationHubClientTypes {
         /// Detail information of what is being done within the overall status state.
         public var statusDetail: Swift.String?
         /// The timestamp when the task was gathered.
-        public var updateDateTime: ClientRuntime.Date?
+        public var updateDateTime: Foundation.Date?
 
         public init(
             migrationTaskName: Swift.String? = nil,
@@ -1536,7 +1538,7 @@ extension MigrationHubClientTypes {
             progressUpdateStream: Swift.String? = nil,
             status: MigrationHubClientTypes.Status? = nil,
             statusDetail: Swift.String? = nil,
-            updateDateTime: ClientRuntime.Date? = nil
+            updateDateTime: Foundation.Date? = nil
         )
         {
             self.migrationTaskName = migrationTaskName
@@ -1578,13 +1580,13 @@ public struct NotifyApplicationStateInput {
     /// This member is required.
     public var status: MigrationHubClientTypes.ApplicationStatus?
     /// The timestamp when the application state changed.
-    public var updateDateTime: ClientRuntime.Date?
+    public var updateDateTime: Foundation.Date?
 
     public init(
         applicationId: Swift.String? = nil,
         dryRun: Swift.Bool? = nil,
         status: MigrationHubClientTypes.ApplicationStatus? = nil,
-        updateDateTime: ClientRuntime.Date? = nil
+        updateDateTime: Foundation.Date? = nil
     )
     {
         self.applicationId = applicationId
@@ -1596,7 +1598,7 @@ public struct NotifyApplicationStateInput {
 
 extension NotifyApplicationStateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> NotifyApplicationStateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> NotifyApplicationStateOutput {
         return NotifyApplicationStateOutput()
     }
 }
@@ -1608,7 +1610,7 @@ public struct NotifyApplicationStateOutput {
 
 enum NotifyApplicationStateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1666,7 +1668,7 @@ public struct NotifyMigrationTaskStateInput {
     public var task: MigrationHubClientTypes.Task?
     /// The timestamp when the task was gathered.
     /// This member is required.
-    public var updateDateTime: ClientRuntime.Date?
+    public var updateDateTime: Foundation.Date?
 
     public init(
         dryRun: Swift.Bool? = nil,
@@ -1674,7 +1676,7 @@ public struct NotifyMigrationTaskStateInput {
         nextUpdateSeconds: Swift.Int? = nil,
         progressUpdateStream: Swift.String? = nil,
         task: MigrationHubClientTypes.Task? = nil,
-        updateDateTime: ClientRuntime.Date? = nil
+        updateDateTime: Foundation.Date? = nil
     )
     {
         self.dryRun = dryRun
@@ -1688,7 +1690,7 @@ public struct NotifyMigrationTaskStateInput {
 
 extension NotifyMigrationTaskStateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> NotifyMigrationTaskStateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> NotifyMigrationTaskStateOutput {
         return NotifyMigrationTaskStateOutput()
     }
 }
@@ -1700,7 +1702,7 @@ public struct NotifyMigrationTaskStateOutput {
 
 enum NotifyMigrationTaskStateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1834,7 +1836,7 @@ public struct PutResourceAttributesInput {
 
 extension PutResourceAttributesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutResourceAttributesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutResourceAttributesOutput {
         return PutResourceAttributesOutput()
     }
 }
@@ -1846,7 +1848,7 @@ public struct PutResourceAttributesOutput {
 
 enum PutResourceAttributesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

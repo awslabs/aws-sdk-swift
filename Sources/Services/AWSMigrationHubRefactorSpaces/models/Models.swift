@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -299,13 +302,13 @@ extension MigrationHubRefactorSpacesClientTypes {
         /// The Amazon Web Services account ID of the application creator.
         public var createdByAccountId: Swift.String?
         /// A timestamp that indicates when the application is created.
-        public var createdTime: ClientRuntime.Date?
+        public var createdTime: Foundation.Date?
         /// The unique identifier of the environment.
         public var environmentId: Swift.String?
         /// Any error associated with the application resource.
         public var error: MigrationHubRefactorSpacesClientTypes.ErrorResponse?
         /// A timestamp that indicates when the application was last updated.
-        public var lastUpdatedTime: ClientRuntime.Date?
+        public var lastUpdatedTime: Foundation.Date?
         /// The name of the application.
         public var name: Swift.String?
         /// The Amazon Web Services account ID of the application owner (which is always the same as the environment owner account ID).
@@ -324,10 +327,10 @@ extension MigrationHubRefactorSpacesClientTypes {
             applicationId: Swift.String? = nil,
             arn: Swift.String? = nil,
             createdByAccountId: Swift.String? = nil,
-            createdTime: ClientRuntime.Date? = nil,
+            createdTime: Foundation.Date? = nil,
             environmentId: Swift.String? = nil,
             error: MigrationHubRefactorSpacesClientTypes.ErrorResponse? = nil,
-            lastUpdatedTime: ClientRuntime.Date? = nil,
+            lastUpdatedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             ownerAccountId: Swift.String? = nil,
             proxyType: MigrationHubRefactorSpacesClientTypes.ProxyType? = nil,
@@ -480,7 +483,7 @@ extension CreateApplicationOutput: Swift.CustomDebugStringConvertible {
 
 extension CreateApplicationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateApplicationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateApplicationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -512,11 +515,11 @@ public struct CreateApplicationOutput {
     /// The Amazon Web Services account ID of application creator.
     public var createdByAccountId: Swift.String?
     /// A timestamp that indicates when the application is created.
-    public var createdTime: ClientRuntime.Date?
+    public var createdTime: Foundation.Date?
     /// The ID of the environment in which the application is created.
     public var environmentId: Swift.String?
     /// A timestamp that indicates when the application was last updated.
-    public var lastUpdatedTime: ClientRuntime.Date?
+    public var lastUpdatedTime: Foundation.Date?
     /// The name of the application.
     public var name: Swift.String?
     /// The Amazon Web Services account ID of the application owner (which is always the same as the environment owner account ID).
@@ -535,9 +538,9 @@ public struct CreateApplicationOutput {
         applicationId: Swift.String? = nil,
         arn: Swift.String? = nil,
         createdByAccountId: Swift.String? = nil,
-        createdTime: ClientRuntime.Date? = nil,
+        createdTime: Foundation.Date? = nil,
         environmentId: Swift.String? = nil,
-        lastUpdatedTime: ClientRuntime.Date? = nil,
+        lastUpdatedTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
         ownerAccountId: Swift.String? = nil,
         proxyType: MigrationHubRefactorSpacesClientTypes.ProxyType? = nil,
@@ -564,7 +567,7 @@ public struct CreateApplicationOutput {
 
 enum CreateApplicationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -643,7 +646,7 @@ extension CreateEnvironmentOutput: Swift.CustomDebugStringConvertible {
 
 extension CreateEnvironmentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateEnvironmentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateEnvironmentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -666,13 +669,13 @@ public struct CreateEnvironmentOutput {
     /// The Amazon Resource Name (ARN) of the environment.
     public var arn: Swift.String?
     /// A timestamp that indicates when the environment is created.
-    public var createdTime: ClientRuntime.Date?
+    public var createdTime: Foundation.Date?
     /// A description of the environment.
     public var description: Swift.String?
     /// The unique identifier of the environment.
     public var environmentId: Swift.String?
     /// A timestamp that indicates when the environment was last updated.
-    public var lastUpdatedTime: ClientRuntime.Date?
+    public var lastUpdatedTime: Foundation.Date?
     /// The name of the environment.
     public var name: Swift.String?
     /// The network fabric type of the environment.
@@ -686,10 +689,10 @@ public struct CreateEnvironmentOutput {
 
     public init(
         arn: Swift.String? = nil,
-        createdTime: ClientRuntime.Date? = nil,
+        createdTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         environmentId: Swift.String? = nil,
-        lastUpdatedTime: ClientRuntime.Date? = nil,
+        lastUpdatedTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
         networkFabricType: MigrationHubRefactorSpacesClientTypes.NetworkFabricType? = nil,
         ownerAccountId: Swift.String? = nil,
@@ -712,7 +715,7 @@ public struct CreateEnvironmentOutput {
 
 enum CreateEnvironmentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -812,7 +815,7 @@ extension CreateRouteOutput: Swift.CustomDebugStringConvertible {
 
 extension CreateRouteOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateRouteOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateRouteOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -841,9 +844,9 @@ public struct CreateRouteOutput {
     /// The Amazon Web Services account ID of the route creator.
     public var createdByAccountId: Swift.String?
     /// A timestamp that indicates when the route is created.
-    public var createdTime: ClientRuntime.Date?
+    public var createdTime: Foundation.Date?
     /// A timestamp that indicates when the route was last updated.
-    public var lastUpdatedTime: ClientRuntime.Date?
+    public var lastUpdatedTime: Foundation.Date?
     /// The Amazon Web Services account ID of the route owner.
     public var ownerAccountId: Swift.String?
     /// The unique identifier of the route.
@@ -863,8 +866,8 @@ public struct CreateRouteOutput {
         applicationId: Swift.String? = nil,
         arn: Swift.String? = nil,
         createdByAccountId: Swift.String? = nil,
-        createdTime: ClientRuntime.Date? = nil,
-        lastUpdatedTime: ClientRuntime.Date? = nil,
+        createdTime: Foundation.Date? = nil,
+        lastUpdatedTime: Foundation.Date? = nil,
         ownerAccountId: Swift.String? = nil,
         routeId: Swift.String? = nil,
         routeType: MigrationHubRefactorSpacesClientTypes.RouteType? = nil,
@@ -891,7 +894,7 @@ public struct CreateRouteOutput {
 
 enum CreateRouteOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1001,7 +1004,7 @@ extension CreateServiceOutput: Swift.CustomDebugStringConvertible {
 
 extension CreateServiceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateServiceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateServiceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1034,7 +1037,7 @@ public struct CreateServiceOutput {
     /// The Amazon Web Services account ID of the service creator.
     public var createdByAccountId: Swift.String?
     /// A timestamp that indicates when the service is created.
-    public var createdTime: ClientRuntime.Date?
+    public var createdTime: Foundation.Date?
     /// The description of the created service.
     public var description: Swift.String?
     /// The endpoint type of the service.
@@ -1044,7 +1047,7 @@ public struct CreateServiceOutput {
     /// The configuration for the Lambda endpoint type.
     public var lambdaEndpoint: MigrationHubRefactorSpacesClientTypes.LambdaEndpointInput?
     /// A timestamp that indicates when the service was last updated.
-    public var lastUpdatedTime: ClientRuntime.Date?
+    public var lastUpdatedTime: Foundation.Date?
     /// The name of the service.
     public var name: Swift.String?
     /// The Amazon Web Services account ID of the service owner.
@@ -1064,12 +1067,12 @@ public struct CreateServiceOutput {
         applicationId: Swift.String? = nil,
         arn: Swift.String? = nil,
         createdByAccountId: Swift.String? = nil,
-        createdTime: ClientRuntime.Date? = nil,
+        createdTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         endpointType: MigrationHubRefactorSpacesClientTypes.ServiceEndpointType? = nil,
         environmentId: Swift.String? = nil,
         lambdaEndpoint: MigrationHubRefactorSpacesClientTypes.LambdaEndpointInput? = nil,
-        lastUpdatedTime: ClientRuntime.Date? = nil,
+        lastUpdatedTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
         ownerAccountId: Swift.String? = nil,
         serviceId: Swift.String? = nil,
@@ -1100,7 +1103,7 @@ public struct CreateServiceOutput {
 
 enum CreateServiceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1175,7 +1178,7 @@ public struct DeleteApplicationInput {
 
 extension DeleteApplicationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteApplicationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteApplicationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1198,7 +1201,7 @@ public struct DeleteApplicationOutput {
     /// The unique identifier of the application’s environment.
     public var environmentId: Swift.String?
     /// A timestamp that indicates when the environment was last updated.
-    public var lastUpdatedTime: ClientRuntime.Date?
+    public var lastUpdatedTime: Foundation.Date?
     /// The name of the application.
     public var name: Swift.String?
     /// The current state of the application.
@@ -1208,7 +1211,7 @@ public struct DeleteApplicationOutput {
         applicationId: Swift.String? = nil,
         arn: Swift.String? = nil,
         environmentId: Swift.String? = nil,
-        lastUpdatedTime: ClientRuntime.Date? = nil,
+        lastUpdatedTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
         state: MigrationHubRefactorSpacesClientTypes.ApplicationState? = nil
     )
@@ -1224,7 +1227,7 @@ public struct DeleteApplicationOutput {
 
 enum DeleteApplicationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1266,7 +1269,7 @@ public struct DeleteEnvironmentInput {
 
 extension DeleteEnvironmentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteEnvironmentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteEnvironmentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1286,7 +1289,7 @@ public struct DeleteEnvironmentOutput {
     /// The unique identifier of the environment.
     public var environmentId: Swift.String?
     /// A timestamp that indicates when the environment was last updated.
-    public var lastUpdatedTime: ClientRuntime.Date?
+    public var lastUpdatedTime: Foundation.Date?
     /// The name of the environment.
     public var name: Swift.String?
     /// The current state of the environment.
@@ -1295,7 +1298,7 @@ public struct DeleteEnvironmentOutput {
     public init(
         arn: Swift.String? = nil,
         environmentId: Swift.String? = nil,
-        lastUpdatedTime: ClientRuntime.Date? = nil,
+        lastUpdatedTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
         state: MigrationHubRefactorSpacesClientTypes.EnvironmentState? = nil
     )
@@ -1310,7 +1313,7 @@ public struct DeleteEnvironmentOutput {
 
 enum DeleteEnvironmentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1352,7 +1355,7 @@ public struct DeleteResourcePolicyInput {
 
 extension DeleteResourcePolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteResourcePolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteResourcePolicyOutput {
         return DeleteResourcePolicyOutput()
     }
 }
@@ -1364,7 +1367,7 @@ public struct DeleteResourcePolicyOutput {
 
 enum DeleteResourcePolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1421,7 +1424,7 @@ public struct DeleteRouteInput {
 
 extension DeleteRouteOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteRouteOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteRouteOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1442,7 +1445,7 @@ public struct DeleteRouteOutput {
     /// The Amazon Resource Name (ARN) of the route.
     public var arn: Swift.String?
     /// A timestamp that indicates when the route was last updated.
-    public var lastUpdatedTime: ClientRuntime.Date?
+    public var lastUpdatedTime: Foundation.Date?
     /// The ID of the route to delete.
     public var routeId: Swift.String?
     /// The ID of the service that the route belongs to.
@@ -1453,7 +1456,7 @@ public struct DeleteRouteOutput {
     public init(
         applicationId: Swift.String? = nil,
         arn: Swift.String? = nil,
-        lastUpdatedTime: ClientRuntime.Date? = nil,
+        lastUpdatedTime: Foundation.Date? = nil,
         routeId: Swift.String? = nil,
         serviceId: Swift.String? = nil,
         state: MigrationHubRefactorSpacesClientTypes.RouteState? = nil
@@ -1470,7 +1473,7 @@ public struct DeleteRouteOutput {
 
 enum DeleteRouteOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1528,7 +1531,7 @@ public struct DeleteServiceInput {
 
 extension DeleteServiceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteServiceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteServiceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1552,7 +1555,7 @@ public struct DeleteServiceOutput {
     /// The unique identifier of the environment.
     public var environmentId: Swift.String?
     /// A timestamp that indicates when the service was last updated.
-    public var lastUpdatedTime: ClientRuntime.Date?
+    public var lastUpdatedTime: Foundation.Date?
     /// The name of the service.
     public var name: Swift.String?
     /// The unique identifier of the service.
@@ -1564,7 +1567,7 @@ public struct DeleteServiceOutput {
         applicationId: Swift.String? = nil,
         arn: Swift.String? = nil,
         environmentId: Swift.String? = nil,
-        lastUpdatedTime: ClientRuntime.Date? = nil,
+        lastUpdatedTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
         serviceId: Swift.String? = nil,
         state: MigrationHubRefactorSpacesClientTypes.ServiceState? = nil
@@ -1582,7 +1585,7 @@ public struct DeleteServiceOutput {
 
 enum DeleteServiceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1666,7 +1669,7 @@ extension MigrationHubRefactorSpacesClientTypes {
         /// The Amazon Resource Name (ARN) of the environment.
         public var arn: Swift.String?
         /// A timestamp that indicates when the environment is created.
-        public var createdTime: ClientRuntime.Date?
+        public var createdTime: Foundation.Date?
         /// A description of the environment.
         public var description: Swift.String?
         /// The unique identifier of the environment.
@@ -1674,7 +1677,7 @@ extension MigrationHubRefactorSpacesClientTypes {
         /// Any error associated with the environment resource.
         public var error: MigrationHubRefactorSpacesClientTypes.ErrorResponse?
         /// A timestamp that indicates when the environment was last updated.
-        public var lastUpdatedTime: ClientRuntime.Date?
+        public var lastUpdatedTime: Foundation.Date?
         /// The name of the environment.
         public var name: Swift.String?
         /// The network fabric type of the environment.
@@ -1690,11 +1693,11 @@ extension MigrationHubRefactorSpacesClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            createdTime: ClientRuntime.Date? = nil,
+            createdTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
             environmentId: Swift.String? = nil,
             error: MigrationHubRefactorSpacesClientTypes.ErrorResponse? = nil,
-            lastUpdatedTime: ClientRuntime.Date? = nil,
+            lastUpdatedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             networkFabricType: MigrationHubRefactorSpacesClientTypes.NetworkFabricType? = nil,
             ownerAccountId: Swift.String? = nil,
@@ -1744,11 +1747,11 @@ extension MigrationHubRefactorSpacesClientTypes {
         /// The list of Amazon Virtual Private Cloud (Amazon VPC) CIDR blocks.
         public var cidrBlocks: [Swift.String]?
         /// A timestamp that indicates when the VPC is first added to the environment.
-        public var createdTime: ClientRuntime.Date?
+        public var createdTime: Foundation.Date?
         /// The unique identifier of the environment.
         public var environmentId: Swift.String?
         /// A timestamp that indicates when the VPC was last updated by the environment.
-        public var lastUpdatedTime: ClientRuntime.Date?
+        public var lastUpdatedTime: Foundation.Date?
         /// The ID of the VPC.
         public var vpcId: Swift.String?
         /// The name of the VPC at the time it is added to the environment.
@@ -1757,9 +1760,9 @@ extension MigrationHubRefactorSpacesClientTypes {
         public init(
             accountId: Swift.String? = nil,
             cidrBlocks: [Swift.String]? = nil,
-            createdTime: ClientRuntime.Date? = nil,
+            createdTime: Foundation.Date? = nil,
             environmentId: Swift.String? = nil,
-            lastUpdatedTime: ClientRuntime.Date? = nil,
+            lastUpdatedTime: Foundation.Date? = nil,
             vpcId: Swift.String? = nil,
             vpcName: Swift.String? = nil
         )
@@ -2004,7 +2007,7 @@ extension GetApplicationOutput: Swift.CustomDebugStringConvertible {
 
 extension GetApplicationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetApplicationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetApplicationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2037,13 +2040,13 @@ public struct GetApplicationOutput {
     /// The Amazon Web Services account ID of the application creator.
     public var createdByAccountId: Swift.String?
     /// A timestamp that indicates when the application is created.
-    public var createdTime: ClientRuntime.Date?
+    public var createdTime: Foundation.Date?
     /// The unique identifier of the environment.
     public var environmentId: Swift.String?
     /// Any error associated with the application resource.
     public var error: MigrationHubRefactorSpacesClientTypes.ErrorResponse?
     /// A timestamp that indicates when the application was last updated.
-    public var lastUpdatedTime: ClientRuntime.Date?
+    public var lastUpdatedTime: Foundation.Date?
     /// The name of the application.
     public var name: Swift.String?
     /// The Amazon Web Services account ID of the application owner (which is always the same as the environment owner account ID).
@@ -2062,10 +2065,10 @@ public struct GetApplicationOutput {
         applicationId: Swift.String? = nil,
         arn: Swift.String? = nil,
         createdByAccountId: Swift.String? = nil,
-        createdTime: ClientRuntime.Date? = nil,
+        createdTime: Foundation.Date? = nil,
         environmentId: Swift.String? = nil,
         error: MigrationHubRefactorSpacesClientTypes.ErrorResponse? = nil,
-        lastUpdatedTime: ClientRuntime.Date? = nil,
+        lastUpdatedTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
         ownerAccountId: Swift.String? = nil,
         proxyType: MigrationHubRefactorSpacesClientTypes.ProxyType? = nil,
@@ -2093,7 +2096,7 @@ public struct GetApplicationOutput {
 
 enum GetApplicationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2139,7 +2142,7 @@ extension GetEnvironmentOutput: Swift.CustomDebugStringConvertible {
 
 extension GetEnvironmentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetEnvironmentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetEnvironmentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2164,7 +2167,7 @@ public struct GetEnvironmentOutput {
     /// The Amazon Resource Name (ARN) of the environment.
     public var arn: Swift.String?
     /// A timestamp that indicates when the environment is created.
-    public var createdTime: ClientRuntime.Date?
+    public var createdTime: Foundation.Date?
     /// The description of the environment.
     public var description: Swift.String?
     /// The unique identifier of the environment.
@@ -2172,7 +2175,7 @@ public struct GetEnvironmentOutput {
     /// Any error associated with the environment resource.
     public var error: MigrationHubRefactorSpacesClientTypes.ErrorResponse?
     /// A timestamp that indicates when the environment was last updated.
-    public var lastUpdatedTime: ClientRuntime.Date?
+    public var lastUpdatedTime: Foundation.Date?
     /// The name of the environment.
     public var name: Swift.String?
     /// The network fabric type of the environment.
@@ -2188,11 +2191,11 @@ public struct GetEnvironmentOutput {
 
     public init(
         arn: Swift.String? = nil,
-        createdTime: ClientRuntime.Date? = nil,
+        createdTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         environmentId: Swift.String? = nil,
         error: MigrationHubRefactorSpacesClientTypes.ErrorResponse? = nil,
-        lastUpdatedTime: ClientRuntime.Date? = nil,
+        lastUpdatedTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
         networkFabricType: MigrationHubRefactorSpacesClientTypes.NetworkFabricType? = nil,
         ownerAccountId: Swift.String? = nil,
@@ -2218,7 +2221,7 @@ public struct GetEnvironmentOutput {
 
 enum GetEnvironmentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2259,7 +2262,7 @@ public struct GetResourcePolicyInput {
 
 extension GetResourcePolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetResourcePolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetResourcePolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2283,7 +2286,7 @@ public struct GetResourcePolicyOutput {
 
 enum GetResourcePolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2345,7 +2348,7 @@ extension GetRouteOutput: Swift.CustomDebugStringConvertible {
 
 extension GetRouteOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetRouteOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetRouteOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2382,7 +2385,7 @@ public struct GetRouteOutput {
     /// The Amazon Web Services account ID of the route creator.
     public var createdByAccountId: Swift.String?
     /// The timestamp of when the route is created.
-    public var createdTime: ClientRuntime.Date?
+    public var createdTime: Foundation.Date?
     /// Unique identifier of the environment.
     public var environmentId: Swift.String?
     /// Any error associated with the route resource.
@@ -2390,7 +2393,7 @@ public struct GetRouteOutput {
     /// Indicates whether to match all subpaths of the given source path. If this value is false, requests must match the source path exactly before they are forwarded to this route's service.
     public var includeChildPaths: Swift.Bool?
     /// A timestamp that indicates when the route was last updated.
-    public var lastUpdatedTime: ClientRuntime.Date?
+    public var lastUpdatedTime: Foundation.Date?
     /// A list of HTTP methods to match. An empty list matches all values. If a method is present, only HTTP requests using that method are forwarded to this route’s service.
     public var methods: [MigrationHubRefactorSpacesClientTypes.HttpMethod]?
     /// The Amazon Web Services account ID of the route owner.
@@ -2415,11 +2418,11 @@ public struct GetRouteOutput {
         applicationId: Swift.String? = nil,
         arn: Swift.String? = nil,
         createdByAccountId: Swift.String? = nil,
-        createdTime: ClientRuntime.Date? = nil,
+        createdTime: Foundation.Date? = nil,
         environmentId: Swift.String? = nil,
         error: MigrationHubRefactorSpacesClientTypes.ErrorResponse? = nil,
         includeChildPaths: Swift.Bool? = nil,
-        lastUpdatedTime: ClientRuntime.Date? = nil,
+        lastUpdatedTime: Foundation.Date? = nil,
         methods: [MigrationHubRefactorSpacesClientTypes.HttpMethod]? = nil,
         ownerAccountId: Swift.String? = nil,
         pathResourceToId: [Swift.String:Swift.String]? = nil,
@@ -2454,7 +2457,7 @@ public struct GetRouteOutput {
 
 enum GetRouteOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2516,7 +2519,7 @@ extension GetServiceOutput: Swift.CustomDebugStringConvertible {
 
 extension GetServiceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetServiceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetServiceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2550,7 +2553,7 @@ public struct GetServiceOutput {
     /// The Amazon Web Services account ID of the service creator.
     public var createdByAccountId: Swift.String?
     /// The timestamp of when the service is created.
-    public var createdTime: ClientRuntime.Date?
+    public var createdTime: Foundation.Date?
     /// The description of the service.
     public var description: Swift.String?
     /// The endpoint type of the service.
@@ -2562,7 +2565,7 @@ public struct GetServiceOutput {
     /// The configuration for the Lambda endpoint type. The Arn is the Amazon Resource Name (ARN) of the Lambda function associated with this service.
     public var lambdaEndpoint: MigrationHubRefactorSpacesClientTypes.LambdaEndpointConfig?
     /// A timestamp that indicates when the service was last updated.
-    public var lastUpdatedTime: ClientRuntime.Date?
+    public var lastUpdatedTime: Foundation.Date?
     /// The name of the service.
     public var name: Swift.String?
     /// The Amazon Web Services account ID of the service owner.
@@ -2582,13 +2585,13 @@ public struct GetServiceOutput {
         applicationId: Swift.String? = nil,
         arn: Swift.String? = nil,
         createdByAccountId: Swift.String? = nil,
-        createdTime: ClientRuntime.Date? = nil,
+        createdTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         endpointType: MigrationHubRefactorSpacesClientTypes.ServiceEndpointType? = nil,
         environmentId: Swift.String? = nil,
         error: MigrationHubRefactorSpacesClientTypes.ErrorResponse? = nil,
         lambdaEndpoint: MigrationHubRefactorSpacesClientTypes.LambdaEndpointConfig? = nil,
-        lastUpdatedTime: ClientRuntime.Date? = nil,
+        lastUpdatedTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
         ownerAccountId: Swift.String? = nil,
         serviceId: Swift.String? = nil,
@@ -2620,7 +2623,7 @@ public struct GetServiceOutput {
 
 enum GetServiceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2842,14 +2845,14 @@ extension MigrationHubRefactorSpacesClientTypes {
 
 extension ListApplicationsInput {
 
-    static func queryItemProvider(_ value: ListApplicationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListApplicationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -2889,7 +2892,7 @@ public struct ListApplicationsInput {
 
 extension ListApplicationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListApplicationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListApplicationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2918,7 +2921,7 @@ public struct ListApplicationsOutput {
 
 enum ListApplicationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2938,14 +2941,14 @@ enum ListApplicationsOutputError {
 
 extension ListEnvironmentVpcsInput {
 
-    static func queryItemProvider(_ value: ListEnvironmentVpcsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListEnvironmentVpcsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -2985,7 +2988,7 @@ public struct ListEnvironmentVpcsInput {
 
 extension ListEnvironmentVpcsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListEnvironmentVpcsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListEnvironmentVpcsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3014,7 +3017,7 @@ public struct ListEnvironmentVpcsOutput {
 
 enum ListEnvironmentVpcsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3032,14 +3035,14 @@ enum ListEnvironmentVpcsOutputError {
 
 extension ListEnvironmentsInput {
 
-    static func queryItemProvider(_ value: ListEnvironmentsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListEnvironmentsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -3071,7 +3074,7 @@ public struct ListEnvironmentsInput {
 
 extension ListEnvironmentsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListEnvironmentsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListEnvironmentsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3100,7 +3103,7 @@ public struct ListEnvironmentsOutput {
 
 enum ListEnvironmentsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3118,14 +3121,14 @@ enum ListEnvironmentsOutputError {
 
 extension ListRoutesInput {
 
-    static func queryItemProvider(_ value: ListRoutesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListRoutesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -3173,7 +3176,7 @@ public struct ListRoutesInput {
 
 extension ListRoutesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListRoutesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListRoutesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3202,7 +3205,7 @@ public struct ListRoutesOutput {
 
 enum ListRoutesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3222,14 +3225,14 @@ enum ListRoutesOutputError {
 
 extension ListServicesInput {
 
-    static func queryItemProvider(_ value: ListServicesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListServicesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -3277,7 +3280,7 @@ public struct ListServicesInput {
 
 extension ListServicesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListServicesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListServicesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3306,7 +3309,7 @@ public struct ListServicesOutput {
 
 enum ListServicesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3354,7 +3357,7 @@ extension ListTagsForResourceOutput: Swift.CustomDebugStringConvertible {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3378,7 +3381,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3485,7 +3488,7 @@ public struct PutResourcePolicyInput {
 
 extension PutResourcePolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutResourcePolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutResourcePolicyOutput {
         return PutResourcePolicyOutput()
     }
 }
@@ -3497,7 +3500,7 @@ public struct PutResourcePolicyOutput {
 
 enum PutResourcePolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3678,7 +3681,7 @@ extension MigrationHubRefactorSpacesClientTypes {
         /// The Amazon Web Services account ID of the route creator.
         public var createdByAccountId: Swift.String?
         /// A timestamp that indicates when the route is created.
-        public var createdTime: ClientRuntime.Date?
+        public var createdTime: Foundation.Date?
         /// The unique identifier of the environment.
         public var environmentId: Swift.String?
         /// Any error associated with the route resource.
@@ -3686,7 +3689,7 @@ extension MigrationHubRefactorSpacesClientTypes {
         /// Indicates whether to match all subpaths of the given source path. If this value is false, requests must match the source path exactly before they are forwarded to this route's service.
         public var includeChildPaths: Swift.Bool?
         /// A timestamp that indicates when the route was last updated.
-        public var lastUpdatedTime: ClientRuntime.Date?
+        public var lastUpdatedTime: Foundation.Date?
         /// A list of HTTP methods to match. An empty list matches all values. If a method is present, only HTTP requests using that method are forwarded to this route’s service.
         public var methods: [MigrationHubRefactorSpacesClientTypes.HttpMethod]?
         /// The Amazon Web Services account ID of the route owner.
@@ -3711,11 +3714,11 @@ extension MigrationHubRefactorSpacesClientTypes {
             applicationId: Swift.String? = nil,
             arn: Swift.String? = nil,
             createdByAccountId: Swift.String? = nil,
-            createdTime: ClientRuntime.Date? = nil,
+            createdTime: Foundation.Date? = nil,
             environmentId: Swift.String? = nil,
             error: MigrationHubRefactorSpacesClientTypes.ErrorResponse? = nil,
             includeChildPaths: Swift.Bool? = nil,
-            lastUpdatedTime: ClientRuntime.Date? = nil,
+            lastUpdatedTime: Foundation.Date? = nil,
             methods: [MigrationHubRefactorSpacesClientTypes.HttpMethod]? = nil,
             ownerAccountId: Swift.String? = nil,
             pathResourceToId: [Swift.String:Swift.String]? = nil,
@@ -3945,7 +3948,7 @@ extension MigrationHubRefactorSpacesClientTypes {
         /// The Amazon Web Services account ID of the service creator.
         public var createdByAccountId: Swift.String?
         /// A timestamp that indicates when the service is created.
-        public var createdTime: ClientRuntime.Date?
+        public var createdTime: Foundation.Date?
         /// A description of the service.
         public var description: Swift.String?
         /// The endpoint type of the service.
@@ -3957,7 +3960,7 @@ extension MigrationHubRefactorSpacesClientTypes {
         /// A summary of the configuration for the Lambda endpoint type.
         public var lambdaEndpoint: MigrationHubRefactorSpacesClientTypes.LambdaEndpointSummary?
         /// A timestamp that indicates when the service was last updated.
-        public var lastUpdatedTime: ClientRuntime.Date?
+        public var lastUpdatedTime: Foundation.Date?
         /// The name of the service.
         public var name: Swift.String?
         /// The Amazon Web Services account ID of the service owner.
@@ -3977,13 +3980,13 @@ extension MigrationHubRefactorSpacesClientTypes {
             applicationId: Swift.String? = nil,
             arn: Swift.String? = nil,
             createdByAccountId: Swift.String? = nil,
-            createdTime: ClientRuntime.Date? = nil,
+            createdTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
             endpointType: MigrationHubRefactorSpacesClientTypes.ServiceEndpointType? = nil,
             environmentId: Swift.String? = nil,
             error: MigrationHubRefactorSpacesClientTypes.ErrorResponse? = nil,
             lambdaEndpoint: MigrationHubRefactorSpacesClientTypes.LambdaEndpointSummary? = nil,
-            lastUpdatedTime: ClientRuntime.Date? = nil,
+            lastUpdatedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             ownerAccountId: Swift.String? = nil,
             serviceId: Swift.String? = nil,
@@ -4058,7 +4061,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -4070,7 +4073,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4147,14 +4150,14 @@ extension UntagResourceInput: Swift.CustomDebugStringConvertible {
 
 extension UntagResourceInput {
 
-    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let tagKeys = value.tagKeys else {
             let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
         tagKeys.forEach { queryItemValue in
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
             items.append(queryItem)
         }
         return items
@@ -4191,7 +4194,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -4203,7 +4206,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4271,7 +4274,7 @@ public struct UpdateRouteInput {
 
 extension UpdateRouteOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateRouteOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateRouteOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4292,7 +4295,7 @@ public struct UpdateRouteOutput {
     /// The Amazon Resource Name (ARN) of the route. The format for this ARN is arn:aws:refactor-spaces:region:account-id:resource-type/resource-id . For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
     public var arn: Swift.String?
     /// A timestamp that indicates when the route was last updated.
-    public var lastUpdatedTime: ClientRuntime.Date?
+    public var lastUpdatedTime: Foundation.Date?
     /// The unique identifier of the route.
     public var routeId: Swift.String?
     /// The ID of service in which the route was created. Traffic that matches this route is forwarded to this service.
@@ -4303,7 +4306,7 @@ public struct UpdateRouteOutput {
     public init(
         applicationId: Swift.String? = nil,
         arn: Swift.String? = nil,
-        lastUpdatedTime: ClientRuntime.Date? = nil,
+        lastUpdatedTime: Foundation.Date? = nil,
         routeId: Swift.String? = nil,
         serviceId: Swift.String? = nil,
         state: MigrationHubRefactorSpacesClientTypes.RouteState? = nil
@@ -4320,7 +4323,7 @@ public struct UpdateRouteOutput {
 
 enum UpdateRouteOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

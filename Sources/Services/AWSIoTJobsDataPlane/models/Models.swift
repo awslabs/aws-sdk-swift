@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -45,14 +48,14 @@ public struct CertificateValidationException: ClientRuntime.ModeledError, AWSCli
 
 extension DescribeJobExecutionInput {
 
-    static func queryItemProvider(_ value: DescribeJobExecutionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DescribeJobExecutionInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let executionNumber = value.executionNumber {
-            let executionNumberQueryItem = ClientRuntime.SDKURLQueryItem(name: "executionNumber".urlPercentEncoding(), value: Swift.String(executionNumber).urlPercentEncoding())
+            let executionNumberQueryItem = Smithy.URIQueryItem(name: "executionNumber".urlPercentEncoding(), value: Swift.String(executionNumber).urlPercentEncoding())
             items.append(executionNumberQueryItem)
         }
         if let includeJobDocument = value.includeJobDocument {
-            let includeJobDocumentQueryItem = ClientRuntime.SDKURLQueryItem(name: "includeJobDocument".urlPercentEncoding(), value: Swift.String(includeJobDocument).urlPercentEncoding())
+            let includeJobDocumentQueryItem = Smithy.URIQueryItem(name: "includeJobDocument".urlPercentEncoding(), value: Swift.String(includeJobDocument).urlPercentEncoding())
             items.append(includeJobDocumentQueryItem)
         }
         return items
@@ -100,7 +103,7 @@ public struct DescribeJobExecutionInput {
 
 extension DescribeJobExecutionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeJobExecutionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeJobExecutionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -124,7 +127,7 @@ public struct DescribeJobExecutionOutput {
 
 enum DescribeJobExecutionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -166,7 +169,7 @@ public struct GetPendingJobExecutionsInput {
 
 extension GetPendingJobExecutionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetPendingJobExecutionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetPendingJobExecutionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -195,7 +198,7 @@ public struct GetPendingJobExecutionsOutput {
 
 enum GetPendingJobExecutionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -616,7 +619,7 @@ public struct StartNextPendingJobExecutionInput {
 
 extension StartNextPendingJobExecutionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartNextPendingJobExecutionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartNextPendingJobExecutionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -640,7 +643,7 @@ public struct StartNextPendingJobExecutionOutput {
 
 enum StartNextPendingJobExecutionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -714,7 +717,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         /// The message associated with the exception.
         public internal(set) var message: Swift.String? = nil
         /// The payload associated with the exception.
-        public internal(set) var payload: ClientRuntime.Data? = nil
+        public internal(set) var payload: Foundation.Data? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -728,7 +731,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public init(
         message: Swift.String? = nil,
-        payload: ClientRuntime.Data? = nil
+        payload: Foundation.Data? = nil
     )
     {
         self.properties.message = message
@@ -812,7 +815,7 @@ public struct UpdateJobExecutionInput {
 
 extension UpdateJobExecutionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateJobExecutionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateJobExecutionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -841,7 +844,7 @@ public struct UpdateJobExecutionOutput {
 
 enum UpdateJobExecutionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

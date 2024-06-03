@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -124,7 +127,7 @@ public struct AssociateRepositoryInput {
 
 extension AssociateRepositoryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AssociateRepositoryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AssociateRepositoryOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -157,7 +160,7 @@ public struct AssociateRepositoryOutput {
 
 enum AssociateRepositoryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -318,9 +321,9 @@ extension CodeGuruReviewerClientTypes {
         /// The state of the aws-codeguru-reviewer.yml configuration file that allows the configuration of the CodeGuru Reviewer analysis. The file either exists, doesn't exist, or exists with errors at the root directory of your repository.
         public var configFileState: CodeGuruReviewerClientTypes.ConfigFileState?
         /// The time, in milliseconds since the epoch, when the code review was created.
-        public var createdTimeStamp: ClientRuntime.Date?
+        public var createdTimeStamp: Foundation.Date?
         /// The time, in milliseconds since the epoch, when the code review was last updated.
-        public var lastUpdatedTimeStamp: ClientRuntime.Date?
+        public var lastUpdatedTimeStamp: Foundation.Date?
         /// The statistics from the code review.
         public var metrics: CodeGuruReviewerClientTypes.Metrics?
         /// The name of the code review.
@@ -355,8 +358,8 @@ extension CodeGuruReviewerClientTypes {
             associationArn: Swift.String? = nil,
             codeReviewArn: Swift.String? = nil,
             configFileState: CodeGuruReviewerClientTypes.ConfigFileState? = nil,
-            createdTimeStamp: ClientRuntime.Date? = nil,
-            lastUpdatedTimeStamp: ClientRuntime.Date? = nil,
+            createdTimeStamp: Foundation.Date? = nil,
+            lastUpdatedTimeStamp: Foundation.Date? = nil,
             metrics: CodeGuruReviewerClientTypes.Metrics? = nil,
             name: Swift.String? = nil,
             owner: Swift.String? = nil,
@@ -417,9 +420,9 @@ extension CodeGuruReviewerClientTypes {
         /// The Amazon Resource Name (ARN) of the [CodeReview](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_CodeReview.html) object.
         public var codeReviewArn: Swift.String?
         /// The time, in milliseconds since the epoch, when the code review was created.
-        public var createdTimeStamp: ClientRuntime.Date?
+        public var createdTimeStamp: Foundation.Date?
         /// The time, in milliseconds since the epoch, when the code review was last updated.
-        public var lastUpdatedTimeStamp: ClientRuntime.Date?
+        public var lastUpdatedTimeStamp: Foundation.Date?
         /// The statistics from the code review.
         public var metricsSummary: CodeGuruReviewerClientTypes.MetricsSummary?
         /// The name of the code review.
@@ -449,8 +452,8 @@ extension CodeGuruReviewerClientTypes {
 
         public init(
             codeReviewArn: Swift.String? = nil,
-            createdTimeStamp: ClientRuntime.Date? = nil,
-            lastUpdatedTimeStamp: ClientRuntime.Date? = nil,
+            createdTimeStamp: Foundation.Date? = nil,
+            lastUpdatedTimeStamp: Foundation.Date? = nil,
             metricsSummary: CodeGuruReviewerClientTypes.MetricsSummary? = nil,
             name: Swift.String? = nil,
             owner: Swift.String? = nil,
@@ -672,7 +675,7 @@ public struct CreateCodeReviewInput {
 
 extension CreateCodeReviewOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateCodeReviewOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateCodeReviewOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -696,7 +699,7 @@ public struct CreateCodeReviewOutput {
 
 enum CreateCodeReviewOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -738,7 +741,7 @@ public struct DescribeCodeReviewInput {
 
 extension DescribeCodeReviewOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeCodeReviewOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeCodeReviewOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -762,7 +765,7 @@ public struct DescribeCodeReviewOutput {
 
 enum DescribeCodeReviewOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -780,17 +783,17 @@ enum DescribeCodeReviewOutputError {
 
 extension DescribeRecommendationFeedbackInput {
 
-    static func queryItemProvider(_ value: DescribeRecommendationFeedbackInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DescribeRecommendationFeedbackInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let userId = value.userId {
-            let userIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "UserId".urlPercentEncoding(), value: Swift.String(userId).urlPercentEncoding())
+            let userIdQueryItem = Smithy.URIQueryItem(name: "UserId".urlPercentEncoding(), value: Swift.String(userId).urlPercentEncoding())
             items.append(userIdQueryItem)
         }
         guard let recommendationId = value.recommendationId else {
             let message = "Creating a URL Query Item failed. recommendationId is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let recommendationIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "RecommendationId".urlPercentEncoding(), value: Swift.String(recommendationId).urlPercentEncoding())
+        let recommendationIdQueryItem = Smithy.URIQueryItem(name: "RecommendationId".urlPercentEncoding(), value: Swift.String(recommendationId).urlPercentEncoding())
         items.append(recommendationIdQueryItem)
         return items
     }
@@ -830,7 +833,7 @@ public struct DescribeRecommendationFeedbackInput {
 
 extension DescribeRecommendationFeedbackOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeRecommendationFeedbackOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeRecommendationFeedbackOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -854,7 +857,7 @@ public struct DescribeRecommendationFeedbackOutput {
 
 enum DescribeRecommendationFeedbackOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -895,7 +898,7 @@ public struct DescribeRepositoryAssociationInput {
 
 extension DescribeRepositoryAssociationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeRepositoryAssociationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeRepositoryAssociationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -928,7 +931,7 @@ public struct DescribeRepositoryAssociationOutput {
 
 enum DescribeRepositoryAssociationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -969,7 +972,7 @@ public struct DisassociateRepositoryInput {
 
 extension DisassociateRepositoryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DisassociateRepositoryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DisassociateRepositoryOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1002,7 +1005,7 @@ public struct DisassociateRepositoryOutput {
 
 enum DisassociateRepositoryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1200,38 +1203,38 @@ extension CodeGuruReviewerClientTypes {
 
 extension ListCodeReviewsInput {
 
-    static func queryItemProvider(_ value: ListCodeReviewsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListCodeReviewsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let states = value.states {
             states.forEach { queryItemValue in
-                let queryItem = ClientRuntime.SDKURLQueryItem(name: "States".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                let queryItem = Smithy.URIQueryItem(name: "States".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
                 items.append(queryItem)
             }
         }
         if let repositoryNames = value.repositoryNames {
             repositoryNames.forEach { queryItemValue in
-                let queryItem = ClientRuntime.SDKURLQueryItem(name: "RepositoryNames".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                let queryItem = Smithy.URIQueryItem(name: "RepositoryNames".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
                 items.append(queryItem)
             }
         }
         guard let type = value.type else {
             let message = "Creating a URL Query Item failed. type is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let typeQueryItem = ClientRuntime.SDKURLQueryItem(name: "Type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
+        let typeQueryItem = Smithy.URIQueryItem(name: "Type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
         items.append(typeQueryItem)
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let providerTypes = value.providerTypes {
             providerTypes.forEach { queryItemValue in
-                let queryItem = ClientRuntime.SDKURLQueryItem(name: "ProviderTypes".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                let queryItem = Smithy.URIQueryItem(name: "ProviderTypes".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
                 items.append(queryItem)
             }
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -1288,7 +1291,7 @@ public struct ListCodeReviewsInput {
 
 extension ListCodeReviewsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListCodeReviewsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListCodeReviewsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1317,7 +1320,7 @@ public struct ListCodeReviewsOutput {
 
 enum ListCodeReviewsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1334,25 +1337,25 @@ enum ListCodeReviewsOutputError {
 
 extension ListRecommendationFeedbackInput {
 
-    static func queryItemProvider(_ value: ListRecommendationFeedbackInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListRecommendationFeedbackInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let recommendationIds = value.recommendationIds {
             recommendationIds.forEach { queryItemValue in
-                let queryItem = ClientRuntime.SDKURLQueryItem(name: "RecommendationIds".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                let queryItem = Smithy.URIQueryItem(name: "RecommendationIds".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
                 items.append(queryItem)
             }
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let userIds = value.userIds {
             userIds.forEach { queryItemValue in
-                let queryItem = ClientRuntime.SDKURLQueryItem(name: "UserIds".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                let queryItem = Smithy.URIQueryItem(name: "UserIds".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
                 items.append(queryItem)
             }
         }
@@ -1401,7 +1404,7 @@ public struct ListRecommendationFeedbackInput {
 
 extension ListRecommendationFeedbackOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListRecommendationFeedbackOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListRecommendationFeedbackOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1430,7 +1433,7 @@ public struct ListRecommendationFeedbackOutput {
 
 enum ListRecommendationFeedbackOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1448,14 +1451,14 @@ enum ListRecommendationFeedbackOutputError {
 
 extension ListRecommendationsInput {
 
-    static func queryItemProvider(_ value: ListRecommendationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListRecommendationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -1495,7 +1498,7 @@ public struct ListRecommendationsInput {
 
 extension ListRecommendationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListRecommendationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListRecommendationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1524,7 +1527,7 @@ public struct ListRecommendationsOutput {
 
 enum ListRecommendationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1542,37 +1545,37 @@ enum ListRecommendationsOutputError {
 
 extension ListRepositoryAssociationsInput {
 
-    static func queryItemProvider(_ value: ListRepositoryAssociationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListRepositoryAssociationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let states = value.states {
             states.forEach { queryItemValue in
-                let queryItem = ClientRuntime.SDKURLQueryItem(name: "State".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                let queryItem = Smithy.URIQueryItem(name: "State".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
                 items.append(queryItem)
             }
         }
         if let names = value.names {
             names.forEach { queryItemValue in
-                let queryItem = ClientRuntime.SDKURLQueryItem(name: "Name".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                let queryItem = Smithy.URIQueryItem(name: "Name".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
                 items.append(queryItem)
             }
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let providerTypes = value.providerTypes {
             providerTypes.forEach { queryItemValue in
-                let queryItem = ClientRuntime.SDKURLQueryItem(name: "ProviderType".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                let queryItem = Smithy.URIQueryItem(name: "ProviderType".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
                 items.append(queryItem)
             }
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let owners = value.owners {
             owners.forEach { queryItemValue in
-                let queryItem = ClientRuntime.SDKURLQueryItem(name: "Owner".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                let queryItem = Smithy.URIQueryItem(name: "Owner".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
                 items.append(queryItem)
             }
         }
@@ -1638,7 +1641,7 @@ public struct ListRepositoryAssociationsInput {
 
 extension ListRepositoryAssociationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListRepositoryAssociationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListRepositoryAssociationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1667,7 +1670,7 @@ public struct ListRepositoryAssociationsOutput {
 
 enum ListRepositoryAssociationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1706,7 +1709,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1734,7 +1737,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1937,7 +1940,7 @@ public struct PutRecommendationFeedbackInput {
 
 extension PutRecommendationFeedbackOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutRecommendationFeedbackOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutRecommendationFeedbackOutput {
         return PutRecommendationFeedbackOutput()
     }
 }
@@ -1949,7 +1952,7 @@ public struct PutRecommendationFeedbackOutput {
 
 enum PutRecommendationFeedbackOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2071,9 +2074,9 @@ extension CodeGuruReviewerClientTypes {
         /// The Amazon Resource Name (ARN) of the [CodeReview](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_CodeReview.html) object.
         public var codeReviewArn: Swift.String?
         /// The time at which the feedback was created.
-        public var createdTimeStamp: ClientRuntime.Date?
+        public var createdTimeStamp: Foundation.Date?
         /// The time at which the feedback was last updated.
-        public var lastUpdatedTimeStamp: ClientRuntime.Date?
+        public var lastUpdatedTimeStamp: Foundation.Date?
         /// List for storing reactions. Reactions are utf-8 text code for emojis. You can send an empty list to clear off all your feedback.
         public var reactions: [CodeGuruReviewerClientTypes.Reaction]?
         /// The recommendation ID that can be used to track the provided recommendations. Later on it can be used to collect the feedback.
@@ -2083,8 +2086,8 @@ extension CodeGuruReviewerClientTypes {
 
         public init(
             codeReviewArn: Swift.String? = nil,
-            createdTimeStamp: ClientRuntime.Date? = nil,
-            lastUpdatedTimeStamp: ClientRuntime.Date? = nil,
+            createdTimeStamp: Foundation.Date? = nil,
+            lastUpdatedTimeStamp: Foundation.Date? = nil,
             reactions: [CodeGuruReviewerClientTypes.Reaction]? = nil,
             recommendationId: Swift.String? = nil,
             userId: Swift.String? = nil
@@ -2297,7 +2300,7 @@ extension CodeGuruReviewerClientTypes {
         /// The Amazon Resource Name (ARN) of an Amazon Web Services CodeStar Connections connection. Its format is arn:aws:codestar-connections:region-id:aws-account_id:connection/connection-id. For more information, see [Connection](https://docs.aws.amazon.com/codestar-connections/latest/APIReference/API_Connection.html) in the Amazon Web Services CodeStar Connections API Reference.
         public var connectionArn: Swift.String?
         /// The time, in milliseconds since the epoch, when the repository association was created.
-        public var createdTimeStamp: ClientRuntime.Date?
+        public var createdTimeStamp: Foundation.Date?
         /// A KMSKeyDetails object that contains:
         ///
         /// * The encryption option for this repository association. It is either owned by Amazon Web Services Key Management Service (KMS) (AWS_OWNED_CMK) or customer managed (CUSTOMER_MANAGED_CMK).
@@ -2305,7 +2308,7 @@ extension CodeGuruReviewerClientTypes {
         /// * The ID of the Amazon Web Services KMS key that is associated with this repository association.
         public var kmsKeyDetails: CodeGuruReviewerClientTypes.KMSKeyDetails?
         /// The time, in milliseconds since the epoch, when the repository association was last updated.
-        public var lastUpdatedTimeStamp: ClientRuntime.Date?
+        public var lastUpdatedTimeStamp: Foundation.Date?
         /// The name of the repository.
         public var name: Swift.String?
         /// The owner of the repository. For an Amazon Web Services CodeCommit repository, this is the Amazon Web Services account ID of the account that owns the repository. For a GitHub, GitHub Enterprise Server, or Bitbucket repository, this is the username for the account that owns the repository. For an S3 repository, it can be the username or Amazon Web Services account ID.
@@ -2340,9 +2343,9 @@ extension CodeGuruReviewerClientTypes {
             associationArn: Swift.String? = nil,
             associationId: Swift.String? = nil,
             connectionArn: Swift.String? = nil,
-            createdTimeStamp: ClientRuntime.Date? = nil,
+            createdTimeStamp: Foundation.Date? = nil,
             kmsKeyDetails: CodeGuruReviewerClientTypes.KMSKeyDetails? = nil,
-            lastUpdatedTimeStamp: ClientRuntime.Date? = nil,
+            lastUpdatedTimeStamp: Foundation.Date? = nil,
             name: Swift.String? = nil,
             owner: Swift.String? = nil,
             providerType: CodeGuruReviewerClientTypes.ProviderType? = nil,
@@ -2433,7 +2436,7 @@ extension CodeGuruReviewerClientTypes {
         /// The Amazon Resource Name (ARN) of an Amazon Web Services CodeStar Connections connection. Its format is arn:aws:codestar-connections:region-id:aws-account_id:connection/connection-id. For more information, see [Connection](https://docs.aws.amazon.com/codestar-connections/latest/APIReference/API_Connection.html) in the Amazon Web Services CodeStar Connections API Reference.
         public var connectionArn: Swift.String?
         /// The time, in milliseconds since the epoch, since the repository association was last updated.
-        public var lastUpdatedTimeStamp: ClientRuntime.Date?
+        public var lastUpdatedTimeStamp: Foundation.Date?
         /// The name of the repository association.
         public var name: Swift.String?
         /// The owner of the repository. For an Amazon Web Services CodeCommit repository, this is the Amazon Web Services account ID of the account that owns the repository. For a GitHub, GitHub Enterprise Server, or Bitbucket repository, this is the username for the account that owns the repository. For an S3 repository, it can be the username or Amazon Web Services account ID.
@@ -2464,7 +2467,7 @@ extension CodeGuruReviewerClientTypes {
             associationArn: Swift.String? = nil,
             associationId: Swift.String? = nil,
             connectionArn: Swift.String? = nil,
-            lastUpdatedTimeStamp: ClientRuntime.Date? = nil,
+            lastUpdatedTimeStamp: Foundation.Date? = nil,
             name: Swift.String? = nil,
             owner: Swift.String? = nil,
             providerType: CodeGuruReviewerClientTypes.ProviderType? = nil,
@@ -2889,7 +2892,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -2901,7 +2904,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3020,14 +3023,14 @@ extension CodeGuruReviewerClientTypes {
 
 extension UntagResourceInput {
 
-    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let tagKeys = value.tagKeys else {
             let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
         tagKeys.forEach { queryItemValue in
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
             items.append(queryItem)
         }
         return items
@@ -3064,7 +3067,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -3076,7 +3079,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

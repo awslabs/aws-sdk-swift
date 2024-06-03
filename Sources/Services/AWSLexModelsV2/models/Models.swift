@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -316,17 +319,17 @@ extension LexModelsV2ClientTypes {
         /// The text of the utterance. If the utterance was used with the RecognizeUtterance operation, the text is the transcription of the audio utterance.
         public var utterance: Swift.String?
         /// The date and time that the utterance was first recorded in the time window for aggregation. An utterance may have been sent to Amazon Lex before that time, but only utterances within the time window are counted.
-        public var utteranceFirstRecordedInAggregationDuration: ClientRuntime.Date?
+        public var utteranceFirstRecordedInAggregationDuration: Foundation.Date?
         /// The last date and time that an utterance was recorded in the time window for aggregation. An utterance may be sent to Amazon Lex after that time, but only utterances within the time window are counted.
-        public var utteranceLastRecordedInAggregationDuration: ClientRuntime.Date?
+        public var utteranceLastRecordedInAggregationDuration: Foundation.Date?
 
         public init(
             containsDataFromDeletedResources: Swift.Bool? = nil,
             hitCount: Swift.Int? = nil,
             missedCount: Swift.Int? = nil,
             utterance: Swift.String? = nil,
-            utteranceFirstRecordedInAggregationDuration: ClientRuntime.Date? = nil,
-            utteranceLastRecordedInAggregationDuration: ClientRuntime.Date? = nil
+            utteranceFirstRecordedInAggregationDuration: Foundation.Date? = nil,
+            utteranceLastRecordedInAggregationDuration: Foundation.Date? = nil
         )
         {
             self.containsDataFromDeletedResources = containsDataFromDeletedResources
@@ -3018,7 +3021,7 @@ public struct BatchCreateCustomVocabularyItemInput {
 
 extension BatchCreateCustomVocabularyItemOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> BatchCreateCustomVocabularyItemOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BatchCreateCustomVocabularyItemOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3062,7 +3065,7 @@ public struct BatchCreateCustomVocabularyItemOutput {
 
 enum BatchCreateCustomVocabularyItemOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3132,7 +3135,7 @@ public struct BatchDeleteCustomVocabularyItemInput {
 
 extension BatchDeleteCustomVocabularyItemOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> BatchDeleteCustomVocabularyItemOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BatchDeleteCustomVocabularyItemOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3176,7 +3179,7 @@ public struct BatchDeleteCustomVocabularyItemOutput {
 
 enum BatchDeleteCustomVocabularyItemOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3246,7 +3249,7 @@ public struct BatchUpdateCustomVocabularyItemInput {
 
 extension BatchUpdateCustomVocabularyItemOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> BatchUpdateCustomVocabularyItemOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BatchUpdateCustomVocabularyItemOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3290,7 +3293,7 @@ public struct BatchUpdateCustomVocabularyItemOutput {
 
 enum BatchUpdateCustomVocabularyItemOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3388,14 +3391,14 @@ extension LexModelsV2ClientTypes {
         /// The version of the bot that was used in the event.
         public var botVersion: Swift.String?
         /// The date and time that the event ended.
-        public var endDate: ClientRuntime.Date?
+        public var endDate: Foundation.Date?
         /// The date and time that the event started.
-        public var startDate: ClientRuntime.Date?
+        public var startDate: Foundation.Date?
 
         public init(
             botVersion: Swift.String? = nil,
-            endDate: ClientRuntime.Date? = nil,
-            startDate: ClientRuntime.Date? = nil
+            endDate: Foundation.Date? = nil,
+            startDate: Foundation.Date? = nil
         )
         {
             self.botVersion = botVersion
@@ -3469,19 +3472,19 @@ extension LexModelsV2ClientTypes {
         /// The bot version for all the alias bot replications.
         public var botVersion: Swift.String?
         /// The creation time and date for all the alias bot replications.
-        public var creationDateTime: ClientRuntime.Date?
+        public var creationDateTime: Foundation.Date?
         /// The reasons for failure for the aliases bot replications.
         public var failureReasons: [Swift.String]?
         /// The last time and date updated for all the alias bot replications.
-        public var lastUpdatedDateTime: ClientRuntime.Date?
+        public var lastUpdatedDateTime: Foundation.Date?
 
         public init(
             botAliasId: Swift.String? = nil,
             botAliasReplicationStatus: LexModelsV2ClientTypes.BotAliasReplicationStatus? = nil,
             botVersion: Swift.String? = nil,
-            creationDateTime: ClientRuntime.Date? = nil,
+            creationDateTime: Foundation.Date? = nil,
             failureReasons: [Swift.String]? = nil,
-            lastUpdatedDateTime: ClientRuntime.Date? = nil
+            lastUpdatedDateTime: Foundation.Date? = nil
         )
         {
             self.botAliasId = botAliasId
@@ -3597,20 +3600,20 @@ extension LexModelsV2ClientTypes {
         /// The version of the bot that the bot alias references.
         public var botVersion: Swift.String?
         /// A timestamp of the date and time that the bot alias was created.
-        public var creationDateTime: ClientRuntime.Date?
+        public var creationDateTime: Foundation.Date?
         /// The description of the bot alias.
         public var description: Swift.String?
         /// A timestamp of the date and time that the bot alias was last updated.
-        public var lastUpdatedDateTime: ClientRuntime.Date?
+        public var lastUpdatedDateTime: Foundation.Date?
 
         public init(
             botAliasId: Swift.String? = nil,
             botAliasName: Swift.String? = nil,
             botAliasStatus: LexModelsV2ClientTypes.BotAliasStatus? = nil,
             botVersion: Swift.String? = nil,
-            creationDateTime: ClientRuntime.Date? = nil,
+            creationDateTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
-            lastUpdatedDateTime: ClientRuntime.Date? = nil
+            lastUpdatedDateTime: Foundation.Date? = nil
         )
         {
             self.botAliasId = botAliasId
@@ -4029,11 +4032,11 @@ extension LexModelsV2ClientTypes {
         public var event: Swift.String?
         /// A timestamp of the date and time that the event occurred.
         /// This member is required.
-        public var eventDate: ClientRuntime.Date?
+        public var eventDate: Foundation.Date?
 
         public init(
             event: Swift.String? = nil,
-            eventDate: ClientRuntime.Date? = nil
+            eventDate: Foundation.Date? = nil
         )
         {
             self.event = event
@@ -4239,9 +4242,9 @@ extension LexModelsV2ClientTypes {
         /// The description of the bot locale.
         public var description: Swift.String?
         /// A timestamp of the date and time that the bot locale was last built.
-        public var lastBuildSubmittedDateTime: ClientRuntime.Date?
+        public var lastBuildSubmittedDateTime: Foundation.Date?
         /// A timestamp of the date and time that the bot locale was last updated.
-        public var lastUpdatedDateTime: ClientRuntime.Date?
+        public var lastUpdatedDateTime: Foundation.Date?
         /// The language and locale of the bot locale.
         public var localeId: Swift.String?
         /// The name of the bot locale.
@@ -4250,8 +4253,8 @@ extension LexModelsV2ClientTypes {
         public init(
             botLocaleStatus: LexModelsV2ClientTypes.BotLocaleStatus? = nil,
             description: Swift.String? = nil,
-            lastBuildSubmittedDateTime: ClientRuntime.Date? = nil,
-            lastUpdatedDateTime: ClientRuntime.Date? = nil,
+            lastBuildSubmittedDateTime: Foundation.Date? = nil,
+            lastUpdatedDateTime: Foundation.Date? = nil,
             localeId: Swift.String? = nil,
             localeName: Swift.String? = nil
         )
@@ -4467,15 +4470,15 @@ extension LexModelsV2ClientTypes {
         /// This member is required.
         public var botRecommendationStatus: LexModelsV2ClientTypes.BotRecommendationStatus?
         /// A timestamp of the date and time that the bot recommendation was created.
-        public var creationDateTime: ClientRuntime.Date?
+        public var creationDateTime: Foundation.Date?
         /// A timestamp of the date and time that the bot recommendation was last updated.
-        public var lastUpdatedDateTime: ClientRuntime.Date?
+        public var lastUpdatedDateTime: Foundation.Date?
 
         public init(
             botRecommendationId: Swift.String? = nil,
             botRecommendationStatus: LexModelsV2ClientTypes.BotRecommendationStatus? = nil,
-            creationDateTime: ClientRuntime.Date? = nil,
-            lastUpdatedDateTime: ClientRuntime.Date? = nil
+            creationDateTime: Foundation.Date? = nil,
+            lastUpdatedDateTime: Foundation.Date? = nil
         )
         {
             self.botRecommendationId = botRecommendationId
@@ -4542,7 +4545,7 @@ extension LexModelsV2ClientTypes {
         /// The operation status for the replicated bot applicable.
         public var botReplicaStatus: LexModelsV2ClientTypes.BotReplicaStatus?
         /// The creation time and date for the replicated bots.
-        public var creationDateTime: ClientRuntime.Date?
+        public var creationDateTime: Foundation.Date?
         /// The reasons for the failure for the replicated bot.
         public var failureReasons: [Swift.String]?
         /// The replica region used in the replication statuses summary.
@@ -4550,7 +4553,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             botReplicaStatus: LexModelsV2ClientTypes.BotReplicaStatus? = nil,
-            creationDateTime: ClientRuntime.Date? = nil,
+            creationDateTime: Foundation.Date? = nil,
             failureReasons: [Swift.String]? = nil,
             replicaRegion: Swift.String? = nil
         )
@@ -4698,7 +4701,7 @@ extension LexModelsV2ClientTypes {
         /// The description of the bot.
         public var description: Swift.String?
         /// The date and time that the bot was last updated.
-        public var lastUpdatedDateTime: ClientRuntime.Date?
+        public var lastUpdatedDateTime: Foundation.Date?
         /// The latest numerical version in use for the bot.
         public var latestBotVersion: Swift.String?
 
@@ -4708,7 +4711,7 @@ extension LexModelsV2ClientTypes {
             botStatus: LexModelsV2ClientTypes.BotStatus? = nil,
             botType: LexModelsV2ClientTypes.BotType? = nil,
             description: Swift.String? = nil,
-            lastUpdatedDateTime: ClientRuntime.Date? = nil,
+            lastUpdatedDateTime: Foundation.Date? = nil,
             latestBotVersion: Swift.String? = nil
         )
         {
@@ -4863,14 +4866,14 @@ extension LexModelsV2ClientTypes {
         /// The version replication status for all the replicated bots.
         public var botVersionReplicationStatus: LexModelsV2ClientTypes.BotVersionReplicationStatus?
         /// The creation date and time of the replication status for all the replicated bots.
-        public var creationDateTime: ClientRuntime.Date?
+        public var creationDateTime: Foundation.Date?
         /// The reasons for replication failure for all the replicated bots.
         public var failureReasons: [Swift.String]?
 
         public init(
             botVersion: Swift.String? = nil,
             botVersionReplicationStatus: LexModelsV2ClientTypes.BotVersionReplicationStatus? = nil,
-            creationDateTime: ClientRuntime.Date? = nil,
+            creationDateTime: Foundation.Date? = nil,
             failureReasons: [Swift.String]? = nil
         )
         {
@@ -5000,7 +5003,7 @@ extension LexModelsV2ClientTypes {
         /// The numeric version of the bot, or DRAFT to indicate that this is the version of the bot that can be updated..
         public var botVersion: Swift.String?
         /// A timestamp of the date and time that the version was created.
-        public var creationDateTime: ClientRuntime.Date?
+        public var creationDateTime: Foundation.Date?
         /// The description of the version.
         public var description: Swift.String?
 
@@ -5008,7 +5011,7 @@ extension LexModelsV2ClientTypes {
             botName: Swift.String? = nil,
             botStatus: LexModelsV2ClientTypes.BotStatus? = nil,
             botVersion: Swift.String? = nil,
-            creationDateTime: ClientRuntime.Date? = nil,
+            creationDateTime: Foundation.Date? = nil,
             description: Swift.String? = nil
         )
         {
@@ -5063,7 +5066,7 @@ public struct BuildBotLocaleInput {
 
 extension BuildBotLocaleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> BuildBotLocaleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BuildBotLocaleOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5085,7 +5088,7 @@ public struct BuildBotLocaleOutput {
     /// The version of the bot that was built. This is only the draft version of the bot.
     public var botVersion: Swift.String?
     /// A timestamp indicating the date and time that the bot was last built for this locale.
-    public var lastBuildSubmittedDateTime: ClientRuntime.Date?
+    public var lastBuildSubmittedDateTime: Foundation.Date?
     /// The language and locale specified of where the bot can be used.
     public var localeId: Swift.String?
 
@@ -5093,7 +5096,7 @@ public struct BuildBotLocaleOutput {
         botId: Swift.String? = nil,
         botLocaleStatus: LexModelsV2ClientTypes.BotLocaleStatus? = nil,
         botVersion: Swift.String? = nil,
-        lastBuildSubmittedDateTime: ClientRuntime.Date? = nil,
+        lastBuildSubmittedDateTime: Foundation.Date? = nil,
         localeId: Swift.String? = nil
     )
     {
@@ -5107,7 +5110,7 @@ public struct BuildBotLocaleOutput {
 
 enum BuildBotLocaleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5996,18 +5999,18 @@ extension LexModelsV2ClientTypes {
     public struct ConversationLogsDataSourceFilterBy {
         /// The end time for the conversation log.
         /// This member is required.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// The selection to filter by input mode for the conversation logs.
         /// This member is required.
         public var inputMode: LexModelsV2ClientTypes.ConversationLogsInputModeFilter?
         /// The start time for the conversation log.
         /// This member is required.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
 
         public init(
-            endTime: ClientRuntime.Date? = nil,
+            endTime: Foundation.Date? = nil,
             inputMode: LexModelsV2ClientTypes.ConversationLogsInputModeFilter? = nil,
-            startTime: ClientRuntime.Date? = nil
+            startTime: Foundation.Date? = nil
         )
         {
             self.endTime = endTime
@@ -6115,7 +6118,7 @@ public struct CreateBotAliasInput {
 
 extension CreateBotAliasOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateBotAliasOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateBotAliasOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6151,7 +6154,7 @@ public struct CreateBotAliasOutput {
     /// The conversation log settings specified for the alias.
     public var conversationLogSettings: LexModelsV2ClientTypes.ConversationLogSettings?
     /// A Unix timestamp indicating the date and time that the bot alias was created.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// The description specified for the bot alias.
     public var description: Swift.String?
     /// Determines whether Amazon Lex will use Amazon Comprehend to detect the sentiment of user utterances.
@@ -6167,7 +6170,7 @@ public struct CreateBotAliasOutput {
         botId: Swift.String? = nil,
         botVersion: Swift.String? = nil,
         conversationLogSettings: LexModelsV2ClientTypes.ConversationLogSettings? = nil,
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         sentimentAnalysisSettings: LexModelsV2ClientTypes.SentimentAnalysisSettings? = nil,
         tags: [Swift.String:Swift.String]? = nil
@@ -6189,7 +6192,7 @@ public struct CreateBotAliasOutput {
 
 enum CreateBotAliasOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6352,7 +6355,7 @@ public struct CreateBotLocaleInput {
 
 extension CreateBotLocaleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateBotLocaleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateBotLocaleOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6379,7 +6382,7 @@ public struct CreateBotLocaleOutput {
     /// The specified bot version.
     public var botVersion: Swift.String?
     /// A timestamp specifying the date and time that the bot locale was created.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// The specified description of the bot locale.
     public var description: Swift.String?
     /// Contains specifications about the generative AI capabilities from Amazon Bedrock that you can turn on for your bot.
@@ -6397,7 +6400,7 @@ public struct CreateBotLocaleOutput {
         botId: Swift.String? = nil,
         botLocaleStatus: LexModelsV2ClientTypes.BotLocaleStatus? = nil,
         botVersion: Swift.String? = nil,
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         generativeAISettings: LexModelsV2ClientTypes.GenerativeAISettings? = nil,
         localeId: Swift.String? = nil,
@@ -6421,7 +6424,7 @@ public struct CreateBotLocaleOutput {
 
 enum CreateBotLocaleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6440,7 +6443,7 @@ enum CreateBotLocaleOutputError {
 
 extension CreateBotOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateBotOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateBotOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6475,7 +6478,7 @@ public struct CreateBotOutput {
     /// The type of a bot that was created.
     public var botType: LexModelsV2ClientTypes.BotType?
     /// A timestamp indicating the date and time that the bot was created.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// The data privacy settings specified for the bot.
     public var dataPrivacy: LexModelsV2ClientTypes.DataPrivacy?
     /// The description specified for the bot.
@@ -6494,7 +6497,7 @@ public struct CreateBotOutput {
         botStatus: LexModelsV2ClientTypes.BotStatus? = nil,
         botTags: [Swift.String:Swift.String]? = nil,
         botType: LexModelsV2ClientTypes.BotType? = nil,
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         dataPrivacy: LexModelsV2ClientTypes.DataPrivacy? = nil,
         description: Swift.String? = nil,
         idleSessionTTLInSeconds: Swift.Int? = nil,
@@ -6519,7 +6522,7 @@ public struct CreateBotOutput {
 
 enum CreateBotOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6574,7 +6577,7 @@ public struct CreateBotReplicaInput {
 
 extension CreateBotReplicaOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateBotReplicaOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateBotReplicaOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6594,7 +6597,7 @@ public struct CreateBotReplicaOutput {
     /// The operational status of the replicated bot generated.
     public var botReplicaStatus: LexModelsV2ClientTypes.BotReplicaStatus?
     /// The creation date and time of the replicated bot generated.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// The region of the replicated bot generated.
     public var replicaRegion: Swift.String?
     /// The source region for the source bot used for the replicated bot generated.
@@ -6603,7 +6606,7 @@ public struct CreateBotReplicaOutput {
     public init(
         botId: Swift.String? = nil,
         botReplicaStatus: LexModelsV2ClientTypes.BotReplicaStatus? = nil,
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         replicaRegion: Swift.String? = nil,
         sourceRegion: Swift.String? = nil
     )
@@ -6618,7 +6621,7 @@ public struct CreateBotReplicaOutput {
 
 enum CreateBotReplicaOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6678,7 +6681,7 @@ public struct CreateBotVersionInput {
 
 extension CreateBotVersionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateBotVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateBotVersionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6703,7 +6706,7 @@ public struct CreateBotVersionOutput {
     /// The source versions used for each locale in the new version.
     public var botVersionLocaleSpecification: [Swift.String:LexModelsV2ClientTypes.BotVersionLocaleDetails]?
     /// A timestamp of the date and time that the version was created.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// The description of the version specified in the request.
     public var description: Swift.String?
 
@@ -6712,7 +6715,7 @@ public struct CreateBotVersionOutput {
         botStatus: LexModelsV2ClientTypes.BotStatus? = nil,
         botVersion: Swift.String? = nil,
         botVersionLocaleSpecification: [Swift.String:LexModelsV2ClientTypes.BotVersionLocaleDetails]? = nil,
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         description: Swift.String? = nil
     )
     {
@@ -6727,7 +6730,7 @@ public struct CreateBotVersionOutput {
 
 enum CreateBotVersionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6790,7 +6793,7 @@ public struct CreateExportInput {
 
 extension CreateExportOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateExportOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateExportOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6806,7 +6809,7 @@ extension CreateExportOutput {
 
 public struct CreateExportOutput {
     /// The date and time that the request to export a bot was created.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// An identifier for a specific request to create an export.
     public var exportId: Swift.String?
     /// The status of the export. When the status is Completed, you can use the [DescribeExport](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_DescribeExport.html) operation to get the pre-signed S3 URL link to your exported bot or bot locale.
@@ -6817,7 +6820,7 @@ public struct CreateExportOutput {
     public var resourceSpecification: LexModelsV2ClientTypes.ExportResourceSpecification?
 
     public init(
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         exportId: Swift.String? = nil,
         exportStatus: LexModelsV2ClientTypes.ExportStatus? = nil,
         fileFormat: LexModelsV2ClientTypes.ImportExportFileFormat? = nil,
@@ -6834,7 +6837,7 @@ public struct CreateExportOutput {
 
 enum CreateExportOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6965,7 +6968,7 @@ public struct CreateIntentInput {
 
 extension CreateIntentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateIntentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateIntentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6998,7 +7001,7 @@ public struct CreateIntentOutput {
     /// The version of the bot associated with the intent.
     public var botVersion: Swift.String?
     /// A timestamp of the date and time that the intent was created.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// The description specified for the intent.
     public var description: Swift.String?
     /// The dialog Lambda function specified for the intent.
@@ -7033,7 +7036,7 @@ public struct CreateIntentOutput {
     public init(
         botId: Swift.String? = nil,
         botVersion: Swift.String? = nil,
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         dialogCodeHook: LexModelsV2ClientTypes.DialogCodeHookSettings? = nil,
         fulfillmentCodeHook: LexModelsV2ClientTypes.FulfillmentCodeHookSettings? = nil,
@@ -7074,7 +7077,7 @@ public struct CreateIntentOutput {
 
 enum CreateIntentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7129,7 +7132,7 @@ public struct CreateResourcePolicyInput {
 
 extension CreateResourcePolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateResourcePolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateResourcePolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7158,7 +7161,7 @@ public struct CreateResourcePolicyOutput {
 
 enum CreateResourcePolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7177,10 +7180,10 @@ enum CreateResourcePolicyOutputError {
 
 extension CreateResourcePolicyStatementInput {
 
-    static func queryItemProvider(_ value: CreateResourcePolicyStatementInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: CreateResourcePolicyStatementInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let expectedRevisionId = value.expectedRevisionId {
-            let expectedRevisionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "expectedRevisionId".urlPercentEncoding(), value: Swift.String(expectedRevisionId).urlPercentEncoding())
+            let expectedRevisionIdQueryItem = Smithy.URIQueryItem(name: "expectedRevisionId".urlPercentEncoding(), value: Swift.String(expectedRevisionId).urlPercentEncoding())
             items.append(expectedRevisionIdQueryItem)
         }
         return items
@@ -7252,7 +7255,7 @@ public struct CreateResourcePolicyStatementInput {
 
 extension CreateResourcePolicyStatementOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateResourcePolicyStatementOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateResourcePolicyStatementOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7281,7 +7284,7 @@ public struct CreateResourcePolicyStatementOutput {
 
 enum CreateResourcePolicyStatementOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7392,7 +7395,7 @@ public struct CreateSlotInput {
 
 extension CreateSlotOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateSlotOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateSlotOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7420,7 +7423,7 @@ public struct CreateSlotOutput {
     /// The version of the bot associated with the slot.
     public var botVersion: Swift.String?
     /// The timestamp of the date and time that the slot was created.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// The description associated with the slot.
     public var description: Swift.String?
     /// The unique identifier of the intent associated with the slot.
@@ -7445,7 +7448,7 @@ public struct CreateSlotOutput {
     public init(
         botId: Swift.String? = nil,
         botVersion: Swift.String? = nil,
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         intentId: Swift.String? = nil,
         localeId: Swift.String? = nil,
@@ -7476,7 +7479,7 @@ public struct CreateSlotOutput {
 
 enum CreateSlotOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7584,7 +7587,7 @@ public struct CreateSlotTypeInput {
 
 extension CreateSlotTypeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateSlotTypeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateSlotTypeOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7613,7 +7616,7 @@ public struct CreateSlotTypeOutput {
     /// Specifications for a composite slot type.
     public var compositeSlotTypeSetting: LexModelsV2ClientTypes.CompositeSlotTypeSetting?
     /// A timestamp of the date and time that the slot type was created.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// The description specified for the slot type.
     public var description: Swift.String?
     /// The type of external information used to create the slot type.
@@ -7635,7 +7638,7 @@ public struct CreateSlotTypeOutput {
         botId: Swift.String? = nil,
         botVersion: Swift.String? = nil,
         compositeSlotTypeSetting: LexModelsV2ClientTypes.CompositeSlotTypeSetting? = nil,
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         externalSourceSetting: LexModelsV2ClientTypes.ExternalSourceSetting? = nil,
         localeId: Swift.String? = nil,
@@ -7663,7 +7666,7 @@ public struct CreateSlotTypeOutput {
 
 enum CreateSlotTypeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7718,7 +7721,7 @@ public struct CreateTestSetDiscrepancyReportInput {
 
 extension CreateTestSetDiscrepancyReportOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateTestSetDiscrepancyReportOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateTestSetDiscrepancyReportOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7733,7 +7736,7 @@ extension CreateTestSetDiscrepancyReportOutput {
 
 public struct CreateTestSetDiscrepancyReportOutput {
     /// The creation date and time for the test set discrepancy report.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// The target bot for the test set discrepancy report.
     public var target: LexModelsV2ClientTypes.TestSetDiscrepancyReportResourceTarget?
     /// The unique identifier of the test set discrepancy report to describe.
@@ -7742,7 +7745,7 @@ public struct CreateTestSetDiscrepancyReportOutput {
     public var testSetId: Swift.String?
 
     public init(
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         target: LexModelsV2ClientTypes.TestSetDiscrepancyReportResourceTarget? = nil,
         testSetDiscrepancyReportId: Swift.String? = nil,
         testSetId: Swift.String? = nil
@@ -7757,7 +7760,7 @@ public struct CreateTestSetDiscrepancyReportOutput {
 
 enum CreateTestSetDiscrepancyReportOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7788,7 +7791,7 @@ public struct CreateUploadUrlInput {
 
 extension CreateUploadUrlOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateUploadUrlOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateUploadUrlOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7817,7 +7820,7 @@ public struct CreateUploadUrlOutput {
 
 enum CreateUploadUrlOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8221,14 +8224,14 @@ extension LexModelsV2ClientTypes {
     public struct DateRangeFilter {
         /// A timestamp indicating the end date for the date range filter.
         /// This member is required.
-        public var endDateTime: ClientRuntime.Date?
+        public var endDateTime: Foundation.Date?
         /// A timestamp indicating the start date for the date range filter.
         /// This member is required.
-        public var startDateTime: ClientRuntime.Date?
+        public var startDateTime: Foundation.Date?
 
         public init(
-            endDateTime: ClientRuntime.Date? = nil,
-            startDateTime: ClientRuntime.Date? = nil
+            endDateTime: Foundation.Date? = nil,
+            startDateTime: Foundation.Date? = nil
         )
         {
             self.endDateTime = endDateTime
@@ -8277,10 +8280,10 @@ extension LexModelsV2ClientTypes {
 
 extension DeleteBotAliasInput {
 
-    static func queryItemProvider(_ value: DeleteBotAliasInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteBotAliasInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let skipResourceInUseCheck = value.skipResourceInUseCheck {
-            let skipResourceInUseCheckQueryItem = ClientRuntime.SDKURLQueryItem(name: "skipResourceInUseCheck".urlPercentEncoding(), value: Swift.String(skipResourceInUseCheck).urlPercentEncoding())
+            let skipResourceInUseCheckQueryItem = Smithy.URIQueryItem(name: "skipResourceInUseCheck".urlPercentEncoding(), value: Swift.String(skipResourceInUseCheck).urlPercentEncoding())
             items.append(skipResourceInUseCheckQueryItem)
         }
         return items
@@ -8324,7 +8327,7 @@ public struct DeleteBotAliasInput {
 
 extension DeleteBotAliasOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBotAliasOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteBotAliasOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8358,7 +8361,7 @@ public struct DeleteBotAliasOutput {
 
 enum DeleteBotAliasOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8377,10 +8380,10 @@ enum DeleteBotAliasOutputError {
 
 extension DeleteBotInput {
 
-    static func queryItemProvider(_ value: DeleteBotInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteBotInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let skipResourceInUseCheck = value.skipResourceInUseCheck {
-            let skipResourceInUseCheckQueryItem = ClientRuntime.SDKURLQueryItem(name: "skipResourceInUseCheck".urlPercentEncoding(), value: Swift.String(skipResourceInUseCheck).urlPercentEncoding())
+            let skipResourceInUseCheckQueryItem = Smithy.URIQueryItem(name: "skipResourceInUseCheck".urlPercentEncoding(), value: Swift.String(skipResourceInUseCheck).urlPercentEncoding())
             items.append(skipResourceInUseCheckQueryItem)
         }
         return items
@@ -8455,7 +8458,7 @@ public struct DeleteBotLocaleInput {
 
 extension DeleteBotLocaleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBotLocaleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteBotLocaleOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8494,7 +8497,7 @@ public struct DeleteBotLocaleOutput {
 
 enum DeleteBotLocaleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8513,7 +8516,7 @@ enum DeleteBotLocaleOutputError {
 
 extension DeleteBotOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBotOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteBotOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8542,7 +8545,7 @@ public struct DeleteBotOutput {
 
 enum DeleteBotOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8592,7 +8595,7 @@ public struct DeleteBotReplicaInput {
 
 extension DeleteBotReplicaOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBotReplicaOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteBotReplicaOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8626,7 +8629,7 @@ public struct DeleteBotReplicaOutput {
 
 enum DeleteBotReplicaOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8645,10 +8648,10 @@ enum DeleteBotReplicaOutputError {
 
 extension DeleteBotVersionInput {
 
-    static func queryItemProvider(_ value: DeleteBotVersionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteBotVersionInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let skipResourceInUseCheck = value.skipResourceInUseCheck {
-            let skipResourceInUseCheckQueryItem = ClientRuntime.SDKURLQueryItem(name: "skipResourceInUseCheck".urlPercentEncoding(), value: Swift.String(skipResourceInUseCheck).urlPercentEncoding())
+            let skipResourceInUseCheckQueryItem = Smithy.URIQueryItem(name: "skipResourceInUseCheck".urlPercentEncoding(), value: Swift.String(skipResourceInUseCheck).urlPercentEncoding())
             items.append(skipResourceInUseCheckQueryItem)
         }
         return items
@@ -8692,7 +8695,7 @@ public struct DeleteBotVersionInput {
 
 extension DeleteBotVersionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBotVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteBotVersionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8726,7 +8729,7 @@ public struct DeleteBotVersionOutput {
 
 enum DeleteBotVersionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8784,7 +8787,7 @@ public struct DeleteCustomVocabularyInput {
 
 extension DeleteCustomVocabularyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteCustomVocabularyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteCustomVocabularyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8823,7 +8826,7 @@ public struct DeleteCustomVocabularyOutput {
 
 enum DeleteCustomVocabularyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8865,7 +8868,7 @@ public struct DeleteExportInput {
 
 extension DeleteExportOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteExportOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteExportOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8894,7 +8897,7 @@ public struct DeleteExportOutput {
 
 enum DeleteExportOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8935,7 +8938,7 @@ public struct DeleteImportInput {
 
 extension DeleteImportOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteImportOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteImportOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8964,7 +8967,7 @@ public struct DeleteImportOutput {
 
 enum DeleteImportOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9029,7 +9032,7 @@ public struct DeleteIntentInput {
 
 extension DeleteIntentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteIntentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteIntentOutput {
         return DeleteIntentOutput()
     }
 }
@@ -9041,7 +9044,7 @@ public struct DeleteIntentOutput {
 
 enum DeleteIntentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9060,10 +9063,10 @@ enum DeleteIntentOutputError {
 
 extension DeleteResourcePolicyInput {
 
-    static func queryItemProvider(_ value: DeleteResourcePolicyInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteResourcePolicyInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let expectedRevisionId = value.expectedRevisionId {
-            let expectedRevisionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "expectedRevisionId".urlPercentEncoding(), value: Swift.String(expectedRevisionId).urlPercentEncoding())
+            let expectedRevisionIdQueryItem = Smithy.URIQueryItem(name: "expectedRevisionId".urlPercentEncoding(), value: Swift.String(expectedRevisionId).urlPercentEncoding())
             items.append(expectedRevisionIdQueryItem)
         }
         return items
@@ -9099,7 +9102,7 @@ public struct DeleteResourcePolicyInput {
 
 extension DeleteResourcePolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteResourcePolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteResourcePolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -9128,7 +9131,7 @@ public struct DeleteResourcePolicyOutput {
 
 enum DeleteResourcePolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9145,10 +9148,10 @@ enum DeleteResourcePolicyOutputError {
 
 extension DeleteResourcePolicyStatementInput {
 
-    static func queryItemProvider(_ value: DeleteResourcePolicyStatementInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteResourcePolicyStatementInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let expectedRevisionId = value.expectedRevisionId {
-            let expectedRevisionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "expectedRevisionId".urlPercentEncoding(), value: Swift.String(expectedRevisionId).urlPercentEncoding())
+            let expectedRevisionIdQueryItem = Smithy.URIQueryItem(name: "expectedRevisionId".urlPercentEncoding(), value: Swift.String(expectedRevisionId).urlPercentEncoding())
             items.append(expectedRevisionIdQueryItem)
         }
         return items
@@ -9192,7 +9195,7 @@ public struct DeleteResourcePolicyStatementInput {
 
 extension DeleteResourcePolicyStatementOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteResourcePolicyStatementOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteResourcePolicyStatementOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -9221,7 +9224,7 @@ public struct DeleteResourcePolicyStatementOutput {
 
 enum DeleteResourcePolicyStatementOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9293,7 +9296,7 @@ public struct DeleteSlotInput {
 
 extension DeleteSlotOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteSlotOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteSlotOutput {
         return DeleteSlotOutput()
     }
 }
@@ -9305,7 +9308,7 @@ public struct DeleteSlotOutput {
 
 enum DeleteSlotOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9324,10 +9327,10 @@ enum DeleteSlotOutputError {
 
 extension DeleteSlotTypeInput {
 
-    static func queryItemProvider(_ value: DeleteSlotTypeInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteSlotTypeInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let skipResourceInUseCheck = value.skipResourceInUseCheck {
-            let skipResourceInUseCheckQueryItem = ClientRuntime.SDKURLQueryItem(name: "skipResourceInUseCheck".urlPercentEncoding(), value: Swift.String(skipResourceInUseCheck).urlPercentEncoding())
+            let skipResourceInUseCheckQueryItem = Smithy.URIQueryItem(name: "skipResourceInUseCheck".urlPercentEncoding(), value: Swift.String(skipResourceInUseCheck).urlPercentEncoding())
             items.append(skipResourceInUseCheckQueryItem)
         }
         return items
@@ -9387,7 +9390,7 @@ public struct DeleteSlotTypeInput {
 
 extension DeleteSlotTypeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteSlotTypeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteSlotTypeOutput {
         return DeleteSlotTypeOutput()
     }
 }
@@ -9399,7 +9402,7 @@ public struct DeleteSlotTypeOutput {
 
 enum DeleteSlotTypeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9441,7 +9444,7 @@ public struct DeleteTestSetInput {
 
 extension DeleteTestSetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteTestSetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteTestSetOutput {
         return DeleteTestSetOutput()
     }
 }
@@ -9453,7 +9456,7 @@ public struct DeleteTestSetOutput {
 
 enum DeleteTestSetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9472,14 +9475,14 @@ enum DeleteTestSetOutputError {
 
 extension DeleteUtterancesInput {
 
-    static func queryItemProvider(_ value: DeleteUtterancesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteUtterancesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let sessionId = value.sessionId {
-            let sessionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "sessionId".urlPercentEncoding(), value: Swift.String(sessionId).urlPercentEncoding())
+            let sessionIdQueryItem = Smithy.URIQueryItem(name: "sessionId".urlPercentEncoding(), value: Swift.String(sessionId).urlPercentEncoding())
             items.append(sessionIdQueryItem)
         }
         if let localeId = value.localeId {
-            let localeIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "localeId".urlPercentEncoding(), value: Swift.String(localeId).urlPercentEncoding())
+            let localeIdQueryItem = Smithy.URIQueryItem(name: "localeId".urlPercentEncoding(), value: Swift.String(localeId).urlPercentEncoding())
             items.append(localeIdQueryItem)
         }
         return items
@@ -9519,7 +9522,7 @@ public struct DeleteUtterancesInput {
 
 extension DeleteUtterancesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteUtterancesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteUtterancesOutput {
         return DeleteUtterancesOutput()
     }
 }
@@ -9531,7 +9534,7 @@ public struct DeleteUtterancesOutput {
 
 enum DeleteUtterancesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9578,7 +9581,7 @@ public struct DescribeBotAliasInput {
 
 extension DescribeBotAliasOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeBotAliasOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeBotAliasOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -9618,11 +9621,11 @@ public struct DescribeBotAliasOutput {
     /// Specifics of how Amazon Lex logs text and audio conversations with the bot associated with the alias.
     public var conversationLogSettings: LexModelsV2ClientTypes.ConversationLogSettings?
     /// A timestamp of the date and time that the alias was created.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// The description of the bot alias.
     public var description: Swift.String?
     /// A timestamp of the date and time that the alias was last updated.
-    public var lastUpdatedDateTime: ClientRuntime.Date?
+    public var lastUpdatedDateTime: Foundation.Date?
     /// A list of the networks to which the bot alias you described belongs.
     public var parentBotNetworks: [LexModelsV2ClientTypes.ParentBotNetwork]?
     /// Determines whether Amazon Lex will use Amazon Comprehend to detect the sentiment of user utterances.
@@ -9637,9 +9640,9 @@ public struct DescribeBotAliasOutput {
         botId: Swift.String? = nil,
         botVersion: Swift.String? = nil,
         conversationLogSettings: LexModelsV2ClientTypes.ConversationLogSettings? = nil,
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
-        lastUpdatedDateTime: ClientRuntime.Date? = nil,
+        lastUpdatedDateTime: Foundation.Date? = nil,
         parentBotNetworks: [LexModelsV2ClientTypes.ParentBotNetwork]? = nil,
         sentimentAnalysisSettings: LexModelsV2ClientTypes.SentimentAnalysisSettings? = nil
     )
@@ -9662,7 +9665,7 @@ public struct DescribeBotAliasOutput {
 
 enum DescribeBotAliasOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9742,7 +9745,7 @@ public struct DescribeBotLocaleInput {
 
 extension DescribeBotLocaleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeBotLocaleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeBotLocaleOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -9778,7 +9781,7 @@ public struct DescribeBotLocaleOutput {
     /// The version of the bot associated with the locale.
     public var botVersion: Swift.String?
     /// The date and time that the locale was created.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// The description of the locale.
     public var description: Swift.String?
     /// if botLocaleStatus is Failed, Amazon Lex explains why it failed to build the bot.
@@ -9788,9 +9791,9 @@ public struct DescribeBotLocaleOutput {
     /// The number of intents defined for the locale.
     public var intentsCount: Swift.Int?
     /// The date and time that the locale was last submitted for building.
-    public var lastBuildSubmittedDateTime: ClientRuntime.Date?
+    public var lastBuildSubmittedDateTime: Foundation.Date?
     /// The date and time that the locale was last updated.
-    public var lastUpdatedDateTime: ClientRuntime.Date?
+    public var lastUpdatedDateTime: Foundation.Date?
     /// The unique identifier of the described locale.
     public var localeId: Swift.String?
     /// The name of the locale.
@@ -9809,13 +9812,13 @@ public struct DescribeBotLocaleOutput {
         botLocaleHistoryEvents: [LexModelsV2ClientTypes.BotLocaleHistoryEvent]? = nil,
         botLocaleStatus: LexModelsV2ClientTypes.BotLocaleStatus? = nil,
         botVersion: Swift.String? = nil,
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         failureReasons: [Swift.String]? = nil,
         generativeAISettings: LexModelsV2ClientTypes.GenerativeAISettings? = nil,
         intentsCount: Swift.Int? = nil,
-        lastBuildSubmittedDateTime: ClientRuntime.Date? = nil,
-        lastUpdatedDateTime: ClientRuntime.Date? = nil,
+        lastBuildSubmittedDateTime: Foundation.Date? = nil,
+        lastUpdatedDateTime: Foundation.Date? = nil,
         localeId: Swift.String? = nil,
         localeName: Swift.String? = nil,
         nluIntentConfidenceThreshold: Swift.Double? = nil,
@@ -9846,7 +9849,7 @@ public struct DescribeBotLocaleOutput {
 
 enum DescribeBotLocaleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9864,7 +9867,7 @@ enum DescribeBotLocaleOutputError {
 
 extension DescribeBotOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeBotOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeBotOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -9897,7 +9900,7 @@ public struct DescribeBotOutput {
     /// The type of the bot that was described.
     public var botType: LexModelsV2ClientTypes.BotType?
     /// A timestamp of the date and time that the bot was created.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// Settings for managing data privacy of the bot and its conversations with users.
     public var dataPrivacy: LexModelsV2ClientTypes.DataPrivacy?
     /// The description of the bot.
@@ -9907,7 +9910,7 @@ public struct DescribeBotOutput {
     /// The maximum time in seconds that Amazon Lex retains the data gathered in a conversation.
     public var idleSessionTTLInSeconds: Swift.Int?
     /// A timestamp of the date and time that the bot was last updated.
-    public var lastUpdatedDateTime: ClientRuntime.Date?
+    public var lastUpdatedDateTime: Foundation.Date?
     /// The Amazon Resource Name (ARN) of an IAM role that has permission to access the bot.
     public var roleArn: Swift.String?
 
@@ -9917,12 +9920,12 @@ public struct DescribeBotOutput {
         botName: Swift.String? = nil,
         botStatus: LexModelsV2ClientTypes.BotStatus? = nil,
         botType: LexModelsV2ClientTypes.BotType? = nil,
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         dataPrivacy: LexModelsV2ClientTypes.DataPrivacy? = nil,
         description: Swift.String? = nil,
         failureReasons: [Swift.String]? = nil,
         idleSessionTTLInSeconds: Swift.Int? = nil,
-        lastUpdatedDateTime: ClientRuntime.Date? = nil,
+        lastUpdatedDateTime: Foundation.Date? = nil,
         roleArn: Swift.String? = nil
     )
     {
@@ -9943,7 +9946,7 @@ public struct DescribeBotOutput {
 
 enum DescribeBotOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10008,7 +10011,7 @@ public struct DescribeBotRecommendationInput {
 
 extension DescribeBotRecommendationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeBotRecommendationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeBotRecommendationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -10040,13 +10043,13 @@ public struct DescribeBotRecommendationOutput {
     /// The version of the bot associated with the bot recommendation.
     public var botVersion: Swift.String?
     /// The date and time that the bot recommendation was created.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// The object representing the passwords that were used to encrypt the data related to the bot recommendation results, as well as the KMS key ARN used to encrypt the associated metadata.
     public var encryptionSetting: LexModelsV2ClientTypes.EncryptionSetting?
     /// If botRecommendationStatus is Failed, Amazon Lex explains why.
     public var failureReasons: [Swift.String]?
     /// The date and time that the bot recommendation was last updated.
-    public var lastUpdatedDateTime: ClientRuntime.Date?
+    public var lastUpdatedDateTime: Foundation.Date?
     /// The identifier of the language and locale of the bot recommendation to describe.
     public var localeId: Swift.String?
     /// The object representing the Amazon S3 bucket containing the transcript, as well as the associated metadata.
@@ -10058,10 +10061,10 @@ public struct DescribeBotRecommendationOutput {
         botRecommendationResults: LexModelsV2ClientTypes.BotRecommendationResults? = nil,
         botRecommendationStatus: LexModelsV2ClientTypes.BotRecommendationStatus? = nil,
         botVersion: Swift.String? = nil,
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         encryptionSetting: LexModelsV2ClientTypes.EncryptionSetting? = nil,
         failureReasons: [Swift.String]? = nil,
-        lastUpdatedDateTime: ClientRuntime.Date? = nil,
+        lastUpdatedDateTime: Foundation.Date? = nil,
         localeId: Swift.String? = nil,
         transcriptSourceSetting: LexModelsV2ClientTypes.TranscriptSourceSetting? = nil
     )
@@ -10082,7 +10085,7 @@ public struct DescribeBotRecommendationOutput {
 
 enum DescribeBotRecommendationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10130,7 +10133,7 @@ public struct DescribeBotReplicaInput {
 
 extension DescribeBotReplicaOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeBotReplicaOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeBotReplicaOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -10151,7 +10154,7 @@ public struct DescribeBotReplicaOutput {
     /// The operational status of the replicated bot being monitored.
     public var botReplicaStatus: LexModelsV2ClientTypes.BotReplicaStatus?
     /// The creation date and time of the replicated bot being monitored.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// The failure reasons the bot being monitored failed to replicate.
     public var failureReasons: [Swift.String]?
     /// The region of the replicated bot being monitored.
@@ -10162,7 +10165,7 @@ public struct DescribeBotReplicaOutput {
     public init(
         botId: Swift.String? = nil,
         botReplicaStatus: LexModelsV2ClientTypes.BotReplicaStatus? = nil,
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         failureReasons: [Swift.String]? = nil,
         replicaRegion: Swift.String? = nil,
         sourceRegion: Swift.String? = nil
@@ -10179,7 +10182,7 @@ public struct DescribeBotReplicaOutput {
 
 enum DescribeBotReplicaOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10244,7 +10247,7 @@ public struct DescribeBotResourceGenerationInput {
 
 extension DescribeBotResourceGenerationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeBotResourceGenerationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeBotResourceGenerationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -10270,7 +10273,7 @@ public struct DescribeBotResourceGenerationOutput {
     /// The version of the bot for which the generation request was made.
     public var botVersion: Swift.String?
     /// The date and time at which the item was generated.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// A list of reasons why the generation of bot resources through natural language description failed.
     public var failureReasons: [Swift.String]?
     /// The Amazon S3 location of the generated bot locale configuration.
@@ -10282,7 +10285,7 @@ public struct DescribeBotResourceGenerationOutput {
     /// The status of the generation request.
     public var generationStatus: LexModelsV2ClientTypes.GenerationStatus?
     /// The date and time at which the generated item was updated.
-    public var lastUpdatedDateTime: ClientRuntime.Date?
+    public var lastUpdatedDateTime: Foundation.Date?
     /// The locale of the bot for which the generation request was made.
     public var localeId: Swift.String?
     /// The ARN of the model used to generate the bot resources.
@@ -10291,13 +10294,13 @@ public struct DescribeBotResourceGenerationOutput {
     public init(
         botId: Swift.String? = nil,
         botVersion: Swift.String? = nil,
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         failureReasons: [Swift.String]? = nil,
         generatedBotLocaleUrl: Swift.String? = nil,
         generationId: Swift.String? = nil,
         generationInputPrompt: Swift.String? = nil,
         generationStatus: LexModelsV2ClientTypes.GenerationStatus? = nil,
-        lastUpdatedDateTime: ClientRuntime.Date? = nil,
+        lastUpdatedDateTime: Foundation.Date? = nil,
         localeId: Swift.String? = nil,
         modelArn: Swift.String? = nil
     )
@@ -10318,7 +10321,7 @@ public struct DescribeBotResourceGenerationOutput {
 
 enum DescribeBotResourceGenerationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10366,7 +10369,7 @@ public struct DescribeBotVersionInput {
 
 extension DescribeBotVersionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeBotVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeBotVersionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -10402,7 +10405,7 @@ public struct DescribeBotVersionOutput {
     /// The version of the bot that was described.
     public var botVersion: Swift.String?
     /// A timestamp of the date and time that the bot version was created.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// Data privacy settings for the bot version.
     public var dataPrivacy: LexModelsV2ClientTypes.DataPrivacy?
     /// The description specified for the bot.
@@ -10423,7 +10426,7 @@ public struct DescribeBotVersionOutput {
         botStatus: LexModelsV2ClientTypes.BotStatus? = nil,
         botType: LexModelsV2ClientTypes.BotType? = nil,
         botVersion: Swift.String? = nil,
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         dataPrivacy: LexModelsV2ClientTypes.DataPrivacy? = nil,
         description: Swift.String? = nil,
         failureReasons: [Swift.String]? = nil,
@@ -10450,7 +10453,7 @@ public struct DescribeBotVersionOutput {
 
 enum DescribeBotVersionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10507,7 +10510,7 @@ public struct DescribeCustomVocabularyMetadataInput {
 
 extension DescribeCustomVocabularyMetadataOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeCustomVocabularyMetadataOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeCustomVocabularyMetadataOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -10528,20 +10531,20 @@ public struct DescribeCustomVocabularyMetadataOutput {
     /// The version of the bot that contains the custom vocabulary to describe.
     public var botVersion: Swift.String?
     /// The date and time that the custom vocabulary was created.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// The status of the custom vocabulary. If the status is Ready the custom vocabulary is ready to use.
     public var customVocabularyStatus: LexModelsV2ClientTypes.CustomVocabularyStatus?
     /// The date and time that the custom vocabulary was last updated.
-    public var lastUpdatedDateTime: ClientRuntime.Date?
+    public var lastUpdatedDateTime: Foundation.Date?
     /// The locale that contains the custom vocabulary to describe.
     public var localeId: Swift.String?
 
     public init(
         botId: Swift.String? = nil,
         botVersion: Swift.String? = nil,
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         customVocabularyStatus: LexModelsV2ClientTypes.CustomVocabularyStatus? = nil,
-        lastUpdatedDateTime: ClientRuntime.Date? = nil,
+        lastUpdatedDateTime: Foundation.Date? = nil,
         localeId: Swift.String? = nil
     )
     {
@@ -10556,7 +10559,7 @@ public struct DescribeCustomVocabularyMetadataOutput {
 
 enum DescribeCustomVocabularyMetadataOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10597,7 +10600,7 @@ public struct DescribeExportInput {
 
 extension DescribeExportOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeExportOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeExportOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -10616,7 +10619,7 @@ extension DescribeExportOutput {
 
 public struct DescribeExportOutput {
     /// The date and time that the export was created.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// A pre-signed S3 URL that points to the bot or bot locale archive. The URL is only available for 5 minutes after calling the DescribeExport operation.
     public var downloadUrl: Swift.String?
     /// The unique identifier of the described export.
@@ -10628,18 +10631,18 @@ public struct DescribeExportOutput {
     /// The file format used in the files that describe the resource.
     public var fileFormat: LexModelsV2ClientTypes.ImportExportFileFormat?
     /// The last date and time that the export was updated.
-    public var lastUpdatedDateTime: ClientRuntime.Date?
+    public var lastUpdatedDateTime: Foundation.Date?
     /// The bot, bot ID, and optional locale ID of the exported bot or bot locale.
     public var resourceSpecification: LexModelsV2ClientTypes.ExportResourceSpecification?
 
     public init(
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         downloadUrl: Swift.String? = nil,
         exportId: Swift.String? = nil,
         exportStatus: LexModelsV2ClientTypes.ExportStatus? = nil,
         failureReasons: [Swift.String]? = nil,
         fileFormat: LexModelsV2ClientTypes.ImportExportFileFormat? = nil,
-        lastUpdatedDateTime: ClientRuntime.Date? = nil,
+        lastUpdatedDateTime: Foundation.Date? = nil,
         resourceSpecification: LexModelsV2ClientTypes.ExportResourceSpecification? = nil
     )
     {
@@ -10656,7 +10659,7 @@ public struct DescribeExportOutput {
 
 enum DescribeExportOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10696,7 +10699,7 @@ public struct DescribeImportInput {
 
 extension DescribeImportOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeImportOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeImportOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -10716,7 +10719,7 @@ extension DescribeImportOutput {
 
 public struct DescribeImportOutput {
     /// The date and time that the import was created.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// If the importStatus field is Failed, this provides one or more reasons for the failure.
     public var failureReasons: [Swift.String]?
     /// The unique identifier of the described import.
@@ -10728,20 +10731,20 @@ public struct DescribeImportOutput {
     /// The name of the imported resource.
     public var importedResourceName: Swift.String?
     /// The date and time that the import was last updated.
-    public var lastUpdatedDateTime: ClientRuntime.Date?
+    public var lastUpdatedDateTime: Foundation.Date?
     /// The strategy used when there was a name conflict between the imported resource and an existing resource. When the merge strategy is FailOnConflict existing resources are not overwritten and the import fails.
     public var mergeStrategy: LexModelsV2ClientTypes.MergeStrategy?
     /// The specifications of the imported bot, bot locale, or custom vocabulary.
     public var resourceSpecification: LexModelsV2ClientTypes.ImportResourceSpecification?
 
     public init(
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         failureReasons: [Swift.String]? = nil,
         importId: Swift.String? = nil,
         importStatus: LexModelsV2ClientTypes.ImportStatus? = nil,
         importedResourceId: Swift.String? = nil,
         importedResourceName: Swift.String? = nil,
-        lastUpdatedDateTime: ClientRuntime.Date? = nil,
+        lastUpdatedDateTime: Foundation.Date? = nil,
         mergeStrategy: LexModelsV2ClientTypes.MergeStrategy? = nil,
         resourceSpecification: LexModelsV2ClientTypes.ImportResourceSpecification? = nil
     )
@@ -10760,7 +10763,7 @@ public struct DescribeImportOutput {
 
 enum DescribeImportOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10824,7 +10827,7 @@ public struct DescribeIntentInput {
 
 extension DescribeIntentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeIntentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeIntentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -10859,7 +10862,7 @@ public struct DescribeIntentOutput {
     /// The version of the bot associated with the intent.
     public var botVersion: Swift.String?
     /// A timestamp of the date and time that the intent was created.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// The description of the intent.
     public var description: Swift.String?
     /// The Lambda function called during each turn of a conversation with the intent.
@@ -10881,7 +10884,7 @@ public struct DescribeIntentOutput {
     /// Configuration information required to use the AMAZON.KendraSearchIntent intent.
     public var kendraConfiguration: LexModelsV2ClientTypes.KendraConfiguration?
     /// A timestamp of the date and time that the intent was last updated.
-    public var lastUpdatedDateTime: ClientRuntime.Date?
+    public var lastUpdatedDateTime: Foundation.Date?
     /// The language and locale specified for the intent.
     public var localeId: Swift.String?
     /// A list of contexts that are activated when the intent is fulfilled.
@@ -10898,7 +10901,7 @@ public struct DescribeIntentOutput {
     public init(
         botId: Swift.String? = nil,
         botVersion: Swift.String? = nil,
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         dialogCodeHook: LexModelsV2ClientTypes.DialogCodeHookSettings? = nil,
         fulfillmentCodeHook: LexModelsV2ClientTypes.FulfillmentCodeHookSettings? = nil,
@@ -10909,7 +10912,7 @@ public struct DescribeIntentOutput {
         intentId: Swift.String? = nil,
         intentName: Swift.String? = nil,
         kendraConfiguration: LexModelsV2ClientTypes.KendraConfiguration? = nil,
-        lastUpdatedDateTime: ClientRuntime.Date? = nil,
+        lastUpdatedDateTime: Foundation.Date? = nil,
         localeId: Swift.String? = nil,
         outputContexts: [LexModelsV2ClientTypes.OutputContext]? = nil,
         parentIntentSignature: Swift.String? = nil,
@@ -10943,7 +10946,7 @@ public struct DescribeIntentOutput {
 
 enum DescribeIntentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10984,7 +10987,7 @@ public struct DescribeResourcePolicyInput {
 
 extension DescribeResourcePolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeResourcePolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeResourcePolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -11018,7 +11021,7 @@ public struct DescribeResourcePolicyOutput {
 
 enum DescribeResourcePolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11089,7 +11092,7 @@ public struct DescribeSlotInput {
 
 extension DescribeSlotOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeSlotOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeSlotOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -11118,13 +11121,13 @@ public struct DescribeSlotOutput {
     /// The version of the bot associated with the slot.
     public var botVersion: Swift.String?
     /// A timestamp of the date and time that the slot was created.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// The description specified for the slot.
     public var description: Swift.String?
     /// The identifier of the intent associated with the slot.
     public var intentId: Swift.String?
     /// A timestamp of the date and time that the slot was last updated.
-    public var lastUpdatedDateTime: ClientRuntime.Date?
+    public var lastUpdatedDateTime: Foundation.Date?
     /// The language and locale specified for the slot.
     public var localeId: Swift.String?
     /// Indicates whether the slot accepts multiple values in a single utterance. If the multipleValuesSetting is not set, the default value is false.
@@ -11145,10 +11148,10 @@ public struct DescribeSlotOutput {
     public init(
         botId: Swift.String? = nil,
         botVersion: Swift.String? = nil,
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         intentId: Swift.String? = nil,
-        lastUpdatedDateTime: ClientRuntime.Date? = nil,
+        lastUpdatedDateTime: Foundation.Date? = nil,
         localeId: Swift.String? = nil,
         multipleValuesSetting: LexModelsV2ClientTypes.MultipleValuesSetting? = nil,
         obfuscationSetting: LexModelsV2ClientTypes.ObfuscationSetting? = nil,
@@ -11178,7 +11181,7 @@ public struct DescribeSlotOutput {
 
 enum DescribeSlotOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11243,7 +11246,7 @@ public struct DescribeSlotTypeInput {
 
 extension DescribeSlotTypeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeSlotTypeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeSlotTypeOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -11273,13 +11276,13 @@ public struct DescribeSlotTypeOutput {
     /// Specifications for a composite slot type.
     public var compositeSlotTypeSetting: LexModelsV2ClientTypes.CompositeSlotTypeSetting?
     /// A timestamp of the date and time that the slot type was created.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// The description specified for the slot type.
     public var description: Swift.String?
     /// Provides information about the external source of the slot type's definition.
     public var externalSourceSetting: LexModelsV2ClientTypes.ExternalSourceSetting?
     /// A timestamp of the date and time that the slot type was last updated.
-    public var lastUpdatedDateTime: ClientRuntime.Date?
+    public var lastUpdatedDateTime: Foundation.Date?
     /// The language and locale specified for the slot type.
     public var localeId: Swift.String?
     /// The built in slot type used as a parent to this slot type.
@@ -11297,10 +11300,10 @@ public struct DescribeSlotTypeOutput {
         botId: Swift.String? = nil,
         botVersion: Swift.String? = nil,
         compositeSlotTypeSetting: LexModelsV2ClientTypes.CompositeSlotTypeSetting? = nil,
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         externalSourceSetting: LexModelsV2ClientTypes.ExternalSourceSetting? = nil,
-        lastUpdatedDateTime: ClientRuntime.Date? = nil,
+        lastUpdatedDateTime: Foundation.Date? = nil,
         localeId: Swift.String? = nil,
         parentSlotTypeSignature: Swift.String? = nil,
         slotTypeId: Swift.String? = nil,
@@ -11327,7 +11330,7 @@ public struct DescribeSlotTypeOutput {
 
 enum DescribeSlotTypeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11368,7 +11371,7 @@ public struct DescribeTestExecutionInput {
 
 extension DescribeTestExecutionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeTestExecutionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeTestExecutionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -11391,11 +11394,11 @@ public struct DescribeTestExecutionOutput {
     /// Indicates whether we use streaming or non-streaming APIs are used for the test set execution. For streaming, StartConversation Amazon Lex Runtime API is used. Whereas for non-streaming, RecognizeUtterance and RecognizeText Amazon Lex Runtime API is used.
     public var apiMode: LexModelsV2ClientTypes.TestExecutionApiMode?
     /// The execution creation date and time for the test set execution.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// Reasons for the failure of the test set execution.
     public var failureReasons: [Swift.String]?
     /// The date and time of the last update for the execution.
-    public var lastUpdatedDateTime: ClientRuntime.Date?
+    public var lastUpdatedDateTime: Foundation.Date?
     /// The target bot for the test set execution details.
     public var target: LexModelsV2ClientTypes.TestExecutionTarget?
     /// The execution Id for the test set execution.
@@ -11411,9 +11414,9 @@ public struct DescribeTestExecutionOutput {
 
     public init(
         apiMode: LexModelsV2ClientTypes.TestExecutionApiMode? = nil,
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         failureReasons: [Swift.String]? = nil,
-        lastUpdatedDateTime: ClientRuntime.Date? = nil,
+        lastUpdatedDateTime: Foundation.Date? = nil,
         target: LexModelsV2ClientTypes.TestExecutionTarget? = nil,
         testExecutionId: Swift.String? = nil,
         testExecutionModality: LexModelsV2ClientTypes.TestExecutionModality? = nil,
@@ -11437,7 +11440,7 @@ public struct DescribeTestExecutionOutput {
 
 enum DescribeTestExecutionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11478,7 +11481,7 @@ public struct DescribeTestSetDiscrepancyReportInput {
 
 extension DescribeTestSetDiscrepancyReportOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeTestSetDiscrepancyReportOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeTestSetDiscrepancyReportOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -11498,11 +11501,11 @@ extension DescribeTestSetDiscrepancyReportOutput {
 
 public struct DescribeTestSetDiscrepancyReportOutput {
     /// The time and date of creation for the test set discrepancy report.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// The failure report for the test set discrepancy report generation action.
     public var failureReasons: [Swift.String]?
     /// The date and time of the last update for the test set discrepancy report.
-    public var lastUpdatedDataTime: ClientRuntime.Date?
+    public var lastUpdatedDataTime: Foundation.Date?
     /// The target bot location for the test set discrepancy report.
     public var target: LexModelsV2ClientTypes.TestSetDiscrepancyReportResourceTarget?
     /// Pre-signed Amazon S3 URL to download the test set discrepancy report.
@@ -11517,9 +11520,9 @@ public struct DescribeTestSetDiscrepancyReportOutput {
     public var testSetId: Swift.String?
 
     public init(
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         failureReasons: [Swift.String]? = nil,
-        lastUpdatedDataTime: ClientRuntime.Date? = nil,
+        lastUpdatedDataTime: Foundation.Date? = nil,
         target: LexModelsV2ClientTypes.TestSetDiscrepancyReportResourceTarget? = nil,
         testSetDiscrepancyRawOutputUrl: Swift.String? = nil,
         testSetDiscrepancyReportId: Swift.String? = nil,
@@ -11542,7 +11545,7 @@ public struct DescribeTestSetDiscrepancyReportOutput {
 
 enum DescribeTestSetDiscrepancyReportOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11583,7 +11586,7 @@ public struct DescribeTestSetGenerationInput {
 
 extension DescribeTestSetGenerationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeTestSetGenerationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeTestSetGenerationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -11605,7 +11608,7 @@ extension DescribeTestSetGenerationOutput {
 
 public struct DescribeTestSetGenerationOutput {
     /// The creation date and time for the test set generation.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// The test set description for the test set generation.
     public var description: Swift.String?
     /// The reasons the test set generation failed.
@@ -11613,7 +11616,7 @@ public struct DescribeTestSetGenerationOutput {
     /// The data source of the test set used for the test set generation.
     public var generationDataSource: LexModelsV2ClientTypes.TestSetGenerationDataSource?
     /// The date and time of the last update for the test set generation.
-    public var lastUpdatedDateTime: ClientRuntime.Date?
+    public var lastUpdatedDateTime: Foundation.Date?
     /// The roleARN of the test set used for the test set generation.
     public var roleArn: Swift.String?
     /// The Amazon S3 storage location for the test set generation.
@@ -11628,11 +11631,11 @@ public struct DescribeTestSetGenerationOutput {
     public var testSetName: Swift.String?
 
     public init(
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         failureReasons: [Swift.String]? = nil,
         generationDataSource: LexModelsV2ClientTypes.TestSetGenerationDataSource? = nil,
-        lastUpdatedDateTime: ClientRuntime.Date? = nil,
+        lastUpdatedDateTime: Foundation.Date? = nil,
         roleArn: Swift.String? = nil,
         storageLocation: LexModelsV2ClientTypes.TestSetStorageLocation? = nil,
         testSetGenerationId: Swift.String? = nil,
@@ -11657,7 +11660,7 @@ public struct DescribeTestSetGenerationOutput {
 
 enum DescribeTestSetGenerationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11698,7 +11701,7 @@ public struct DescribeTestSetInput {
 
 extension DescribeTestSetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeTestSetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeTestSetOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -11719,11 +11722,11 @@ extension DescribeTestSetOutput {
 
 public struct DescribeTestSetOutput {
     /// The creation date and time for the test set data.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// The description of the test set.
     public var description: Swift.String?
     /// The date and time for the last update of the test set data.
-    public var lastUpdatedDateTime: ClientRuntime.Date?
+    public var lastUpdatedDateTime: Foundation.Date?
     /// Indicates whether the test set is audio or text data.
     public var modality: LexModelsV2ClientTypes.TestSetModality?
     /// The total number of agent and user turn in the test set.
@@ -11740,9 +11743,9 @@ public struct DescribeTestSetOutput {
     public var testSetName: Swift.String?
 
     public init(
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
-        lastUpdatedDateTime: ClientRuntime.Date? = nil,
+        lastUpdatedDateTime: Foundation.Date? = nil,
         modality: LexModelsV2ClientTypes.TestSetModality? = nil,
         numTurns: Swift.Int? = nil,
         roleArn: Swift.String? = nil,
@@ -11767,7 +11770,7 @@ public struct DescribeTestSetOutput {
 
 enum DescribeTestSetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12516,7 +12519,7 @@ extension LexModelsV2ClientTypes {
     /// Provides summary information about an export in an export list.
     public struct ExportSummary {
         /// The date and time that the export was created.
-        public var creationDateTime: ClientRuntime.Date?
+        public var creationDateTime: Foundation.Date?
         /// The unique identifier that Amazon Lex assigned to the export.
         public var exportId: Swift.String?
         /// The status of the export. When the status is Completed the export is ready to download.
@@ -12524,16 +12527,16 @@ extension LexModelsV2ClientTypes {
         /// The file format used in the export files.
         public var fileFormat: LexModelsV2ClientTypes.ImportExportFileFormat?
         /// The date and time that the export was last updated.
-        public var lastUpdatedDateTime: ClientRuntime.Date?
+        public var lastUpdatedDateTime: Foundation.Date?
         /// Information about the bot or bot locale that was exported.
         public var resourceSpecification: LexModelsV2ClientTypes.ExportResourceSpecification?
 
         public init(
-            creationDateTime: ClientRuntime.Date? = nil,
+            creationDateTime: Foundation.Date? = nil,
             exportId: Swift.String? = nil,
             exportStatus: LexModelsV2ClientTypes.ExportStatus? = nil,
             fileFormat: LexModelsV2ClientTypes.ImportExportFileFormat? = nil,
-            lastUpdatedDateTime: ClientRuntime.Date? = nil,
+            lastUpdatedDateTime: Foundation.Date? = nil,
             resourceSpecification: LexModelsV2ClientTypes.ExportResourceSpecification? = nil
         )
         {
@@ -12859,7 +12862,7 @@ public struct GenerateBotElementInput {
 
 extension GenerateBotElementOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GenerateBotElementOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GenerateBotElementOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -12903,7 +12906,7 @@ public struct GenerateBotElementOutput {
 
 enum GenerateBotElementOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -13034,19 +13037,19 @@ extension LexModelsV2ClientTypes {
     /// Contains information about a generation request made for the bot locale.
     public struct GenerationSummary {
         /// The date and time at which the generation request was made.
-        public var creationDateTime: ClientRuntime.Date?
+        public var creationDateTime: Foundation.Date?
         /// The unique identifier of the generation request.
         public var generationId: Swift.String?
         /// The status of the generation request.
         public var generationStatus: LexModelsV2ClientTypes.GenerationStatus?
         /// The date and time at which the generation request was last updated.
-        public var lastUpdatedDateTime: ClientRuntime.Date?
+        public var lastUpdatedDateTime: Foundation.Date?
 
         public init(
-            creationDateTime: ClientRuntime.Date? = nil,
+            creationDateTime: Foundation.Date? = nil,
             generationId: Swift.String? = nil,
             generationStatus: LexModelsV2ClientTypes.GenerationStatus? = nil,
-            lastUpdatedDateTime: ClientRuntime.Date? = nil
+            lastUpdatedDateTime: Foundation.Date? = nil
         )
         {
             self.creationDateTime = creationDateTime
@@ -13120,7 +13123,7 @@ public struct GetTestExecutionArtifactsUrlInput {
 
 extension GetTestExecutionArtifactsUrlOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetTestExecutionArtifactsUrlOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetTestExecutionArtifactsUrlOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -13149,7 +13152,7 @@ public struct GetTestExecutionArtifactsUrlOutput {
 
 enum GetTestExecutionArtifactsUrlOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -13612,7 +13615,7 @@ extension LexModelsV2ClientTypes {
     /// Provides summary information about an import in an import list.
     public struct ImportSummary {
         /// The date and time that the import was created.
-        public var creationDateTime: ClientRuntime.Date?
+        public var creationDateTime: Foundation.Date?
         /// The unique identifier that Amazon Lex assigned to the import.
         public var importId: Swift.String?
         /// The status of the resource. When the status is Completed the resource is ready to build.
@@ -13624,18 +13627,18 @@ extension LexModelsV2ClientTypes {
         /// The type of resource that was imported.
         public var importedResourceType: LexModelsV2ClientTypes.ImportResourceType?
         /// The date and time that the import was last updated.
-        public var lastUpdatedDateTime: ClientRuntime.Date?
+        public var lastUpdatedDateTime: Foundation.Date?
         /// The strategy used to merge existing bot or bot locale definitions with the imported definition.
         public var mergeStrategy: LexModelsV2ClientTypes.MergeStrategy?
 
         public init(
-            creationDateTime: ClientRuntime.Date? = nil,
+            creationDateTime: Foundation.Date? = nil,
             importId: Swift.String? = nil,
             importStatus: LexModelsV2ClientTypes.ImportStatus? = nil,
             importedResourceId: Swift.String? = nil,
             importedResourceName: Swift.String? = nil,
             importedResourceType: LexModelsV2ClientTypes.ImportResourceType? = nil,
-            lastUpdatedDateTime: ClientRuntime.Date? = nil,
+            lastUpdatedDateTime: Foundation.Date? = nil,
             mergeStrategy: LexModelsV2ClientTypes.MergeStrategy? = nil
         )
         {
@@ -14376,7 +14379,7 @@ extension LexModelsV2ClientTypes {
         /// The name of the intent.
         public var intentName: Swift.String?
         /// The timestamp of the date and time that the intent was last updated.
-        public var lastUpdatedDateTime: ClientRuntime.Date?
+        public var lastUpdatedDateTime: Foundation.Date?
         /// The output contexts that are activated when this intent is fulfilled.
         public var outputContexts: [LexModelsV2ClientTypes.OutputContext]?
         /// If this intent is derived from a built-in intent, the name of the parent intent.
@@ -14387,7 +14390,7 @@ extension LexModelsV2ClientTypes {
             inputContexts: [LexModelsV2ClientTypes.InputContext]? = nil,
             intentId: Swift.String? = nil,
             intentName: Swift.String? = nil,
-            lastUpdatedDateTime: ClientRuntime.Date? = nil,
+            lastUpdatedDateTime: Foundation.Date? = nil,
             outputContexts: [LexModelsV2ClientTypes.OutputContext]? = nil,
             parentIntentSignature: Swift.String? = nil
         )
@@ -14657,7 +14660,7 @@ public struct ListAggregatedUtterancesInput {
 
 extension ListAggregatedUtterancesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAggregatedUtterancesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAggregatedUtterancesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -14688,11 +14691,11 @@ public struct ListAggregatedUtterancesOutput {
     /// * Days - every 6 hours
     ///
     /// * Weeks - for a one week time window, every 12 hours; otherwise, every day
-    public var aggregationLastRefreshedDateTime: ClientRuntime.Date?
+    public var aggregationLastRefreshedDateTime: Foundation.Date?
     /// The date and time that the aggregation window ends. Only data collected between the start time and the end time are returned in the results.
-    public var aggregationWindowEndTime: ClientRuntime.Date?
+    public var aggregationWindowEndTime: Foundation.Date?
     /// The date and time that the aggregation window begins. Only data collected after this time is returned in the results.
-    public var aggregationWindowStartTime: ClientRuntime.Date?
+    public var aggregationWindowStartTime: Foundation.Date?
     /// The identifier of the bot alias that contains the utterances. If you specified the bot version, the bot alias ID isn't returned.
     public var botAliasId: Swift.String?
     /// The identifier of the bot that contains the utterances.
@@ -14707,9 +14710,9 @@ public struct ListAggregatedUtterancesOutput {
     public init(
         aggregatedUtterancesSummaries: [LexModelsV2ClientTypes.AggregatedUtterancesSummary]? = nil,
         aggregationDuration: LexModelsV2ClientTypes.UtteranceAggregationDuration? = nil,
-        aggregationLastRefreshedDateTime: ClientRuntime.Date? = nil,
-        aggregationWindowEndTime: ClientRuntime.Date? = nil,
-        aggregationWindowStartTime: ClientRuntime.Date? = nil,
+        aggregationLastRefreshedDateTime: Foundation.Date? = nil,
+        aggregationWindowEndTime: Foundation.Date? = nil,
+        aggregationWindowStartTime: Foundation.Date? = nil,
         botAliasId: Swift.String? = nil,
         botId: Swift.String? = nil,
         botVersion: Swift.String? = nil,
@@ -14732,7 +14735,7 @@ public struct ListAggregatedUtterancesOutput {
 
 enum ListAggregatedUtterancesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -14797,7 +14800,7 @@ public struct ListBotAliasReplicasInput {
 
 extension ListBotAliasReplicasOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListBotAliasReplicasOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListBotAliasReplicasOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -14841,7 +14844,7 @@ public struct ListBotAliasReplicasOutput {
 
 enum ListBotAliasReplicasOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -14898,7 +14901,7 @@ public struct ListBotAliasesInput {
 
 extension ListBotAliasesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListBotAliasesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListBotAliasesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -14932,7 +14935,7 @@ public struct ListBotAliasesOutput {
 
 enum ListBotAliasesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -15007,7 +15010,7 @@ public struct ListBotLocalesInput {
 
 extension ListBotLocalesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListBotLocalesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListBotLocalesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -15046,7 +15049,7 @@ public struct ListBotLocalesOutput {
 
 enum ListBotLocalesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -15119,7 +15122,7 @@ public struct ListBotRecommendationsInput {
 
 extension ListBotRecommendationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListBotRecommendationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListBotRecommendationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -15163,7 +15166,7 @@ public struct ListBotRecommendationsOutput {
 
 enum ListBotRecommendationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -15203,7 +15206,7 @@ public struct ListBotReplicasInput {
 
 extension ListBotReplicasOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListBotReplicasOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListBotReplicasOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -15237,7 +15240,7 @@ public struct ListBotReplicasOutput {
 
 enum ListBotReplicasOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -15315,7 +15318,7 @@ public struct ListBotResourceGenerationsInput {
 
 extension ListBotResourceGenerationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListBotResourceGenerationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListBotResourceGenerationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -15359,7 +15362,7 @@ public struct ListBotResourceGenerationsOutput {
 
 enum ListBotResourceGenerationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -15429,7 +15432,7 @@ public struct ListBotVersionReplicasInput {
 
 extension ListBotVersionReplicasOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListBotVersionReplicasOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListBotVersionReplicasOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -15473,7 +15476,7 @@ public struct ListBotVersionReplicasOutput {
 
 enum ListBotVersionReplicasOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -15535,7 +15538,7 @@ public struct ListBotVersionsInput {
 
 extension ListBotVersionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListBotVersionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListBotVersionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -15569,7 +15572,7 @@ public struct ListBotVersionsOutput {
 
 enum ListBotVersionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -15628,7 +15631,7 @@ public struct ListBotsInput {
 
 extension ListBotsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListBotsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListBotsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -15657,7 +15660,7 @@ public struct ListBotsOutput {
 
 enum ListBotsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -15719,7 +15722,7 @@ public struct ListBuiltInIntentsInput {
 
 extension ListBuiltInIntentsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListBuiltInIntentsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListBuiltInIntentsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -15753,7 +15756,7 @@ public struct ListBuiltInIntentsOutput {
 
 enum ListBuiltInIntentsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -15815,7 +15818,7 @@ public struct ListBuiltInSlotTypesInput {
 
 extension ListBuiltInSlotTypesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListBuiltInSlotTypesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListBuiltInSlotTypesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -15849,7 +15852,7 @@ public struct ListBuiltInSlotTypesOutput {
 
 enum ListBuiltInSlotTypesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -15922,7 +15925,7 @@ public struct ListCustomVocabularyItemsInput {
 
 extension ListCustomVocabularyItemsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListCustomVocabularyItemsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListCustomVocabularyItemsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -15966,7 +15969,7 @@ public struct ListCustomVocabularyItemsOutput {
 
 enum ListCustomVocabularyItemsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -16041,7 +16044,7 @@ public struct ListExportsInput {
 
 extension ListExportsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListExportsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListExportsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -16085,7 +16088,7 @@ public struct ListExportsOutput {
 
 enum ListExportsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -16158,7 +16161,7 @@ public struct ListImportsInput {
 
 extension ListImportsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListImportsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListImportsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -16202,7 +16205,7 @@ public struct ListImportsOutput {
 
 enum ListImportsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -16249,7 +16252,7 @@ public struct ListIntentMetricsInput {
     public var botId: Swift.String?
     /// The date and time that marks the end of the range of time for which you want to see intent metrics.
     /// This member is required.
-    public var endDateTime: ClientRuntime.Date?
+    public var endDateTime: Foundation.Date?
     /// A list of objects, each of which describes a condition by which you want to filter the results.
     public var filters: [LexModelsV2ClientTypes.AnalyticsIntentFilter]?
     /// A list of objects, each of which specifies how to group the results. You can group by the following criteria:
@@ -16267,18 +16270,18 @@ public struct ListIntentMetricsInput {
     public var nextToken: Swift.String?
     /// The timestamp that marks the beginning of the range of time for which you want to see intent metrics.
     /// This member is required.
-    public var startDateTime: ClientRuntime.Date?
+    public var startDateTime: Foundation.Date?
 
     public init(
         binBy: [LexModelsV2ClientTypes.AnalyticsBinBySpecification]? = nil,
         botId: Swift.String? = nil,
-        endDateTime: ClientRuntime.Date? = nil,
+        endDateTime: Foundation.Date? = nil,
         filters: [LexModelsV2ClientTypes.AnalyticsIntentFilter]? = nil,
         groupBy: [LexModelsV2ClientTypes.AnalyticsIntentGroupBySpecification]? = nil,
         maxResults: Swift.Int? = nil,
         metrics: [LexModelsV2ClientTypes.AnalyticsIntentMetric]? = nil,
         nextToken: Swift.String? = nil,
-        startDateTime: ClientRuntime.Date? = nil
+        startDateTime: Foundation.Date? = nil
     )
     {
         self.binBy = binBy
@@ -16295,7 +16298,7 @@ public struct ListIntentMetricsInput {
 
 extension ListIntentMetricsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListIntentMetricsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListIntentMetricsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -16329,7 +16332,7 @@ public struct ListIntentMetricsOutput {
 
 enum ListIntentMetricsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -16372,7 +16375,7 @@ public struct ListIntentPathsInput {
     public var botId: Swift.String?
     /// The date and time that marks the end of the range of time for which you want to see intent path metrics.
     /// This member is required.
-    public var endDateTime: ClientRuntime.Date?
+    public var endDateTime: Foundation.Date?
     /// A list of objects, each describes a condition by which you want to filter the results.
     public var filters: [LexModelsV2ClientTypes.AnalyticsPathFilter]?
     /// The intent path for which you want to retrieve metrics. Use a forward slash to separate intents in the path. For example:
@@ -16386,14 +16389,14 @@ public struct ListIntentPathsInput {
     public var intentPath: Swift.String?
     /// The date and time that marks the beginning of the range of time for which you want to see intent path metrics.
     /// This member is required.
-    public var startDateTime: ClientRuntime.Date?
+    public var startDateTime: Foundation.Date?
 
     public init(
         botId: Swift.String? = nil,
-        endDateTime: ClientRuntime.Date? = nil,
+        endDateTime: Foundation.Date? = nil,
         filters: [LexModelsV2ClientTypes.AnalyticsPathFilter]? = nil,
         intentPath: Swift.String? = nil,
-        startDateTime: ClientRuntime.Date? = nil
+        startDateTime: Foundation.Date? = nil
     )
     {
         self.botId = botId
@@ -16406,7 +16409,7 @@ public struct ListIntentPathsInput {
 
 extension ListIntentPathsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListIntentPathsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListIntentPathsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -16430,7 +16433,7 @@ public struct ListIntentPathsOutput {
 
 enum ListIntentPathsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -16479,7 +16482,7 @@ public struct ListIntentStageMetricsInput {
     public var botId: Swift.String?
     /// The date and time that marks the end of the range of time for which you want to see intent stage metrics.
     /// This member is required.
-    public var endDateTime: ClientRuntime.Date?
+    public var endDateTime: Foundation.Date?
     /// A list of objects, each of which describes a condition by which you want to filter the results.
     public var filters: [LexModelsV2ClientTypes.AnalyticsIntentStageFilter]?
     /// A list of objects, each of which specifies how to group the results. You can group by the following criteria:
@@ -16497,18 +16500,18 @@ public struct ListIntentStageMetricsInput {
     public var nextToken: Swift.String?
     /// The date and time that marks the beginning of the range of time for which you want to see intent stage metrics.
     /// This member is required.
-    public var startDateTime: ClientRuntime.Date?
+    public var startDateTime: Foundation.Date?
 
     public init(
         binBy: [LexModelsV2ClientTypes.AnalyticsBinBySpecification]? = nil,
         botId: Swift.String? = nil,
-        endDateTime: ClientRuntime.Date? = nil,
+        endDateTime: Foundation.Date? = nil,
         filters: [LexModelsV2ClientTypes.AnalyticsIntentStageFilter]? = nil,
         groupBy: [LexModelsV2ClientTypes.AnalyticsIntentStageGroupBySpecification]? = nil,
         maxResults: Swift.Int? = nil,
         metrics: [LexModelsV2ClientTypes.AnalyticsIntentStageMetric]? = nil,
         nextToken: Swift.String? = nil,
-        startDateTime: ClientRuntime.Date? = nil
+        startDateTime: Foundation.Date? = nil
     )
     {
         self.binBy = binBy
@@ -16525,7 +16528,7 @@ public struct ListIntentStageMetricsInput {
 
 extension ListIntentStageMetricsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListIntentStageMetricsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListIntentStageMetricsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -16559,7 +16562,7 @@ public struct ListIntentStageMetricsOutput {
 
 enum ListIntentStageMetricsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -16643,7 +16646,7 @@ public struct ListIntentsInput {
 
 extension ListIntentsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListIntentsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListIntentsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -16687,7 +16690,7 @@ public struct ListIntentsOutput {
 
 enum ListIntentsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -16768,7 +16771,7 @@ public struct ListRecommendedIntentsInput {
 
 extension ListRecommendedIntentsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListRecommendedIntentsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListRecommendedIntentsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -16817,7 +16820,7 @@ public struct ListRecommendedIntentsOutput {
 
 enum ListRecommendedIntentsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -16862,7 +16865,7 @@ public struct ListSessionAnalyticsDataInput {
     public var botId: Swift.String?
     /// The date and time that marks the end of the range of time for which you want to see session analytics.
     /// This member is required.
-    public var endDateTime: ClientRuntime.Date?
+    public var endDateTime: Foundation.Date?
     /// A list of objects, each of which describes a condition by which you want to filter the results.
     public var filters: [LexModelsV2ClientTypes.AnalyticsSessionFilter]?
     /// The maximum number of results to return in each page of results. If there are fewer results than the maximum page size, only the actual number of results are returned.
@@ -16873,16 +16876,16 @@ public struct ListSessionAnalyticsDataInput {
     public var sortBy: LexModelsV2ClientTypes.SessionDataSortBy?
     /// The date and time that marks the beginning of the range of time for which you want to see session analytics.
     /// This member is required.
-    public var startDateTime: ClientRuntime.Date?
+    public var startDateTime: Foundation.Date?
 
     public init(
         botId: Swift.String? = nil,
-        endDateTime: ClientRuntime.Date? = nil,
+        endDateTime: Foundation.Date? = nil,
         filters: [LexModelsV2ClientTypes.AnalyticsSessionFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortBy: LexModelsV2ClientTypes.SessionDataSortBy? = nil,
-        startDateTime: ClientRuntime.Date? = nil
+        startDateTime: Foundation.Date? = nil
     )
     {
         self.botId = botId
@@ -16897,7 +16900,7 @@ public struct ListSessionAnalyticsDataInput {
 
 extension ListSessionAnalyticsDataOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListSessionAnalyticsDataOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListSessionAnalyticsDataOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -16931,7 +16934,7 @@ public struct ListSessionAnalyticsDataOutput {
 
 enum ListSessionAnalyticsDataOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -16980,7 +16983,7 @@ public struct ListSessionMetricsInput {
     public var botId: Swift.String?
     /// The date and time that marks the end of the range of time for which you want to see session metrics.
     /// This member is required.
-    public var endDateTime: ClientRuntime.Date?
+    public var endDateTime: Foundation.Date?
     /// A list of objects, each of which describes a condition by which you want to filter the results.
     public var filters: [LexModelsV2ClientTypes.AnalyticsSessionFilter]?
     /// A list of objects, each of which specifies how to group the results. You can group by the following criteria:
@@ -16998,18 +17001,18 @@ public struct ListSessionMetricsInput {
     public var nextToken: Swift.String?
     /// The date and time that marks the beginning of the range of time for which you want to see session metrics.
     /// This member is required.
-    public var startDateTime: ClientRuntime.Date?
+    public var startDateTime: Foundation.Date?
 
     public init(
         binBy: [LexModelsV2ClientTypes.AnalyticsBinBySpecification]? = nil,
         botId: Swift.String? = nil,
-        endDateTime: ClientRuntime.Date? = nil,
+        endDateTime: Foundation.Date? = nil,
         filters: [LexModelsV2ClientTypes.AnalyticsSessionFilter]? = nil,
         groupBy: [LexModelsV2ClientTypes.AnalyticsSessionGroupBySpecification]? = nil,
         maxResults: Swift.Int? = nil,
         metrics: [LexModelsV2ClientTypes.AnalyticsSessionMetric]? = nil,
         nextToken: Swift.String? = nil,
-        startDateTime: ClientRuntime.Date? = nil
+        startDateTime: Foundation.Date? = nil
     )
     {
         self.binBy = binBy
@@ -17026,7 +17029,7 @@ public struct ListSessionMetricsInput {
 
 extension ListSessionMetricsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListSessionMetricsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListSessionMetricsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -17060,7 +17063,7 @@ public struct ListSessionMetricsOutput {
 
 enum ListSessionMetricsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -17144,7 +17147,7 @@ public struct ListSlotTypesInput {
 
 extension ListSlotTypesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListSlotTypesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListSlotTypesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -17188,7 +17191,7 @@ public struct ListSlotTypesOutput {
 
 enum ListSlotTypesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -17279,7 +17282,7 @@ public struct ListSlotsInput {
 
 extension ListSlotsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListSlotsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListSlotsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -17328,7 +17331,7 @@ public struct ListSlotsOutput {
 
 enum ListSlotsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -17368,7 +17371,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -17392,7 +17395,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -17455,7 +17458,7 @@ public struct ListTestExecutionResultItemsInput {
 
 extension ListTestExecutionResultItemsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTestExecutionResultItemsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTestExecutionResultItemsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -17484,7 +17487,7 @@ public struct ListTestExecutionResultItemsOutput {
 
 enum ListTestExecutionResultItemsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -17539,7 +17542,7 @@ public struct ListTestExecutionsInput {
 
 extension ListTestExecutionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTestExecutionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTestExecutionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -17568,7 +17571,7 @@ public struct ListTestExecutionsOutput {
 
 enum ListTestExecutionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -17625,7 +17628,7 @@ public struct ListTestSetRecordsInput {
 
 extension ListTestSetRecordsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTestSetRecordsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTestSetRecordsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -17654,7 +17657,7 @@ public struct ListTestSetRecordsOutput {
 
 enum ListTestSetRecordsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -17709,7 +17712,7 @@ public struct ListTestSetsInput {
 
 extension ListTestSetsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTestSetsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTestSetsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -17738,7 +17741,7 @@ public struct ListTestSetsOutput {
 
 enum ListTestSetsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -17782,7 +17785,7 @@ public struct ListUtteranceAnalyticsDataInput {
     public var botId: Swift.String?
     /// The date and time that marks the end of the range of time for which you want to see utterance analytics.
     /// This member is required.
-    public var endDateTime: ClientRuntime.Date?
+    public var endDateTime: Foundation.Date?
     /// A list of objects, each of which describes a condition by which you want to filter the results.
     public var filters: [LexModelsV2ClientTypes.AnalyticsUtteranceFilter]?
     /// The maximum number of results to return in each page of results. If there are fewer results than the maximum page size, only the actual number of results are returned.
@@ -17793,16 +17796,16 @@ public struct ListUtteranceAnalyticsDataInput {
     public var sortBy: LexModelsV2ClientTypes.UtteranceDataSortBy?
     /// The date and time that marks the beginning of the range of time for which you want to see utterance analytics.
     /// This member is required.
-    public var startDateTime: ClientRuntime.Date?
+    public var startDateTime: Foundation.Date?
 
     public init(
         botId: Swift.String? = nil,
-        endDateTime: ClientRuntime.Date? = nil,
+        endDateTime: Foundation.Date? = nil,
         filters: [LexModelsV2ClientTypes.AnalyticsUtteranceFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortBy: LexModelsV2ClientTypes.UtteranceDataSortBy? = nil,
-        startDateTime: ClientRuntime.Date? = nil
+        startDateTime: Foundation.Date? = nil
     )
     {
         self.botId = botId
@@ -17817,7 +17820,7 @@ public struct ListUtteranceAnalyticsDataInput {
 
 extension ListUtteranceAnalyticsDataOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListUtteranceAnalyticsDataOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListUtteranceAnalyticsDataOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -17851,7 +17854,7 @@ public struct ListUtteranceAnalyticsDataOutput {
 
 enum ListUtteranceAnalyticsDataOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -17905,7 +17908,7 @@ public struct ListUtteranceMetricsInput {
     public var botId: Swift.String?
     /// The date and time that marks the end of the range of time for which you want to see utterance metrics.
     /// This member is required.
-    public var endDateTime: ClientRuntime.Date?
+    public var endDateTime: Foundation.Date?
     /// A list of objects, each of which describes a condition by which you want to filter the results.
     public var filters: [LexModelsV2ClientTypes.AnalyticsUtteranceFilter]?
     /// A list of objects, each of which specifies how to group the results. You can group by the following criteria:
@@ -17923,19 +17926,19 @@ public struct ListUtteranceMetricsInput {
     public var nextToken: Swift.String?
     /// The date and time that marks the beginning of the range of time for which you want to see utterance metrics.
     /// This member is required.
-    public var startDateTime: ClientRuntime.Date?
+    public var startDateTime: Foundation.Date?
 
     public init(
         attributes: [LexModelsV2ClientTypes.AnalyticsUtteranceAttribute]? = nil,
         binBy: [LexModelsV2ClientTypes.AnalyticsBinBySpecification]? = nil,
         botId: Swift.String? = nil,
-        endDateTime: ClientRuntime.Date? = nil,
+        endDateTime: Foundation.Date? = nil,
         filters: [LexModelsV2ClientTypes.AnalyticsUtteranceFilter]? = nil,
         groupBy: [LexModelsV2ClientTypes.AnalyticsUtteranceGroupBySpecification]? = nil,
         maxResults: Swift.Int? = nil,
         metrics: [LexModelsV2ClientTypes.AnalyticsUtteranceMetric]? = nil,
         nextToken: Swift.String? = nil,
-        startDateTime: ClientRuntime.Date? = nil
+        startDateTime: Foundation.Date? = nil
     )
     {
         self.attributes = attributes
@@ -17953,7 +17956,7 @@ public struct ListUtteranceMetricsInput {
 
 extension ListUtteranceMetricsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListUtteranceMetricsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListUtteranceMetricsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -17987,7 +17990,7 @@ public struct ListUtteranceMetricsOutput {
 
 enum ListUtteranceMetricsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -19598,7 +19601,7 @@ public struct SearchAssociatedTranscriptsInput {
 
 extension SearchAssociatedTranscriptsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SearchAssociatedTranscriptsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SearchAssociatedTranscriptsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -19652,7 +19655,7 @@ public struct SearchAssociatedTranscriptsOutput {
 
 enum SearchAssociatedTranscriptsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -19839,9 +19842,9 @@ extension LexModelsV2ClientTypes {
         /// The final state of the conversation. A conversation is defined as a unique combination of a sessionId and an originatingRequestId.
         public var conversationEndState: LexModelsV2ClientTypes.ConversationEndState?
         /// The date and time when the conversation ended. A conversation is defined as a unique combination of a sessionId and an originatingRequestId.
-        public var conversationEndTime: ClientRuntime.Date?
+        public var conversationEndTime: Foundation.Date?
         /// The date and time when the conversation began. A conversation is defined as a unique combination of a sessionId and an originatingRequestId.
-        public var conversationStartTime: ClientRuntime.Date?
+        public var conversationStartTime: Foundation.Date?
         /// A list of objects containing the name of an intent that was invoked.
         public var invokedIntentSamples: [LexModelsV2ClientTypes.InvokedIntentSample]?
         /// The locale of the bot that the session was held with.
@@ -19869,8 +19872,8 @@ extension LexModelsV2ClientTypes {
             channel: Swift.String? = nil,
             conversationDurationSeconds: Swift.Int? = nil,
             conversationEndState: LexModelsV2ClientTypes.ConversationEndState? = nil,
-            conversationEndTime: ClientRuntime.Date? = nil,
-            conversationStartTime: ClientRuntime.Date? = nil,
+            conversationEndTime: Foundation.Date? = nil,
+            conversationStartTime: Foundation.Date? = nil,
             invokedIntentSamples: [LexModelsV2ClientTypes.InvokedIntentSample]? = nil,
             localeId: Swift.String? = nil,
             mode: LexModelsV2ClientTypes.AnalyticsModality? = nil,
@@ -20475,7 +20478,7 @@ extension LexModelsV2ClientTypes {
         /// The description of the slot.
         public var description: Swift.String?
         /// The timestamp of the last date and time that the slot was updated.
-        public var lastUpdatedDateTime: ClientRuntime.Date?
+        public var lastUpdatedDateTime: Foundation.Date?
         /// Whether the slot is required or optional. An intent is complete when all required slots are filled.
         public var slotConstraint: LexModelsV2ClientTypes.SlotConstraint?
         /// The unique identifier of the slot.
@@ -20489,7 +20492,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             description: Swift.String? = nil,
-            lastUpdatedDateTime: ClientRuntime.Date? = nil,
+            lastUpdatedDateTime: Foundation.Date? = nil,
             slotConstraint: LexModelsV2ClientTypes.SlotConstraint? = nil,
             slotId: Swift.String? = nil,
             slotName: Swift.String? = nil,
@@ -20746,7 +20749,7 @@ extension LexModelsV2ClientTypes {
         /// The description of the slot type.
         public var description: Swift.String?
         /// A timestamp of the date and time that the slot type was last updated.
-        public var lastUpdatedDateTime: ClientRuntime.Date?
+        public var lastUpdatedDateTime: Foundation.Date?
         /// If the slot type is derived from a built-on slot type, the name of the parent slot type.
         public var parentSlotTypeSignature: Swift.String?
         /// Indicates the type of the slot type.
@@ -20764,7 +20767,7 @@ extension LexModelsV2ClientTypes {
 
         public init(
             description: Swift.String? = nil,
-            lastUpdatedDateTime: ClientRuntime.Date? = nil,
+            lastUpdatedDateTime: Foundation.Date? = nil,
             parentSlotTypeSignature: Swift.String? = nil,
             slotTypeCategory: LexModelsV2ClientTypes.SlotTypeCategory? = nil,
             slotTypeId: Swift.String? = nil,
@@ -21216,7 +21219,7 @@ public struct StartBotRecommendationInput {
 
 extension StartBotRecommendationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartBotRecommendationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartBotRecommendationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -21243,7 +21246,7 @@ public struct StartBotRecommendationOutput {
     /// The version of the bot containing the bot recommendation.
     public var botVersion: Swift.String?
     /// A timestamp of the date and time that the bot recommendation was created.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// The object representing the passwords that were used to encrypt the data related to the bot recommendation results, as well as the KMS key ARN used to encrypt the associated metadata.
     public var encryptionSetting: LexModelsV2ClientTypes.EncryptionSetting?
     /// The identifier of the language and locale of the bot recommendation to start. The string must match one of the supported locales. For more information, see [Supported languages](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html)
@@ -21256,7 +21259,7 @@ public struct StartBotRecommendationOutput {
         botRecommendationId: Swift.String? = nil,
         botRecommendationStatus: LexModelsV2ClientTypes.BotRecommendationStatus? = nil,
         botVersion: Swift.String? = nil,
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         encryptionSetting: LexModelsV2ClientTypes.EncryptionSetting? = nil,
         localeId: Swift.String? = nil,
         transcriptSourceSetting: LexModelsV2ClientTypes.TranscriptSourceSetting? = nil
@@ -21275,7 +21278,7 @@ public struct StartBotRecommendationOutput {
 
 enum StartBotRecommendationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -21347,7 +21350,7 @@ public struct StartBotResourceGenerationInput {
 
 extension StartBotResourceGenerationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartBotResourceGenerationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartBotResourceGenerationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -21369,7 +21372,7 @@ public struct StartBotResourceGenerationOutput {
     /// The version of the bot for which the generation request was made.
     public var botVersion: Swift.String?
     /// The date and time at which the generation request was made.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// The unique identifier of the generation request.
     public var generationId: Swift.String?
     /// The prompt that was used generate intents and slot types for the bot locale.
@@ -21382,7 +21385,7 @@ public struct StartBotResourceGenerationOutput {
     public init(
         botId: Swift.String? = nil,
         botVersion: Swift.String? = nil,
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         generationId: Swift.String? = nil,
         generationInputPrompt: Swift.String? = nil,
         generationStatus: LexModelsV2ClientTypes.GenerationStatus? = nil,
@@ -21401,7 +21404,7 @@ public struct StartBotResourceGenerationOutput {
 
 enum StartBotResourceGenerationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -21470,7 +21473,7 @@ public struct StartImportInput {
 
 extension StartImportOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartImportOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartImportOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -21486,7 +21489,7 @@ extension StartImportOutput {
 
 public struct StartImportOutput {
     /// The date and time that the import request was created.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// A unique identifier for the import.
     public var importId: Swift.String?
     /// The current status of the import. When the status is Complete the bot, bot alias, or custom vocabulary is ready to use.
@@ -21497,7 +21500,7 @@ public struct StartImportOutput {
     public var resourceSpecification: LexModelsV2ClientTypes.ImportResourceSpecification?
 
     public init(
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         importId: Swift.String? = nil,
         importStatus: LexModelsV2ClientTypes.ImportStatus? = nil,
         mergeStrategy: LexModelsV2ClientTypes.MergeStrategy? = nil,
@@ -21514,7 +21517,7 @@ public struct StartImportOutput {
 
 enum StartImportOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -21580,7 +21583,7 @@ public struct StartTestExecutionInput {
 
 extension StartTestExecutionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartTestExecutionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartTestExecutionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -21599,7 +21602,7 @@ public struct StartTestExecutionOutput {
     /// Indicates whether we use streaming or non-streaming APIs for the test set execution. For streaming, StartConversation Amazon Lex Runtime API is used. Whereas for non-streaming, RecognizeUtterance and RecognizeText Amazon Lex Runtime API are used.
     public var apiMode: LexModelsV2ClientTypes.TestExecutionApiMode?
     /// The creation date and time for the test set execution.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// The target bot for the test set execution.
     public var target: LexModelsV2ClientTypes.TestExecutionTarget?
     /// The unique identifier of the test set execution.
@@ -21611,7 +21614,7 @@ public struct StartTestExecutionOutput {
 
     public init(
         apiMode: LexModelsV2ClientTypes.TestExecutionApiMode? = nil,
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         target: LexModelsV2ClientTypes.TestExecutionTarget? = nil,
         testExecutionId: Swift.String? = nil,
         testExecutionModality: LexModelsV2ClientTypes.TestExecutionModality? = nil,
@@ -21629,7 +21632,7 @@ public struct StartTestExecutionOutput {
 
 enum StartTestExecutionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -21704,7 +21707,7 @@ public struct StartTestSetGenerationInput {
 
 extension StartTestSetGenerationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartTestSetGenerationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartTestSetGenerationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -21724,7 +21727,7 @@ extension StartTestSetGenerationOutput {
 
 public struct StartTestSetGenerationOutput {
     /// The creation date and time for the test set generation.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// The description used for the test set generation.
     public var description: Swift.String?
     /// The data source for the test set generation.
@@ -21743,7 +21746,7 @@ public struct StartTestSetGenerationOutput {
     public var testSetTags: [Swift.String:Swift.String]?
 
     public init(
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         generationDataSource: LexModelsV2ClientTypes.TestSetGenerationDataSource? = nil,
         roleArn: Swift.String? = nil,
@@ -21768,7 +21771,7 @@ public struct StartTestSetGenerationOutput {
 
 enum StartTestSetGenerationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -21886,7 +21889,7 @@ public struct StopBotRecommendationInput {
 
 extension StopBotRecommendationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopBotRecommendationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopBotRecommendationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -21930,7 +21933,7 @@ public struct StopBotRecommendationOutput {
 
 enum StopBotRecommendationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -22112,7 +22115,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -22124,7 +22127,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -22401,9 +22404,9 @@ extension LexModelsV2ClientTypes {
         /// Specifies whether the API mode for the test execution is streaming or non-streaming.
         public var apiMode: LexModelsV2ClientTypes.TestExecutionApiMode?
         /// The date and time at which the test execution was created.
-        public var creationDateTime: ClientRuntime.Date?
+        public var creationDateTime: Foundation.Date?
         /// The date and time at which the test execution was last updated.
-        public var lastUpdatedDateTime: ClientRuntime.Date?
+        public var lastUpdatedDateTime: Foundation.Date?
         /// Contains information about the bot used for the test execution..
         public var target: LexModelsV2ClientTypes.TestExecutionTarget?
         /// The unique identifier of the test execution.
@@ -22419,8 +22422,8 @@ extension LexModelsV2ClientTypes {
 
         public init(
             apiMode: LexModelsV2ClientTypes.TestExecutionApiMode? = nil,
-            creationDateTime: ClientRuntime.Date? = nil,
-            lastUpdatedDateTime: ClientRuntime.Date? = nil,
+            creationDateTime: Foundation.Date? = nil,
+            lastUpdatedDateTime: Foundation.Date? = nil,
             target: LexModelsV2ClientTypes.TestExecutionTarget? = nil,
             testExecutionId: Swift.String? = nil,
             testExecutionModality: LexModelsV2ClientTypes.TestExecutionModality? = nil,
@@ -23162,11 +23165,11 @@ extension LexModelsV2ClientTypes {
     /// Contains summary information about the test set.
     public struct TestSetSummary {
         /// The date and time at which the test set was created.
-        public var creationDateTime: ClientRuntime.Date?
+        public var creationDateTime: Foundation.Date?
         /// The description of the test set.
         public var description: Swift.String?
         /// The date and time at which the test set was last updated.
-        public var lastUpdatedDateTime: ClientRuntime.Date?
+        public var lastUpdatedDateTime: Foundation.Date?
         /// Specifies whether the test set contains written or spoken data.
         public var modality: LexModelsV2ClientTypes.TestSetModality?
         /// The number of turns in the test set.
@@ -23183,9 +23186,9 @@ extension LexModelsV2ClientTypes {
         public var testSetName: Swift.String?
 
         public init(
-            creationDateTime: ClientRuntime.Date? = nil,
+            creationDateTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
-            lastUpdatedDateTime: ClientRuntime.Date? = nil,
+            lastUpdatedDateTime: Foundation.Date? = nil,
             modality: LexModelsV2ClientTypes.TestSetModality? = nil,
             numTurns: Swift.Int? = nil,
             roleArn: Swift.String? = nil,
@@ -23591,14 +23594,14 @@ extension LexModelsV2ClientTypes {
 
 extension UntagResourceInput {
 
-    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let tagKeys = value.tagKeys else {
             let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
         tagKeys.forEach { queryItemValue in
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
             items.append(queryItem)
         }
         return items
@@ -23635,7 +23638,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -23647,7 +23650,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -23733,7 +23736,7 @@ public struct UpdateBotAliasInput {
 
 extension UpdateBotAliasOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateBotAliasOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateBotAliasOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -23769,11 +23772,11 @@ public struct UpdateBotAliasOutput {
     /// The updated settings for storing conversation logs in Amazon CloudWatch Logs and Amazon S3 buckets.
     public var conversationLogSettings: LexModelsV2ClientTypes.ConversationLogSettings?
     /// A timestamp of the date and time that the bot was created.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// The updated description of the bot alias.
     public var description: Swift.String?
     /// A timestamp of the date and time that the bot was last updated.
-    public var lastUpdatedDateTime: ClientRuntime.Date?
+    public var lastUpdatedDateTime: Foundation.Date?
     /// Determines whether Amazon Lex will use Amazon Comprehend to detect the sentiment of user utterances.
     public var sentimentAnalysisSettings: LexModelsV2ClientTypes.SentimentAnalysisSettings?
 
@@ -23785,9 +23788,9 @@ public struct UpdateBotAliasOutput {
         botId: Swift.String? = nil,
         botVersion: Swift.String? = nil,
         conversationLogSettings: LexModelsV2ClientTypes.ConversationLogSettings? = nil,
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
-        lastUpdatedDateTime: ClientRuntime.Date? = nil,
+        lastUpdatedDateTime: Foundation.Date? = nil,
         sentimentAnalysisSettings: LexModelsV2ClientTypes.SentimentAnalysisSettings? = nil
     )
     {
@@ -23807,7 +23810,7 @@ public struct UpdateBotAliasOutput {
 
 enum UpdateBotAliasOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -23962,7 +23965,7 @@ public struct UpdateBotLocaleInput {
 
 extension UpdateBotLocaleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateBotLocaleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateBotLocaleOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -23992,7 +23995,7 @@ public struct UpdateBotLocaleOutput {
     /// The version of the bot that contains the updated locale.
     public var botVersion: Swift.String?
     /// A timestamp of the date and time that the locale was created.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// The updated description of the locale.
     public var description: Swift.String?
     /// If the botLocaleStatus is Failed, the failureReasons field lists the errors that occurred while building the bot.
@@ -24000,7 +24003,7 @@ public struct UpdateBotLocaleOutput {
     /// Contains settings for generative AI features powered by Amazon Bedrock for your bot locale.
     public var generativeAISettings: LexModelsV2ClientTypes.GenerativeAISettings?
     /// A timestamp of the date and time that the locale was last updated.
-    public var lastUpdatedDateTime: ClientRuntime.Date?
+    public var lastUpdatedDateTime: Foundation.Date?
     /// The language and locale of the updated bot locale.
     public var localeId: Swift.String?
     /// The updated locale name for the locale.
@@ -24016,11 +24019,11 @@ public struct UpdateBotLocaleOutput {
         botId: Swift.String? = nil,
         botLocaleStatus: LexModelsV2ClientTypes.BotLocaleStatus? = nil,
         botVersion: Swift.String? = nil,
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         failureReasons: [Swift.String]? = nil,
         generativeAISettings: LexModelsV2ClientTypes.GenerativeAISettings? = nil,
-        lastUpdatedDateTime: ClientRuntime.Date? = nil,
+        lastUpdatedDateTime: Foundation.Date? = nil,
         localeId: Swift.String? = nil,
         localeName: Swift.String? = nil,
         nluIntentConfidenceThreshold: Swift.Double? = nil,
@@ -24046,7 +24049,7 @@ public struct UpdateBotLocaleOutput {
 
 enum UpdateBotLocaleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -24065,7 +24068,7 @@ enum UpdateBotLocaleOutputError {
 
 extension UpdateBotOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateBotOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateBotOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -24097,7 +24100,7 @@ public struct UpdateBotOutput {
     /// The type of the bot that was updated.
     public var botType: LexModelsV2ClientTypes.BotType?
     /// A timestamp of the date and time that the bot was created.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// The data privacy settings for the bot after the update.
     public var dataPrivacy: LexModelsV2ClientTypes.DataPrivacy?
     /// The description of the bot after the update.
@@ -24105,7 +24108,7 @@ public struct UpdateBotOutput {
     /// The session timeout, in seconds, for the bot after the update.
     public var idleSessionTTLInSeconds: Swift.Int?
     /// A timestamp of the date and time that the bot was last updated.
-    public var lastUpdatedDateTime: ClientRuntime.Date?
+    public var lastUpdatedDateTime: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the IAM role used by the bot after the update.
     public var roleArn: Swift.String?
 
@@ -24115,11 +24118,11 @@ public struct UpdateBotOutput {
         botName: Swift.String? = nil,
         botStatus: LexModelsV2ClientTypes.BotStatus? = nil,
         botType: LexModelsV2ClientTypes.BotType? = nil,
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         dataPrivacy: LexModelsV2ClientTypes.DataPrivacy? = nil,
         description: Swift.String? = nil,
         idleSessionTTLInSeconds: Swift.Int? = nil,
-        lastUpdatedDateTime: ClientRuntime.Date? = nil,
+        lastUpdatedDateTime: Foundation.Date? = nil,
         roleArn: Swift.String? = nil
     )
     {
@@ -24139,7 +24142,7 @@ public struct UpdateBotOutput {
 
 enum UpdateBotOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -24218,7 +24221,7 @@ public struct UpdateBotRecommendationInput {
 
 extension UpdateBotRecommendationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateBotRecommendationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateBotRecommendationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -24246,11 +24249,11 @@ public struct UpdateBotRecommendationOutput {
     /// The version of the bot containing the bot recommendation that has been updated.
     public var botVersion: Swift.String?
     /// A timestamp of the date and time that the bot recommendation was created.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// The object representing the passwords that were used to encrypt the data related to the bot recommendation results, as well as the KMS key ARN used to encrypt the associated metadata.
     public var encryptionSetting: LexModelsV2ClientTypes.EncryptionSetting?
     /// A timestamp of the date and time that the bot recommendation was last updated.
-    public var lastUpdatedDateTime: ClientRuntime.Date?
+    public var lastUpdatedDateTime: Foundation.Date?
     /// The identifier of the language and locale of the bot recommendation to update. The string must match one of the supported locales. For more information, see [Supported languages](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html)
     public var localeId: Swift.String?
     /// The object representing the Amazon S3 bucket containing the transcript, as well as the associated metadata.
@@ -24261,9 +24264,9 @@ public struct UpdateBotRecommendationOutput {
         botRecommendationId: Swift.String? = nil,
         botRecommendationStatus: LexModelsV2ClientTypes.BotRecommendationStatus? = nil,
         botVersion: Swift.String? = nil,
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         encryptionSetting: LexModelsV2ClientTypes.EncryptionSetting? = nil,
-        lastUpdatedDateTime: ClientRuntime.Date? = nil,
+        lastUpdatedDateTime: Foundation.Date? = nil,
         localeId: Swift.String? = nil,
         transcriptSourceSetting: LexModelsV2ClientTypes.TranscriptSourceSetting? = nil
     )
@@ -24282,7 +24285,7 @@ public struct UpdateBotRecommendationOutput {
 
 enum UpdateBotRecommendationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -24342,7 +24345,7 @@ public struct UpdateExportInput {
 
 extension UpdateExportOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateExportOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateExportOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -24359,7 +24362,7 @@ extension UpdateExportOutput {
 
 public struct UpdateExportOutput {
     /// The date and time that the export was created.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// The unique identifier Amazon Lex assigned to the export.
     public var exportId: Swift.String?
     /// The status of the export. When the status is Completed the export archive is available for download.
@@ -24367,16 +24370,16 @@ public struct UpdateExportOutput {
     /// The file format used for the files that define the resource. The TSV format is required to export a custom vocabulary only; otherwise use LexJson format.
     public var fileFormat: LexModelsV2ClientTypes.ImportExportFileFormat?
     /// The date and time that the export was last updated.
-    public var lastUpdatedDateTime: ClientRuntime.Date?
+    public var lastUpdatedDateTime: Foundation.Date?
     /// A description of the type of resource that was exported, either a bot or a bot locale.
     public var resourceSpecification: LexModelsV2ClientTypes.ExportResourceSpecification?
 
     public init(
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         exportId: Swift.String? = nil,
         exportStatus: LexModelsV2ClientTypes.ExportStatus? = nil,
         fileFormat: LexModelsV2ClientTypes.ImportExportFileFormat? = nil,
-        lastUpdatedDateTime: ClientRuntime.Date? = nil,
+        lastUpdatedDateTime: Foundation.Date? = nil,
         resourceSpecification: LexModelsV2ClientTypes.ExportResourceSpecification? = nil
     )
     {
@@ -24391,7 +24394,7 @@ public struct UpdateExportOutput {
 
 enum UpdateExportOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -24535,7 +24538,7 @@ public struct UpdateIntentInput {
 
 extension UpdateIntentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateIntentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateIntentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -24570,7 +24573,7 @@ public struct UpdateIntentOutput {
     /// The version of the bot that contains the intent. Will always be DRAFT.
     public var botVersion: Swift.String?
     /// A timestamp of when the intent was created.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// The updated description of the intent.
     public var description: Swift.String?
     /// The updated Lambda function called during each turn of the conversation with the user.
@@ -24592,7 +24595,7 @@ public struct UpdateIntentOutput {
     /// The updated configuration for connecting to an Amazon Kendra index with the AMAZON.KendraSearchIntent intent.
     public var kendraConfiguration: LexModelsV2ClientTypes.KendraConfiguration?
     /// A timestamp of the last time that the intent was modified.
-    public var lastUpdatedDateTime: ClientRuntime.Date?
+    public var lastUpdatedDateTime: Foundation.Date?
     /// The updated language and locale of the intent.
     public var localeId: Swift.String?
     /// The updated list of contexts that Amazon Lex activates when the intent is fulfilled.
@@ -24609,7 +24612,7 @@ public struct UpdateIntentOutput {
     public init(
         botId: Swift.String? = nil,
         botVersion: Swift.String? = nil,
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         dialogCodeHook: LexModelsV2ClientTypes.DialogCodeHookSettings? = nil,
         fulfillmentCodeHook: LexModelsV2ClientTypes.FulfillmentCodeHookSettings? = nil,
@@ -24620,7 +24623,7 @@ public struct UpdateIntentOutput {
         intentId: Swift.String? = nil,
         intentName: Swift.String? = nil,
         kendraConfiguration: LexModelsV2ClientTypes.KendraConfiguration? = nil,
-        lastUpdatedDateTime: ClientRuntime.Date? = nil,
+        lastUpdatedDateTime: Foundation.Date? = nil,
         localeId: Swift.String? = nil,
         outputContexts: [LexModelsV2ClientTypes.OutputContext]? = nil,
         parentIntentSignature: Swift.String? = nil,
@@ -24654,7 +24657,7 @@ public struct UpdateIntentOutput {
 
 enum UpdateIntentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -24673,10 +24676,10 @@ enum UpdateIntentOutputError {
 
 extension UpdateResourcePolicyInput {
 
-    static func queryItemProvider(_ value: UpdateResourcePolicyInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UpdateResourcePolicyInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let expectedRevisionId = value.expectedRevisionId {
-            let expectedRevisionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "expectedRevisionId".urlPercentEncoding(), value: Swift.String(expectedRevisionId).urlPercentEncoding())
+            let expectedRevisionIdQueryItem = Smithy.URIQueryItem(name: "expectedRevisionId".urlPercentEncoding(), value: Swift.String(expectedRevisionId).urlPercentEncoding())
             items.append(expectedRevisionIdQueryItem)
         }
         return items
@@ -24725,7 +24728,7 @@ public struct UpdateResourcePolicyInput {
 
 extension UpdateResourcePolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateResourcePolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateResourcePolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -24754,7 +24757,7 @@ public struct UpdateResourcePolicyOutput {
 
 enum UpdateResourcePolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -24872,7 +24875,7 @@ public struct UpdateSlotInput {
 
 extension UpdateSlotOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateSlotOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateSlotOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -24901,13 +24904,13 @@ public struct UpdateSlotOutput {
     /// The version of the bot that contains the slot. Will always be DRAFT.
     public var botVersion: Swift.String?
     /// The timestamp of the date and time that the slot was created.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// The updated description of the bot.
     public var description: Swift.String?
     /// The intent that contains the slot.
     public var intentId: Swift.String?
     /// The timestamp of the date and time that the slot was last updated.
-    public var lastUpdatedDateTime: ClientRuntime.Date?
+    public var lastUpdatedDateTime: Foundation.Date?
     /// The locale that contains the slot.
     public var localeId: Swift.String?
     /// Indicates whether the slot accepts multiple values in one response.
@@ -24928,10 +24931,10 @@ public struct UpdateSlotOutput {
     public init(
         botId: Swift.String? = nil,
         botVersion: Swift.String? = nil,
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         intentId: Swift.String? = nil,
-        lastUpdatedDateTime: ClientRuntime.Date? = nil,
+        lastUpdatedDateTime: Foundation.Date? = nil,
         localeId: Swift.String? = nil,
         multipleValuesSetting: LexModelsV2ClientTypes.MultipleValuesSetting? = nil,
         obfuscationSetting: LexModelsV2ClientTypes.ObfuscationSetting? = nil,
@@ -24961,7 +24964,7 @@ public struct UpdateSlotOutput {
 
 enum UpdateSlotOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -25070,7 +25073,7 @@ public struct UpdateSlotTypeInput {
 
 extension UpdateSlotTypeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateSlotTypeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateSlotTypeOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -25100,13 +25103,13 @@ public struct UpdateSlotTypeOutput {
     /// Specifications for a composite slot type.
     public var compositeSlotTypeSetting: LexModelsV2ClientTypes.CompositeSlotTypeSetting?
     /// The timestamp of the date and time that the slot type was created.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// The updated description of the slot type.
     public var description: Swift.String?
     /// Provides information about the external source of the slot type's definition.
     public var externalSourceSetting: LexModelsV2ClientTypes.ExternalSourceSetting?
     /// A timestamp of the date and time that the slot type was last updated.
-    public var lastUpdatedDateTime: ClientRuntime.Date?
+    public var lastUpdatedDateTime: Foundation.Date?
     /// The language and locale of the updated slot type.
     public var localeId: Swift.String?
     /// The updated signature of the built-in slot type that is the parent of this slot type.
@@ -25124,10 +25127,10 @@ public struct UpdateSlotTypeOutput {
         botId: Swift.String? = nil,
         botVersion: Swift.String? = nil,
         compositeSlotTypeSetting: LexModelsV2ClientTypes.CompositeSlotTypeSetting? = nil,
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         externalSourceSetting: LexModelsV2ClientTypes.ExternalSourceSetting? = nil,
-        lastUpdatedDateTime: ClientRuntime.Date? = nil,
+        lastUpdatedDateTime: Foundation.Date? = nil,
         localeId: Swift.String? = nil,
         parentSlotTypeSignature: Swift.String? = nil,
         slotTypeId: Swift.String? = nil,
@@ -25154,7 +25157,7 @@ public struct UpdateSlotTypeOutput {
 
 enum UpdateSlotTypeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -25214,7 +25217,7 @@ public struct UpdateTestSetInput {
 
 extension UpdateTestSetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateTestSetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateTestSetOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -25235,11 +25238,11 @@ extension UpdateTestSetOutput {
 
 public struct UpdateTestSetOutput {
     /// The creation date and time for the updated test set.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// The test set description for the updated test set.
     public var description: Swift.String?
     /// The date and time of the last update for the updated test set.
-    public var lastUpdatedDateTime: ClientRuntime.Date?
+    public var lastUpdatedDateTime: Foundation.Date?
     /// Indicates whether audio or text is used for the updated test set.
     public var modality: LexModelsV2ClientTypes.TestSetModality?
     /// The number of conversation turns from the updated test set.
@@ -25256,9 +25259,9 @@ public struct UpdateTestSetOutput {
     public var testSetName: Swift.String?
 
     public init(
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
-        lastUpdatedDateTime: ClientRuntime.Date? = nil,
+        lastUpdatedDateTime: Foundation.Date? = nil,
         modality: LexModelsV2ClientTypes.TestSetModality? = nil,
         numTurns: Swift.Int? = nil,
         roleArn: Swift.String? = nil,
@@ -25283,7 +25286,7 @@ public struct UpdateTestSetOutput {
 
 enum UpdateTestSetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -25863,9 +25866,9 @@ extension LexModelsV2ClientTypes {
         /// The channel that is integrated with the bot that the utterance was made to.
         public var channel: Swift.String?
         /// The date and time when the conversation in which the utterance took place ended. A conversation is defined as a unique combination of a sessionId and an originatingRequestId.
-        public var conversationEndTime: ClientRuntime.Date?
+        public var conversationEndTime: Foundation.Date?
         /// The date and time when the conversation in which the utterance took place began. A conversation is defined as a unique combination of a sessionId and an originatingRequestId.
-        public var conversationStartTime: ClientRuntime.Date?
+        public var conversationStartTime: Foundation.Date?
         /// The type of dialog action that the utterance is associated to. See the type field in [DialogAction](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_runtime_DialogAction.html) for more information.
         public var dialogActionType: Swift.String?
         /// The input type of the utterance. The possible values are as follows:
@@ -25927,7 +25930,7 @@ extension LexModelsV2ClientTypes {
         /// The identifier of the request associated with the utterance.
         public var utteranceRequestId: Swift.String?
         /// The date and time when the utterance took place.
-        public var utteranceTimestamp: ClientRuntime.Date?
+        public var utteranceTimestamp: Foundation.Date?
         /// Specifies whether the bot understood the utterance or not.
         public var utteranceUnderstood: Swift.Bool
 
@@ -25940,8 +25943,8 @@ extension LexModelsV2ClientTypes {
             botResponses: [LexModelsV2ClientTypes.UtteranceBotResponse]? = nil,
             botVersion: Swift.String? = nil,
             channel: Swift.String? = nil,
-            conversationEndTime: ClientRuntime.Date? = nil,
-            conversationStartTime: ClientRuntime.Date? = nil,
+            conversationEndTime: Foundation.Date? = nil,
+            conversationStartTime: Foundation.Date? = nil,
             dialogActionType: Swift.String? = nil,
             inputType: Swift.String? = nil,
             intentState: LexModelsV2ClientTypes.IntentState? = nil,
@@ -25952,7 +25955,7 @@ extension LexModelsV2ClientTypes {
             slotsFilledInSession: Swift.String? = nil,
             utterance: Swift.String? = nil,
             utteranceRequestId: Swift.String? = nil,
-            utteranceTimestamp: ClientRuntime.Date? = nil,
+            utteranceTimestamp: Foundation.Date? = nil,
             utteranceUnderstood: Swift.Bool = false
         )
         {

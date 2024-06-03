@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -305,7 +307,7 @@ public struct DeleteScalingPolicyInput {
 
 extension DeleteScalingPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteScalingPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteScalingPolicyOutput {
         return DeleteScalingPolicyOutput()
     }
 }
@@ -317,7 +319,7 @@ public struct DeleteScalingPolicyOutput {
 
 enum DeleteScalingPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -460,7 +462,7 @@ public struct DeleteScheduledActionInput {
 
 extension DeleteScheduledActionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteScheduledActionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteScheduledActionOutput {
         return DeleteScheduledActionOutput()
     }
 }
@@ -472,7 +474,7 @@ public struct DeleteScheduledActionOutput {
 
 enum DeleteScheduledActionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -609,7 +611,7 @@ public struct DeregisterScalableTargetInput {
 
 extension DeregisterScalableTargetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeregisterScalableTargetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeregisterScalableTargetOutput {
         return DeregisterScalableTargetOutput()
     }
 }
@@ -621,7 +623,7 @@ public struct DeregisterScalableTargetOutput {
 
 enum DeregisterScalableTargetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -766,7 +768,7 @@ public struct DescribeScalableTargetsInput {
 
 extension DescribeScalableTargetsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeScalableTargetsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeScalableTargetsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -795,7 +797,7 @@ public struct DescribeScalableTargetsOutput {
 
 enum DescribeScalableTargetsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -945,7 +947,7 @@ public struct DescribeScalingActivitiesInput {
 
 extension DescribeScalingActivitiesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeScalingActivitiesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeScalingActivitiesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -974,7 +976,7 @@ public struct DescribeScalingActivitiesOutput {
 
 enum DescribeScalingActivitiesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1124,7 +1126,7 @@ public struct DescribeScalingPoliciesInput {
 
 extension DescribeScalingPoliciesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeScalingPoliciesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeScalingPoliciesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1153,7 +1155,7 @@ public struct DescribeScalingPoliciesOutput {
 
 enum DescribeScalingPoliciesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1304,7 +1306,7 @@ public struct DescribeScheduledActionsInput {
 
 extension DescribeScheduledActionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeScheduledActionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeScheduledActionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1333,7 +1335,7 @@ public struct DescribeScheduledActionsOutput {
 
 enum DescribeScheduledActionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1526,7 +1528,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1550,7 +1552,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2072,7 +2074,7 @@ public struct PutScalingPolicyInput {
 
 extension PutScalingPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutScalingPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutScalingPolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2102,7 +2104,7 @@ public struct PutScalingPolicyOutput {
 
 enum PutScalingPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2144,7 +2146,7 @@ extension PutScheduledActionInput {
 
 public struct PutScheduledActionInput {
     /// The date and time for the recurring schedule to end, in UTC.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// The identifier of the resource associated with the scheduled action. This string consists of the resource type and unique identifier.
     ///
     /// * ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.
@@ -2251,19 +2253,19 @@ public struct PutScheduledActionInput {
     /// This member is required.
     public var serviceNamespace: ApplicationAutoScalingClientTypes.ServiceNamespace?
     /// The date and time for this scheduled action to start, in UTC.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
     /// Specifies the time zone used when setting a scheduled action by using an at or cron expression. If a time zone is not provided, UTC is used by default. Valid values are the canonical names of the IANA time zones supported by Joda-Time (such as Etc/GMT+9 or Pacific/Tahiti). For more information, see [https://www.joda.org/joda-time/timezones.html](https://www.joda.org/joda-time/timezones.html).
     public var timezone: Swift.String?
 
     public init(
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         resourceId: Swift.String? = nil,
         scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension? = nil,
         scalableTargetAction: ApplicationAutoScalingClientTypes.ScalableTargetAction? = nil,
         schedule: Swift.String? = nil,
         scheduledActionName: Swift.String? = nil,
         serviceNamespace: ApplicationAutoScalingClientTypes.ServiceNamespace? = nil,
-        startTime: ClientRuntime.Date? = nil,
+        startTime: Foundation.Date? = nil,
         timezone: Swift.String? = nil
     )
     {
@@ -2281,7 +2283,7 @@ public struct PutScheduledActionInput {
 
 extension PutScheduledActionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutScheduledActionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutScheduledActionOutput {
         return PutScheduledActionOutput()
     }
 }
@@ -2293,7 +2295,7 @@ public struct PutScheduledActionOutput {
 
 enum PutScheduledActionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2486,7 +2488,7 @@ public struct RegisterScalableTargetInput {
 
 extension RegisterScalableTargetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RegisterScalableTargetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RegisterScalableTargetOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2510,7 +2512,7 @@ public struct RegisterScalableTargetOutput {
 
 enum RegisterScalableTargetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2679,7 +2681,7 @@ extension ApplicationAutoScalingClientTypes {
     public struct ScalableTarget {
         /// The Unix timestamp for when the scalable target was created.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The maximum value to scale to in response to a scale-out activity.
         /// This member is required.
         public var maxCapacity: Swift.Int?
@@ -2784,7 +2786,7 @@ extension ApplicationAutoScalingClientTypes {
         public var suspendedState: ApplicationAutoScalingClientTypes.SuspendedState?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             maxCapacity: Swift.Int? = nil,
             minCapacity: Swift.Int? = nil,
             resourceId: Swift.String? = nil,
@@ -2882,7 +2884,7 @@ extension ApplicationAutoScalingClientTypes {
         /// The details about the scaling activity.
         public var details: Swift.String?
         /// The Unix timestamp for when the scaling activity ended.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// Machine-readable data that describes the reason for a not scaled activity. Only available when [DescribeScalingActivities](https://docs.aws.amazon.com/autoscaling/application/APIReference/API_DescribeScalingActivities.html) includes not scaled activities.
         public var notScaledReasons: [ApplicationAutoScalingClientTypes.NotScaledReason]?
         /// The identifier of the resource associated with the scaling activity. This string consists of the resource type and unique identifier.
@@ -2976,7 +2978,7 @@ extension ApplicationAutoScalingClientTypes {
         public var serviceNamespace: ApplicationAutoScalingClientTypes.ServiceNamespace?
         /// The Unix timestamp for when the scaling activity began.
         /// This member is required.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
         /// Indicates the status of the scaling activity.
         /// This member is required.
         public var statusCode: ApplicationAutoScalingClientTypes.ScalingActivityStatusCode?
@@ -2988,12 +2990,12 @@ extension ApplicationAutoScalingClientTypes {
             cause: Swift.String? = nil,
             description: Swift.String? = nil,
             details: Swift.String? = nil,
-            endTime: ClientRuntime.Date? = nil,
+            endTime: Foundation.Date? = nil,
             notScaledReasons: [ApplicationAutoScalingClientTypes.NotScaledReason]? = nil,
             resourceId: Swift.String? = nil,
             scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension? = nil,
             serviceNamespace: ApplicationAutoScalingClientTypes.ServiceNamespace? = nil,
-            startTime: ClientRuntime.Date? = nil,
+            startTime: Foundation.Date? = nil,
             statusCode: ApplicationAutoScalingClientTypes.ScalingActivityStatusCode? = nil,
             statusMessage: Swift.String? = nil
         )
@@ -3082,7 +3084,7 @@ extension ApplicationAutoScalingClientTypes {
         public var alarms: [ApplicationAutoScalingClientTypes.Alarm]?
         /// The Unix timestamp for when the scaling policy was created.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the scaling policy.
         /// This member is required.
         public var policyARN: Swift.String?
@@ -3188,7 +3190,7 @@ extension ApplicationAutoScalingClientTypes {
 
         public init(
             alarms: [ApplicationAutoScalingClientTypes.Alarm]? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             policyARN: Swift.String? = nil,
             policyName: Swift.String? = nil,
             policyType: ApplicationAutoScalingClientTypes.PolicyType? = nil,
@@ -3239,9 +3241,9 @@ extension ApplicationAutoScalingClientTypes {
     public struct ScheduledAction {
         /// The date and time that the scheduled action was created.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The date and time that the action is scheduled to end, in UTC.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// The identifier of the resource associated with the scaling policy. This string consists of the resource type and unique identifier.
         ///
         /// * ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.
@@ -3351,13 +3353,13 @@ extension ApplicationAutoScalingClientTypes {
         /// This member is required.
         public var serviceNamespace: ApplicationAutoScalingClientTypes.ServiceNamespace?
         /// The date and time that the action is scheduled to begin, in UTC.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
         /// The time zone used when referring to the date and time of a scheduled action, when the scheduled action uses an at or cron expression.
         public var timezone: Swift.String?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
-            endTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
+            endTime: Foundation.Date? = nil,
             resourceId: Swift.String? = nil,
             scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension? = nil,
             scalableTargetAction: ApplicationAutoScalingClientTypes.ScalableTargetAction? = nil,
@@ -3365,7 +3367,7 @@ extension ApplicationAutoScalingClientTypes {
             scheduledActionARN: Swift.String? = nil,
             scheduledActionName: Swift.String? = nil,
             serviceNamespace: ApplicationAutoScalingClientTypes.ServiceNamespace? = nil,
-            startTime: ClientRuntime.Date? = nil,
+            startTime: Foundation.Date? = nil,
             timezone: Swift.String? = nil
         )
         {
@@ -3643,7 +3645,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -3655,7 +3657,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3992,7 +3994,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -4004,7 +4006,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

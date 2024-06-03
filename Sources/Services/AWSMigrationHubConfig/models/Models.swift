@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -83,7 +85,7 @@ public struct CreateHomeRegionControlInput {
 
 extension CreateHomeRegionControlOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateHomeRegionControlOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateHomeRegionControlOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -107,7 +109,7 @@ public struct CreateHomeRegionControlOutput {
 
 enum CreateHomeRegionControlOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -154,7 +156,7 @@ public struct DeleteHomeRegionControlInput {
 
 extension DeleteHomeRegionControlOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteHomeRegionControlOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteHomeRegionControlOutput {
         return DeleteHomeRegionControlOutput()
     }
 }
@@ -166,7 +168,7 @@ public struct DeleteHomeRegionControlOutput {
 
 enum DeleteHomeRegionControlOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -231,7 +233,7 @@ public struct DescribeHomeRegionControlsInput {
 
 extension DescribeHomeRegionControlsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeHomeRegionControlsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeHomeRegionControlsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -260,7 +262,7 @@ public struct DescribeHomeRegionControlsOutput {
 
 enum DescribeHomeRegionControlsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -335,7 +337,7 @@ public struct GetHomeRegionInput {
 
 extension GetHomeRegionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetHomeRegionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetHomeRegionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -359,7 +361,7 @@ public struct GetHomeRegionOutput {
 
 enum GetHomeRegionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -396,14 +398,14 @@ extension MigrationHubConfigClientTypes {
         /// The AWS Region that's been set as home region. For example, "us-west-2" or "eu-central-1" are valid home regions.
         public var homeRegion: Swift.String?
         /// A timestamp representing the time when the customer called CreateHomeregionControl and set the home region for the account.
-        public var requestedTime: ClientRuntime.Date?
+        public var requestedTime: Foundation.Date?
         /// The target parameter specifies the identifier to which the home region is applied, which is always an ACCOUNT. It applies the home region to the current ACCOUNT.
         public var target: MigrationHubConfigClientTypes.Target?
 
         public init(
             controlId: Swift.String? = nil,
             homeRegion: Swift.String? = nil,
-            requestedTime: ClientRuntime.Date? = nil,
+            requestedTime: Foundation.Date? = nil,
             target: MigrationHubConfigClientTypes.Target? = nil
         )
         {

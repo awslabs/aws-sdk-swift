@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -204,8 +207,8 @@ extension EBSClientTypes {
 
 extension CompleteSnapshotInput {
 
-    static func headerProvider(_ value: CompleteSnapshotInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: CompleteSnapshotInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let changedBlocksCount = value.changedBlocksCount {
             items.add(Header(name: "x-amz-ChangedBlocksCount", value: Swift.String(changedBlocksCount)))
         }
@@ -264,7 +267,7 @@ public struct CompleteSnapshotInput {
 
 extension CompleteSnapshotOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CompleteSnapshotOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CompleteSnapshotOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -288,7 +291,7 @@ public struct CompleteSnapshotOutput {
 
 enum CompleteSnapshotOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -383,13 +386,13 @@ public enum EBSClientTypes {}
 
 extension GetSnapshotBlockInput {
 
-    static func queryItemProvider(_ value: GetSnapshotBlockInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetSnapshotBlockInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let blockToken = value.blockToken else {
             let message = "Creating a URL Query Item failed. blockToken is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let blockTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "blockToken".urlPercentEncoding(), value: Swift.String(blockToken).urlPercentEncoding())
+        let blockTokenQueryItem = Smithy.URIQueryItem(name: "blockToken".urlPercentEncoding(), value: Swift.String(blockToken).urlPercentEncoding())
         items.append(blockTokenQueryItem)
         return items
     }
@@ -438,7 +441,7 @@ extension GetSnapshotBlockOutput: Swift.CustomDebugStringConvertible {
 
 extension GetSnapshotBlockOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetSnapshotBlockOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetSnapshotBlockOutput {
         var value = GetSnapshotBlockOutput()
         if let checksumHeaderValue = httpResponse.headers.value(for: "x-amz-Checksum") {
             value.checksum = checksumHeaderValue
@@ -463,7 +466,7 @@ extension GetSnapshotBlockOutput {
 
 public struct GetSnapshotBlockOutput {
     /// The data content of the block.
-    public var blockData: ClientRuntime.ByteStream?
+    public var blockData: Smithy.ByteStream?
     /// The checksum generated for the block, which is Base64 encoded.
     public var checksum: Swift.String?
     /// The algorithm used to generate the checksum for the block, such as SHA256.
@@ -472,7 +475,7 @@ public struct GetSnapshotBlockOutput {
     public var dataLength: Swift.Int?
 
     public init(
-        blockData: ClientRuntime.ByteStream? = nil,
+        blockData: Smithy.ByteStream? = nil,
         checksum: Swift.String? = nil,
         checksumAlgorithm: EBSClientTypes.ChecksumAlgorithm? = nil,
         dataLength: Swift.Int? = nil
@@ -487,7 +490,7 @@ public struct GetSnapshotBlockOutput {
 
 enum GetSnapshotBlockOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -543,22 +546,22 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
 extension ListChangedBlocksInput {
 
-    static func queryItemProvider(_ value: ListChangedBlocksInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListChangedBlocksInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let firstSnapshotId = value.firstSnapshotId {
-            let firstSnapshotIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "firstSnapshotId".urlPercentEncoding(), value: Swift.String(firstSnapshotId).urlPercentEncoding())
+            let firstSnapshotIdQueryItem = Smithy.URIQueryItem(name: "firstSnapshotId".urlPercentEncoding(), value: Swift.String(firstSnapshotId).urlPercentEncoding())
             items.append(firstSnapshotIdQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "pageToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "pageToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let startingBlockIndex = value.startingBlockIndex {
-            let startingBlockIndexQueryItem = ClientRuntime.SDKURLQueryItem(name: "startingBlockIndex".urlPercentEncoding(), value: Swift.String(startingBlockIndex).urlPercentEncoding())
+            let startingBlockIndexQueryItem = Smithy.URIQueryItem(name: "startingBlockIndex".urlPercentEncoding(), value: Swift.String(startingBlockIndex).urlPercentEncoding())
             items.append(startingBlockIndexQueryItem)
         }
         return items
@@ -606,7 +609,7 @@ public struct ListChangedBlocksInput {
 
 extension ListChangedBlocksOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListChangedBlocksOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListChangedBlocksOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -626,7 +629,7 @@ public struct ListChangedBlocksOutput {
     /// An array of objects containing information about the changed blocks.
     public var changedBlocks: [EBSClientTypes.ChangedBlock]?
     /// The time when the BlockToken expires.
-    public var expiryTime: ClientRuntime.Date?
+    public var expiryTime: Foundation.Date?
     /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
     /// The size of the volume in GB.
@@ -635,7 +638,7 @@ public struct ListChangedBlocksOutput {
     public init(
         blockSize: Swift.Int? = nil,
         changedBlocks: [EBSClientTypes.ChangedBlock]? = nil,
-        expiryTime: ClientRuntime.Date? = nil,
+        expiryTime: Foundation.Date? = nil,
         nextToken: Swift.String? = nil,
         volumeSize: Swift.Int? = nil
     )
@@ -650,7 +653,7 @@ public struct ListChangedBlocksOutput {
 
 enum ListChangedBlocksOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -669,18 +672,18 @@ enum ListChangedBlocksOutputError {
 
 extension ListSnapshotBlocksInput {
 
-    static func queryItemProvider(_ value: ListSnapshotBlocksInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListSnapshotBlocksInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "pageToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "pageToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let startingBlockIndex = value.startingBlockIndex {
-            let startingBlockIndexQueryItem = ClientRuntime.SDKURLQueryItem(name: "startingBlockIndex".urlPercentEncoding(), value: Swift.String(startingBlockIndex).urlPercentEncoding())
+            let startingBlockIndexQueryItem = Smithy.URIQueryItem(name: "startingBlockIndex".urlPercentEncoding(), value: Swift.String(startingBlockIndex).urlPercentEncoding())
             items.append(startingBlockIndexQueryItem)
         }
         return items
@@ -729,7 +732,7 @@ extension ListSnapshotBlocksOutput: Swift.CustomDebugStringConvertible {
 
 extension ListSnapshotBlocksOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListSnapshotBlocksOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListSnapshotBlocksOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -749,7 +752,7 @@ public struct ListSnapshotBlocksOutput {
     /// An array of objects containing information about the blocks.
     public var blocks: [EBSClientTypes.Block]?
     /// The time when the BlockToken expires.
-    public var expiryTime: ClientRuntime.Date?
+    public var expiryTime: Foundation.Date?
     /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
     /// The size of the volume in GB.
@@ -758,7 +761,7 @@ public struct ListSnapshotBlocksOutput {
     public init(
         blockSize: Swift.Int? = nil,
         blocks: [EBSClientTypes.Block]? = nil,
-        expiryTime: ClientRuntime.Date? = nil,
+        expiryTime: Foundation.Date? = nil,
         nextToken: Swift.String? = nil,
         volumeSize: Swift.Int? = nil
     )
@@ -773,7 +776,7 @@ public struct ListSnapshotBlocksOutput {
 
 enum ListSnapshotBlocksOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -797,8 +800,8 @@ extension PutSnapshotBlockInput: Swift.CustomDebugStringConvertible {
 
 extension PutSnapshotBlockInput {
 
-    static func headerProvider(_ value: PutSnapshotBlockInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PutSnapshotBlockInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let checksum = value.checksum {
             items.add(Header(name: "x-amz-Checksum", value: Swift.String(checksum)))
         }
@@ -839,7 +842,7 @@ extension PutSnapshotBlockInput {
 public struct PutSnapshotBlockInput {
     /// The data to write to the block. The block data is not signed as part of the Signature Version 4 signing process. As a result, you must generate and provide a Base64-encoded SHA256 checksum for the block data using the x-amz-Checksum header. Also, you must specify the checksum algorithm using the x-amz-Checksum-Algorithm header. The checksum that you provide is part of the Signature Version 4 signing process. It is validated against a checksum generated by Amazon EBS to ensure the validity and authenticity of the data. If the checksums do not correspond, the request fails. For more information, see [ Using checksums with the EBS direct APIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-accessing-snapshot.html#ebsapis-using-checksums) in the Amazon Elastic Compute Cloud User Guide.
     /// This member is required.
-    public var blockData: ClientRuntime.ByteStream?
+    public var blockData: Smithy.ByteStream?
     /// The block index of the block in which to write the data. A block index is a logical index in units of 512 KiB blocks. To identify the block index, divide the logical offset of the data in the logical volume by the block size (logical offset of data/524288). The logical offset of the data must be 512 KiB aligned.
     /// This member is required.
     public var blockIndex: Swift.Int?
@@ -859,7 +862,7 @@ public struct PutSnapshotBlockInput {
     public var snapshotId: Swift.String?
 
     public init(
-        blockData: ClientRuntime.ByteStream? = nil,
+        blockData: Smithy.ByteStream? = nil,
         blockIndex: Swift.Int? = nil,
         checksum: Swift.String? = nil,
         checksumAlgorithm: EBSClientTypes.ChecksumAlgorithm? = nil,
@@ -880,7 +883,7 @@ public struct PutSnapshotBlockInput {
 
 extension PutSnapshotBlockOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutSnapshotBlockOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutSnapshotBlockOutput {
         var value = PutSnapshotBlockOutput()
         if let checksumHeaderValue = httpResponse.headers.value(for: "x-amz-Checksum") {
             value.checksum = checksumHeaderValue
@@ -910,7 +913,7 @@ public struct PutSnapshotBlockOutput {
 
 enum PutSnapshotBlockOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1260,7 +1263,7 @@ extension StartSnapshotOutput: Swift.CustomDebugStringConvertible {
 
 extension StartSnapshotOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartSnapshotOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartSnapshotOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1296,7 +1299,7 @@ public struct StartSnapshotOutput {
     /// Reserved for future use.
     public var sseType: EBSClientTypes.SSEType?
     /// The timestamp when the snapshot was created.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
     /// The status of the snapshot.
     public var status: EBSClientTypes.Status?
     /// The tags applied to the snapshot. You can specify up to 50 tags per snapshot. For more information, see [ Tagging your Amazon EC2 resources](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html) in the Amazon Elastic Compute Cloud User Guide.
@@ -1312,7 +1315,7 @@ public struct StartSnapshotOutput {
         parentSnapshotId: Swift.String? = nil,
         snapshotId: Swift.String? = nil,
         sseType: EBSClientTypes.SSEType? = nil,
-        startTime: ClientRuntime.Date? = nil,
+        startTime: Foundation.Date? = nil,
         status: EBSClientTypes.Status? = nil,
         tags: [EBSClientTypes.Tag]? = nil,
         volumeSize: Swift.Int? = nil
@@ -1334,7 +1337,7 @@ public struct StartSnapshotOutput {
 
 enum StartSnapshotOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

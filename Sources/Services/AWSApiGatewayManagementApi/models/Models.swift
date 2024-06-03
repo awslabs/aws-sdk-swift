@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -31,7 +33,7 @@ public struct DeleteConnectionInput {
 
 extension DeleteConnectionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteConnectionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteConnectionOutput {
         return DeleteConnectionOutput()
     }
 }
@@ -43,7 +45,7 @@ public struct DeleteConnectionOutput {
 
 enum DeleteConnectionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -105,7 +107,7 @@ public struct GetConnectionInput {
 
 extension GetConnectionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetConnectionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetConnectionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -119,15 +121,15 @@ extension GetConnectionOutput {
 
 public struct GetConnectionOutput {
     /// The time in ISO 8601 format for when the connection was established.
-    public var connectedAt: ClientRuntime.Date?
+    public var connectedAt: Foundation.Date?
     public var identity: ApiGatewayManagementApiClientTypes.Identity?
     /// The time in ISO 8601 format for when the connection was last active.
-    public var lastActiveAt: ClientRuntime.Date?
+    public var lastActiveAt: Foundation.Date?
 
     public init(
-        connectedAt: ClientRuntime.Date? = nil,
+        connectedAt: Foundation.Date? = nil,
         identity: ApiGatewayManagementApiClientTypes.Identity? = nil,
-        lastActiveAt: ClientRuntime.Date? = nil
+        lastActiveAt: Foundation.Date? = nil
     )
     {
         self.connectedAt = connectedAt
@@ -138,7 +140,7 @@ public struct GetConnectionOutput {
 
 enum GetConnectionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -293,11 +295,11 @@ public struct PostToConnectionInput {
     public var connectionId: Swift.String?
     /// The data to be sent to the client specified by its connection id.
     /// This member is required.
-    public var data: ClientRuntime.Data?
+    public var data: Foundation.Data?
 
     public init(
         connectionId: Swift.String? = nil,
-        data: ClientRuntime.Data? = nil
+        data: Foundation.Data? = nil
     )
     {
         self.connectionId = connectionId
@@ -307,7 +309,7 @@ public struct PostToConnectionInput {
 
 extension PostToConnectionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PostToConnectionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PostToConnectionOutput {
         return PostToConnectionOutput()
     }
 }
@@ -319,7 +321,7 @@ public struct PostToConnectionOutput {
 
 enum PostToConnectionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

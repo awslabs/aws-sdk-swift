@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -109,7 +112,7 @@ extension DataExchangeClientTypes {
         /// The download URL of the API specification of the API asset.
         public var apiSpecificationDownloadUrl: Swift.String?
         /// The date and time that the upload URL expires, in ISO 8601 format.
-        public var apiSpecificationDownloadUrlExpiresAt: ClientRuntime.Date?
+        public var apiSpecificationDownloadUrlExpiresAt: Foundation.Date?
         /// The protocol type of the API asset.
         public var protocolType: DataExchangeClientTypes.ProtocolType?
         /// The stage of the API asset.
@@ -122,7 +125,7 @@ extension DataExchangeClientTypes {
             apiKey: Swift.String? = nil,
             apiName: Swift.String? = nil,
             apiSpecificationDownloadUrl: Swift.String? = nil,
-            apiSpecificationDownloadUrlExpiresAt: ClientRuntime.Date? = nil,
+            apiSpecificationDownloadUrlExpiresAt: Foundation.Date? = nil,
             protocolType: DataExchangeClientTypes.ProtocolType? = nil,
             stage: Swift.String? = nil
         )
@@ -265,7 +268,7 @@ extension DataExchangeClientTypes {
         public var assetType: DataExchangeClientTypes.AssetType?
         /// The date and time that the asset was created, in ISO 8601 format.
         /// This member is required.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The unique identifier for the data set associated with this asset.
         /// This member is required.
         public var dataSetId: Swift.String?
@@ -282,19 +285,19 @@ extension DataExchangeClientTypes {
         public var sourceId: Swift.String?
         /// The date and time that the asset was last updated, in ISO 8601 format.
         /// This member is required.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
 
         public init(
             arn: Swift.String? = nil,
             assetDetails: DataExchangeClientTypes.AssetDetails? = nil,
             assetType: DataExchangeClientTypes.AssetType? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             dataSetId: Swift.String? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             revisionId: Swift.String? = nil,
             sourceId: Swift.String? = nil,
-            updatedAt: ClientRuntime.Date? = nil
+            updatedAt: Foundation.Date? = nil
         )
         {
             self.arn = arn
@@ -490,7 +493,7 @@ public struct CancelJobInput {
 
 extension CancelJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CancelJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CancelJobOutput {
         return CancelJobOutput()
     }
 }
@@ -502,7 +505,7 @@ public struct CancelJobOutput {
 
 enum CancelJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -658,7 +661,7 @@ public struct CreateDataSetInput {
 
 extension CreateDataSetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateDataSetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateDataSetOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -684,7 +687,7 @@ public struct CreateDataSetOutput {
     /// The type of asset that is added to a data set.
     public var assetType: DataExchangeClientTypes.AssetType?
     /// The date and time that the data set was created, in ISO 8601 format.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The description for the data set.
     public var description: Swift.String?
     /// The unique identifier for the data set.
@@ -700,12 +703,12 @@ public struct CreateDataSetOutput {
     /// The tags for the data set.
     public var tags: [Swift.String:Swift.String]?
     /// The date and time that the data set was last updated, in ISO 8601 format.
-    public var updatedAt: ClientRuntime.Date?
+    public var updatedAt: Foundation.Date?
 
     public init(
         arn: Swift.String? = nil,
         assetType: DataExchangeClientTypes.AssetType? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -713,7 +716,7 @@ public struct CreateDataSetOutput {
         originDetails: DataExchangeClientTypes.OriginDetails? = nil,
         sourceId: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
-        updatedAt: ClientRuntime.Date? = nil
+        updatedAt: Foundation.Date? = nil
     )
     {
         self.arn = arn
@@ -732,7 +735,7 @@ public struct CreateDataSetOutput {
 
 enum CreateDataSetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -784,7 +787,7 @@ public struct CreateEventActionInput {
 
 extension CreateEventActionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateEventActionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateEventActionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -805,21 +808,21 @@ public struct CreateEventActionOutput {
     /// The ARN for the event action.
     public var arn: Swift.String?
     /// The date and time that the event action was created, in ISO 8601 format.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// What occurs to start an action.
     public var event: DataExchangeClientTypes.Event?
     /// The unique identifier for the event action.
     public var id: Swift.String?
     /// The date and time that the event action was last updated, in ISO 8601 format.
-    public var updatedAt: ClientRuntime.Date?
+    public var updatedAt: Foundation.Date?
 
     public init(
         action: DataExchangeClientTypes.Action? = nil,
         arn: Swift.String? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         event: DataExchangeClientTypes.Event? = nil,
         id: Swift.String? = nil,
-        updatedAt: ClientRuntime.Date? = nil
+        updatedAt: Foundation.Date? = nil
     )
     {
         self.action = action
@@ -833,7 +836,7 @@ public struct CreateEventActionOutput {
 
 enum CreateEventActionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -885,7 +888,7 @@ public struct CreateJobInput {
 
 extension CreateJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -906,7 +909,7 @@ public struct CreateJobOutput {
     /// The ARN for the job.
     public var arn: Swift.String?
     /// The date and time that the job was created, in ISO 8601 format.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// Details about the job.
     public var details: DataExchangeClientTypes.ResponseDetails?
     /// The errors associated with jobs.
@@ -918,17 +921,17 @@ public struct CreateJobOutput {
     /// The job type.
     public var type: DataExchangeClientTypes.ModelType?
     /// The date and time that the job was last updated, in ISO 8601 format.
-    public var updatedAt: ClientRuntime.Date?
+    public var updatedAt: Foundation.Date?
 
     public init(
         arn: Swift.String? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         details: DataExchangeClientTypes.ResponseDetails? = nil,
         errors: [DataExchangeClientTypes.JobError]? = nil,
         id: Swift.String? = nil,
         state: DataExchangeClientTypes.State? = nil,
         type: DataExchangeClientTypes.ModelType? = nil,
-        updatedAt: ClientRuntime.Date? = nil
+        updatedAt: Foundation.Date? = nil
     )
     {
         self.arn = arn
@@ -944,7 +947,7 @@ public struct CreateJobOutput {
 
 enum CreateJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1003,7 +1006,7 @@ public struct CreateRevisionInput {
 
 extension CreateRevisionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateRevisionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateRevisionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1030,7 +1033,7 @@ public struct CreateRevisionOutput {
     /// An optional comment about the revision.
     public var comment: Swift.String?
     /// The date and time that the revision was created, in ISO 8601 format.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The unique identifier for the data set associated with the data set revision.
     public var dataSetId: Swift.String?
     /// To publish a revision to a data set in a product, the revision must first be finalized. Finalizing a revision tells AWS Data Exchange that your changes to the assets in the revision are complete. After it's in this read-only state, you can publish the revision to your products. Finalized revisions can be published through the AWS Data Exchange console or the AWS Marketplace Catalog API, using the StartChangeSet AWS Marketplace Catalog API action. When using the API, revisions are uniquely identified by their ARN.
@@ -1042,27 +1045,27 @@ public struct CreateRevisionOutput {
     /// A status indicating that subscribers' access to the revision was revoked.
     public var revoked: Swift.Bool?
     /// The date and time that the revision was revoked, in ISO 8601 format.
-    public var revokedAt: ClientRuntime.Date?
+    public var revokedAt: Foundation.Date?
     /// The revision ID of the owned revision corresponding to the entitled revision being viewed. This parameter is returned when a revision owner is viewing the entitled copy of its owned revision.
     public var sourceId: Swift.String?
     /// The tags for the revision.
     public var tags: [Swift.String:Swift.String]?
     /// The date and time that the revision was last updated, in ISO 8601 format.
-    public var updatedAt: ClientRuntime.Date?
+    public var updatedAt: Foundation.Date?
 
     public init(
         arn: Swift.String? = nil,
         comment: Swift.String? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         dataSetId: Swift.String? = nil,
         finalized: Swift.Bool? = nil,
         id: Swift.String? = nil,
         revocationComment: Swift.String? = nil,
         revoked: Swift.Bool? = nil,
-        revokedAt: ClientRuntime.Date? = nil,
+        revokedAt: Foundation.Date? = nil,
         sourceId: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
-        updatedAt: ClientRuntime.Date? = nil
+        updatedAt: Foundation.Date? = nil
     )
     {
         self.arn = arn
@@ -1082,7 +1085,7 @@ public struct CreateRevisionOutput {
 
 enum CreateRevisionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1206,7 +1209,7 @@ extension DataExchangeClientTypes {
         public var assetType: DataExchangeClientTypes.AssetType?
         /// The date and time that the data set was created, in ISO 8601 format.
         /// This member is required.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The description for the data set.
         /// This member is required.
         public var description: Swift.String?
@@ -1225,19 +1228,19 @@ extension DataExchangeClientTypes {
         public var sourceId: Swift.String?
         /// The date and time that the data set was last updated, in ISO 8601 format.
         /// This member is required.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
 
         public init(
             arn: Swift.String? = nil,
             assetType: DataExchangeClientTypes.AssetType? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             origin: DataExchangeClientTypes.Origin? = nil,
             originDetails: DataExchangeClientTypes.OriginDetails? = nil,
             sourceId: Swift.String? = nil,
-            updatedAt: ClientRuntime.Date? = nil
+            updatedAt: Foundation.Date? = nil
         )
         {
             self.arn = arn
@@ -1267,10 +1270,10 @@ extension DataExchangeClientTypes {
     /// Extra details specific to a data update type notification.
     public struct DataUpdateRequestDetails {
         /// A datetime in the past when the data was updated. This typically means that the underlying resource supporting the data set was updated.
-        public var dataUpdatedAt: ClientRuntime.Date?
+        public var dataUpdatedAt: Foundation.Date?
 
         public init(
-            dataUpdatedAt: ClientRuntime.Date? = nil
+            dataUpdatedAt: Foundation.Date? = nil
         )
         {
             self.dataUpdatedAt = dataUpdatedAt
@@ -1412,7 +1415,7 @@ public struct DeleteAssetInput {
 
 extension DeleteAssetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteAssetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteAssetOutput {
         return DeleteAssetOutput()
     }
 }
@@ -1424,7 +1427,7 @@ public struct DeleteAssetOutput {
 
 enum DeleteAssetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1466,7 +1469,7 @@ public struct DeleteDataSetInput {
 
 extension DeleteDataSetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteDataSetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteDataSetOutput {
         return DeleteDataSetOutput()
     }
 }
@@ -1478,7 +1481,7 @@ public struct DeleteDataSetOutput {
 
 enum DeleteDataSetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1520,7 +1523,7 @@ public struct DeleteEventActionInput {
 
 extension DeleteEventActionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteEventActionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteEventActionOutput {
         return DeleteEventActionOutput()
     }
 }
@@ -1532,7 +1535,7 @@ public struct DeleteEventActionOutput {
 
 enum DeleteEventActionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1580,7 +1583,7 @@ public struct DeleteRevisionInput {
 
 extension DeleteRevisionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteRevisionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteRevisionOutput {
         return DeleteRevisionOutput()
     }
 }
@@ -1592,7 +1595,7 @@ public struct DeleteRevisionOutput {
 
 enum DeleteRevisionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1622,10 +1625,10 @@ extension DataExchangeClientTypes {
     public struct DeprecationRequestDetails {
         /// A datetime in the future when the data set will be deprecated.
         /// This member is required.
-        public var deprecationAt: ClientRuntime.Date?
+        public var deprecationAt: Foundation.Date?
 
         public init(
-            deprecationAt: ClientRuntime.Date? = nil
+            deprecationAt: Foundation.Date? = nil
         )
         {
             self.deprecationAt = deprecationAt
@@ -1722,7 +1725,7 @@ extension DataExchangeClientTypes {
         public var arn: Swift.String?
         /// The date and time that the event action was created, in ISO 8601 format.
         /// This member is required.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// What occurs to start an action.
         /// This member is required.
         public var event: DataExchangeClientTypes.Event?
@@ -1731,15 +1734,15 @@ extension DataExchangeClientTypes {
         public var id: Swift.String?
         /// The date and time that the event action was last updated, in ISO 8601 format.
         /// This member is required.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
 
         public init(
             action: DataExchangeClientTypes.Action? = nil,
             arn: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             event: DataExchangeClientTypes.Event? = nil,
             id: Swift.String? = nil,
-            updatedAt: ClientRuntime.Date? = nil
+            updatedAt: Foundation.Date? = nil
         )
         {
             self.action = action
@@ -1848,14 +1851,14 @@ extension DataExchangeClientTypes {
         /// The signed URL for the export request.
         public var signedUrl: Swift.String?
         /// The date and time that the signed URL expires, in ISO 8601 format.
-        public var signedUrlExpiresAt: ClientRuntime.Date?
+        public var signedUrlExpiresAt: Foundation.Date?
 
         public init(
             assetId: Swift.String? = nil,
             dataSetId: Swift.String? = nil,
             revisionId: Swift.String? = nil,
             signedUrl: Swift.String? = nil,
-            signedUrlExpiresAt: ClientRuntime.Date? = nil
+            signedUrlExpiresAt: Foundation.Date? = nil
         )
         {
             self.assetId = assetId
@@ -2112,7 +2115,7 @@ public struct GetAssetInput {
 
 extension GetAssetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetAssetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetAssetOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2139,7 +2142,7 @@ public struct GetAssetOutput {
     /// The type of asset that is added to a data set.
     public var assetType: DataExchangeClientTypes.AssetType?
     /// The date and time that the asset was created, in ISO 8601 format.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The unique identifier for the data set associated with this asset.
     public var dataSetId: Swift.String?
     /// The unique identifier for the asset.
@@ -2151,19 +2154,19 @@ public struct GetAssetOutput {
     /// The asset ID of the owned asset corresponding to the entitled asset being viewed. This parameter is returned when an asset owner is viewing the entitled copy of its owned asset.
     public var sourceId: Swift.String?
     /// The date and time that the asset was last updated, in ISO 8601 format.
-    public var updatedAt: ClientRuntime.Date?
+    public var updatedAt: Foundation.Date?
 
     public init(
         arn: Swift.String? = nil,
         assetDetails: DataExchangeClientTypes.AssetDetails? = nil,
         assetType: DataExchangeClientTypes.AssetType? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         dataSetId: Swift.String? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         revisionId: Swift.String? = nil,
         sourceId: Swift.String? = nil,
-        updatedAt: ClientRuntime.Date? = nil
+        updatedAt: Foundation.Date? = nil
     )
     {
         self.arn = arn
@@ -2181,7 +2184,7 @@ public struct GetAssetOutput {
 
 enum GetAssetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2221,7 +2224,7 @@ public struct GetDataSetInput {
 
 extension GetDataSetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetDataSetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetDataSetOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2247,7 +2250,7 @@ public struct GetDataSetOutput {
     /// The type of asset that is added to a data set.
     public var assetType: DataExchangeClientTypes.AssetType?
     /// The date and time that the data set was created, in ISO 8601 format.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The description for the data set.
     public var description: Swift.String?
     /// The unique identifier for the data set.
@@ -2263,12 +2266,12 @@ public struct GetDataSetOutput {
     /// The tags for the data set.
     public var tags: [Swift.String:Swift.String]?
     /// The date and time that the data set was last updated, in ISO 8601 format.
-    public var updatedAt: ClientRuntime.Date?
+    public var updatedAt: Foundation.Date?
 
     public init(
         arn: Swift.String? = nil,
         assetType: DataExchangeClientTypes.AssetType? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -2276,7 +2279,7 @@ public struct GetDataSetOutput {
         originDetails: DataExchangeClientTypes.OriginDetails? = nil,
         sourceId: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
-        updatedAt: ClientRuntime.Date? = nil
+        updatedAt: Foundation.Date? = nil
     )
     {
         self.arn = arn
@@ -2295,7 +2298,7 @@ public struct GetDataSetOutput {
 
 enum GetDataSetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2335,7 +2338,7 @@ public struct GetEventActionInput {
 
 extension GetEventActionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetEventActionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetEventActionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2356,21 +2359,21 @@ public struct GetEventActionOutput {
     /// The ARN for the event action.
     public var arn: Swift.String?
     /// The date and time that the event action was created, in ISO 8601 format.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// What occurs to start an action.
     public var event: DataExchangeClientTypes.Event?
     /// The unique identifier for the event action.
     public var id: Swift.String?
     /// The date and time that the event action was last updated, in ISO 8601 format.
-    public var updatedAt: ClientRuntime.Date?
+    public var updatedAt: Foundation.Date?
 
     public init(
         action: DataExchangeClientTypes.Action? = nil,
         arn: Swift.String? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         event: DataExchangeClientTypes.Event? = nil,
         id: Swift.String? = nil,
-        updatedAt: ClientRuntime.Date? = nil
+        updatedAt: Foundation.Date? = nil
     )
     {
         self.action = action
@@ -2384,7 +2387,7 @@ public struct GetEventActionOutput {
 
 enum GetEventActionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2424,7 +2427,7 @@ public struct GetJobInput {
 
 extension GetJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2445,7 +2448,7 @@ public struct GetJobOutput {
     /// The ARN for the job.
     public var arn: Swift.String?
     /// The date and time that the job was created, in ISO 8601 format.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// Details about the job.
     public var details: DataExchangeClientTypes.ResponseDetails?
     /// The errors associated with jobs.
@@ -2457,17 +2460,17 @@ public struct GetJobOutput {
     /// The job type.
     public var type: DataExchangeClientTypes.ModelType?
     /// The date and time that the job was last updated, in ISO 8601 format.
-    public var updatedAt: ClientRuntime.Date?
+    public var updatedAt: Foundation.Date?
 
     public init(
         arn: Swift.String? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         details: DataExchangeClientTypes.ResponseDetails? = nil,
         errors: [DataExchangeClientTypes.JobError]? = nil,
         id: Swift.String? = nil,
         state: DataExchangeClientTypes.State? = nil,
         type: DataExchangeClientTypes.ModelType? = nil,
-        updatedAt: ClientRuntime.Date? = nil
+        updatedAt: Foundation.Date? = nil
     )
     {
         self.arn = arn
@@ -2483,7 +2486,7 @@ public struct GetJobOutput {
 
 enum GetJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2531,7 +2534,7 @@ public struct GetRevisionInput {
 
 extension GetRevisionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetRevisionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetRevisionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2558,7 +2561,7 @@ public struct GetRevisionOutput {
     /// An optional comment about the revision.
     public var comment: Swift.String?
     /// The date and time that the revision was created, in ISO 8601 format.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The unique identifier for the data set associated with the data set revision.
     public var dataSetId: Swift.String?
     /// To publish a revision to a data set in a product, the revision must first be finalized. Finalizing a revision tells AWS Data Exchange that your changes to the assets in the revision are complete. After it's in this read-only state, you can publish the revision to your products. Finalized revisions can be published through the AWS Data Exchange console or the AWS Marketplace Catalog API, using the StartChangeSet AWS Marketplace Catalog API action. When using the API, revisions are uniquely identified by their ARN.
@@ -2570,27 +2573,27 @@ public struct GetRevisionOutput {
     /// A status indicating that subscribers' access to the revision was revoked.
     public var revoked: Swift.Bool?
     /// The date and time that the revision was revoked, in ISO 8601 format.
-    public var revokedAt: ClientRuntime.Date?
+    public var revokedAt: Foundation.Date?
     /// The revision ID of the owned revision corresponding to the entitled revision being viewed. This parameter is returned when a revision owner is viewing the entitled copy of its owned revision.
     public var sourceId: Swift.String?
     /// The tags for the revision.
     public var tags: [Swift.String:Swift.String]?
     /// The date and time that the revision was last updated, in ISO 8601 format.
-    public var updatedAt: ClientRuntime.Date?
+    public var updatedAt: Foundation.Date?
 
     public init(
         arn: Swift.String? = nil,
         comment: Swift.String? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         dataSetId: Swift.String? = nil,
         finalized: Swift.Bool? = nil,
         id: Swift.String? = nil,
         revocationComment: Swift.String? = nil,
         revoked: Swift.Bool? = nil,
-        revokedAt: ClientRuntime.Date? = nil,
+        revokedAt: Foundation.Date? = nil,
         sourceId: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
-        updatedAt: ClientRuntime.Date? = nil
+        updatedAt: Foundation.Date? = nil
     )
     {
         self.arn = arn
@@ -2610,7 +2613,7 @@ public struct GetRevisionOutput {
 
 enum GetRevisionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2737,7 +2740,7 @@ extension DataExchangeClientTypes {
         public var apiSpecificationUploadUrl: Swift.String?
         /// The date and time that the upload URL expires, in ISO 8601 format.
         /// This member is required.
-        public var apiSpecificationUploadUrlExpiresAt: ClientRuntime.Date?
+        public var apiSpecificationUploadUrlExpiresAt: Foundation.Date?
         /// The data set ID.
         /// This member is required.
         public var dataSetId: Swift.String?
@@ -2758,7 +2761,7 @@ extension DataExchangeClientTypes {
             apiName: Swift.String? = nil,
             apiSpecificationMd5Hash: Swift.String? = nil,
             apiSpecificationUploadUrl: Swift.String? = nil,
-            apiSpecificationUploadUrlExpiresAt: ClientRuntime.Date? = nil,
+            apiSpecificationUploadUrlExpiresAt: Foundation.Date? = nil,
             dataSetId: Swift.String? = nil,
             protocolType: DataExchangeClientTypes.ProtocolType? = nil,
             revisionId: Swift.String? = nil,
@@ -2883,7 +2886,7 @@ extension DataExchangeClientTypes {
         /// The signed URL.
         public var signedUrl: Swift.String?
         /// The time and date at which the signed URL expires, in ISO 8601 format.
-        public var signedUrlExpiresAt: ClientRuntime.Date?
+        public var signedUrlExpiresAt: Foundation.Date?
 
         public init(
             assetName: Swift.String? = nil,
@@ -2891,7 +2894,7 @@ extension DataExchangeClientTypes {
             md5Hash: Swift.String? = nil,
             revisionId: Swift.String? = nil,
             signedUrl: Swift.String? = nil,
-            signedUrlExpiresAt: ClientRuntime.Date? = nil
+            signedUrlExpiresAt: Foundation.Date? = nil
         )
         {
             self.assetName = assetName
@@ -3229,7 +3232,7 @@ extension DataExchangeClientTypes {
         public var arn: Swift.String?
         /// The date and time that the job was created, in ISO 8601 format.
         /// This member is required.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// Details of the operation to be performed by the job, such as export destination details or import source details.
         /// This member is required.
         public var details: DataExchangeClientTypes.ResponseDetails?
@@ -3246,17 +3249,17 @@ extension DataExchangeClientTypes {
         public var type: DataExchangeClientTypes.ModelType?
         /// The date and time that the job was last updated, in ISO 8601 format.
         /// This member is required.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
 
         public init(
             arn: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             details: DataExchangeClientTypes.ResponseDetails? = nil,
             errors: [DataExchangeClientTypes.JobError]? = nil,
             id: Swift.String? = nil,
             state: DataExchangeClientTypes.State? = nil,
             type: DataExchangeClientTypes.ModelType? = nil,
-            updatedAt: ClientRuntime.Date? = nil
+            updatedAt: Foundation.Date? = nil
         )
         {
             self.arn = arn
@@ -3833,14 +3836,14 @@ extension DataExchangeClientTypes {
 
 extension ListDataSetRevisionsInput {
 
-    static func queryItemProvider(_ value: ListDataSetRevisionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListDataSetRevisionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -3880,7 +3883,7 @@ public struct ListDataSetRevisionsInput {
 
 extension ListDataSetRevisionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListDataSetRevisionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListDataSetRevisionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3909,7 +3912,7 @@ public struct ListDataSetRevisionsOutput {
 
 enum ListDataSetRevisionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3926,18 +3929,18 @@ enum ListDataSetRevisionsOutputError {
 
 extension ListDataSetsInput {
 
-    static func queryItemProvider(_ value: ListDataSetsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListDataSetsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let origin = value.origin {
-            let originQueryItem = ClientRuntime.SDKURLQueryItem(name: "origin".urlPercentEncoding(), value: Swift.String(origin).urlPercentEncoding())
+            let originQueryItem = Smithy.URIQueryItem(name: "origin".urlPercentEncoding(), value: Swift.String(origin).urlPercentEncoding())
             items.append(originQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -3973,7 +3976,7 @@ public struct ListDataSetsInput {
 
 extension ListDataSetsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListDataSetsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListDataSetsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4002,7 +4005,7 @@ public struct ListDataSetsOutput {
 
 enum ListDataSetsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4019,18 +4022,18 @@ enum ListDataSetsOutputError {
 
 extension ListEventActionsInput {
 
-    static func queryItemProvider(_ value: ListEventActionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListEventActionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let eventSourceId = value.eventSourceId {
-            let eventSourceIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "eventSourceId".urlPercentEncoding(), value: Swift.String(eventSourceId).urlPercentEncoding())
+            let eventSourceIdQueryItem = Smithy.URIQueryItem(name: "eventSourceId".urlPercentEncoding(), value: Swift.String(eventSourceId).urlPercentEncoding())
             items.append(eventSourceIdQueryItem)
         }
         return items
@@ -4066,7 +4069,7 @@ public struct ListEventActionsInput {
 
 extension ListEventActionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListEventActionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListEventActionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4095,7 +4098,7 @@ public struct ListEventActionsOutput {
 
 enum ListEventActionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4112,22 +4115,22 @@ enum ListEventActionsOutputError {
 
 extension ListJobsInput {
 
-    static func queryItemProvider(_ value: ListJobsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListJobsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let dataSetId = value.dataSetId {
-            let dataSetIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "dataSetId".urlPercentEncoding(), value: Swift.String(dataSetId).urlPercentEncoding())
+            let dataSetIdQueryItem = Smithy.URIQueryItem(name: "dataSetId".urlPercentEncoding(), value: Swift.String(dataSetId).urlPercentEncoding())
             items.append(dataSetIdQueryItem)
         }
         if let revisionId = value.revisionId {
-            let revisionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "revisionId".urlPercentEncoding(), value: Swift.String(revisionId).urlPercentEncoding())
+            let revisionIdQueryItem = Smithy.URIQueryItem(name: "revisionId".urlPercentEncoding(), value: Swift.String(revisionId).urlPercentEncoding())
             items.append(revisionIdQueryItem)
         }
         return items
@@ -4167,7 +4170,7 @@ public struct ListJobsInput {
 
 extension ListJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4196,7 +4199,7 @@ public struct ListJobsOutput {
 
 enum ListJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4213,14 +4216,14 @@ enum ListJobsOutputError {
 
 extension ListRevisionAssetsInput {
 
-    static func queryItemProvider(_ value: ListRevisionAssetsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListRevisionAssetsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -4268,7 +4271,7 @@ public struct ListRevisionAssetsInput {
 
 extension ListRevisionAssetsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListRevisionAssetsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListRevisionAssetsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4297,7 +4300,7 @@ public struct ListRevisionAssetsOutput {
 
 enum ListRevisionAssetsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4337,7 +4340,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4361,7 +4364,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4924,7 +4927,7 @@ extension DataExchangeClientTypes {
         public var comment: Swift.String?
         /// The date and time that the revision was created, in ISO 8601 format.
         /// This member is required.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The unique identifier for the data set associated with the data set revision.
         /// This member is required.
         public var dataSetId: Swift.String?
@@ -4938,25 +4941,25 @@ extension DataExchangeClientTypes {
         /// A status indicating that subscribers' access to the revision was revoked.
         public var revoked: Swift.Bool?
         /// The date and time that the revision was revoked, in ISO 8601 format.
-        public var revokedAt: ClientRuntime.Date?
+        public var revokedAt: Foundation.Date?
         /// The revision ID of the owned revision corresponding to the entitled revision being viewed. This parameter is returned when a revision owner is viewing the entitled copy of its owned revision.
         public var sourceId: Swift.String?
         /// The date and time that the revision was last updated, in ISO 8601 format.
         /// This member is required.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
 
         public init(
             arn: Swift.String? = nil,
             comment: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             dataSetId: Swift.String? = nil,
             finalized: Swift.Bool? = nil,
             id: Swift.String? = nil,
             revocationComment: Swift.String? = nil,
             revoked: Swift.Bool? = nil,
-            revokedAt: ClientRuntime.Date? = nil,
+            revokedAt: Foundation.Date? = nil,
             sourceId: Swift.String? = nil,
-            updatedAt: ClientRuntime.Date? = nil
+            updatedAt: Foundation.Date? = nil
         )
         {
             self.arn = arn
@@ -5053,7 +5056,7 @@ public struct RevokeRevisionInput {
 
 extension RevokeRevisionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RevokeRevisionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RevokeRevisionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5079,7 +5082,7 @@ public struct RevokeRevisionOutput {
     /// An optional comment about the revision.
     public var comment: Swift.String?
     /// The date and time that the revision was created, in ISO 8601 format.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The unique identifier for the data set associated with the data set revision.
     public var dataSetId: Swift.String?
     /// To publish a revision to a data set in a product, the revision must first be finalized. Finalizing a revision tells AWS Data Exchange that changes to the assets in the revision are complete. After it's in this read-only state, you can publish the revision to your products. Finalized revisions can be published through the AWS Data Exchange console or the AWS Marketplace Catalog API, using the StartChangeSet AWS Marketplace Catalog API action. When using the API, revisions are uniquely identified by their ARN.
@@ -5091,24 +5094,24 @@ public struct RevokeRevisionOutput {
     /// A status indicating that subscribers' access to the revision was revoked.
     public var revoked: Swift.Bool?
     /// The date and time that the revision was revoked, in ISO 8601 format.
-    public var revokedAt: ClientRuntime.Date?
+    public var revokedAt: Foundation.Date?
     /// The revision ID of the owned revision corresponding to the entitled revision being viewed. This parameter is returned when a revision owner is viewing the entitled copy of its owned revision.
     public var sourceId: Swift.String?
     /// The date and time that the revision was last updated, in ISO 8601 format.
-    public var updatedAt: ClientRuntime.Date?
+    public var updatedAt: Foundation.Date?
 
     public init(
         arn: Swift.String? = nil,
         comment: Swift.String? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         dataSetId: Swift.String? = nil,
         finalized: Swift.Bool? = nil,
         id: Swift.String? = nil,
         revocationComment: Swift.String? = nil,
         revoked: Swift.Bool? = nil,
-        revokedAt: ClientRuntime.Date? = nil,
+        revokedAt: Foundation.Date? = nil,
         sourceId: Swift.String? = nil,
-        updatedAt: ClientRuntime.Date? = nil
+        updatedAt: Foundation.Date? = nil
     )
     {
         self.arn = arn
@@ -5127,7 +5130,7 @@ public struct RevokeRevisionOutput {
 
 enum RevokeRevisionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5354,11 +5357,11 @@ extension DataExchangeClientTypes {
         public var changes: [DataExchangeClientTypes.SchemaChangeDetails]?
         /// A date in the future when the schema change is taking effect.
         /// This member is required.
-        public var schemaChangeAt: ClientRuntime.Date?
+        public var schemaChangeAt: Foundation.Date?
 
         public init(
             changes: [DataExchangeClientTypes.SchemaChangeDetails]? = nil,
-            schemaChangeAt: ClientRuntime.Date? = nil
+            schemaChangeAt: Foundation.Date? = nil
         )
         {
             self.changes = changes
@@ -5436,8 +5439,8 @@ extension DataExchangeClientTypes {
 
 extension SendApiAssetInput {
 
-    static func headerProvider(_ value: SendApiAssetInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: SendApiAssetInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let assetId = value.assetId {
             items.add(Header(name: "x-amzn-dataexchange-asset-id", value: Swift.String(assetId)))
         }
@@ -5464,13 +5467,13 @@ extension SendApiAssetInput {
 
 extension SendApiAssetInput {
 
-    static func queryItemProvider(_ value: SendApiAssetInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: SendApiAssetInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let queryStringParameters = value.queryStringParameters {
             let currentQueryItemNames = items.map({$0.name})
             queryStringParameters.forEach { key0, value0 in
                 if !currentQueryItemNames.contains(key0) {
-                    let queryItem = ClientRuntime.SDKURLQueryItem(name: key0.urlPercentEncoding(), value: value0.urlPercentEncoding())
+                    let queryItem = Smithy.URIQueryItem(name: key0.urlPercentEncoding(), value: value0.urlPercentEncoding())
                     items.append(queryItem)
                 }
             }
@@ -5539,7 +5542,7 @@ public struct SendApiAssetInput {
 
 extension SendApiAssetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SendApiAssetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SendApiAssetOutput {
         var value = SendApiAssetOutput()
         let keysForResponseHeaders = httpResponse.headers.dictionary.keys
         if (!keysForResponseHeaders.isEmpty) {
@@ -5577,7 +5580,7 @@ public struct SendApiAssetOutput {
 
 enum SendApiAssetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5651,7 +5654,7 @@ public struct SendDataSetNotificationInput {
 
 extension SendDataSetNotificationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SendDataSetNotificationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SendDataSetNotificationOutput {
         return SendDataSetNotificationOutput()
     }
 }
@@ -5663,7 +5666,7 @@ public struct SendDataSetNotificationOutput {
 
 enum SendDataSetNotificationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5783,7 +5786,7 @@ public struct StartJobInput {
 
 extension StartJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartJobOutput {
         return StartJobOutput()
     }
 }
@@ -5795,7 +5798,7 @@ public struct StartJobOutput {
 
 enum StartJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5986,7 +5989,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -5998,7 +6001,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6100,14 +6103,14 @@ extension DataExchangeClientTypes {
 
 extension UntagResourceInput {
 
-    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let tagKeys = value.tagKeys else {
             let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
         tagKeys.forEach { queryItemValue in
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
             items.append(queryItem)
         }
         return items
@@ -6144,7 +6147,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -6156,7 +6159,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6221,7 +6224,7 @@ public struct UpdateAssetInput {
 
 extension UpdateAssetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateAssetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateAssetOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6248,7 +6251,7 @@ public struct UpdateAssetOutput {
     /// The type of asset that is added to a data set.
     public var assetType: DataExchangeClientTypes.AssetType?
     /// The date and time that the asset was created, in ISO 8601 format.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The unique identifier for the data set associated with this asset.
     public var dataSetId: Swift.String?
     /// The unique identifier for the asset.
@@ -6260,19 +6263,19 @@ public struct UpdateAssetOutput {
     /// The asset ID of the owned asset corresponding to the entitled asset being viewed. This parameter is returned when an asset owner is viewing the entitled copy of its owned asset.
     public var sourceId: Swift.String?
     /// The date and time that the asset was last updated, in ISO 8601 format.
-    public var updatedAt: ClientRuntime.Date?
+    public var updatedAt: Foundation.Date?
 
     public init(
         arn: Swift.String? = nil,
         assetDetails: DataExchangeClientTypes.AssetDetails? = nil,
         assetType: DataExchangeClientTypes.AssetType? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         dataSetId: Swift.String? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         revisionId: Swift.String? = nil,
         sourceId: Swift.String? = nil,
-        updatedAt: ClientRuntime.Date? = nil
+        updatedAt: Foundation.Date? = nil
     )
     {
         self.arn = arn
@@ -6290,7 +6293,7 @@ public struct UpdateAssetOutput {
 
 enum UpdateAssetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6349,7 +6352,7 @@ public struct UpdateDataSetInput {
 
 extension UpdateDataSetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateDataSetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateDataSetOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6374,7 +6377,7 @@ public struct UpdateDataSetOutput {
     /// The type of asset that is added to a data set.
     public var assetType: DataExchangeClientTypes.AssetType?
     /// The date and time that the data set was created, in ISO 8601 format.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The description for the data set.
     public var description: Swift.String?
     /// The unique identifier for the data set.
@@ -6388,19 +6391,19 @@ public struct UpdateDataSetOutput {
     /// The data set ID of the owned data set corresponding to the entitled data set being viewed. This parameter is returned when a data set owner is viewing the entitled copy of its owned data set.
     public var sourceId: Swift.String?
     /// The date and time that the data set was last updated, in ISO 8601 format.
-    public var updatedAt: ClientRuntime.Date?
+    public var updatedAt: Foundation.Date?
 
     public init(
         arn: Swift.String? = nil,
         assetType: DataExchangeClientTypes.AssetType? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         origin: DataExchangeClientTypes.Origin? = nil,
         originDetails: DataExchangeClientTypes.OriginDetails? = nil,
         sourceId: Swift.String? = nil,
-        updatedAt: ClientRuntime.Date? = nil
+        updatedAt: Foundation.Date? = nil
     )
     {
         self.arn = arn
@@ -6418,7 +6421,7 @@ public struct UpdateDataSetOutput {
 
 enum UpdateDataSetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6471,7 +6474,7 @@ public struct UpdateEventActionInput {
 
 extension UpdateEventActionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateEventActionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateEventActionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6492,21 +6495,21 @@ public struct UpdateEventActionOutput {
     /// The ARN for the event action.
     public var arn: Swift.String?
     /// The date and time that the event action was created, in ISO 8601 format.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// What occurs to start an action.
     public var event: DataExchangeClientTypes.Event?
     /// The unique identifier for the event action.
     public var id: Swift.String?
     /// The date and time that the event action was last updated, in ISO 8601 format.
-    public var updatedAt: ClientRuntime.Date?
+    public var updatedAt: Foundation.Date?
 
     public init(
         action: DataExchangeClientTypes.Action? = nil,
         arn: Swift.String? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         event: DataExchangeClientTypes.Event? = nil,
         id: Swift.String? = nil,
-        updatedAt: ClientRuntime.Date? = nil
+        updatedAt: Foundation.Date? = nil
     )
     {
         self.action = action
@@ -6520,7 +6523,7 @@ public struct UpdateEventActionOutput {
 
 enum UpdateEventActionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6586,7 +6589,7 @@ public struct UpdateRevisionInput {
 
 extension UpdateRevisionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateRevisionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateRevisionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6612,7 +6615,7 @@ public struct UpdateRevisionOutput {
     /// An optional comment about the revision.
     public var comment: Swift.String?
     /// The date and time that the revision was created, in ISO 8601 format.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The unique identifier for the data set associated with the data set revision.
     public var dataSetId: Swift.String?
     /// To publish a revision to a data set in a product, the revision must first be finalized. Finalizing a revision tells AWS Data Exchange that changes to the assets in the revision are complete. After it's in this read-only state, you can publish the revision to your products. Finalized revisions can be published through the AWS Data Exchange console or the AWS Marketplace Catalog API, using the StartChangeSet AWS Marketplace Catalog API action. When using the API, revisions are uniquely identified by their ARN.
@@ -6624,24 +6627,24 @@ public struct UpdateRevisionOutput {
     /// A status indicating that subscribers' access to the revision was revoked.
     public var revoked: Swift.Bool?
     /// The date and time that the revision was revoked, in ISO 8601 format.
-    public var revokedAt: ClientRuntime.Date?
+    public var revokedAt: Foundation.Date?
     /// The revision ID of the owned revision corresponding to the entitled revision being viewed. This parameter is returned when a revision owner is viewing the entitled copy of its owned revision.
     public var sourceId: Swift.String?
     /// The date and time that the revision was last updated, in ISO 8601 format.
-    public var updatedAt: ClientRuntime.Date?
+    public var updatedAt: Foundation.Date?
 
     public init(
         arn: Swift.String? = nil,
         comment: Swift.String? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         dataSetId: Swift.String? = nil,
         finalized: Swift.Bool? = nil,
         id: Swift.String? = nil,
         revocationComment: Swift.String? = nil,
         revoked: Swift.Bool? = nil,
-        revokedAt: ClientRuntime.Date? = nil,
+        revokedAt: Foundation.Date? = nil,
         sourceId: Swift.String? = nil,
-        updatedAt: ClientRuntime.Date? = nil
+        updatedAt: Foundation.Date? = nil
     )
     {
         self.arn = arn
@@ -6660,7 +6663,7 @@ public struct UpdateRevisionOutput {
 
 enum UpdateRevisionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

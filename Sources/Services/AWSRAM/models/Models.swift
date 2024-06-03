@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -40,7 +43,7 @@ public struct AcceptResourceShareInvitationInput {
 
 extension AcceptResourceShareInvitationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AcceptResourceShareInvitationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AcceptResourceShareInvitationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -69,7 +72,7 @@ public struct AcceptResourceShareInvitationOutput {
 
 enum AcceptResourceShareInvitationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -153,7 +156,7 @@ public struct AssociateResourceShareInput {
 
 extension AssociateResourceShareOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AssociateResourceShareOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AssociateResourceShareOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -182,7 +185,7 @@ public struct AssociateResourceShareOutput {
 
 enum AssociateResourceShareOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -255,7 +258,7 @@ public struct AssociateResourceSharePermissionInput {
 
 extension AssociateResourceSharePermissionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AssociateResourceSharePermissionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AssociateResourceSharePermissionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -284,7 +287,7 @@ public struct AssociateResourceSharePermissionOutput {
 
 enum AssociateResourceSharePermissionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -335,7 +338,7 @@ extension RAMClientTypes {
         /// * PROMOTING_TO_STANDARD – This resource share was originally CREATED_FROM_POLICY, but the customer ran the [PromoteResourceShareCreatedFromPolicy] and that operation is still in progress. This value changes to STANDARD when complete.
         public var featureSet: RAMClientTypes.PermissionFeatureSet?
         /// The date and time when the association between the permission and the resource share was last updated.
-        public var lastUpdatedTime: ClientRuntime.Date?
+        public var lastUpdatedTime: Foundation.Date?
         /// The version of the permission currently associated with the resource share.
         public var permissionVersion: Swift.String?
         /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of a resource share associated with this permission.
@@ -357,7 +360,7 @@ extension RAMClientTypes {
             arn: Swift.String? = nil,
             defaultVersion: Swift.Bool? = nil,
             featureSet: RAMClientTypes.PermissionFeatureSet? = nil,
-            lastUpdatedTime: ClientRuntime.Date? = nil,
+            lastUpdatedTime: Foundation.Date? = nil,
             permissionVersion: Swift.String? = nil,
             resourceShareArn: Swift.String? = nil,
             resourceType: Swift.String? = nil,
@@ -438,7 +441,7 @@ public struct CreatePermissionInput {
 
 extension CreatePermissionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreatePermissionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreatePermissionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -467,7 +470,7 @@ public struct CreatePermissionOutput {
 
 enum CreatePermissionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -538,7 +541,7 @@ public struct CreatePermissionVersionInput {
 
 extension CreatePermissionVersionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreatePermissionVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreatePermissionVersionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -567,7 +570,7 @@ public struct CreatePermissionVersionOutput {
 
 enum CreatePermissionVersionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -666,7 +669,7 @@ public struct CreateResourceShareInput {
 
 extension CreateResourceShareOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateResourceShareOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateResourceShareOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -695,7 +698,7 @@ public struct CreateResourceShareOutput {
 
 enum CreateResourceShareOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -720,17 +723,17 @@ enum CreateResourceShareOutputError {
 
 extension DeletePermissionInput {
 
-    static func queryItemProvider(_ value: DeletePermissionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeletePermissionInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let clientToken = value.clientToken {
-            let clientTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
             items.append(clientTokenQueryItem)
         }
         guard let permissionArn = value.permissionArn else {
             let message = "Creating a URL Query Item failed. permissionArn is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let permissionArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "permissionArn".urlPercentEncoding(), value: Swift.String(permissionArn).urlPercentEncoding())
+        let permissionArnQueryItem = Smithy.URIQueryItem(name: "permissionArn".urlPercentEncoding(), value: Swift.String(permissionArn).urlPercentEncoding())
         items.append(permissionArnQueryItem)
         return items
     }
@@ -762,7 +765,7 @@ public struct DeletePermissionInput {
 
 extension DeletePermissionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeletePermissionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeletePermissionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -796,7 +799,7 @@ public struct DeletePermissionOutput {
 
 enum DeletePermissionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -816,23 +819,23 @@ enum DeletePermissionOutputError {
 
 extension DeletePermissionVersionInput {
 
-    static func queryItemProvider(_ value: DeletePermissionVersionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeletePermissionVersionInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let clientToken = value.clientToken {
-            let clientTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
             items.append(clientTokenQueryItem)
         }
         guard let permissionArn = value.permissionArn else {
             let message = "Creating a URL Query Item failed. permissionArn is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let permissionArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "permissionArn".urlPercentEncoding(), value: Swift.String(permissionArn).urlPercentEncoding())
+        let permissionArnQueryItem = Smithy.URIQueryItem(name: "permissionArn".urlPercentEncoding(), value: Swift.String(permissionArn).urlPercentEncoding())
         items.append(permissionArnQueryItem)
         guard let permissionVersion = value.permissionVersion else {
             let message = "Creating a URL Query Item failed. permissionVersion is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let permissionVersionQueryItem = ClientRuntime.SDKURLQueryItem(name: "permissionVersion".urlPercentEncoding(), value: Swift.String(permissionVersion).urlPercentEncoding())
+        let permissionVersionQueryItem = Smithy.URIQueryItem(name: "permissionVersion".urlPercentEncoding(), value: Swift.String(permissionVersion).urlPercentEncoding())
         items.append(permissionVersionQueryItem)
         return items
     }
@@ -869,7 +872,7 @@ public struct DeletePermissionVersionInput {
 
 extension DeletePermissionVersionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeletePermissionVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeletePermissionVersionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -903,7 +906,7 @@ public struct DeletePermissionVersionOutput {
 
 enum DeletePermissionVersionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -924,16 +927,16 @@ enum DeletePermissionVersionOutputError {
 
 extension DeleteResourceShareInput {
 
-    static func queryItemProvider(_ value: DeleteResourceShareInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteResourceShareInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let resourceShareArn = value.resourceShareArn else {
             let message = "Creating a URL Query Item failed. resourceShareArn is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let resourceShareArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceShareArn".urlPercentEncoding(), value: Swift.String(resourceShareArn).urlPercentEncoding())
+        let resourceShareArnQueryItem = Smithy.URIQueryItem(name: "resourceShareArn".urlPercentEncoding(), value: Swift.String(resourceShareArn).urlPercentEncoding())
         items.append(resourceShareArnQueryItem)
         if let clientToken = value.clientToken {
-            let clientTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
             items.append(clientTokenQueryItem)
         }
         return items
@@ -966,7 +969,7 @@ public struct DeleteResourceShareInput {
 
 extension DeleteResourceShareOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteResourceShareOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteResourceShareOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -995,7 +998,7 @@ public struct DeleteResourceShareOutput {
 
 enum DeleteResourceShareOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1078,7 +1081,7 @@ public struct DisassociateResourceShareInput {
 
 extension DisassociateResourceShareOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DisassociateResourceShareOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DisassociateResourceShareOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1107,7 +1110,7 @@ public struct DisassociateResourceShareOutput {
 
 enum DisassociateResourceShareOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1169,7 +1172,7 @@ public struct DisassociateResourceSharePermissionInput {
 
 extension DisassociateResourceSharePermissionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DisassociateResourceSharePermissionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DisassociateResourceSharePermissionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1198,7 +1201,7 @@ public struct DisassociateResourceSharePermissionOutput {
 
 enum DisassociateResourceSharePermissionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1231,7 +1234,7 @@ public struct EnableSharingWithAwsOrganizationInput {
 
 extension EnableSharingWithAwsOrganizationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> EnableSharingWithAwsOrganizationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> EnableSharingWithAwsOrganizationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1255,7 +1258,7 @@ public struct EnableSharingWithAwsOrganizationOutput {
 
 enum EnableSharingWithAwsOrganizationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1304,7 +1307,7 @@ public struct GetPermissionInput {
 
 extension GetPermissionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetPermissionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetPermissionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1328,7 +1331,7 @@ public struct GetPermissionOutput {
 
 enum GetPermissionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1390,7 +1393,7 @@ public struct GetResourcePoliciesInput {
 
 extension GetResourcePoliciesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetResourcePoliciesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetResourcePoliciesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1419,7 +1422,7 @@ public struct GetResourcePoliciesOutput {
 
 enum GetResourcePoliciesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1500,7 +1503,7 @@ public struct GetResourceShareAssociationsInput {
 
 extension GetResourceShareAssociationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetResourceShareAssociationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetResourceShareAssociationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1529,7 +1532,7 @@ public struct GetResourceShareAssociationsOutput {
 
 enum GetResourceShareAssociationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1591,7 +1594,7 @@ public struct GetResourceShareInvitationsInput {
 
 extension GetResourceShareInvitationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetResourceShareInvitationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetResourceShareInvitationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1620,7 +1623,7 @@ public struct GetResourceShareInvitationsOutput {
 
 enum GetResourceShareInvitationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1713,7 +1716,7 @@ public struct GetResourceSharesInput {
 
 extension GetResourceSharesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetResourceSharesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetResourceSharesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1742,7 +1745,7 @@ public struct GetResourceSharesOutput {
 
 enum GetResourceSharesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2117,7 +2120,7 @@ public struct ListPendingInvitationResourcesInput {
 
 extension ListPendingInvitationResourcesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPendingInvitationResourcesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPendingInvitationResourcesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2146,7 +2149,7 @@ public struct ListPendingInvitationResourcesOutput {
 
 enum ListPendingInvitationResourcesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2230,7 +2233,7 @@ public struct ListPermissionAssociationsInput {
 
 extension ListPermissionAssociationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPermissionAssociationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPermissionAssociationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2259,7 +2262,7 @@ public struct ListPermissionAssociationsOutput {
 
 enum ListPermissionAssociationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2315,7 +2318,7 @@ public struct ListPermissionVersionsInput {
 
 extension ListPermissionVersionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPermissionVersionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPermissionVersionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2344,7 +2347,7 @@ public struct ListPermissionVersionsOutput {
 
 enum ListPermissionVersionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2415,7 +2418,7 @@ public struct ListPermissionsInput {
 
 extension ListPermissionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPermissionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPermissionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2444,7 +2447,7 @@ public struct ListPermissionsOutput {
 
 enum ListPermissionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2537,7 +2540,7 @@ public struct ListPrincipalsInput {
 
 extension ListPrincipalsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPrincipalsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPrincipalsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2566,7 +2569,7 @@ public struct ListPrincipalsOutput {
 
 enum ListPrincipalsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2627,7 +2630,7 @@ public struct ListReplacePermissionAssociationsWorkInput {
 
 extension ListReplacePermissionAssociationsWorkOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListReplacePermissionAssociationsWorkOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListReplacePermissionAssociationsWorkOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2656,7 +2659,7 @@ public struct ListReplacePermissionAssociationsWorkOutput {
 
 enum ListReplacePermissionAssociationsWorkOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2711,7 +2714,7 @@ public struct ListResourceSharePermissionsInput {
 
 extension ListResourceSharePermissionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListResourceSharePermissionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListResourceSharePermissionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2740,7 +2743,7 @@ public struct ListResourceSharePermissionsOutput {
 
 enum ListResourceSharePermissionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2806,7 +2809,7 @@ public struct ListResourceTypesInput {
 
 extension ListResourceTypesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListResourceTypesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListResourceTypesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2835,7 +2838,7 @@ public struct ListResourceTypesOutput {
 
 enum ListResourceTypesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2928,7 +2931,7 @@ public struct ListResourcesInput {
 
 extension ListResourcesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListResourcesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListResourcesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2957,7 +2960,7 @@ public struct ListResourcesOutput {
 
 enum ListResourcesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3387,7 +3390,7 @@ extension RAMClientTypes {
     /// Describes a principal for use with Resource Access Manager.
     public struct Principal {
         /// The date and time when the principal was associated with the resource share.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// Indicates the relationship between the Amazon Web Services account the principal belongs to and the account that owns the resource share:
         ///
         /// * True – The two accounts belong to same organization.
@@ -3397,15 +3400,15 @@ extension RAMClientTypes {
         /// The ID of the principal that can be associated with a resource share.
         public var id: Swift.String?
         /// The date and time when the association between the resource share and the principal was last updated.
-        public var lastUpdatedTime: ClientRuntime.Date?
+        public var lastUpdatedTime: Foundation.Date?
         /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of a resource share the principal is associated with.
         public var resourceShareArn: Swift.String?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             external: Swift.Bool? = nil,
             id: Swift.String? = nil,
-            lastUpdatedTime: ClientRuntime.Date? = nil,
+            lastUpdatedTime: Foundation.Date? = nil,
             resourceShareArn: Swift.String? = nil
         )
         {
@@ -3460,7 +3463,7 @@ public struct PromotePermissionCreatedFromPolicyInput {
 
 extension PromotePermissionCreatedFromPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PromotePermissionCreatedFromPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PromotePermissionCreatedFromPolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3489,7 +3492,7 @@ public struct PromotePermissionCreatedFromPolicyOutput {
 
 enum PromotePermissionCreatedFromPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3509,13 +3512,13 @@ enum PromotePermissionCreatedFromPolicyOutputError {
 
 extension PromoteResourceShareCreatedFromPolicyInput {
 
-    static func queryItemProvider(_ value: PromoteResourceShareCreatedFromPolicyInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: PromoteResourceShareCreatedFromPolicyInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let resourceShareArn = value.resourceShareArn else {
             let message = "Creating a URL Query Item failed. resourceShareArn is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let resourceShareArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceShareArn".urlPercentEncoding(), value: Swift.String(resourceShareArn).urlPercentEncoding())
+        let resourceShareArnQueryItem = Smithy.URIQueryItem(name: "resourceShareArn".urlPercentEncoding(), value: Swift.String(resourceShareArn).urlPercentEncoding())
         items.append(resourceShareArnQueryItem)
         return items
     }
@@ -3543,7 +3546,7 @@ public struct PromoteResourceShareCreatedFromPolicyInput {
 
 extension PromoteResourceShareCreatedFromPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PromoteResourceShareCreatedFromPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PromoteResourceShareCreatedFromPolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3567,7 +3570,7 @@ public struct PromoteResourceShareCreatedFromPolicyOutput {
 
 enum PromoteResourceShareCreatedFromPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3625,7 +3628,7 @@ public struct RejectResourceShareInvitationInput {
 
 extension RejectResourceShareInvitationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RejectResourceShareInvitationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RejectResourceShareInvitationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3654,7 +3657,7 @@ public struct RejectResourceShareInvitationOutput {
 
 enum RejectResourceShareInvitationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3721,7 +3724,7 @@ public struct ReplacePermissionAssociationsInput {
 
 extension ReplacePermissionAssociationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ReplacePermissionAssociationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ReplacePermissionAssociationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3750,7 +3753,7 @@ public struct ReplacePermissionAssociationsOutput {
 
 enum ReplacePermissionAssociationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3791,7 +3794,7 @@ extension RAMClientTypes {
     /// A structure that represents the background work that RAM performs when you invoke the [ReplacePermissionAssociations] operation.
     public struct ReplacePermissionAssociationsWork {
         /// The date and time when this asynchronous background task was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the managed permission that this background task is replacing.
         public var fromPermissionArn: Swift.String?
         /// The version of the managed permission that this background task is replacing.
@@ -3799,7 +3802,7 @@ extension RAMClientTypes {
         /// The unique identifier for the background task associated with one [ReplacePermissionAssociations] request.
         public var id: Swift.String?
         /// The date and time when the status of this background task was last updated.
-        public var lastUpdatedTime: ClientRuntime.Date?
+        public var lastUpdatedTime: Foundation.Date?
         /// Specifies the current status of the background tasks for the specified ID. The output is one of the following strings:
         ///
         /// * IN_PROGRESS
@@ -3816,11 +3819,11 @@ extension RAMClientTypes {
         public var toPermissionVersion: Swift.String?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             fromPermissionArn: Swift.String? = nil,
             fromPermissionVersion: Swift.String? = nil,
             id: Swift.String? = nil,
-            lastUpdatedTime: ClientRuntime.Date? = nil,
+            lastUpdatedTime: Foundation.Date? = nil,
             status: RAMClientTypes.ReplacePermissionAssociationsWorkStatus? = nil,
             statusMessage: Swift.String? = nil,
             toPermissionArn: Swift.String? = nil,
@@ -3897,9 +3900,9 @@ extension RAMClientTypes {
         /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource.
         public var arn: Swift.String?
         /// The date and time when the resource was associated with the resource share.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The date an time when the association between the resource and the resource share was last updated.
-        public var lastUpdatedTime: ClientRuntime.Date?
+        public var lastUpdatedTime: Foundation.Date?
         /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource group. This value is available only if the resource is part of a resource group.
         public var resourceGroupArn: Swift.String?
         /// Specifies the scope of visibility of this resource:
@@ -3919,8 +3922,8 @@ extension RAMClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            creationTime: ClientRuntime.Date? = nil,
-            lastUpdatedTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
+            lastUpdatedTime: Foundation.Date? = nil,
             resourceGroupArn: Swift.String? = nil,
             resourceRegionScope: RAMClientTypes.ResourceRegionScope? = nil,
             resourceShareArn: Swift.String? = nil,
@@ -4100,7 +4103,7 @@ extension RAMClientTypes {
         /// * False – the resource share can be shared with only accounts in the same organization as the account that owns the resource share.
         public var allowExternalPrincipals: Swift.Bool?
         /// The date and time when the resource share was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// Indicates what features are available for this resource share. This parameter can have one of the following values:
         ///
         /// * STANDARD – A resource share that supports all functionality. These resource shares are visible to all principals you share the resource share with. You can modify these resource shares in RAM using the console or APIs. This resource share might have been created by RAM, or it might have been CREATED_FROM_POLICY and then promoted.
@@ -4110,7 +4113,7 @@ extension RAMClientTypes {
         /// * PROMOTING_TO_STANDARD – This resource share was originally CREATED_FROM_POLICY, but the customer ran the [PromoteResourceShareCreatedFromPolicy] and that operation is still in progress. This value changes to STANDARD when complete.
         public var featureSet: RAMClientTypes.ResourceShareFeatureSet?
         /// The date and time when the resource share was last updated.
-        public var lastUpdatedTime: ClientRuntime.Date?
+        public var lastUpdatedTime: Foundation.Date?
         /// The name of the resource share.
         public var name: Swift.String?
         /// The ID of the Amazon Web Services account that owns the resource share.
@@ -4126,9 +4129,9 @@ extension RAMClientTypes {
 
         public init(
             allowExternalPrincipals: Swift.Bool? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             featureSet: RAMClientTypes.ResourceShareFeatureSet? = nil,
-            lastUpdatedTime: ClientRuntime.Date? = nil,
+            lastUpdatedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             owningAccountId: Swift.String? = nil,
             resourceShareArn: Swift.String? = nil,
@@ -4192,11 +4195,11 @@ extension RAMClientTypes {
         /// The type of entity included in this association.
         public var associationType: RAMClientTypes.ResourceShareAssociationType?
         /// The date and time when the association was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// Indicates whether the principal belongs to the same organization in Organizations as the Amazon Web Services account that owns the resource share.
         public var external: Swift.Bool?
         /// The date and time when the association was last updated.
-        public var lastUpdatedTime: ClientRuntime.Date?
+        public var lastUpdatedTime: Foundation.Date?
         /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource share.
         public var resourceShareArn: Swift.String?
         /// The name of the resource share.
@@ -4209,9 +4212,9 @@ extension RAMClientTypes {
         public init(
             associatedEntity: Swift.String? = nil,
             associationType: RAMClientTypes.ResourceShareAssociationType? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             external: Swift.Bool? = nil,
-            lastUpdatedTime: ClientRuntime.Date? = nil,
+            lastUpdatedTime: Foundation.Date? = nil,
             resourceShareArn: Swift.String? = nil,
             resourceShareName: Swift.String? = nil,
             status: RAMClientTypes.ResourceShareAssociationStatus? = nil,
@@ -4353,7 +4356,7 @@ extension RAMClientTypes {
     /// Describes an invitation for an Amazon Web Services account to join a resource share.
     public struct ResourceShareInvitation {
         /// The date and time when the invitation was sent.
-        public var invitationTimestamp: ClientRuntime.Date?
+        public var invitationTimestamp: Foundation.Date?
         /// The ID of the Amazon Web Services account that received the invitation.
         public var receiverAccountId: Swift.String?
         /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the IAM user or role that received the invitation.
@@ -4373,7 +4376,7 @@ extension RAMClientTypes {
         public var status: RAMClientTypes.ResourceShareInvitationStatus?
 
         public init(
-            invitationTimestamp: ClientRuntime.Date? = nil,
+            invitationTimestamp: Foundation.Date? = nil,
             receiverAccountId: Swift.String? = nil,
             receiverArn: Swift.String? = nil,
             resourceShareArn: Swift.String? = nil,
@@ -4651,7 +4654,7 @@ extension RAMClientTypes {
         /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of this RAM managed permission.
         public var arn: Swift.String?
         /// The date and time when the permission was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// Specifies whether the version of the permission represented in this response is the default version for this permission.
         public var defaultVersion: Swift.Bool?
         /// Indicates what features are available for this resource share. This parameter can have one of the following values:
@@ -4665,7 +4668,7 @@ extension RAMClientTypes {
         /// Specifies whether the version of the permission represented in this response is the default version for all resources of this resource type.
         public var isResourceTypeDefault: Swift.Bool?
         /// The date and time when the permission was last updated.
-        public var lastUpdatedTime: ClientRuntime.Date?
+        public var lastUpdatedTime: Foundation.Date?
         /// The name of this permission.
         public var name: Swift.String?
         /// The permission's effect and actions in JSON format. The effect indicates whether the specified actions are allowed or denied. The actions list the operations to which the principal is granted or denied access.
@@ -4695,11 +4698,11 @@ extension RAMClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             defaultVersion: Swift.Bool? = nil,
             featureSet: RAMClientTypes.PermissionFeatureSet? = nil,
             isResourceTypeDefault: Swift.Bool? = nil,
-            lastUpdatedTime: ClientRuntime.Date? = nil,
+            lastUpdatedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             permission: Swift.String? = nil,
             permissionType: RAMClientTypes.PermissionType? = nil,
@@ -4754,7 +4757,7 @@ extension RAMClientTypes {
         /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the permission you want information about.
         public var arn: Swift.String?
         /// The date and time when the permission was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// Specifies whether the version of the managed permission used by this resource share is the default version for this managed permission.
         public var defaultVersion: Swift.Bool?
         /// Indicates what features are available for this resource share. This parameter can have one of the following values:
@@ -4768,7 +4771,7 @@ extension RAMClientTypes {
         /// Specifies whether the managed permission associated with this resource share is the default managed permission for all resources of this resource type.
         public var isResourceTypeDefault: Swift.Bool?
         /// The date and time when the permission was last updated.
-        public var lastUpdatedTime: ClientRuntime.Date?
+        public var lastUpdatedTime: Foundation.Date?
         /// The name of this managed permission.
         public var name: Swift.String?
         /// The type of managed permission. This can be one of the following values:
@@ -4788,11 +4791,11 @@ extension RAMClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             defaultVersion: Swift.Bool? = nil,
             featureSet: RAMClientTypes.PermissionFeatureSet? = nil,
             isResourceTypeDefault: Swift.Bool? = nil,
-            lastUpdatedTime: ClientRuntime.Date? = nil,
+            lastUpdatedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             permissionType: RAMClientTypes.PermissionType? = nil,
             resourceType: Swift.String? = nil,
@@ -5051,7 +5054,7 @@ public struct SetDefaultPermissionVersionInput {
 
 extension SetDefaultPermissionVersionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SetDefaultPermissionVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SetDefaultPermissionVersionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5080,7 +5083,7 @@ public struct SetDefaultPermissionVersionOutput {
 
 enum SetDefaultPermissionVersionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5280,7 +5283,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -5292,7 +5295,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5465,7 +5468,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -5477,7 +5480,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5538,7 +5541,7 @@ public struct UpdateResourceShareInput {
 
 extension UpdateResourceShareOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateResourceShareOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateResourceShareOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5567,7 +5570,7 @@ public struct UpdateResourceShareOutput {
 
 enum UpdateResourceShareOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

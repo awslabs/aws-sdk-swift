@@ -2,6 +2,11 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyEventStreams
+import SmithyEventStreamsAPI
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -133,8 +138,8 @@ extension InvokeEndpointAsyncInput: Swift.CustomDebugStringConvertible {
 
 extension InvokeEndpointAsyncInput {
 
-    static func headerProvider(_ value: InvokeEndpointAsyncInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: InvokeEndpointAsyncInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accept = value.accept {
             items.add(Header(name: "X-Amzn-SageMaker-Accept", value: Swift.String(accept)))
         }
@@ -214,7 +219,7 @@ public struct InvokeEndpointAsyncInput {
 
 extension InvokeEndpointAsyncOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> InvokeEndpointAsyncOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> InvokeEndpointAsyncOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -252,7 +257,7 @@ public struct InvokeEndpointAsyncOutput {
 
 enum InvokeEndpointAsyncOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -273,8 +278,8 @@ extension InvokeEndpointInput: Swift.CustomDebugStringConvertible {
 
 extension InvokeEndpointInput {
 
-    static func headerProvider(_ value: InvokeEndpointInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: InvokeEndpointInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accept = value.accept {
             items.add(Header(name: "Accept", value: Swift.String(accept)))
         }
@@ -329,7 +334,7 @@ public struct InvokeEndpointInput {
     public var accept: Swift.String?
     /// Provides input data, in the format specified in the ContentType request header. Amazon SageMaker passes all of the data in the body to the model. For information about the format of the request body, see [Common Data Formats-Inference](https://docs.aws.amazon.com/sagemaker/latest/dg/cdf-inference.html).
     /// This member is required.
-    public var body: ClientRuntime.Data?
+    public var body: Foundation.Data?
     /// The MIME type of the input data in the request body.
     public var contentType: Swift.String?
     /// Provides additional information about a request for an inference submitted to a model hosted at an Amazon SageMaker endpoint. The information is an opaque value that is forwarded verbatim. You could use this value, for example, to provide an ID that you can use to track a request or to provide other metadata that a service endpoint was programmed to process. The value must consist of no more than 1024 visible US-ASCII characters as specified in [Section 3.3.6. Field Value Components](https://datatracker.ietf.org/doc/html/rfc7230#section-3.2.6) of the Hypertext Transfer Protocol (HTTP/1.1). The code in your model is responsible for setting or updating any custom attributes in the response. If your code does not set this value in the response, an empty value is returned. For example, if a custom attribute represents the trace ID, your model can prepend the custom attribute with Trace ID: in your post-processing function. This feature is currently supported in the Amazon Web Services SDKs but not in the Amazon SageMaker Python SDK.
@@ -352,7 +357,7 @@ public struct InvokeEndpointInput {
 
     public init(
         accept: Swift.String? = nil,
-        body: ClientRuntime.Data? = nil,
+        body: Foundation.Data? = nil,
         contentType: Swift.String? = nil,
         customAttributes: Swift.String? = nil,
         enableExplanations: Swift.String? = nil,
@@ -385,7 +390,7 @@ extension InvokeEndpointOutput: Swift.CustomDebugStringConvertible {
 
 extension InvokeEndpointOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> InvokeEndpointOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> InvokeEndpointOutput {
         var value = InvokeEndpointOutput()
         if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
             value.contentType = contentTypeHeaderValue
@@ -411,7 +416,7 @@ extension InvokeEndpointOutput {
 public struct InvokeEndpointOutput {
     /// Includes the inference provided by the model. For information about the format of the response body, see [Common Data Formats-Inference](https://docs.aws.amazon.com/sagemaker/latest/dg/cdf-inference.html). If the explainer is activated, the body includes the explanations provided by the model. For more information, see the Response section under [Invoke the Endpoint](https://docs.aws.amazon.com/sagemaker/latest/dg/clarify-online-explainability-invoke-endpoint.html#clarify-online-explainability-response) in the Developer Guide.
     /// This member is required.
-    public var body: ClientRuntime.Data?
+    public var body: Foundation.Data?
     /// The MIME type of the inference returned from the model container.
     public var contentType: Swift.String?
     /// Provides additional information in the response about the inference returned by a model hosted at an Amazon SageMaker endpoint. The information is an opaque value that is forwarded verbatim. You could use this value, for example, to return an ID received in the CustomAttributes header of a request or other metadata that a service endpoint was programmed to produce. The value must consist of no more than 1024 visible US-ASCII characters as specified in [Section 3.3.6. Field Value Components](https://tools.ietf.org/html/rfc7230#section-3.2.6) of the Hypertext Transfer Protocol (HTTP/1.1). If the customer wants the custom attribute returned, the model must set the custom attribute to be included on the way back. The code in your model is responsible for setting or updating any custom attributes in the response. If your code does not set this value in the response, an empty value is returned. For example, if a custom attribute represents the trace ID, your model can prepend the custom attribute with Trace ID: in your post-processing function. This feature is currently supported in the Amazon Web Services SDKs but not in the Amazon SageMaker Python SDK.
@@ -420,7 +425,7 @@ public struct InvokeEndpointOutput {
     public var invokedProductionVariant: Swift.String?
 
     public init(
-        body: ClientRuntime.Data? = nil,
+        body: Foundation.Data? = nil,
         contentType: Swift.String? = nil,
         customAttributes: Swift.String? = nil,
         invokedProductionVariant: Swift.String? = nil
@@ -435,7 +440,7 @@ public struct InvokeEndpointOutput {
 
 enum InvokeEndpointOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -459,8 +464,8 @@ extension InvokeEndpointWithResponseStreamInput: Swift.CustomDebugStringConverti
 
 extension InvokeEndpointWithResponseStreamInput {
 
-    static func headerProvider(_ value: InvokeEndpointWithResponseStreamInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: InvokeEndpointWithResponseStreamInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accept = value.accept {
             items.add(Header(name: "X-Amzn-SageMaker-Accept", value: Swift.String(accept)))
         }
@@ -509,7 +514,7 @@ public struct InvokeEndpointWithResponseStreamInput {
     public var accept: Swift.String?
     /// Provides input data, in the format specified in the ContentType request header. Amazon SageMaker passes all of the data in the body to the model. For information about the format of the request body, see [Common Data Formats-Inference](https://docs.aws.amazon.com/sagemaker/latest/dg/cdf-inference.html).
     /// This member is required.
-    public var body: ClientRuntime.Data?
+    public var body: Foundation.Data?
     /// The MIME type of the input data in the request body.
     public var contentType: Swift.String?
     /// Provides additional information about a request for an inference submitted to a model hosted at an Amazon SageMaker endpoint. The information is an opaque value that is forwarded verbatim. You could use this value, for example, to provide an ID that you can use to track a request or to provide other metadata that a service endpoint was programmed to process. The value must consist of no more than 1024 visible US-ASCII characters as specified in [Section 3.3.6. Field Value Components](https://datatracker.ietf.org/doc/html/rfc7230#section-3.2.6) of the Hypertext Transfer Protocol (HTTP/1.1). The code in your model is responsible for setting or updating any custom attributes in the response. If your code does not set this value in the response, an empty value is returned. For example, if a custom attribute represents the trace ID, your model can prepend the custom attribute with Trace ID: in your post-processing function. This feature is currently supported in the Amazon Web Services SDKs but not in the Amazon SageMaker Python SDK.
@@ -528,7 +533,7 @@ public struct InvokeEndpointWithResponseStreamInput {
 
     public init(
         accept: Swift.String? = nil,
-        body: ClientRuntime.Data? = nil,
+        body: Foundation.Data? = nil,
         contentType: Swift.String? = nil,
         customAttributes: Swift.String? = nil,
         endpointName: Swift.String? = nil,
@@ -557,7 +562,7 @@ extension InvokeEndpointWithResponseStreamOutput: Swift.CustomDebugStringConvert
 
 extension InvokeEndpointWithResponseStreamOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> InvokeEndpointWithResponseStreamOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> InvokeEndpointWithResponseStreamOutput {
         var value = InvokeEndpointWithResponseStreamOutput()
         if let contentTypeHeaderValue = httpResponse.headers.value(for: "X-Amzn-SageMaker-Content-Type") {
             value.contentType = contentTypeHeaderValue
@@ -569,8 +574,8 @@ extension InvokeEndpointWithResponseStreamOutput {
             value.invokedProductionVariant = invokedProductionVariantHeaderValue
         }
         if case .stream(let stream) = httpResponse.body {
-            let messageDecoder = AWSClientRuntime.AWSEventStream.AWSMessageDecoder()
-            let decoderStream = ClientRuntime.EventStream.DefaultMessageDecoderStream(stream: stream, messageDecoder: messageDecoder, unmarshalClosure: SageMakerRuntimeClientTypes.ResponseStream.unmarshal)
+            let messageDecoder = SmithyEventStreams.DefaultMessageDecoder()
+            let decoderStream = SmithyEventStreams.DefaultMessageDecoderStream(stream: stream, messageDecoder: messageDecoder, unmarshalClosure: SageMakerRuntimeClientTypes.ResponseStream.unmarshal)
             value.body = decoderStream.toAsyncStream()
         }
         return value
@@ -604,7 +609,7 @@ public struct InvokeEndpointWithResponseStreamOutput {
 
 enum InvokeEndpointWithResponseStreamOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -782,10 +787,10 @@ extension SageMakerRuntimeClientTypes {
     /// A wrapper for pieces of the payload that's returned in response to a streaming inference request. A streaming inference response consists of one or more payload parts.
     public struct PayloadPart {
         /// A blob that contains part of the response for your streaming inference request.
-        public var bytes: ClientRuntime.Data?
+        public var bytes: Foundation.Data?
 
         public init(
-            bytes: ClientRuntime.Data? = nil
+            bytes: Foundation.Data? = nil
         )
         {
             self.bytes = bytes
@@ -795,7 +800,7 @@ extension SageMakerRuntimeClientTypes {
 }
 
 extension SageMakerRuntimeClientTypes.ResponseStream {
-    static var unmarshal: ClientRuntime.UnmarshalClosure<SageMakerRuntimeClientTypes.ResponseStream> {
+    static var unmarshal: SmithyEventStreamsAPI.UnmarshalClosure<SageMakerRuntimeClientTypes.ResponseStream> {
         { message in
             switch try message.type() {
             case .event(let params):
@@ -808,7 +813,7 @@ extension SageMakerRuntimeClientTypes.ResponseStream {
                     return .sdkUnknown("error processing event stream, unrecognized event: \(params.eventType)")
                 }
             case .exception(let params):
-                let makeError: (ClientRuntime.EventStream.Message, ClientRuntime.EventStream.MessageType.ExceptionParams) throws -> Swift.Error = { message, params in
+                let makeError: (SmithyEventStreamsAPI.Message, SmithyEventStreamsAPI.MessageType.ExceptionParams) throws -> Swift.Error = { message, params in
                     switch params.exceptionType {
                     case "ModelStreamError":
                         let value = try SmithyJSON.Reader.readFrom(message.payload, with: ModelStreamError.read(from:))
@@ -817,17 +822,17 @@ extension SageMakerRuntimeClientTypes.ResponseStream {
                         let value = try SmithyJSON.Reader.readFrom(message.payload, with: InternalStreamFailure.read(from:))
                         return value
                     default:
-                        let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)
+                        let httpResponse = SmithyHTTPAPI.HttpResponse(body: .data(message.payload), statusCode: .ok)
                         return AWSClientRuntime.UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':exceptionType': \(params.exceptionType); contentType: \(params.contentType ?? "nil")", requestID: nil, typeName: nil)
                     }
                 }
                 let error = try makeError(message, params)
                 throw error
             case .error(let params):
-                let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)
+                let httpResponse = SmithyHTTPAPI.HttpResponse(body: .data(message.payload), statusCode: .ok)
                 throw AWSClientRuntime.UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':errorType': \(params.errorCode); message: \(params.message ?? "nil")", requestID: nil, typeName: nil)
             case .unknown(messageType: let messageType):
-                throw ClientRuntime.ClientError.unknownError("unrecognized event stream message ':message-type': \(messageType)")
+                throw Smithy.ClientError.unknownError("unrecognized event stream message ':message-type': \(messageType)")
             }
         }
     }

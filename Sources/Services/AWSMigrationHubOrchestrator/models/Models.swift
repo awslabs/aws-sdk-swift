@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -132,7 +135,7 @@ public struct CreateTemplateInput {
 
 extension CreateTemplateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateTemplateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateTemplateOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -166,7 +169,7 @@ public struct CreateTemplateOutput {
 
 enum CreateTemplateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -254,7 +257,7 @@ extension CreateWorkflowOutput: Swift.CustomDebugStringConvertible {
 
 extension CreateWorkflowOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateWorkflowOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateWorkflowOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -280,7 +283,7 @@ public struct CreateWorkflowOutput {
     /// The Amazon Resource Name (ARN) of the migration workflow.
     public var arn: Swift.String?
     /// The time at which the migration workflow was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The description of the migration workflow.
     public var description: Swift.String?
     /// The ID of the migration workflow.
@@ -301,7 +304,7 @@ public struct CreateWorkflowOutput {
     public init(
         adsApplicationConfigurationId: Swift.String? = nil,
         arn: Swift.String? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -328,7 +331,7 @@ public struct CreateWorkflowOutput {
 
 enum CreateWorkflowOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -394,7 +397,7 @@ public struct CreateWorkflowStepGroupInput {
 
 extension CreateWorkflowStepGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateWorkflowStepGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateWorkflowStepGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -413,7 +416,7 @@ extension CreateWorkflowStepGroupOutput {
 
 public struct CreateWorkflowStepGroupOutput {
     /// The time at which the step group is created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The description of the step group.
     public var description: Swift.String?
     /// The ID of the step group.
@@ -430,7 +433,7 @@ public struct CreateWorkflowStepGroupOutput {
     public var workflowId: Swift.String?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -453,7 +456,7 @@ public struct CreateWorkflowStepGroupOutput {
 
 enum CreateWorkflowStepGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -546,7 +549,7 @@ public struct CreateWorkflowStepInput {
 
 extension CreateWorkflowStepOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateWorkflowStepOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateWorkflowStepOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -585,7 +588,7 @@ public struct CreateWorkflowStepOutput {
 
 enum CreateWorkflowStepOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -660,7 +663,7 @@ public struct DeleteTemplateInput {
 
 extension DeleteTemplateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteTemplateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteTemplateOutput {
         return DeleteTemplateOutput()
     }
 }
@@ -672,7 +675,7 @@ public struct DeleteTemplateOutput {
 
 enum DeleteTemplateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -713,7 +716,7 @@ public struct DeleteWorkflowInput {
 
 extension DeleteWorkflowOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteWorkflowOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteWorkflowOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -747,7 +750,7 @@ public struct DeleteWorkflowOutput {
 
 enum DeleteWorkflowOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -765,13 +768,13 @@ enum DeleteWorkflowOutputError {
 
 extension DeleteWorkflowStepGroupInput {
 
-    static func queryItemProvider(_ value: DeleteWorkflowStepGroupInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteWorkflowStepGroupInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let workflowId = value.workflowId else {
             let message = "Creating a URL Query Item failed. workflowId is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let workflowIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "workflowId".urlPercentEncoding(), value: Swift.String(workflowId).urlPercentEncoding())
+        let workflowIdQueryItem = Smithy.URIQueryItem(name: "workflowId".urlPercentEncoding(), value: Swift.String(workflowId).urlPercentEncoding())
         items.append(workflowIdQueryItem)
         return items
     }
@@ -807,7 +810,7 @@ public struct DeleteWorkflowStepGroupInput {
 
 extension DeleteWorkflowStepGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteWorkflowStepGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteWorkflowStepGroupOutput {
         return DeleteWorkflowStepGroupOutput()
     }
 }
@@ -819,7 +822,7 @@ public struct DeleteWorkflowStepGroupOutput {
 
 enum DeleteWorkflowStepGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -837,19 +840,19 @@ enum DeleteWorkflowStepGroupOutputError {
 
 extension DeleteWorkflowStepInput {
 
-    static func queryItemProvider(_ value: DeleteWorkflowStepInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteWorkflowStepInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let stepGroupId = value.stepGroupId else {
             let message = "Creating a URL Query Item failed. stepGroupId is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let stepGroupIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "stepGroupId".urlPercentEncoding(), value: Swift.String(stepGroupId).urlPercentEncoding())
+        let stepGroupIdQueryItem = Smithy.URIQueryItem(name: "stepGroupId".urlPercentEncoding(), value: Swift.String(stepGroupId).urlPercentEncoding())
         items.append(stepGroupIdQueryItem)
         guard let workflowId = value.workflowId else {
             let message = "Creating a URL Query Item failed. workflowId is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let workflowIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "workflowId".urlPercentEncoding(), value: Swift.String(workflowId).urlPercentEncoding())
+        let workflowIdQueryItem = Smithy.URIQueryItem(name: "workflowId".urlPercentEncoding(), value: Swift.String(workflowId).urlPercentEncoding())
         items.append(workflowIdQueryItem)
         return items
     }
@@ -890,7 +893,7 @@ public struct DeleteWorkflowStepInput {
 
 extension DeleteWorkflowStepOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteWorkflowStepOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteWorkflowStepOutput {
         return DeleteWorkflowStepOutput()
     }
 }
@@ -902,7 +905,7 @@ public struct DeleteWorkflowStepOutput {
 
 enum DeleteWorkflowStepOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -943,7 +946,7 @@ public struct GetTemplateInput {
 
 extension GetTemplateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetTemplateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetTemplateOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -966,7 +969,7 @@ extension GetTemplateOutput {
 
 public struct GetTemplateOutput {
     /// The time at which the template was last created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The time at which the template was last created.
     public var description: Swift.String?
     /// The ID of the template.
@@ -1003,7 +1006,7 @@ public struct GetTemplateOutput {
     public var tools: [MigrationHubOrchestratorClientTypes.Tool]?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         id: Swift.String? = nil,
         inputs: [MigrationHubOrchestratorClientTypes.TemplateInput]? = nil,
@@ -1034,7 +1037,7 @@ public struct GetTemplateOutput {
 
 enum GetTemplateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1082,7 +1085,7 @@ public struct GetTemplateStepGroupInput {
 
 extension GetTemplateStepGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetTemplateStepGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetTemplateStepGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1103,13 +1106,13 @@ extension GetTemplateStepGroupOutput {
 
 public struct GetTemplateStepGroupOutput {
     /// The time at which the step group was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The description of the step group.
     public var description: Swift.String?
     /// The ID of the step group.
     public var id: Swift.String?
     /// The time at which the step group was last modified.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The name of the step group.
     public var name: Swift.String?
     /// The next step group.
@@ -1124,10 +1127,10 @@ public struct GetTemplateStepGroupOutput {
     public var tools: [MigrationHubOrchestratorClientTypes.Tool]?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         id: Swift.String? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
         next: [Swift.String]? = nil,
         previous: [Swift.String]? = nil,
@@ -1151,7 +1154,7 @@ public struct GetTemplateStepGroupOutput {
 
 enum GetTemplateStepGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1169,19 +1172,19 @@ enum GetTemplateStepGroupOutputError {
 
 extension GetTemplateStepInput {
 
-    static func queryItemProvider(_ value: GetTemplateStepInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetTemplateStepInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let stepGroupId = value.stepGroupId else {
             let message = "Creating a URL Query Item failed. stepGroupId is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let stepGroupIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "stepGroupId".urlPercentEncoding(), value: Swift.String(stepGroupId).urlPercentEncoding())
+        let stepGroupIdQueryItem = Smithy.URIQueryItem(name: "stepGroupId".urlPercentEncoding(), value: Swift.String(stepGroupId).urlPercentEncoding())
         items.append(stepGroupIdQueryItem)
         guard let templateId = value.templateId else {
             let message = "Creating a URL Query Item failed. templateId is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let templateIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "templateId".urlPercentEncoding(), value: Swift.String(templateId).urlPercentEncoding())
+        let templateIdQueryItem = Smithy.URIQueryItem(name: "templateId".urlPercentEncoding(), value: Swift.String(templateId).urlPercentEncoding())
         items.append(templateIdQueryItem)
         return items
     }
@@ -1222,7 +1225,7 @@ public struct GetTemplateStepInput {
 
 extension GetTemplateStepOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetTemplateStepOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetTemplateStepOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1296,7 +1299,7 @@ public struct GetTemplateStepOutput {
 
 enum GetTemplateStepOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1342,7 +1345,7 @@ extension GetWorkflowOutput: Swift.CustomDebugStringConvertible {
 
 extension GetWorkflowOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetWorkflowOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetWorkflowOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1381,19 +1384,19 @@ public struct GetWorkflowOutput {
     /// Get a list of completed steps in the migration workflow.
     public var completedSteps: Swift.Int?
     /// The time at which the migration workflow was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The description of the migration workflow.
     public var description: Swift.String?
     /// The time at which the migration workflow ended.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// The ID of the migration workflow.
     public var id: Swift.String?
     /// The time at which the migration workflow was last modified.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The time at which the migration workflow was last started.
-    public var lastStartTime: ClientRuntime.Date?
+    public var lastStartTime: Foundation.Date?
     /// The time at which the migration workflow was last stopped.
-    public var lastStopTime: ClientRuntime.Date?
+    public var lastStopTime: Foundation.Date?
     /// The name of the migration workflow.
     public var name: Swift.String?
     /// The status of the migration workflow.
@@ -1418,13 +1421,13 @@ public struct GetWorkflowOutput {
         adsApplicationName: Swift.String? = nil,
         arn: Swift.String? = nil,
         completedSteps: Swift.Int? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         id: Swift.String? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
-        lastStartTime: ClientRuntime.Date? = nil,
-        lastStopTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
+        lastStartTime: Foundation.Date? = nil,
+        lastStopTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
         status: MigrationHubOrchestratorClientTypes.MigrationWorkflowStatusEnum? = nil,
         statusMessage: Swift.String? = nil,
@@ -1461,7 +1464,7 @@ public struct GetWorkflowOutput {
 
 enum GetWorkflowOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1479,13 +1482,13 @@ enum GetWorkflowOutputError {
 
 extension GetWorkflowStepGroupInput {
 
-    static func queryItemProvider(_ value: GetWorkflowStepGroupInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetWorkflowStepGroupInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let workflowId = value.workflowId else {
             let message = "Creating a URL Query Item failed. workflowId is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let workflowIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "workflowId".urlPercentEncoding(), value: Swift.String(workflowId).urlPercentEncoding())
+        let workflowIdQueryItem = Smithy.URIQueryItem(name: "workflowId".urlPercentEncoding(), value: Swift.String(workflowId).urlPercentEncoding())
         items.append(workflowIdQueryItem)
         return items
     }
@@ -1521,7 +1524,7 @@ public struct GetWorkflowStepGroupInput {
 
 extension GetWorkflowStepGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetWorkflowStepGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetWorkflowStepGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1544,15 +1547,15 @@ extension GetWorkflowStepGroupOutput {
 
 public struct GetWorkflowStepGroupOutput {
     /// The time at which the step group was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The description of the step group.
     public var description: Swift.String?
     /// The time at which the step group ended.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// The ID of the step group.
     public var id: Swift.String?
     /// The time at which the step group was last modified.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The name of the step group.
     public var name: Swift.String?
     /// The next step group.
@@ -1569,11 +1572,11 @@ public struct GetWorkflowStepGroupOutput {
     public var workflowId: Swift.String?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         id: Swift.String? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
         next: [Swift.String]? = nil,
         owner: MigrationHubOrchestratorClientTypes.Owner? = nil,
@@ -1600,7 +1603,7 @@ public struct GetWorkflowStepGroupOutput {
 
 enum GetWorkflowStepGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1618,19 +1621,19 @@ enum GetWorkflowStepGroupOutputError {
 
 extension GetWorkflowStepInput {
 
-    static func queryItemProvider(_ value: GetWorkflowStepInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetWorkflowStepInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let stepGroupId = value.stepGroupId else {
             let message = "Creating a URL Query Item failed. stepGroupId is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let stepGroupIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "stepGroupId".urlPercentEncoding(), value: Swift.String(stepGroupId).urlPercentEncoding())
+        let stepGroupIdQueryItem = Smithy.URIQueryItem(name: "stepGroupId".urlPercentEncoding(), value: Swift.String(stepGroupId).urlPercentEncoding())
         items.append(stepGroupIdQueryItem)
         guard let workflowId = value.workflowId else {
             let message = "Creating a URL Query Item failed. workflowId is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let workflowIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "workflowId".urlPercentEncoding(), value: Swift.String(workflowId).urlPercentEncoding())
+        let workflowIdQueryItem = Smithy.URIQueryItem(name: "workflowId".urlPercentEncoding(), value: Swift.String(workflowId).urlPercentEncoding())
         items.append(workflowIdQueryItem)
         return items
     }
@@ -1671,7 +1674,7 @@ public struct GetWorkflowStepInput {
 
 extension GetWorkflowStepOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetWorkflowStepOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetWorkflowStepOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1703,13 +1706,13 @@ extension GetWorkflowStepOutput {
 
 public struct GetWorkflowStepOutput {
     /// The time at which the step was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The description of the step.
     public var description: Swift.String?
     /// The time at which the step ended.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// The time at which the workflow was last started.
-    public var lastStartTime: ClientRuntime.Date?
+    public var lastStartTime: Foundation.Date?
     /// The name of the step.
     public var name: Swift.String?
     /// The next step.
@@ -1746,10 +1749,10 @@ public struct GetWorkflowStepOutput {
     public var workflowStepAutomationConfiguration: MigrationHubOrchestratorClientTypes.WorkflowStepAutomationConfiguration?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
-        endTime: ClientRuntime.Date? = nil,
-        lastStartTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
+        lastStartTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
         next: [Swift.String]? = nil,
         noOfSrvCompleted: Swift.Int? = nil,
@@ -1795,7 +1798,7 @@ public struct GetWorkflowStepOutput {
 
 enum GetWorkflowStepOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1850,14 +1853,14 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
 extension ListPluginsInput {
 
-    static func queryItemProvider(_ value: ListPluginsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListPluginsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if value.maxResults != 0 {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(value.maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(value.maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         return items
@@ -1889,7 +1892,7 @@ public struct ListPluginsInput {
 
 extension ListPluginsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPluginsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPluginsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1918,7 +1921,7 @@ public struct ListPluginsOutput {
 
 enum ListPluginsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1957,7 +1960,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1981,7 +1984,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1996,14 +1999,14 @@ enum ListTagsForResourceOutputError {
 
 extension ListTemplateStepGroupsInput {
 
-    static func queryItemProvider(_ value: ListTemplateStepGroupsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListTemplateStepGroupsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if value.maxResults != 0 {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(value.maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(value.maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         return items
@@ -2043,7 +2046,7 @@ public struct ListTemplateStepGroupsInput {
 
 extension ListTemplateStepGroupsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTemplateStepGroupsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTemplateStepGroupsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2073,7 +2076,7 @@ public struct ListTemplateStepGroupsOutput {
 
 enum ListTemplateStepGroupsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2090,27 +2093,27 @@ enum ListTemplateStepGroupsOutputError {
 
 extension ListTemplateStepsInput {
 
-    static func queryItemProvider(_ value: ListTemplateStepsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListTemplateStepsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let stepGroupId = value.stepGroupId else {
             let message = "Creating a URL Query Item failed. stepGroupId is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let stepGroupIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "stepGroupId".urlPercentEncoding(), value: Swift.String(stepGroupId).urlPercentEncoding())
+        let stepGroupIdQueryItem = Smithy.URIQueryItem(name: "stepGroupId".urlPercentEncoding(), value: Swift.String(stepGroupId).urlPercentEncoding())
         items.append(stepGroupIdQueryItem)
         if value.maxResults != 0 {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(value.maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(value.maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         guard let templateId = value.templateId else {
             let message = "Creating a URL Query Item failed. templateId is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let templateIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "templateId".urlPercentEncoding(), value: Swift.String(templateId).urlPercentEncoding())
+        let templateIdQueryItem = Smithy.URIQueryItem(name: "templateId".urlPercentEncoding(), value: Swift.String(templateId).urlPercentEncoding())
         items.append(templateIdQueryItem)
         return items
     }
@@ -2151,7 +2154,7 @@ public struct ListTemplateStepsInput {
 
 extension ListTemplateStepsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTemplateStepsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTemplateStepsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2180,7 +2183,7 @@ public struct ListTemplateStepsOutput {
 
 enum ListTemplateStepsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2198,18 +2201,18 @@ enum ListTemplateStepsOutputError {
 
 extension ListTemplatesInput {
 
-    static func queryItemProvider(_ value: ListTemplatesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListTemplatesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if value.maxResults != 0 {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(value.maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(value.maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let name = value.name {
-            let nameQueryItem = ClientRuntime.SDKURLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
+            let nameQueryItem = Smithy.URIQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
             items.append(nameQueryItem)
         }
         return items
@@ -2245,7 +2248,7 @@ public struct ListTemplatesInput {
 
 extension ListTemplatesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTemplatesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTemplatesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2275,7 +2278,7 @@ public struct ListTemplatesOutput {
 
 enum ListTemplatesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2291,21 +2294,21 @@ enum ListTemplatesOutputError {
 
 extension ListWorkflowStepGroupsInput {
 
-    static func queryItemProvider(_ value: ListWorkflowStepGroupsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListWorkflowStepGroupsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if value.maxResults != 0 {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(value.maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(value.maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         guard let workflowId = value.workflowId else {
             let message = "Creating a URL Query Item failed. workflowId is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let workflowIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "workflowId".urlPercentEncoding(), value: Swift.String(workflowId).urlPercentEncoding())
+        let workflowIdQueryItem = Smithy.URIQueryItem(name: "workflowId".urlPercentEncoding(), value: Swift.String(workflowId).urlPercentEncoding())
         items.append(workflowIdQueryItem)
         return items
     }
@@ -2341,7 +2344,7 @@ public struct ListWorkflowStepGroupsInput {
 
 extension ListWorkflowStepGroupsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListWorkflowStepGroupsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListWorkflowStepGroupsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2371,7 +2374,7 @@ public struct ListWorkflowStepGroupsOutput {
 
 enum ListWorkflowStepGroupsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2389,14 +2392,14 @@ enum ListWorkflowStepGroupsOutputError {
 
 extension ListWorkflowStepsInput {
 
-    static func queryItemProvider(_ value: ListWorkflowStepsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListWorkflowStepsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if value.maxResults != 0 {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(value.maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(value.maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -2444,7 +2447,7 @@ public struct ListWorkflowStepsInput {
 
 extension ListWorkflowStepsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListWorkflowStepsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListWorkflowStepsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2474,7 +2477,7 @@ public struct ListWorkflowStepsOutput {
 
 enum ListWorkflowStepsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2491,30 +2494,30 @@ enum ListWorkflowStepsOutputError {
 
 extension ListWorkflowsInput {
 
-    static func queryItemProvider(_ value: ListWorkflowsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListWorkflowsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let adsApplicationConfigurationName = value.adsApplicationConfigurationName {
-            let adsApplicationConfigurationNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "adsApplicationConfigurationName".urlPercentEncoding(), value: Swift.String(adsApplicationConfigurationName).urlPercentEncoding())
+            let adsApplicationConfigurationNameQueryItem = Smithy.URIQueryItem(name: "adsApplicationConfigurationName".urlPercentEncoding(), value: Swift.String(adsApplicationConfigurationName).urlPercentEncoding())
             items.append(adsApplicationConfigurationNameQueryItem)
         }
         if value.maxResults != 0 {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(value.maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(value.maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let name = value.name {
-            let nameQueryItem = ClientRuntime.SDKURLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
+            let nameQueryItem = Smithy.URIQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
             items.append(nameQueryItem)
         }
         if let templateId = value.templateId {
-            let templateIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "templateId".urlPercentEncoding(), value: Swift.String(templateId).urlPercentEncoding())
+            let templateIdQueryItem = Smithy.URIQueryItem(name: "templateId".urlPercentEncoding(), value: Swift.String(templateId).urlPercentEncoding())
             items.append(templateIdQueryItem)
         }
         if let status = value.status {
-            let statusQueryItem = ClientRuntime.SDKURLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            let statusQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
             items.append(statusQueryItem)
         }
         return items
@@ -2562,7 +2565,7 @@ public struct ListWorkflowsInput {
 
 extension ListWorkflowsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListWorkflowsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListWorkflowsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2592,7 +2595,7 @@ public struct ListWorkflowsOutput {
 
 enum ListWorkflowsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2702,9 +2705,9 @@ extension MigrationHubOrchestratorClientTypes {
         /// The steps completed in the migration workflow.
         public var completedSteps: Swift.Int?
         /// The time at which the migration workflow was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The time at which the migration workflow ended.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// The ID of the migration workflow.
         public var id: Swift.String?
         /// The name of the migration workflow.
@@ -2721,8 +2724,8 @@ extension MigrationHubOrchestratorClientTypes {
         public init(
             adsApplicationConfigurationName: Swift.String? = nil,
             completedSteps: Swift.Int? = nil,
-            creationTime: ClientRuntime.Date? = nil,
-            endTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
+            endTime: Foundation.Date? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             status: MigrationHubOrchestratorClientTypes.MigrationWorkflowStatusEnum? = nil,
@@ -2969,19 +2972,19 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
 extension RetryWorkflowStepInput {
 
-    static func queryItemProvider(_ value: RetryWorkflowStepInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: RetryWorkflowStepInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let stepGroupId = value.stepGroupId else {
             let message = "Creating a URL Query Item failed. stepGroupId is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let stepGroupIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "stepGroupId".urlPercentEncoding(), value: Swift.String(stepGroupId).urlPercentEncoding())
+        let stepGroupIdQueryItem = Smithy.URIQueryItem(name: "stepGroupId".urlPercentEncoding(), value: Swift.String(stepGroupId).urlPercentEncoding())
         items.append(stepGroupIdQueryItem)
         guard let workflowId = value.workflowId else {
             let message = "Creating a URL Query Item failed. workflowId is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let workflowIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "workflowId".urlPercentEncoding(), value: Swift.String(workflowId).urlPercentEncoding())
+        let workflowIdQueryItem = Smithy.URIQueryItem(name: "workflowId".urlPercentEncoding(), value: Swift.String(workflowId).urlPercentEncoding())
         items.append(workflowIdQueryItem)
         return items
     }
@@ -3022,7 +3025,7 @@ public struct RetryWorkflowStepInput {
 
 extension RetryWorkflowStepOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RetryWorkflowStepOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RetryWorkflowStepOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3061,7 +3064,7 @@ public struct RetryWorkflowStepOutput {
 
 enum RetryWorkflowStepOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3130,7 +3133,7 @@ public struct StartWorkflowInput {
 
 extension StartWorkflowOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartWorkflowOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartWorkflowOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3150,7 +3153,7 @@ public struct StartWorkflowOutput {
     /// The ID of the migration workflow.
     public var id: Swift.String?
     /// The time at which the migration workflow was last started.
-    public var lastStartTime: ClientRuntime.Date?
+    public var lastStartTime: Foundation.Date?
     /// The status of the migration workflow.
     public var status: MigrationHubOrchestratorClientTypes.MigrationWorkflowStatusEnum?
     /// The status message of the migration workflow.
@@ -3159,7 +3162,7 @@ public struct StartWorkflowOutput {
     public init(
         arn: Swift.String? = nil,
         id: Swift.String? = nil,
-        lastStartTime: ClientRuntime.Date? = nil,
+        lastStartTime: Foundation.Date? = nil,
         status: MigrationHubOrchestratorClientTypes.MigrationWorkflowStatusEnum? = nil,
         statusMessage: Swift.String? = nil
     )
@@ -3174,7 +3177,7 @@ public struct StartWorkflowOutput {
 
 enum StartWorkflowOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3472,7 +3475,7 @@ public struct StopWorkflowInput {
 
 extension StopWorkflowOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopWorkflowOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopWorkflowOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3492,7 +3495,7 @@ public struct StopWorkflowOutput {
     /// The ID of the migration workflow.
     public var id: Swift.String?
     /// The time at which the migration workflow was stopped.
-    public var lastStopTime: ClientRuntime.Date?
+    public var lastStopTime: Foundation.Date?
     /// The status of the migration workflow.
     public var status: MigrationHubOrchestratorClientTypes.MigrationWorkflowStatusEnum?
     /// The status message of the migration workflow.
@@ -3501,7 +3504,7 @@ public struct StopWorkflowOutput {
     public init(
         arn: Swift.String? = nil,
         id: Swift.String? = nil,
-        lastStopTime: ClientRuntime.Date? = nil,
+        lastStopTime: Foundation.Date? = nil,
         status: MigrationHubOrchestratorClientTypes.MigrationWorkflowStatusEnum? = nil,
         statusMessage: Swift.String? = nil
     )
@@ -3516,7 +3519,7 @@ public struct StopWorkflowOutput {
 
 enum StopWorkflowOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3570,7 +3573,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -3582,7 +3585,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3943,14 +3946,14 @@ extension MigrationHubOrchestratorClientTypes {
 
 extension UntagResourceInput {
 
-    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let tagKeys = value.tagKeys else {
             let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
         tagKeys.forEach { queryItemValue in
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
             items.append(queryItem)
         }
         return items
@@ -3987,7 +3990,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -3999,7 +4002,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4059,7 +4062,7 @@ public struct UpdateTemplateInput {
 
 extension UpdateTemplateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateTemplateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateTemplateOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4093,7 +4096,7 @@ public struct UpdateTemplateOutput {
 
 enum UpdateTemplateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4171,7 +4174,7 @@ extension UpdateWorkflowOutput: Swift.CustomDebugStringConvertible {
 
 extension UpdateWorkflowOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateWorkflowOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateWorkflowOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4198,13 +4201,13 @@ public struct UpdateWorkflowOutput {
     /// The Amazon Resource Name (ARN) of the migration workflow.
     public var arn: Swift.String?
     /// The time at which the migration workflow was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The description of the migration workflow.
     public var description: Swift.String?
     /// The ID of the migration workflow.
     public var id: Swift.String?
     /// The time at which the migration workflow was last modified.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The name of the migration workflow.
     public var name: Swift.String?
     /// The status of the migration workflow.
@@ -4221,10 +4224,10 @@ public struct UpdateWorkflowOutput {
     public init(
         adsApplicationConfigurationId: Swift.String? = nil,
         arn: Swift.String? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         id: Swift.String? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
         status: MigrationHubOrchestratorClientTypes.MigrationWorkflowStatusEnum? = nil,
         stepTargets: [Swift.String]? = nil,
@@ -4250,7 +4253,7 @@ public struct UpdateWorkflowOutput {
 
 enum UpdateWorkflowOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4268,13 +4271,13 @@ enum UpdateWorkflowOutputError {
 
 extension UpdateWorkflowStepGroupInput {
 
-    static func queryItemProvider(_ value: UpdateWorkflowStepGroupInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UpdateWorkflowStepGroupInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let workflowId = value.workflowId else {
             let message = "Creating a URL Query Item failed. workflowId is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let workflowIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "workflowId".urlPercentEncoding(), value: Swift.String(workflowId).urlPercentEncoding())
+        let workflowIdQueryItem = Smithy.URIQueryItem(name: "workflowId".urlPercentEncoding(), value: Swift.String(workflowId).urlPercentEncoding())
         items.append(workflowIdQueryItem)
         return items
     }
@@ -4337,7 +4340,7 @@ public struct UpdateWorkflowStepGroupInput {
 
 extension UpdateWorkflowStepGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateWorkflowStepGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateWorkflowStepGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4360,7 +4363,7 @@ public struct UpdateWorkflowStepGroupOutput {
     /// The ID of the step group.
     public var id: Swift.String?
     /// The time at which the step group was last modified.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The name of the step group.
     public var name: Swift.String?
     /// The next step group.
@@ -4375,7 +4378,7 @@ public struct UpdateWorkflowStepGroupOutput {
     public init(
         description: Swift.String? = nil,
         id: Swift.String? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
         next: [Swift.String]? = nil,
         previous: [Swift.String]? = nil,
@@ -4396,7 +4399,7 @@ public struct UpdateWorkflowStepGroupOutput {
 
 enum UpdateWorkflowStepGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4501,7 +4504,7 @@ public struct UpdateWorkflowStepInput {
 
 extension UpdateWorkflowStepOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateWorkflowStepOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateWorkflowStepOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4540,7 +4543,7 @@ public struct UpdateWorkflowStepOutput {
 
 enum UpdateWorkflowStepOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

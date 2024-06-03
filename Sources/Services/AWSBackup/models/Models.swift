@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -191,17 +194,17 @@ extension BackupClientTypes {
         /// The size in bytes transferred to a backup vault at the time that the job status was queried.
         public var bytesTransferred: Swift.Int?
         /// The date and time a job to create a backup job is completed, in Unix format and Coordinated Universal Time (UTC). The value of CompletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public var completionDate: ClientRuntime.Date?
+        public var completionDate: Foundation.Date?
         /// Contains identifying information about the creation of a backup job, including the BackupPlanArn, BackupPlanId, BackupPlanVersion, and BackupRuleId of the backup plan used to create it.
         public var createdBy: BackupClientTypes.RecoveryPointCreator?
         /// The date and time a backup job is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public var creationDate: ClientRuntime.Date?
+        public var creationDate: Foundation.Date?
         /// The date and time a job to back up resources is expected to be completed, in Unix format and Coordinated Universal Time (UTC). The value of ExpectedCompletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public var expectedCompletionDate: ClientRuntime.Date?
+        public var expectedCompletionDate: Foundation.Date?
         /// Specifies the IAM role ARN used to create the target recovery point. IAM roles other than the default role must include either AWSBackup or AwsBackup in the role name. For example, arn:aws:iam::123456789012:role/AWSBackupRDSAccess. Role names without those strings lack permissions to perform backup jobs.
         public var iamRoleArn: Swift.String?
         /// This is the date on which the backup job was initiated.
-        public var initiationDate: ClientRuntime.Date?
+        public var initiationDate: Foundation.Date?
         /// This is a boolean value indicating this is a parent (composite) backup job.
         public var isParent: Swift.Bool
         /// This parameter is the job count for the specified message category. Example strings may include AccessDenied, SUCCESS, AGGREGATE_ALL, and INVALIDPARAMETERS. See [Monitoring](https://docs.aws.amazon.com/aws-backup/latest/devguide/monitoring.html) for a list of MessageCategory strings. The the value ANY returns count of all message categories. AGGREGATE_ALL aggregates job counts for all message categories and returns the sum.
@@ -219,7 +222,7 @@ extension BackupClientTypes {
         /// The type of Amazon Web Services resource to be backed up; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database. For Windows Volume Shadow Copy Service (VSS) backups, the only supported resource type is Amazon EC2.
         public var resourceType: Swift.String?
         /// Specifies the time in Unix format and Coordinated Universal Time (UTC) when a backup job must be started before it is canceled. The value is calculated by adding the start window to the scheduled time. So if the scheduled time were 6:00 PM and the start window is 2 hours, the StartBy time would be 8:00 PM on the date specified. The value of StartBy is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public var startBy: ClientRuntime.Date?
+        public var startBy: Foundation.Date?
         /// The current state of a backup job.
         public var state: BackupClientTypes.BackupJobState?
         /// A detailed message explaining the status of the job to back up a resource.
@@ -234,12 +237,12 @@ extension BackupClientTypes {
             backupVaultArn: Swift.String? = nil,
             backupVaultName: Swift.String? = nil,
             bytesTransferred: Swift.Int? = nil,
-            completionDate: ClientRuntime.Date? = nil,
+            completionDate: Foundation.Date? = nil,
             createdBy: BackupClientTypes.RecoveryPointCreator? = nil,
-            creationDate: ClientRuntime.Date? = nil,
-            expectedCompletionDate: ClientRuntime.Date? = nil,
+            creationDate: Foundation.Date? = nil,
+            expectedCompletionDate: Foundation.Date? = nil,
             iamRoleArn: Swift.String? = nil,
-            initiationDate: ClientRuntime.Date? = nil,
+            initiationDate: Foundation.Date? = nil,
             isParent: Swift.Bool = false,
             messageCategory: Swift.String? = nil,
             parentJobId: Swift.String? = nil,
@@ -248,7 +251,7 @@ extension BackupClientTypes {
             resourceArn: Swift.String? = nil,
             resourceName: Swift.String? = nil,
             resourceType: Swift.String? = nil,
-            startBy: ClientRuntime.Date? = nil,
+            startBy: Foundation.Date? = nil,
             state: BackupClientTypes.BackupJobState? = nil,
             statusMessage: Swift.String? = nil
         )
@@ -414,7 +417,7 @@ extension BackupClientTypes {
         /// The value as a number of jobs in a job summary.
         public var count: Swift.Int
         /// The value of time in number format of a job end time. This value is the time in Unix format, Coordinated Universal Time (UTC), and accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// This parameter is the job count for the specified message category. Example strings include AccessDenied, Success, and InvalidParameters. See [Monitoring](https://docs.aws.amazon.com/aws-backup/latest/devguide/monitoring.html) for a list of MessageCategory strings. The the value ANY returns count of all message categories. AGGREGATE_ALL aggregates job counts for all message categories and returns the sum.
         public var messageCategory: Swift.String?
         /// The Amazon Web Services Regions within the job summary.
@@ -422,18 +425,18 @@ extension BackupClientTypes {
         /// This value is the job count for the specified resource type. The request GetSupportedResourceTypes returns strings for supported resource types.
         public var resourceType: Swift.String?
         /// The value of time in number format of a job start time. This value is the time in Unix format, Coordinated Universal Time (UTC), and accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
         /// This value is job count for jobs with the specified state.
         public var state: BackupClientTypes.BackupJobStatus?
 
         public init(
             accountId: Swift.String? = nil,
             count: Swift.Int = 0,
-            endTime: ClientRuntime.Date? = nil,
+            endTime: Foundation.Date? = nil,
             messageCategory: Swift.String? = nil,
             region: Swift.String? = nil,
             resourceType: Swift.String? = nil,
-            startTime: ClientRuntime.Date? = nil,
+            startTime: Foundation.Date? = nil,
             state: BackupClientTypes.BackupJobStatus? = nil
         )
         {
@@ -585,13 +588,13 @@ extension BackupClientTypes {
         /// The display name of a saved backup plan.
         public var backupPlanName: Swift.String?
         /// The date and time a resource backup plan is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public var creationDate: ClientRuntime.Date?
+        public var creationDate: Foundation.Date?
         /// A unique string that identifies the request and allows failed requests to be retried without the risk of running the operation twice. This parameter is optional. If used, this parameter must contain 1 to 50 alphanumeric or '-_.' characters.
         public var creatorRequestId: Swift.String?
         /// The date and time a backup plan is deleted, in Unix format and Coordinated Universal Time (UTC). The value of DeletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public var deletionDate: ClientRuntime.Date?
+        public var deletionDate: Foundation.Date?
         /// The last time a job to back up resources was run with this rule. A date and time, in Unix format and Coordinated Universal Time (UTC). The value of LastExecutionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public var lastExecutionDate: ClientRuntime.Date?
+        public var lastExecutionDate: Foundation.Date?
         /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most 1,024 bytes long. Version IDs cannot be edited.
         public var versionId: Swift.String?
 
@@ -600,10 +603,10 @@ extension BackupClientTypes {
             backupPlanArn: Swift.String? = nil,
             backupPlanId: Swift.String? = nil,
             backupPlanName: Swift.String? = nil,
-            creationDate: ClientRuntime.Date? = nil,
+            creationDate: Foundation.Date? = nil,
             creatorRequestId: Swift.String? = nil,
-            deletionDate: ClientRuntime.Date? = nil,
-            lastExecutionDate: ClientRuntime.Date? = nil,
+            deletionDate: Foundation.Date? = nil,
+            lastExecutionDate: Foundation.Date? = nil,
             versionId: Swift.String? = nil
         )
         {
@@ -872,7 +875,7 @@ extension BackupClientTypes {
         /// Uniquely identifies a backup plan.
         public var backupPlanId: Swift.String?
         /// The date and time a backup plan is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public var creationDate: ClientRuntime.Date?
+        public var creationDate: Foundation.Date?
         /// A unique string that identifies the request and allows failed requests to be retried without the risk of running the operation twice. This parameter is optional. If used, this parameter must contain 1 to 50 alphanumeric or '-_.' characters.
         public var creatorRequestId: Swift.String?
         /// Specifies the IAM role Amazon Resource Name (ARN) to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
@@ -884,7 +887,7 @@ extension BackupClientTypes {
 
         public init(
             backupPlanId: Swift.String? = nil,
-            creationDate: ClientRuntime.Date? = nil,
+            creationDate: Foundation.Date? = nil,
             creatorRequestId: Swift.String? = nil,
             iamRoleArn: Swift.String? = nil,
             selectionId: Swift.String? = nil,
@@ -1003,13 +1006,13 @@ extension BackupClientTypes {
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public var backupVaultName: Swift.String?
         /// The date and time a resource backup is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public var creationDate: ClientRuntime.Date?
+        public var creationDate: Foundation.Date?
         /// A unique string that identifies the request and allows failed requests to be retried without the risk of running the operation twice. This parameter is optional. If used, this parameter must contain 1 to 50 alphanumeric or '-_.' characters.
         public var creatorRequestId: Swift.String?
         /// A server-side encryption key you can specify to encrypt your backups from services that support full Backup management; for example, arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab. If you specify a key, you must specify its ARN, not its alias. If you do not specify a key, Backup creates a KMS key for you by default. To learn which Backup services support full Backup management and how Backup handles encryption for backups from services that do not yet support full Backup, see [ Encryption for backups in Backup](https://docs.aws.amazon.com/aws-backup/latest/devguide/encryption.html)
         public var encryptionKeyArn: Swift.String?
         /// The date and time when Backup Vault Lock configuration becomes immutable, meaning it cannot be changed or deleted. If you applied Vault Lock to your vault without specifying a lock date, you can change your Vault Lock settings, or delete Vault Lock from the vault entirely, at any time. This value is in Unix format, Coordinated Universal Time (UTC), and accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public var lockDate: ClientRuntime.Date?
+        public var lockDate: Foundation.Date?
         /// A Boolean value that indicates whether Backup Vault Lock applies to the selected backup vault. If true, Vault Lock prevents delete and update operations on the recovery points in the selected vault.
         public var locked: Swift.Bool?
         /// The Backup Vault Lock setting that specifies the maximum retention period that the vault retains its recovery points. If this parameter is not specified, Vault Lock does not enforce a maximum retention period on the recovery points in the vault (allowing indefinite storage). If specified, any backup or copy job to the vault must have a lifecycle policy with a retention period equal to or shorter than the maximum retention period. If the job's retention period is longer than that maximum retention period, then the vault fails the backup or copy job, and you should either modify your lifecycle settings or use a different vault. Recovery points already stored in the vault prior to Vault Lock are not affected.
@@ -1022,10 +1025,10 @@ extension BackupClientTypes {
         public init(
             backupVaultArn: Swift.String? = nil,
             backupVaultName: Swift.String? = nil,
-            creationDate: ClientRuntime.Date? = nil,
+            creationDate: Foundation.Date? = nil,
             creatorRequestId: Swift.String? = nil,
             encryptionKeyArn: Swift.String? = nil,
-            lockDate: ClientRuntime.Date? = nil,
+            lockDate: Foundation.Date? = nil,
             locked: Swift.Bool? = nil,
             maxRetentionDays: Swift.Int? = nil,
             minRetentionDays: Swift.Int? = nil,
@@ -1062,13 +1065,13 @@ extension BackupClientTypes {
     /// Contains DeleteAt and MoveToColdStorageAt timestamps, which are used to specify a lifecycle for a recovery point. The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup transitions and expires backups automatically according to the lifecycle that you define. Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “retention” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold. Resource types that are able to be transitioned to cold storage are listed in the "Lifecycle to cold storage" section of the [ Feature availability by resource](https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource) table. Backup ignores this expression for other resource types.
     public struct CalculatedLifecycle {
         /// A timestamp that specifies when to delete a recovery point.
-        public var deleteAt: ClientRuntime.Date?
+        public var deleteAt: Foundation.Date?
         /// A timestamp that specifies when to transition a recovery point to cold storage.
-        public var moveToColdStorageAt: ClientRuntime.Date?
+        public var moveToColdStorageAt: Foundation.Date?
 
         public init(
-            deleteAt: ClientRuntime.Date? = nil,
-            moveToColdStorageAt: ClientRuntime.Date? = nil
+            deleteAt: Foundation.Date? = nil,
+            moveToColdStorageAt: Foundation.Date? = nil
         )
         {
             self.deleteAt = deleteAt
@@ -1080,16 +1083,16 @@ extension BackupClientTypes {
 
 extension CancelLegalHoldInput {
 
-    static func queryItemProvider(_ value: CancelLegalHoldInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: CancelLegalHoldInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let cancelDescription = value.cancelDescription else {
             let message = "Creating a URL Query Item failed. cancelDescription is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let cancelDescriptionQueryItem = ClientRuntime.SDKURLQueryItem(name: "cancelDescription".urlPercentEncoding(), value: Swift.String(cancelDescription).urlPercentEncoding())
+        let cancelDescriptionQueryItem = Smithy.URIQueryItem(name: "cancelDescription".urlPercentEncoding(), value: Swift.String(cancelDescription).urlPercentEncoding())
         items.append(cancelDescriptionQueryItem)
         if let retainRecordInDays = value.retainRecordInDays {
-            let retainRecordInDaysQueryItem = ClientRuntime.SDKURLQueryItem(name: "retainRecordInDays".urlPercentEncoding(), value: Swift.String(retainRecordInDays).urlPercentEncoding())
+            let retainRecordInDaysQueryItem = Smithy.URIQueryItem(name: "retainRecordInDays".urlPercentEncoding(), value: Swift.String(retainRecordInDays).urlPercentEncoding())
             items.append(retainRecordInDaysQueryItem)
         }
         return items
@@ -1130,7 +1133,7 @@ public struct CancelLegalHoldInput {
 
 extension CancelLegalHoldOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CancelLegalHoldOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CancelLegalHoldOutput {
         return CancelLegalHoldOutput()
     }
 }
@@ -1142,7 +1145,7 @@ public struct CancelLegalHoldOutput {
 
 enum CancelLegalHoldOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1526,7 +1529,7 @@ extension BackupClientTypes {
         /// This returns the statistics of the included child (nested) copy jobs.
         public var childJobsInState: [Swift.String:Swift.Int]?
         /// The date and time a copy job is completed, in Unix format and Coordinated Universal Time (UTC). The value of CompletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public var completionDate: ClientRuntime.Date?
+        public var completionDate: Foundation.Date?
         /// This is the identifier of a resource within a composite group, such as nested (child) recovery point belonging to a composite (parent) stack. The ID is transferred from the [ logical ID](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html#resources-section-structure-syntax) within a stack.
         public var compositeMemberIdentifier: Swift.String?
         /// Uniquely identifies a copy job.
@@ -1534,7 +1537,7 @@ extension BackupClientTypes {
         /// Contains information about the backup plan and rule that Backup used to initiate the recovery point backup.
         public var createdBy: BackupClientTypes.RecoveryPointCreator?
         /// The date and time a copy job is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public var creationDate: ClientRuntime.Date?
+        public var creationDate: Foundation.Date?
         /// An Amazon Resource Name (ARN) that uniquely identifies a destination copy vault; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
         public var destinationBackupVaultArn: Swift.String?
         /// An ARN that uniquely identifies a destination recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
@@ -1568,11 +1571,11 @@ extension BackupClientTypes {
             accountId: Swift.String? = nil,
             backupSizeInBytes: Swift.Int? = nil,
             childJobsInState: [Swift.String:Swift.Int]? = nil,
-            completionDate: ClientRuntime.Date? = nil,
+            completionDate: Foundation.Date? = nil,
             compositeMemberIdentifier: Swift.String? = nil,
             copyJobId: Swift.String? = nil,
             createdBy: BackupClientTypes.RecoveryPointCreator? = nil,
-            creationDate: ClientRuntime.Date? = nil,
+            creationDate: Foundation.Date? = nil,
             destinationBackupVaultArn: Swift.String? = nil,
             destinationRecoveryPointArn: Swift.String? = nil,
             iamRoleArn: Swift.String? = nil,
@@ -1735,7 +1738,7 @@ extension BackupClientTypes {
         /// The value as a number of jobs in a job summary.
         public var count: Swift.Int
         /// The value of time in number format of a job end time. This value is the time in Unix format, Coordinated Universal Time (UTC), and accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// This parameter is the job count for the specified message category. Example strings include AccessDenied, Success, and InvalidParameters. See [Monitoring](https://docs.aws.amazon.com/aws-backup/latest/devguide/monitoring.html) for a list of MessageCategory strings. The the value ANY returns count of all message categories. AGGREGATE_ALL aggregates job counts for all message categories and returns the sum.
         public var messageCategory: Swift.String?
         /// This is the Amazon Web Services Regions within the job summary.
@@ -1743,18 +1746,18 @@ extension BackupClientTypes {
         /// This value is the job count for the specified resource type. The request GetSupportedResourceTypes returns strings for supported resource types
         public var resourceType: Swift.String?
         /// The value of time in number format of a job start time. This value is the time in Unix format, Coordinated Universal Time (UTC), and accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
         /// This value is job count for jobs with the specified state.
         public var state: BackupClientTypes.CopyJobStatus?
 
         public init(
             accountId: Swift.String? = nil,
             count: Swift.Int = 0,
-            endTime: ClientRuntime.Date? = nil,
+            endTime: Foundation.Date? = nil,
             messageCategory: Swift.String? = nil,
             region: Swift.String? = nil,
             resourceType: Swift.String? = nil,
-            startTime: ClientRuntime.Date? = nil,
+            startTime: Foundation.Date? = nil,
             state: BackupClientTypes.CopyJobStatus? = nil
         )
         {
@@ -1816,7 +1819,7 @@ public struct CreateBackupPlanInput {
 
 extension CreateBackupPlanOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateBackupPlanOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateBackupPlanOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1838,7 +1841,7 @@ public struct CreateBackupPlanOutput {
     /// Uniquely identifies a backup plan.
     public var backupPlanId: Swift.String?
     /// The date and time that a backup plan is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-    public var creationDate: ClientRuntime.Date?
+    public var creationDate: Foundation.Date?
     /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most 1,024 bytes long. They cannot be edited.
     public var versionId: Swift.String?
 
@@ -1846,7 +1849,7 @@ public struct CreateBackupPlanOutput {
         advancedBackupSettings: [BackupClientTypes.AdvancedBackupSetting]? = nil,
         backupPlanArn: Swift.String? = nil,
         backupPlanId: Swift.String? = nil,
-        creationDate: ClientRuntime.Date? = nil,
+        creationDate: Foundation.Date? = nil,
         versionId: Swift.String? = nil
     )
     {
@@ -1860,7 +1863,7 @@ public struct CreateBackupPlanOutput {
 
 enum CreateBackupPlanOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1919,7 +1922,7 @@ public struct CreateBackupSelectionInput {
 
 extension CreateBackupSelectionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateBackupSelectionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateBackupSelectionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1935,13 +1938,13 @@ public struct CreateBackupSelectionOutput {
     /// Uniquely identifies a backup plan.
     public var backupPlanId: Swift.String?
     /// The date and time a backup selection is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-    public var creationDate: ClientRuntime.Date?
+    public var creationDate: Foundation.Date?
     /// Uniquely identifies the body of a request to assign a set of resources to a backup plan.
     public var selectionId: Swift.String?
 
     public init(
         backupPlanId: Swift.String? = nil,
-        creationDate: ClientRuntime.Date? = nil,
+        creationDate: Foundation.Date? = nil,
         selectionId: Swift.String? = nil
     )
     {
@@ -1953,7 +1956,7 @@ public struct CreateBackupSelectionOutput {
 
 enum CreateBackupSelectionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2021,7 +2024,7 @@ public struct CreateBackupVaultInput {
 
 extension CreateBackupVaultOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateBackupVaultOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateBackupVaultOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2039,12 +2042,12 @@ public struct CreateBackupVaultOutput {
     /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Region where they are created. They consist of lowercase letters, numbers, and hyphens.
     public var backupVaultName: Swift.String?
     /// The date and time a backup vault is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-    public var creationDate: ClientRuntime.Date?
+    public var creationDate: Foundation.Date?
 
     public init(
         backupVaultArn: Swift.String? = nil,
         backupVaultName: Swift.String? = nil,
-        creationDate: ClientRuntime.Date? = nil
+        creationDate: Foundation.Date? = nil
     )
     {
         self.backupVaultArn = backupVaultArn
@@ -2055,7 +2058,7 @@ public struct CreateBackupVaultOutput {
 
 enum CreateBackupVaultOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2122,7 +2125,7 @@ public struct CreateFrameworkInput {
 
 extension CreateFrameworkOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateFrameworkOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateFrameworkOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2151,7 +2154,7 @@ public struct CreateFrameworkOutput {
 
 enum CreateFrameworkOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2223,7 +2226,7 @@ public struct CreateLegalHoldInput {
 
 extension CreateLegalHoldOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateLegalHoldOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateLegalHoldOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2241,7 +2244,7 @@ extension CreateLegalHoldOutput {
 
 public struct CreateLegalHoldOutput {
     /// Time in number format when legal hold was created.
-    public var creationDate: ClientRuntime.Date?
+    public var creationDate: Foundation.Date?
     /// This is the returned string description of the legal hold.
     public var description: Swift.String?
     /// This is the ARN (Amazon Resource Number) of the created legal hold.
@@ -2256,7 +2259,7 @@ public struct CreateLegalHoldOutput {
     public var title: Swift.String?
 
     public init(
-        creationDate: ClientRuntime.Date? = nil,
+        creationDate: Foundation.Date? = nil,
         description: Swift.String? = nil,
         legalHoldArn: Swift.String? = nil,
         legalHoldId: Swift.String? = nil,
@@ -2277,7 +2280,7 @@ public struct CreateLegalHoldOutput {
 
 enum CreateLegalHoldOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2351,7 +2354,7 @@ public struct CreateLogicallyAirGappedBackupVaultInput {
 
 extension CreateLogicallyAirGappedBackupVaultOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateLogicallyAirGappedBackupVaultOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateLogicallyAirGappedBackupVaultOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2370,14 +2373,14 @@ public struct CreateLogicallyAirGappedBackupVaultOutput {
     /// The name of a logical container where backups are stored. Logically air-gapped backup vaults are identified by names that are unique to the account used to create them and the Region where they are created. They consist of lowercase letters, numbers, and hyphens.
     public var backupVaultName: Swift.String?
     /// The date and time when the vault was created. This value is in Unix format, Coordinated Universal Time (UTC), and accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-    public var creationDate: ClientRuntime.Date?
+    public var creationDate: Foundation.Date?
     /// This is the current state of the vault.
     public var vaultState: BackupClientTypes.VaultState?
 
     public init(
         backupVaultArn: Swift.String? = nil,
         backupVaultName: Swift.String? = nil,
-        creationDate: ClientRuntime.Date? = nil,
+        creationDate: Foundation.Date? = nil,
         vaultState: BackupClientTypes.VaultState? = nil
     )
     {
@@ -2390,7 +2393,7 @@ public struct CreateLogicallyAirGappedBackupVaultOutput {
 
 enum CreateLogicallyAirGappedBackupVaultOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2464,7 +2467,7 @@ public struct CreateReportPlanInput {
 
 extension CreateReportPlanOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateReportPlanOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateReportPlanOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2478,14 +2481,14 @@ extension CreateReportPlanOutput {
 
 public struct CreateReportPlanOutput {
     /// The date and time a backup vault is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
     public var reportPlanArn: Swift.String?
     /// The unique name of the report plan.
     public var reportPlanName: Swift.String?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         reportPlanArn: Swift.String? = nil,
         reportPlanName: Swift.String? = nil
     )
@@ -2498,7 +2501,7 @@ public struct CreateReportPlanOutput {
 
 enum CreateReportPlanOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2559,7 +2562,7 @@ public struct CreateRestoreTestingPlanInput {
 
 extension CreateRestoreTestingPlanOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateRestoreTestingPlanOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateRestoreTestingPlanOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2574,7 +2577,7 @@ extension CreateRestoreTestingPlanOutput {
 public struct CreateRestoreTestingPlanOutput {
     /// The date and time a restore testing plan was created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087AM.
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// An Amazon Resource Name (ARN) that uniquely identifies the created restore testing plan.
     /// This member is required.
     public var restoreTestingPlanArn: Swift.String?
@@ -2583,7 +2586,7 @@ public struct CreateRestoreTestingPlanOutput {
     public var restoreTestingPlanName: Swift.String?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         restoreTestingPlanArn: Swift.String? = nil,
         restoreTestingPlanName: Swift.String? = nil
     )
@@ -2596,7 +2599,7 @@ public struct CreateRestoreTestingPlanOutput {
 
 enum CreateRestoreTestingPlanOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2663,7 +2666,7 @@ public struct CreateRestoreTestingSelectionInput {
 
 extension CreateRestoreTestingSelectionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateRestoreTestingSelectionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateRestoreTestingSelectionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2679,7 +2682,7 @@ extension CreateRestoreTestingSelectionOutput {
 public struct CreateRestoreTestingSelectionOutput {
     /// This is the time the resource testing selection was created successfully.
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// This is the ARN of the restore testing plan with which the restore testing selection is associated.
     /// This member is required.
     public var restoreTestingPlanArn: Swift.String?
@@ -2691,7 +2694,7 @@ public struct CreateRestoreTestingSelectionOutput {
     public var restoreTestingSelectionName: Swift.String?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         restoreTestingPlanArn: Swift.String? = nil,
         restoreTestingPlanName: Swift.String? = nil,
         restoreTestingSelectionName: Swift.String? = nil
@@ -2706,7 +2709,7 @@ public struct CreateRestoreTestingSelectionOutput {
 
 enum CreateRestoreTestingSelectionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2745,14 +2748,14 @@ extension BackupClientTypes {
     public struct DateRange {
         /// This value is the beginning date, inclusive. The date and time are in Unix format and Coordinated Universal Time (UTC), and it is accurate to milliseconds (milliseconds are optional).
         /// This member is required.
-        public var fromDate: ClientRuntime.Date?
+        public var fromDate: Foundation.Date?
         /// This value is the end date, inclusive. The date and time are in Unix format and Coordinated Universal Time (UTC), and it is accurate to milliseconds (milliseconds are optional).
         /// This member is required.
-        public var toDate: ClientRuntime.Date?
+        public var toDate: Foundation.Date?
 
         public init(
-            fromDate: ClientRuntime.Date? = nil,
-            toDate: ClientRuntime.Date? = nil
+            fromDate: Foundation.Date? = nil,
+            toDate: Foundation.Date? = nil
         )
         {
             self.fromDate = fromDate
@@ -2787,7 +2790,7 @@ public struct DeleteBackupPlanInput {
 
 extension DeleteBackupPlanOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBackupPlanOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteBackupPlanOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2806,14 +2809,14 @@ public struct DeleteBackupPlanOutput {
     /// Uniquely identifies a backup plan.
     public var backupPlanId: Swift.String?
     /// The date and time a backup plan is deleted, in Unix format and Coordinated Universal Time (UTC). The value of DeletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-    public var deletionDate: ClientRuntime.Date?
+    public var deletionDate: Foundation.Date?
     /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most 1,024 bytes long. Version IDs cannot be edited.
     public var versionId: Swift.String?
 
     public init(
         backupPlanArn: Swift.String? = nil,
         backupPlanId: Swift.String? = nil,
-        deletionDate: ClientRuntime.Date? = nil,
+        deletionDate: Foundation.Date? = nil,
         versionId: Swift.String? = nil
     )
     {
@@ -2826,7 +2829,7 @@ public struct DeleteBackupPlanOutput {
 
 enum DeleteBackupPlanOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2875,7 +2878,7 @@ public struct DeleteBackupSelectionInput {
 
 extension DeleteBackupSelectionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBackupSelectionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteBackupSelectionOutput {
         return DeleteBackupSelectionOutput()
     }
 }
@@ -2887,7 +2890,7 @@ public struct DeleteBackupSelectionOutput {
 
 enum DeleteBackupSelectionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2927,7 +2930,7 @@ public struct DeleteBackupVaultAccessPolicyInput {
 
 extension DeleteBackupVaultAccessPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBackupVaultAccessPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteBackupVaultAccessPolicyOutput {
         return DeleteBackupVaultAccessPolicyOutput()
     }
 }
@@ -2939,7 +2942,7 @@ public struct DeleteBackupVaultAccessPolicyOutput {
 
 enum DeleteBackupVaultAccessPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3002,7 +3005,7 @@ public struct DeleteBackupVaultLockConfigurationInput {
 
 extension DeleteBackupVaultLockConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBackupVaultLockConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteBackupVaultLockConfigurationOutput {
         return DeleteBackupVaultLockConfigurationOutput()
     }
 }
@@ -3014,7 +3017,7 @@ public struct DeleteBackupVaultLockConfigurationOutput {
 
 enum DeleteBackupVaultLockConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3055,7 +3058,7 @@ public struct DeleteBackupVaultNotificationsInput {
 
 extension DeleteBackupVaultNotificationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBackupVaultNotificationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteBackupVaultNotificationsOutput {
         return DeleteBackupVaultNotificationsOutput()
     }
 }
@@ -3067,7 +3070,7 @@ public struct DeleteBackupVaultNotificationsOutput {
 
 enum DeleteBackupVaultNotificationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3084,7 +3087,7 @@ enum DeleteBackupVaultNotificationsOutputError {
 
 extension DeleteBackupVaultOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBackupVaultOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteBackupVaultOutput {
         return DeleteBackupVaultOutput()
     }
 }
@@ -3096,7 +3099,7 @@ public struct DeleteBackupVaultOutput {
 
 enum DeleteBackupVaultOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3137,7 +3140,7 @@ public struct DeleteFrameworkInput {
 
 extension DeleteFrameworkOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteFrameworkOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteFrameworkOutput {
         return DeleteFrameworkOutput()
     }
 }
@@ -3149,7 +3152,7 @@ public struct DeleteFrameworkOutput {
 
 enum DeleteFrameworkOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3198,7 +3201,7 @@ public struct DeleteRecoveryPointInput {
 
 extension DeleteRecoveryPointOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteRecoveryPointOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteRecoveryPointOutput {
         return DeleteRecoveryPointOutput()
     }
 }
@@ -3210,7 +3213,7 @@ public struct DeleteRecoveryPointOutput {
 
 enum DeleteRecoveryPointOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3252,7 +3255,7 @@ public struct DeleteReportPlanInput {
 
 extension DeleteReportPlanOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteReportPlanOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteReportPlanOutput {
         return DeleteReportPlanOutput()
     }
 }
@@ -3264,7 +3267,7 @@ public struct DeleteReportPlanOutput {
 
 enum DeleteReportPlanOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3305,7 +3308,7 @@ public struct DeleteRestoreTestingPlanInput {
 
 extension DeleteRestoreTestingPlanOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteRestoreTestingPlanOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteRestoreTestingPlanOutput {
         return DeleteRestoreTestingPlanOutput()
     }
 }
@@ -3317,7 +3320,7 @@ public struct DeleteRestoreTestingPlanOutput {
 
 enum DeleteRestoreTestingPlanOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3363,7 +3366,7 @@ public struct DeleteRestoreTestingSelectionInput {
 
 extension DeleteRestoreTestingSelectionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteRestoreTestingSelectionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteRestoreTestingSelectionOutput {
         return DeleteRestoreTestingSelectionOutput()
     }
 }
@@ -3375,7 +3378,7 @@ public struct DeleteRestoreTestingSelectionOutput {
 
 enum DeleteRestoreTestingSelectionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3464,7 +3467,7 @@ public struct DescribeBackupJobInput {
 
 extension DescribeBackupJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeBackupJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeBackupJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3520,17 +3523,17 @@ public struct DescribeBackupJobOutput {
     /// This returns the statistics of the included child (nested) backup jobs.
     public var childJobsInState: [Swift.String:Swift.Int]?
     /// The date and time that a job to create a backup job is completed, in Unix format and Coordinated Universal Time (UTC). The value of CompletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-    public var completionDate: ClientRuntime.Date?
+    public var completionDate: Foundation.Date?
     /// Contains identifying information about the creation of a backup job, including the BackupPlanArn, BackupPlanId, BackupPlanVersion, and BackupRuleId of the backup plan that is used to create it.
     public var createdBy: BackupClientTypes.RecoveryPointCreator?
     /// The date and time that a backup job is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-    public var creationDate: ClientRuntime.Date?
+    public var creationDate: Foundation.Date?
     /// The date and time that a job to back up resources is expected to be completed, in Unix format and Coordinated Universal Time (UTC). The value of ExpectedCompletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-    public var expectedCompletionDate: ClientRuntime.Date?
+    public var expectedCompletionDate: Foundation.Date?
     /// Specifies the IAM role ARN used to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
     public var iamRoleArn: Swift.String?
     /// This is the date a backup job was initiated.
-    public var initiationDate: ClientRuntime.Date?
+    public var initiationDate: Foundation.Date?
     /// This returns the boolean value that a backup job is a parent (composite) job.
     public var isParent: Swift.Bool
     /// This is the job count for the specified message category. Example strings may include AccessDenied, SUCCESS, AGGREGATE_ALL, and INVALIDPARAMETERS. View [Monitoring](https://docs.aws.amazon.com/aws-backup/latest/devguide/monitoring.html) for a list of accepted MessageCategory strings.
@@ -3550,7 +3553,7 @@ public struct DescribeBackupJobOutput {
     /// The type of Amazon Web Services resource to be backed up; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database.
     public var resourceType: Swift.String?
     /// Specifies the time in Unix format and Coordinated Universal Time (UTC) when a backup job must be started before it is canceled. The value is calculated by adding the start window to the scheduled time. So if the scheduled time were 6:00 PM and the start window is 2 hours, the StartBy time would be 8:00 PM on the date specified. The value of StartBy is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-    public var startBy: ClientRuntime.Date?
+    public var startBy: Foundation.Date?
     /// The current state of a backup job.
     public var state: BackupClientTypes.BackupJobState?
     /// A detailed message explaining the status of the job to back up a resource.
@@ -3566,12 +3569,12 @@ public struct DescribeBackupJobOutput {
         backupVaultName: Swift.String? = nil,
         bytesTransferred: Swift.Int? = nil,
         childJobsInState: [Swift.String:Swift.Int]? = nil,
-        completionDate: ClientRuntime.Date? = nil,
+        completionDate: Foundation.Date? = nil,
         createdBy: BackupClientTypes.RecoveryPointCreator? = nil,
-        creationDate: ClientRuntime.Date? = nil,
-        expectedCompletionDate: ClientRuntime.Date? = nil,
+        creationDate: Foundation.Date? = nil,
+        expectedCompletionDate: Foundation.Date? = nil,
         iamRoleArn: Swift.String? = nil,
-        initiationDate: ClientRuntime.Date? = nil,
+        initiationDate: Foundation.Date? = nil,
         isParent: Swift.Bool = false,
         messageCategory: Swift.String? = nil,
         numberOfChildJobs: Swift.Int? = nil,
@@ -3581,7 +3584,7 @@ public struct DescribeBackupJobOutput {
         resourceArn: Swift.String? = nil,
         resourceName: Swift.String? = nil,
         resourceType: Swift.String? = nil,
-        startBy: ClientRuntime.Date? = nil,
+        startBy: Foundation.Date? = nil,
         state: BackupClientTypes.BackupJobState? = nil,
         statusMessage: Swift.String? = nil
     )
@@ -3618,7 +3621,7 @@ public struct DescribeBackupJobOutput {
 
 enum DescribeBackupJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3636,10 +3639,10 @@ enum DescribeBackupJobOutputError {
 
 extension DescribeBackupVaultInput {
 
-    static func queryItemProvider(_ value: DescribeBackupVaultInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DescribeBackupVaultInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let backupVaultAccountId = value.backupVaultAccountId {
-            let backupVaultAccountIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "backupVaultAccountId".urlPercentEncoding(), value: Swift.String(backupVaultAccountId).urlPercentEncoding())
+            let backupVaultAccountIdQueryItem = Smithy.URIQueryItem(name: "backupVaultAccountId".urlPercentEncoding(), value: Swift.String(backupVaultAccountId).urlPercentEncoding())
             items.append(backupVaultAccountIdQueryItem)
         }
         return items
@@ -3675,7 +3678,7 @@ public struct DescribeBackupVaultInput {
 
 extension DescribeBackupVaultOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeBackupVaultOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeBackupVaultOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3701,13 +3704,13 @@ public struct DescribeBackupVaultOutput {
     /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Region where they are created. They consist of lowercase letters, numbers, and hyphens.
     public var backupVaultName: Swift.String?
     /// The date and time that a backup vault is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-    public var creationDate: ClientRuntime.Date?
+    public var creationDate: Foundation.Date?
     /// A unique string that identifies the request and allows failed requests to be retried without the risk of running the operation twice. This parameter is optional. If used, this parameter must contain 1 to 50 alphanumeric or '-_.' characters.
     public var creatorRequestId: Swift.String?
     /// The server-side encryption key that is used to protect your backups; for example, arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.
     public var encryptionKeyArn: Swift.String?
     /// The date and time when Backup Vault Lock configuration cannot be changed or deleted. If you applied Vault Lock to your vault without specifying a lock date, you can change any of your Vault Lock settings, or delete Vault Lock from the vault entirely, at any time. This value is in Unix format, Coordinated Universal Time (UTC), and accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-    public var lockDate: ClientRuntime.Date?
+    public var lockDate: Foundation.Date?
     /// A Boolean that indicates whether Backup Vault Lock is currently protecting the backup vault. True means that Vault Lock causes delete or update operations on the recovery points stored in the vault to fail.
     public var locked: Swift.Bool?
     /// The Backup Vault Lock setting that specifies the maximum retention period that the vault retains its recovery points. If this parameter is not specified, Vault Lock does not enforce a maximum retention period on the recovery points in the vault (allowing indefinite storage). If specified, any backup or copy job to the vault must have a lifecycle policy with a retention period equal to or shorter than the maximum retention period. If the job's retention period is longer than that maximum retention period, then the vault fails the backup or copy job, and you should either modify your lifecycle settings or use a different vault. Recovery points already stored in the vault prior to Vault Lock are not affected.
@@ -3722,10 +3725,10 @@ public struct DescribeBackupVaultOutput {
     public init(
         backupVaultArn: Swift.String? = nil,
         backupVaultName: Swift.String? = nil,
-        creationDate: ClientRuntime.Date? = nil,
+        creationDate: Foundation.Date? = nil,
         creatorRequestId: Swift.String? = nil,
         encryptionKeyArn: Swift.String? = nil,
-        lockDate: ClientRuntime.Date? = nil,
+        lockDate: Foundation.Date? = nil,
         locked: Swift.Bool? = nil,
         maxRetentionDays: Swift.Int? = nil,
         minRetentionDays: Swift.Int? = nil,
@@ -3749,7 +3752,7 @@ public struct DescribeBackupVaultOutput {
 
 enum DescribeBackupVaultOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3789,7 +3792,7 @@ public struct DescribeCopyJobInput {
 
 extension DescribeCopyJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeCopyJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeCopyJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3813,7 +3816,7 @@ public struct DescribeCopyJobOutput {
 
 enum DescribeCopyJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3853,7 +3856,7 @@ public struct DescribeFrameworkInput {
 
 extension DescribeFrameworkOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeFrameworkOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeFrameworkOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3872,7 +3875,7 @@ extension DescribeFrameworkOutput {
 
 public struct DescribeFrameworkOutput {
     /// The date and time that a framework is created, in ISO 8601 representation. The value of CreationTime is accurate to milliseconds. For example, 2020-07-10T15:00:00.000-08:00 represents the 10th of July 2020 at 3:00 PM 8 hours behind UTC.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The deployment status of a framework. The statuses are: CREATE_IN_PROGRESS | UPDATE_IN_PROGRESS | DELETE_IN_PROGRESS | COMPLETED | FAILED
     public var deploymentStatus: Swift.String?
     /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
@@ -3897,7 +3900,7 @@ public struct DescribeFrameworkOutput {
     public var idempotencyToken: Swift.String?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         deploymentStatus: Swift.String? = nil,
         frameworkArn: Swift.String? = nil,
         frameworkControls: [BackupClientTypes.FrameworkControl]? = nil,
@@ -3920,7 +3923,7 @@ public struct DescribeFrameworkOutput {
 
 enum DescribeFrameworkOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3949,7 +3952,7 @@ public struct DescribeGlobalSettingsInput {
 
 extension DescribeGlobalSettingsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeGlobalSettingsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeGlobalSettingsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3964,11 +3967,11 @@ public struct DescribeGlobalSettingsOutput {
     /// The status of the flag isCrossAccountBackupEnabled.
     public var globalSettings: [Swift.String:Swift.String]?
     /// The date and time that the flag isCrossAccountBackupEnabled was last updated. This update is in Unix format and Coordinated Universal Time (UTC). The value of LastUpdateTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-    public var lastUpdateTime: ClientRuntime.Date?
+    public var lastUpdateTime: Foundation.Date?
 
     public init(
         globalSettings: [Swift.String:Swift.String]? = nil,
-        lastUpdateTime: ClientRuntime.Date? = nil
+        lastUpdateTime: Foundation.Date? = nil
     )
     {
         self.globalSettings = globalSettings
@@ -3978,7 +3981,7 @@ public struct DescribeGlobalSettingsOutput {
 
 enum DescribeGlobalSettingsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4016,7 +4019,7 @@ public struct DescribeProtectedResourceInput {
 
 extension DescribeProtectedResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeProtectedResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeProtectedResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4036,7 +4039,7 @@ extension DescribeProtectedResourceOutput {
 
 public struct DescribeProtectedResourceOutput {
     /// The date and time that a resource was last backed up, in Unix format and Coordinated Universal Time (UTC). The value of LastBackupTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-    public var lastBackupTime: ClientRuntime.Date?
+    public var lastBackupTime: Foundation.Date?
     /// This is the ARN (Amazon Resource Name) of the backup vault that contains the most recent backup recovery point.
     public var lastBackupVaultArn: Swift.String?
     /// This is the ARN (Amazon Resource Name) of the most recent recovery point.
@@ -4044,9 +4047,9 @@ public struct DescribeProtectedResourceOutput {
     /// This is the time in minutes the most recent restore job took to complete.
     public var latestRestoreExecutionTimeMinutes: Swift.Int?
     /// This is the creation date of the most recent restore job.
-    public var latestRestoreJobCreationDate: ClientRuntime.Date?
+    public var latestRestoreJobCreationDate: Foundation.Date?
     /// This is the date the most recent recovery point was created.
-    public var latestRestoreRecoveryPointCreationDate: ClientRuntime.Date?
+    public var latestRestoreRecoveryPointCreationDate: Foundation.Date?
     /// An ARN that uniquely identifies a resource. The format of the ARN depends on the resource type.
     public var resourceArn: Swift.String?
     /// This is the non-unique name of the resource that belongs to the specified backup.
@@ -4055,12 +4058,12 @@ public struct DescribeProtectedResourceOutput {
     public var resourceType: Swift.String?
 
     public init(
-        lastBackupTime: ClientRuntime.Date? = nil,
+        lastBackupTime: Foundation.Date? = nil,
         lastBackupVaultArn: Swift.String? = nil,
         lastRecoveryPointArn: Swift.String? = nil,
         latestRestoreExecutionTimeMinutes: Swift.Int? = nil,
-        latestRestoreJobCreationDate: ClientRuntime.Date? = nil,
-        latestRestoreRecoveryPointCreationDate: ClientRuntime.Date? = nil,
+        latestRestoreJobCreationDate: Foundation.Date? = nil,
+        latestRestoreRecoveryPointCreationDate: Foundation.Date? = nil,
         resourceArn: Swift.String? = nil,
         resourceName: Swift.String? = nil,
         resourceType: Swift.String? = nil
@@ -4080,7 +4083,7 @@ public struct DescribeProtectedResourceOutput {
 
 enum DescribeProtectedResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4097,10 +4100,10 @@ enum DescribeProtectedResourceOutputError {
 
 extension DescribeRecoveryPointInput {
 
-    static func queryItemProvider(_ value: DescribeRecoveryPointInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DescribeRecoveryPointInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let backupVaultAccountId = value.backupVaultAccountId {
-            let backupVaultAccountIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "backupVaultAccountId".urlPercentEncoding(), value: Swift.String(backupVaultAccountId).urlPercentEncoding())
+            let backupVaultAccountIdQueryItem = Smithy.URIQueryItem(name: "backupVaultAccountId".urlPercentEncoding(), value: Swift.String(backupVaultAccountId).urlPercentEncoding())
             items.append(backupVaultAccountIdQueryItem)
         }
         return items
@@ -4144,7 +4147,7 @@ public struct DescribeRecoveryPointInput {
 
 extension DescribeRecoveryPointOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeRecoveryPointOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeRecoveryPointOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4187,13 +4190,13 @@ public struct DescribeRecoveryPointOutput {
     /// A CalculatedLifecycle object containing DeleteAt and MoveToColdStorageAt timestamps.
     public var calculatedLifecycle: BackupClientTypes.CalculatedLifecycle?
     /// The date and time that a job to create a recovery point is completed, in Unix format and Coordinated Universal Time (UTC). The value of CompletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-    public var completionDate: ClientRuntime.Date?
+    public var completionDate: Foundation.Date?
     /// This is the identifier of a resource within a composite group, such as nested (child) recovery point belonging to a composite (parent) stack. The ID is transferred from the [ logical ID](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html#resources-section-structure-syntax) within a stack.
     public var compositeMemberIdentifier: Swift.String?
     /// Contains identifying information about the creation of a recovery point, including the BackupPlanArn, BackupPlanId, BackupPlanVersion, and BackupRuleId of the backup plan used to create it.
     public var createdBy: BackupClientTypes.RecoveryPointCreator?
     /// The date and time that a recovery point is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-    public var creationDate: ClientRuntime.Date?
+    public var creationDate: Foundation.Date?
     /// The server-side encryption key used to protect your backups; for example, arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.
     public var encryptionKeyArn: Swift.String?
     /// Specifies the IAM role ARN used to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
@@ -4203,7 +4206,7 @@ public struct DescribeRecoveryPointOutput {
     /// This returns the boolean value that a recovery point is a parent (composite) job.
     public var isParent: Swift.Bool
     /// The date and time that a recovery point was last restored, in Unix format and Coordinated Universal Time (UTC). The value of LastRestoreTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-    public var lastRestoreTime: ClientRuntime.Date?
+    public var lastRestoreTime: Foundation.Date?
     /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup transitions and expires backups automatically according to the lifecycle that you define. Backups that are transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “retention” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold. Resource types that are able to be transitioned to cold storage are listed in the "Lifecycle to cold storage" section of the [ Feature availability by resource](https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource) table. Backup ignores this expression for other resource types.
     public var lifecycle: BackupClientTypes.Lifecycle?
     /// This is an ARN that uniquely identifies a parent (composite) recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
@@ -4232,15 +4235,15 @@ public struct DescribeRecoveryPointOutput {
         backupVaultArn: Swift.String? = nil,
         backupVaultName: Swift.String? = nil,
         calculatedLifecycle: BackupClientTypes.CalculatedLifecycle? = nil,
-        completionDate: ClientRuntime.Date? = nil,
+        completionDate: Foundation.Date? = nil,
         compositeMemberIdentifier: Swift.String? = nil,
         createdBy: BackupClientTypes.RecoveryPointCreator? = nil,
-        creationDate: ClientRuntime.Date? = nil,
+        creationDate: Foundation.Date? = nil,
         encryptionKeyArn: Swift.String? = nil,
         iamRoleArn: Swift.String? = nil,
         isEncrypted: Swift.Bool = false,
         isParent: Swift.Bool = false,
-        lastRestoreTime: ClientRuntime.Date? = nil,
+        lastRestoreTime: Foundation.Date? = nil,
         lifecycle: BackupClientTypes.Lifecycle? = nil,
         parentRecoveryPointArn: Swift.String? = nil,
         recoveryPointArn: Swift.String? = nil,
@@ -4283,7 +4286,7 @@ public struct DescribeRecoveryPointOutput {
 
 enum DescribeRecoveryPointOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4312,7 +4315,7 @@ public struct DescribeRegionSettingsInput {
 
 extension DescribeRegionSettingsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeRegionSettingsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeRegionSettingsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4341,7 +4344,7 @@ public struct DescribeRegionSettingsOutput {
 
 enum DescribeRegionSettingsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4378,7 +4381,7 @@ public struct DescribeReportJobInput {
 
 extension DescribeReportJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeReportJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeReportJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4402,7 +4405,7 @@ public struct DescribeReportJobOutput {
 
 enum DescribeReportJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4441,7 +4444,7 @@ public struct DescribeReportPlanInput {
 
 extension DescribeReportPlanOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeReportPlanOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeReportPlanOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4465,7 +4468,7 @@ public struct DescribeReportPlanOutput {
 
 enum DescribeReportPlanOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4505,7 +4508,7 @@ public struct DescribeRestoreJobInput {
 
 extension DescribeRestoreJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeRestoreJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeRestoreJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4539,13 +4542,13 @@ public struct DescribeRestoreJobOutput {
     /// The size, in bytes, of the restored resource.
     public var backupSizeInBytes: Swift.Int?
     /// The date and time that a job to restore a recovery point is completed, in Unix format and Coordinated Universal Time (UTC). The value of CompletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-    public var completionDate: ClientRuntime.Date?
+    public var completionDate: Foundation.Date?
     /// Contains identifying information about the creation of a restore job.
     public var createdBy: BackupClientTypes.RestoreJobCreator?
     /// An Amazon Resource Name (ARN) that uniquely identifies a resource whose recovery point is being restored. The format of the ARN depends on the resource type of the backed-up resource.
     public var createdResourceArn: Swift.String?
     /// The date and time that a restore job is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-    public var creationDate: ClientRuntime.Date?
+    public var creationDate: Foundation.Date?
     /// This notes the status of the data generated by the restore test. The status may be Deleting, Failed, or Successful.
     public var deletionStatus: BackupClientTypes.RestoreDeletionStatus?
     /// This describes the restore job deletion status.
@@ -4559,7 +4562,7 @@ public struct DescribeRestoreJobOutput {
     /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
     public var recoveryPointArn: Swift.String?
     /// This is the creation date of the recovery point made by the specifed restore job.
-    public var recoveryPointCreationDate: ClientRuntime.Date?
+    public var recoveryPointCreationDate: Foundation.Date?
     /// Returns metadata associated with a restore job listed by resource type.
     public var resourceType: Swift.String?
     /// Uniquely identifies the job that restores a recovery point.
@@ -4576,17 +4579,17 @@ public struct DescribeRestoreJobOutput {
     public init(
         accountId: Swift.String? = nil,
         backupSizeInBytes: Swift.Int? = nil,
-        completionDate: ClientRuntime.Date? = nil,
+        completionDate: Foundation.Date? = nil,
         createdBy: BackupClientTypes.RestoreJobCreator? = nil,
         createdResourceArn: Swift.String? = nil,
-        creationDate: ClientRuntime.Date? = nil,
+        creationDate: Foundation.Date? = nil,
         deletionStatus: BackupClientTypes.RestoreDeletionStatus? = nil,
         deletionStatusMessage: Swift.String? = nil,
         expectedCompletionTimeMinutes: Swift.Int? = nil,
         iamRoleArn: Swift.String? = nil,
         percentDone: Swift.String? = nil,
         recoveryPointArn: Swift.String? = nil,
-        recoveryPointCreationDate: ClientRuntime.Date? = nil,
+        recoveryPointCreationDate: Foundation.Date? = nil,
         resourceType: Swift.String? = nil,
         restoreJobId: Swift.String? = nil,
         status: BackupClientTypes.RestoreJobStatus? = nil,
@@ -4619,7 +4622,7 @@ public struct DescribeRestoreJobOutput {
 
 enum DescribeRestoreJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4668,7 +4671,7 @@ public struct DisassociateRecoveryPointFromParentInput {
 
 extension DisassociateRecoveryPointFromParentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DisassociateRecoveryPointFromParentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DisassociateRecoveryPointFromParentOutput {
         return DisassociateRecoveryPointFromParentOutput()
     }
 }
@@ -4680,7 +4683,7 @@ public struct DisassociateRecoveryPointFromParentOutput {
 
 enum DisassociateRecoveryPointFromParentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4729,7 +4732,7 @@ public struct DisassociateRecoveryPointInput {
 
 extension DisassociateRecoveryPointOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DisassociateRecoveryPointOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DisassociateRecoveryPointOutput {
         return DisassociateRecoveryPointOutput()
     }
 }
@@ -4741,7 +4744,7 @@ public struct DisassociateRecoveryPointOutput {
 
 enum DisassociateRecoveryPointOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4783,7 +4786,7 @@ public struct ExportBackupPlanTemplateInput {
 
 extension ExportBackupPlanTemplateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ExportBackupPlanTemplateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ExportBackupPlanTemplateOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4807,7 +4810,7 @@ public struct ExportBackupPlanTemplateOutput {
 
 enum ExportBackupPlanTemplateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4841,7 +4844,7 @@ extension BackupClientTypes {
     /// Contains detailed information about a framework. Frameworks contain controls, which evaluate and report on your backup events and resources. Frameworks generate daily compliance results.
     public struct Framework {
         /// The date and time that a framework is created, in ISO 8601 representation. The value of CreationTime is accurate to milliseconds. For example, 2020-07-10T15:00:00.000-08:00 represents the 10th of July 2020 at 3:00 PM 8 hours behind UTC.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The deployment status of a framework. The statuses are: CREATE_IN_PROGRESS | UPDATE_IN_PROGRESS | DELETE_IN_PROGRESS | COMPLETED | FAILED
         public var deploymentStatus: Swift.String?
         /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
@@ -4854,7 +4857,7 @@ extension BackupClientTypes {
         public var numberOfControls: Swift.Int
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             deploymentStatus: Swift.String? = nil,
             frameworkArn: Swift.String? = nil,
             frameworkDescription: Swift.String? = nil,
@@ -4947,7 +4950,7 @@ public struct GetBackupPlanFromJSONInput {
 
 extension GetBackupPlanFromJSONOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBackupPlanFromJSONOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetBackupPlanFromJSONOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4971,7 +4974,7 @@ public struct GetBackupPlanFromJSONOutput {
 
 enum GetBackupPlanFromJSONOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5012,7 +5015,7 @@ public struct GetBackupPlanFromTemplateInput {
 
 extension GetBackupPlanFromTemplateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBackupPlanFromTemplateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetBackupPlanFromTemplateOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5036,7 +5039,7 @@ public struct GetBackupPlanFromTemplateOutput {
 
 enum GetBackupPlanFromTemplateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5053,10 +5056,10 @@ enum GetBackupPlanFromTemplateOutputError {
 
 extension GetBackupPlanInput {
 
-    static func queryItemProvider(_ value: GetBackupPlanInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetBackupPlanInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let versionId = value.versionId {
-            let versionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+            let versionIdQueryItem = Smithy.URIQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
             items.append(versionIdQueryItem)
         }
         return items
@@ -5092,7 +5095,7 @@ public struct GetBackupPlanInput {
 
 extension GetBackupPlanOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBackupPlanOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetBackupPlanOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5120,13 +5123,13 @@ public struct GetBackupPlanOutput {
     /// Uniquely identifies a backup plan.
     public var backupPlanId: Swift.String?
     /// The date and time that a backup plan is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-    public var creationDate: ClientRuntime.Date?
+    public var creationDate: Foundation.Date?
     /// A unique string that identifies the request and allows failed requests to be retried without the risk of running the operation twice.
     public var creatorRequestId: Swift.String?
     /// The date and time that a backup plan is deleted, in Unix format and Coordinated Universal Time (UTC). The value of DeletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-    public var deletionDate: ClientRuntime.Date?
+    public var deletionDate: Foundation.Date?
     /// The last time a job to back up resources was run with this backup plan. A date and time, in Unix format and Coordinated Universal Time (UTC). The value of LastExecutionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-    public var lastExecutionDate: ClientRuntime.Date?
+    public var lastExecutionDate: Foundation.Date?
     /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most 1,024 bytes long. Version IDs cannot be edited.
     public var versionId: Swift.String?
 
@@ -5135,10 +5138,10 @@ public struct GetBackupPlanOutput {
         backupPlan: BackupClientTypes.BackupPlan? = nil,
         backupPlanArn: Swift.String? = nil,
         backupPlanId: Swift.String? = nil,
-        creationDate: ClientRuntime.Date? = nil,
+        creationDate: Foundation.Date? = nil,
         creatorRequestId: Swift.String? = nil,
-        deletionDate: ClientRuntime.Date? = nil,
-        lastExecutionDate: ClientRuntime.Date? = nil,
+        deletionDate: Foundation.Date? = nil,
+        lastExecutionDate: Foundation.Date? = nil,
         versionId: Swift.String? = nil
     )
     {
@@ -5156,7 +5159,7 @@ public struct GetBackupPlanOutput {
 
 enum GetBackupPlanOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5204,7 +5207,7 @@ public struct GetBackupSelectionInput {
 
 extension GetBackupSelectionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBackupSelectionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetBackupSelectionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5224,7 +5227,7 @@ public struct GetBackupSelectionOutput {
     /// Specifies the body of a request to assign a set of resources to a backup plan.
     public var backupSelection: BackupClientTypes.BackupSelection?
     /// The date and time a backup selection is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-    public var creationDate: ClientRuntime.Date?
+    public var creationDate: Foundation.Date?
     /// A unique string that identifies the request and allows failed requests to be retried without the risk of running the operation twice.
     public var creatorRequestId: Swift.String?
     /// Uniquely identifies the body of a request to assign a set of resources to a backup plan.
@@ -5233,7 +5236,7 @@ public struct GetBackupSelectionOutput {
     public init(
         backupPlanId: Swift.String? = nil,
         backupSelection: BackupClientTypes.BackupSelection? = nil,
-        creationDate: ClientRuntime.Date? = nil,
+        creationDate: Foundation.Date? = nil,
         creatorRequestId: Swift.String? = nil,
         selectionId: Swift.String? = nil
     )
@@ -5248,7 +5251,7 @@ public struct GetBackupSelectionOutput {
 
 enum GetBackupSelectionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5288,7 +5291,7 @@ public struct GetBackupVaultAccessPolicyInput {
 
 extension GetBackupVaultAccessPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBackupVaultAccessPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetBackupVaultAccessPolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5322,7 +5325,7 @@ public struct GetBackupVaultAccessPolicyOutput {
 
 enum GetBackupVaultAccessPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5362,7 +5365,7 @@ public struct GetBackupVaultNotificationsInput {
 
 extension GetBackupVaultNotificationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBackupVaultNotificationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetBackupVaultNotificationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5401,7 +5404,7 @@ public struct GetBackupVaultNotificationsOutput {
 
 enum GetBackupVaultNotificationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5441,7 +5444,7 @@ public struct GetLegalHoldInput {
 
 extension GetLegalHoldOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetLegalHoldOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetLegalHoldOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5464,9 +5467,9 @@ public struct GetLegalHoldOutput {
     /// String describing the reason for removing the legal hold.
     public var cancelDescription: Swift.String?
     /// Time in number when legal hold was cancelled.
-    public var cancellationDate: ClientRuntime.Date?
+    public var cancellationDate: Foundation.Date?
     /// Time in number format when legal hold was created.
-    public var creationDate: ClientRuntime.Date?
+    public var creationDate: Foundation.Date?
     /// This is the returned string description of the legal hold.
     public var description: Swift.String?
     /// This is the returned framework ARN for the specified legal hold. An Amazon Resource Name (ARN) uniquely identifies a resource. The format of the ARN depends on the resource type.
@@ -5476,7 +5479,7 @@ public struct GetLegalHoldOutput {
     /// This specifies criteria to assign a set of resources, such as resource types or backup vaults.
     public var recoveryPointSelection: BackupClientTypes.RecoveryPointSelection?
     /// This is the date and time until which the legal hold record will be retained.
-    public var retainRecordUntil: ClientRuntime.Date?
+    public var retainRecordUntil: Foundation.Date?
     /// This is the status of the legal hold. Statuses can be ACTIVE, CREATING, CANCELED, and CANCELING.
     public var status: BackupClientTypes.LegalHoldStatus?
     /// This is the string title of the legal hold.
@@ -5484,13 +5487,13 @@ public struct GetLegalHoldOutput {
 
     public init(
         cancelDescription: Swift.String? = nil,
-        cancellationDate: ClientRuntime.Date? = nil,
-        creationDate: ClientRuntime.Date? = nil,
+        cancellationDate: Foundation.Date? = nil,
+        creationDate: Foundation.Date? = nil,
         description: Swift.String? = nil,
         legalHoldArn: Swift.String? = nil,
         legalHoldId: Swift.String? = nil,
         recoveryPointSelection: BackupClientTypes.RecoveryPointSelection? = nil,
-        retainRecordUntil: ClientRuntime.Date? = nil,
+        retainRecordUntil: Foundation.Date? = nil,
         status: BackupClientTypes.LegalHoldStatus? = nil,
         title: Swift.String? = nil
     )
@@ -5510,7 +5513,7 @@ public struct GetLegalHoldOutput {
 
 enum GetLegalHoldOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5527,10 +5530,10 @@ enum GetLegalHoldOutputError {
 
 extension GetRecoveryPointRestoreMetadataInput {
 
-    static func queryItemProvider(_ value: GetRecoveryPointRestoreMetadataInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetRecoveryPointRestoreMetadataInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let backupVaultAccountId = value.backupVaultAccountId {
-            let backupVaultAccountIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "backupVaultAccountId".urlPercentEncoding(), value: Swift.String(backupVaultAccountId).urlPercentEncoding())
+            let backupVaultAccountIdQueryItem = Smithy.URIQueryItem(name: "backupVaultAccountId".urlPercentEncoding(), value: Swift.String(backupVaultAccountId).urlPercentEncoding())
             items.append(backupVaultAccountIdQueryItem)
         }
         return items
@@ -5579,7 +5582,7 @@ extension GetRecoveryPointRestoreMetadataOutput: Swift.CustomDebugStringConverti
 
 extension GetRecoveryPointRestoreMetadataOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetRecoveryPointRestoreMetadataOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetRecoveryPointRestoreMetadataOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5618,7 +5621,7 @@ public struct GetRecoveryPointRestoreMetadataOutput {
 
 enum GetRecoveryPointRestoreMetadataOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5663,7 +5666,7 @@ extension GetRestoreJobMetadataOutput: Swift.CustomDebugStringConvertible {
 
 extension GetRestoreJobMetadataOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetRestoreJobMetadataOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetRestoreJobMetadataOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5692,7 +5695,7 @@ public struct GetRestoreJobMetadataOutput {
 
 enum GetRestoreJobMetadataOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5709,22 +5712,22 @@ enum GetRestoreJobMetadataOutputError {
 
 extension GetRestoreTestingInferredMetadataInput {
 
-    static func queryItemProvider(_ value: GetRestoreTestingInferredMetadataInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetRestoreTestingInferredMetadataInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let backupVaultName = value.backupVaultName else {
             let message = "Creating a URL Query Item failed. backupVaultName is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let backupVaultNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "BackupVaultName".urlPercentEncoding(), value: Swift.String(backupVaultName).urlPercentEncoding())
+        let backupVaultNameQueryItem = Smithy.URIQueryItem(name: "BackupVaultName".urlPercentEncoding(), value: Swift.String(backupVaultName).urlPercentEncoding())
         items.append(backupVaultNameQueryItem)
         guard let recoveryPointArn = value.recoveryPointArn else {
             let message = "Creating a URL Query Item failed. recoveryPointArn is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let recoveryPointArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "RecoveryPointArn".urlPercentEncoding(), value: Swift.String(recoveryPointArn).urlPercentEncoding())
+        let recoveryPointArnQueryItem = Smithy.URIQueryItem(name: "RecoveryPointArn".urlPercentEncoding(), value: Swift.String(recoveryPointArn).urlPercentEncoding())
         items.append(recoveryPointArnQueryItem)
         if let backupVaultAccountId = value.backupVaultAccountId {
-            let backupVaultAccountIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "BackupVaultAccountId".urlPercentEncoding(), value: Swift.String(backupVaultAccountId).urlPercentEncoding())
+            let backupVaultAccountIdQueryItem = Smithy.URIQueryItem(name: "BackupVaultAccountId".urlPercentEncoding(), value: Swift.String(backupVaultAccountId).urlPercentEncoding())
             items.append(backupVaultAccountIdQueryItem)
         }
         return items
@@ -5762,7 +5765,7 @@ public struct GetRestoreTestingInferredMetadataInput {
 
 extension GetRestoreTestingInferredMetadataOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetRestoreTestingInferredMetadataOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetRestoreTestingInferredMetadataOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5787,7 +5790,7 @@ public struct GetRestoreTestingInferredMetadataOutput {
 
 enum GetRestoreTestingInferredMetadataOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5827,7 +5830,7 @@ public struct GetRestoreTestingPlanInput {
 
 extension GetRestoreTestingPlanOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetRestoreTestingPlanOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetRestoreTestingPlanOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5852,7 +5855,7 @@ public struct GetRestoreTestingPlanOutput {
 
 enum GetRestoreTestingPlanOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5898,7 +5901,7 @@ public struct GetRestoreTestingSelectionInput {
 
 extension GetRestoreTestingSelectionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetRestoreTestingSelectionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetRestoreTestingSelectionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5923,7 +5926,7 @@ public struct GetRestoreTestingSelectionOutput {
 
 enum GetRestoreTestingSelectionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5950,7 +5953,7 @@ public struct GetSupportedResourceTypesInput {
 
 extension GetSupportedResourceTypesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetSupportedResourceTypesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetSupportedResourceTypesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5994,7 +5997,7 @@ public struct GetSupportedResourceTypesOutput {
 
 enum GetSupportedResourceTypesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6218,9 +6221,9 @@ extension BackupClientTypes {
     /// A legal hold is an administrative tool that helps prevent backups from being deleted while under a hold. While the hold is in place, backups under a hold cannot be deleted and lifecycle policies that would alter the backup status (such as transition to cold storage) are delayed until the legal hold is removed. A backup can have more than one legal hold. Legal holds are applied to one or more backups (also known as recovery points). These backups can be filtered by resource types and by resource IDs.
     public struct LegalHold {
         /// This is the time in number format when legal hold was cancelled.
-        public var cancellationDate: ClientRuntime.Date?
+        public var cancellationDate: Foundation.Date?
         /// This is the time in number format when legal hold was created.
-        public var creationDate: ClientRuntime.Date?
+        public var creationDate: Foundation.Date?
         /// This is the description of a legal hold.
         public var description: Swift.String?
         /// This is an Amazon Resource Number (ARN) that uniquely identifies the legal hold; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
@@ -6233,8 +6236,8 @@ extension BackupClientTypes {
         public var title: Swift.String?
 
         public init(
-            cancellationDate: ClientRuntime.Date? = nil,
-            creationDate: ClientRuntime.Date? = nil,
+            cancellationDate: Foundation.Date? = nil,
+            creationDate: Foundation.Date? = nil,
             description: Swift.String? = nil,
             legalHoldArn: Swift.String? = nil,
             legalHoldId: Swift.String? = nil,
@@ -6385,34 +6388,34 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
 extension ListBackupJobSummariesInput {
 
-    static func queryItemProvider(_ value: ListBackupJobSummariesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListBackupJobSummariesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let aggregationPeriod = value.aggregationPeriod {
-            let aggregationPeriodQueryItem = ClientRuntime.SDKURLQueryItem(name: "AggregationPeriod".urlPercentEncoding(), value: Swift.String(aggregationPeriod.rawValue).urlPercentEncoding())
+            let aggregationPeriodQueryItem = Smithy.URIQueryItem(name: "AggregationPeriod".urlPercentEncoding(), value: Swift.String(aggregationPeriod.rawValue).urlPercentEncoding())
             items.append(aggregationPeriodQueryItem)
         }
         if let accountId = value.accountId {
-            let accountIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "AccountId".urlPercentEncoding(), value: Swift.String(accountId).urlPercentEncoding())
+            let accountIdQueryItem = Smithy.URIQueryItem(name: "AccountId".urlPercentEncoding(), value: Swift.String(accountId).urlPercentEncoding())
             items.append(accountIdQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let state = value.state {
-            let stateQueryItem = ClientRuntime.SDKURLQueryItem(name: "State".urlPercentEncoding(), value: Swift.String(state.rawValue).urlPercentEncoding())
+            let stateQueryItem = Smithy.URIQueryItem(name: "State".urlPercentEncoding(), value: Swift.String(state.rawValue).urlPercentEncoding())
             items.append(stateQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let resourceType = value.resourceType {
-            let resourceTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "ResourceType".urlPercentEncoding(), value: Swift.String(resourceType).urlPercentEncoding())
+            let resourceTypeQueryItem = Smithy.URIQueryItem(name: "ResourceType".urlPercentEncoding(), value: Swift.String(resourceType).urlPercentEncoding())
             items.append(resourceTypeQueryItem)
         }
         if let messageCategory = value.messageCategory {
-            let messageCategoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "MessageCategory".urlPercentEncoding(), value: Swift.String(messageCategory).urlPercentEncoding())
+            let messageCategoryQueryItem = Smithy.URIQueryItem(name: "MessageCategory".urlPercentEncoding(), value: Swift.String(messageCategory).urlPercentEncoding())
             items.append(messageCategoryQueryItem)
         }
         return items
@@ -6470,7 +6473,7 @@ public struct ListBackupJobSummariesInput {
 
 extension ListBackupJobSummariesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListBackupJobSummariesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListBackupJobSummariesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6510,7 +6513,7 @@ public struct ListBackupJobSummariesOutput {
 
 enum ListBackupJobSummariesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6525,58 +6528,58 @@ enum ListBackupJobSummariesOutputError {
 
 extension ListBackupJobsInput {
 
-    static func queryItemProvider(_ value: ListBackupJobsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListBackupJobsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let byResourceType = value.byResourceType {
-            let byResourceTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(byResourceType).urlPercentEncoding())
+            let byResourceTypeQueryItem = Smithy.URIQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(byResourceType).urlPercentEncoding())
             items.append(byResourceTypeQueryItem)
         }
         if let byBackupVaultName = value.byBackupVaultName {
-            let byBackupVaultNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "backupVaultName".urlPercentEncoding(), value: Swift.String(byBackupVaultName).urlPercentEncoding())
+            let byBackupVaultNameQueryItem = Smithy.URIQueryItem(name: "backupVaultName".urlPercentEncoding(), value: Swift.String(byBackupVaultName).urlPercentEncoding())
             items.append(byBackupVaultNameQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let byResourceArn = value.byResourceArn {
-            let byResourceArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(byResourceArn).urlPercentEncoding())
+            let byResourceArnQueryItem = Smithy.URIQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(byResourceArn).urlPercentEncoding())
             items.append(byResourceArnQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let byState = value.byState {
-            let byStateQueryItem = ClientRuntime.SDKURLQueryItem(name: "state".urlPercentEncoding(), value: Swift.String(byState.rawValue).urlPercentEncoding())
+            let byStateQueryItem = Smithy.URIQueryItem(name: "state".urlPercentEncoding(), value: Swift.String(byState.rawValue).urlPercentEncoding())
             items.append(byStateQueryItem)
         }
         if let byAccountId = value.byAccountId {
-            let byAccountIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "accountId".urlPercentEncoding(), value: Swift.String(byAccountId).urlPercentEncoding())
+            let byAccountIdQueryItem = Smithy.URIQueryItem(name: "accountId".urlPercentEncoding(), value: Swift.String(byAccountId).urlPercentEncoding())
             items.append(byAccountIdQueryItem)
         }
         if let byCreatedAfter = value.byCreatedAfter {
-            let byCreatedAfterQueryItem = ClientRuntime.SDKURLQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedAfter)).urlPercentEncoding())
+            let byCreatedAfterQueryItem = Smithy.URIQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedAfter)).urlPercentEncoding())
             items.append(byCreatedAfterQueryItem)
         }
         if let byCreatedBefore = value.byCreatedBefore {
-            let byCreatedBeforeQueryItem = ClientRuntime.SDKURLQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedBefore)).urlPercentEncoding())
+            let byCreatedBeforeQueryItem = Smithy.URIQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedBefore)).urlPercentEncoding())
             items.append(byCreatedBeforeQueryItem)
         }
         if let byCompleteAfter = value.byCompleteAfter {
-            let byCompleteAfterQueryItem = ClientRuntime.SDKURLQueryItem(name: "completeAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteAfter)).urlPercentEncoding())
+            let byCompleteAfterQueryItem = Smithy.URIQueryItem(name: "completeAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteAfter)).urlPercentEncoding())
             items.append(byCompleteAfterQueryItem)
         }
         if let byParentJobId = value.byParentJobId {
-            let byParentJobIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "parentJobId".urlPercentEncoding(), value: Swift.String(byParentJobId).urlPercentEncoding())
+            let byParentJobIdQueryItem = Smithy.URIQueryItem(name: "parentJobId".urlPercentEncoding(), value: Swift.String(byParentJobId).urlPercentEncoding())
             items.append(byParentJobIdQueryItem)
         }
         if let byMessageCategory = value.byMessageCategory {
-            let byMessageCategoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "messageCategory".urlPercentEncoding(), value: Swift.String(byMessageCategory).urlPercentEncoding())
+            let byMessageCategoryQueryItem = Smithy.URIQueryItem(name: "messageCategory".urlPercentEncoding(), value: Swift.String(byMessageCategory).urlPercentEncoding())
             items.append(byMessageCategoryQueryItem)
         }
         if let byCompleteBefore = value.byCompleteBefore {
-            let byCompleteBeforeQueryItem = ClientRuntime.SDKURLQueryItem(name: "completeBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteBefore)).urlPercentEncoding())
+            let byCompleteBeforeQueryItem = Smithy.URIQueryItem(name: "completeBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteBefore)).urlPercentEncoding())
             items.append(byCompleteBeforeQueryItem)
         }
         return items
@@ -6596,13 +6599,13 @@ public struct ListBackupJobsInput {
     /// Returns only backup jobs that will be stored in the specified backup vault. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
     public var byBackupVaultName: Swift.String?
     /// Returns only backup jobs completed after a date expressed in Unix format and Coordinated Universal Time (UTC).
-    public var byCompleteAfter: ClientRuntime.Date?
+    public var byCompleteAfter: Foundation.Date?
     /// Returns only backup jobs completed before a date expressed in Unix format and Coordinated Universal Time (UTC).
-    public var byCompleteBefore: ClientRuntime.Date?
+    public var byCompleteBefore: Foundation.Date?
     /// Returns only backup jobs that were created after the specified date.
-    public var byCreatedAfter: ClientRuntime.Date?
+    public var byCreatedAfter: Foundation.Date?
     /// Returns only backup jobs that were created before the specified date.
-    public var byCreatedBefore: ClientRuntime.Date?
+    public var byCreatedBefore: Foundation.Date?
     /// This is an optional parameter that can be used to filter out jobs with a MessageCategory which matches the value you input. Example strings may include AccessDenied, SUCCESS, AGGREGATE_ALL, and InvalidParameters. View [Monitoring](https://docs.aws.amazon.com/aws-backup/latest/devguide/monitoring.html) The wildcard () returns count of all message categories. AGGREGATE_ALL aggregates job counts for all message categories and returns the sum.
     public var byMessageCategory: Swift.String?
     /// This is a filter to list child (nested) jobs based on parent job ID.
@@ -6653,10 +6656,10 @@ public struct ListBackupJobsInput {
     public init(
         byAccountId: Swift.String? = nil,
         byBackupVaultName: Swift.String? = nil,
-        byCompleteAfter: ClientRuntime.Date? = nil,
-        byCompleteBefore: ClientRuntime.Date? = nil,
-        byCreatedAfter: ClientRuntime.Date? = nil,
-        byCreatedBefore: ClientRuntime.Date? = nil,
+        byCompleteAfter: Foundation.Date? = nil,
+        byCompleteBefore: Foundation.Date? = nil,
+        byCreatedAfter: Foundation.Date? = nil,
+        byCreatedBefore: Foundation.Date? = nil,
         byMessageCategory: Swift.String? = nil,
         byParentJobId: Swift.String? = nil,
         byResourceArn: Swift.String? = nil,
@@ -6684,7 +6687,7 @@ public struct ListBackupJobsInput {
 
 extension ListBackupJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListBackupJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListBackupJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6713,7 +6716,7 @@ public struct ListBackupJobsOutput {
 
 enum ListBackupJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6728,14 +6731,14 @@ enum ListBackupJobsOutputError {
 
 extension ListBackupPlanTemplatesInput {
 
-    static func queryItemProvider(_ value: ListBackupPlanTemplatesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListBackupPlanTemplatesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -6767,7 +6770,7 @@ public struct ListBackupPlanTemplatesInput {
 
 extension ListBackupPlanTemplatesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListBackupPlanTemplatesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListBackupPlanTemplatesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6796,7 +6799,7 @@ public struct ListBackupPlanTemplatesOutput {
 
 enum ListBackupPlanTemplatesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6813,14 +6816,14 @@ enum ListBackupPlanTemplatesOutputError {
 
 extension ListBackupPlanVersionsInput {
 
-    static func queryItemProvider(_ value: ListBackupPlanVersionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListBackupPlanVersionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -6860,7 +6863,7 @@ public struct ListBackupPlanVersionsInput {
 
 extension ListBackupPlanVersionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListBackupPlanVersionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListBackupPlanVersionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6889,7 +6892,7 @@ public struct ListBackupPlanVersionsOutput {
 
 enum ListBackupPlanVersionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6906,18 +6909,18 @@ enum ListBackupPlanVersionsOutputError {
 
 extension ListBackupPlansInput {
 
-    static func queryItemProvider(_ value: ListBackupPlansInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListBackupPlansInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let includeDeleted = value.includeDeleted {
-            let includeDeletedQueryItem = ClientRuntime.SDKURLQueryItem(name: "includeDeleted".urlPercentEncoding(), value: Swift.String(includeDeleted).urlPercentEncoding())
+            let includeDeletedQueryItem = Smithy.URIQueryItem(name: "includeDeleted".urlPercentEncoding(), value: Swift.String(includeDeleted).urlPercentEncoding())
             items.append(includeDeletedQueryItem)
         }
         return items
@@ -6953,7 +6956,7 @@ public struct ListBackupPlansInput {
 
 extension ListBackupPlansOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListBackupPlansOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListBackupPlansOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6982,7 +6985,7 @@ public struct ListBackupPlansOutput {
 
 enum ListBackupPlansOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6999,14 +7002,14 @@ enum ListBackupPlansOutputError {
 
 extension ListBackupSelectionsInput {
 
-    static func queryItemProvider(_ value: ListBackupSelectionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListBackupSelectionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -7046,7 +7049,7 @@ public struct ListBackupSelectionsInput {
 
 extension ListBackupSelectionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListBackupSelectionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListBackupSelectionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7075,7 +7078,7 @@ public struct ListBackupSelectionsOutput {
 
 enum ListBackupSelectionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7092,22 +7095,22 @@ enum ListBackupSelectionsOutputError {
 
 extension ListBackupVaultsInput {
 
-    static func queryItemProvider(_ value: ListBackupVaultsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListBackupVaultsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let byShared = value.byShared {
-            let bySharedQueryItem = ClientRuntime.SDKURLQueryItem(name: "shared".urlPercentEncoding(), value: Swift.String(byShared).urlPercentEncoding())
+            let bySharedQueryItem = Smithy.URIQueryItem(name: "shared".urlPercentEncoding(), value: Swift.String(byShared).urlPercentEncoding())
             items.append(bySharedQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let byVaultType = value.byVaultType {
-            let byVaultTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "vaultType".urlPercentEncoding(), value: Swift.String(byVaultType.rawValue).urlPercentEncoding())
+            let byVaultTypeQueryItem = Smithy.URIQueryItem(name: "vaultType".urlPercentEncoding(), value: Swift.String(byVaultType.rawValue).urlPercentEncoding())
             items.append(byVaultTypeQueryItem)
         }
         return items
@@ -7147,7 +7150,7 @@ public struct ListBackupVaultsInput {
 
 extension ListBackupVaultsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListBackupVaultsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListBackupVaultsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7176,7 +7179,7 @@ public struct ListBackupVaultsOutput {
 
 enum ListBackupVaultsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7193,34 +7196,34 @@ enum ListBackupVaultsOutputError {
 
 extension ListCopyJobSummariesInput {
 
-    static func queryItemProvider(_ value: ListCopyJobSummariesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListCopyJobSummariesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let aggregationPeriod = value.aggregationPeriod {
-            let aggregationPeriodQueryItem = ClientRuntime.SDKURLQueryItem(name: "AggregationPeriod".urlPercentEncoding(), value: Swift.String(aggregationPeriod.rawValue).urlPercentEncoding())
+            let aggregationPeriodQueryItem = Smithy.URIQueryItem(name: "AggregationPeriod".urlPercentEncoding(), value: Swift.String(aggregationPeriod.rawValue).urlPercentEncoding())
             items.append(aggregationPeriodQueryItem)
         }
         if let accountId = value.accountId {
-            let accountIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "AccountId".urlPercentEncoding(), value: Swift.String(accountId).urlPercentEncoding())
+            let accountIdQueryItem = Smithy.URIQueryItem(name: "AccountId".urlPercentEncoding(), value: Swift.String(accountId).urlPercentEncoding())
             items.append(accountIdQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let state = value.state {
-            let stateQueryItem = ClientRuntime.SDKURLQueryItem(name: "State".urlPercentEncoding(), value: Swift.String(state.rawValue).urlPercentEncoding())
+            let stateQueryItem = Smithy.URIQueryItem(name: "State".urlPercentEncoding(), value: Swift.String(state.rawValue).urlPercentEncoding())
             items.append(stateQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let resourceType = value.resourceType {
-            let resourceTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "ResourceType".urlPercentEncoding(), value: Swift.String(resourceType).urlPercentEncoding())
+            let resourceTypeQueryItem = Smithy.URIQueryItem(name: "ResourceType".urlPercentEncoding(), value: Swift.String(resourceType).urlPercentEncoding())
             items.append(resourceTypeQueryItem)
         }
         if let messageCategory = value.messageCategory {
-            let messageCategoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "MessageCategory".urlPercentEncoding(), value: Swift.String(messageCategory).urlPercentEncoding())
+            let messageCategoryQueryItem = Smithy.URIQueryItem(name: "MessageCategory".urlPercentEncoding(), value: Swift.String(messageCategory).urlPercentEncoding())
             items.append(messageCategoryQueryItem)
         }
         return items
@@ -7278,7 +7281,7 @@ public struct ListCopyJobSummariesInput {
 
 extension ListCopyJobSummariesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListCopyJobSummariesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListCopyJobSummariesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7318,7 +7321,7 @@ public struct ListCopyJobSummariesOutput {
 
 enum ListCopyJobSummariesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7333,58 +7336,58 @@ enum ListCopyJobSummariesOutputError {
 
 extension ListCopyJobsInput {
 
-    static func queryItemProvider(_ value: ListCopyJobsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListCopyJobsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let byResourceType = value.byResourceType {
-            let byResourceTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(byResourceType).urlPercentEncoding())
+            let byResourceTypeQueryItem = Smithy.URIQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(byResourceType).urlPercentEncoding())
             items.append(byResourceTypeQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let byResourceArn = value.byResourceArn {
-            let byResourceArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(byResourceArn).urlPercentEncoding())
+            let byResourceArnQueryItem = Smithy.URIQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(byResourceArn).urlPercentEncoding())
             items.append(byResourceArnQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let byState = value.byState {
-            let byStateQueryItem = ClientRuntime.SDKURLQueryItem(name: "state".urlPercentEncoding(), value: Swift.String(byState.rawValue).urlPercentEncoding())
+            let byStateQueryItem = Smithy.URIQueryItem(name: "state".urlPercentEncoding(), value: Swift.String(byState.rawValue).urlPercentEncoding())
             items.append(byStateQueryItem)
         }
         if let byAccountId = value.byAccountId {
-            let byAccountIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "accountId".urlPercentEncoding(), value: Swift.String(byAccountId).urlPercentEncoding())
+            let byAccountIdQueryItem = Smithy.URIQueryItem(name: "accountId".urlPercentEncoding(), value: Swift.String(byAccountId).urlPercentEncoding())
             items.append(byAccountIdQueryItem)
         }
         if let byCreatedAfter = value.byCreatedAfter {
-            let byCreatedAfterQueryItem = ClientRuntime.SDKURLQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedAfter)).urlPercentEncoding())
+            let byCreatedAfterQueryItem = Smithy.URIQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedAfter)).urlPercentEncoding())
             items.append(byCreatedAfterQueryItem)
         }
         if let byCreatedBefore = value.byCreatedBefore {
-            let byCreatedBeforeQueryItem = ClientRuntime.SDKURLQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedBefore)).urlPercentEncoding())
+            let byCreatedBeforeQueryItem = Smithy.URIQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedBefore)).urlPercentEncoding())
             items.append(byCreatedBeforeQueryItem)
         }
         if let byCompleteAfter = value.byCompleteAfter {
-            let byCompleteAfterQueryItem = ClientRuntime.SDKURLQueryItem(name: "completeAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteAfter)).urlPercentEncoding())
+            let byCompleteAfterQueryItem = Smithy.URIQueryItem(name: "completeAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteAfter)).urlPercentEncoding())
             items.append(byCompleteAfterQueryItem)
         }
         if let byDestinationVaultArn = value.byDestinationVaultArn {
-            let byDestinationVaultArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "destinationVaultArn".urlPercentEncoding(), value: Swift.String(byDestinationVaultArn).urlPercentEncoding())
+            let byDestinationVaultArnQueryItem = Smithy.URIQueryItem(name: "destinationVaultArn".urlPercentEncoding(), value: Swift.String(byDestinationVaultArn).urlPercentEncoding())
             items.append(byDestinationVaultArnQueryItem)
         }
         if let byParentJobId = value.byParentJobId {
-            let byParentJobIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "parentJobId".urlPercentEncoding(), value: Swift.String(byParentJobId).urlPercentEncoding())
+            let byParentJobIdQueryItem = Smithy.URIQueryItem(name: "parentJobId".urlPercentEncoding(), value: Swift.String(byParentJobId).urlPercentEncoding())
             items.append(byParentJobIdQueryItem)
         }
         if let byMessageCategory = value.byMessageCategory {
-            let byMessageCategoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "messageCategory".urlPercentEncoding(), value: Swift.String(byMessageCategory).urlPercentEncoding())
+            let byMessageCategoryQueryItem = Smithy.URIQueryItem(name: "messageCategory".urlPercentEncoding(), value: Swift.String(byMessageCategory).urlPercentEncoding())
             items.append(byMessageCategoryQueryItem)
         }
         if let byCompleteBefore = value.byCompleteBefore {
-            let byCompleteBeforeQueryItem = ClientRuntime.SDKURLQueryItem(name: "completeBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteBefore)).urlPercentEncoding())
+            let byCompleteBeforeQueryItem = Smithy.URIQueryItem(name: "completeBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteBefore)).urlPercentEncoding())
             items.append(byCompleteBeforeQueryItem)
         }
         return items
@@ -7402,13 +7405,13 @@ public struct ListCopyJobsInput {
     /// The account ID to list the jobs from. Returns only copy jobs associated with the specified account ID.
     public var byAccountId: Swift.String?
     /// Returns only copy jobs completed after a date expressed in Unix format and Coordinated Universal Time (UTC).
-    public var byCompleteAfter: ClientRuntime.Date?
+    public var byCompleteAfter: Foundation.Date?
     /// Returns only copy jobs completed before a date expressed in Unix format and Coordinated Universal Time (UTC).
-    public var byCompleteBefore: ClientRuntime.Date?
+    public var byCompleteBefore: Foundation.Date?
     /// Returns only copy jobs that were created after the specified date.
-    public var byCreatedAfter: ClientRuntime.Date?
+    public var byCreatedAfter: Foundation.Date?
     /// Returns only copy jobs that were created before the specified date.
-    public var byCreatedBefore: ClientRuntime.Date?
+    public var byCreatedBefore: Foundation.Date?
     /// An Amazon Resource Name (ARN) that uniquely identifies a source backup vault to copy from; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
     public var byDestinationVaultArn: Swift.String?
     /// This is an optional parameter that can be used to filter out jobs with a MessageCategory which matches the value you input. Example strings may include AccessDenied, SUCCESS, AGGREGATE_ALL, and INVALIDPARAMETERS. View [Monitoring](https://docs.aws.amazon.com/aws-backup/latest/devguide/monitoring.html) for a list of accepted strings. The the value ANY returns count of all message categories. AGGREGATE_ALL aggregates job counts for all message categories and returns the sum.
@@ -7460,10 +7463,10 @@ public struct ListCopyJobsInput {
 
     public init(
         byAccountId: Swift.String? = nil,
-        byCompleteAfter: ClientRuntime.Date? = nil,
-        byCompleteBefore: ClientRuntime.Date? = nil,
-        byCreatedAfter: ClientRuntime.Date? = nil,
-        byCreatedBefore: ClientRuntime.Date? = nil,
+        byCompleteAfter: Foundation.Date? = nil,
+        byCompleteBefore: Foundation.Date? = nil,
+        byCreatedAfter: Foundation.Date? = nil,
+        byCreatedBefore: Foundation.Date? = nil,
         byDestinationVaultArn: Swift.String? = nil,
         byMessageCategory: Swift.String? = nil,
         byParentJobId: Swift.String? = nil,
@@ -7492,7 +7495,7 @@ public struct ListCopyJobsInput {
 
 extension ListCopyJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListCopyJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListCopyJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7521,7 +7524,7 @@ public struct ListCopyJobsOutput {
 
 enum ListCopyJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7536,14 +7539,14 @@ enum ListCopyJobsOutputError {
 
 extension ListFrameworksInput {
 
-    static func queryItemProvider(_ value: ListFrameworksInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListFrameworksInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -7575,7 +7578,7 @@ public struct ListFrameworksInput {
 
 extension ListFrameworksOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListFrameworksOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListFrameworksOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7604,7 +7607,7 @@ public struct ListFrameworksOutput {
 
 enum ListFrameworksOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7619,14 +7622,14 @@ enum ListFrameworksOutputError {
 
 extension ListLegalHoldsInput {
 
-    static func queryItemProvider(_ value: ListLegalHoldsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListLegalHoldsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -7658,7 +7661,7 @@ public struct ListLegalHoldsInput {
 
 extension ListLegalHoldsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListLegalHoldsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListLegalHoldsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7687,7 +7690,7 @@ public struct ListLegalHoldsOutput {
 
 enum ListLegalHoldsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7702,18 +7705,18 @@ enum ListLegalHoldsOutputError {
 
 extension ListProtectedResourcesByBackupVaultInput {
 
-    static func queryItemProvider(_ value: ListProtectedResourcesByBackupVaultInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListProtectedResourcesByBackupVaultInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let backupVaultAccountId = value.backupVaultAccountId {
-            let backupVaultAccountIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "backupVaultAccountId".urlPercentEncoding(), value: Swift.String(backupVaultAccountId).urlPercentEncoding())
+            let backupVaultAccountIdQueryItem = Smithy.URIQueryItem(name: "backupVaultAccountId".urlPercentEncoding(), value: Swift.String(backupVaultAccountId).urlPercentEncoding())
             items.append(backupVaultAccountIdQueryItem)
         }
         return items
@@ -7757,7 +7760,7 @@ public struct ListProtectedResourcesByBackupVaultInput {
 
 extension ListProtectedResourcesByBackupVaultOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListProtectedResourcesByBackupVaultOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListProtectedResourcesByBackupVaultOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7786,7 +7789,7 @@ public struct ListProtectedResourcesByBackupVaultOutput {
 
 enum ListProtectedResourcesByBackupVaultOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7802,14 +7805,14 @@ enum ListProtectedResourcesByBackupVaultOutputError {
 
 extension ListProtectedResourcesInput {
 
-    static func queryItemProvider(_ value: ListProtectedResourcesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListProtectedResourcesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -7841,7 +7844,7 @@ public struct ListProtectedResourcesInput {
 
 extension ListProtectedResourcesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListProtectedResourcesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListProtectedResourcesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7870,7 +7873,7 @@ public struct ListProtectedResourcesOutput {
 
 enum ListProtectedResourcesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7885,42 +7888,42 @@ enum ListProtectedResourcesOutputError {
 
 extension ListRecoveryPointsByBackupVaultInput {
 
-    static func queryItemProvider(_ value: ListRecoveryPointsByBackupVaultInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListRecoveryPointsByBackupVaultInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let byResourceType = value.byResourceType {
-            let byResourceTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(byResourceType).urlPercentEncoding())
+            let byResourceTypeQueryItem = Smithy.URIQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(byResourceType).urlPercentEncoding())
             items.append(byResourceTypeQueryItem)
         }
         if let byCreatedBefore = value.byCreatedBefore {
-            let byCreatedBeforeQueryItem = ClientRuntime.SDKURLQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedBefore)).urlPercentEncoding())
+            let byCreatedBeforeQueryItem = Smithy.URIQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedBefore)).urlPercentEncoding())
             items.append(byCreatedBeforeQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let byResourceArn = value.byResourceArn {
-            let byResourceArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(byResourceArn).urlPercentEncoding())
+            let byResourceArnQueryItem = Smithy.URIQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(byResourceArn).urlPercentEncoding())
             items.append(byResourceArnQueryItem)
         }
         if let byBackupPlanId = value.byBackupPlanId {
-            let byBackupPlanIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "backupPlanId".urlPercentEncoding(), value: Swift.String(byBackupPlanId).urlPercentEncoding())
+            let byBackupPlanIdQueryItem = Smithy.URIQueryItem(name: "backupPlanId".urlPercentEncoding(), value: Swift.String(byBackupPlanId).urlPercentEncoding())
             items.append(byBackupPlanIdQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let byParentRecoveryPointArn = value.byParentRecoveryPointArn {
-            let byParentRecoveryPointArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "parentRecoveryPointArn".urlPercentEncoding(), value: Swift.String(byParentRecoveryPointArn).urlPercentEncoding())
+            let byParentRecoveryPointArnQueryItem = Smithy.URIQueryItem(name: "parentRecoveryPointArn".urlPercentEncoding(), value: Swift.String(byParentRecoveryPointArn).urlPercentEncoding())
             items.append(byParentRecoveryPointArnQueryItem)
         }
         if let backupVaultAccountId = value.backupVaultAccountId {
-            let backupVaultAccountIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "backupVaultAccountId".urlPercentEncoding(), value: Swift.String(backupVaultAccountId).urlPercentEncoding())
+            let backupVaultAccountIdQueryItem = Smithy.URIQueryItem(name: "backupVaultAccountId".urlPercentEncoding(), value: Swift.String(backupVaultAccountId).urlPercentEncoding())
             items.append(backupVaultAccountIdQueryItem)
         }
         if let byCreatedAfter = value.byCreatedAfter {
-            let byCreatedAfterQueryItem = ClientRuntime.SDKURLQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedAfter)).urlPercentEncoding())
+            let byCreatedAfterQueryItem = Smithy.URIQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedAfter)).urlPercentEncoding())
             items.append(byCreatedAfterQueryItem)
         }
         return items
@@ -7946,9 +7949,9 @@ public struct ListRecoveryPointsByBackupVaultInput {
     /// Returns only recovery points that match the specified backup plan ID.
     public var byBackupPlanId: Swift.String?
     /// Returns only recovery points that were created after the specified timestamp.
-    public var byCreatedAfter: ClientRuntime.Date?
+    public var byCreatedAfter: Foundation.Date?
     /// Returns only recovery points that were created before the specified timestamp.
-    public var byCreatedBefore: ClientRuntime.Date?
+    public var byCreatedBefore: Foundation.Date?
     /// This returns only recovery points that match the specified parent (composite) recovery point Amazon Resource Name (ARN).
     public var byParentRecoveryPointArn: Swift.String?
     /// Returns only recovery points that match the specified resource Amazon Resource Name (ARN).
@@ -7996,8 +7999,8 @@ public struct ListRecoveryPointsByBackupVaultInput {
         backupVaultAccountId: Swift.String? = nil,
         backupVaultName: Swift.String? = nil,
         byBackupPlanId: Swift.String? = nil,
-        byCreatedAfter: ClientRuntime.Date? = nil,
-        byCreatedBefore: ClientRuntime.Date? = nil,
+        byCreatedAfter: Foundation.Date? = nil,
+        byCreatedBefore: Foundation.Date? = nil,
         byParentRecoveryPointArn: Swift.String? = nil,
         byResourceArn: Swift.String? = nil,
         byResourceType: Swift.String? = nil,
@@ -8020,7 +8023,7 @@ public struct ListRecoveryPointsByBackupVaultInput {
 
 extension ListRecoveryPointsByBackupVaultOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListRecoveryPointsByBackupVaultOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListRecoveryPointsByBackupVaultOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8049,7 +8052,7 @@ public struct ListRecoveryPointsByBackupVaultOutput {
 
 enum ListRecoveryPointsByBackupVaultOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8066,14 +8069,14 @@ enum ListRecoveryPointsByBackupVaultOutputError {
 
 extension ListRecoveryPointsByLegalHoldInput {
 
-    static func queryItemProvider(_ value: ListRecoveryPointsByLegalHoldInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListRecoveryPointsByLegalHoldInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -8113,7 +8116,7 @@ public struct ListRecoveryPointsByLegalHoldInput {
 
 extension ListRecoveryPointsByLegalHoldOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListRecoveryPointsByLegalHoldOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListRecoveryPointsByLegalHoldOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8142,7 +8145,7 @@ public struct ListRecoveryPointsByLegalHoldOutput {
 
 enum ListRecoveryPointsByLegalHoldOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8158,18 +8161,18 @@ enum ListRecoveryPointsByLegalHoldOutputError {
 
 extension ListRecoveryPointsByResourceInput {
 
-    static func queryItemProvider(_ value: ListRecoveryPointsByResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListRecoveryPointsByResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let managedByAWSBackupOnly = value.managedByAWSBackupOnly {
-            let managedByAWSBackupOnlyQueryItem = ClientRuntime.SDKURLQueryItem(name: "managedByAWSBackupOnly".urlPercentEncoding(), value: Swift.String(managedByAWSBackupOnly).urlPercentEncoding())
+            let managedByAWSBackupOnlyQueryItem = Smithy.URIQueryItem(name: "managedByAWSBackupOnly".urlPercentEncoding(), value: Swift.String(managedByAWSBackupOnly).urlPercentEncoding())
             items.append(managedByAWSBackupOnlyQueryItem)
         }
         return items
@@ -8213,7 +8216,7 @@ public struct ListRecoveryPointsByResourceInput {
 
 extension ListRecoveryPointsByResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListRecoveryPointsByResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListRecoveryPointsByResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8242,7 +8245,7 @@ public struct ListRecoveryPointsByResourceOutput {
 
 enum ListRecoveryPointsByResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8259,30 +8262,30 @@ enum ListRecoveryPointsByResourceOutputError {
 
 extension ListReportJobsInput {
 
-    static func queryItemProvider(_ value: ListReportJobsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListReportJobsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let byReportPlanName = value.byReportPlanName {
-            let byReportPlanNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "ReportPlanName".urlPercentEncoding(), value: Swift.String(byReportPlanName).urlPercentEncoding())
+            let byReportPlanNameQueryItem = Smithy.URIQueryItem(name: "ReportPlanName".urlPercentEncoding(), value: Swift.String(byReportPlanName).urlPercentEncoding())
             items.append(byReportPlanNameQueryItem)
         }
         if let byCreationAfter = value.byCreationAfter {
-            let byCreationAfterQueryItem = ClientRuntime.SDKURLQueryItem(name: "CreationAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreationAfter)).urlPercentEncoding())
+            let byCreationAfterQueryItem = Smithy.URIQueryItem(name: "CreationAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreationAfter)).urlPercentEncoding())
             items.append(byCreationAfterQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let byStatus = value.byStatus {
-            let byStatusQueryItem = ClientRuntime.SDKURLQueryItem(name: "Status".urlPercentEncoding(), value: Swift.String(byStatus).urlPercentEncoding())
+            let byStatusQueryItem = Smithy.URIQueryItem(name: "Status".urlPercentEncoding(), value: Swift.String(byStatus).urlPercentEncoding())
             items.append(byStatusQueryItem)
         }
         if let byCreationBefore = value.byCreationBefore {
-            let byCreationBeforeQueryItem = ClientRuntime.SDKURLQueryItem(name: "CreationBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreationBefore)).urlPercentEncoding())
+            let byCreationBeforeQueryItem = Smithy.URIQueryItem(name: "CreationBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreationBefore)).urlPercentEncoding())
             items.append(byCreationBeforeQueryItem)
         }
         return items
@@ -8298,9 +8301,9 @@ extension ListReportJobsInput {
 
 public struct ListReportJobsInput {
     /// Returns only report jobs that were created after the date and time specified in Unix format and Coordinated Universal Time (UTC). For example, the value 1516925490 represents Friday, January 26, 2018 12:11:30 AM.
-    public var byCreationAfter: ClientRuntime.Date?
+    public var byCreationAfter: Foundation.Date?
     /// Returns only report jobs that were created before the date and time specified in Unix format and Coordinated Universal Time (UTC). For example, the value 1516925490 represents Friday, January 26, 2018 12:11:30 AM.
-    public var byCreationBefore: ClientRuntime.Date?
+    public var byCreationBefore: Foundation.Date?
     /// Returns only report jobs with the specified report plan name.
     public var byReportPlanName: Swift.String?
     /// Returns only report jobs that are in the specified status. The statuses are: CREATED | RUNNING | COMPLETED | FAILED
@@ -8311,8 +8314,8 @@ public struct ListReportJobsInput {
     public var nextToken: Swift.String?
 
     public init(
-        byCreationAfter: ClientRuntime.Date? = nil,
-        byCreationBefore: ClientRuntime.Date? = nil,
+        byCreationAfter: Foundation.Date? = nil,
+        byCreationBefore: Foundation.Date? = nil,
         byReportPlanName: Swift.String? = nil,
         byStatus: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
@@ -8330,7 +8333,7 @@ public struct ListReportJobsInput {
 
 extension ListReportJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListReportJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListReportJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8359,7 +8362,7 @@ public struct ListReportJobsOutput {
 
 enum ListReportJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8375,14 +8378,14 @@ enum ListReportJobsOutputError {
 
 extension ListReportPlansInput {
 
-    static func queryItemProvider(_ value: ListReportPlansInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListReportPlansInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -8414,7 +8417,7 @@ public struct ListReportPlansInput {
 
 extension ListReportPlansOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListReportPlansOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListReportPlansOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8443,7 +8446,7 @@ public struct ListReportPlansOutput {
 
 enum ListReportPlansOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8458,30 +8461,30 @@ enum ListReportPlansOutputError {
 
 extension ListRestoreJobSummariesInput {
 
-    static func queryItemProvider(_ value: ListRestoreJobSummariesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListRestoreJobSummariesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let aggregationPeriod = value.aggregationPeriod {
-            let aggregationPeriodQueryItem = ClientRuntime.SDKURLQueryItem(name: "AggregationPeriod".urlPercentEncoding(), value: Swift.String(aggregationPeriod.rawValue).urlPercentEncoding())
+            let aggregationPeriodQueryItem = Smithy.URIQueryItem(name: "AggregationPeriod".urlPercentEncoding(), value: Swift.String(aggregationPeriod.rawValue).urlPercentEncoding())
             items.append(aggregationPeriodQueryItem)
         }
         if let accountId = value.accountId {
-            let accountIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "AccountId".urlPercentEncoding(), value: Swift.String(accountId).urlPercentEncoding())
+            let accountIdQueryItem = Smithy.URIQueryItem(name: "AccountId".urlPercentEncoding(), value: Swift.String(accountId).urlPercentEncoding())
             items.append(accountIdQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let state = value.state {
-            let stateQueryItem = ClientRuntime.SDKURLQueryItem(name: "State".urlPercentEncoding(), value: Swift.String(state.rawValue).urlPercentEncoding())
+            let stateQueryItem = Smithy.URIQueryItem(name: "State".urlPercentEncoding(), value: Swift.String(state.rawValue).urlPercentEncoding())
             items.append(stateQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let resourceType = value.resourceType {
-            let resourceTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "ResourceType".urlPercentEncoding(), value: Swift.String(resourceType).urlPercentEncoding())
+            let resourceTypeQueryItem = Smithy.URIQueryItem(name: "ResourceType".urlPercentEncoding(), value: Swift.String(resourceType).urlPercentEncoding())
             items.append(resourceTypeQueryItem)
         }
         return items
@@ -8535,7 +8538,7 @@ public struct ListRestoreJobSummariesInput {
 
 extension ListRestoreJobSummariesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListRestoreJobSummariesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListRestoreJobSummariesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8575,7 +8578,7 @@ public struct ListRestoreJobSummariesOutput {
 
 enum ListRestoreJobSummariesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8590,26 +8593,26 @@ enum ListRestoreJobSummariesOutputError {
 
 extension ListRestoreJobsByProtectedResourceInput {
 
-    static func queryItemProvider(_ value: ListRestoreJobsByProtectedResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListRestoreJobsByProtectedResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let byRecoveryPointCreationDateAfter = value.byRecoveryPointCreationDateAfter {
-            let byRecoveryPointCreationDateAfterQueryItem = ClientRuntime.SDKURLQueryItem(name: "recoveryPointCreationDateAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byRecoveryPointCreationDateAfter)).urlPercentEncoding())
+            let byRecoveryPointCreationDateAfterQueryItem = Smithy.URIQueryItem(name: "recoveryPointCreationDateAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byRecoveryPointCreationDateAfter)).urlPercentEncoding())
             items.append(byRecoveryPointCreationDateAfterQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let byStatus = value.byStatus {
-            let byStatusQueryItem = ClientRuntime.SDKURLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(byStatus.rawValue).urlPercentEncoding())
+            let byStatusQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(byStatus.rawValue).urlPercentEncoding())
             items.append(byStatusQueryItem)
         }
         if let byRecoveryPointCreationDateBefore = value.byRecoveryPointCreationDateBefore {
-            let byRecoveryPointCreationDateBeforeQueryItem = ClientRuntime.SDKURLQueryItem(name: "recoveryPointCreationDateBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byRecoveryPointCreationDateBefore)).urlPercentEncoding())
+            let byRecoveryPointCreationDateBeforeQueryItem = Smithy.URIQueryItem(name: "recoveryPointCreationDateBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byRecoveryPointCreationDateBefore)).urlPercentEncoding())
             items.append(byRecoveryPointCreationDateBeforeQueryItem)
         }
         return items
@@ -8628,9 +8631,9 @@ extension ListRestoreJobsByProtectedResourceInput {
 
 public struct ListRestoreJobsByProtectedResourceInput {
     /// Returns only restore jobs of recovery points that were created after the specified date.
-    public var byRecoveryPointCreationDateAfter: ClientRuntime.Date?
+    public var byRecoveryPointCreationDateAfter: Foundation.Date?
     /// Returns only restore jobs of recovery points that were created before the specified date.
-    public var byRecoveryPointCreationDateBefore: ClientRuntime.Date?
+    public var byRecoveryPointCreationDateBefore: Foundation.Date?
     /// Returns only restore jobs associated with the specified job status.
     public var byStatus: BackupClientTypes.RestoreJobStatus?
     /// The maximum number of items to be returned.
@@ -8642,8 +8645,8 @@ public struct ListRestoreJobsByProtectedResourceInput {
     public var resourceArn: Swift.String?
 
     public init(
-        byRecoveryPointCreationDateAfter: ClientRuntime.Date? = nil,
-        byRecoveryPointCreationDateBefore: ClientRuntime.Date? = nil,
+        byRecoveryPointCreationDateAfter: Foundation.Date? = nil,
+        byRecoveryPointCreationDateBefore: Foundation.Date? = nil,
         byStatus: BackupClientTypes.RestoreJobStatus? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -8661,7 +8664,7 @@ public struct ListRestoreJobsByProtectedResourceInput {
 
 extension ListRestoreJobsByProtectedResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListRestoreJobsByProtectedResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListRestoreJobsByProtectedResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8690,7 +8693,7 @@ public struct ListRestoreJobsByProtectedResourceOutput {
 
 enum ListRestoreJobsByProtectedResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8707,46 +8710,46 @@ enum ListRestoreJobsByProtectedResourceOutputError {
 
 extension ListRestoreJobsInput {
 
-    static func queryItemProvider(_ value: ListRestoreJobsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListRestoreJobsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let byResourceType = value.byResourceType {
-            let byResourceTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(byResourceType).urlPercentEncoding())
+            let byResourceTypeQueryItem = Smithy.URIQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(byResourceType).urlPercentEncoding())
             items.append(byResourceTypeQueryItem)
         }
         if let byCreatedBefore = value.byCreatedBefore {
-            let byCreatedBeforeQueryItem = ClientRuntime.SDKURLQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedBefore)).urlPercentEncoding())
+            let byCreatedBeforeQueryItem = Smithy.URIQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedBefore)).urlPercentEncoding())
             items.append(byCreatedBeforeQueryItem)
         }
         if let byCompleteAfter = value.byCompleteAfter {
-            let byCompleteAfterQueryItem = ClientRuntime.SDKURLQueryItem(name: "completeAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteAfter)).urlPercentEncoding())
+            let byCompleteAfterQueryItem = Smithy.URIQueryItem(name: "completeAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteAfter)).urlPercentEncoding())
             items.append(byCompleteAfterQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let byAccountId = value.byAccountId {
-            let byAccountIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "accountId".urlPercentEncoding(), value: Swift.String(byAccountId).urlPercentEncoding())
+            let byAccountIdQueryItem = Smithy.URIQueryItem(name: "accountId".urlPercentEncoding(), value: Swift.String(byAccountId).urlPercentEncoding())
             items.append(byAccountIdQueryItem)
         }
         if let byCompleteBefore = value.byCompleteBefore {
-            let byCompleteBeforeQueryItem = ClientRuntime.SDKURLQueryItem(name: "completeBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteBefore)).urlPercentEncoding())
+            let byCompleteBeforeQueryItem = Smithy.URIQueryItem(name: "completeBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteBefore)).urlPercentEncoding())
             items.append(byCompleteBeforeQueryItem)
         }
         if let byCreatedAfter = value.byCreatedAfter {
-            let byCreatedAfterQueryItem = ClientRuntime.SDKURLQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedAfter)).urlPercentEncoding())
+            let byCreatedAfterQueryItem = Smithy.URIQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedAfter)).urlPercentEncoding())
             items.append(byCreatedAfterQueryItem)
         }
         if let byStatus = value.byStatus {
-            let byStatusQueryItem = ClientRuntime.SDKURLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(byStatus.rawValue).urlPercentEncoding())
+            let byStatusQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(byStatus.rawValue).urlPercentEncoding())
             items.append(byStatusQueryItem)
         }
         if let byRestoreTestingPlanArn = value.byRestoreTestingPlanArn {
-            let byRestoreTestingPlanArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "restoreTestingPlanArn".urlPercentEncoding(), value: Swift.String(byRestoreTestingPlanArn).urlPercentEncoding())
+            let byRestoreTestingPlanArnQueryItem = Smithy.URIQueryItem(name: "restoreTestingPlanArn".urlPercentEncoding(), value: Swift.String(byRestoreTestingPlanArn).urlPercentEncoding())
             items.append(byRestoreTestingPlanArnQueryItem)
         }
         return items
@@ -8764,13 +8767,13 @@ public struct ListRestoreJobsInput {
     /// The account ID to list the jobs from. Returns only restore jobs associated with the specified account ID.
     public var byAccountId: Swift.String?
     /// Returns only copy jobs completed after a date expressed in Unix format and Coordinated Universal Time (UTC).
-    public var byCompleteAfter: ClientRuntime.Date?
+    public var byCompleteAfter: Foundation.Date?
     /// Returns only copy jobs completed before a date expressed in Unix format and Coordinated Universal Time (UTC).
-    public var byCompleteBefore: ClientRuntime.Date?
+    public var byCompleteBefore: Foundation.Date?
     /// Returns only restore jobs that were created after the specified date.
-    public var byCreatedAfter: ClientRuntime.Date?
+    public var byCreatedAfter: Foundation.Date?
     /// Returns only restore jobs that were created before the specified date.
-    public var byCreatedBefore: ClientRuntime.Date?
+    public var byCreatedBefore: Foundation.Date?
     /// Include this parameter to return only restore jobs for the specified resources:
     ///
     /// * Aurora for Amazon Aurora
@@ -8816,10 +8819,10 @@ public struct ListRestoreJobsInput {
 
     public init(
         byAccountId: Swift.String? = nil,
-        byCompleteAfter: ClientRuntime.Date? = nil,
-        byCompleteBefore: ClientRuntime.Date? = nil,
-        byCreatedAfter: ClientRuntime.Date? = nil,
-        byCreatedBefore: ClientRuntime.Date? = nil,
+        byCompleteAfter: Foundation.Date? = nil,
+        byCompleteBefore: Foundation.Date? = nil,
+        byCreatedAfter: Foundation.Date? = nil,
+        byCreatedBefore: Foundation.Date? = nil,
         byResourceType: Swift.String? = nil,
         byRestoreTestingPlanArn: Swift.String? = nil,
         byStatus: BackupClientTypes.RestoreJobStatus? = nil,
@@ -8842,7 +8845,7 @@ public struct ListRestoreJobsInput {
 
 extension ListRestoreJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListRestoreJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListRestoreJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8871,7 +8874,7 @@ public struct ListRestoreJobsOutput {
 
 enum ListRestoreJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8888,14 +8891,14 @@ enum ListRestoreJobsOutputError {
 
 extension ListRestoreTestingPlansInput {
 
-    static func queryItemProvider(_ value: ListRestoreTestingPlansInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListRestoreTestingPlansInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -8927,7 +8930,7 @@ public struct ListRestoreTestingPlansInput {
 
 extension ListRestoreTestingPlansOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListRestoreTestingPlansOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListRestoreTestingPlansOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8957,7 +8960,7 @@ public struct ListRestoreTestingPlansOutput {
 
 enum ListRestoreTestingPlansOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8972,14 +8975,14 @@ enum ListRestoreTestingPlansOutputError {
 
 extension ListRestoreTestingSelectionsInput {
 
-    static func queryItemProvider(_ value: ListRestoreTestingSelectionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListRestoreTestingSelectionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -9019,7 +9022,7 @@ public struct ListRestoreTestingSelectionsInput {
 
 extension ListRestoreTestingSelectionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListRestoreTestingSelectionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListRestoreTestingSelectionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -9049,7 +9052,7 @@ public struct ListRestoreTestingSelectionsOutput {
 
 enum ListRestoreTestingSelectionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9065,14 +9068,14 @@ enum ListRestoreTestingSelectionsOutputError {
 
 extension ListTagsInput {
 
-    static func queryItemProvider(_ value: ListTagsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListTagsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -9117,7 +9120,7 @@ extension ListTagsOutput: Swift.CustomDebugStringConvertible {
 
 extension ListTagsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -9146,7 +9149,7 @@ public struct ListTagsOutput {
 
 enum ListTagsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9231,7 +9234,7 @@ extension BackupClientTypes {
     /// A structure that contains information about a backed-up resource.
     public struct ProtectedResource {
         /// The date and time a resource was last backed up, in Unix format and Coordinated Universal Time (UTC). The value of LastBackupTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public var lastBackupTime: ClientRuntime.Date?
+        public var lastBackupTime: Foundation.Date?
         /// This is the ARN (Amazon Resource Name) of the backup vault that contains the most recent backup recovery point.
         public var lastBackupVaultArn: Swift.String?
         /// This is the ARN (Amazon Resource Name) of the most recent recovery point.
@@ -9244,7 +9247,7 @@ extension BackupClientTypes {
         public var resourceType: Swift.String?
 
         public init(
-            lastBackupTime: ClientRuntime.Date? = nil,
+            lastBackupTime: Foundation.Date? = nil,
             lastBackupVaultArn: Swift.String? = nil,
             lastRecoveryPointArn: Swift.String? = nil,
             resourceArn: Swift.String? = nil,
@@ -9337,7 +9340,7 @@ public struct PutBackupVaultAccessPolicyInput {
 
 extension PutBackupVaultAccessPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutBackupVaultAccessPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutBackupVaultAccessPolicyOutput {
         return PutBackupVaultAccessPolicyOutput()
     }
 }
@@ -9349,7 +9352,7 @@ public struct PutBackupVaultAccessPolicyOutput {
 
 enum PutBackupVaultAccessPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9411,7 +9414,7 @@ public struct PutBackupVaultLockConfigurationInput {
 
 extension PutBackupVaultLockConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutBackupVaultLockConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutBackupVaultLockConfigurationOutput {
         return PutBackupVaultLockConfigurationOutput()
     }
 }
@@ -9423,7 +9426,7 @@ public struct PutBackupVaultLockConfigurationOutput {
 
 enum PutBackupVaultLockConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9494,7 +9497,7 @@ public struct PutBackupVaultNotificationsInput {
 
 extension PutBackupVaultNotificationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutBackupVaultNotificationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutBackupVaultNotificationsOutput {
         return PutBackupVaultNotificationsOutput()
     }
 }
@@ -9506,7 +9509,7 @@ public struct PutBackupVaultNotificationsOutput {
 
 enum PutBackupVaultNotificationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9564,7 +9567,7 @@ public struct PutRestoreValidationResultInput {
 
 extension PutRestoreValidationResultOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutRestoreValidationResultOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutRestoreValidationResultOutput {
         return PutRestoreValidationResultOutput()
     }
 }
@@ -9576,7 +9579,7 @@ public struct PutRestoreValidationResultOutput {
 
 enum PutRestoreValidationResultOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9636,13 +9639,13 @@ extension BackupClientTypes {
         /// A CalculatedLifecycle object containing DeleteAt and MoveToColdStorageAt timestamps.
         public var calculatedLifecycle: BackupClientTypes.CalculatedLifecycle?
         /// The date and time a job to restore a recovery point is completed, in Unix format and Coordinated Universal Time (UTC). The value of CompletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public var completionDate: ClientRuntime.Date?
+        public var completionDate: Foundation.Date?
         /// This is the identifier of a resource within a composite group, such as nested (child) recovery point belonging to a composite (parent) stack. The ID is transferred from the [ logical ID](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html#resources-section-structure-syntax) within a stack.
         public var compositeMemberIdentifier: Swift.String?
         /// Contains identifying information about the creation of a recovery point, including the BackupPlanArn, BackupPlanId, BackupPlanVersion, and BackupRuleId of the backup plan that is used to create it.
         public var createdBy: BackupClientTypes.RecoveryPointCreator?
         /// The date and time a recovery point is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public var creationDate: ClientRuntime.Date?
+        public var creationDate: Foundation.Date?
         /// The server-side encryption key that is used to protect your backups; for example, arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.
         public var encryptionKeyArn: Swift.String?
         /// Specifies the IAM role ARN used to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
@@ -9652,7 +9655,7 @@ extension BackupClientTypes {
         /// This is a boolean value indicating this is a parent (composite) recovery point.
         public var isParent: Swift.Bool
         /// The date and time a recovery point was last restored, in Unix format and Coordinated Universal Time (UTC). The value of LastRestoreTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public var lastRestoreTime: ClientRuntime.Date?
+        public var lastRestoreTime: Foundation.Date?
         /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup transitions and expires backups automatically according to the lifecycle that you define. Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “retention” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold. Resource types that are able to be transitioned to cold storage are listed in the "Lifecycle to cold storage" section of the [ Feature availability by resource](https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource) table. Backup ignores this expression for other resource types.
         public var lifecycle: BackupClientTypes.Lifecycle?
         /// This is the Amazon Resource Name (ARN) of the parent (composite) recovery point.
@@ -9679,15 +9682,15 @@ extension BackupClientTypes {
             backupVaultArn: Swift.String? = nil,
             backupVaultName: Swift.String? = nil,
             calculatedLifecycle: BackupClientTypes.CalculatedLifecycle? = nil,
-            completionDate: ClientRuntime.Date? = nil,
+            completionDate: Foundation.Date? = nil,
             compositeMemberIdentifier: Swift.String? = nil,
             createdBy: BackupClientTypes.RecoveryPointCreator? = nil,
-            creationDate: ClientRuntime.Date? = nil,
+            creationDate: Foundation.Date? = nil,
             encryptionKeyArn: Swift.String? = nil,
             iamRoleArn: Swift.String? = nil,
             isEncrypted: Swift.Bool = false,
             isParent: Swift.Bool = false,
-            lastRestoreTime: ClientRuntime.Date? = nil,
+            lastRestoreTime: Foundation.Date? = nil,
             lifecycle: BackupClientTypes.Lifecycle? = nil,
             parentRecoveryPointArn: Swift.String? = nil,
             recoveryPointArn: Swift.String? = nil,
@@ -9756,7 +9759,7 @@ extension BackupClientTypes {
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public var backupVaultName: Swift.String?
         /// The date and time a recovery point is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public var creationDate: ClientRuntime.Date?
+        public var creationDate: Foundation.Date?
         /// The server-side encryption key that is used to protect your backups; for example, arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.
         public var encryptionKeyArn: Swift.String?
         /// This is a boolean value indicating this is a parent (composite) recovery point.
@@ -9777,7 +9780,7 @@ extension BackupClientTypes {
         public init(
             backupSizeBytes: Swift.Int? = nil,
             backupVaultName: Swift.String? = nil,
-            creationDate: ClientRuntime.Date? = nil,
+            creationDate: Foundation.Date? = nil,
             encryptionKeyArn: Swift.String? = nil,
             isParent: Swift.Bool = false,
             parentRecoveryPointArn: Swift.String? = nil,
@@ -10060,9 +10063,9 @@ extension BackupClientTypes {
     /// Contains detailed information about a report job. A report job compiles a report based on a report plan and publishes it to Amazon S3.
     public struct ReportJob {
         /// The date and time that a report job is completed, in Unix format and Coordinated Universal Time (UTC). The value of CompletionTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public var completionTime: ClientRuntime.Date?
+        public var completionTime: Foundation.Date?
         /// The date and time that a report job is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The S3 bucket name and S3 keys for the destination where the report job publishes the report.
         public var reportDestination: BackupClientTypes.ReportDestination?
         /// The identifier for a report job. A unique, randomly generated, Unicode, UTF-8 encoded string that is at most 1,024 bytes long. Report job IDs cannot be edited.
@@ -10077,8 +10080,8 @@ extension BackupClientTypes {
         public var statusMessage: Swift.String?
 
         public init(
-            completionTime: ClientRuntime.Date? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            completionTime: Foundation.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             reportDestination: BackupClientTypes.ReportDestination? = nil,
             reportJobId: Swift.String? = nil,
             reportPlanArn: Swift.String? = nil,
@@ -10122,13 +10125,13 @@ extension BackupClientTypes {
     /// Contains detailed information about a report plan.
     public struct ReportPlan {
         /// The date and time that a report plan is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The deployment status of a report plan. The statuses are: CREATE_IN_PROGRESS | UPDATE_IN_PROGRESS | DELETE_IN_PROGRESS | COMPLETED
         public var deploymentStatus: Swift.String?
         /// The date and time that a report job associated with this report plan last attempted to run, in Unix format and Coordinated Universal Time (UTC). The value of LastAttemptedExecutionTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public var lastAttemptedExecutionTime: ClientRuntime.Date?
+        public var lastAttemptedExecutionTime: Foundation.Date?
         /// The date and time that a report job associated with this report plan last successfully ran, in Unix format and Coordinated Universal Time (UTC). The value of LastSuccessfulExecutionTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public var lastSuccessfulExecutionTime: ClientRuntime.Date?
+        public var lastSuccessfulExecutionTime: Foundation.Date?
         /// Contains information about where and how to deliver your reports, specifically your Amazon S3 bucket name, S3 key prefix, and the formats of your reports.
         public var reportDeliveryChannel: BackupClientTypes.ReportDeliveryChannel?
         /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
@@ -10141,10 +10144,10 @@ extension BackupClientTypes {
         public var reportSetting: BackupClientTypes.ReportSetting?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             deploymentStatus: Swift.String? = nil,
-            lastAttemptedExecutionTime: ClientRuntime.Date? = nil,
-            lastSuccessfulExecutionTime: ClientRuntime.Date? = nil,
+            lastAttemptedExecutionTime: Foundation.Date? = nil,
+            lastSuccessfulExecutionTime: Foundation.Date? = nil,
             reportDeliveryChannel: BackupClientTypes.ReportDeliveryChannel? = nil,
             reportPlanArn: Swift.String? = nil,
             reportPlanDescription: Swift.String? = nil,
@@ -10446,23 +10449,23 @@ extension BackupClientTypes {
         /// The value as a number of jobs in a job summary.
         public var count: Swift.Int
         /// The value of time in number format of a job end time. This value is the time in Unix format, Coordinated Universal Time (UTC), and accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// The Amazon Web Services Regions within the job summary.
         public var region: Swift.String?
         /// This value is the job count for the specified resource type. The request GetSupportedResourceTypes returns strings for supported resource types.
         public var resourceType: Swift.String?
         /// The value of time in number format of a job start time. This value is the time in Unix format, Coordinated Universal Time (UTC), and accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
         /// This value is job count for jobs with the specified state.
         public var state: BackupClientTypes.RestoreJobState?
 
         public init(
             accountId: Swift.String? = nil,
             count: Swift.Int = 0,
-            endTime: ClientRuntime.Date? = nil,
+            endTime: Foundation.Date? = nil,
             region: Swift.String? = nil,
             resourceType: Swift.String? = nil,
-            startTime: ClientRuntime.Date? = nil,
+            startTime: Foundation.Date? = nil,
             state: BackupClientTypes.RestoreJobState? = nil
         )
         {
@@ -10514,13 +10517,13 @@ extension BackupClientTypes {
         /// The size, in bytes, of the restored resource.
         public var backupSizeInBytes: Swift.Int?
         /// The date and time a job to restore a recovery point is completed, in Unix format and Coordinated Universal Time (UTC). The value of CompletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public var completionDate: ClientRuntime.Date?
+        public var completionDate: Foundation.Date?
         /// Contains identifying information about the creation of a restore job.
         public var createdBy: BackupClientTypes.RestoreJobCreator?
         /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
         public var createdResourceArn: Swift.String?
         /// The date and time a restore job is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public var creationDate: ClientRuntime.Date?
+        public var creationDate: Foundation.Date?
         /// This notes the status of the data generated by the restore test. The status may be Deleting, Failed, or Successful.
         public var deletionStatus: BackupClientTypes.RestoreDeletionStatus?
         /// This describes the restore job deletion status.
@@ -10534,7 +10537,7 @@ extension BackupClientTypes {
         /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public var recoveryPointArn: Swift.String?
         /// The date on which a recovery point was created.
-        public var recoveryPointCreationDate: ClientRuntime.Date?
+        public var recoveryPointCreationDate: Foundation.Date?
         /// The resource type of the listed restore jobs; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database. For Windows Volume Shadow Copy Service (VSS) backups, the only supported resource type is Amazon EC2.
         public var resourceType: Swift.String?
         /// Uniquely identifies the job that restores a recovery point.
@@ -10551,17 +10554,17 @@ extension BackupClientTypes {
         public init(
             accountId: Swift.String? = nil,
             backupSizeInBytes: Swift.Int? = nil,
-            completionDate: ClientRuntime.Date? = nil,
+            completionDate: Foundation.Date? = nil,
             createdBy: BackupClientTypes.RestoreJobCreator? = nil,
             createdResourceArn: Swift.String? = nil,
-            creationDate: ClientRuntime.Date? = nil,
+            creationDate: Foundation.Date? = nil,
             deletionStatus: BackupClientTypes.RestoreDeletionStatus? = nil,
             deletionStatusMessage: Swift.String? = nil,
             expectedCompletionTimeMinutes: Swift.Int? = nil,
             iamRoleArn: Swift.String? = nil,
             percentDone: Swift.String? = nil,
             recoveryPointArn: Swift.String? = nil,
-            recoveryPointCreationDate: ClientRuntime.Date? = nil,
+            recoveryPointCreationDate: Foundation.Date? = nil,
             resourceType: Swift.String? = nil,
             restoreJobId: Swift.String? = nil,
             status: BackupClientTypes.RestoreJobStatus? = nil,
@@ -10665,13 +10668,13 @@ extension BackupClientTypes {
     public struct RestoreTestingPlanForGet {
         /// The date and time that a restore testing plan was created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// This identifies the request and allows failed requests to be retried without the risk of running the operation twice. If the request includes a CreatorRequestId that matches an existing backup plan, that plan is returned. This parameter is optional. If used, this parameter must contain 1 to 50 alphanumeric or '-_.' characters.
         public var creatorRequestId: Swift.String?
         /// The last time a restore test was run with the specified restore testing plan. A date and time, in Unix format and Coordinated Universal Time (UTC). The value of LastExecutionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public var lastExecutionTime: ClientRuntime.Date?
+        public var lastExecutionTime: Foundation.Date?
         /// The date and time that the restore testing plan was updated. This update is in Unix format and Coordinated Universal Time (UTC). The value of LastUpdateTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public var lastUpdateTime: ClientRuntime.Date?
+        public var lastUpdateTime: Foundation.Date?
         /// The specified criteria to assign a set of resources, such as recovery point types or backup vaults.
         /// This member is required.
         public var recoveryPointSelection: BackupClientTypes.RestoreTestingRecoveryPointSelection?
@@ -10690,10 +10693,10 @@ extension BackupClientTypes {
         public var startWindowHours: Swift.Int
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             creatorRequestId: Swift.String? = nil,
-            lastExecutionTime: ClientRuntime.Date? = nil,
-            lastUpdateTime: ClientRuntime.Date? = nil,
+            lastExecutionTime: Foundation.Date? = nil,
+            lastUpdateTime: Foundation.Date? = nil,
             recoveryPointSelection: BackupClientTypes.RestoreTestingRecoveryPointSelection? = nil,
             restoreTestingPlanArn: Swift.String? = nil,
             restoreTestingPlanName: Swift.String? = nil,
@@ -10739,11 +10742,11 @@ extension BackupClientTypes {
     public struct RestoreTestingPlanForList {
         /// The date and time that a restore testing plan was created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The last time a restore test was run with the specified restore testing plan. A date and time, in Unix format and Coordinated Universal Time (UTC). The value of LastExecutionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public var lastExecutionTime: ClientRuntime.Date?
+        public var lastExecutionTime: Foundation.Date?
         /// The date and time that the restore testing plan was updated. This update is in Unix format and Coordinated Universal Time (UTC). The value of LastUpdateTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-        public var lastUpdateTime: ClientRuntime.Date?
+        public var lastUpdateTime: Foundation.Date?
         /// An Amazon Resource Name (ARN) that uniquely identifiesa restore testing plan.
         /// This member is required.
         public var restoreTestingPlanArn: Swift.String?
@@ -10759,9 +10762,9 @@ extension BackupClientTypes {
         public var startWindowHours: Swift.Int
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
-            lastExecutionTime: ClientRuntime.Date? = nil,
-            lastUpdateTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
+            lastExecutionTime: Foundation.Date? = nil,
+            lastUpdateTime: Foundation.Date? = nil,
             restoreTestingPlanArn: Swift.String? = nil,
             restoreTestingPlanName: Swift.String? = nil,
             scheduleExpression: Swift.String? = nil,
@@ -11052,7 +11055,7 @@ extension BackupClientTypes {
     public struct RestoreTestingSelectionForGet {
         /// The date and time that a restore testing selection was created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 201812:11:30.087 AM.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// This identifies the request and allows failed requests to be retried without the risk of running the operation twice. If the request includes a CreatorRequestId that matches an existing backup plan, that plan is returned. This parameter is optional. If used, this parameter must contain 1 to 50 alphanumeric or '-_.' characters.
         public var creatorRequestId: Swift.String?
         /// The Amazon Resource Name (ARN) of the IAM role that Backup uses to create the target resource; for example:arn:aws:iam::123456789012:role/S3Access.
@@ -11077,7 +11080,7 @@ extension BackupClientTypes {
         public var validationWindowHours: Swift.Int
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             creatorRequestId: Swift.String? = nil,
             iamRoleArn: Swift.String? = nil,
             protectedResourceArns: [Swift.String]? = nil,
@@ -11124,7 +11127,7 @@ extension BackupClientTypes {
     public struct RestoreTestingSelectionForList {
         /// This is the date and time that a restore testing selection was created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26,2018 12:11:30.087 AM.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the IAM role that Backup uses to create the target resource; for example: arn:aws:iam::123456789012:role/S3Access.
         /// This member is required.
         public var iamRoleArn: Swift.String?
@@ -11141,7 +11144,7 @@ extension BackupClientTypes {
         public var validationWindowHours: Swift.Int
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             iamRoleArn: Swift.String? = nil,
             protectedResourceType: Swift.String? = nil,
             restoreTestingPlanName: Swift.String? = nil,
@@ -11372,7 +11375,7 @@ public struct StartBackupJobInput {
 
 extension StartBackupJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartBackupJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartBackupJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -11389,7 +11392,7 @@ public struct StartBackupJobOutput {
     /// Uniquely identifies a request to Backup to back up a resource.
     public var backupJobId: Swift.String?
     /// The date and time that a backup job is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-    public var creationDate: ClientRuntime.Date?
+    public var creationDate: Foundation.Date?
     /// This is a returned boolean value indicating this is a parent (composite) backup job.
     public var isParent: Swift.Bool
     /// Note: This field is only returned for Amazon EFS and Advanced DynamoDB resources. An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
@@ -11397,7 +11400,7 @@ public struct StartBackupJobOutput {
 
     public init(
         backupJobId: Swift.String? = nil,
-        creationDate: ClientRuntime.Date? = nil,
+        creationDate: Foundation.Date? = nil,
         isParent: Swift.Bool = false,
         recoveryPointArn: Swift.String? = nil
     )
@@ -11411,7 +11414,7 @@ public struct StartBackupJobOutput {
 
 enum StartBackupJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11486,7 +11489,7 @@ public struct StartCopyJobInput {
 
 extension StartCopyJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartCopyJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartCopyJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -11502,13 +11505,13 @@ public struct StartCopyJobOutput {
     /// Uniquely identifies a copy job.
     public var copyJobId: Swift.String?
     /// The date and time that a copy job is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-    public var creationDate: ClientRuntime.Date?
+    public var creationDate: Foundation.Date?
     /// This is a returned boolean value indicating this is a parent (composite) copy job.
     public var isParent: Swift.Bool
 
     public init(
         copyJobId: Swift.String? = nil,
-        creationDate: ClientRuntime.Date? = nil,
+        creationDate: Foundation.Date? = nil,
         isParent: Swift.Bool = false
     )
     {
@@ -11520,7 +11523,7 @@ public struct StartCopyJobOutput {
 
 enum StartCopyJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11574,7 +11577,7 @@ public struct StartReportJobInput {
 
 extension StartReportJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartReportJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartReportJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -11598,7 +11601,7 @@ public struct StartReportJobOutput {
 
 enum StartReportJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11718,7 +11721,7 @@ public struct StartRestoreJobInput {
 
 extension StartRestoreJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartRestoreJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartRestoreJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -11742,7 +11745,7 @@ public struct StartRestoreJobOutput {
 
 enum StartRestoreJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11783,7 +11786,7 @@ public struct StopBackupJobInput {
 
 extension StopBackupJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopBackupJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopBackupJobOutput {
         return StopBackupJobOutput()
     }
 }
@@ -11795,7 +11798,7 @@ public struct StopBackupJobOutput {
 
 enum StopBackupJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11886,7 +11889,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -11898,7 +11901,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11957,7 +11960,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -11969,7 +11972,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12022,7 +12025,7 @@ public struct UpdateBackupPlanInput {
 
 extension UpdateBackupPlanOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateBackupPlanOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateBackupPlanOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -12044,7 +12047,7 @@ public struct UpdateBackupPlanOutput {
     /// Uniquely identifies a backup plan.
     public var backupPlanId: Swift.String?
     /// The date and time a backup plan is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-    public var creationDate: ClientRuntime.Date?
+    public var creationDate: Foundation.Date?
     /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most 1,024 bytes long. Version Ids cannot be edited.
     public var versionId: Swift.String?
 
@@ -12052,7 +12055,7 @@ public struct UpdateBackupPlanOutput {
         advancedBackupSettings: [BackupClientTypes.AdvancedBackupSetting]? = nil,
         backupPlanArn: Swift.String? = nil,
         backupPlanId: Swift.String? = nil,
-        creationDate: ClientRuntime.Date? = nil,
+        creationDate: Foundation.Date? = nil,
         versionId: Swift.String? = nil
     )
     {
@@ -12066,7 +12069,7 @@ public struct UpdateBackupPlanOutput {
 
 enum UpdateBackupPlanOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12128,7 +12131,7 @@ public struct UpdateFrameworkInput {
 
 extension UpdateFrameworkOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateFrameworkOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateFrameworkOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -12142,14 +12145,14 @@ extension UpdateFrameworkOutput {
 
 public struct UpdateFrameworkOutput {
     /// The date and time that a framework is created, in ISO 8601 representation. The value of CreationTime is accurate to milliseconds. For example, 2020-07-10T15:00:00.000-08:00 represents the 10th of July 2020 at 3:00 PM 8 hours behind UTC.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
     public var frameworkArn: Swift.String?
     /// The unique name of a framework. This name is between 1 and 256 characters, starting with a letter, and consisting of letters (a-z, A-Z), numbers (0-9), and underscores (_).
     public var frameworkName: Swift.String?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         frameworkArn: Swift.String? = nil,
         frameworkName: Swift.String? = nil
     )
@@ -12162,7 +12165,7 @@ public struct UpdateFrameworkOutput {
 
 enum UpdateFrameworkOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12209,7 +12212,7 @@ public struct UpdateGlobalSettingsInput {
 
 extension UpdateGlobalSettingsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateGlobalSettingsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateGlobalSettingsOutput {
         return UpdateGlobalSettingsOutput()
     }
 }
@@ -12221,7 +12224,7 @@ public struct UpdateGlobalSettingsOutput {
 
 enum UpdateGlobalSettingsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12281,7 +12284,7 @@ public struct UpdateRecoveryPointLifecycleInput {
 
 extension UpdateRecoveryPointLifecycleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateRecoveryPointLifecycleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateRecoveryPointLifecycleOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -12320,7 +12323,7 @@ public struct UpdateRecoveryPointLifecycleOutput {
 
 enum UpdateRecoveryPointLifecycleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12370,7 +12373,7 @@ public struct UpdateRegionSettingsInput {
 
 extension UpdateRegionSettingsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateRegionSettingsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateRegionSettingsOutput {
         return UpdateRegionSettingsOutput()
     }
 }
@@ -12382,7 +12385,7 @@ public struct UpdateRegionSettingsOutput {
 
 enum UpdateRegionSettingsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12448,7 +12451,7 @@ public struct UpdateReportPlanInput {
 
 extension UpdateReportPlanOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateReportPlanOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateReportPlanOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -12462,14 +12465,14 @@ extension UpdateReportPlanOutput {
 
 public struct UpdateReportPlanOutput {
     /// The date and time that a report plan is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
     public var reportPlanArn: Swift.String?
     /// The unique name of the report plan.
     public var reportPlanName: Swift.String?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         reportPlanArn: Swift.String? = nil,
         reportPlanName: Swift.String? = nil
     )
@@ -12482,7 +12485,7 @@ public struct UpdateReportPlanOutput {
 
 enum UpdateReportPlanOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12536,7 +12539,7 @@ public struct UpdateRestoreTestingPlanInput {
 
 extension UpdateRestoreTestingPlanOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateRestoreTestingPlanOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateRestoreTestingPlanOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -12552,7 +12555,7 @@ extension UpdateRestoreTestingPlanOutput {
 public struct UpdateRestoreTestingPlanOutput {
     /// This is the time the resource testing plan was created.
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// Unique ARN (Amazon Resource Name) of the restore testing plan.
     /// This member is required.
     public var restoreTestingPlanArn: Swift.String?
@@ -12561,13 +12564,13 @@ public struct UpdateRestoreTestingPlanOutput {
     public var restoreTestingPlanName: Swift.String?
     /// This is the time the update completed for the restore testing plan.
     /// This member is required.
-    public var updateTime: ClientRuntime.Date?
+    public var updateTime: Foundation.Date?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         restoreTestingPlanArn: Swift.String? = nil,
         restoreTestingPlanName: Swift.String? = nil,
-        updateTime: ClientRuntime.Date? = nil
+        updateTime: Foundation.Date? = nil
     )
     {
         self.creationTime = creationTime
@@ -12579,7 +12582,7 @@ public struct UpdateRestoreTestingPlanOutput {
 
 enum UpdateRestoreTestingPlanOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12641,7 +12644,7 @@ public struct UpdateRestoreTestingSelectionInput {
 
 extension UpdateRestoreTestingSelectionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateRestoreTestingSelectionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateRestoreTestingSelectionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -12658,7 +12661,7 @@ extension UpdateRestoreTestingSelectionOutput {
 public struct UpdateRestoreTestingSelectionOutput {
     /// This is the time the resource testing selection was updated successfully.
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// Unique string that is the name of the restore testing plan.
     /// This member is required.
     public var restoreTestingPlanArn: Swift.String?
@@ -12670,14 +12673,14 @@ public struct UpdateRestoreTestingSelectionOutput {
     public var restoreTestingSelectionName: Swift.String?
     /// This is the time the update completed for the restore testing selection.
     /// This member is required.
-    public var updateTime: ClientRuntime.Date?
+    public var updateTime: Foundation.Date?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         restoreTestingPlanArn: Swift.String? = nil,
         restoreTestingPlanName: Swift.String? = nil,
         restoreTestingSelectionName: Swift.String? = nil,
-        updateTime: ClientRuntime.Date? = nil
+        updateTime: Foundation.Date? = nil
     )
     {
         self.creationTime = creationTime
@@ -12690,7 +12693,7 @@ public struct UpdateRestoreTestingSelectionOutput {
 
 enum UpdateRestoreTestingSelectionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

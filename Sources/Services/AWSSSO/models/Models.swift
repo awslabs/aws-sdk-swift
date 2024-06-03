@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -48,8 +50,8 @@ extension GetRoleCredentialsInput: Swift.CustomDebugStringConvertible {
 
 extension GetRoleCredentialsInput {
 
-    static func headerProvider(_ value: GetRoleCredentialsInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetRoleCredentialsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accessToken = value.accessToken {
             items.add(Header(name: "x-amz-sso_bearer_token", value: Swift.String(accessToken)))
         }
@@ -59,19 +61,19 @@ extension GetRoleCredentialsInput {
 
 extension GetRoleCredentialsInput {
 
-    static func queryItemProvider(_ value: GetRoleCredentialsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetRoleCredentialsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let accountId = value.accountId else {
             let message = "Creating a URL Query Item failed. accountId is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let accountIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "account_id".urlPercentEncoding(), value: Swift.String(accountId).urlPercentEncoding())
+        let accountIdQueryItem = Smithy.URIQueryItem(name: "account_id".urlPercentEncoding(), value: Swift.String(accountId).urlPercentEncoding())
         items.append(accountIdQueryItem)
         guard let roleName = value.roleName else {
             let message = "Creating a URL Query Item failed. roleName is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let roleNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "role_name".urlPercentEncoding(), value: Swift.String(roleName).urlPercentEncoding())
+        let roleNameQueryItem = Smithy.URIQueryItem(name: "role_name".urlPercentEncoding(), value: Swift.String(roleName).urlPercentEncoding())
         items.append(roleNameQueryItem)
         return items
     }
@@ -109,7 +111,7 @@ public struct GetRoleCredentialsInput {
 
 extension GetRoleCredentialsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetRoleCredentialsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetRoleCredentialsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -133,7 +135,7 @@ public struct GetRoleCredentialsOutput {
 
 enum GetRoleCredentialsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -192,8 +194,8 @@ extension ListAccountRolesInput: Swift.CustomDebugStringConvertible {
 
 extension ListAccountRolesInput {
 
-    static func headerProvider(_ value: ListAccountRolesInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: ListAccountRolesInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accessToken = value.accessToken {
             items.add(Header(name: "x-amz-sso_bearer_token", value: Swift.String(accessToken)))
         }
@@ -203,20 +205,20 @@ extension ListAccountRolesInput {
 
 extension ListAccountRolesInput {
 
-    static func queryItemProvider(_ value: ListAccountRolesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListAccountRolesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let accountId = value.accountId else {
             let message = "Creating a URL Query Item failed. accountId is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let accountIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "account_id".urlPercentEncoding(), value: Swift.String(accountId).urlPercentEncoding())
+        let accountIdQueryItem = Smithy.URIQueryItem(name: "account_id".urlPercentEncoding(), value: Swift.String(accountId).urlPercentEncoding())
         items.append(accountIdQueryItem)
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next_token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next_token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max_result".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max_result".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -258,7 +260,7 @@ public struct ListAccountRolesInput {
 
 extension ListAccountRolesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAccountRolesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAccountRolesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -287,7 +289,7 @@ public struct ListAccountRolesOutput {
 
 enum ListAccountRolesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -309,8 +311,8 @@ extension ListAccountsInput: Swift.CustomDebugStringConvertible {
 
 extension ListAccountsInput {
 
-    static func headerProvider(_ value: ListAccountsInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: ListAccountsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accessToken = value.accessToken {
             items.add(Header(name: "x-amz-sso_bearer_token", value: Swift.String(accessToken)))
         }
@@ -320,14 +322,14 @@ extension ListAccountsInput {
 
 extension ListAccountsInput {
 
-    static func queryItemProvider(_ value: ListAccountsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListAccountsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next_token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next_token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max_result".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max_result".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -364,7 +366,7 @@ public struct ListAccountsInput {
 
 extension ListAccountsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAccountsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAccountsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -393,7 +395,7 @@ public struct ListAccountsOutput {
 
 enum ListAccountsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -415,8 +417,8 @@ extension LogoutInput: Swift.CustomDebugStringConvertible {
 
 extension LogoutInput {
 
-    static func headerProvider(_ value: LogoutInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: LogoutInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accessToken = value.accessToken {
             items.add(Header(name: "x-amz-sso_bearer_token", value: Swift.String(accessToken)))
         }
@@ -446,7 +448,7 @@ public struct LogoutInput {
 
 extension LogoutOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> LogoutOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> LogoutOutput {
         return LogoutOutput()
     }
 }
@@ -458,7 +460,7 @@ public struct LogoutOutput {
 
 enum LogoutOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

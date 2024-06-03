@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -153,9 +156,9 @@ extension ChimeSDKVoiceClientTypes {
 
 extension AssociatePhoneNumbersWithVoiceConnectorGroupInput {
 
-    static func queryItemProvider(_ value: AssociatePhoneNumbersWithVoiceConnectorGroupInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "associate-phone-numbers"))
+    static func queryItemProvider(_ value: AssociatePhoneNumbersWithVoiceConnectorGroupInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "operation", value: "associate-phone-numbers"))
         return items
     }
 }
@@ -203,7 +206,7 @@ public struct AssociatePhoneNumbersWithVoiceConnectorGroupInput {
 
 extension AssociatePhoneNumbersWithVoiceConnectorGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AssociatePhoneNumbersWithVoiceConnectorGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AssociatePhoneNumbersWithVoiceConnectorGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -227,7 +230,7 @@ public struct AssociatePhoneNumbersWithVoiceConnectorGroupOutput {
 
 enum AssociatePhoneNumbersWithVoiceConnectorGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -248,9 +251,9 @@ enum AssociatePhoneNumbersWithVoiceConnectorGroupOutputError {
 
 extension AssociatePhoneNumbersWithVoiceConnectorInput {
 
-    static func queryItemProvider(_ value: AssociatePhoneNumbersWithVoiceConnectorInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "associate-phone-numbers"))
+    static func queryItemProvider(_ value: AssociatePhoneNumbersWithVoiceConnectorInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "operation", value: "associate-phone-numbers"))
         return items
     }
 }
@@ -298,7 +301,7 @@ public struct AssociatePhoneNumbersWithVoiceConnectorInput {
 
 extension AssociatePhoneNumbersWithVoiceConnectorOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AssociatePhoneNumbersWithVoiceConnectorOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AssociatePhoneNumbersWithVoiceConnectorOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -322,7 +325,7 @@ public struct AssociatePhoneNumbersWithVoiceConnectorOutput {
 
 enum AssociatePhoneNumbersWithVoiceConnectorOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -384,9 +387,9 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension BatchDeletePhoneNumberInput {
 
-    static func queryItemProvider(_ value: BatchDeletePhoneNumberInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "batch-delete"))
+    static func queryItemProvider(_ value: BatchDeletePhoneNumberInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "operation", value: "batch-delete"))
         return items
     }
 }
@@ -421,7 +424,7 @@ public struct BatchDeletePhoneNumberInput {
 
 extension BatchDeletePhoneNumberOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> BatchDeletePhoneNumberOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BatchDeletePhoneNumberOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -445,7 +448,7 @@ public struct BatchDeletePhoneNumberOutput {
 
 enum BatchDeletePhoneNumberOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -465,9 +468,9 @@ enum BatchDeletePhoneNumberOutputError {
 
 extension BatchUpdatePhoneNumberInput {
 
-    static func queryItemProvider(_ value: BatchUpdatePhoneNumberInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "batch-update"))
+    static func queryItemProvider(_ value: BatchUpdatePhoneNumberInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "operation", value: "batch-update"))
         return items
     }
 }
@@ -502,7 +505,7 @@ public struct BatchUpdatePhoneNumberInput {
 
 extension BatchUpdatePhoneNumberOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> BatchUpdatePhoneNumberOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BatchUpdatePhoneNumberOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -526,7 +529,7 @@ public struct BatchUpdatePhoneNumberOutput {
 
 enum BatchUpdatePhoneNumberOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -823,7 +826,7 @@ public struct CreatePhoneNumberOrderInput {
 
 extension CreatePhoneNumberOrderOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreatePhoneNumberOrderOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreatePhoneNumberOrderOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -847,7 +850,7 @@ public struct CreatePhoneNumberOrderOutput {
 
 enum CreatePhoneNumberOrderOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -940,7 +943,7 @@ public struct CreateProxySessionInput {
 
 extension CreateProxySessionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateProxySessionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateProxySessionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -964,7 +967,7 @@ public struct CreateProxySessionOutput {
 
 enum CreateProxySessionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1041,7 +1044,7 @@ public struct CreateSipMediaApplicationCallInput {
 
 extension CreateSipMediaApplicationCallOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateSipMediaApplicationCallOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateSipMediaApplicationCallOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1065,7 +1068,7 @@ public struct CreateSipMediaApplicationCallOutput {
 
 enum CreateSipMediaApplicationCallOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1131,7 +1134,7 @@ public struct CreateSipMediaApplicationInput {
 
 extension CreateSipMediaApplicationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateSipMediaApplicationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateSipMediaApplicationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1155,7 +1158,7 @@ public struct CreateSipMediaApplicationOutput {
 
 enum CreateSipMediaApplicationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1227,7 +1230,7 @@ public struct CreateSipRuleInput {
 
 extension CreateSipRuleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateSipRuleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateSipRuleOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1251,7 +1254,7 @@ public struct CreateSipRuleOutput {
 
 enum CreateSipRuleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1306,7 +1309,7 @@ public struct CreateVoiceConnectorGroupInput {
 
 extension CreateVoiceConnectorGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateVoiceConnectorGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateVoiceConnectorGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1330,7 +1333,7 @@ public struct CreateVoiceConnectorGroupOutput {
 
 enum CreateVoiceConnectorGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1395,7 +1398,7 @@ public struct CreateVoiceConnectorInput {
 
 extension CreateVoiceConnectorOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateVoiceConnectorOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateVoiceConnectorOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1419,7 +1422,7 @@ public struct CreateVoiceConnectorOutput {
 
 enum CreateVoiceConnectorOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1489,7 +1492,7 @@ public struct CreateVoiceProfileDomainInput {
 
 extension CreateVoiceProfileDomainOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateVoiceProfileDomainOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateVoiceProfileDomainOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1513,7 +1516,7 @@ public struct CreateVoiceProfileDomainOutput {
 
 enum CreateVoiceProfileDomainOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1563,7 +1566,7 @@ public struct CreateVoiceProfileInput {
 
 extension CreateVoiceProfileOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateVoiceProfileOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateVoiceProfileOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1587,7 +1590,7 @@ public struct CreateVoiceProfileOutput {
 
 enum CreateVoiceProfileOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1723,7 +1726,7 @@ public struct DeletePhoneNumberInput {
 
 extension DeletePhoneNumberOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeletePhoneNumberOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeletePhoneNumberOutput {
         return DeletePhoneNumberOutput()
     }
 }
@@ -1735,7 +1738,7 @@ public struct DeletePhoneNumberOutput {
 
 enum DeletePhoneNumberOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1786,7 +1789,7 @@ public struct DeleteProxySessionInput {
 
 extension DeleteProxySessionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteProxySessionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteProxySessionOutput {
         return DeleteProxySessionOutput()
     }
 }
@@ -1798,7 +1801,7 @@ public struct DeleteProxySessionOutput {
 
 enum DeleteProxySessionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1841,7 +1844,7 @@ public struct DeleteSipMediaApplicationInput {
 
 extension DeleteSipMediaApplicationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteSipMediaApplicationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteSipMediaApplicationOutput {
         return DeleteSipMediaApplicationOutput()
     }
 }
@@ -1853,7 +1856,7 @@ public struct DeleteSipMediaApplicationOutput {
 
 enum DeleteSipMediaApplicationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1897,7 +1900,7 @@ public struct DeleteSipRuleInput {
 
 extension DeleteSipRuleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteSipRuleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteSipRuleOutput {
         return DeleteSipRuleOutput()
     }
 }
@@ -1909,7 +1912,7 @@ public struct DeleteSipRuleOutput {
 
 enum DeleteSipRuleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1953,7 +1956,7 @@ public struct DeleteVoiceConnectorEmergencyCallingConfigurationInput {
 
 extension DeleteVoiceConnectorEmergencyCallingConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteVoiceConnectorEmergencyCallingConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteVoiceConnectorEmergencyCallingConfigurationOutput {
         return DeleteVoiceConnectorEmergencyCallingConfigurationOutput()
     }
 }
@@ -1965,7 +1968,7 @@ public struct DeleteVoiceConnectorEmergencyCallingConfigurationOutput {
 
 enum DeleteVoiceConnectorEmergencyCallingConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2008,7 +2011,7 @@ public struct DeleteVoiceConnectorGroupInput {
 
 extension DeleteVoiceConnectorGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteVoiceConnectorGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteVoiceConnectorGroupOutput {
         return DeleteVoiceConnectorGroupOutput()
     }
 }
@@ -2020,7 +2023,7 @@ public struct DeleteVoiceConnectorGroupOutput {
 
 enum DeleteVoiceConnectorGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2087,7 +2090,7 @@ public struct DeleteVoiceConnectorOriginationInput {
 
 extension DeleteVoiceConnectorOriginationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteVoiceConnectorOriginationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteVoiceConnectorOriginationOutput {
         return DeleteVoiceConnectorOriginationOutput()
     }
 }
@@ -2099,7 +2102,7 @@ public struct DeleteVoiceConnectorOriginationOutput {
 
 enum DeleteVoiceConnectorOriginationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2119,7 +2122,7 @@ enum DeleteVoiceConnectorOriginationOutputError {
 
 extension DeleteVoiceConnectorOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteVoiceConnectorOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteVoiceConnectorOutput {
         return DeleteVoiceConnectorOutput()
     }
 }
@@ -2131,7 +2134,7 @@ public struct DeleteVoiceConnectorOutput {
 
 enum DeleteVoiceConnectorOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2175,7 +2178,7 @@ public struct DeleteVoiceConnectorProxyInput {
 
 extension DeleteVoiceConnectorProxyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteVoiceConnectorProxyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteVoiceConnectorProxyOutput {
         return DeleteVoiceConnectorProxyOutput()
     }
 }
@@ -2187,7 +2190,7 @@ public struct DeleteVoiceConnectorProxyOutput {
 
 enum DeleteVoiceConnectorProxyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2230,7 +2233,7 @@ public struct DeleteVoiceConnectorStreamingConfigurationInput {
 
 extension DeleteVoiceConnectorStreamingConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteVoiceConnectorStreamingConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteVoiceConnectorStreamingConfigurationOutput {
         return DeleteVoiceConnectorStreamingConfigurationOutput()
     }
 }
@@ -2242,7 +2245,7 @@ public struct DeleteVoiceConnectorStreamingConfigurationOutput {
 
 enum DeleteVoiceConnectorStreamingConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2262,9 +2265,9 @@ enum DeleteVoiceConnectorStreamingConfigurationOutputError {
 
 extension DeleteVoiceConnectorTerminationCredentialsInput {
 
-    static func queryItemProvider(_ value: DeleteVoiceConnectorTerminationCredentialsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "delete"))
+    static func queryItemProvider(_ value: DeleteVoiceConnectorTerminationCredentialsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "operation", value: "delete"))
         return items
     }
 }
@@ -2307,7 +2310,7 @@ public struct DeleteVoiceConnectorTerminationCredentialsInput {
 
 extension DeleteVoiceConnectorTerminationCredentialsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteVoiceConnectorTerminationCredentialsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteVoiceConnectorTerminationCredentialsOutput {
         return DeleteVoiceConnectorTerminationCredentialsOutput()
     }
 }
@@ -2319,7 +2322,7 @@ public struct DeleteVoiceConnectorTerminationCredentialsOutput {
 
 enum DeleteVoiceConnectorTerminationCredentialsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2362,7 +2365,7 @@ public struct DeleteVoiceConnectorTerminationInput {
 
 extension DeleteVoiceConnectorTerminationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteVoiceConnectorTerminationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteVoiceConnectorTerminationOutput {
         return DeleteVoiceConnectorTerminationOutput()
     }
 }
@@ -2374,7 +2377,7 @@ public struct DeleteVoiceConnectorTerminationOutput {
 
 enum DeleteVoiceConnectorTerminationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2417,7 +2420,7 @@ public struct DeleteVoiceProfileDomainInput {
 
 extension DeleteVoiceProfileDomainOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteVoiceProfileDomainOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteVoiceProfileDomainOutput {
         return DeleteVoiceProfileDomainOutput()
     }
 }
@@ -2429,7 +2432,7 @@ public struct DeleteVoiceProfileDomainOutput {
 
 enum DeleteVoiceProfileDomainOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2474,7 +2477,7 @@ public struct DeleteVoiceProfileInput {
 
 extension DeleteVoiceProfileOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteVoiceProfileOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteVoiceProfileOutput {
         return DeleteVoiceProfileOutput()
     }
 }
@@ -2486,7 +2489,7 @@ public struct DeleteVoiceProfileOutput {
 
 enum DeleteVoiceProfileOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2508,9 +2511,9 @@ enum DeleteVoiceProfileOutputError {
 
 extension DisassociatePhoneNumbersFromVoiceConnectorGroupInput {
 
-    static func queryItemProvider(_ value: DisassociatePhoneNumbersFromVoiceConnectorGroupInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "disassociate-phone-numbers"))
+    static func queryItemProvider(_ value: DisassociatePhoneNumbersFromVoiceConnectorGroupInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "operation", value: "disassociate-phone-numbers"))
         return items
     }
 }
@@ -2553,7 +2556,7 @@ public struct DisassociatePhoneNumbersFromVoiceConnectorGroupInput {
 
 extension DisassociatePhoneNumbersFromVoiceConnectorGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DisassociatePhoneNumbersFromVoiceConnectorGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DisassociatePhoneNumbersFromVoiceConnectorGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2577,7 +2580,7 @@ public struct DisassociatePhoneNumbersFromVoiceConnectorGroupOutput {
 
 enum DisassociatePhoneNumbersFromVoiceConnectorGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2597,9 +2600,9 @@ enum DisassociatePhoneNumbersFromVoiceConnectorGroupOutputError {
 
 extension DisassociatePhoneNumbersFromVoiceConnectorInput {
 
-    static func queryItemProvider(_ value: DisassociatePhoneNumbersFromVoiceConnectorInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "disassociate-phone-numbers"))
+    static func queryItemProvider(_ value: DisassociatePhoneNumbersFromVoiceConnectorInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "operation", value: "disassociate-phone-numbers"))
         return items
     }
 }
@@ -2642,7 +2645,7 @@ public struct DisassociatePhoneNumbersFromVoiceConnectorInput {
 
 extension DisassociatePhoneNumbersFromVoiceConnectorOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DisassociatePhoneNumbersFromVoiceConnectorOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DisassociatePhoneNumbersFromVoiceConnectorOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2666,7 +2669,7 @@ public struct DisassociatePhoneNumbersFromVoiceConnectorOutput {
 
 enum DisassociatePhoneNumbersFromVoiceConnectorOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2909,7 +2912,7 @@ public struct GetGlobalSettingsInput {
 
 extension GetGlobalSettingsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetGlobalSettingsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetGlobalSettingsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2933,7 +2936,7 @@ public struct GetGlobalSettingsOutput {
 
 enum GetGlobalSettingsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3003,7 +3006,7 @@ public struct GetPhoneNumberOrderInput {
 
 extension GetPhoneNumberOrderOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetPhoneNumberOrderOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetPhoneNumberOrderOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3027,7 +3030,7 @@ public struct GetPhoneNumberOrderOutput {
 
 enum GetPhoneNumberOrderOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3047,7 +3050,7 @@ enum GetPhoneNumberOrderOutputError {
 
 extension GetPhoneNumberOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetPhoneNumberOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetPhoneNumberOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3071,7 +3074,7 @@ public struct GetPhoneNumberOutput {
 
 enum GetPhoneNumberOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3108,7 +3111,7 @@ extension GetPhoneNumberSettingsOutput: Swift.CustomDebugStringConvertible {
 
 extension GetPhoneNumberSettingsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetPhoneNumberSettingsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetPhoneNumberSettingsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3123,11 +3126,11 @@ public struct GetPhoneNumberSettingsOutput {
     /// The default outbound calling name for the account.
     public var callingName: Swift.String?
     /// The updated outbound calling name timestamp, in ISO 8601 format.
-    public var callingNameUpdatedTimestamp: ClientRuntime.Date?
+    public var callingNameUpdatedTimestamp: Foundation.Date?
 
     public init(
         callingName: Swift.String? = nil,
-        callingNameUpdatedTimestamp: ClientRuntime.Date? = nil
+        callingNameUpdatedTimestamp: Foundation.Date? = nil
     )
     {
         self.callingName = callingName
@@ -3137,7 +3140,7 @@ public struct GetPhoneNumberSettingsOutput {
 
 enum GetPhoneNumberSettingsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3187,7 +3190,7 @@ public struct GetProxySessionInput {
 
 extension GetProxySessionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetProxySessionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetProxySessionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3211,7 +3214,7 @@ public struct GetProxySessionOutput {
 
 enum GetProxySessionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3254,7 +3257,7 @@ public struct GetSipMediaApplicationAlexaSkillConfigurationInput {
 
 extension GetSipMediaApplicationAlexaSkillConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetSipMediaApplicationAlexaSkillConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetSipMediaApplicationAlexaSkillConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3278,7 +3281,7 @@ public struct GetSipMediaApplicationAlexaSkillConfigurationOutput {
 
 enum GetSipMediaApplicationAlexaSkillConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3344,7 +3347,7 @@ public struct GetSipMediaApplicationLoggingConfigurationInput {
 
 extension GetSipMediaApplicationLoggingConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetSipMediaApplicationLoggingConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetSipMediaApplicationLoggingConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3368,7 +3371,7 @@ public struct GetSipMediaApplicationLoggingConfigurationOutput {
 
 enum GetSipMediaApplicationLoggingConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3388,7 +3391,7 @@ enum GetSipMediaApplicationLoggingConfigurationOutputError {
 
 extension GetSipMediaApplicationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetSipMediaApplicationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetSipMediaApplicationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3412,7 +3415,7 @@ public struct GetSipMediaApplicationOutput {
 
 enum GetSipMediaApplicationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3455,7 +3458,7 @@ public struct GetSipRuleInput {
 
 extension GetSipRuleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetSipRuleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetSipRuleOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3479,7 +3482,7 @@ public struct GetSipRuleOutput {
 
 enum GetSipRuleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3530,7 +3533,7 @@ public struct GetSpeakerSearchTaskInput {
 
 extension GetSpeakerSearchTaskOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetSpeakerSearchTaskOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetSpeakerSearchTaskOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3554,7 +3557,7 @@ public struct GetSpeakerSearchTaskOutput {
 
 enum GetSpeakerSearchTaskOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3599,7 +3602,7 @@ public struct GetVoiceConnectorEmergencyCallingConfigurationInput {
 
 extension GetVoiceConnectorEmergencyCallingConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetVoiceConnectorEmergencyCallingConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetVoiceConnectorEmergencyCallingConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3623,7 +3626,7 @@ public struct GetVoiceConnectorEmergencyCallingConfigurationOutput {
 
 enum GetVoiceConnectorEmergencyCallingConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3666,7 +3669,7 @@ public struct GetVoiceConnectorGroupInput {
 
 extension GetVoiceConnectorGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetVoiceConnectorGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetVoiceConnectorGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3690,7 +3693,7 @@ public struct GetVoiceConnectorGroupOutput {
 
 enum GetVoiceConnectorGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3756,7 +3759,7 @@ public struct GetVoiceConnectorLoggingConfigurationInput {
 
 extension GetVoiceConnectorLoggingConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetVoiceConnectorLoggingConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetVoiceConnectorLoggingConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3780,7 +3783,7 @@ public struct GetVoiceConnectorLoggingConfigurationOutput {
 
 enum GetVoiceConnectorLoggingConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3823,7 +3826,7 @@ public struct GetVoiceConnectorOriginationInput {
 
 extension GetVoiceConnectorOriginationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetVoiceConnectorOriginationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetVoiceConnectorOriginationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3847,7 +3850,7 @@ public struct GetVoiceConnectorOriginationOutput {
 
 enum GetVoiceConnectorOriginationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3867,7 +3870,7 @@ enum GetVoiceConnectorOriginationOutputError {
 
 extension GetVoiceConnectorOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetVoiceConnectorOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetVoiceConnectorOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3891,7 +3894,7 @@ public struct GetVoiceConnectorOutput {
 
 enum GetVoiceConnectorOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3934,7 +3937,7 @@ public struct GetVoiceConnectorProxyInput {
 
 extension GetVoiceConnectorProxyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetVoiceConnectorProxyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetVoiceConnectorProxyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3958,7 +3961,7 @@ public struct GetVoiceConnectorProxyOutput {
 
 enum GetVoiceConnectorProxyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4001,7 +4004,7 @@ public struct GetVoiceConnectorStreamingConfigurationInput {
 
 extension GetVoiceConnectorStreamingConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetVoiceConnectorStreamingConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetVoiceConnectorStreamingConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4025,7 +4028,7 @@ public struct GetVoiceConnectorStreamingConfigurationOutput {
 
 enum GetVoiceConnectorStreamingConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4068,7 +4071,7 @@ public struct GetVoiceConnectorTerminationHealthInput {
 
 extension GetVoiceConnectorTerminationHealthOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetVoiceConnectorTerminationHealthOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetVoiceConnectorTerminationHealthOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4092,7 +4095,7 @@ public struct GetVoiceConnectorTerminationHealthOutput {
 
 enum GetVoiceConnectorTerminationHealthOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4135,7 +4138,7 @@ public struct GetVoiceConnectorTerminationInput {
 
 extension GetVoiceConnectorTerminationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetVoiceConnectorTerminationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetVoiceConnectorTerminationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4159,7 +4162,7 @@ public struct GetVoiceConnectorTerminationOutput {
 
 enum GetVoiceConnectorTerminationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4202,7 +4205,7 @@ public struct GetVoiceProfileDomainInput {
 
 extension GetVoiceProfileDomainOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetVoiceProfileDomainOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetVoiceProfileDomainOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4226,7 +4229,7 @@ public struct GetVoiceProfileDomainOutput {
 
 enum GetVoiceProfileDomainOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4270,7 +4273,7 @@ public struct GetVoiceProfileInput {
 
 extension GetVoiceProfileOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetVoiceProfileOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetVoiceProfileOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4294,7 +4297,7 @@ public struct GetVoiceProfileOutput {
 
 enum GetVoiceProfileOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4315,13 +4318,13 @@ enum GetVoiceProfileOutputError {
 
 extension GetVoiceToneAnalysisTaskInput {
 
-    static func queryItemProvider(_ value: GetVoiceToneAnalysisTaskInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetVoiceToneAnalysisTaskInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let isCaller = value.isCaller else {
             let message = "Creating a URL Query Item failed. isCaller is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let isCallerQueryItem = ClientRuntime.SDKURLQueryItem(name: "isCaller".urlPercentEncoding(), value: Swift.String(isCaller).urlPercentEncoding())
+        let isCallerQueryItem = Smithy.URIQueryItem(name: "isCaller".urlPercentEncoding(), value: Swift.String(isCaller).urlPercentEncoding())
         items.append(isCallerQueryItem)
         return items
     }
@@ -4365,7 +4368,7 @@ public struct GetVoiceToneAnalysisTaskInput {
 
 extension GetVoiceToneAnalysisTaskOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetVoiceToneAnalysisTaskOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetVoiceToneAnalysisTaskOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4389,7 +4392,7 @@ public struct GetVoiceToneAnalysisTaskOutput {
 
 enum GetVoiceToneAnalysisTaskOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4490,7 +4493,7 @@ public struct ListAvailableVoiceConnectorRegionsInput {
 
 extension ListAvailableVoiceConnectorRegionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAvailableVoiceConnectorRegionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAvailableVoiceConnectorRegionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4514,7 +4517,7 @@ public struct ListAvailableVoiceConnectorRegionsOutput {
 
 enum ListAvailableVoiceConnectorRegionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4533,14 +4536,14 @@ enum ListAvailableVoiceConnectorRegionsOutputError {
 
 extension ListPhoneNumberOrdersInput {
 
-    static func queryItemProvider(_ value: ListPhoneNumberOrdersInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListPhoneNumberOrdersInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -4572,7 +4575,7 @@ public struct ListPhoneNumberOrdersInput {
 
 extension ListPhoneNumberOrdersOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPhoneNumberOrdersOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPhoneNumberOrdersOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4601,7 +4604,7 @@ public struct ListPhoneNumberOrdersOutput {
 
 enum ListPhoneNumberOrdersOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4620,30 +4623,30 @@ enum ListPhoneNumberOrdersOutputError {
 
 extension ListPhoneNumbersInput {
 
-    static func queryItemProvider(_ value: ListPhoneNumbersInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListPhoneNumbersInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let status = value.status {
-            let statusQueryItem = ClientRuntime.SDKURLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status).urlPercentEncoding())
+            let statusQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status).urlPercentEncoding())
             items.append(statusQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let productType = value.productType {
-            let productTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "product-type".urlPercentEncoding(), value: Swift.String(productType.rawValue).urlPercentEncoding())
+            let productTypeQueryItem = Smithy.URIQueryItem(name: "product-type".urlPercentEncoding(), value: Swift.String(productType.rawValue).urlPercentEncoding())
             items.append(productTypeQueryItem)
         }
         if let filterName = value.filterName {
-            let filterNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "filter-name".urlPercentEncoding(), value: Swift.String(filterName.rawValue).urlPercentEncoding())
+            let filterNameQueryItem = Smithy.URIQueryItem(name: "filter-name".urlPercentEncoding(), value: Swift.String(filterName.rawValue).urlPercentEncoding())
             items.append(filterNameQueryItem)
         }
         if let filterValue = value.filterValue {
-            let filterValueQueryItem = ClientRuntime.SDKURLQueryItem(name: "filter-value".urlPercentEncoding(), value: Swift.String(filterValue).urlPercentEncoding())
+            let filterValueQueryItem = Smithy.URIQueryItem(name: "filter-value".urlPercentEncoding(), value: Swift.String(filterValue).urlPercentEncoding())
             items.append(filterValueQueryItem)
         }
         return items
@@ -4691,7 +4694,7 @@ public struct ListPhoneNumbersInput {
 
 extension ListPhoneNumbersOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPhoneNumbersOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPhoneNumbersOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4720,7 +4723,7 @@ public struct ListPhoneNumbersOutput {
 
 enum ListPhoneNumbersOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4740,18 +4743,18 @@ enum ListPhoneNumbersOutputError {
 
 extension ListProxySessionsInput {
 
-    static func queryItemProvider(_ value: ListProxySessionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListProxySessionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let status = value.status {
-            let statusQueryItem = ClientRuntime.SDKURLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            let statusQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
             items.append(statusQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -4795,7 +4798,7 @@ public struct ListProxySessionsInput {
 
 extension ListProxySessionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListProxySessionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListProxySessionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4824,7 +4827,7 @@ public struct ListProxySessionsOutput {
 
 enum ListProxySessionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4844,14 +4847,14 @@ enum ListProxySessionsOutputError {
 
 extension ListSipMediaApplicationsInput {
 
-    static func queryItemProvider(_ value: ListSipMediaApplicationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListSipMediaApplicationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -4883,7 +4886,7 @@ public struct ListSipMediaApplicationsInput {
 
 extension ListSipMediaApplicationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListSipMediaApplicationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListSipMediaApplicationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4912,7 +4915,7 @@ public struct ListSipMediaApplicationsOutput {
 
 enum ListSipMediaApplicationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4931,18 +4934,18 @@ enum ListSipMediaApplicationsOutputError {
 
 extension ListSipRulesInput {
 
-    static func queryItemProvider(_ value: ListSipRulesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListSipRulesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let sipMediaApplicationId = value.sipMediaApplicationId {
-            let sipMediaApplicationIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "sip-media-application".urlPercentEncoding(), value: Swift.String(sipMediaApplicationId).urlPercentEncoding())
+            let sipMediaApplicationIdQueryItem = Smithy.URIQueryItem(name: "sip-media-application".urlPercentEncoding(), value: Swift.String(sipMediaApplicationId).urlPercentEncoding())
             items.append(sipMediaApplicationIdQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -4978,7 +4981,7 @@ public struct ListSipRulesInput {
 
 extension ListSipRulesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListSipRulesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListSipRulesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5007,7 +5010,7 @@ public struct ListSipRulesOutput {
 
 enum ListSipRulesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5026,13 +5029,13 @@ enum ListSipRulesOutputError {
 
 extension ListSupportedPhoneNumberCountriesInput {
 
-    static func queryItemProvider(_ value: ListSupportedPhoneNumberCountriesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListSupportedPhoneNumberCountriesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let productType = value.productType else {
             let message = "Creating a URL Query Item failed. productType is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let productTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "product-type".urlPercentEncoding(), value: Swift.String(productType.rawValue).urlPercentEncoding())
+        let productTypeQueryItem = Smithy.URIQueryItem(name: "product-type".urlPercentEncoding(), value: Swift.String(productType.rawValue).urlPercentEncoding())
         items.append(productTypeQueryItem)
         return items
     }
@@ -5060,7 +5063,7 @@ public struct ListSupportedPhoneNumberCountriesInput {
 
 extension ListSupportedPhoneNumberCountriesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListSupportedPhoneNumberCountriesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListSupportedPhoneNumberCountriesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5084,7 +5087,7 @@ public struct ListSupportedPhoneNumberCountriesOutput {
 
 enum ListSupportedPhoneNumberCountriesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5109,13 +5112,13 @@ extension ListTagsForResourceInput: Swift.CustomDebugStringConvertible {
 
 extension ListTagsForResourceInput {
 
-    static func queryItemProvider(_ value: ListTagsForResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListTagsForResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let resourceARN = value.resourceARN else {
             let message = "Creating a URL Query Item failed. resourceARN is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let resourceARNQueryItem = ClientRuntime.SDKURLQueryItem(name: "arn".urlPercentEncoding(), value: Swift.String(resourceARN).urlPercentEncoding())
+        let resourceARNQueryItem = Smithy.URIQueryItem(name: "arn".urlPercentEncoding(), value: Swift.String(resourceARN).urlPercentEncoding())
         items.append(resourceARNQueryItem)
         return items
     }
@@ -5143,7 +5146,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5167,7 +5170,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5186,14 +5189,14 @@ enum ListTagsForResourceOutputError {
 
 extension ListVoiceConnectorGroupsInput {
 
-    static func queryItemProvider(_ value: ListVoiceConnectorGroupsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListVoiceConnectorGroupsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -5225,7 +5228,7 @@ public struct ListVoiceConnectorGroupsInput {
 
 extension ListVoiceConnectorGroupsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListVoiceConnectorGroupsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListVoiceConnectorGroupsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5254,7 +5257,7 @@ public struct ListVoiceConnectorGroupsOutput {
 
 enum ListVoiceConnectorGroupsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5296,7 +5299,7 @@ public struct ListVoiceConnectorTerminationCredentialsInput {
 
 extension ListVoiceConnectorTerminationCredentialsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListVoiceConnectorTerminationCredentialsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListVoiceConnectorTerminationCredentialsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5320,7 +5323,7 @@ public struct ListVoiceConnectorTerminationCredentialsOutput {
 
 enum ListVoiceConnectorTerminationCredentialsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5340,14 +5343,14 @@ enum ListVoiceConnectorTerminationCredentialsOutputError {
 
 extension ListVoiceConnectorsInput {
 
-    static func queryItemProvider(_ value: ListVoiceConnectorsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListVoiceConnectorsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -5379,7 +5382,7 @@ public struct ListVoiceConnectorsInput {
 
 extension ListVoiceConnectorsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListVoiceConnectorsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListVoiceConnectorsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5408,7 +5411,7 @@ public struct ListVoiceConnectorsOutput {
 
 enum ListVoiceConnectorsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5427,14 +5430,14 @@ enum ListVoiceConnectorsOutputError {
 
 extension ListVoiceProfileDomainsInput {
 
-    static func queryItemProvider(_ value: ListVoiceProfileDomainsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListVoiceProfileDomainsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -5466,7 +5469,7 @@ public struct ListVoiceProfileDomainsInput {
 
 extension ListVoiceProfileDomainsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListVoiceProfileDomainsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListVoiceProfileDomainsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5495,7 +5498,7 @@ public struct ListVoiceProfileDomainsOutput {
 
 enum ListVoiceProfileDomainsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5515,20 +5518,20 @@ enum ListVoiceProfileDomainsOutputError {
 
 extension ListVoiceProfilesInput {
 
-    static func queryItemProvider(_ value: ListVoiceProfilesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListVoiceProfilesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         guard let voiceProfileDomainId = value.voiceProfileDomainId else {
             let message = "Creating a URL Query Item failed. voiceProfileDomainId is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let voiceProfileDomainIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "voice-profile-domain-id".urlPercentEncoding(), value: Swift.String(voiceProfileDomainId).urlPercentEncoding())
+        let voiceProfileDomainIdQueryItem = Smithy.URIQueryItem(name: "voice-profile-domain-id".urlPercentEncoding(), value: Swift.String(voiceProfileDomainId).urlPercentEncoding())
         items.append(voiceProfileDomainIdQueryItem)
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -5565,7 +5568,7 @@ public struct ListVoiceProfilesInput {
 
 extension ListVoiceProfilesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListVoiceProfilesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListVoiceProfilesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5594,7 +5597,7 @@ public struct ListVoiceProfilesOutput {
 
 enum ListVoiceProfilesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6061,9 +6064,9 @@ extension ChimeSDKVoiceClientTypes {
         /// The phone number's country. Format: ISO 3166-1 alpha-2.
         public var country: Swift.String?
         /// The phone number creation timestamp, in ISO 8601 format.
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// The deleted phone number timestamp, in ISO 8601 format.
-        public var deletionTimestamp: ClientRuntime.Date?
+        public var deletionTimestamp: Foundation.Date?
         /// The phone number, in E.164 format.
         public var e164PhoneNumber: Swift.String?
         /// The name of the phone number.
@@ -6079,7 +6082,7 @@ extension ChimeSDKVoiceClientTypes {
         /// The phone number's type.
         public var type: ChimeSDKVoiceClientTypes.PhoneNumberType?
         /// The updated phone number timestamp, in ISO 8601 format.
-        public var updatedTimestamp: ClientRuntime.Date?
+        public var updatedTimestamp: Foundation.Date?
 
         public init(
             associations: [ChimeSDKVoiceClientTypes.PhoneNumberAssociation]? = nil,
@@ -6087,8 +6090,8 @@ extension ChimeSDKVoiceClientTypes {
             callingNameStatus: ChimeSDKVoiceClientTypes.CallingNameStatus? = nil,
             capabilities: ChimeSDKVoiceClientTypes.PhoneNumberCapabilities? = nil,
             country: Swift.String? = nil,
-            createdTimestamp: ClientRuntime.Date? = nil,
-            deletionTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
+            deletionTimestamp: Foundation.Date? = nil,
             e164PhoneNumber: Swift.String? = nil,
             name: Swift.String? = nil,
             orderId: Swift.String? = nil,
@@ -6096,7 +6099,7 @@ extension ChimeSDKVoiceClientTypes {
             productType: ChimeSDKVoiceClientTypes.PhoneNumberProductType? = nil,
             status: ChimeSDKVoiceClientTypes.PhoneNumberStatus? = nil,
             type: ChimeSDKVoiceClientTypes.PhoneNumberType? = nil,
-            updatedTimestamp: ClientRuntime.Date? = nil
+            updatedTimestamp: Foundation.Date? = nil
         )
         {
             self.associations = associations
@@ -6135,14 +6138,14 @@ extension ChimeSDKVoiceClientTypes {
     /// The phone number associations, such as an Amazon Chime SDK account ID, user ID, Voice Connector ID, or Voice Connector group ID.
     public struct PhoneNumberAssociation {
         /// The timestamp of the phone number association, in ISO 8601 format.
-        public var associatedTimestamp: ClientRuntime.Date?
+        public var associatedTimestamp: Foundation.Date?
         /// Defines the association with an Amazon Chime SDK account ID, user ID, Voice Connector ID, or Voice Connector group ID.
         public var name: ChimeSDKVoiceClientTypes.PhoneNumberAssociationName?
         /// Contains the ID for the entity specified in Name.
         public var value: Swift.String?
 
         public init(
-            associatedTimestamp: ClientRuntime.Date? = nil,
+            associatedTimestamp: Foundation.Date? = nil,
             name: ChimeSDKVoiceClientTypes.PhoneNumberAssociationName? = nil,
             value: Swift.String? = nil
         )
@@ -6330,7 +6333,7 @@ extension ChimeSDKVoiceClientTypes {
     /// The details of an Amazon Chime SDK phone number order.
     public struct PhoneNumberOrder {
         /// The phone number order creation time stamp, in ISO 8601 format.
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// The type of phone number being ordered, local or toll-free.
         public var orderType: ChimeSDKVoiceClientTypes.PhoneNumberOrderType?
         /// The ordered phone number details, such as the phone number in E.164 format and the phone number status.
@@ -6342,16 +6345,16 @@ extension ChimeSDKVoiceClientTypes {
         /// The status of the phone number order.
         public var status: ChimeSDKVoiceClientTypes.PhoneNumberOrderStatus?
         /// The updated phone number order time stamp, in ISO 8601 format.
-        public var updatedTimestamp: ClientRuntime.Date?
+        public var updatedTimestamp: Foundation.Date?
 
         public init(
-            createdTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
             orderType: ChimeSDKVoiceClientTypes.PhoneNumberOrderType? = nil,
             orderedPhoneNumbers: [ChimeSDKVoiceClientTypes.OrderedPhoneNumber]? = nil,
             phoneNumberOrderId: Swift.String? = nil,
             productType: ChimeSDKVoiceClientTypes.PhoneNumberProductType? = nil,
             status: ChimeSDKVoiceClientTypes.PhoneNumberOrderStatus? = nil,
-            updatedTimestamp: ClientRuntime.Date? = nil
+            updatedTimestamp: Foundation.Date? = nil
         )
         {
             self.createdTimestamp = createdTimestamp
@@ -6639,9 +6642,9 @@ extension ChimeSDKVoiceClientTypes {
         /// The proxy session capabilities.
         public var capabilities: [ChimeSDKVoiceClientTypes.Capability]?
         /// The created time stamp, in ISO 8601 format.
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// The ended time stamp, in ISO 8601 format.
-        public var endedTimestamp: ClientRuntime.Date?
+        public var endedTimestamp: Foundation.Date?
         /// The number of minutes allowed for the proxy session.
         public var expiryMinutes: Swift.Int?
         /// The preference for matching the country or area code of the proxy phone number with that of the first participant.
@@ -6659,14 +6662,14 @@ extension ChimeSDKVoiceClientTypes {
         /// The proxy session status.
         public var status: ChimeSDKVoiceClientTypes.ProxySessionStatus?
         /// The updated time stamp, in ISO 8601 format.
-        public var updatedTimestamp: ClientRuntime.Date?
+        public var updatedTimestamp: Foundation.Date?
         /// The Voice Connector ID.
         public var voiceConnectorId: Swift.String?
 
         public init(
             capabilities: [ChimeSDKVoiceClientTypes.Capability]? = nil,
-            createdTimestamp: ClientRuntime.Date? = nil,
-            endedTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
+            endedTimestamp: Foundation.Date? = nil,
             expiryMinutes: Swift.Int? = nil,
             geoMatchLevel: ChimeSDKVoiceClientTypes.GeoMatchLevel? = nil,
             geoMatchParams: ChimeSDKVoiceClientTypes.GeoMatchParams? = nil,
@@ -6675,7 +6678,7 @@ extension ChimeSDKVoiceClientTypes {
             participants: [ChimeSDKVoiceClientTypes.Participant]? = nil,
             proxySessionId: Swift.String? = nil,
             status: ChimeSDKVoiceClientTypes.ProxySessionStatus? = nil,
-            updatedTimestamp: ClientRuntime.Date? = nil,
+            updatedTimestamp: Foundation.Date? = nil,
             voiceConnectorId: Swift.String? = nil
         )
         {
@@ -6766,7 +6769,7 @@ public struct PutSipMediaApplicationAlexaSkillConfigurationInput {
 
 extension PutSipMediaApplicationAlexaSkillConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutSipMediaApplicationAlexaSkillConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutSipMediaApplicationAlexaSkillConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6790,7 +6793,7 @@ public struct PutSipMediaApplicationAlexaSkillConfigurationOutput {
 
 enum PutSipMediaApplicationAlexaSkillConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6845,7 +6848,7 @@ public struct PutSipMediaApplicationLoggingConfigurationInput {
 
 extension PutSipMediaApplicationLoggingConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutSipMediaApplicationLoggingConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutSipMediaApplicationLoggingConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6869,7 +6872,7 @@ public struct PutSipMediaApplicationLoggingConfigurationOutput {
 
 enum PutSipMediaApplicationLoggingConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6925,7 +6928,7 @@ public struct PutVoiceConnectorEmergencyCallingConfigurationInput {
 
 extension PutVoiceConnectorEmergencyCallingConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutVoiceConnectorEmergencyCallingConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutVoiceConnectorEmergencyCallingConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6949,7 +6952,7 @@ public struct PutVoiceConnectorEmergencyCallingConfigurationOutput {
 
 enum PutVoiceConnectorEmergencyCallingConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7005,7 +7008,7 @@ public struct PutVoiceConnectorLoggingConfigurationInput {
 
 extension PutVoiceConnectorLoggingConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutVoiceConnectorLoggingConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutVoiceConnectorLoggingConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7029,7 +7032,7 @@ public struct PutVoiceConnectorLoggingConfigurationOutput {
 
 enum PutVoiceConnectorLoggingConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7085,7 +7088,7 @@ public struct PutVoiceConnectorOriginationInput {
 
 extension PutVoiceConnectorOriginationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutVoiceConnectorOriginationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutVoiceConnectorOriginationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7109,7 +7112,7 @@ public struct PutVoiceConnectorOriginationOutput {
 
 enum PutVoiceConnectorOriginationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7186,7 +7189,7 @@ public struct PutVoiceConnectorProxyInput {
 
 extension PutVoiceConnectorProxyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutVoiceConnectorProxyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutVoiceConnectorProxyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7210,7 +7213,7 @@ public struct PutVoiceConnectorProxyOutput {
 
 enum PutVoiceConnectorProxyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7267,7 +7270,7 @@ public struct PutVoiceConnectorStreamingConfigurationInput {
 
 extension PutVoiceConnectorStreamingConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutVoiceConnectorStreamingConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutVoiceConnectorStreamingConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7291,7 +7294,7 @@ public struct PutVoiceConnectorStreamingConfigurationOutput {
 
 enum PutVoiceConnectorStreamingConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7311,9 +7314,9 @@ enum PutVoiceConnectorStreamingConfigurationOutputError {
 
 extension PutVoiceConnectorTerminationCredentialsInput {
 
-    static func queryItemProvider(_ value: PutVoiceConnectorTerminationCredentialsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "put"))
+    static func queryItemProvider(_ value: PutVoiceConnectorTerminationCredentialsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "operation", value: "put"))
         return items
     }
 }
@@ -7355,7 +7358,7 @@ public struct PutVoiceConnectorTerminationCredentialsInput {
 
 extension PutVoiceConnectorTerminationCredentialsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutVoiceConnectorTerminationCredentialsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutVoiceConnectorTerminationCredentialsOutput {
         return PutVoiceConnectorTerminationCredentialsOutput()
     }
 }
@@ -7367,7 +7370,7 @@ public struct PutVoiceConnectorTerminationCredentialsOutput {
 
 enum PutVoiceConnectorTerminationCredentialsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7423,7 +7426,7 @@ public struct PutVoiceConnectorTerminationInput {
 
 extension PutVoiceConnectorTerminationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutVoiceConnectorTerminationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutVoiceConnectorTerminationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7447,7 +7450,7 @@ public struct PutVoiceConnectorTerminationOutput {
 
 enum PutVoiceConnectorTerminationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7514,9 +7517,9 @@ extension RestorePhoneNumberInput: Swift.CustomDebugStringConvertible {
 
 extension RestorePhoneNumberInput {
 
-    static func queryItemProvider(_ value: RestorePhoneNumberInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "restore"))
+    static func queryItemProvider(_ value: RestorePhoneNumberInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "operation", value: "restore"))
         return items
     }
 }
@@ -7546,7 +7549,7 @@ public struct RestorePhoneNumberInput {
 
 extension RestorePhoneNumberOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RestorePhoneNumberOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RestorePhoneNumberOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7570,7 +7573,7 @@ public struct RestorePhoneNumberOutput {
 
 enum RestorePhoneNumberOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7591,39 +7594,39 @@ enum RestorePhoneNumberOutputError {
 
 extension SearchAvailablePhoneNumbersInput {
 
-    static func queryItemProvider(_ value: SearchAvailablePhoneNumbersInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "type", value: "phone-numbers"))
+    static func queryItemProvider(_ value: SearchAvailablePhoneNumbersInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "type", value: "phone-numbers"))
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let state = value.state {
-            let stateQueryItem = ClientRuntime.SDKURLQueryItem(name: "state".urlPercentEncoding(), value: Swift.String(state).urlPercentEncoding())
+            let stateQueryItem = Smithy.URIQueryItem(name: "state".urlPercentEncoding(), value: Swift.String(state).urlPercentEncoding())
             items.append(stateQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let areaCode = value.areaCode {
-            let areaCodeQueryItem = ClientRuntime.SDKURLQueryItem(name: "area-code".urlPercentEncoding(), value: Swift.String(areaCode).urlPercentEncoding())
+            let areaCodeQueryItem = Smithy.URIQueryItem(name: "area-code".urlPercentEncoding(), value: Swift.String(areaCode).urlPercentEncoding())
             items.append(areaCodeQueryItem)
         }
         if let country = value.country {
-            let countryQueryItem = ClientRuntime.SDKURLQueryItem(name: "country".urlPercentEncoding(), value: Swift.String(country).urlPercentEncoding())
+            let countryQueryItem = Smithy.URIQueryItem(name: "country".urlPercentEncoding(), value: Swift.String(country).urlPercentEncoding())
             items.append(countryQueryItem)
         }
         if let city = value.city {
-            let cityQueryItem = ClientRuntime.SDKURLQueryItem(name: "city".urlPercentEncoding(), value: Swift.String(city).urlPercentEncoding())
+            let cityQueryItem = Smithy.URIQueryItem(name: "city".urlPercentEncoding(), value: Swift.String(city).urlPercentEncoding())
             items.append(cityQueryItem)
         }
         if let phoneNumberType = value.phoneNumberType {
-            let phoneNumberTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "phone-number-type".urlPercentEncoding(), value: Swift.String(phoneNumberType.rawValue).urlPercentEncoding())
+            let phoneNumberTypeQueryItem = Smithy.URIQueryItem(name: "phone-number-type".urlPercentEncoding(), value: Swift.String(phoneNumberType.rawValue).urlPercentEncoding())
             items.append(phoneNumberTypeQueryItem)
         }
         if let tollFreePrefix = value.tollFreePrefix {
-            let tollFreePrefixQueryItem = ClientRuntime.SDKURLQueryItem(name: "toll-free-prefix".urlPercentEncoding(), value: Swift.String(tollFreePrefix).urlPercentEncoding())
+            let tollFreePrefixQueryItem = Smithy.URIQueryItem(name: "toll-free-prefix".urlPercentEncoding(), value: Swift.String(tollFreePrefix).urlPercentEncoding())
             items.append(tollFreePrefixQueryItem)
         }
         return items
@@ -7679,7 +7682,7 @@ public struct SearchAvailablePhoneNumbersInput {
 
 extension SearchAvailablePhoneNumbersOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SearchAvailablePhoneNumbersOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SearchAvailablePhoneNumbersOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7708,7 +7711,7 @@ public struct SearchAvailablePhoneNumbersOutput {
 
 enum SearchAvailablePhoneNumbersOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7867,7 +7870,7 @@ extension ChimeSDKVoiceClientTypes {
         /// The AWS Region in which the SIP media application is created.
         public var awsRegion: Swift.String?
         /// The SIP media application creation timestamp, in ISO 8601 format.
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// List of endpoints for a SIP media application. Currently, only one endpoint per SIP media application is permitted.
         public var endpoints: [ChimeSDKVoiceClientTypes.SipMediaApplicationEndpoint]?
         /// The SIP media application's name.
@@ -7877,16 +7880,16 @@ extension ChimeSDKVoiceClientTypes {
         /// A SIP media application's ID.
         public var sipMediaApplicationId: Swift.String?
         /// The time at which the SIP media application was updated.
-        public var updatedTimestamp: ClientRuntime.Date?
+        public var updatedTimestamp: Foundation.Date?
 
         public init(
             awsRegion: Swift.String? = nil,
-            createdTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
             endpoints: [ChimeSDKVoiceClientTypes.SipMediaApplicationEndpoint]? = nil,
             name: Swift.String? = nil,
             sipMediaApplicationArn: Swift.String? = nil,
             sipMediaApplicationId: Swift.String? = nil,
-            updatedTimestamp: ClientRuntime.Date? = nil
+            updatedTimestamp: Foundation.Date? = nil
         )
         {
             self.awsRegion = awsRegion
@@ -8054,7 +8057,7 @@ extension ChimeSDKVoiceClientTypes {
     /// The details of a SIP rule, including name, triggers, and target applications. An AWS account can have multiple SIP rules.
     public struct SipRule {
         /// The time at which the SIP rule was created, in ISO 8601 format.
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// Indicates whether the SIP rule is enabled or disabled. You must disable a rule before you can delete it.
         public var disabled: Swift.Bool?
         /// A SIP rule's name.
@@ -8068,17 +8071,17 @@ extension ChimeSDKVoiceClientTypes {
         /// The value set for a SIP rule's trigger type. Either a phone number or a URI hostname.
         public var triggerValue: Swift.String?
         /// The time at which the SIP rule was updated, in ISO 8601 format.
-        public var updatedTimestamp: ClientRuntime.Date?
+        public var updatedTimestamp: Foundation.Date?
 
         public init(
-            createdTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
             disabled: Swift.Bool? = nil,
             name: Swift.String? = nil,
             sipRuleId: Swift.String? = nil,
             targetApplications: [ChimeSDKVoiceClientTypes.SipRuleTargetApplication]? = nil,
             triggerType: ChimeSDKVoiceClientTypes.SipRuleTriggerType? = nil,
             triggerValue: Swift.String? = nil,
-            updatedTimestamp: ClientRuntime.Date? = nil
+            updatedTimestamp: Foundation.Date? = nil
         )
         {
             self.createdTimestamp = createdTimestamp
@@ -8251,7 +8254,7 @@ extension ChimeSDKVoiceClientTypes {
         /// The call details of a speaker search task.
         public var callDetails: ChimeSDKVoiceClientTypes.CallDetails?
         /// The time at which a speaker search task was created.
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// The details of a speaker search task.
         public var speakerSearchDetails: ChimeSDKVoiceClientTypes.SpeakerSearchDetails?
         /// The speaker search task ID.
@@ -8259,21 +8262,21 @@ extension ChimeSDKVoiceClientTypes {
         /// The status of the speaker search task, IN_QUEUE, IN_PROGRESS, PARTIAL_SUCCESS, SUCCEEDED, FAILED, or STOPPED.
         public var speakerSearchTaskStatus: Swift.String?
         /// The time at which the speaker search task began.
-        public var startedTimestamp: ClientRuntime.Date?
+        public var startedTimestamp: Foundation.Date?
         /// A detailed message about the status of a speaker search.
         public var statusMessage: Swift.String?
         /// The time at which a speaker search task was updated.
-        public var updatedTimestamp: ClientRuntime.Date?
+        public var updatedTimestamp: Foundation.Date?
 
         public init(
             callDetails: ChimeSDKVoiceClientTypes.CallDetails? = nil,
-            createdTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
             speakerSearchDetails: ChimeSDKVoiceClientTypes.SpeakerSearchDetails? = nil,
             speakerSearchTaskId: Swift.String? = nil,
             speakerSearchTaskStatus: Swift.String? = nil,
-            startedTimestamp: ClientRuntime.Date? = nil,
+            startedTimestamp: Foundation.Date? = nil,
             statusMessage: Swift.String? = nil,
-            updatedTimestamp: ClientRuntime.Date? = nil
+            updatedTimestamp: Foundation.Date? = nil
         )
         {
             self.callDetails = callDetails
@@ -8343,7 +8346,7 @@ public struct StartSpeakerSearchTaskInput {
 
 extension StartSpeakerSearchTaskOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartSpeakerSearchTaskOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartSpeakerSearchTaskOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8367,7 +8370,7 @@ public struct StartSpeakerSearchTaskOutput {
 
 enum StartSpeakerSearchTaskOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8439,7 +8442,7 @@ public struct StartVoiceToneAnalysisTaskInput {
 
 extension StartVoiceToneAnalysisTaskOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartVoiceToneAnalysisTaskOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartVoiceToneAnalysisTaskOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8463,7 +8466,7 @@ public struct StartVoiceToneAnalysisTaskOutput {
 
 enum StartVoiceToneAnalysisTaskOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8488,9 +8491,9 @@ enum StartVoiceToneAnalysisTaskOutputError {
 
 extension StopSpeakerSearchTaskInput {
 
-    static func queryItemProvider(_ value: StopSpeakerSearchTaskInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "stop"))
+    static func queryItemProvider(_ value: StopSpeakerSearchTaskInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "operation", value: "stop"))
         return items
     }
 }
@@ -8528,7 +8531,7 @@ public struct StopSpeakerSearchTaskInput {
 
 extension StopSpeakerSearchTaskOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopSpeakerSearchTaskOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopSpeakerSearchTaskOutput {
         return StopSpeakerSearchTaskOutput()
     }
 }
@@ -8540,7 +8543,7 @@ public struct StopSpeakerSearchTaskOutput {
 
 enum StopSpeakerSearchTaskOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8563,9 +8566,9 @@ enum StopSpeakerSearchTaskOutputError {
 
 extension StopVoiceToneAnalysisTaskInput {
 
-    static func queryItemProvider(_ value: StopVoiceToneAnalysisTaskInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "stop"))
+    static func queryItemProvider(_ value: StopVoiceToneAnalysisTaskInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "operation", value: "stop"))
         return items
     }
 }
@@ -8603,7 +8606,7 @@ public struct StopVoiceToneAnalysisTaskInput {
 
 extension StopVoiceToneAnalysisTaskOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopVoiceToneAnalysisTaskOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopVoiceToneAnalysisTaskOutput {
         return StopVoiceToneAnalysisTaskOutput()
     }
 }
@@ -8615,7 +8618,7 @@ public struct StopVoiceToneAnalysisTaskOutput {
 
 enum StopVoiceToneAnalysisTaskOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8769,9 +8772,9 @@ extension TagResourceInput: Swift.CustomDebugStringConvertible {
 
 extension TagResourceInput {
 
-    static func queryItemProvider(_ value: TagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "tag-resource"))
+    static func queryItemProvider(_ value: TagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "operation", value: "tag-resource"))
         return items
     }
 }
@@ -8812,7 +8815,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -8824,7 +8827,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8919,11 +8922,11 @@ extension ChimeSDKVoiceClientTypes {
         /// The source IP address.
         public var source: Swift.String?
         /// The timestamp, in ISO 8601 format.
-        public var timestamp: ClientRuntime.Date?
+        public var timestamp: Foundation.Date?
 
         public init(
             source: Swift.String? = nil,
-            timestamp: ClientRuntime.Date? = nil
+            timestamp: Foundation.Date? = nil
         )
         {
             self.source = source
@@ -9063,9 +9066,9 @@ extension UntagResourceInput: Swift.CustomDebugStringConvertible {
 
 extension UntagResourceInput {
 
-    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "untag-resource"))
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "operation", value: "untag-resource"))
         return items
     }
 }
@@ -9106,7 +9109,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -9118,7 +9121,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9164,7 +9167,7 @@ public struct UpdateGlobalSettingsInput {
 
 extension UpdateGlobalSettingsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateGlobalSettingsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateGlobalSettingsOutput {
         return UpdateGlobalSettingsOutput()
     }
 }
@@ -9176,7 +9179,7 @@ public struct UpdateGlobalSettingsOutput {
 
 enum UpdateGlobalSettingsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9245,7 +9248,7 @@ public struct UpdatePhoneNumberInput {
 
 extension UpdatePhoneNumberOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdatePhoneNumberOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdatePhoneNumberOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -9269,7 +9272,7 @@ public struct UpdatePhoneNumberOutput {
 
 enum UpdatePhoneNumberOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9368,7 +9371,7 @@ public struct UpdatePhoneNumberSettingsInput {
 
 extension UpdatePhoneNumberSettingsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdatePhoneNumberSettingsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdatePhoneNumberSettingsOutput {
         return UpdatePhoneNumberSettingsOutput()
     }
 }
@@ -9380,7 +9383,7 @@ public struct UpdatePhoneNumberSettingsOutput {
 
 enum UpdatePhoneNumberSettingsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9448,7 +9451,7 @@ public struct UpdateProxySessionInput {
 
 extension UpdateProxySessionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateProxySessionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateProxySessionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -9472,7 +9475,7 @@ public struct UpdateProxySessionOutput {
 
 enum UpdateProxySessionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9536,7 +9539,7 @@ public struct UpdateSipMediaApplicationCallInput {
 
 extension UpdateSipMediaApplicationCallOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateSipMediaApplicationCallOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateSipMediaApplicationCallOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -9560,7 +9563,7 @@ public struct UpdateSipMediaApplicationCallOutput {
 
 enum UpdateSipMediaApplicationCallOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9621,7 +9624,7 @@ public struct UpdateSipMediaApplicationInput {
 
 extension UpdateSipMediaApplicationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateSipMediaApplicationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateSipMediaApplicationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -9645,7 +9648,7 @@ public struct UpdateSipMediaApplicationOutput {
 
 enum UpdateSipMediaApplicationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9712,7 +9715,7 @@ public struct UpdateSipRuleInput {
 
 extension UpdateSipRuleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateSipRuleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateSipRuleOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -9736,7 +9739,7 @@ public struct UpdateSipRuleOutput {
 
 enum UpdateSipRuleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9800,7 +9803,7 @@ public struct UpdateVoiceConnectorGroupInput {
 
 extension UpdateVoiceConnectorGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateVoiceConnectorGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateVoiceConnectorGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -9824,7 +9827,7 @@ public struct UpdateVoiceConnectorGroupOutput {
 
 enum UpdateVoiceConnectorGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9887,7 +9890,7 @@ public struct UpdateVoiceConnectorInput {
 
 extension UpdateVoiceConnectorOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateVoiceConnectorOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateVoiceConnectorOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -9911,7 +9914,7 @@ public struct UpdateVoiceConnectorOutput {
 
 enum UpdateVoiceConnectorOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9971,7 +9974,7 @@ public struct UpdateVoiceProfileDomainInput {
 
 extension UpdateVoiceProfileDomainOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateVoiceProfileDomainOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateVoiceProfileDomainOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -9995,7 +9998,7 @@ public struct UpdateVoiceProfileDomainOutput {
 
 enum UpdateVoiceProfileDomainOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10052,7 +10055,7 @@ public struct UpdateVoiceProfileInput {
 
 extension UpdateVoiceProfileOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateVoiceProfileOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateVoiceProfileOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -10076,7 +10079,7 @@ public struct UpdateVoiceProfileOutput {
 
 enum UpdateVoiceProfileOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10168,7 +10171,7 @@ public struct ValidateE911AddressInput {
 
 extension ValidateE911AddressOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ValidateE911AddressOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ValidateE911AddressOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -10207,7 +10210,7 @@ public struct ValidateE911AddressOutput {
 
 enum ValidateE911AddressOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10248,7 +10251,7 @@ extension ChimeSDKVoiceClientTypes {
         /// The AWS Region in which the Voice Connector is created. Default: us-east-1.
         public var awsRegion: ChimeSDKVoiceClientTypes.VoiceConnectorAwsRegion?
         /// The Voice Connector's creation timestamp, in ISO 8601 format.
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// The Voice Connector's name.
         public var name: Swift.String?
         /// The outbound host name for the Voice Connector.
@@ -10256,7 +10259,7 @@ extension ChimeSDKVoiceClientTypes {
         /// Enables or disables encryption for the Voice Connector.
         public var requireEncryption: Swift.Bool?
         /// The Voice Connector's updated timestamp, in ISO 8601 format.
-        public var updatedTimestamp: ClientRuntime.Date?
+        public var updatedTimestamp: Foundation.Date?
         /// The ARN of the Voice Connector.
         public var voiceConnectorArn: Swift.String?
         /// The Voice Connector's ID.
@@ -10264,11 +10267,11 @@ extension ChimeSDKVoiceClientTypes {
 
         public init(
             awsRegion: ChimeSDKVoiceClientTypes.VoiceConnectorAwsRegion? = nil,
-            createdTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
             name: Swift.String? = nil,
             outboundHostName: Swift.String? = nil,
             requireEncryption: Swift.Bool? = nil,
-            updatedTimestamp: ClientRuntime.Date? = nil,
+            updatedTimestamp: Foundation.Date? = nil,
             voiceConnectorArn: Swift.String? = nil,
             voiceConnectorId: Swift.String? = nil
         )
@@ -10358,11 +10361,11 @@ extension ChimeSDKVoiceClientTypes {
     /// The Amazon Chime SDK Voice Connector group configuration, including associated Voice Connectors. You can include Voice Connectors from different AWS Regions in a group. This creates a fault tolerant mechanism for fallback in case of availability events.
     public struct VoiceConnectorGroup {
         /// The Voice Connector group's creation time stamp, in ISO 8601 format.
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// The name of a Voice Connector group.
         public var name: Swift.String?
         /// The Voice Connector group's creation time stamp, in ISO 8601 format.
-        public var updatedTimestamp: ClientRuntime.Date?
+        public var updatedTimestamp: Foundation.Date?
         /// The ARN of the Voice Connector group.
         public var voiceConnectorGroupArn: Swift.String?
         /// The ID of a Voice Connector group.
@@ -10371,9 +10374,9 @@ extension ChimeSDKVoiceClientTypes {
         public var voiceConnectorItems: [ChimeSDKVoiceClientTypes.VoiceConnectorItem]?
 
         public init(
-            createdTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
             name: Swift.String? = nil,
-            updatedTimestamp: ClientRuntime.Date? = nil,
+            updatedTimestamp: Foundation.Date? = nil,
             voiceConnectorGroupArn: Swift.String? = nil,
             voiceConnectorGroupId: Swift.String? = nil,
             voiceConnectorItems: [ChimeSDKVoiceClientTypes.VoiceConnectorItem]? = nil
@@ -10484,11 +10487,11 @@ extension ChimeSDKVoiceClientTypes {
     /// The combination of a voice print and caller ID.
     public struct VoiceProfile {
         /// The time at which the voice profile was created and enrolled.
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// The time at which a voice profile expires unless you re-enroll the caller via the UpdateVoiceProfile API.
-        public var expirationTimestamp: ClientRuntime.Date?
+        public var expirationTimestamp: Foundation.Date?
         /// The time at which the voice profile was last updated.
-        public var updatedTimestamp: ClientRuntime.Date?
+        public var updatedTimestamp: Foundation.Date?
         /// The ARN of the voice profile.
         public var voiceProfileArn: Swift.String?
         /// The ID of the domain that contains the voice profile.
@@ -10497,9 +10500,9 @@ extension ChimeSDKVoiceClientTypes {
         public var voiceProfileId: Swift.String?
 
         public init(
-            createdTimestamp: ClientRuntime.Date? = nil,
-            expirationTimestamp: ClientRuntime.Date? = nil,
-            updatedTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
+            expirationTimestamp: Foundation.Date? = nil,
+            updatedTimestamp: Foundation.Date? = nil,
             voiceProfileArn: Swift.String? = nil,
             voiceProfileDomainId: Swift.String? = nil,
             voiceProfileId: Swift.String? = nil
@@ -10541,7 +10544,7 @@ extension ChimeSDKVoiceClientTypes {
     /// A collection of voice profiles.
     public struct VoiceProfileDomain {
         /// The time at which the voice profile domain was created.
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// The description of the voice profile domain.
         public var description: Swift.String?
         /// The name of the voice profile domain.
@@ -10549,18 +10552,18 @@ extension ChimeSDKVoiceClientTypes {
         /// A structure that contains the configuration settings for server-side encryption.
         public var serverSideEncryptionConfiguration: ChimeSDKVoiceClientTypes.ServerSideEncryptionConfiguration?
         /// The time at which the voice profile was last updated.
-        public var updatedTimestamp: ClientRuntime.Date?
+        public var updatedTimestamp: Foundation.Date?
         /// The voice profile domain's Amazon Resource Number (ARN).
         public var voiceProfileDomainArn: Swift.String?
         /// The ID of the voice profile domain.
         public var voiceProfileDomainId: Swift.String?
 
         public init(
-            createdTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
             description: Swift.String? = nil,
             name: Swift.String? = nil,
             serverSideEncryptionConfiguration: ChimeSDKVoiceClientTypes.ServerSideEncryptionConfiguration? = nil,
-            updatedTimestamp: ClientRuntime.Date? = nil,
+            updatedTimestamp: Foundation.Date? = nil,
             voiceProfileDomainArn: Swift.String? = nil,
             voiceProfileDomainId: Swift.String? = nil
         )
@@ -10601,23 +10604,23 @@ extension ChimeSDKVoiceClientTypes {
     /// A high-level overview of a voice profile domain.
     public struct VoiceProfileDomainSummary {
         /// The time at which the voice profile domain summary was created.
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// Describes the voice profile domain summary.
         public var description: Swift.String?
         /// The name of the voice profile domain summary.
         public var name: Swift.String?
         /// The time at which the voice profile domain summary was last updated.
-        public var updatedTimestamp: ClientRuntime.Date?
+        public var updatedTimestamp: Foundation.Date?
         /// The ARN of a voice profile in a voice profile domain summary.
         public var voiceProfileDomainArn: Swift.String?
         /// The ID of the voice profile domain summary.
         public var voiceProfileDomainId: Swift.String?
 
         public init(
-            createdTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
             description: Swift.String? = nil,
             name: Swift.String? = nil,
-            updatedTimestamp: ClientRuntime.Date? = nil,
+            updatedTimestamp: Foundation.Date? = nil,
             voiceProfileDomainArn: Swift.String? = nil,
             voiceProfileDomainId: Swift.String? = nil
         )
@@ -10657,11 +10660,11 @@ extension ChimeSDKVoiceClientTypes {
     /// A high-level summary of a voice profile.
     public struct VoiceProfileSummary {
         /// The time at which a voice profile summary was created.
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// Extends the life of the voice profile. You can use UpdateVoiceProfile to refresh an existing voice profile's voice print and extend the life of the summary.
-        public var expirationTimestamp: ClientRuntime.Date?
+        public var expirationTimestamp: Foundation.Date?
         /// The time at which a voice profile summary was last updated.
-        public var updatedTimestamp: ClientRuntime.Date?
+        public var updatedTimestamp: Foundation.Date?
         /// The ARN of the voice profile in a voice profile summary.
         public var voiceProfileArn: Swift.String?
         /// The ID of the voice profile domain in a voice profile summary.
@@ -10670,9 +10673,9 @@ extension ChimeSDKVoiceClientTypes {
         public var voiceProfileId: Swift.String?
 
         public init(
-            createdTimestamp: ClientRuntime.Date? = nil,
-            expirationTimestamp: ClientRuntime.Date? = nil,
-            updatedTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
+            expirationTimestamp: Foundation.Date? = nil,
+            updatedTimestamp: Foundation.Date? = nil,
             voiceProfileArn: Swift.String? = nil,
             voiceProfileDomainId: Swift.String? = nil,
             voiceProfileId: Swift.String? = nil
@@ -10711,13 +10714,13 @@ extension ChimeSDKVoiceClientTypes {
         /// The call details of a voice tone analysis task.
         public var callDetails: ChimeSDKVoiceClientTypes.CallDetails?
         /// The time at which a voice tone analysis task was created.
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// The time at which a voice tone analysis task started.
-        public var startedTimestamp: ClientRuntime.Date?
+        public var startedTimestamp: Foundation.Date?
         /// The status of a voice tone analysis task.
         public var statusMessage: Swift.String?
         /// The time at which a voice tone analysis task was updated.
-        public var updatedTimestamp: ClientRuntime.Date?
+        public var updatedTimestamp: Foundation.Date?
         /// The ID of the voice tone analysis task.
         public var voiceToneAnalysisTaskId: Swift.String?
         /// The status of a voice tone analysis task, IN_QUEUE, IN_PROGRESS, PARTIAL_SUCCESS, SUCCEEDED, FAILED, or STOPPED.
@@ -10725,10 +10728,10 @@ extension ChimeSDKVoiceClientTypes {
 
         public init(
             callDetails: ChimeSDKVoiceClientTypes.CallDetails? = nil,
-            createdTimestamp: ClientRuntime.Date? = nil,
-            startedTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
+            startedTimestamp: Foundation.Date? = nil,
             statusMessage: Swift.String? = nil,
-            updatedTimestamp: ClientRuntime.Date? = nil,
+            updatedTimestamp: Foundation.Date? = nil,
             voiceToneAnalysisTaskId: Swift.String? = nil,
             voiceToneAnalysisTaskStatus: Swift.String? = nil
         )

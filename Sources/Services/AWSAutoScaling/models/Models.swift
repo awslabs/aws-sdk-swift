@@ -2,7 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
 import SmithyFormURL
+import SmithyHTTPAPI
 import SmithyReadWrite
 import SmithyXML
 
@@ -270,12 +272,12 @@ extension AutoScalingClientTypes {
         /// The details about the activity.
         public var details: Swift.String?
         /// The end time of the activity.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// A value between 0 and 100 that indicates the progress of the activity.
         public var progress: Swift.Int?
         /// The start time of the activity.
         /// This member is required.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
         /// The current status of the activity.
         /// This member is required.
         public var statusCode: AutoScalingClientTypes.ScalingActivityStatusCode?
@@ -290,9 +292,9 @@ extension AutoScalingClientTypes {
             cause: Swift.String? = nil,
             description: Swift.String? = nil,
             details: Swift.String? = nil,
-            endTime: ClientRuntime.Date? = nil,
+            endTime: Foundation.Date? = nil,
             progress: Swift.Int? = nil,
-            startTime: ClientRuntime.Date? = nil,
+            startTime: Foundation.Date? = nil,
             statusCode: AutoScalingClientTypes.ScalingActivityStatusCode? = nil,
             statusMessage: Swift.String? = nil
         )
@@ -477,7 +479,7 @@ public struct AttachInstancesInput {
 
 extension AttachInstancesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AttachInstancesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AttachInstancesOutput {
         return AttachInstancesOutput()
     }
 }
@@ -489,7 +491,7 @@ public struct AttachInstancesOutput {
 
 enum AttachInstancesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -540,7 +542,7 @@ public struct AttachLoadBalancerTargetGroupsInput {
 
 extension AttachLoadBalancerTargetGroupsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AttachLoadBalancerTargetGroupsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AttachLoadBalancerTargetGroupsOutput {
         return AttachLoadBalancerTargetGroupsOutput()
     }
 }
@@ -552,7 +554,7 @@ public struct AttachLoadBalancerTargetGroupsOutput {
 
 enum AttachLoadBalancerTargetGroupsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -603,7 +605,7 @@ public struct AttachLoadBalancersInput {
 
 extension AttachLoadBalancersOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AttachLoadBalancersOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AttachLoadBalancersOutput {
         return AttachLoadBalancersOutput()
     }
 }
@@ -615,7 +617,7 @@ public struct AttachLoadBalancersOutput {
 
 enum AttachLoadBalancersOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -666,7 +668,7 @@ public struct AttachTrafficSourcesInput {
 
 extension AttachTrafficSourcesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AttachTrafficSourcesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AttachTrafficSourcesOutput {
         return AttachTrafficSourcesOutput()
     }
 }
@@ -678,7 +680,7 @@ public struct AttachTrafficSourcesOutput {
 
 enum AttachTrafficSourcesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -754,7 +756,7 @@ extension AutoScalingClientTypes {
         public var context: Swift.String?
         /// The date and time the group was created.
         /// This member is required.
-        public var createdTime: ClientRuntime.Date?
+        public var createdTime: Foundation.Date?
         /// The duration of the default cooldown period, in seconds.
         /// This member is required.
         public var defaultCooldown: Swift.Int?
@@ -825,7 +827,7 @@ extension AutoScalingClientTypes {
             availabilityZones: [Swift.String]? = nil,
             capacityRebalance: Swift.Bool? = nil,
             context: Swift.String? = nil,
-            createdTime: ClientRuntime.Date? = nil,
+            createdTime: Foundation.Date? = nil,
             defaultCooldown: Swift.Int? = nil,
             defaultInstanceWarmup: Swift.Int? = nil,
             desiredCapacity: Swift.Int? = nil,
@@ -1081,7 +1083,7 @@ public struct BatchDeleteScheduledActionInput {
 
 extension BatchDeleteScheduledActionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> BatchDeleteScheduledActionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BatchDeleteScheduledActionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["BatchDeleteScheduledActionResult"]
@@ -1105,7 +1107,7 @@ public struct BatchDeleteScheduledActionOutput {
 
 enum BatchDeleteScheduledActionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1155,7 +1157,7 @@ public struct BatchPutScheduledUpdateGroupActionInput {
 
 extension BatchPutScheduledUpdateGroupActionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> BatchPutScheduledUpdateGroupActionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BatchPutScheduledUpdateGroupActionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["BatchPutScheduledUpdateGroupActionResult"]
@@ -1179,7 +1181,7 @@ public struct BatchPutScheduledUpdateGroupActionOutput {
 
 enum BatchPutScheduledUpdateGroupActionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1307,7 +1309,7 @@ public struct CancelInstanceRefreshInput {
 
 extension CancelInstanceRefreshOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CancelInstanceRefreshOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CancelInstanceRefreshOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CancelInstanceRefreshResult"]
@@ -1331,7 +1333,7 @@ public struct CancelInstanceRefreshOutput {
 
 enum CancelInstanceRefreshOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1361,13 +1363,13 @@ extension AutoScalingClientTypes {
     public struct CapacityForecast {
         /// The timestamps for the data points, in UTC format.
         /// This member is required.
-        public var timestamps: [ClientRuntime.Date]?
+        public var timestamps: [Foundation.Date]?
         /// The values of the data points.
         /// This member is required.
         public var values: [Swift.Double]?
 
         public init(
-            timestamps: [ClientRuntime.Date]? = nil,
+            timestamps: [Foundation.Date]? = nil,
             values: [Swift.Double]? = nil
         )
         {
@@ -1432,7 +1434,7 @@ public struct CompleteLifecycleActionInput {
 
 extension CompleteLifecycleActionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CompleteLifecycleActionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CompleteLifecycleActionOutput {
         return CompleteLifecycleActionOutput()
     }
 }
@@ -1444,7 +1446,7 @@ public struct CompleteLifecycleActionOutput {
 
 enum CompleteLifecycleActionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1657,7 +1659,7 @@ public struct CreateAutoScalingGroupInput {
 
 extension CreateAutoScalingGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateAutoScalingGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateAutoScalingGroupOutput {
         return CreateAutoScalingGroupOutput()
     }
 }
@@ -1669,7 +1671,7 @@ public struct CreateAutoScalingGroupOutput {
 
 enum CreateAutoScalingGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1806,7 +1808,7 @@ public struct CreateLaunchConfigurationInput {
 
 extension CreateLaunchConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateLaunchConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateLaunchConfigurationOutput {
         return CreateLaunchConfigurationOutput()
     }
 }
@@ -1818,7 +1820,7 @@ public struct CreateLaunchConfigurationOutput {
 
 enum CreateLaunchConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1864,7 +1866,7 @@ public struct CreateOrUpdateTagsInput {
 
 extension CreateOrUpdateTagsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateOrUpdateTagsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateOrUpdateTagsOutput {
         return CreateOrUpdateTagsOutput()
     }
 }
@@ -1876,7 +1878,7 @@ public struct CreateOrUpdateTagsOutput {
 
 enum CreateOrUpdateTagsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1996,7 +1998,7 @@ public struct DeleteAutoScalingGroupInput {
 
 extension DeleteAutoScalingGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteAutoScalingGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteAutoScalingGroupOutput {
         return DeleteAutoScalingGroupOutput()
     }
 }
@@ -2008,7 +2010,7 @@ public struct DeleteAutoScalingGroupOutput {
 
 enum DeleteAutoScalingGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2054,7 +2056,7 @@ public struct DeleteLaunchConfigurationInput {
 
 extension DeleteLaunchConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteLaunchConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteLaunchConfigurationOutput {
         return DeleteLaunchConfigurationOutput()
     }
 }
@@ -2066,7 +2068,7 @@ public struct DeleteLaunchConfigurationOutput {
 
 enum DeleteLaunchConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2117,7 +2119,7 @@ public struct DeleteLifecycleHookInput {
 
 extension DeleteLifecycleHookOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteLifecycleHookOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteLifecycleHookOutput {
         return DeleteLifecycleHookOutput()
     }
 }
@@ -2129,7 +2131,7 @@ public struct DeleteLifecycleHookOutput {
 
 enum DeleteLifecycleHookOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2179,7 +2181,7 @@ public struct DeleteNotificationConfigurationInput {
 
 extension DeleteNotificationConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteNotificationConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteNotificationConfigurationOutput {
         return DeleteNotificationConfigurationOutput()
     }
 }
@@ -2191,7 +2193,7 @@ public struct DeleteNotificationConfigurationOutput {
 
 enum DeleteNotificationConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2240,7 +2242,7 @@ public struct DeletePolicyInput {
 
 extension DeletePolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeletePolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeletePolicyOutput {
         return DeletePolicyOutput()
     }
 }
@@ -2252,7 +2254,7 @@ public struct DeletePolicyOutput {
 
 enum DeletePolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2303,7 +2305,7 @@ public struct DeleteScheduledActionInput {
 
 extension DeleteScheduledActionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteScheduledActionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteScheduledActionOutput {
         return DeleteScheduledActionOutput()
     }
 }
@@ -2315,7 +2317,7 @@ public struct DeleteScheduledActionOutput {
 
 enum DeleteScheduledActionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2359,7 +2361,7 @@ public struct DeleteTagsInput {
 
 extension DeleteTagsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteTagsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteTagsOutput {
         return DeleteTagsOutput()
     }
 }
@@ -2371,7 +2373,7 @@ public struct DeleteTagsOutput {
 
 enum DeleteTagsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2421,7 +2423,7 @@ public struct DeleteWarmPoolInput {
 
 extension DeleteWarmPoolOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteWarmPoolOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteWarmPoolOutput {
         return DeleteWarmPoolOutput()
     }
 }
@@ -2433,7 +2435,7 @@ public struct DeleteWarmPoolOutput {
 
 enum DeleteWarmPoolOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2472,7 +2474,7 @@ public struct DescribeAccountLimitsInput {
 
 extension DescribeAccountLimitsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeAccountLimitsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeAccountLimitsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeAccountLimitsResult"]
@@ -2511,7 +2513,7 @@ public struct DescribeAccountLimitsOutput {
 
 enum DescribeAccountLimitsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2547,7 +2549,7 @@ public struct DescribeAdjustmentTypesInput {
 
 extension DescribeAdjustmentTypesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeAdjustmentTypesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeAdjustmentTypesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeAdjustmentTypesResult"]
@@ -2571,7 +2573,7 @@ public struct DescribeAdjustmentTypesOutput {
 
 enum DescribeAdjustmentTypesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2629,7 +2631,7 @@ public struct DescribeAutoScalingGroupsInput {
 
 extension DescribeAutoScalingGroupsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeAutoScalingGroupsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeAutoScalingGroupsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeAutoScalingGroupsResult"]
@@ -2659,7 +2661,7 @@ public struct DescribeAutoScalingGroupsOutput {
 
 enum DescribeAutoScalingGroupsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2713,7 +2715,7 @@ public struct DescribeAutoScalingInstancesInput {
 
 extension DescribeAutoScalingInstancesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeAutoScalingInstancesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeAutoScalingInstancesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeAutoScalingInstancesResult"]
@@ -2742,7 +2744,7 @@ public struct DescribeAutoScalingInstancesOutput {
 
 enum DescribeAutoScalingInstancesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2779,7 +2781,7 @@ public struct DescribeAutoScalingNotificationTypesInput {
 
 extension DescribeAutoScalingNotificationTypesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeAutoScalingNotificationTypesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeAutoScalingNotificationTypesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeAutoScalingNotificationTypesResult"]
@@ -2803,7 +2805,7 @@ public struct DescribeAutoScalingNotificationTypesOutput {
 
 enum DescribeAutoScalingNotificationTypesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2862,7 +2864,7 @@ public struct DescribeInstanceRefreshesInput {
 
 extension DescribeInstanceRefreshesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeInstanceRefreshesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeInstanceRefreshesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeInstanceRefreshesResult"]
@@ -2891,7 +2893,7 @@ public struct DescribeInstanceRefreshesOutput {
 
 enum DescribeInstanceRefreshesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2945,7 +2947,7 @@ public struct DescribeLaunchConfigurationsInput {
 
 extension DescribeLaunchConfigurationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeLaunchConfigurationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeLaunchConfigurationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeLaunchConfigurationsResult"]
@@ -2975,7 +2977,7 @@ public struct DescribeLaunchConfigurationsOutput {
 
 enum DescribeLaunchConfigurationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3012,7 +3014,7 @@ public struct DescribeLifecycleHookTypesInput {
 
 extension DescribeLifecycleHookTypesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeLifecycleHookTypesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeLifecycleHookTypesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeLifecycleHookTypesResult"]
@@ -3036,7 +3038,7 @@ public struct DescribeLifecycleHookTypesOutput {
 
 enum DescribeLifecycleHookTypesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3085,7 +3087,7 @@ public struct DescribeLifecycleHooksInput {
 
 extension DescribeLifecycleHooksOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeLifecycleHooksOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeLifecycleHooksOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeLifecycleHooksResult"]
@@ -3109,7 +3111,7 @@ public struct DescribeLifecycleHooksOutput {
 
 enum DescribeLifecycleHooksOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3163,7 +3165,7 @@ public struct DescribeLoadBalancerTargetGroupsInput {
 
 extension DescribeLoadBalancerTargetGroupsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeLoadBalancerTargetGroupsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeLoadBalancerTargetGroupsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeLoadBalancerTargetGroupsResult"]
@@ -3192,7 +3194,7 @@ public struct DescribeLoadBalancerTargetGroupsOutput {
 
 enum DescribeLoadBalancerTargetGroupsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3247,7 +3249,7 @@ public struct DescribeLoadBalancersInput {
 
 extension DescribeLoadBalancersOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeLoadBalancersOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeLoadBalancersOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeLoadBalancersResult"]
@@ -3276,7 +3278,7 @@ public struct DescribeLoadBalancersOutput {
 
 enum DescribeLoadBalancersOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3313,7 +3315,7 @@ public struct DescribeMetricCollectionTypesInput {
 
 extension DescribeMetricCollectionTypesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeMetricCollectionTypesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeMetricCollectionTypesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeMetricCollectionTypesResult"]
@@ -3342,7 +3344,7 @@ public struct DescribeMetricCollectionTypesOutput {
 
 enum DescribeMetricCollectionTypesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3395,7 +3397,7 @@ public struct DescribeNotificationConfigurationsInput {
 
 extension DescribeNotificationConfigurationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeNotificationConfigurationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeNotificationConfigurationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeNotificationConfigurationsResult"]
@@ -3425,7 +3427,7 @@ public struct DescribeNotificationConfigurationsOutput {
 
 enum DescribeNotificationConfigurationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3489,7 +3491,7 @@ public struct DescribePoliciesInput {
 
 extension DescribePoliciesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribePoliciesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribePoliciesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribePoliciesResult"]
@@ -3518,7 +3520,7 @@ public struct DescribePoliciesOutput {
 
 enum DescribePoliciesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3583,7 +3585,7 @@ public struct DescribeScalingActivitiesInput {
 
 extension DescribeScalingActivitiesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeScalingActivitiesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeScalingActivitiesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeScalingActivitiesResult"]
@@ -3613,7 +3615,7 @@ public struct DescribeScalingActivitiesOutput {
 
 enum DescribeScalingActivitiesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3650,7 +3652,7 @@ public struct DescribeScalingProcessTypesInput {
 
 extension DescribeScalingProcessTypesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeScalingProcessTypesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeScalingProcessTypesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeScalingProcessTypesResult"]
@@ -3674,7 +3676,7 @@ public struct DescribeScalingProcessTypesOutput {
 
 enum DescribeScalingProcessTypesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3712,7 +3714,7 @@ public struct DescribeScheduledActionsInput {
     /// The name of the Auto Scaling group.
     public var autoScalingGroupName: Swift.String?
     /// The latest scheduled start time to return. If scheduled action names are provided, this property is ignored.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
     public var maxRecords: Swift.Int?
     /// The token for the next set of items to return. (You received this token from a previous call.)
@@ -3720,15 +3722,15 @@ public struct DescribeScheduledActionsInput {
     /// The names of one or more scheduled actions. If you omit this property, all scheduled actions are described. If you specify an unknown scheduled action, it is ignored with no error. Array Members: Maximum number of 50 actions.
     public var scheduledActionNames: [Swift.String]?
     /// The earliest scheduled start time to return. If scheduled action names are provided, this property is ignored.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
 
     public init(
         autoScalingGroupName: Swift.String? = nil,
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         maxRecords: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         scheduledActionNames: [Swift.String]? = nil,
-        startTime: ClientRuntime.Date? = nil
+        startTime: Foundation.Date? = nil
     )
     {
         self.autoScalingGroupName = autoScalingGroupName
@@ -3742,7 +3744,7 @@ public struct DescribeScheduledActionsInput {
 
 extension DescribeScheduledActionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeScheduledActionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeScheduledActionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeScheduledActionsResult"]
@@ -3771,7 +3773,7 @@ public struct DescribeScheduledActionsOutput {
 
 enum DescribeScheduledActionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3825,7 +3827,7 @@ public struct DescribeTagsInput {
 
 extension DescribeTagsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeTagsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeTagsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeTagsResult"]
@@ -3854,7 +3856,7 @@ public struct DescribeTagsOutput {
 
 enum DescribeTagsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3891,7 +3893,7 @@ public struct DescribeTerminationPolicyTypesInput {
 
 extension DescribeTerminationPolicyTypesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeTerminationPolicyTypesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeTerminationPolicyTypesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeTerminationPolicyTypesResult"]
@@ -3915,7 +3917,7 @@ public struct DescribeTerminationPolicyTypesOutput {
 
 enum DescribeTerminationPolicyTypesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3980,7 +3982,7 @@ public struct DescribeTrafficSourcesInput {
 
 extension DescribeTrafficSourcesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeTrafficSourcesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeTrafficSourcesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeTrafficSourcesResult"]
@@ -4009,7 +4011,7 @@ public struct DescribeTrafficSourcesOutput {
 
 enum DescribeTrafficSourcesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4064,7 +4066,7 @@ public struct DescribeWarmPoolInput {
 
 extension DescribeWarmPoolOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeWarmPoolOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeWarmPoolOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeWarmPoolResult"]
@@ -4098,7 +4100,7 @@ public struct DescribeWarmPoolOutput {
 
 enum DescribeWarmPoolOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4192,7 +4194,7 @@ public struct DetachInstancesInput {
 
 extension DetachInstancesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DetachInstancesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DetachInstancesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DetachInstancesResult"]
@@ -4216,7 +4218,7 @@ public struct DetachInstancesOutput {
 
 enum DetachInstancesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4266,7 +4268,7 @@ public struct DetachLoadBalancerTargetGroupsInput {
 
 extension DetachLoadBalancerTargetGroupsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DetachLoadBalancerTargetGroupsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DetachLoadBalancerTargetGroupsOutput {
         return DetachLoadBalancerTargetGroupsOutput()
     }
 }
@@ -4278,7 +4280,7 @@ public struct DetachLoadBalancerTargetGroupsOutput {
 
 enum DetachLoadBalancerTargetGroupsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4328,7 +4330,7 @@ public struct DetachLoadBalancersInput {
 
 extension DetachLoadBalancersOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DetachLoadBalancersOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DetachLoadBalancersOutput {
         return DetachLoadBalancersOutput()
     }
 }
@@ -4340,7 +4342,7 @@ public struct DetachLoadBalancersOutput {
 
 enum DetachLoadBalancersOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4390,7 +4392,7 @@ public struct DetachTrafficSourcesInput {
 
 extension DetachTrafficSourcesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DetachTrafficSourcesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DetachTrafficSourcesOutput {
         return DetachTrafficSourcesOutput()
     }
 }
@@ -4402,7 +4404,7 @@ public struct DetachTrafficSourcesOutput {
 
 enum DetachTrafficSourcesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4494,7 +4496,7 @@ public struct DisableMetricsCollectionInput {
 
 extension DisableMetricsCollectionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DisableMetricsCollectionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DisableMetricsCollectionOutput {
         return DisableMetricsCollectionOutput()
     }
 }
@@ -4506,7 +4508,7 @@ public struct DisableMetricsCollectionOutput {
 
 enum DisableMetricsCollectionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4689,7 +4691,7 @@ public struct EnableMetricsCollectionInput {
 
 extension EnableMetricsCollectionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> EnableMetricsCollectionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> EnableMetricsCollectionOutput {
         return EnableMetricsCollectionOutput()
     }
 }
@@ -4701,7 +4703,7 @@ public struct EnableMetricsCollectionOutput {
 
 enum EnableMetricsCollectionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4830,7 +4832,7 @@ public struct EnterStandbyInput {
 
 extension EnterStandbyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> EnterStandbyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> EnterStandbyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["EnterStandbyResult"]
@@ -4854,7 +4856,7 @@ public struct EnterStandbyOutput {
 
 enum EnterStandbyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4918,7 +4920,7 @@ public struct ExecutePolicyInput {
 
 extension ExecutePolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ExecutePolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ExecutePolicyOutput {
         return ExecutePolicyOutput()
     }
 }
@@ -4930,7 +4932,7 @@ public struct ExecutePolicyOutput {
 
 enum ExecutePolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4980,7 +4982,7 @@ public struct ExitStandbyInput {
 
 extension ExitStandbyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ExitStandbyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ExitStandbyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ExitStandbyResult"]
@@ -5004,7 +5006,7 @@ public struct ExitStandbyOutput {
 
 enum ExitStandbyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5125,19 +5127,19 @@ public struct GetPredictiveScalingForecastInput {
     public var autoScalingGroupName: Swift.String?
     /// The exclusive end time of the time range for the forecast data to get. The maximum time duration between the start and end time is 30 days. Although this parameter can accept a date and time that is more than two days in the future, the availability of forecast data has limits. Amazon EC2 Auto Scaling only issues forecasts for periods of two days in advance.
     /// This member is required.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// The name of the policy.
     /// This member is required.
     public var policyName: Swift.String?
     /// The inclusive start time of the time range for the forecast data to get. At most, the date and time can be one year before the current date and time.
     /// This member is required.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
 
     public init(
         autoScalingGroupName: Swift.String? = nil,
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         policyName: Swift.String? = nil,
-        startTime: ClientRuntime.Date? = nil
+        startTime: Foundation.Date? = nil
     )
     {
         self.autoScalingGroupName = autoScalingGroupName
@@ -5149,7 +5151,7 @@ public struct GetPredictiveScalingForecastInput {
 
 extension GetPredictiveScalingForecastOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetPredictiveScalingForecastOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetPredictiveScalingForecastOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GetPredictiveScalingForecastResult"]
@@ -5170,12 +5172,12 @@ public struct GetPredictiveScalingForecastOutput {
     public var loadForecast: [AutoScalingClientTypes.LoadForecast]?
     /// The time the forecast was made.
     /// This member is required.
-    public var updateTime: ClientRuntime.Date?
+    public var updateTime: Foundation.Date?
 
     public init(
         capacityForecast: AutoScalingClientTypes.CapacityForecast? = nil,
         loadForecast: [AutoScalingClientTypes.LoadForecast]? = nil,
-        updateTime: ClientRuntime.Date? = nil
+        updateTime: Foundation.Date? = nil
     )
     {
         self.capacityForecast = capacityForecast
@@ -5186,7 +5188,7 @@ public struct GetPredictiveScalingForecastOutput {
 
 enum GetPredictiveScalingForecastOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5496,7 +5498,7 @@ extension AutoScalingClientTypes {
         /// Describes the desired configuration for the instance refresh.
         public var desiredConfiguration: AutoScalingClientTypes.DesiredConfiguration?
         /// The date and time at which the instance refresh ended.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// The instance refresh ID.
         public var instanceRefreshId: Swift.String?
         /// The number of instances remaining to update before the instance refresh is complete. If you roll back the instance refresh, InstancesToUpdate shows you the number of instances that were not yet updated by the instance refresh. Therefore, these instances don't need to be replaced as part of the rollback.
@@ -5510,7 +5512,7 @@ extension AutoScalingClientTypes {
         /// The rollback details.
         public var rollbackDetails: AutoScalingClientTypes.RollbackDetails?
         /// The date and time at which the instance refresh began.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
         /// The current status for the instance refresh operation:
         ///
         /// * Pending - The request was created, but the instance refresh has not started.
@@ -5537,14 +5539,14 @@ extension AutoScalingClientTypes {
         public init(
             autoScalingGroupName: Swift.String? = nil,
             desiredConfiguration: AutoScalingClientTypes.DesiredConfiguration? = nil,
-            endTime: ClientRuntime.Date? = nil,
+            endTime: Foundation.Date? = nil,
             instanceRefreshId: Swift.String? = nil,
             instancesToUpdate: Swift.Int? = nil,
             percentageComplete: Swift.Int? = nil,
             preferences: AutoScalingClientTypes.RefreshPreferences? = nil,
             progressDetails: AutoScalingClientTypes.InstanceRefreshProgressDetails? = nil,
             rollbackDetails: AutoScalingClientTypes.RollbackDetails? = nil,
-            startTime: ClientRuntime.Date? = nil,
+            startTime: Foundation.Date? = nil,
             status: AutoScalingClientTypes.InstanceRefreshStatus? = nil,
             statusReason: Swift.String? = nil
         )
@@ -6193,7 +6195,7 @@ extension AutoScalingClientTypes {
         public var classicLinkVPCSecurityGroups: [Swift.String]?
         /// The creation date and time for the launch configuration.
         /// This member is required.
-        public var createdTime: ClientRuntime.Date?
+        public var createdTime: Foundation.Date?
         /// Specifies whether the launch configuration is optimized for EBS I/O (true) or not (false). For more information, see [Amazon EBS-Optimized Instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSOptimized.html) in the Amazon EC2 User Guide for Linux Instances.
         public var ebsOptimized: Swift.Bool?
         /// The name or the Amazon Resource Name (ARN) of the instance profile associated with the IAM role for the instance. The instance profile contains the IAM role. For more information, see [IAM role for applications that run on Amazon EC2 instances](https://docs.aws.amazon.com/autoscaling/ec2/userguide/us-iam-role.html) in the Amazon EC2 Auto Scaling User Guide.
@@ -6233,7 +6235,7 @@ extension AutoScalingClientTypes {
             blockDeviceMappings: [AutoScalingClientTypes.BlockDeviceMapping]? = nil,
             classicLinkVPCId: Swift.String? = nil,
             classicLinkVPCSecurityGroups: [Swift.String]? = nil,
-            createdTime: ClientRuntime.Date? = nil,
+            createdTime: Foundation.Date? = nil,
             ebsOptimized: Swift.Bool? = nil,
             iamInstanceProfile: Swift.String? = nil,
             imageId: Swift.String? = nil,
@@ -6770,14 +6772,14 @@ extension AutoScalingClientTypes {
         public var metricSpecification: AutoScalingClientTypes.PredictiveScalingMetricSpecification?
         /// The timestamps for the data points, in UTC format.
         /// This member is required.
-        public var timestamps: [ClientRuntime.Date]?
+        public var timestamps: [Foundation.Date]?
         /// The values of the data points.
         /// This member is required.
         public var values: [Swift.Double]?
 
         public init(
             metricSpecification: AutoScalingClientTypes.PredictiveScalingMetricSpecification? = nil,
-            timestamps: [ClientRuntime.Date]? = nil,
+            timestamps: [Foundation.Date]? = nil,
             values: [Swift.Double]? = nil
         )
         {
@@ -8140,7 +8142,7 @@ public struct PutLifecycleHookInput {
 
 extension PutLifecycleHookOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutLifecycleHookOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutLifecycleHookOutput {
         return PutLifecycleHookOutput()
     }
 }
@@ -8152,7 +8154,7 @@ public struct PutLifecycleHookOutput {
 
 enum PutLifecycleHookOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8209,7 +8211,7 @@ public struct PutNotificationConfigurationInput {
 
 extension PutNotificationConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutNotificationConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutNotificationConfigurationOutput {
         return PutNotificationConfigurationOutput()
     }
 }
@@ -8221,7 +8223,7 @@ public struct PutNotificationConfigurationOutput {
 
 enum PutNotificationConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8353,7 +8355,7 @@ public struct PutScalingPolicyInput {
 
 extension PutScalingPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutScalingPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutScalingPolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["PutScalingPolicyResult"]
@@ -8383,7 +8385,7 @@ public struct PutScalingPolicyOutput {
 
 enum PutScalingPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8430,7 +8432,7 @@ public struct PutScheduledUpdateGroupActionInput {
     /// The desired capacity is the initial capacity of the Auto Scaling group after the scheduled action runs and the capacity it attempts to maintain. It can scale beyond this capacity if you add more scaling conditions. You must specify at least one of the following properties: MaxSize, MinSize, or DesiredCapacity.
     public var desiredCapacity: Swift.Int?
     /// The date and time for the recurring schedule to end, in UTC. For example, "2021-06-01T00:00:00Z".
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// The maximum size of the Auto Scaling group.
     public var maxSize: Swift.Int?
     /// The minimum size of the Auto Scaling group.
@@ -8441,22 +8443,22 @@ public struct PutScheduledUpdateGroupActionInput {
     /// This member is required.
     public var scheduledActionName: Swift.String?
     /// The date and time for this action to start, in YYYY-MM-DDThh:mm:ssZ format in UTC/GMT only and in quotes (for example, "2021-06-01T00:00:00Z"). If you specify Recurrence and StartTime, Amazon EC2 Auto Scaling performs the action at this time, and then performs the action based on the specified recurrence.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
     /// This property is no longer used.
-    public var time: ClientRuntime.Date?
+    public var time: Foundation.Date?
     /// Specifies the time zone for a cron expression. If a time zone is not provided, UTC is used by default. Valid values are the canonical names of the IANA time zones, derived from the IANA Time Zone Database (such as Etc/GMT+9 or Pacific/Tahiti). For more information, see [https://en.wikipedia.org/wiki/List_of_tz_database_time_zones](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
     public var timeZone: Swift.String?
 
     public init(
         autoScalingGroupName: Swift.String? = nil,
         desiredCapacity: Swift.Int? = nil,
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         maxSize: Swift.Int? = nil,
         minSize: Swift.Int? = nil,
         recurrence: Swift.String? = nil,
         scheduledActionName: Swift.String? = nil,
-        startTime: ClientRuntime.Date? = nil,
-        time: ClientRuntime.Date? = nil,
+        startTime: Foundation.Date? = nil,
+        time: Foundation.Date? = nil,
         timeZone: Swift.String? = nil
     )
     {
@@ -8475,7 +8477,7 @@ public struct PutScheduledUpdateGroupActionInput {
 
 extension PutScheduledUpdateGroupActionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutScheduledUpdateGroupActionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutScheduledUpdateGroupActionOutput {
         return PutScheduledUpdateGroupActionOutput()
     }
 }
@@ -8487,7 +8489,7 @@ public struct PutScheduledUpdateGroupActionOutput {
 
 enum PutScheduledUpdateGroupActionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8553,7 +8555,7 @@ public struct PutWarmPoolInput {
 
 extension PutWarmPoolOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutWarmPoolOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutWarmPoolOutput {
         return PutWarmPoolOutput()
     }
 }
@@ -8565,7 +8567,7 @@ public struct PutWarmPoolOutput {
 
 enum PutWarmPoolOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8626,7 +8628,7 @@ public struct RecordLifecycleActionHeartbeatInput {
 
 extension RecordLifecycleActionHeartbeatOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RecordLifecycleActionHeartbeatOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RecordLifecycleActionHeartbeatOutput {
         return RecordLifecycleActionHeartbeatOutput()
     }
 }
@@ -8638,7 +8640,7 @@ public struct RecordLifecycleActionHeartbeatOutput {
 
 enum RecordLifecycleActionHeartbeatOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8904,7 +8906,7 @@ public struct ResumeProcessesInput {
 
 extension ResumeProcessesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ResumeProcessesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ResumeProcessesOutput {
         return ResumeProcessesOutput()
     }
 }
@@ -8916,7 +8918,7 @@ public struct ResumeProcessesOutput {
 
 enum ResumeProcessesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8955,14 +8957,14 @@ extension AutoScalingClientTypes {
         /// The reason for this instance refresh rollback (for example, whether a manual or automatic rollback was initiated).
         public var rollbackReason: Swift.String?
         /// The date and time at which the rollback began.
-        public var rollbackStartTime: ClientRuntime.Date?
+        public var rollbackStartTime: Foundation.Date?
 
         public init(
             instancesToUpdateOnRollback: Swift.Int? = nil,
             percentageCompleteOnRollback: Swift.Int? = nil,
             progressDetailsOnRollback: AutoScalingClientTypes.InstanceRefreshProgressDetails? = nil,
             rollbackReason: Swift.String? = nil,
-            rollbackStartTime: ClientRuntime.Date? = nil
+            rollbackStartTime: Foundation.Date? = nil
         )
         {
             self.instancesToUpdateOnRollback = instancesToUpdateOnRollback
@@ -9007,7 +9009,7 @@ public struct RollbackInstanceRefreshInput {
 
 extension RollbackInstanceRefreshOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RollbackInstanceRefreshOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RollbackInstanceRefreshOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["RollbackInstanceRefreshResult"]
@@ -9031,7 +9033,7 @@ public struct RollbackInstanceRefreshOutput {
 
 enum RollbackInstanceRefreshOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9319,7 +9321,7 @@ extension AutoScalingClientTypes {
         /// The desired capacity is the initial capacity of the Auto Scaling group after the scheduled action runs and the capacity it attempts to maintain.
         public var desiredCapacity: Swift.Int?
         /// The date and time in UTC for the recurring schedule to end. For example, "2019-06-01T00:00:00Z".
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// The maximum size of the Auto Scaling group.
         public var maxSize: Swift.Int?
         /// The minimum size of the Auto Scaling group.
@@ -9331,23 +9333,23 @@ extension AutoScalingClientTypes {
         /// The name of the scheduled action.
         public var scheduledActionName: Swift.String?
         /// The date and time in UTC for this action to start. For example, "2019-06-01T00:00:00Z".
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
         /// This property is no longer used.
-        public var time: ClientRuntime.Date?
+        public var time: Foundation.Date?
         /// The time zone for the cron expression.
         public var timeZone: Swift.String?
 
         public init(
             autoScalingGroupName: Swift.String? = nil,
             desiredCapacity: Swift.Int? = nil,
-            endTime: ClientRuntime.Date? = nil,
+            endTime: Foundation.Date? = nil,
             maxSize: Swift.Int? = nil,
             minSize: Swift.Int? = nil,
             recurrence: Swift.String? = nil,
             scheduledActionARN: Swift.String? = nil,
             scheduledActionName: Swift.String? = nil,
-            startTime: ClientRuntime.Date? = nil,
-            time: ClientRuntime.Date? = nil,
+            startTime: Foundation.Date? = nil,
+            time: Foundation.Date? = nil,
             timeZone: Swift.String? = nil
         )
         {
@@ -9388,7 +9390,7 @@ extension AutoScalingClientTypes {
         /// The desired capacity is the initial capacity of the Auto Scaling group after the scheduled action runs and the capacity it attempts to maintain.
         public var desiredCapacity: Swift.Int?
         /// The date and time for the recurring schedule to end, in UTC.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// The maximum size of the Auto Scaling group.
         public var maxSize: Swift.Int?
         /// The minimum size of the Auto Scaling group.
@@ -9399,18 +9401,18 @@ extension AutoScalingClientTypes {
         /// This member is required.
         public var scheduledActionName: Swift.String?
         /// The date and time for the action to start, in YYYY-MM-DDThh:mm:ssZ format in UTC/GMT only and in quotes (for example, "2019-06-01T00:00:00Z"). If you specify Recurrence and StartTime, Amazon EC2 Auto Scaling performs the action at this time, and then performs the action based on the specified recurrence. If you try to schedule the action in the past, Amazon EC2 Auto Scaling returns an error message.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
         /// Specifies the time zone for a cron expression. If a time zone is not provided, UTC is used by default. Valid values are the canonical names of the IANA time zones, derived from the IANA Time Zone Database (such as Etc/GMT+9 or Pacific/Tahiti). For more information, see [https://en.wikipedia.org/wiki/List_of_tz_database_time_zones](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
         public var timeZone: Swift.String?
 
         public init(
             desiredCapacity: Swift.Int? = nil,
-            endTime: ClientRuntime.Date? = nil,
+            endTime: Foundation.Date? = nil,
             maxSize: Swift.Int? = nil,
             minSize: Swift.Int? = nil,
             recurrence: Swift.String? = nil,
             scheduledActionName: Swift.String? = nil,
-            startTime: ClientRuntime.Date? = nil,
+            startTime: Foundation.Date? = nil,
             timeZone: Swift.String? = nil
         )
         {
@@ -9507,7 +9509,7 @@ public struct SetDesiredCapacityInput {
 
 extension SetDesiredCapacityOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SetDesiredCapacityOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SetDesiredCapacityOutput {
         return SetDesiredCapacityOutput()
     }
 }
@@ -9519,7 +9521,7 @@ public struct SetDesiredCapacityOutput {
 
 enum SetDesiredCapacityOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9575,7 +9577,7 @@ public struct SetInstanceHealthInput {
 
 extension SetInstanceHealthOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SetInstanceHealthOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SetInstanceHealthOutput {
         return SetInstanceHealthOutput()
     }
 }
@@ -9587,7 +9589,7 @@ public struct SetInstanceHealthOutput {
 
 enum SetInstanceHealthOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9643,7 +9645,7 @@ public struct SetInstanceProtectionInput {
 
 extension SetInstanceProtectionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SetInstanceProtectionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SetInstanceProtectionOutput {
         return SetInstanceProtectionOutput()
     }
 }
@@ -9655,7 +9657,7 @@ public struct SetInstanceProtectionOutput {
 
 enum SetInstanceProtectionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9755,7 +9757,7 @@ public struct StartInstanceRefreshInput {
 
 extension StartInstanceRefreshOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartInstanceRefreshOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartInstanceRefreshOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["StartInstanceRefreshResult"]
@@ -9779,7 +9781,7 @@ public struct StartInstanceRefreshOutput {
 
 enum StartInstanceRefreshOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9913,7 +9915,7 @@ public struct SuspendProcessesInput {
 
 extension SuspendProcessesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SuspendProcessesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SuspendProcessesOutput {
         return SuspendProcessesOutput()
     }
 }
@@ -9925,7 +9927,7 @@ public struct SuspendProcessesOutput {
 
 enum SuspendProcessesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10249,7 +10251,7 @@ public struct TerminateInstanceInAutoScalingGroupInput {
 
 extension TerminateInstanceInAutoScalingGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TerminateInstanceInAutoScalingGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TerminateInstanceInAutoScalingGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["TerminateInstanceInAutoScalingGroupResult"]
@@ -10273,7 +10275,7 @@ public struct TerminateInstanceInAutoScalingGroupOutput {
 
 enum TerminateInstanceInAutoScalingGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10577,7 +10579,7 @@ public struct UpdateAutoScalingGroupInput {
 
 extension UpdateAutoScalingGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateAutoScalingGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateAutoScalingGroupOutput {
         return UpdateAutoScalingGroupOutput()
     }
 }
@@ -10589,7 +10591,7 @@ public struct UpdateAutoScalingGroupOutput {
 
 enum UpdateAutoScalingGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

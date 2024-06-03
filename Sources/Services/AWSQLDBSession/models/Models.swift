@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -140,13 +142,13 @@ extension QLDBSessionClientTypes {
     public struct CommitTransactionRequest {
         /// Specifies the commit digest for the transaction to commit. For every active transaction, the commit digest must be passed. QLDB validates CommitDigest and rejects the commit with an error if the digest computed on the client does not match the digest computed by QLDB. The purpose of the CommitDigest parameter is to ensure that QLDB commits a transaction if and only if the server has processed the exact set of statements sent by the client, in the same order that client sent them, and with no duplicates.
         /// This member is required.
-        public var commitDigest: ClientRuntime.Data?
+        public var commitDigest: Foundation.Data?
         /// Specifies the transaction ID of the transaction to commit.
         /// This member is required.
         public var transactionId: Swift.String?
 
         public init(
-            commitDigest: ClientRuntime.Data? = nil,
+            commitDigest: Foundation.Data? = nil,
             transactionId: Swift.String? = nil
         )
         {
@@ -174,7 +176,7 @@ extension QLDBSessionClientTypes {
     /// Contains the details of the committed transaction.
     public struct CommitTransactionResult {
         /// The commit digest of the committed transaction.
-        public var commitDigest: ClientRuntime.Data?
+        public var commitDigest: Foundation.Data?
         /// Contains metrics about the number of I/O requests that were consumed.
         public var consumedIOs: QLDBSessionClientTypes.IOUsage?
         /// Contains server-side performance information for the command.
@@ -183,7 +185,7 @@ extension QLDBSessionClientTypes {
         public var transactionId: Swift.String?
 
         public init(
-            commitDigest: ClientRuntime.Data? = nil,
+            commitDigest: Foundation.Data? = nil,
             consumedIOs: QLDBSessionClientTypes.IOUsage? = nil,
             timingInformation: QLDBSessionClientTypes.TimingInformation? = nil,
             transactionId: Swift.String? = nil
@@ -660,7 +662,7 @@ public struct SendCommandInput {
 
 extension SendCommandOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SendCommandOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SendCommandOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -714,7 +716,7 @@ public struct SendCommandOutput {
 
 enum SendCommandOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -882,12 +884,12 @@ extension QLDBSessionClientTypes {
     /// A structure that can contain a value in multiple encoding formats.
     public struct ValueHolder {
         /// An Amazon Ion binary value contained in a ValueHolder structure.
-        public var ionBinary: ClientRuntime.Data?
+        public var ionBinary: Foundation.Data?
         /// An Amazon Ion plaintext value contained in a ValueHolder structure.
         public var ionText: Swift.String?
 
         public init(
-            ionBinary: ClientRuntime.Data? = nil,
+            ionBinary: Foundation.Data? = nil,
             ionText: Swift.String? = nil
         )
         {

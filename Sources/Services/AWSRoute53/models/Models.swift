@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyReadWrite
 import SmithyXML
 
@@ -119,7 +122,7 @@ public struct ActivateKeySigningKeyInput {
 
 extension ActivateKeySigningKeyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ActivateKeySigningKeyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ActivateKeySigningKeyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -144,7 +147,7 @@ public struct ActivateKeySigningKeyOutput {
 
 enum ActivateKeySigningKeyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -388,7 +391,7 @@ public struct AssociateVPCWithHostedZoneInput {
 
 extension AssociateVPCWithHostedZoneOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AssociateVPCWithHostedZoneOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AssociateVPCWithHostedZoneOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -414,7 +417,7 @@ public struct AssociateVPCWithHostedZoneOutput {
 
 enum AssociateVPCWithHostedZoneOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -579,7 +582,7 @@ public struct ChangeCidrCollectionInput {
 
 extension ChangeCidrCollectionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ChangeCidrCollectionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ChangeCidrCollectionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -604,7 +607,7 @@ public struct ChangeCidrCollectionOutput {
 
 enum ChangeCidrCollectionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -647,13 +650,13 @@ extension Route53ClientTypes {
         public var status: Route53ClientTypes.ChangeStatus?
         /// The date and time that the change request was submitted in [ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601) and Coordinated Universal Time (UTC). For example, the value 2017-03-27T17:48:16.751Z represents March 27, 2017 at 17:48:16.751 UTC.
         /// This member is required.
-        public var submittedAt: ClientRuntime.Date?
+        public var submittedAt: Foundation.Date?
 
         public init(
             comment: Swift.String? = nil,
             id: Swift.String? = nil,
             status: Route53ClientTypes.ChangeStatus? = nil,
-            submittedAt: ClientRuntime.Date? = nil
+            submittedAt: Foundation.Date? = nil
         )
         {
             self.comment = comment
@@ -704,7 +707,7 @@ public struct ChangeResourceRecordSetsInput {
 
 extension ChangeResourceRecordSetsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ChangeResourceRecordSetsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ChangeResourceRecordSetsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -730,7 +733,7 @@ public struct ChangeResourceRecordSetsOutput {
 
 enum ChangeResourceRecordSetsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -830,7 +833,7 @@ public struct ChangeTagsForResourceInput {
 
 extension ChangeTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ChangeTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ChangeTagsForResourceOutput {
         return ChangeTagsForResourceOutput()
     }
 }
@@ -843,7 +846,7 @@ public struct ChangeTagsForResourceOutput {
 
 enum ChangeTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1653,7 +1656,7 @@ public struct CreateCidrCollectionInput {
 
 extension CreateCidrCollectionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateCidrCollectionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateCidrCollectionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -1684,7 +1687,7 @@ public struct CreateCidrCollectionOutput {
 
 enum CreateCidrCollectionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1747,7 +1750,7 @@ public struct CreateHealthCheckInput {
 
 extension CreateHealthCheckOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateHealthCheckOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateHealthCheckOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -1781,7 +1784,7 @@ public struct CreateHealthCheckOutput {
 
 enum CreateHealthCheckOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1854,7 +1857,7 @@ public struct CreateHostedZoneInput {
 
 extension CreateHostedZoneOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateHostedZoneOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateHostedZoneOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -1905,7 +1908,7 @@ public struct CreateHostedZoneOutput {
 
 enum CreateHostedZoneOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1993,7 +1996,7 @@ public struct CreateKeySigningKeyInput {
 
 extension CreateKeySigningKeyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateKeySigningKeyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateKeySigningKeyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -2032,7 +2035,7 @@ public struct CreateKeySigningKeyOutput {
 
 enum CreateKeySigningKeyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2089,7 +2092,7 @@ public struct CreateQueryLoggingConfigInput {
 
 extension CreateQueryLoggingConfigOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateQueryLoggingConfigOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateQueryLoggingConfigOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -2122,7 +2125,7 @@ public struct CreateQueryLoggingConfigOutput {
 
 enum CreateQueryLoggingConfigOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2174,7 +2177,7 @@ public struct CreateReusableDelegationSetInput {
 
 extension CreateReusableDelegationSetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateReusableDelegationSetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateReusableDelegationSetOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -2207,7 +2210,7 @@ public struct CreateReusableDelegationSetOutput {
 
 enum CreateReusableDelegationSetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2320,7 +2323,7 @@ public struct CreateTrafficPolicyInstanceInput {
 
 extension CreateTrafficPolicyInstanceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateTrafficPolicyInstanceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateTrafficPolicyInstanceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -2354,7 +2357,7 @@ public struct CreateTrafficPolicyInstanceOutput {
 
 enum CreateTrafficPolicyInstanceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2372,7 +2375,7 @@ enum CreateTrafficPolicyInstanceOutputError {
 
 extension CreateTrafficPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateTrafficPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateTrafficPolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -2406,7 +2409,7 @@ public struct CreateTrafficPolicyOutput {
 
 enum CreateTrafficPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2465,7 +2468,7 @@ public struct CreateTrafficPolicyVersionInput {
 
 extension CreateTrafficPolicyVersionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateTrafficPolicyVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateTrafficPolicyVersionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -2499,7 +2502,7 @@ public struct CreateTrafficPolicyVersionOutput {
 
 enum CreateTrafficPolicyVersionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2554,7 +2557,7 @@ public struct CreateVPCAssociationAuthorizationInput {
 
 extension CreateVPCAssociationAuthorizationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateVPCAssociationAuthorizationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateVPCAssociationAuthorizationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -2586,7 +2589,7 @@ public struct CreateVPCAssociationAuthorizationOutput {
 
 enum CreateVPCAssociationAuthorizationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2703,7 +2706,7 @@ public struct DeactivateKeySigningKeyInput {
 
 extension DeactivateKeySigningKeyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeactivateKeySigningKeyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeactivateKeySigningKeyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -2728,7 +2731,7 @@ public struct DeactivateKeySigningKeyOutput {
 
 enum DeactivateKeySigningKeyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2998,7 +3001,7 @@ public struct DeleteCidrCollectionInput {
 
 extension DeleteCidrCollectionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteCidrCollectionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteCidrCollectionOutput {
         return DeleteCidrCollectionOutput()
     }
 }
@@ -3010,7 +3013,7 @@ public struct DeleteCidrCollectionOutput {
 
 enum DeleteCidrCollectionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3051,7 +3054,7 @@ public struct DeleteHealthCheckInput {
 
 extension DeleteHealthCheckOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteHealthCheckOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteHealthCheckOutput {
         return DeleteHealthCheckOutput()
     }
 }
@@ -3064,7 +3067,7 @@ public struct DeleteHealthCheckOutput {
 
 enum DeleteHealthCheckOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3104,7 +3107,7 @@ public struct DeleteHostedZoneInput {
 
 extension DeleteHostedZoneOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteHostedZoneOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteHostedZoneOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -3130,7 +3133,7 @@ public struct DeleteHostedZoneOutput {
 
 enum DeleteHostedZoneOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3179,7 +3182,7 @@ public struct DeleteKeySigningKeyInput {
 
 extension DeleteKeySigningKeyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteKeySigningKeyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteKeySigningKeyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -3204,7 +3207,7 @@ public struct DeleteKeySigningKeyOutput {
 
 enum DeleteKeySigningKeyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3246,7 +3249,7 @@ public struct DeleteQueryLoggingConfigInput {
 
 extension DeleteQueryLoggingConfigOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteQueryLoggingConfigOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteQueryLoggingConfigOutput {
         return DeleteQueryLoggingConfigOutput()
     }
 }
@@ -3258,7 +3261,7 @@ public struct DeleteQueryLoggingConfigOutput {
 
 enum DeleteQueryLoggingConfigOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3298,7 +3301,7 @@ public struct DeleteReusableDelegationSetInput {
 
 extension DeleteReusableDelegationSetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteReusableDelegationSetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteReusableDelegationSetOutput {
         return DeleteReusableDelegationSetOutput()
     }
 }
@@ -3311,7 +3314,7 @@ public struct DeleteReusableDelegationSetOutput {
 
 enum DeleteReusableDelegationSetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3384,7 +3387,7 @@ public struct DeleteTrafficPolicyInstanceInput {
 
 extension DeleteTrafficPolicyInstanceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteTrafficPolicyInstanceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteTrafficPolicyInstanceOutput {
         return DeleteTrafficPolicyInstanceOutput()
     }
 }
@@ -3397,7 +3400,7 @@ public struct DeleteTrafficPolicyInstanceOutput {
 
 enum DeleteTrafficPolicyInstanceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3413,7 +3416,7 @@ enum DeleteTrafficPolicyInstanceOutputError {
 
 extension DeleteTrafficPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteTrafficPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteTrafficPolicyOutput {
         return DeleteTrafficPolicyOutput()
     }
 }
@@ -3426,7 +3429,7 @@ public struct DeleteTrafficPolicyOutput {
 
 enum DeleteTrafficPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3480,7 +3483,7 @@ public struct DeleteVPCAssociationAuthorizationInput {
 
 extension DeleteVPCAssociationAuthorizationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteVPCAssociationAuthorizationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteVPCAssociationAuthorizationOutput {
         return DeleteVPCAssociationAuthorizationOutput()
     }
 }
@@ -3493,7 +3496,7 @@ public struct DeleteVPCAssociationAuthorizationOutput {
 
 enum DeleteVPCAssociationAuthorizationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3567,7 +3570,7 @@ public struct DisableHostedZoneDNSSECInput {
 
 extension DisableHostedZoneDNSSECOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DisableHostedZoneDNSSECOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DisableHostedZoneDNSSECOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -3592,7 +3595,7 @@ public struct DisableHostedZoneDNSSECOutput {
 
 enum DisableHostedZoneDNSSECOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3655,7 +3658,7 @@ public struct DisassociateVPCFromHostedZoneInput {
 
 extension DisassociateVPCFromHostedZoneOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DisassociateVPCFromHostedZoneOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DisassociateVPCFromHostedZoneOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -3681,7 +3684,7 @@ public struct DisassociateVPCFromHostedZoneOutput {
 
 enum DisassociateVPCFromHostedZoneOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3722,7 +3725,7 @@ public struct EnableHostedZoneDNSSECInput {
 
 extension EnableHostedZoneDNSSECOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> EnableHostedZoneDNSSECOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> EnableHostedZoneDNSSECOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -3747,7 +3750,7 @@ public struct EnableHostedZoneDNSSECOutput {
 
 enum EnableHostedZoneDNSSECOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3967,7 +3970,7 @@ public struct GetAccountLimitInput {
 
 extension GetAccountLimitOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetAccountLimitOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetAccountLimitOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -3999,7 +4002,7 @@ public struct GetAccountLimitOutput {
 
 enum GetAccountLimitOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4037,7 +4040,7 @@ public struct GetChangeInput {
 
 extension GetChangeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetChangeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetChangeOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -4063,7 +4066,7 @@ public struct GetChangeOutput {
 
 enum GetChangeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4091,7 +4094,7 @@ public struct GetCheckerIpRangesInput {
 
 extension GetCheckerIpRangesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetCheckerIpRangesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetCheckerIpRangesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -4117,7 +4120,7 @@ public struct GetCheckerIpRangesOutput {
 
 enum GetCheckerIpRangesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4153,7 +4156,7 @@ public struct GetDNSSECInput {
 
 extension GetDNSSECOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetDNSSECOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetDNSSECOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -4184,7 +4187,7 @@ public struct GetDNSSECOutput {
 
 enum GetDNSSECOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4200,18 +4203,18 @@ enum GetDNSSECOutputError {
 
 extension GetGeoLocationInput {
 
-    static func queryItemProvider(_ value: GetGeoLocationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetGeoLocationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let continentCode = value.continentCode {
-            let continentCodeQueryItem = ClientRuntime.SDKURLQueryItem(name: "continentcode".urlPercentEncoding(), value: Swift.String(continentCode).urlPercentEncoding())
+            let continentCodeQueryItem = Smithy.URIQueryItem(name: "continentcode".urlPercentEncoding(), value: Swift.String(continentCode).urlPercentEncoding())
             items.append(continentCodeQueryItem)
         }
         if let countryCode = value.countryCode {
-            let countryCodeQueryItem = ClientRuntime.SDKURLQueryItem(name: "countrycode".urlPercentEncoding(), value: Swift.String(countryCode).urlPercentEncoding())
+            let countryCodeQueryItem = Smithy.URIQueryItem(name: "countrycode".urlPercentEncoding(), value: Swift.String(countryCode).urlPercentEncoding())
             items.append(countryCodeQueryItem)
         }
         if let subdivisionCode = value.subdivisionCode {
-            let subdivisionCodeQueryItem = ClientRuntime.SDKURLQueryItem(name: "subdivisioncode".urlPercentEncoding(), value: Swift.String(subdivisionCode).urlPercentEncoding())
+            let subdivisionCodeQueryItem = Smithy.URIQueryItem(name: "subdivisioncode".urlPercentEncoding(), value: Swift.String(subdivisionCode).urlPercentEncoding())
             items.append(subdivisionCodeQueryItem)
         }
         return items
@@ -4262,7 +4265,7 @@ public struct GetGeoLocationInput {
 
 extension GetGeoLocationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetGeoLocationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetGeoLocationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -4288,7 +4291,7 @@ public struct GetGeoLocationOutput {
 
 enum GetGeoLocationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4316,7 +4319,7 @@ public struct GetHealthCheckCountInput {
 
 extension GetHealthCheckCountOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetHealthCheckCountOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetHealthCheckCountOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -4342,7 +4345,7 @@ public struct GetHealthCheckCountOutput {
 
 enum GetHealthCheckCountOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4403,7 +4406,7 @@ public struct GetHealthCheckLastFailureReasonInput {
 
 extension GetHealthCheckLastFailureReasonOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetHealthCheckLastFailureReasonOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetHealthCheckLastFailureReasonOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -4429,7 +4432,7 @@ public struct GetHealthCheckLastFailureReasonOutput {
 
 enum GetHealthCheckLastFailureReasonOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4444,7 +4447,7 @@ enum GetHealthCheckLastFailureReasonOutputError {
 
 extension GetHealthCheckOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetHealthCheckOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetHealthCheckOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -4470,7 +4473,7 @@ public struct GetHealthCheckOutput {
 
 enum GetHealthCheckOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4510,7 +4513,7 @@ public struct GetHealthCheckStatusInput {
 
 extension GetHealthCheckStatusOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetHealthCheckStatusOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetHealthCheckStatusOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -4536,7 +4539,7 @@ public struct GetHealthCheckStatusOutput {
 
 enum GetHealthCheckStatusOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4564,7 +4567,7 @@ public struct GetHostedZoneCountInput {
 
 extension GetHostedZoneCountOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetHostedZoneCountOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetHostedZoneCountOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -4590,7 +4593,7 @@ public struct GetHostedZoneCountOutput {
 
 enum GetHostedZoneCountOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4664,7 +4667,7 @@ public struct GetHostedZoneLimitInput {
 
 extension GetHostedZoneLimitOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetHostedZoneLimitOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetHostedZoneLimitOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -4696,7 +4699,7 @@ public struct GetHostedZoneLimitOutput {
 
 enum GetHostedZoneLimitOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4712,7 +4715,7 @@ enum GetHostedZoneLimitOutputError {
 
 extension GetHostedZoneOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetHostedZoneOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetHostedZoneOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -4748,7 +4751,7 @@ public struct GetHostedZoneOutput {
 
 enum GetHostedZoneOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4786,7 +4789,7 @@ public struct GetQueryLoggingConfigInput {
 
 extension GetQueryLoggingConfigOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetQueryLoggingConfigOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetQueryLoggingConfigOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -4811,7 +4814,7 @@ public struct GetQueryLoggingConfigOutput {
 
 enum GetQueryLoggingConfigOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4882,7 +4885,7 @@ public struct GetReusableDelegationSetLimitInput {
 
 extension GetReusableDelegationSetLimitOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetReusableDelegationSetLimitOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetReusableDelegationSetLimitOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -4914,7 +4917,7 @@ public struct GetReusableDelegationSetLimitOutput {
 
 enum GetReusableDelegationSetLimitOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4929,7 +4932,7 @@ enum GetReusableDelegationSetLimitOutputError {
 
 extension GetReusableDelegationSetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetReusableDelegationSetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetReusableDelegationSetOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -4955,7 +4958,7 @@ public struct GetReusableDelegationSetOutput {
 
 enum GetReusableDelegationSetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5016,7 +5019,7 @@ public struct GetTrafficPolicyInstanceCountInput {
 
 extension GetTrafficPolicyInstanceCountOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetTrafficPolicyInstanceCountOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetTrafficPolicyInstanceCountOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -5042,7 +5045,7 @@ public struct GetTrafficPolicyInstanceCountOutput {
 
 enum GetTrafficPolicyInstanceCountOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5079,7 +5082,7 @@ public struct GetTrafficPolicyInstanceInput {
 
 extension GetTrafficPolicyInstanceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetTrafficPolicyInstanceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetTrafficPolicyInstanceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -5105,7 +5108,7 @@ public struct GetTrafficPolicyInstanceOutput {
 
 enum GetTrafficPolicyInstanceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5120,7 +5123,7 @@ enum GetTrafficPolicyInstanceOutputError {
 
 extension GetTrafficPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetTrafficPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetTrafficPolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -5146,7 +5149,7 @@ public struct GetTrafficPolicyOutput {
 
 enum GetTrafficPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6663,7 +6666,7 @@ extension Route53ClientTypes {
     /// A key-signing key (KSK) is a complex type that represents a public/private key pair. The private key is used to generate a digital signature for the zone signing key (ZSK). The public key is stored in the DNS and is used to authenticate the ZSK. A KSK is always associated with a hosted zone; it cannot exist by itself.
     public struct KeySigningKey {
         /// The date when the key-signing key (KSK) was created.
-        public var createdDate: ClientRuntime.Date?
+        public var createdDate: Foundation.Date?
         /// A string used to represent the delegation signer digest algorithm. This value must follow the guidelines provided by [RFC-8624 Section 3.3](https://tools.ietf.org/html/rfc8624#section-3.3).
         public var digestAlgorithmMnemonic: Swift.String?
         /// An integer used to represent the delegation signer digest algorithm. This value must follow the guidelines provided by [RFC-8624 Section 3.3](https://tools.ietf.org/html/rfc8624#section-3.3).
@@ -6695,7 +6698,7 @@ extension Route53ClientTypes {
         /// For more information about working with the customer managed key in KMS, see [Key Management Service concepts](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html).
         public var kmsArn: Swift.String?
         /// The last time that the key-signing key (KSK) was changed.
-        public var lastModifiedDate: ClientRuntime.Date?
+        public var lastModifiedDate: Foundation.Date?
         /// A string used to identify a key-signing key (KSK). Name can include numbers, letters, and underscores (_). Name must be unique for each key-signing key in the same hosted zone.
         public var name: Swift.String?
         /// The public key, represented as a Base64 encoding, as required by [ RFC-4034 Page 5](https://tools.ietf.org/rfc/rfc4034.txt).
@@ -6710,7 +6713,7 @@ extension Route53ClientTypes {
         public var statusMessage: Swift.String?
 
         public init(
-            createdDate: ClientRuntime.Date? = nil,
+            createdDate: Foundation.Date? = nil,
             digestAlgorithmMnemonic: Swift.String? = nil,
             digestAlgorithmType: Swift.Int = 0,
             digestValue: Swift.String? = nil,
@@ -6719,7 +6722,7 @@ extension Route53ClientTypes {
             flag: Swift.Int = 0,
             keyTag: Swift.Int = 0,
             kmsArn: Swift.String? = nil,
-            lastModifiedDate: ClientRuntime.Date? = nil,
+            lastModifiedDate: Foundation.Date? = nil,
             name: Swift.String? = nil,
             publicKey: Swift.String? = nil,
             signingAlgorithmMnemonic: Swift.String? = nil,
@@ -7006,18 +7009,18 @@ extension Route53ClientTypes {
 
 extension ListCidrBlocksInput {
 
-    static func queryItemProvider(_ value: ListCidrBlocksInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListCidrBlocksInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nexttoken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nexttoken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxresults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxresults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let locationName = value.locationName {
-            let locationNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "location".urlPercentEncoding(), value: Swift.String(locationName).urlPercentEncoding())
+            let locationNameQueryItem = Smithy.URIQueryItem(name: "location".urlPercentEncoding(), value: Swift.String(locationName).urlPercentEncoding())
             items.append(locationNameQueryItem)
         }
         return items
@@ -7061,7 +7064,7 @@ public struct ListCidrBlocksInput {
 
 extension ListCidrBlocksOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListCidrBlocksOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListCidrBlocksOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -7090,7 +7093,7 @@ public struct ListCidrBlocksOutput {
 
 enum ListCidrBlocksOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7106,14 +7109,14 @@ enum ListCidrBlocksOutputError {
 
 extension ListCidrCollectionsInput {
 
-    static func queryItemProvider(_ value: ListCidrCollectionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListCidrCollectionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nexttoken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nexttoken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxresults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxresults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -7145,7 +7148,7 @@ public struct ListCidrCollectionsInput {
 
 extension ListCidrCollectionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListCidrCollectionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListCidrCollectionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -7174,7 +7177,7 @@ public struct ListCidrCollectionsOutput {
 
 enum ListCidrCollectionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7188,14 +7191,14 @@ enum ListCidrCollectionsOutputError {
 
 extension ListCidrLocationsInput {
 
-    static func queryItemProvider(_ value: ListCidrLocationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListCidrLocationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nexttoken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nexttoken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxresults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxresults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -7235,7 +7238,7 @@ public struct ListCidrLocationsInput {
 
 extension ListCidrLocationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListCidrLocationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListCidrLocationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -7264,7 +7267,7 @@ public struct ListCidrLocationsOutput {
 
 enum ListCidrLocationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7279,22 +7282,22 @@ enum ListCidrLocationsOutputError {
 
 extension ListGeoLocationsInput {
 
-    static func queryItemProvider(_ value: ListGeoLocationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListGeoLocationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let startContinentCode = value.startContinentCode {
-            let startContinentCodeQueryItem = ClientRuntime.SDKURLQueryItem(name: "startcontinentcode".urlPercentEncoding(), value: Swift.String(startContinentCode).urlPercentEncoding())
+            let startContinentCodeQueryItem = Smithy.URIQueryItem(name: "startcontinentcode".urlPercentEncoding(), value: Swift.String(startContinentCode).urlPercentEncoding())
             items.append(startContinentCodeQueryItem)
         }
         if let startCountryCode = value.startCountryCode {
-            let startCountryCodeQueryItem = ClientRuntime.SDKURLQueryItem(name: "startcountrycode".urlPercentEncoding(), value: Swift.String(startCountryCode).urlPercentEncoding())
+            let startCountryCodeQueryItem = Smithy.URIQueryItem(name: "startcountrycode".urlPercentEncoding(), value: Swift.String(startCountryCode).urlPercentEncoding())
             items.append(startCountryCodeQueryItem)
         }
         if let maxItems = value.maxItems {
-            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            let maxItemsQueryItem = Smithy.URIQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
             items.append(maxItemsQueryItem)
         }
         if let startSubdivisionCode = value.startSubdivisionCode {
-            let startSubdivisionCodeQueryItem = ClientRuntime.SDKURLQueryItem(name: "startsubdivisioncode".urlPercentEncoding(), value: Swift.String(startSubdivisionCode).urlPercentEncoding())
+            let startSubdivisionCodeQueryItem = Smithy.URIQueryItem(name: "startsubdivisioncode".urlPercentEncoding(), value: Swift.String(startSubdivisionCode).urlPercentEncoding())
             items.append(startSubdivisionCodeQueryItem)
         }
         return items
@@ -7335,7 +7338,7 @@ public struct ListGeoLocationsInput {
 
 extension ListGeoLocationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListGeoLocationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListGeoLocationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -7388,7 +7391,7 @@ public struct ListGeoLocationsOutput {
 
 enum ListGeoLocationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7402,14 +7405,14 @@ enum ListGeoLocationsOutputError {
 
 extension ListHealthChecksInput {
 
-    static func queryItemProvider(_ value: ListHealthChecksInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListHealthChecksInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let marker = value.marker {
-            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            let markerQueryItem = Smithy.URIQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
             items.append(markerQueryItem)
         }
         if let maxItems = value.maxItems {
-            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            let maxItemsQueryItem = Smithy.URIQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
             items.append(maxItemsQueryItem)
         }
         return items
@@ -7442,7 +7445,7 @@ public struct ListHealthChecksInput {
 
 extension ListHealthChecksOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListHealthChecksOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListHealthChecksOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -7491,7 +7494,7 @@ public struct ListHealthChecksOutput {
 
 enum ListHealthChecksOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7506,18 +7509,18 @@ enum ListHealthChecksOutputError {
 
 extension ListHostedZonesByNameInput {
 
-    static func queryItemProvider(_ value: ListHostedZonesByNameInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListHostedZonesByNameInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let hostedZoneId = value.hostedZoneId {
-            let hostedZoneIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "hostedzoneid".urlPercentEncoding(), value: Swift.String(hostedZoneId).urlPercentEncoding())
+            let hostedZoneIdQueryItem = Smithy.URIQueryItem(name: "hostedzoneid".urlPercentEncoding(), value: Swift.String(hostedZoneId).urlPercentEncoding())
             items.append(hostedZoneIdQueryItem)
         }
         if let maxItems = value.maxItems {
-            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            let maxItemsQueryItem = Smithy.URIQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
             items.append(maxItemsQueryItem)
         }
         if let dnsName = value.dnsName {
-            let dnsNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "dnsname".urlPercentEncoding(), value: Swift.String(dnsName).urlPercentEncoding())
+            let dnsNameQueryItem = Smithy.URIQueryItem(name: "dnsname".urlPercentEncoding(), value: Swift.String(dnsName).urlPercentEncoding())
             items.append(dnsNameQueryItem)
         }
         return items
@@ -7554,7 +7557,7 @@ public struct ListHostedZonesByNameInput {
 
 extension ListHostedZonesByNameOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListHostedZonesByNameOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListHostedZonesByNameOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -7612,7 +7615,7 @@ public struct ListHostedZonesByNameOutput {
 
 enum ListHostedZonesByNameOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7627,26 +7630,26 @@ enum ListHostedZonesByNameOutputError {
 
 extension ListHostedZonesByVPCInput {
 
-    static func queryItemProvider(_ value: ListHostedZonesByVPCInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListHostedZonesByVPCInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let vpcRegion = value.vpcRegion else {
             let message = "Creating a URL Query Item failed. vpcRegion is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let vpcRegionQueryItem = ClientRuntime.SDKURLQueryItem(name: "vpcregion".urlPercentEncoding(), value: Swift.String(vpcRegion.rawValue).urlPercentEncoding())
+        let vpcRegionQueryItem = Smithy.URIQueryItem(name: "vpcregion".urlPercentEncoding(), value: Swift.String(vpcRegion.rawValue).urlPercentEncoding())
         items.append(vpcRegionQueryItem)
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nexttoken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nexttoken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         guard let vpcId = value.vpcId else {
             let message = "Creating a URL Query Item failed. vpcId is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let vpcIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "vpcid".urlPercentEncoding(), value: Swift.String(vpcId).urlPercentEncoding())
+        let vpcIdQueryItem = Smithy.URIQueryItem(name: "vpcid".urlPercentEncoding(), value: Swift.String(vpcId).urlPercentEncoding())
         items.append(vpcIdQueryItem)
         if let maxItems = value.maxItems {
-            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            let maxItemsQueryItem = Smithy.URIQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
             items.append(maxItemsQueryItem)
         }
         return items
@@ -7689,7 +7692,7 @@ public struct ListHostedZonesByVPCInput {
 
 extension ListHostedZonesByVPCOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListHostedZonesByVPCOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListHostedZonesByVPCOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -7725,7 +7728,7 @@ public struct ListHostedZonesByVPCOutput {
 
 enum ListHostedZonesByVPCOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7740,22 +7743,22 @@ enum ListHostedZonesByVPCOutputError {
 
 extension ListHostedZonesInput {
 
-    static func queryItemProvider(_ value: ListHostedZonesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListHostedZonesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let delegationSetId = value.delegationSetId {
-            let delegationSetIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "delegationsetid".urlPercentEncoding(), value: Swift.String(delegationSetId).urlPercentEncoding())
+            let delegationSetIdQueryItem = Smithy.URIQueryItem(name: "delegationsetid".urlPercentEncoding(), value: Swift.String(delegationSetId).urlPercentEncoding())
             items.append(delegationSetIdQueryItem)
         }
         if let hostedZoneType = value.hostedZoneType {
-            let hostedZoneTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "hostedzonetype".urlPercentEncoding(), value: Swift.String(hostedZoneType.rawValue).urlPercentEncoding())
+            let hostedZoneTypeQueryItem = Smithy.URIQueryItem(name: "hostedzonetype".urlPercentEncoding(), value: Swift.String(hostedZoneType.rawValue).urlPercentEncoding())
             items.append(hostedZoneTypeQueryItem)
         }
         if let marker = value.marker {
-            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            let markerQueryItem = Smithy.URIQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
             items.append(markerQueryItem)
         }
         if let maxItems = value.maxItems {
-            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            let maxItemsQueryItem = Smithy.URIQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
             items.append(maxItemsQueryItem)
         }
         return items
@@ -7796,7 +7799,7 @@ public struct ListHostedZonesInput {
 
 extension ListHostedZonesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListHostedZonesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListHostedZonesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -7844,7 +7847,7 @@ public struct ListHostedZonesOutput {
 
 enum ListHostedZonesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7860,18 +7863,18 @@ enum ListHostedZonesOutputError {
 
 extension ListQueryLoggingConfigsInput {
 
-    static func queryItemProvider(_ value: ListQueryLoggingConfigsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListQueryLoggingConfigsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nexttoken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nexttoken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let hostedZoneId = value.hostedZoneId {
-            let hostedZoneIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "hostedzoneid".urlPercentEncoding(), value: Swift.String(hostedZoneId).urlPercentEncoding())
+            let hostedZoneIdQueryItem = Smithy.URIQueryItem(name: "hostedzoneid".urlPercentEncoding(), value: Swift.String(hostedZoneId).urlPercentEncoding())
             items.append(hostedZoneIdQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxresults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxresults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -7907,7 +7910,7 @@ public struct ListQueryLoggingConfigsInput {
 
 extension ListQueryLoggingConfigsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListQueryLoggingConfigsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListQueryLoggingConfigsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -7937,7 +7940,7 @@ public struct ListQueryLoggingConfigsOutput {
 
 enum ListQueryLoggingConfigsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7953,22 +7956,22 @@ enum ListQueryLoggingConfigsOutputError {
 
 extension ListResourceRecordSetsInput {
 
-    static func queryItemProvider(_ value: ListResourceRecordSetsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListResourceRecordSetsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let startRecordType = value.startRecordType {
-            let startRecordTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(startRecordType.rawValue).urlPercentEncoding())
+            let startRecordTypeQueryItem = Smithy.URIQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(startRecordType.rawValue).urlPercentEncoding())
             items.append(startRecordTypeQueryItem)
         }
         if let startRecordIdentifier = value.startRecordIdentifier {
-            let startRecordIdentifierQueryItem = ClientRuntime.SDKURLQueryItem(name: "identifier".urlPercentEncoding(), value: Swift.String(startRecordIdentifier).urlPercentEncoding())
+            let startRecordIdentifierQueryItem = Smithy.URIQueryItem(name: "identifier".urlPercentEncoding(), value: Swift.String(startRecordIdentifier).urlPercentEncoding())
             items.append(startRecordIdentifierQueryItem)
         }
         if let maxItems = value.maxItems {
-            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            let maxItemsQueryItem = Smithy.URIQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
             items.append(maxItemsQueryItem)
         }
         if let startRecordName = value.startRecordName {
-            let startRecordNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(startRecordName).urlPercentEncoding())
+            let startRecordNameQueryItem = Smithy.URIQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(startRecordName).urlPercentEncoding())
             items.append(startRecordNameQueryItem)
         }
         return items
@@ -8034,7 +8037,7 @@ public struct ListResourceRecordSetsInput {
 
 extension ListResourceRecordSetsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListResourceRecordSetsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListResourceRecordSetsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -8087,7 +8090,7 @@ public struct ListResourceRecordSetsOutput {
 
 enum ListResourceRecordSetsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8102,14 +8105,14 @@ enum ListResourceRecordSetsOutputError {
 
 extension ListReusableDelegationSetsInput {
 
-    static func queryItemProvider(_ value: ListReusableDelegationSetsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListReusableDelegationSetsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let marker = value.marker {
-            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            let markerQueryItem = Smithy.URIQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
             items.append(markerQueryItem)
         }
         if let maxItems = value.maxItems {
-            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            let maxItemsQueryItem = Smithy.URIQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
             items.append(maxItemsQueryItem)
         }
         return items
@@ -8142,7 +8145,7 @@ public struct ListReusableDelegationSetsInput {
 
 extension ListReusableDelegationSetsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListReusableDelegationSetsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListReusableDelegationSetsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -8191,7 +8194,7 @@ public struct ListReusableDelegationSetsOutput {
 
 enum ListReusableDelegationSetsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8241,7 +8244,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -8267,7 +8270,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8326,7 +8329,7 @@ public struct ListTagsForResourcesInput {
 
 extension ListTagsForResourcesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourcesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourcesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -8352,7 +8355,7 @@ public struct ListTagsForResourcesOutput {
 
 enum ListTagsForResourcesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8370,14 +8373,14 @@ enum ListTagsForResourcesOutputError {
 
 extension ListTrafficPoliciesInput {
 
-    static func queryItemProvider(_ value: ListTrafficPoliciesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListTrafficPoliciesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let trafficPolicyIdMarker = value.trafficPolicyIdMarker {
-            let trafficPolicyIdMarkerQueryItem = ClientRuntime.SDKURLQueryItem(name: "trafficpolicyid".urlPercentEncoding(), value: Swift.String(trafficPolicyIdMarker).urlPercentEncoding())
+            let trafficPolicyIdMarkerQueryItem = Smithy.URIQueryItem(name: "trafficpolicyid".urlPercentEncoding(), value: Swift.String(trafficPolicyIdMarker).urlPercentEncoding())
             items.append(trafficPolicyIdMarkerQueryItem)
         }
         if let maxItems = value.maxItems {
-            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            let maxItemsQueryItem = Smithy.URIQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
             items.append(maxItemsQueryItem)
         }
         return items
@@ -8410,7 +8413,7 @@ public struct ListTrafficPoliciesInput {
 
 extension ListTrafficPoliciesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTrafficPoliciesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTrafficPoliciesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -8454,7 +8457,7 @@ public struct ListTrafficPoliciesOutput {
 
 enum ListTrafficPoliciesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8468,24 +8471,24 @@ enum ListTrafficPoliciesOutputError {
 
 extension ListTrafficPolicyInstancesByHostedZoneInput {
 
-    static func queryItemProvider(_ value: ListTrafficPolicyInstancesByHostedZoneInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListTrafficPolicyInstancesByHostedZoneInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let trafficPolicyInstanceNameMarker = value.trafficPolicyInstanceNameMarker {
-            let trafficPolicyInstanceNameMarkerQueryItem = ClientRuntime.SDKURLQueryItem(name: "trafficpolicyinstancename".urlPercentEncoding(), value: Swift.String(trafficPolicyInstanceNameMarker).urlPercentEncoding())
+            let trafficPolicyInstanceNameMarkerQueryItem = Smithy.URIQueryItem(name: "trafficpolicyinstancename".urlPercentEncoding(), value: Swift.String(trafficPolicyInstanceNameMarker).urlPercentEncoding())
             items.append(trafficPolicyInstanceNameMarkerQueryItem)
         }
         guard let hostedZoneId = value.hostedZoneId else {
             let message = "Creating a URL Query Item failed. hostedZoneId is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let hostedZoneIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(hostedZoneId).urlPercentEncoding())
+        let hostedZoneIdQueryItem = Smithy.URIQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(hostedZoneId).urlPercentEncoding())
         items.append(hostedZoneIdQueryItem)
         if let trafficPolicyInstanceTypeMarker = value.trafficPolicyInstanceTypeMarker {
-            let trafficPolicyInstanceTypeMarkerQueryItem = ClientRuntime.SDKURLQueryItem(name: "trafficpolicyinstancetype".urlPercentEncoding(), value: Swift.String(trafficPolicyInstanceTypeMarker.rawValue).urlPercentEncoding())
+            let trafficPolicyInstanceTypeMarkerQueryItem = Smithy.URIQueryItem(name: "trafficpolicyinstancetype".urlPercentEncoding(), value: Swift.String(trafficPolicyInstanceTypeMarker.rawValue).urlPercentEncoding())
             items.append(trafficPolicyInstanceTypeMarkerQueryItem)
         }
         if let maxItems = value.maxItems {
-            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            let maxItemsQueryItem = Smithy.URIQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
             items.append(maxItemsQueryItem)
         }
         return items
@@ -8527,7 +8530,7 @@ public struct ListTrafficPolicyInstancesByHostedZoneInput {
 
 extension ListTrafficPolicyInstancesByHostedZoneOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTrafficPolicyInstancesByHostedZoneOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTrafficPolicyInstancesByHostedZoneOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -8575,7 +8578,7 @@ public struct ListTrafficPolicyInstancesByHostedZoneOutput {
 
 enum ListTrafficPolicyInstancesByHostedZoneOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8591,35 +8594,35 @@ enum ListTrafficPolicyInstancesByHostedZoneOutputError {
 
 extension ListTrafficPolicyInstancesByPolicyInput {
 
-    static func queryItemProvider(_ value: ListTrafficPolicyInstancesByPolicyInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListTrafficPolicyInstancesByPolicyInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let trafficPolicyInstanceNameMarker = value.trafficPolicyInstanceNameMarker {
-            let trafficPolicyInstanceNameMarkerQueryItem = ClientRuntime.SDKURLQueryItem(name: "trafficpolicyinstancename".urlPercentEncoding(), value: Swift.String(trafficPolicyInstanceNameMarker).urlPercentEncoding())
+            let trafficPolicyInstanceNameMarkerQueryItem = Smithy.URIQueryItem(name: "trafficpolicyinstancename".urlPercentEncoding(), value: Swift.String(trafficPolicyInstanceNameMarker).urlPercentEncoding())
             items.append(trafficPolicyInstanceNameMarkerQueryItem)
         }
         guard let trafficPolicyId = value.trafficPolicyId else {
             let message = "Creating a URL Query Item failed. trafficPolicyId is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let trafficPolicyIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(trafficPolicyId).urlPercentEncoding())
+        let trafficPolicyIdQueryItem = Smithy.URIQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(trafficPolicyId).urlPercentEncoding())
         items.append(trafficPolicyIdQueryItem)
         if let trafficPolicyInstanceTypeMarker = value.trafficPolicyInstanceTypeMarker {
-            let trafficPolicyInstanceTypeMarkerQueryItem = ClientRuntime.SDKURLQueryItem(name: "trafficpolicyinstancetype".urlPercentEncoding(), value: Swift.String(trafficPolicyInstanceTypeMarker.rawValue).urlPercentEncoding())
+            let trafficPolicyInstanceTypeMarkerQueryItem = Smithy.URIQueryItem(name: "trafficpolicyinstancetype".urlPercentEncoding(), value: Swift.String(trafficPolicyInstanceTypeMarker.rawValue).urlPercentEncoding())
             items.append(trafficPolicyInstanceTypeMarkerQueryItem)
         }
         if let hostedZoneIdMarker = value.hostedZoneIdMarker {
-            let hostedZoneIdMarkerQueryItem = ClientRuntime.SDKURLQueryItem(name: "hostedzoneid".urlPercentEncoding(), value: Swift.String(hostedZoneIdMarker).urlPercentEncoding())
+            let hostedZoneIdMarkerQueryItem = Smithy.URIQueryItem(name: "hostedzoneid".urlPercentEncoding(), value: Swift.String(hostedZoneIdMarker).urlPercentEncoding())
             items.append(hostedZoneIdMarkerQueryItem)
         }
         if let maxItems = value.maxItems {
-            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            let maxItemsQueryItem = Smithy.URIQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
             items.append(maxItemsQueryItem)
         }
         guard let trafficPolicyVersion = value.trafficPolicyVersion else {
             let message = "Creating a URL Query Item failed. trafficPolicyVersion is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let trafficPolicyVersionQueryItem = ClientRuntime.SDKURLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(trafficPolicyVersion).urlPercentEncoding())
+        let trafficPolicyVersionQueryItem = Smithy.URIQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(trafficPolicyVersion).urlPercentEncoding())
         items.append(trafficPolicyVersionQueryItem)
         return items
     }
@@ -8669,7 +8672,7 @@ public struct ListTrafficPolicyInstancesByPolicyInput {
 
 extension ListTrafficPolicyInstancesByPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTrafficPolicyInstancesByPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTrafficPolicyInstancesByPolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -8722,7 +8725,7 @@ public struct ListTrafficPolicyInstancesByPolicyOutput {
 
 enum ListTrafficPolicyInstancesByPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8738,22 +8741,22 @@ enum ListTrafficPolicyInstancesByPolicyOutputError {
 
 extension ListTrafficPolicyInstancesInput {
 
-    static func queryItemProvider(_ value: ListTrafficPolicyInstancesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListTrafficPolicyInstancesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let trafficPolicyInstanceNameMarker = value.trafficPolicyInstanceNameMarker {
-            let trafficPolicyInstanceNameMarkerQueryItem = ClientRuntime.SDKURLQueryItem(name: "trafficpolicyinstancename".urlPercentEncoding(), value: Swift.String(trafficPolicyInstanceNameMarker).urlPercentEncoding())
+            let trafficPolicyInstanceNameMarkerQueryItem = Smithy.URIQueryItem(name: "trafficpolicyinstancename".urlPercentEncoding(), value: Swift.String(trafficPolicyInstanceNameMarker).urlPercentEncoding())
             items.append(trafficPolicyInstanceNameMarkerQueryItem)
         }
         if let trafficPolicyInstanceTypeMarker = value.trafficPolicyInstanceTypeMarker {
-            let trafficPolicyInstanceTypeMarkerQueryItem = ClientRuntime.SDKURLQueryItem(name: "trafficpolicyinstancetype".urlPercentEncoding(), value: Swift.String(trafficPolicyInstanceTypeMarker.rawValue).urlPercentEncoding())
+            let trafficPolicyInstanceTypeMarkerQueryItem = Smithy.URIQueryItem(name: "trafficpolicyinstancetype".urlPercentEncoding(), value: Swift.String(trafficPolicyInstanceTypeMarker.rawValue).urlPercentEncoding())
             items.append(trafficPolicyInstanceTypeMarkerQueryItem)
         }
         if let hostedZoneIdMarker = value.hostedZoneIdMarker {
-            let hostedZoneIdMarkerQueryItem = ClientRuntime.SDKURLQueryItem(name: "hostedzoneid".urlPercentEncoding(), value: Swift.String(hostedZoneIdMarker).urlPercentEncoding())
+            let hostedZoneIdMarkerQueryItem = Smithy.URIQueryItem(name: "hostedzoneid".urlPercentEncoding(), value: Swift.String(hostedZoneIdMarker).urlPercentEncoding())
             items.append(hostedZoneIdMarkerQueryItem)
         }
         if let maxItems = value.maxItems {
-            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            let maxItemsQueryItem = Smithy.URIQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
             items.append(maxItemsQueryItem)
         }
         return items
@@ -8794,7 +8797,7 @@ public struct ListTrafficPolicyInstancesInput {
 
 extension ListTrafficPolicyInstancesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTrafficPolicyInstancesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTrafficPolicyInstancesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -8847,7 +8850,7 @@ public struct ListTrafficPolicyInstancesOutput {
 
 enum ListTrafficPolicyInstancesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8862,14 +8865,14 @@ enum ListTrafficPolicyInstancesOutputError {
 
 extension ListTrafficPolicyVersionsInput {
 
-    static func queryItemProvider(_ value: ListTrafficPolicyVersionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListTrafficPolicyVersionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let trafficPolicyVersionMarker = value.trafficPolicyVersionMarker {
-            let trafficPolicyVersionMarkerQueryItem = ClientRuntime.SDKURLQueryItem(name: "trafficpolicyversion".urlPercentEncoding(), value: Swift.String(trafficPolicyVersionMarker).urlPercentEncoding())
+            let trafficPolicyVersionMarkerQueryItem = Smithy.URIQueryItem(name: "trafficpolicyversion".urlPercentEncoding(), value: Swift.String(trafficPolicyVersionMarker).urlPercentEncoding())
             items.append(trafficPolicyVersionMarkerQueryItem)
         }
         if let maxItems = value.maxItems {
-            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            let maxItemsQueryItem = Smithy.URIQueryItem(name: "maxitems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
             items.append(maxItemsQueryItem)
         }
         return items
@@ -8910,7 +8913,7 @@ public struct ListTrafficPolicyVersionsInput {
 
 extension ListTrafficPolicyVersionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTrafficPolicyVersionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTrafficPolicyVersionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -8954,7 +8957,7 @@ public struct ListTrafficPolicyVersionsOutput {
 
 enum ListTrafficPolicyVersionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8969,14 +8972,14 @@ enum ListTrafficPolicyVersionsOutputError {
 
 extension ListVPCAssociationAuthorizationsInput {
 
-    static func queryItemProvider(_ value: ListVPCAssociationAuthorizationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListVPCAssociationAuthorizationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nexttoken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nexttoken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxresults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxresults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -9017,7 +9020,7 @@ public struct ListVPCAssociationAuthorizationsInput {
 
 extension ListVPCAssociationAuthorizationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListVPCAssociationAuthorizationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListVPCAssociationAuthorizationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -9054,7 +9057,7 @@ public struct ListVPCAssociationAuthorizationsOutput {
 
 enum ListVPCAssociationAuthorizationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10405,12 +10408,12 @@ extension Route53ClientTypes {
     /// A complex type that contains the status that one Amazon Route 53 health checker reports and the time of the health check.
     public struct StatusReport {
         /// The date and time that the health checker performed the health check in [ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601) and Coordinated Universal Time (UTC). For example, the value 2017-03-27T17:48:16.751Z represents March 27, 2017 at 17:48:16.751 UTC.
-        public var checkedTime: ClientRuntime.Date?
+        public var checkedTime: Foundation.Date?
         /// A description of the status of the health check endpoint as reported by one of the Amazon Route 53 health checkers.
         public var status: Swift.String?
 
         public init(
-            checkedTime: ClientRuntime.Date? = nil,
+            checkedTime: Foundation.Date? = nil,
             status: Swift.String? = nil
         )
         {
@@ -10501,36 +10504,36 @@ extension Route53ClientTypes {
 
 extension TestDNSAnswerInput {
 
-    static func queryItemProvider(_ value: TestDNSAnswerInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: TestDNSAnswerInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let recordName = value.recordName else {
             let message = "Creating a URL Query Item failed. recordName is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let recordNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "recordname".urlPercentEncoding(), value: Swift.String(recordName).urlPercentEncoding())
+        let recordNameQueryItem = Smithy.URIQueryItem(name: "recordname".urlPercentEncoding(), value: Swift.String(recordName).urlPercentEncoding())
         items.append(recordNameQueryItem)
         if let edns0ClientSubnetIP = value.edns0ClientSubnetIP {
-            let edns0ClientSubnetIPQueryItem = ClientRuntime.SDKURLQueryItem(name: "edns0clientsubnetip".urlPercentEncoding(), value: Swift.String(edns0ClientSubnetIP).urlPercentEncoding())
+            let edns0ClientSubnetIPQueryItem = Smithy.URIQueryItem(name: "edns0clientsubnetip".urlPercentEncoding(), value: Swift.String(edns0ClientSubnetIP).urlPercentEncoding())
             items.append(edns0ClientSubnetIPQueryItem)
         }
         guard let recordType = value.recordType else {
             let message = "Creating a URL Query Item failed. recordType is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let recordTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "recordtype".urlPercentEncoding(), value: Swift.String(recordType.rawValue).urlPercentEncoding())
+        let recordTypeQueryItem = Smithy.URIQueryItem(name: "recordtype".urlPercentEncoding(), value: Swift.String(recordType.rawValue).urlPercentEncoding())
         items.append(recordTypeQueryItem)
         guard let hostedZoneId = value.hostedZoneId else {
             let message = "Creating a URL Query Item failed. hostedZoneId is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let hostedZoneIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "hostedzoneid".urlPercentEncoding(), value: Swift.String(hostedZoneId).urlPercentEncoding())
+        let hostedZoneIdQueryItem = Smithy.URIQueryItem(name: "hostedzoneid".urlPercentEncoding(), value: Swift.String(hostedZoneId).urlPercentEncoding())
         items.append(hostedZoneIdQueryItem)
         if let resolverIP = value.resolverIP {
-            let resolverIPQueryItem = ClientRuntime.SDKURLQueryItem(name: "resolverip".urlPercentEncoding(), value: Swift.String(resolverIP).urlPercentEncoding())
+            let resolverIPQueryItem = Smithy.URIQueryItem(name: "resolverip".urlPercentEncoding(), value: Swift.String(resolverIP).urlPercentEncoding())
             items.append(resolverIPQueryItem)
         }
         if let edns0ClientSubnetMask = value.edns0ClientSubnetMask {
-            let edns0ClientSubnetMaskQueryItem = ClientRuntime.SDKURLQueryItem(name: "edns0clientsubnetmask".urlPercentEncoding(), value: Swift.String(edns0ClientSubnetMask).urlPercentEncoding())
+            let edns0ClientSubnetMaskQueryItem = Smithy.URIQueryItem(name: "edns0clientsubnetmask".urlPercentEncoding(), value: Swift.String(edns0ClientSubnetMask).urlPercentEncoding())
             items.append(edns0ClientSubnetMaskQueryItem)
         }
         return items
@@ -10586,7 +10589,7 @@ public struct TestDNSAnswerInput {
 
 extension TestDNSAnswerOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TestDNSAnswerOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TestDNSAnswerOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -10642,7 +10645,7 @@ public struct TestDNSAnswerOutput {
 
 enum TestDNSAnswerOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11425,7 +11428,7 @@ public struct UpdateHealthCheckInput {
 
 extension UpdateHealthCheckOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateHealthCheckOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateHealthCheckOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -11451,7 +11454,7 @@ public struct UpdateHealthCheckOutput {
 
 enum UpdateHealthCheckOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11503,7 +11506,7 @@ public struct UpdateHostedZoneCommentInput {
 
 extension UpdateHostedZoneCommentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateHostedZoneCommentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateHostedZoneCommentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -11529,7 +11532,7 @@ public struct UpdateHostedZoneCommentOutput {
 
 enum UpdateHostedZoneCommentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11590,7 +11593,7 @@ public struct UpdateTrafficPolicyCommentInput {
 
 extension UpdateTrafficPolicyCommentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateTrafficPolicyCommentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateTrafficPolicyCommentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -11616,7 +11619,7 @@ public struct UpdateTrafficPolicyCommentOutput {
 
 enum UpdateTrafficPolicyCommentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11681,7 +11684,7 @@ public struct UpdateTrafficPolicyInstanceInput {
 
 extension UpdateTrafficPolicyInstanceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateTrafficPolicyInstanceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateTrafficPolicyInstanceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -11707,7 +11710,7 @@ public struct UpdateTrafficPolicyInstanceOutput {
 
 enum UpdateTrafficPolicyInstanceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -67,7 +70,7 @@ public struct BatchDeleteWorldsInput {
 
 extension BatchDeleteWorldsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> BatchDeleteWorldsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BatchDeleteWorldsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -91,7 +94,7 @@ public struct BatchDeleteWorldsOutput {
 
 enum BatchDeleteWorldsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -135,7 +138,7 @@ public struct BatchDescribeSimulationJobInput {
 
 extension BatchDescribeSimulationJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> BatchDescribeSimulationJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BatchDescribeSimulationJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -164,7 +167,7 @@ public struct BatchDescribeSimulationJobOutput {
 
 enum BatchDescribeSimulationJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -247,7 +250,7 @@ public struct CancelDeploymentJobInput {
 
 extension CancelDeploymentJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CancelDeploymentJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CancelDeploymentJobOutput {
         return CancelDeploymentJobOutput()
     }
 }
@@ -260,7 +263,7 @@ public struct CancelDeploymentJobOutput {
 
 enum CancelDeploymentJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -305,7 +308,7 @@ public struct CancelSimulationJobBatchInput {
 
 extension CancelSimulationJobBatchOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CancelSimulationJobBatchOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CancelSimulationJobBatchOutput {
         return CancelSimulationJobBatchOutput()
     }
 }
@@ -317,7 +320,7 @@ public struct CancelSimulationJobBatchOutput {
 
 enum CancelSimulationJobBatchOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -362,7 +365,7 @@ public struct CancelSimulationJobInput {
 
 extension CancelSimulationJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CancelSimulationJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CancelSimulationJobOutput {
         return CancelSimulationJobOutput()
     }
 }
@@ -374,7 +377,7 @@ public struct CancelSimulationJobOutput {
 
 enum CancelSimulationJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -419,7 +422,7 @@ public struct CancelWorldExportJobInput {
 
 extension CancelWorldExportJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CancelWorldExportJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CancelWorldExportJobOutput {
         return CancelWorldExportJobOutput()
     }
 }
@@ -431,7 +434,7 @@ public struct CancelWorldExportJobOutput {
 
 enum CancelWorldExportJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -476,7 +479,7 @@ public struct CancelWorldGenerationJobInput {
 
 extension CancelWorldGenerationJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CancelWorldGenerationJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CancelWorldGenerationJobOutput {
         return CancelWorldGenerationJobOutput()
     }
 }
@@ -488,7 +491,7 @@ public struct CancelWorldGenerationJobOutput {
 
 enum CancelWorldGenerationJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -701,7 +704,7 @@ public struct CreateDeploymentJobInput {
 
 extension CreateDeploymentJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateDeploymentJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateDeploymentJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -724,7 +727,7 @@ public struct CreateDeploymentJobOutput {
     /// The Amazon Resource Name (ARN) of the deployment job.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the fleet was created.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The deployment application configuration.
     public var deploymentApplicationConfigs: [RoboMakerClientTypes.DeploymentApplicationConfig]?
     /// The deployment configuration.
@@ -742,7 +745,7 @@ public struct CreateDeploymentJobOutput {
 
     public init(
         arn: Swift.String? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         deploymentApplicationConfigs: [RoboMakerClientTypes.DeploymentApplicationConfig]? = nil,
         deploymentConfig: RoboMakerClientTypes.DeploymentConfig? = nil,
         failureCode: RoboMakerClientTypes.DeploymentJobErrorCode? = nil,
@@ -766,7 +769,7 @@ public struct CreateDeploymentJobOutput {
 
 enum CreateDeploymentJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -820,7 +823,7 @@ public struct CreateFleetInput {
 
 extension CreateFleetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateFleetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateFleetOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -838,7 +841,7 @@ public struct CreateFleetOutput {
     /// The Amazon Resource Name (ARN) of the fleet.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the fleet was created.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The name of the fleet.
     public var name: Swift.String?
     /// The list of all tags added to the fleet.
@@ -846,7 +849,7 @@ public struct CreateFleetOutput {
 
     public init(
         arn: Swift.String? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
@@ -860,7 +863,7 @@ public struct CreateFleetOutput {
 
 enum CreateFleetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -926,7 +929,7 @@ public struct CreateRobotApplicationInput {
 
 extension CreateRobotApplicationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateRobotApplicationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateRobotApplicationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -950,7 +953,7 @@ public struct CreateRobotApplicationOutput {
     /// An object that contains the Docker image URI used to a create your robot application.
     public var environment: RoboMakerClientTypes.Environment?
     /// The time, in milliseconds since the epoch, when the robot application was last updated.
-    public var lastUpdatedAt: ClientRuntime.Date?
+    public var lastUpdatedAt: Foundation.Date?
     /// The name of the robot application.
     public var name: Swift.String?
     /// The revision id of the robot application.
@@ -967,7 +970,7 @@ public struct CreateRobotApplicationOutput {
     public init(
         arn: Swift.String? = nil,
         environment: RoboMakerClientTypes.Environment? = nil,
-        lastUpdatedAt: ClientRuntime.Date? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
         revisionId: Swift.String? = nil,
         robotSoftwareSuite: RoboMakerClientTypes.RobotSoftwareSuite? = nil,
@@ -990,7 +993,7 @@ public struct CreateRobotApplicationOutput {
 
 enum CreateRobotApplicationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1052,7 +1055,7 @@ public struct CreateRobotApplicationVersionInput {
 
 extension CreateRobotApplicationVersionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateRobotApplicationVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateRobotApplicationVersionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1075,7 +1078,7 @@ public struct CreateRobotApplicationVersionOutput {
     /// The object that contains the Docker image URI used to create your robot application.
     public var environment: RoboMakerClientTypes.Environment?
     /// The time, in milliseconds since the epoch, when the robot application was last updated.
-    public var lastUpdatedAt: ClientRuntime.Date?
+    public var lastUpdatedAt: Foundation.Date?
     /// The name of the robot application.
     public var name: Swift.String?
     /// The revision id of the robot application.
@@ -1090,7 +1093,7 @@ public struct CreateRobotApplicationVersionOutput {
     public init(
         arn: Swift.String? = nil,
         environment: RoboMakerClientTypes.Environment? = nil,
-        lastUpdatedAt: ClientRuntime.Date? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
         revisionId: Swift.String? = nil,
         robotSoftwareSuite: RoboMakerClientTypes.RobotSoftwareSuite? = nil,
@@ -1111,7 +1114,7 @@ public struct CreateRobotApplicationVersionOutput {
 
 enum CreateRobotApplicationVersionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1175,7 +1178,7 @@ public struct CreateRobotInput {
 
 extension CreateRobotOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateRobotOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateRobotOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1197,7 +1200,7 @@ public struct CreateRobotOutput {
     /// The Amazon Resource Name (ARN) of the robot.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the robot was created.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the Greengrass group associated with the robot.
     public var greengrassGroupId: Swift.String?
     /// The name of the robot.
@@ -1208,7 +1211,7 @@ public struct CreateRobotOutput {
     public init(
         architecture: RoboMakerClientTypes.Architecture? = nil,
         arn: Swift.String? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         greengrassGroupId: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
@@ -1225,7 +1228,7 @@ public struct CreateRobotOutput {
 
 enum CreateRobotOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1303,7 +1306,7 @@ public struct CreateSimulationApplicationInput {
 
 extension CreateSimulationApplicationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateSimulationApplicationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateSimulationApplicationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1329,7 +1332,7 @@ public struct CreateSimulationApplicationOutput {
     /// The object that contains the Docker image URI that you used to create your simulation application.
     public var environment: RoboMakerClientTypes.Environment?
     /// The time, in milliseconds since the epoch, when the simulation application was last updated.
-    public var lastUpdatedAt: ClientRuntime.Date?
+    public var lastUpdatedAt: Foundation.Date?
     /// The name of the simulation application.
     public var name: Swift.String?
     /// The rendering engine for the simulation application.
@@ -1350,7 +1353,7 @@ public struct CreateSimulationApplicationOutput {
     public init(
         arn: Swift.String? = nil,
         environment: RoboMakerClientTypes.Environment? = nil,
-        lastUpdatedAt: ClientRuntime.Date? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
         renderingEngine: RoboMakerClientTypes.RenderingEngine? = nil,
         revisionId: Swift.String? = nil,
@@ -1377,7 +1380,7 @@ public struct CreateSimulationApplicationOutput {
 
 enum CreateSimulationApplicationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1439,7 +1442,7 @@ public struct CreateSimulationApplicationVersionInput {
 
 extension CreateSimulationApplicationVersionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateSimulationApplicationVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateSimulationApplicationVersionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1464,7 +1467,7 @@ public struct CreateSimulationApplicationVersionOutput {
     /// The object that contains the Docker image URI used to create the simulation application.
     public var environment: RoboMakerClientTypes.Environment?
     /// The time, in milliseconds since the epoch, when the simulation application was last updated.
-    public var lastUpdatedAt: ClientRuntime.Date?
+    public var lastUpdatedAt: Foundation.Date?
     /// The name of the simulation application.
     public var name: Swift.String?
     /// The rendering engine for the simulation application.
@@ -1483,7 +1486,7 @@ public struct CreateSimulationApplicationVersionOutput {
     public init(
         arn: Swift.String? = nil,
         environment: RoboMakerClientTypes.Environment? = nil,
-        lastUpdatedAt: ClientRuntime.Date? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
         renderingEngine: RoboMakerClientTypes.RenderingEngine? = nil,
         revisionId: Swift.String? = nil,
@@ -1508,7 +1511,7 @@ public struct CreateSimulationApplicationVersionOutput {
 
 enum CreateSimulationApplicationVersionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1610,7 +1613,7 @@ public struct CreateSimulationJobInput {
 
 extension CreateSimulationJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateSimulationJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateSimulationJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1653,9 +1656,9 @@ public struct CreateSimulationJobOutput {
     /// The IAM role that allows the simulation job to call the AWS APIs that are specified in its associated policies on your behalf.
     public var iamRole: Swift.String?
     /// The time, in milliseconds since the epoch, when the simulation job was last started.
-    public var lastStartedAt: ClientRuntime.Date?
+    public var lastStartedAt: Foundation.Date?
     /// The time, in milliseconds since the epoch, when the simulation job was last updated.
-    public var lastUpdatedAt: ClientRuntime.Date?
+    public var lastUpdatedAt: Foundation.Date?
     /// The logging configuration.
     public var loggingConfig: RoboMakerClientTypes.LoggingConfig?
     /// The maximum simulation job duration in seconds.
@@ -1683,8 +1686,8 @@ public struct CreateSimulationJobOutput {
         failureBehavior: RoboMakerClientTypes.FailureBehavior? = nil,
         failureCode: RoboMakerClientTypes.SimulationJobErrorCode? = nil,
         iamRole: Swift.String? = nil,
-        lastStartedAt: ClientRuntime.Date? = nil,
-        lastUpdatedAt: ClientRuntime.Date? = nil,
+        lastStartedAt: Foundation.Date? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
         loggingConfig: RoboMakerClientTypes.LoggingConfig? = nil,
         maxJobDurationInSeconds: Swift.Int = 0,
         outputLocation: RoboMakerClientTypes.OutputLocation? = nil,
@@ -1719,7 +1722,7 @@ public struct CreateSimulationJobOutput {
 
 enum CreateSimulationJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1789,7 +1792,7 @@ public struct CreateWorldExportJobInput {
 
 extension CreateWorldExportJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateWorldExportJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateWorldExportJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1812,7 +1815,7 @@ public struct CreateWorldExportJobOutput {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     public var clientRequestToken: Swift.String?
     /// The time, in milliseconds since the epoch, when the world export job was created.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The failure code of the world export job if it failed: InternalServiceError Internal service error. LimitExceeded The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed. ResourceNotFound The specified resource could not be found. RequestThrottled The request was throttled. InvalidInput An input parameter in the request is not valid. AllWorldGenerationFailed All of the worlds in the world generation job failed. This can happen if your worldCount is greater than 50 or less than 1. For more information about troubleshooting WorldForge, see [Troubleshooting Simulation WorldForge](https://docs.aws.amazon.com/robomaker/latest/dg/troubleshooting-worldforge.html).
     public var failureCode: RoboMakerClientTypes.WorldExportJobErrorCode?
     /// The IAM role that the world export process uses to access the Amazon S3 bucket and put the export.
@@ -1827,7 +1830,7 @@ public struct CreateWorldExportJobOutput {
     public init(
         arn: Swift.String? = nil,
         clientRequestToken: Swift.String? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         failureCode: RoboMakerClientTypes.WorldExportJobErrorCode? = nil,
         iamRole: Swift.String? = nil,
         outputLocation: RoboMakerClientTypes.OutputLocation? = nil,
@@ -1848,7 +1851,7 @@ public struct CreateWorldExportJobOutput {
 
 enum CreateWorldExportJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1916,7 +1919,7 @@ public struct CreateWorldGenerationJobInput {
 
 extension CreateWorldGenerationJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateWorldGenerationJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateWorldGenerationJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1940,7 +1943,7 @@ public struct CreateWorldGenerationJobOutput {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     public var clientRequestToken: Swift.String?
     /// The time, in milliseconds since the epoch, when the world generator job was created.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The failure code of the world generator job if it failed: InternalServiceError Internal service error. LimitExceeded The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed. ResourceNotFound The specified resource could not be found. RequestThrottled The request was throttled. InvalidInput An input parameter in the request is not valid.
     public var failureCode: RoboMakerClientTypes.WorldGenerationJobErrorCode?
     /// The status of the world generator job. Pending The world generator job request is pending. Running The world generator job is running. Completed The world generator job completed. Failed The world generator job failed. See failureCode for more information. PartialFailed Some worlds did not generate. Canceled The world generator job was cancelled. Canceling The world generator job is being cancelled.
@@ -1957,7 +1960,7 @@ public struct CreateWorldGenerationJobOutput {
     public init(
         arn: Swift.String? = nil,
         clientRequestToken: Swift.String? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         failureCode: RoboMakerClientTypes.WorldGenerationJobErrorCode? = nil,
         status: RoboMakerClientTypes.WorldGenerationJobStatus? = nil,
         tags: [Swift.String:Swift.String]? = nil,
@@ -1980,7 +1983,7 @@ public struct CreateWorldGenerationJobOutput {
 
 enum CreateWorldGenerationJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2047,7 +2050,7 @@ public struct CreateWorldTemplateInput {
 
 extension CreateWorldTemplateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateWorldTemplateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateWorldTemplateOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2067,7 +2070,7 @@ public struct CreateWorldTemplateOutput {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     public var clientRequestToken: Swift.String?
     /// The time, in milliseconds since the epoch, when the world template was created.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The name of the world template.
     public var name: Swift.String?
     /// A map that contains tag keys and tag values that are attached to the world template.
@@ -2076,7 +2079,7 @@ public struct CreateWorldTemplateOutput {
     public init(
         arn: Swift.String? = nil,
         clientRequestToken: Swift.String? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
@@ -2091,7 +2094,7 @@ public struct CreateWorldTemplateOutput {
 
 enum CreateWorldTemplateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2275,7 +2278,7 @@ public struct DeleteFleetInput {
 
 extension DeleteFleetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteFleetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteFleetOutput {
         return DeleteFleetOutput()
     }
 }
@@ -2288,7 +2291,7 @@ public struct DeleteFleetOutput {
 
 enum DeleteFleetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2337,7 +2340,7 @@ public struct DeleteRobotApplicationInput {
 
 extension DeleteRobotApplicationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteRobotApplicationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteRobotApplicationOutput {
         return DeleteRobotApplicationOutput()
     }
 }
@@ -2349,7 +2352,7 @@ public struct DeleteRobotApplicationOutput {
 
 enum DeleteRobotApplicationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2394,7 +2397,7 @@ public struct DeleteRobotInput {
 
 extension DeleteRobotOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteRobotOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteRobotOutput {
         return DeleteRobotOutput()
     }
 }
@@ -2407,7 +2410,7 @@ public struct DeleteRobotOutput {
 
 enum DeleteRobotOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2456,7 +2459,7 @@ public struct DeleteSimulationApplicationInput {
 
 extension DeleteSimulationApplicationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteSimulationApplicationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteSimulationApplicationOutput {
         return DeleteSimulationApplicationOutput()
     }
 }
@@ -2468,7 +2471,7 @@ public struct DeleteSimulationApplicationOutput {
 
 enum DeleteSimulationApplicationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2512,7 +2515,7 @@ public struct DeleteWorldTemplateInput {
 
 extension DeleteWorldTemplateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteWorldTemplateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteWorldTemplateOutput {
         return DeleteWorldTemplateOutput()
     }
 }
@@ -2524,7 +2527,7 @@ public struct DeleteWorldTemplateOutput {
 
 enum DeleteWorldTemplateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2657,7 +2660,7 @@ extension RoboMakerClientTypes {
         /// The Amazon Resource Name (ARN) of the deployment job.
         public var arn: Swift.String?
         /// The time, in milliseconds since the epoch, when the deployment job was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The deployment application configuration.
         public var deploymentApplicationConfigs: [RoboMakerClientTypes.DeploymentApplicationConfig]?
         /// The deployment configuration.
@@ -2673,7 +2676,7 @@ extension RoboMakerClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             deploymentApplicationConfigs: [RoboMakerClientTypes.DeploymentApplicationConfig]? = nil,
             deploymentConfig: RoboMakerClientTypes.DeploymentConfig? = nil,
             failureCode: RoboMakerClientTypes.DeploymentJobErrorCode? = nil,
@@ -2925,7 +2928,7 @@ public struct DeregisterRobotInput {
 
 extension DeregisterRobotOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeregisterRobotOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeregisterRobotOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2955,7 +2958,7 @@ public struct DeregisterRobotOutput {
 
 enum DeregisterRobotOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3001,7 +3004,7 @@ public struct DescribeDeploymentJobInput {
 
 extension DescribeDeploymentJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeDeploymentJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeDeploymentJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3025,7 +3028,7 @@ public struct DescribeDeploymentJobOutput {
     /// The Amazon Resource Name (ARN) of the deployment job.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the deployment job was created.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The deployment application configuration.
     public var deploymentApplicationConfigs: [RoboMakerClientTypes.DeploymentApplicationConfig]?
     /// The deployment configuration.
@@ -3045,7 +3048,7 @@ public struct DescribeDeploymentJobOutput {
 
     public init(
         arn: Swift.String? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         deploymentApplicationConfigs: [RoboMakerClientTypes.DeploymentApplicationConfig]? = nil,
         deploymentConfig: RoboMakerClientTypes.DeploymentConfig? = nil,
         failureCode: RoboMakerClientTypes.DeploymentJobErrorCode? = nil,
@@ -3071,7 +3074,7 @@ public struct DescribeDeploymentJobOutput {
 
 enum DescribeDeploymentJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3117,7 +3120,7 @@ public struct DescribeFleetInput {
 
 extension DescribeFleetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeFleetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeFleetOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3139,13 +3142,13 @@ public struct DescribeFleetOutput {
     /// The Amazon Resource Name (ARN) of the fleet.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the fleet was created.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the last deployment job.
     public var lastDeploymentJob: Swift.String?
     /// The status of the last deployment.
     public var lastDeploymentStatus: RoboMakerClientTypes.DeploymentStatus?
     /// The time of the last deployment.
-    public var lastDeploymentTime: ClientRuntime.Date?
+    public var lastDeploymentTime: Foundation.Date?
     /// The name of the fleet.
     public var name: Swift.String?
     /// A list of robots.
@@ -3155,10 +3158,10 @@ public struct DescribeFleetOutput {
 
     public init(
         arn: Swift.String? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         lastDeploymentJob: Swift.String? = nil,
         lastDeploymentStatus: RoboMakerClientTypes.DeploymentStatus? = nil,
-        lastDeploymentTime: ClientRuntime.Date? = nil,
+        lastDeploymentTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
         robots: [RoboMakerClientTypes.Robot]? = nil,
         tags: [Swift.String:Swift.String]? = nil
@@ -3177,7 +3180,7 @@ public struct DescribeFleetOutput {
 
 enum DescribeFleetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3227,7 +3230,7 @@ public struct DescribeRobotApplicationInput {
 
 extension DescribeRobotApplicationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeRobotApplicationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeRobotApplicationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3254,7 +3257,7 @@ public struct DescribeRobotApplicationOutput {
     /// A SHA256 identifier for the Docker image that you use for your robot application.
     public var imageDigest: Swift.String?
     /// The time, in milliseconds since the epoch, when the robot application was last updated.
-    public var lastUpdatedAt: ClientRuntime.Date?
+    public var lastUpdatedAt: Foundation.Date?
     /// The name of the robot application.
     public var name: Swift.String?
     /// The revision id of the robot application.
@@ -3272,7 +3275,7 @@ public struct DescribeRobotApplicationOutput {
         arn: Swift.String? = nil,
         environment: RoboMakerClientTypes.Environment? = nil,
         imageDigest: Swift.String? = nil,
-        lastUpdatedAt: ClientRuntime.Date? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
         revisionId: Swift.String? = nil,
         robotSoftwareSuite: RoboMakerClientTypes.RobotSoftwareSuite? = nil,
@@ -3296,7 +3299,7 @@ public struct DescribeRobotApplicationOutput {
 
 enum DescribeRobotApplicationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3342,7 +3345,7 @@ public struct DescribeRobotInput {
 
 extension DescribeRobotOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeRobotOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeRobotOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3368,7 +3371,7 @@ public struct DescribeRobotOutput {
     /// The Amazon Resource Name (ARN) of the robot.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the robot was created.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the fleet.
     public var fleetArn: Swift.String?
     /// The Greengrass group id.
@@ -3376,7 +3379,7 @@ public struct DescribeRobotOutput {
     /// The Amazon Resource Name (ARN) of the last deployment job.
     public var lastDeploymentJob: Swift.String?
     /// The time of the last deployment job.
-    public var lastDeploymentTime: ClientRuntime.Date?
+    public var lastDeploymentTime: Foundation.Date?
     /// The name of the robot.
     public var name: Swift.String?
     /// The status of the fleet.
@@ -3387,11 +3390,11 @@ public struct DescribeRobotOutput {
     public init(
         architecture: RoboMakerClientTypes.Architecture? = nil,
         arn: Swift.String? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         fleetArn: Swift.String? = nil,
         greengrassGroupId: Swift.String? = nil,
         lastDeploymentJob: Swift.String? = nil,
-        lastDeploymentTime: ClientRuntime.Date? = nil,
+        lastDeploymentTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
         status: RoboMakerClientTypes.RobotStatus? = nil,
         tags: [Swift.String:Swift.String]? = nil
@@ -3412,7 +3415,7 @@ public struct DescribeRobotOutput {
 
 enum DescribeRobotOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3462,7 +3465,7 @@ public struct DescribeSimulationApplicationInput {
 
 extension DescribeSimulationApplicationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeSimulationApplicationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeSimulationApplicationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3491,7 +3494,7 @@ public struct DescribeSimulationApplicationOutput {
     /// A SHA256 identifier for the Docker image that you use for your simulation application.
     public var imageDigest: Swift.String?
     /// The time, in milliseconds since the epoch, when the simulation application was last updated.
-    public var lastUpdatedAt: ClientRuntime.Date?
+    public var lastUpdatedAt: Foundation.Date?
     /// The name of the simulation application.
     public var name: Swift.String?
     /// The rendering engine for the simulation application.
@@ -3513,7 +3516,7 @@ public struct DescribeSimulationApplicationOutput {
         arn: Swift.String? = nil,
         environment: RoboMakerClientTypes.Environment? = nil,
         imageDigest: Swift.String? = nil,
-        lastUpdatedAt: ClientRuntime.Date? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
         renderingEngine: RoboMakerClientTypes.RenderingEngine? = nil,
         revisionId: Swift.String? = nil,
@@ -3541,7 +3544,7 @@ public struct DescribeSimulationApplicationOutput {
 
 enum DescribeSimulationApplicationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3586,7 +3589,7 @@ public struct DescribeSimulationJobBatchInput {
 
 extension DescribeSimulationJobBatchOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeSimulationJobBatchOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeSimulationJobBatchOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3615,7 +3618,7 @@ public struct DescribeSimulationJobBatchOutput {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     public var clientRequestToken: Swift.String?
     /// The time, in milliseconds since the epoch, when the simulation job batch was created.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// A list of created simulation job summaries.
     public var createdRequests: [RoboMakerClientTypes.SimulationJobSummary]?
     /// A list of failed create simulation job requests. The request failed to be created into a simulation job. Failed requests do not have a simulation job ID.
@@ -3625,7 +3628,7 @@ public struct DescribeSimulationJobBatchOutput {
     /// The reason the simulation job batch failed.
     public var failureReason: Swift.String?
     /// The time, in milliseconds since the epoch, when the simulation job batch was last updated.
-    public var lastUpdatedAt: ClientRuntime.Date?
+    public var lastUpdatedAt: Foundation.Date?
     /// A list of pending simulation job requests. These requests have not yet been created into simulation jobs.
     public var pendingRequests: [RoboMakerClientTypes.SimulationJobRequest]?
     /// The status of the batch. Pending The simulation job batch request is pending. InProgress The simulation job batch is in progress. Failed The simulation job batch failed. One or more simulation job requests could not be completed due to an internal failure (like InternalServiceError). See failureCode and failureReason for more information. Completed The simulation batch job completed. A batch is complete when (1) there are no pending simulation job requests in the batch and none of the failed simulation job requests are due to InternalServiceError and (2) when all created simulation jobs have reached a terminal state (for example, Completed or Failed). Canceled The simulation batch job was cancelled. Canceling The simulation batch job is being cancelled. Completing The simulation batch job is completing. TimingOut The simulation job batch is timing out. If a batch timing out, and there are pending requests that were failing due to an internal failure (like InternalServiceError), the batch status will be Failed. If there are no such failing request, the batch status will be TimedOut. TimedOut The simulation batch job timed out.
@@ -3637,12 +3640,12 @@ public struct DescribeSimulationJobBatchOutput {
         arn: Swift.String? = nil,
         batchPolicy: RoboMakerClientTypes.BatchPolicy? = nil,
         clientRequestToken: Swift.String? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         createdRequests: [RoboMakerClientTypes.SimulationJobSummary]? = nil,
         failedRequests: [RoboMakerClientTypes.FailedCreateSimulationJobRequest]? = nil,
         failureCode: RoboMakerClientTypes.SimulationJobBatchErrorCode? = nil,
         failureReason: Swift.String? = nil,
-        lastUpdatedAt: ClientRuntime.Date? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
         pendingRequests: [RoboMakerClientTypes.SimulationJobRequest]? = nil,
         status: RoboMakerClientTypes.SimulationJobBatchStatus? = nil,
         tags: [Swift.String:Swift.String]? = nil
@@ -3665,7 +3668,7 @@ public struct DescribeSimulationJobBatchOutput {
 
 enum DescribeSimulationJobBatchOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3709,7 +3712,7 @@ public struct DescribeSimulationJobInput {
 
 extension DescribeSimulationJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeSimulationJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeSimulationJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3757,9 +3760,9 @@ public struct DescribeSimulationJobOutput {
     /// The IAM role that allows the simulation instance to call the AWS APIs that are specified in its associated policies on your behalf.
     public var iamRole: Swift.String?
     /// The time, in milliseconds since the epoch, when the simulation job was last started.
-    public var lastStartedAt: ClientRuntime.Date?
+    public var lastStartedAt: Foundation.Date?
     /// The time, in milliseconds since the epoch, when the simulation job was last updated.
-    public var lastUpdatedAt: ClientRuntime.Date?
+    public var lastUpdatedAt: Foundation.Date?
     /// The logging configuration.
     public var loggingConfig: RoboMakerClientTypes.LoggingConfig?
     /// The maximum job duration in seconds. The value must be 8 days (691,200 seconds) or less.
@@ -3792,8 +3795,8 @@ public struct DescribeSimulationJobOutput {
         failureCode: RoboMakerClientTypes.SimulationJobErrorCode? = nil,
         failureReason: Swift.String? = nil,
         iamRole: Swift.String? = nil,
-        lastStartedAt: ClientRuntime.Date? = nil,
-        lastUpdatedAt: ClientRuntime.Date? = nil,
+        lastStartedAt: Foundation.Date? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
         loggingConfig: RoboMakerClientTypes.LoggingConfig? = nil,
         maxJobDurationInSeconds: Swift.Int = 0,
         name: Swift.String? = nil,
@@ -3833,7 +3836,7 @@ public struct DescribeSimulationJobOutput {
 
 enum DescribeSimulationJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3878,7 +3881,7 @@ public struct DescribeWorldExportJobInput {
 
 extension DescribeWorldExportJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeWorldExportJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeWorldExportJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3903,7 +3906,7 @@ public struct DescribeWorldExportJobOutput {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     public var clientRequestToken: Swift.String?
     /// The time, in milliseconds since the epoch, when the world export job was created.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The failure code of the world export job if it failed: InternalServiceError Internal service error. LimitExceeded The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed. ResourceNotFound The specified resource could not be found. RequestThrottled The request was throttled. InvalidInput An input parameter in the request is not valid.
     public var failureCode: RoboMakerClientTypes.WorldExportJobErrorCode?
     /// The reason why the world export job failed.
@@ -3922,7 +3925,7 @@ public struct DescribeWorldExportJobOutput {
     public init(
         arn: Swift.String? = nil,
         clientRequestToken: Swift.String? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         failureCode: RoboMakerClientTypes.WorldExportJobErrorCode? = nil,
         failureReason: Swift.String? = nil,
         iamRole: Swift.String? = nil,
@@ -3947,7 +3950,7 @@ public struct DescribeWorldExportJobOutput {
 
 enum DescribeWorldExportJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3992,7 +3995,7 @@ public struct DescribeWorldGenerationJobInput {
 
 extension DescribeWorldGenerationJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeWorldGenerationJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeWorldGenerationJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4018,7 +4021,7 @@ public struct DescribeWorldGenerationJobOutput {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     public var clientRequestToken: Swift.String?
     /// The time, in milliseconds since the epoch, when the world generation job was created.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The failure code of the world generation job if it failed: InternalServiceError Internal service error. LimitExceeded The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed. ResourceNotFound The specified resource could not be found. RequestThrottled The request was throttled. InvalidInput An input parameter in the request is not valid.
     public var failureCode: RoboMakerClientTypes.WorldGenerationJobErrorCode?
     /// The reason why the world generation job failed.
@@ -4039,7 +4042,7 @@ public struct DescribeWorldGenerationJobOutput {
     public init(
         arn: Swift.String? = nil,
         clientRequestToken: Swift.String? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         failureCode: RoboMakerClientTypes.WorldGenerationJobErrorCode? = nil,
         failureReason: Swift.String? = nil,
         finishedWorldsSummary: RoboMakerClientTypes.FinishedWorldsSummary? = nil,
@@ -4066,7 +4069,7 @@ public struct DescribeWorldGenerationJobOutput {
 
 enum DescribeWorldGenerationJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4111,7 +4114,7 @@ public struct DescribeWorldInput {
 
 extension DescribeWorldOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeWorldOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeWorldOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4130,7 +4133,7 @@ public struct DescribeWorldOutput {
     /// The Amazon Resource Name (arn) of the world.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the world was created.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The Amazon Resource Name (arn) of the world generation job that generated the world.
     public var generationJob: Swift.String?
     /// A map that contains tag keys and tag values that are attached to the world.
@@ -4142,7 +4145,7 @@ public struct DescribeWorldOutput {
 
     public init(
         arn: Swift.String? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         generationJob: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
         template: Swift.String? = nil,
@@ -4160,7 +4163,7 @@ public struct DescribeWorldOutput {
 
 enum DescribeWorldOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4205,7 +4208,7 @@ public struct DescribeWorldTemplateInput {
 
 extension DescribeWorldTemplateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeWorldTemplateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeWorldTemplateOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4227,9 +4230,9 @@ public struct DescribeWorldTemplateOutput {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     public var clientRequestToken: Swift.String?
     /// The time, in milliseconds since the epoch, when the world template was created.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The time, in milliseconds since the epoch, when the world template was last updated.
-    public var lastUpdatedAt: ClientRuntime.Date?
+    public var lastUpdatedAt: Foundation.Date?
     /// The name of the world template.
     public var name: Swift.String?
     /// A map that contains tag keys and tag values that are attached to the world template.
@@ -4240,8 +4243,8 @@ public struct DescribeWorldTemplateOutput {
     public init(
         arn: Swift.String? = nil,
         clientRequestToken: Swift.String? = nil,
-        createdAt: ClientRuntime.Date? = nil,
-        lastUpdatedAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
         version: Swift.String? = nil
@@ -4259,7 +4262,7 @@ public struct DescribeWorldTemplateOutput {
 
 enum DescribeWorldTemplateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4351,7 +4354,7 @@ extension RoboMakerClientTypes {
     /// Information about a failed create simulation job request.
     public struct FailedCreateSimulationJobRequest {
         /// The time, in milliseconds since the epoch, when the simulation job batch failed.
-        public var failedAt: ClientRuntime.Date?
+        public var failedAt: Foundation.Date?
         /// The failure code.
         public var failureCode: RoboMakerClientTypes.SimulationJobErrorCode?
         /// The failure reason of the simulation job request.
@@ -4360,7 +4363,7 @@ extension RoboMakerClientTypes {
         public var request: RoboMakerClientTypes.SimulationJobRequest?
 
         public init(
-            failedAt: ClientRuntime.Date? = nil,
+            failedAt: Foundation.Date? = nil,
             failureCode: RoboMakerClientTypes.SimulationJobErrorCode? = nil,
             failureReason: Swift.String? = nil,
             request: RoboMakerClientTypes.SimulationJobRequest? = nil
@@ -4521,22 +4524,22 @@ extension RoboMakerClientTypes {
         /// The Amazon Resource Name (ARN) of the fleet.
         public var arn: Swift.String?
         /// The time, in milliseconds since the epoch, when the fleet was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the last deployment job.
         public var lastDeploymentJob: Swift.String?
         /// The status of the last fleet deployment.
         public var lastDeploymentStatus: RoboMakerClientTypes.DeploymentStatus?
         /// The time of the last deployment.
-        public var lastDeploymentTime: ClientRuntime.Date?
+        public var lastDeploymentTime: Foundation.Date?
         /// The name of the fleet.
         public var name: Swift.String?
 
         public init(
             arn: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             lastDeploymentJob: Swift.String? = nil,
             lastDeploymentStatus: RoboMakerClientTypes.DeploymentStatus? = nil,
-            lastDeploymentTime: ClientRuntime.Date? = nil,
+            lastDeploymentTime: Foundation.Date? = nil,
             name: Swift.String? = nil
         )
         {
@@ -4585,7 +4588,7 @@ public struct GetWorldTemplateBodyInput {
 
 extension GetWorldTemplateBodyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetWorldTemplateBodyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetWorldTemplateBodyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4609,7 +4612,7 @@ public struct GetWorldTemplateBodyOutput {
 
 enum GetWorldTemplateBodyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4873,7 +4876,7 @@ public struct ListDeploymentJobsInput {
 
 extension ListDeploymentJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListDeploymentJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListDeploymentJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4903,7 +4906,7 @@ public struct ListDeploymentJobsOutput {
 
 enum ListDeploymentJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4958,7 +4961,7 @@ public struct ListFleetsInput {
 
 extension ListFleetsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListFleetsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListFleetsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4988,7 +4991,7 @@ public struct ListFleetsOutput {
 
 enum ListFleetsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5047,7 +5050,7 @@ public struct ListRobotApplicationsInput {
 
 extension ListRobotApplicationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListRobotApplicationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListRobotApplicationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5076,7 +5079,7 @@ public struct ListRobotApplicationsOutput {
 
 enum ListRobotApplicationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5130,7 +5133,7 @@ public struct ListRobotsInput {
 
 extension ListRobotsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListRobotsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListRobotsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5160,7 +5163,7 @@ public struct ListRobotsOutput {
 
 enum ListRobotsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5219,7 +5222,7 @@ public struct ListSimulationApplicationsInput {
 
 extension ListSimulationApplicationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListSimulationApplicationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListSimulationApplicationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5248,7 +5251,7 @@ public struct ListSimulationApplicationsOutput {
 
 enum ListSimulationApplicationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5301,7 +5304,7 @@ public struct ListSimulationJobBatchesInput {
 
 extension ListSimulationJobBatchesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListSimulationJobBatchesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListSimulationJobBatchesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5330,7 +5333,7 @@ public struct ListSimulationJobBatchesOutput {
 
 enum ListSimulationJobBatchesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5382,7 +5385,7 @@ public struct ListSimulationJobsInput {
 
 extension ListSimulationJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListSimulationJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListSimulationJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5412,7 +5415,7 @@ public struct ListSimulationJobsOutput {
 
 enum ListSimulationJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5451,7 +5454,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5475,7 +5478,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5529,7 +5532,7 @@ public struct ListWorldExportJobsInput {
 
 extension ListWorldExportJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListWorldExportJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListWorldExportJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5559,7 +5562,7 @@ public struct ListWorldExportJobsOutput {
 
 enum ListWorldExportJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5612,7 +5615,7 @@ public struct ListWorldGenerationJobsInput {
 
 extension ListWorldGenerationJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListWorldGenerationJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListWorldGenerationJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5642,7 +5645,7 @@ public struct ListWorldGenerationJobsOutput {
 
 enum ListWorldGenerationJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5690,7 +5693,7 @@ public struct ListWorldTemplatesInput {
 
 extension ListWorldTemplatesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListWorldTemplatesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListWorldTemplatesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5719,7 +5722,7 @@ public struct ListWorldTemplatesOutput {
 
 enum ListWorldTemplatesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5772,7 +5775,7 @@ public struct ListWorldsInput {
 
 extension ListWorldsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListWorldsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListWorldsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5801,7 +5804,7 @@ public struct ListWorldsOutput {
 
 enum ListWorldsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6074,7 +6077,7 @@ public struct RegisterRobotInput {
 
 extension RegisterRobotOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RegisterRobotOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RegisterRobotOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6104,7 +6107,7 @@ public struct RegisterRobotOutput {
 
 enum RegisterRobotOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6287,7 +6290,7 @@ public struct RestartSimulationJobInput {
 
 extension RestartSimulationJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RestartSimulationJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RestartSimulationJobOutput {
         return RestartSimulationJobOutput()
     }
 }
@@ -6299,7 +6302,7 @@ public struct RestartSimulationJobOutput {
 
 enum RestartSimulationJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6343,7 +6346,7 @@ extension RoboMakerClientTypes {
         /// The Amazon Resource Name (ARN) of the robot.
         public var arn: Swift.String?
         /// The time, in milliseconds since the epoch, when the robot was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the fleet.
         public var fleetArn: Swift.String?
         /// The Greengrass group associated with the robot.
@@ -6351,7 +6354,7 @@ extension RoboMakerClientTypes {
         /// The Amazon Resource Name (ARN) of the last deployment job.
         public var lastDeploymentJob: Swift.String?
         /// The time of the last deployment.
-        public var lastDeploymentTime: ClientRuntime.Date?
+        public var lastDeploymentTime: Foundation.Date?
         /// The name of the robot.
         public var name: Swift.String?
         /// The status of the robot.
@@ -6360,11 +6363,11 @@ extension RoboMakerClientTypes {
         public init(
             architecture: RoboMakerClientTypes.Architecture? = nil,
             arn: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             fleetArn: Swift.String? = nil,
             greenGrassGroupId: Swift.String? = nil,
             lastDeploymentJob: Swift.String? = nil,
-            lastDeploymentTime: ClientRuntime.Date? = nil,
+            lastDeploymentTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             status: RoboMakerClientTypes.RobotStatus? = nil
         )
@@ -6474,7 +6477,7 @@ extension RoboMakerClientTypes {
         /// The Amazon Resource Name (ARN) of the robot.
         public var arn: Swift.String?
         /// The time, in milliseconds since the epoch, when the robot application was last updated.
-        public var lastUpdatedAt: ClientRuntime.Date?
+        public var lastUpdatedAt: Foundation.Date?
         /// The name of the robot application.
         public var name: Swift.String?
         /// Information about a robot software suite (ROS distribution).
@@ -6484,7 +6487,7 @@ extension RoboMakerClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            lastUpdatedAt: ClientRuntime.Date? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
             name: Swift.String? = nil,
             robotSoftwareSuite: RoboMakerClientTypes.RobotSoftwareSuite? = nil,
             version: Swift.String? = nil
@@ -6522,9 +6525,9 @@ extension RoboMakerClientTypes {
         /// The robot deployment Amazon Resource Name (ARN).
         public var arn: Swift.String?
         /// The time, in milliseconds since the epoch, when the deployment finished.
-        public var deploymentFinishTime: ClientRuntime.Date?
+        public var deploymentFinishTime: Foundation.Date?
         /// The time, in milliseconds since the epoch, when the deployment was started.
-        public var deploymentStartTime: ClientRuntime.Date?
+        public var deploymentStartTime: Foundation.Date?
         /// The robot deployment failure code.
         public var failureCode: RoboMakerClientTypes.DeploymentJobErrorCode?
         /// A short description of the reason why the robot deployment failed.
@@ -6536,8 +6539,8 @@ extension RoboMakerClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            deploymentFinishTime: ClientRuntime.Date? = nil,
-            deploymentStartTime: ClientRuntime.Date? = nil,
+            deploymentFinishTime: Foundation.Date? = nil,
+            deploymentStartTime: Foundation.Date? = nil,
             failureCode: RoboMakerClientTypes.DeploymentJobErrorCode? = nil,
             failureReason: Swift.String? = nil,
             progressDetail: RoboMakerClientTypes.ProgressDetail? = nil,
@@ -6959,7 +6962,7 @@ extension RoboMakerClientTypes {
         /// The Amazon Resource Name (ARN) of the simulation application.
         public var arn: Swift.String?
         /// The time, in milliseconds since the epoch, when the simulation application was last updated.
-        public var lastUpdatedAt: ClientRuntime.Date?
+        public var lastUpdatedAt: Foundation.Date?
         /// The name of the simulation application.
         public var name: Swift.String?
         /// Information about a robot software suite (ROS distribution).
@@ -6971,7 +6974,7 @@ extension RoboMakerClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            lastUpdatedAt: ClientRuntime.Date? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
             name: Swift.String? = nil,
             robotSoftwareSuite: RoboMakerClientTypes.RobotSoftwareSuite? = nil,
             simulationSoftwareSuite: RoboMakerClientTypes.SimulationSoftwareSuite? = nil,
@@ -7039,9 +7042,9 @@ extension RoboMakerClientTypes {
         /// The IAM role that allows the simulation instance to call the AWS APIs that are specified in its associated policies on your behalf. This is how credentials are passed in to your simulation job.
         public var iamRole: Swift.String?
         /// The time, in milliseconds since the epoch, when the simulation job was last started.
-        public var lastStartedAt: ClientRuntime.Date?
+        public var lastStartedAt: Foundation.Date?
         /// The time, in milliseconds since the epoch, when the simulation job was last updated.
-        public var lastUpdatedAt: ClientRuntime.Date?
+        public var lastUpdatedAt: Foundation.Date?
         /// The logging configuration.
         public var loggingConfig: RoboMakerClientTypes.LoggingConfig?
         /// The maximum simulation job duration in seconds. The value must be 8 days (691,200 seconds) or less.
@@ -7074,8 +7077,8 @@ extension RoboMakerClientTypes {
             failureCode: RoboMakerClientTypes.SimulationJobErrorCode? = nil,
             failureReason: Swift.String? = nil,
             iamRole: Swift.String? = nil,
-            lastStartedAt: ClientRuntime.Date? = nil,
-            lastUpdatedAt: ClientRuntime.Date? = nil,
+            lastStartedAt: Foundation.Date? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
             loggingConfig: RoboMakerClientTypes.LoggingConfig? = nil,
             maxJobDurationInSeconds: Swift.Int = 0,
             name: Swift.String? = nil,
@@ -7213,13 +7216,13 @@ extension RoboMakerClientTypes {
         /// The Amazon Resource Name (ARN) of the batch.
         public var arn: Swift.String?
         /// The time, in milliseconds since the epoch, when the simulation job batch was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The number of created simulation job requests.
         public var createdRequestCount: Swift.Int
         /// The number of failed simulation job requests.
         public var failedRequestCount: Swift.Int
         /// The time, in milliseconds since the epoch, when the simulation job batch was last updated.
-        public var lastUpdatedAt: ClientRuntime.Date?
+        public var lastUpdatedAt: Foundation.Date?
         /// The number of pending simulation job requests.
         public var pendingRequestCount: Swift.Int
         /// The status of the simulation job batch. Pending The simulation job batch request is pending. InProgress The simulation job batch is in progress. Failed The simulation job batch failed. One or more simulation job requests could not be completed due to an internal failure (like InternalServiceError). See failureCode and failureReason for more information. Completed The simulation batch job completed. A batch is complete when (1) there are no pending simulation job requests in the batch and none of the failed simulation job requests are due to InternalServiceError and (2) when all created simulation jobs have reached a terminal state (for example, Completed or Failed). Canceled The simulation batch job was cancelled. Canceling The simulation batch job is being cancelled. Completing The simulation batch job is completing. TimingOut The simulation job batch is timing out. If a batch timing out, and there are pending requests that were failing due to an internal failure (like InternalServiceError), the batch status will be Failed. If there are no such failing request, the batch status will be TimedOut. TimedOut The simulation batch job timed out.
@@ -7227,10 +7230,10 @@ extension RoboMakerClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             createdRequestCount: Swift.Int = 0,
             failedRequestCount: Swift.Int = 0,
-            lastUpdatedAt: ClientRuntime.Date? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
             pendingRequestCount: Swift.Int = 0,
             status: RoboMakerClientTypes.SimulationJobBatchStatus? = nil
         )
@@ -7541,7 +7544,7 @@ extension RoboMakerClientTypes {
         /// The names of the data sources.
         public var dataSourceNames: [Swift.String]?
         /// The time, in milliseconds since the epoch, when the simulation job was last updated.
-        public var lastUpdatedAt: ClientRuntime.Date?
+        public var lastUpdatedAt: Foundation.Date?
         /// The name of the simulation job.
         public var name: Swift.String?
         /// A list of simulation job robot application names.
@@ -7555,7 +7558,7 @@ extension RoboMakerClientTypes {
             arn: Swift.String? = nil,
             computeType: RoboMakerClientTypes.ComputeType? = nil,
             dataSourceNames: [Swift.String]? = nil,
-            lastUpdatedAt: ClientRuntime.Date? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
             name: Swift.String? = nil,
             robotApplicationNames: [Swift.String]? = nil,
             simulationApplicationNames: [Swift.String]? = nil,
@@ -7764,7 +7767,7 @@ public struct StartSimulationJobBatchInput {
 
 extension StartSimulationJobBatchOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartSimulationJobBatchOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartSimulationJobBatchOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7792,7 +7795,7 @@ public struct StartSimulationJobBatchOutput {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     public var clientRequestToken: Swift.String?
     /// The time, in milliseconds since the epoch, when the simulation job batch was created.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// A list of created simulation job request summaries.
     public var createdRequests: [RoboMakerClientTypes.SimulationJobSummary]?
     /// A list of failed simulation job requests. The request failed to be created into a simulation job. Failed requests do not have a simulation job ID.
@@ -7812,7 +7815,7 @@ public struct StartSimulationJobBatchOutput {
         arn: Swift.String? = nil,
         batchPolicy: RoboMakerClientTypes.BatchPolicy? = nil,
         clientRequestToken: Swift.String? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         createdRequests: [RoboMakerClientTypes.SimulationJobSummary]? = nil,
         failedRequests: [RoboMakerClientTypes.FailedCreateSimulationJobRequest]? = nil,
         failureCode: RoboMakerClientTypes.SimulationJobBatchErrorCode? = nil,
@@ -7838,7 +7841,7 @@ public struct StartSimulationJobBatchOutput {
 
 enum StartSimulationJobBatchOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7891,7 +7894,7 @@ public struct SyncDeploymentJobInput {
 
 extension SyncDeploymentJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SyncDeploymentJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SyncDeploymentJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7913,7 +7916,7 @@ public struct SyncDeploymentJobOutput {
     /// The Amazon Resource Name (ARN) of the synchronization request.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the fleet was created.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// Information about the deployment application configurations.
     public var deploymentApplicationConfigs: [RoboMakerClientTypes.DeploymentApplicationConfig]?
     /// Information about the deployment configuration.
@@ -7929,7 +7932,7 @@ public struct SyncDeploymentJobOutput {
 
     public init(
         arn: Swift.String? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         deploymentApplicationConfigs: [RoboMakerClientTypes.DeploymentApplicationConfig]? = nil,
         deploymentConfig: RoboMakerClientTypes.DeploymentConfig? = nil,
         failureCode: RoboMakerClientTypes.DeploymentJobErrorCode? = nil,
@@ -7951,7 +7954,7 @@ public struct SyncDeploymentJobOutput {
 
 enum SyncDeploymentJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8007,7 +8010,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -8019,7 +8022,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8085,9 +8088,9 @@ extension RoboMakerClientTypes {
         /// The Amazon Resource Name (ARN) of the template.
         public var arn: Swift.String?
         /// The time, in milliseconds since the epoch, when the template was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The time, in milliseconds since the epoch, when the template was last updated.
-        public var lastUpdatedAt: ClientRuntime.Date?
+        public var lastUpdatedAt: Foundation.Date?
         /// The name of the template.
         public var name: Swift.String?
         /// The version of the template that you're using.
@@ -8095,8 +8098,8 @@ extension RoboMakerClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
-            lastUpdatedAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
             name: Swift.String? = nil,
             version: Swift.String? = nil
         )
@@ -8207,14 +8210,14 @@ extension RoboMakerClientTypes {
 
 extension UntagResourceInput {
 
-    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let tagKeys = value.tagKeys else {
             let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
         tagKeys.forEach { queryItemValue in
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
             items.append(queryItem)
         }
         return items
@@ -8251,7 +8254,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -8263,7 +8266,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8329,7 +8332,7 @@ public struct UpdateRobotApplicationInput {
 
 extension UpdateRobotApplicationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateRobotApplicationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateRobotApplicationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8352,7 +8355,7 @@ public struct UpdateRobotApplicationOutput {
     /// The object that contains the Docker image URI for your robot application.
     public var environment: RoboMakerClientTypes.Environment?
     /// The time, in milliseconds since the epoch, when the robot application was last updated.
-    public var lastUpdatedAt: ClientRuntime.Date?
+    public var lastUpdatedAt: Foundation.Date?
     /// The name of the robot application.
     public var name: Swift.String?
     /// The revision id of the robot application.
@@ -8367,7 +8370,7 @@ public struct UpdateRobotApplicationOutput {
     public init(
         arn: Swift.String? = nil,
         environment: RoboMakerClientTypes.Environment? = nil,
-        lastUpdatedAt: ClientRuntime.Date? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
         revisionId: Swift.String? = nil,
         robotSoftwareSuite: RoboMakerClientTypes.RobotSoftwareSuite? = nil,
@@ -8388,7 +8391,7 @@ public struct UpdateRobotApplicationOutput {
 
 enum UpdateRobotApplicationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8466,7 +8469,7 @@ public struct UpdateSimulationApplicationInput {
 
 extension UpdateSimulationApplicationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateSimulationApplicationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateSimulationApplicationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8491,7 +8494,7 @@ public struct UpdateSimulationApplicationOutput {
     /// The object that contains the Docker image URI used for your simulation application.
     public var environment: RoboMakerClientTypes.Environment?
     /// The time, in milliseconds since the epoch, when the simulation application was last updated.
-    public var lastUpdatedAt: ClientRuntime.Date?
+    public var lastUpdatedAt: Foundation.Date?
     /// The name of the simulation application.
     public var name: Swift.String?
     /// The rendering engine for the simulation application.
@@ -8510,7 +8513,7 @@ public struct UpdateSimulationApplicationOutput {
     public init(
         arn: Swift.String? = nil,
         environment: RoboMakerClientTypes.Environment? = nil,
-        lastUpdatedAt: ClientRuntime.Date? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
         renderingEngine: RoboMakerClientTypes.RenderingEngine? = nil,
         revisionId: Swift.String? = nil,
@@ -8535,7 +8538,7 @@ public struct UpdateSimulationApplicationOutput {
 
 enum UpdateSimulationApplicationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8596,7 +8599,7 @@ public struct UpdateWorldTemplateInput {
 
 extension UpdateWorldTemplateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateWorldTemplateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateWorldTemplateOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8613,16 +8616,16 @@ public struct UpdateWorldTemplateOutput {
     /// The Amazon Resource Name (arn) of the world template.
     public var arn: Swift.String?
     /// The time, in milliseconds since the epoch, when the world template was created.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The time, in milliseconds since the epoch, when the world template was last updated.
-    public var lastUpdatedAt: ClientRuntime.Date?
+    public var lastUpdatedAt: Foundation.Date?
     /// The name of the world template.
     public var name: Swift.String?
 
     public init(
         arn: Swift.String? = nil,
-        createdAt: ClientRuntime.Date? = nil,
-        lastUpdatedAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
         name: Swift.String? = nil
     )
     {
@@ -8635,7 +8638,7 @@ public struct UpdateWorldTemplateOutput {
 
 enum UpdateWorldTemplateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8980,7 +8983,7 @@ extension RoboMakerClientTypes {
         /// The Amazon Resource Name (ARN) of the world export job.
         public var arn: Swift.String?
         /// The time, in milliseconds since the epoch, when the world export job was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The output location.
         public var outputLocation: RoboMakerClientTypes.OutputLocation?
         /// The status of the world export job. Pending The world export job request is pending. Running The world export job is running. Completed The world export job completed. Failed The world export job failed. See failureCode for more information. Canceled The world export job was cancelled. Canceling The world export job is being cancelled.
@@ -8990,7 +8993,7 @@ extension RoboMakerClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             outputLocation: RoboMakerClientTypes.OutputLocation? = nil,
             status: RoboMakerClientTypes.WorldExportJobStatus? = nil,
             worlds: [Swift.String]? = nil
@@ -9149,7 +9152,7 @@ extension RoboMakerClientTypes {
         /// The Amazon Resource Name (ARN) of the world generator job.
         public var arn: Swift.String?
         /// The time, in milliseconds since the epoch, when the world generator job was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The number of worlds that failed.
         public var failedWorldCount: Swift.Int
         /// The status of the world generator job: Pending The world generator job request is pending. Running The world generator job is running. Completed The world generator job completed. Failed The world generator job failed. See failureCode for more information. PartialFailed Some worlds did not generate. Canceled The world generator job was cancelled. Canceling The world generator job is being cancelled.
@@ -9163,7 +9166,7 @@ extension RoboMakerClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             failedWorldCount: Swift.Int = 0,
             status: RoboMakerClientTypes.WorldGenerationJobStatus? = nil,
             succeededWorldCount: Swift.Int = 0,
@@ -9202,7 +9205,7 @@ extension RoboMakerClientTypes {
         /// The Amazon Resource Name (ARN) of the world.
         public var arn: Swift.String?
         /// The time, in milliseconds since the epoch, when the world was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The Amazon Resource Name (arn) of the world generation job.
         public var generationJob: Swift.String?
         /// The Amazon Resource Name (arn) of the world template.
@@ -9210,7 +9213,7 @@ extension RoboMakerClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             generationJob: Swift.String? = nil,
             template: Swift.String? = nil
         )

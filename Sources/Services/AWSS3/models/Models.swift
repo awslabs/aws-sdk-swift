@@ -2,9 +2,15 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyEventStreams
+import SmithyEventStreamsAPI
+import SmithyHTTPAPI
 import SmithyReadWrite
 import SmithyRetries
 import SmithyXML
+import struct Foundation.URL
 import typealias Foundation.TimeInterval
 
 extension S3ClientTypes.AbortIncompleteMultipartUpload {
@@ -40,8 +46,8 @@ extension S3ClientTypes {
 
 extension AbortMultipartUploadInput {
 
-    static func headerProvider(_ value: AbortMultipartUploadInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: AbortMultipartUploadInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -54,14 +60,14 @@ extension AbortMultipartUploadInput {
 
 extension AbortMultipartUploadInput {
 
-    static func queryItemProvider(_ value: AbortMultipartUploadInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "x-id", value: "AbortMultipartUpload"))
+    static func queryItemProvider(_ value: AbortMultipartUploadInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "x-id", value: "AbortMultipartUpload"))
         guard let uploadId = value.uploadId else {
             let message = "Creating a URL Query Item failed. uploadId is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let uploadIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "uploadId".urlPercentEncoding(), value: Swift.String(uploadId).urlPercentEncoding())
+        let uploadIdQueryItem = Smithy.URIQueryItem(name: "uploadId".urlPercentEncoding(), value: Swift.String(uploadId).urlPercentEncoding())
         items.append(uploadIdQueryItem)
         return items
     }
@@ -110,7 +116,7 @@ public struct AbortMultipartUploadInput {
 
 extension AbortMultipartUploadOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AbortMultipartUploadOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AbortMultipartUploadOutput {
         var value = AbortMultipartUploadOutput()
         if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
             value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
@@ -133,7 +139,7 @@ public struct AbortMultipartUploadOutput {
 
 enum AbortMultipartUploadOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -519,12 +525,12 @@ extension S3ClientTypes {
     /// In terms of implementation, a Bucket is a resource.
     public struct Bucket {
         /// Date the bucket was created. This date can change when making changes to your bucket, such as editing its bucket policy.
-        public var creationDate: ClientRuntime.Date?
+        public var creationDate: Foundation.Date?
         /// The name of the bucket.
         public var name: Swift.String?
 
         public init(
-            creationDate: ClientRuntime.Date? = nil,
+            creationDate: Foundation.Date? = nil,
             name: Swift.String? = nil
         )
         {
@@ -1254,8 +1260,8 @@ extension CompleteMultipartUploadInput: Swift.CustomDebugStringConvertible {
 
 extension CompleteMultipartUploadInput {
 
-    static func headerProvider(_ value: CompleteMultipartUploadInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: CompleteMultipartUploadInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let checksumCRC32 = value.checksumCRC32 {
             items.add(Header(name: "x-amz-checksum-crc32", value: Swift.String(checksumCRC32)))
         }
@@ -1289,13 +1295,13 @@ extension CompleteMultipartUploadInput {
 
 extension CompleteMultipartUploadInput {
 
-    static func queryItemProvider(_ value: CompleteMultipartUploadInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: CompleteMultipartUploadInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let uploadId = value.uploadId else {
             let message = "Creating a URL Query Item failed. uploadId is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let uploadIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "uploadId".urlPercentEncoding(), value: Swift.String(uploadId).urlPercentEncoding())
+        let uploadIdQueryItem = Smithy.URIQueryItem(name: "uploadId".urlPercentEncoding(), value: Swift.String(uploadId).urlPercentEncoding())
         items.append(uploadIdQueryItem)
         return items
     }
@@ -1389,7 +1395,7 @@ extension CompleteMultipartUploadOutput: Swift.CustomDebugStringConvertible {
 
 extension CompleteMultipartUploadOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CompleteMultipartUploadOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CompleteMultipartUploadOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -1490,7 +1496,7 @@ public struct CompleteMultipartUploadOutput {
 
 enum CompleteMultipartUploadOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -1672,8 +1678,8 @@ extension CopyObjectInput: Swift.CustomDebugStringConvertible {
 
 extension CopyObjectInput {
 
-    static func headerProvider(_ value: CopyObjectInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: CopyObjectInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let acl = value.acl {
             items.add(Header(name: "x-amz-acl", value: Swift.String(acl.rawValue)))
         }
@@ -1799,9 +1805,9 @@ extension CopyObjectInput {
 
 extension CopyObjectInput {
 
-    static func queryItemProvider(_ value: CopyObjectInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "x-id", value: "CopyObject"))
+    static func queryItemProvider(_ value: CopyObjectInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "x-id", value: "CopyObject"))
         return items
     }
 }
@@ -1870,7 +1876,7 @@ public struct CopyObjectInput {
     /// * x-amz-copy-source-if-none-match condition evaluates to false
     ///
     /// * x-amz-copy-source-if-modified-since condition evaluates to true
-    public var copySourceIfModifiedSince: ClientRuntime.Date?
+    public var copySourceIfModifiedSince: Foundation.Date?
     /// Copies the object if its entity tag (ETag) is different than the specified ETag. If both the x-amz-copy-source-if-none-match and x-amz-copy-source-if-modified-since headers are present in the request and evaluate as follows, Amazon S3 returns the 412 Precondition Failed response code:
     ///
     /// * x-amz-copy-source-if-none-match condition evaluates to false
@@ -1882,7 +1888,7 @@ public struct CopyObjectInput {
     /// * x-amz-copy-source-if-match condition evaluates to true
     ///
     /// * x-amz-copy-source-if-unmodified-since condition evaluates to false
-    public var copySourceIfUnmodifiedSince: ClientRuntime.Date?
+    public var copySourceIfUnmodifiedSince: Foundation.Date?
     /// Specifies the algorithm to use when decrypting the source object (for example, AES256). If the source object for the copy is stored in Amazon S3 using SSE-C, you must provide the necessary encryption information in your request so that Amazon S3 can decrypt the object for copying. This functionality is not supported when the source object is in a directory bucket.
     public var copySourceSSECustomerAlgorithm: Swift.String?
     /// Specifies the customer-provided encryption key for Amazon S3 to use to decrypt the source object. The encryption key provided in this header must be the same one that was used when the source object was created. If the source object for the copy is stored in Amazon S3 using SSE-C, you must provide the necessary encryption information in your request so that Amazon S3 can decrypt the object for copying. This functionality is not supported when the source object is in a directory bucket.
@@ -1931,7 +1937,7 @@ public struct CopyObjectInput {
     /// The Object Lock mode that you want to apply to the object copy. This functionality is not supported for directory buckets.
     public var objectLockMode: S3ClientTypes.ObjectLockMode?
     /// The date and time when you want the Object Lock of the object copy to expire. This functionality is not supported for directory buckets.
-    public var objectLockRetainUntilDate: ClientRuntime.Date?
+    public var objectLockRetainUntilDate: Foundation.Date?
     /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for corresponding charges to copy the object. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
     public var requestPayer: S3ClientTypes.RequestPayer?
     /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms, aws:kms:dsse). Unrecognized or unsupported values won’t write a destination object and will receive a 400 Bad Request response. Amazon S3 automatically encrypts all new objects that are copied to an S3 bucket. When copying an object, if you don't specify encryption information in your copy request, the encryption setting of the target object is set to the default encryption configuration of the destination bucket. By default, all buckets have a base level of encryption configuration that uses server-side encryption with Amazon S3 managed keys (SSE-S3). If the destination bucket has a default encryption configuration that uses server-side encryption with Key Management Service (KMS) keys (SSE-KMS), dual-layer server-side encryption with Amazon Web Services KMS keys (DSSE-KMS), or server-side encryption with customer-provided encryption keys (SSE-C), Amazon S3 uses the corresponding KMS key, or a customer-provided key to encrypt the target object copy. When you perform a CopyObject operation, if you want to use a different type of encryption setting for the target object, you can specify appropriate encryption-related headers to encrypt the target object with an Amazon S3 managed key, a KMS key, or a customer-provided key. If the encryption setting in your request is different from the default encryption configuration of the destination bucket, the encryption setting in your request takes precedence. With server-side encryption, Amazon S3 encrypts your data as it writes your data to disks in its data centers and decrypts the data when you access it. For more information about server-side encryption, see [Using Server-Side Encryption](https://docs.aws.amazon.com/AmazonS3/latest/dev/serv-side-encryption.html) in the Amazon S3 User Guide. For directory buckets, only server-side encryption with Amazon S3 managed keys (SSE-S3) (AES256) is supported.
@@ -2015,9 +2021,9 @@ public struct CopyObjectInput {
         contentType: Swift.String? = nil,
         copySource: Swift.String? = nil,
         copySourceIfMatch: Swift.String? = nil,
-        copySourceIfModifiedSince: ClientRuntime.Date? = nil,
+        copySourceIfModifiedSince: Foundation.Date? = nil,
         copySourceIfNoneMatch: Swift.String? = nil,
-        copySourceIfUnmodifiedSince: ClientRuntime.Date? = nil,
+        copySourceIfUnmodifiedSince: Foundation.Date? = nil,
         copySourceSSECustomerAlgorithm: Swift.String? = nil,
         copySourceSSECustomerKey: Swift.String? = nil,
         copySourceSSECustomerKeyMD5: Swift.String? = nil,
@@ -2033,7 +2039,7 @@ public struct CopyObjectInput {
         metadataDirective: S3ClientTypes.MetadataDirective? = nil,
         objectLockLegalHoldStatus: S3ClientTypes.ObjectLockLegalHoldStatus? = nil,
         objectLockMode: S3ClientTypes.ObjectLockMode? = nil,
-        objectLockRetainUntilDate: ClientRuntime.Date? = nil,
+        objectLockRetainUntilDate: Foundation.Date? = nil,
         requestPayer: S3ClientTypes.RequestPayer? = nil,
         serverSideEncryption: S3ClientTypes.ServerSideEncryption? = nil,
         sseCustomerAlgorithm: Swift.String? = nil,
@@ -2098,7 +2104,7 @@ extension CopyObjectOutput: Swift.CustomDebugStringConvertible {
 
 extension CopyObjectOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CopyObjectOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CopyObjectOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -2192,7 +2198,7 @@ public struct CopyObjectOutput {
 
 enum CopyObjectOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -2234,7 +2240,7 @@ extension S3ClientTypes {
         /// Returns the ETag of the new object. The ETag reflects only changes to the contents of an object, not its metadata.
         public var eTag: Swift.String?
         /// Creation date of the object.
-        public var lastModified: ClientRuntime.Date?
+        public var lastModified: Foundation.Date?
 
         public init(
             checksumCRC32: Swift.String? = nil,
@@ -2242,7 +2248,7 @@ extension S3ClientTypes {
             checksumSHA1: Swift.String? = nil,
             checksumSHA256: Swift.String? = nil,
             eTag: Swift.String? = nil,
-            lastModified: ClientRuntime.Date? = nil
+            lastModified: Foundation.Date? = nil
         )
         {
             self.checksumCRC32 = checksumCRC32
@@ -2285,7 +2291,7 @@ extension S3ClientTypes {
         /// Entity tag of the object.
         public var eTag: Swift.String?
         /// Date and time at which the object was uploaded.
-        public var lastModified: ClientRuntime.Date?
+        public var lastModified: Foundation.Date?
 
         public init(
             checksumCRC32: Swift.String? = nil,
@@ -2293,7 +2299,7 @@ extension S3ClientTypes {
             checksumSHA1: Swift.String? = nil,
             checksumSHA256: Swift.String? = nil,
             eTag: Swift.String? = nil,
-            lastModified: ClientRuntime.Date? = nil
+            lastModified: Foundation.Date? = nil
         )
         {
             self.checksumCRC32 = checksumCRC32
@@ -2343,8 +2349,8 @@ extension S3ClientTypes {
 
 extension CreateBucketInput {
 
-    static func headerProvider(_ value: CreateBucketInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: CreateBucketInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let acl = value.acl {
             items.add(Header(name: "x-amz-acl", value: Swift.String(acl.rawValue)))
         }
@@ -2439,7 +2445,7 @@ public struct CreateBucketInput {
 
 extension CreateBucketOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateBucketOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateBucketOutput {
         var value = CreateBucketOutput()
         if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
             value.location = locationHeaderValue
@@ -2462,7 +2468,7 @@ public struct CreateBucketOutput {
 
 enum CreateBucketOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -2483,8 +2489,8 @@ extension CreateMultipartUploadInput: Swift.CustomDebugStringConvertible {
 
 extension CreateMultipartUploadInput {
 
-    static func headerProvider(_ value: CreateMultipartUploadInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: CreateMultipartUploadInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let acl = value.acl {
             items.add(Header(name: "x-amz-acl", value: Swift.String(acl.rawValue)))
         }
@@ -2577,9 +2583,9 @@ extension CreateMultipartUploadInput {
 
 extension CreateMultipartUploadInput {
 
-    static func queryItemProvider(_ value: CreateMultipartUploadInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "uploads", value: nil))
+    static func queryItemProvider(_ value: CreateMultipartUploadInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "uploads", value: nil))
         return items
     }
 }
@@ -2768,7 +2774,7 @@ public struct CreateMultipartUploadInput {
     /// Specifies the Object Lock mode that you want to apply to the uploaded object. This functionality is not supported for directory buckets.
     public var objectLockMode: S3ClientTypes.ObjectLockMode?
     /// Specifies the date and time when you want the Object Lock to expire. This functionality is not supported for directory buckets.
-    public var objectLockRetainUntilDate: ClientRuntime.Date?
+    public var objectLockRetainUntilDate: Foundation.Date?
     /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for corresponding charges to copy the object. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
     public var requestPayer: S3ClientTypes.RequestPayer?
     /// The server-side encryption algorithm used when you store this object in Amazon S3 (for example, AES256, aws:kms). For directory buckets, only server-side encryption with Amazon S3 managed keys (SSE-S3) (AES256) is supported.
@@ -2814,7 +2820,7 @@ public struct CreateMultipartUploadInput {
         metadata: [Swift.String:Swift.String]? = nil,
         objectLockLegalHoldStatus: S3ClientTypes.ObjectLockLegalHoldStatus? = nil,
         objectLockMode: S3ClientTypes.ObjectLockMode? = nil,
-        objectLockRetainUntilDate: ClientRuntime.Date? = nil,
+        objectLockRetainUntilDate: Foundation.Date? = nil,
         requestPayer: S3ClientTypes.RequestPayer? = nil,
         serverSideEncryption: S3ClientTypes.ServerSideEncryption? = nil,
         sseCustomerAlgorithm: Swift.String? = nil,
@@ -2867,7 +2873,7 @@ extension CreateMultipartUploadOutput: Swift.CustomDebugStringConvertible {
 
 extension CreateMultipartUploadOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateMultipartUploadOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateMultipartUploadOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -2911,7 +2917,7 @@ extension CreateMultipartUploadOutput {
 
 public struct CreateMultipartUploadOutput {
     /// If the bucket has a lifecycle rule configured with an action to abort incomplete multipart uploads and the prefix in the lifecycle rule matches the object name in the request, the response includes this header. The header indicates when the initiated multipart upload becomes eligible for an abort operation. For more information, see [ Aborting Incomplete Multipart Uploads Using a Bucket Lifecycle Configuration](https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html#mpu-abort-incomplete-mpu-lifecycle-config) in the Amazon S3 User Guide. The response also includes the x-amz-abort-rule-id header that provides the ID of the lifecycle configuration rule that defines the abort action. This functionality is not supported for directory buckets.
-    public var abortDate: ClientRuntime.Date?
+    public var abortDate: Foundation.Date?
     /// This header is returned along with the x-amz-abort-date header. It identifies the applicable lifecycle configuration rule that defines the action to abort incomplete multipart uploads. This functionality is not supported for directory buckets.
     public var abortRuleId: Swift.String?
     /// The name of the bucket to which the multipart upload was initiated. Does not return the access point ARN or access point alias if used. Access points are not supported by directory buckets.
@@ -2938,7 +2944,7 @@ public struct CreateMultipartUploadOutput {
     public var uploadId: Swift.String?
 
     public init(
-        abortDate: ClientRuntime.Date? = nil,
+        abortDate: Foundation.Date? = nil,
         abortRuleId: Swift.String? = nil,
         bucket: Swift.String? = nil,
         bucketKeyEnabled: Swift.Bool? = nil,
@@ -2971,7 +2977,7 @@ public struct CreateMultipartUploadOutput {
 
 enum CreateMultipartUploadOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -2985,8 +2991,8 @@ enum CreateMultipartUploadOutputError {
 
 extension CreateSessionInput {
 
-    static func headerProvider(_ value: CreateSessionInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: CreateSessionInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let sessionMode = value.sessionMode {
             items.add(Header(name: "x-amz-create-session-mode", value: Swift.String(sessionMode.rawValue)))
         }
@@ -2996,9 +3002,9 @@ extension CreateSessionInput {
 
 extension CreateSessionInput {
 
-    static func queryItemProvider(_ value: CreateSessionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "session", value: nil))
+    static func queryItemProvider(_ value: CreateSessionInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "session", value: nil))
         return items
     }
 }
@@ -3029,7 +3035,7 @@ public struct CreateSessionInput {
 
 extension CreateSessionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateSessionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateSessionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -3054,7 +3060,7 @@ public struct CreateSessionOutput {
 
 enum CreateSessionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -3172,8 +3178,8 @@ extension S3ClientTypes {
 
 extension DeleteBucketAnalyticsConfigurationInput {
 
-    static func headerProvider(_ value: DeleteBucketAnalyticsConfigurationInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteBucketAnalyticsConfigurationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -3183,14 +3189,14 @@ extension DeleteBucketAnalyticsConfigurationInput {
 
 extension DeleteBucketAnalyticsConfigurationInput {
 
-    static func queryItemProvider(_ value: DeleteBucketAnalyticsConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "analytics", value: nil))
+    static func queryItemProvider(_ value: DeleteBucketAnalyticsConfigurationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "analytics", value: nil))
         guard let id = value.id else {
             let message = "Creating a URL Query Item failed. id is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let idQueryItem = ClientRuntime.SDKURLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
+        let idQueryItem = Smithy.URIQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
         items.append(idQueryItem)
         return items
     }
@@ -3227,7 +3233,7 @@ public struct DeleteBucketAnalyticsConfigurationInput {
 
 extension DeleteBucketAnalyticsConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBucketAnalyticsConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteBucketAnalyticsConfigurationOutput {
         return DeleteBucketAnalyticsConfigurationOutput()
     }
 }
@@ -3239,7 +3245,7 @@ public struct DeleteBucketAnalyticsConfigurationOutput {
 
 enum DeleteBucketAnalyticsConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -3253,8 +3259,8 @@ enum DeleteBucketAnalyticsConfigurationOutputError {
 
 extension DeleteBucketCorsInput {
 
-    static func headerProvider(_ value: DeleteBucketCorsInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteBucketCorsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -3264,9 +3270,9 @@ extension DeleteBucketCorsInput {
 
 extension DeleteBucketCorsInput {
 
-    static func queryItemProvider(_ value: DeleteBucketCorsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "cors", value: nil))
+    static func queryItemProvider(_ value: DeleteBucketCorsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "cors", value: nil))
         return items
     }
 }
@@ -3297,7 +3303,7 @@ public struct DeleteBucketCorsInput {
 
 extension DeleteBucketCorsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBucketCorsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteBucketCorsOutput {
         return DeleteBucketCorsOutput()
     }
 }
@@ -3309,7 +3315,7 @@ public struct DeleteBucketCorsOutput {
 
 enum DeleteBucketCorsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -3323,8 +3329,8 @@ enum DeleteBucketCorsOutputError {
 
 extension DeleteBucketEncryptionInput {
 
-    static func headerProvider(_ value: DeleteBucketEncryptionInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteBucketEncryptionInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -3334,9 +3340,9 @@ extension DeleteBucketEncryptionInput {
 
 extension DeleteBucketEncryptionInput {
 
-    static func queryItemProvider(_ value: DeleteBucketEncryptionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "encryption", value: nil))
+    static func queryItemProvider(_ value: DeleteBucketEncryptionInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "encryption", value: nil))
         return items
     }
 }
@@ -3367,7 +3373,7 @@ public struct DeleteBucketEncryptionInput {
 
 extension DeleteBucketEncryptionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBucketEncryptionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteBucketEncryptionOutput {
         return DeleteBucketEncryptionOutput()
     }
 }
@@ -3379,7 +3385,7 @@ public struct DeleteBucketEncryptionOutput {
 
 enum DeleteBucketEncryptionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -3393,8 +3399,8 @@ enum DeleteBucketEncryptionOutputError {
 
 extension DeleteBucketInput {
 
-    static func headerProvider(_ value: DeleteBucketInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteBucketInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -3428,14 +3434,14 @@ public struct DeleteBucketInput {
 
 extension DeleteBucketIntelligentTieringConfigurationInput {
 
-    static func queryItemProvider(_ value: DeleteBucketIntelligentTieringConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "intelligent-tiering", value: nil))
+    static func queryItemProvider(_ value: DeleteBucketIntelligentTieringConfigurationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "intelligent-tiering", value: nil))
         guard let id = value.id else {
             let message = "Creating a URL Query Item failed. id is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let idQueryItem = ClientRuntime.SDKURLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
+        let idQueryItem = Smithy.URIQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
         items.append(idQueryItem)
         return items
     }
@@ -3468,7 +3474,7 @@ public struct DeleteBucketIntelligentTieringConfigurationInput {
 
 extension DeleteBucketIntelligentTieringConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBucketIntelligentTieringConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteBucketIntelligentTieringConfigurationOutput {
         return DeleteBucketIntelligentTieringConfigurationOutput()
     }
 }
@@ -3480,7 +3486,7 @@ public struct DeleteBucketIntelligentTieringConfigurationOutput {
 
 enum DeleteBucketIntelligentTieringConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -3494,8 +3500,8 @@ enum DeleteBucketIntelligentTieringConfigurationOutputError {
 
 extension DeleteBucketInventoryConfigurationInput {
 
-    static func headerProvider(_ value: DeleteBucketInventoryConfigurationInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteBucketInventoryConfigurationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -3505,14 +3511,14 @@ extension DeleteBucketInventoryConfigurationInput {
 
 extension DeleteBucketInventoryConfigurationInput {
 
-    static func queryItemProvider(_ value: DeleteBucketInventoryConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "inventory", value: nil))
+    static func queryItemProvider(_ value: DeleteBucketInventoryConfigurationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "inventory", value: nil))
         guard let id = value.id else {
             let message = "Creating a URL Query Item failed. id is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let idQueryItem = ClientRuntime.SDKURLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
+        let idQueryItem = Smithy.URIQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
         items.append(idQueryItem)
         return items
     }
@@ -3549,7 +3555,7 @@ public struct DeleteBucketInventoryConfigurationInput {
 
 extension DeleteBucketInventoryConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBucketInventoryConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteBucketInventoryConfigurationOutput {
         return DeleteBucketInventoryConfigurationOutput()
     }
 }
@@ -3561,7 +3567,7 @@ public struct DeleteBucketInventoryConfigurationOutput {
 
 enum DeleteBucketInventoryConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -3575,8 +3581,8 @@ enum DeleteBucketInventoryConfigurationOutputError {
 
 extension DeleteBucketLifecycleInput {
 
-    static func headerProvider(_ value: DeleteBucketLifecycleInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteBucketLifecycleInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -3586,9 +3592,9 @@ extension DeleteBucketLifecycleInput {
 
 extension DeleteBucketLifecycleInput {
 
-    static func queryItemProvider(_ value: DeleteBucketLifecycleInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "lifecycle", value: nil))
+    static func queryItemProvider(_ value: DeleteBucketLifecycleInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "lifecycle", value: nil))
         return items
     }
 }
@@ -3619,7 +3625,7 @@ public struct DeleteBucketLifecycleInput {
 
 extension DeleteBucketLifecycleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBucketLifecycleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteBucketLifecycleOutput {
         return DeleteBucketLifecycleOutput()
     }
 }
@@ -3631,7 +3637,7 @@ public struct DeleteBucketLifecycleOutput {
 
 enum DeleteBucketLifecycleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -3645,8 +3651,8 @@ enum DeleteBucketLifecycleOutputError {
 
 extension DeleteBucketMetricsConfigurationInput {
 
-    static func headerProvider(_ value: DeleteBucketMetricsConfigurationInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteBucketMetricsConfigurationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -3656,14 +3662,14 @@ extension DeleteBucketMetricsConfigurationInput {
 
 extension DeleteBucketMetricsConfigurationInput {
 
-    static func queryItemProvider(_ value: DeleteBucketMetricsConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "metrics", value: nil))
+    static func queryItemProvider(_ value: DeleteBucketMetricsConfigurationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "metrics", value: nil))
         guard let id = value.id else {
             let message = "Creating a URL Query Item failed. id is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let idQueryItem = ClientRuntime.SDKURLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
+        let idQueryItem = Smithy.URIQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
         items.append(idQueryItem)
         return items
     }
@@ -3700,7 +3706,7 @@ public struct DeleteBucketMetricsConfigurationInput {
 
 extension DeleteBucketMetricsConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBucketMetricsConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteBucketMetricsConfigurationOutput {
         return DeleteBucketMetricsConfigurationOutput()
     }
 }
@@ -3712,7 +3718,7 @@ public struct DeleteBucketMetricsConfigurationOutput {
 
 enum DeleteBucketMetricsConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -3726,7 +3732,7 @@ enum DeleteBucketMetricsConfigurationOutputError {
 
 extension DeleteBucketOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBucketOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteBucketOutput {
         return DeleteBucketOutput()
     }
 }
@@ -3738,7 +3744,7 @@ public struct DeleteBucketOutput {
 
 enum DeleteBucketOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -3752,8 +3758,8 @@ enum DeleteBucketOutputError {
 
 extension DeleteBucketOwnershipControlsInput {
 
-    static func headerProvider(_ value: DeleteBucketOwnershipControlsInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteBucketOwnershipControlsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -3763,9 +3769,9 @@ extension DeleteBucketOwnershipControlsInput {
 
 extension DeleteBucketOwnershipControlsInput {
 
-    static func queryItemProvider(_ value: DeleteBucketOwnershipControlsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "ownershipControls", value: nil))
+    static func queryItemProvider(_ value: DeleteBucketOwnershipControlsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "ownershipControls", value: nil))
         return items
     }
 }
@@ -3796,7 +3802,7 @@ public struct DeleteBucketOwnershipControlsInput {
 
 extension DeleteBucketOwnershipControlsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBucketOwnershipControlsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteBucketOwnershipControlsOutput {
         return DeleteBucketOwnershipControlsOutput()
     }
 }
@@ -3808,7 +3814,7 @@ public struct DeleteBucketOwnershipControlsOutput {
 
 enum DeleteBucketOwnershipControlsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -3822,8 +3828,8 @@ enum DeleteBucketOwnershipControlsOutputError {
 
 extension DeleteBucketPolicyInput {
 
-    static func headerProvider(_ value: DeleteBucketPolicyInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteBucketPolicyInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -3833,9 +3839,9 @@ extension DeleteBucketPolicyInput {
 
 extension DeleteBucketPolicyInput {
 
-    static func queryItemProvider(_ value: DeleteBucketPolicyInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "policy", value: nil))
+    static func queryItemProvider(_ value: DeleteBucketPolicyInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "policy", value: nil))
         return items
     }
 }
@@ -3866,7 +3872,7 @@ public struct DeleteBucketPolicyInput {
 
 extension DeleteBucketPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBucketPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteBucketPolicyOutput {
         return DeleteBucketPolicyOutput()
     }
 }
@@ -3878,7 +3884,7 @@ public struct DeleteBucketPolicyOutput {
 
 enum DeleteBucketPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -3892,8 +3898,8 @@ enum DeleteBucketPolicyOutputError {
 
 extension DeleteBucketReplicationInput {
 
-    static func headerProvider(_ value: DeleteBucketReplicationInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteBucketReplicationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -3903,9 +3909,9 @@ extension DeleteBucketReplicationInput {
 
 extension DeleteBucketReplicationInput {
 
-    static func queryItemProvider(_ value: DeleteBucketReplicationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "replication", value: nil))
+    static func queryItemProvider(_ value: DeleteBucketReplicationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "replication", value: nil))
         return items
     }
 }
@@ -3936,7 +3942,7 @@ public struct DeleteBucketReplicationInput {
 
 extension DeleteBucketReplicationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBucketReplicationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteBucketReplicationOutput {
         return DeleteBucketReplicationOutput()
     }
 }
@@ -3948,7 +3954,7 @@ public struct DeleteBucketReplicationOutput {
 
 enum DeleteBucketReplicationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -3962,8 +3968,8 @@ enum DeleteBucketReplicationOutputError {
 
 extension DeleteBucketTaggingInput {
 
-    static func headerProvider(_ value: DeleteBucketTaggingInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteBucketTaggingInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -3973,9 +3979,9 @@ extension DeleteBucketTaggingInput {
 
 extension DeleteBucketTaggingInput {
 
-    static func queryItemProvider(_ value: DeleteBucketTaggingInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "tagging", value: nil))
+    static func queryItemProvider(_ value: DeleteBucketTaggingInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "tagging", value: nil))
         return items
     }
 }
@@ -4006,7 +4012,7 @@ public struct DeleteBucketTaggingInput {
 
 extension DeleteBucketTaggingOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBucketTaggingOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteBucketTaggingOutput {
         return DeleteBucketTaggingOutput()
     }
 }
@@ -4018,7 +4024,7 @@ public struct DeleteBucketTaggingOutput {
 
 enum DeleteBucketTaggingOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -4032,8 +4038,8 @@ enum DeleteBucketTaggingOutputError {
 
 extension DeleteBucketWebsiteInput {
 
-    static func headerProvider(_ value: DeleteBucketWebsiteInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteBucketWebsiteInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -4043,9 +4049,9 @@ extension DeleteBucketWebsiteInput {
 
 extension DeleteBucketWebsiteInput {
 
-    static func queryItemProvider(_ value: DeleteBucketWebsiteInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "website", value: nil))
+    static func queryItemProvider(_ value: DeleteBucketWebsiteInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "website", value: nil))
         return items
     }
 }
@@ -4076,7 +4082,7 @@ public struct DeleteBucketWebsiteInput {
 
 extension DeleteBucketWebsiteOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBucketWebsiteOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteBucketWebsiteOutput {
         return DeleteBucketWebsiteOutput()
     }
 }
@@ -4088,7 +4094,7 @@ public struct DeleteBucketWebsiteOutput {
 
 enum DeleteBucketWebsiteOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -4122,7 +4128,7 @@ extension S3ClientTypes {
         /// The object key.
         public var key: Swift.String?
         /// Date and time when the object was last modified.
-        public var lastModified: ClientRuntime.Date?
+        public var lastModified: Foundation.Date?
         /// The account that created the delete marker.>
         public var owner: S3ClientTypes.Owner?
         /// Version ID of an object.
@@ -4131,7 +4137,7 @@ extension S3ClientTypes {
         public init(
             isLatest: Swift.Bool? = nil,
             key: Swift.String? = nil,
-            lastModified: ClientRuntime.Date? = nil,
+            lastModified: Foundation.Date? = nil,
             owner: S3ClientTypes.Owner? = nil,
             versionId: Swift.String? = nil
         )
@@ -4208,8 +4214,8 @@ extension S3ClientTypes {
 
 extension DeleteObjectInput {
 
-    static func headerProvider(_ value: DeleteObjectInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteObjectInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let bypassGovernanceRetention = value.bypassGovernanceRetention {
             items.add(Header(name: "x-amz-bypass-governance-retention", value: Swift.String(bypassGovernanceRetention)))
         }
@@ -4228,11 +4234,11 @@ extension DeleteObjectInput {
 
 extension DeleteObjectInput {
 
-    static func queryItemProvider(_ value: DeleteObjectInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "x-id", value: "DeleteObject"))
+    static func queryItemProvider(_ value: DeleteObjectInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "x-id", value: "DeleteObject"))
         if let versionId = value.versionId {
-            let versionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+            let versionIdQueryItem = Smithy.URIQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
             items.append(versionIdQueryItem)
         }
         return items
@@ -4289,7 +4295,7 @@ public struct DeleteObjectInput {
 
 extension DeleteObjectOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteObjectOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteObjectOutput {
         var value = DeleteObjectOutput()
         if let deleteMarkerHeaderValue = httpResponse.headers.value(for: "x-amz-delete-marker") {
             value.deleteMarker = Swift.Bool(deleteMarkerHeaderValue) ?? false
@@ -4326,7 +4332,7 @@ public struct DeleteObjectOutput {
 
 enum DeleteObjectOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -4340,8 +4346,8 @@ enum DeleteObjectOutputError {
 
 extension DeleteObjectTaggingInput {
 
-    static func headerProvider(_ value: DeleteObjectTaggingInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteObjectTaggingInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -4351,11 +4357,11 @@ extension DeleteObjectTaggingInput {
 
 extension DeleteObjectTaggingInput {
 
-    static func queryItemProvider(_ value: DeleteObjectTaggingInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "tagging", value: nil))
+    static func queryItemProvider(_ value: DeleteObjectTaggingInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "tagging", value: nil))
         if let versionId = value.versionId {
-            let versionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+            let versionIdQueryItem = Smithy.URIQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
             items.append(versionIdQueryItem)
         }
         return items
@@ -4400,7 +4406,7 @@ public struct DeleteObjectTaggingInput {
 
 extension DeleteObjectTaggingOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteObjectTaggingOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteObjectTaggingOutput {
         var value = DeleteObjectTaggingOutput()
         if let versionIdHeaderValue = httpResponse.headers.value(for: "x-amz-version-id") {
             value.versionId = versionIdHeaderValue
@@ -4423,7 +4429,7 @@ public struct DeleteObjectTaggingOutput {
 
 enum DeleteObjectTaggingOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -4437,8 +4443,8 @@ enum DeleteObjectTaggingOutputError {
 
 extension DeleteObjectsInput {
 
-    static func headerProvider(_ value: DeleteObjectsInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteObjectsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let bypassGovernanceRetention = value.bypassGovernanceRetention {
             items.add(Header(name: "x-amz-bypass-governance-retention", value: Swift.String(bypassGovernanceRetention)))
         }
@@ -4460,9 +4466,9 @@ extension DeleteObjectsInput {
 
 extension DeleteObjectsInput {
 
-    static func queryItemProvider(_ value: DeleteObjectsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "delete", value: nil))
+    static func queryItemProvider(_ value: DeleteObjectsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "delete", value: nil))
         return items
     }
 }
@@ -4533,7 +4539,7 @@ public struct DeleteObjectsInput {
 
 extension DeleteObjectsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteObjectsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteObjectsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -4569,7 +4575,7 @@ public struct DeleteObjectsOutput {
 
 enum DeleteObjectsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -4583,8 +4589,8 @@ enum DeleteObjectsOutputError {
 
 extension DeletePublicAccessBlockInput {
 
-    static func headerProvider(_ value: DeletePublicAccessBlockInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeletePublicAccessBlockInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -4594,9 +4600,9 @@ extension DeletePublicAccessBlockInput {
 
 extension DeletePublicAccessBlockInput {
 
-    static func queryItemProvider(_ value: DeletePublicAccessBlockInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "publicAccessBlock", value: nil))
+    static func queryItemProvider(_ value: DeletePublicAccessBlockInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "publicAccessBlock", value: nil))
         return items
     }
 }
@@ -4627,7 +4633,7 @@ public struct DeletePublicAccessBlockInput {
 
 extension DeletePublicAccessBlockOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeletePublicAccessBlockOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeletePublicAccessBlockOutput {
         return DeletePublicAccessBlockOutput()
     }
 }
@@ -4639,7 +4645,7 @@ public struct DeletePublicAccessBlockOutput {
 
 enum DeletePublicAccessBlockOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -6344,8 +6350,8 @@ extension S3ClientTypes {
 
 extension GetBucketAccelerateConfigurationInput {
 
-    static func headerProvider(_ value: GetBucketAccelerateConfigurationInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetBucketAccelerateConfigurationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -6358,9 +6364,9 @@ extension GetBucketAccelerateConfigurationInput {
 
 extension GetBucketAccelerateConfigurationInput {
 
-    static func queryItemProvider(_ value: GetBucketAccelerateConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "accelerate", value: nil))
+    static func queryItemProvider(_ value: GetBucketAccelerateConfigurationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "accelerate", value: nil))
         return items
     }
 }
@@ -6395,7 +6401,7 @@ public struct GetBucketAccelerateConfigurationInput {
 
 extension GetBucketAccelerateConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketAccelerateConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetBucketAccelerateConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -6426,7 +6432,7 @@ public struct GetBucketAccelerateConfigurationOutput {
 
 enum GetBucketAccelerateConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -6440,8 +6446,8 @@ enum GetBucketAccelerateConfigurationOutputError {
 
 extension GetBucketAclInput {
 
-    static func headerProvider(_ value: GetBucketAclInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetBucketAclInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -6451,9 +6457,9 @@ extension GetBucketAclInput {
 
 extension GetBucketAclInput {
 
-    static func queryItemProvider(_ value: GetBucketAclInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "acl", value: nil))
+    static func queryItemProvider(_ value: GetBucketAclInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "acl", value: nil))
         return items
     }
 }
@@ -6484,7 +6490,7 @@ public struct GetBucketAclInput {
 
 extension GetBucketAclOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketAclOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetBucketAclOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -6513,7 +6519,7 @@ public struct GetBucketAclOutput {
 
 enum GetBucketAclOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -6527,8 +6533,8 @@ enum GetBucketAclOutputError {
 
 extension GetBucketAnalyticsConfigurationInput {
 
-    static func headerProvider(_ value: GetBucketAnalyticsConfigurationInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetBucketAnalyticsConfigurationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -6538,15 +6544,15 @@ extension GetBucketAnalyticsConfigurationInput {
 
 extension GetBucketAnalyticsConfigurationInput {
 
-    static func queryItemProvider(_ value: GetBucketAnalyticsConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "analytics", value: nil))
-        items.append(ClientRuntime.SDKURLQueryItem(name: "x-id", value: "GetBucketAnalyticsConfiguration"))
+    static func queryItemProvider(_ value: GetBucketAnalyticsConfigurationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "analytics", value: nil))
+        items.append(Smithy.URIQueryItem(name: "x-id", value: "GetBucketAnalyticsConfiguration"))
         guard let id = value.id else {
             let message = "Creating a URL Query Item failed. id is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let idQueryItem = ClientRuntime.SDKURLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
+        let idQueryItem = Smithy.URIQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
         items.append(idQueryItem)
         return items
     }
@@ -6583,7 +6589,7 @@ public struct GetBucketAnalyticsConfigurationInput {
 
 extension GetBucketAnalyticsConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketAnalyticsConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetBucketAnalyticsConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -6607,7 +6613,7 @@ public struct GetBucketAnalyticsConfigurationOutput {
 
 enum GetBucketAnalyticsConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -6621,8 +6627,8 @@ enum GetBucketAnalyticsConfigurationOutputError {
 
 extension GetBucketCorsInput {
 
-    static func headerProvider(_ value: GetBucketCorsInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetBucketCorsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -6632,9 +6638,9 @@ extension GetBucketCorsInput {
 
 extension GetBucketCorsInput {
 
-    static func queryItemProvider(_ value: GetBucketCorsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "cors", value: nil))
+    static func queryItemProvider(_ value: GetBucketCorsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "cors", value: nil))
         return items
     }
 }
@@ -6665,7 +6671,7 @@ public struct GetBucketCorsInput {
 
 extension GetBucketCorsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketCorsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetBucketCorsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -6689,7 +6695,7 @@ public struct GetBucketCorsOutput {
 
 enum GetBucketCorsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -6703,8 +6709,8 @@ enum GetBucketCorsOutputError {
 
 extension GetBucketEncryptionInput {
 
-    static func headerProvider(_ value: GetBucketEncryptionInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetBucketEncryptionInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -6714,9 +6720,9 @@ extension GetBucketEncryptionInput {
 
 extension GetBucketEncryptionInput {
 
-    static func queryItemProvider(_ value: GetBucketEncryptionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "encryption", value: nil))
+    static func queryItemProvider(_ value: GetBucketEncryptionInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "encryption", value: nil))
         return items
     }
 }
@@ -6747,7 +6753,7 @@ public struct GetBucketEncryptionInput {
 
 extension GetBucketEncryptionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketEncryptionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetBucketEncryptionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -6771,7 +6777,7 @@ public struct GetBucketEncryptionOutput {
 
 enum GetBucketEncryptionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -6785,15 +6791,15 @@ enum GetBucketEncryptionOutputError {
 
 extension GetBucketIntelligentTieringConfigurationInput {
 
-    static func queryItemProvider(_ value: GetBucketIntelligentTieringConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "intelligent-tiering", value: nil))
-        items.append(ClientRuntime.SDKURLQueryItem(name: "x-id", value: "GetBucketIntelligentTieringConfiguration"))
+    static func queryItemProvider(_ value: GetBucketIntelligentTieringConfigurationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "intelligent-tiering", value: nil))
+        items.append(Smithy.URIQueryItem(name: "x-id", value: "GetBucketIntelligentTieringConfiguration"))
         guard let id = value.id else {
             let message = "Creating a URL Query Item failed. id is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let idQueryItem = ClientRuntime.SDKURLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
+        let idQueryItem = Smithy.URIQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
         items.append(idQueryItem)
         return items
     }
@@ -6826,7 +6832,7 @@ public struct GetBucketIntelligentTieringConfigurationInput {
 
 extension GetBucketIntelligentTieringConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketIntelligentTieringConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetBucketIntelligentTieringConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -6850,7 +6856,7 @@ public struct GetBucketIntelligentTieringConfigurationOutput {
 
 enum GetBucketIntelligentTieringConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -6864,8 +6870,8 @@ enum GetBucketIntelligentTieringConfigurationOutputError {
 
 extension GetBucketInventoryConfigurationInput {
 
-    static func headerProvider(_ value: GetBucketInventoryConfigurationInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetBucketInventoryConfigurationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -6875,15 +6881,15 @@ extension GetBucketInventoryConfigurationInput {
 
 extension GetBucketInventoryConfigurationInput {
 
-    static func queryItemProvider(_ value: GetBucketInventoryConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "inventory", value: nil))
-        items.append(ClientRuntime.SDKURLQueryItem(name: "x-id", value: "GetBucketInventoryConfiguration"))
+    static func queryItemProvider(_ value: GetBucketInventoryConfigurationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "inventory", value: nil))
+        items.append(Smithy.URIQueryItem(name: "x-id", value: "GetBucketInventoryConfiguration"))
         guard let id = value.id else {
             let message = "Creating a URL Query Item failed. id is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let idQueryItem = ClientRuntime.SDKURLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
+        let idQueryItem = Smithy.URIQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
         items.append(idQueryItem)
         return items
     }
@@ -6920,7 +6926,7 @@ public struct GetBucketInventoryConfigurationInput {
 
 extension GetBucketInventoryConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketInventoryConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetBucketInventoryConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -6944,7 +6950,7 @@ public struct GetBucketInventoryConfigurationOutput {
 
 enum GetBucketInventoryConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -6958,8 +6964,8 @@ enum GetBucketInventoryConfigurationOutputError {
 
 extension GetBucketLifecycleConfigurationInput {
 
-    static func headerProvider(_ value: GetBucketLifecycleConfigurationInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetBucketLifecycleConfigurationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -6969,9 +6975,9 @@ extension GetBucketLifecycleConfigurationInput {
 
 extension GetBucketLifecycleConfigurationInput {
 
-    static func queryItemProvider(_ value: GetBucketLifecycleConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "lifecycle", value: nil))
+    static func queryItemProvider(_ value: GetBucketLifecycleConfigurationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "lifecycle", value: nil))
         return items
     }
 }
@@ -7002,7 +7008,7 @@ public struct GetBucketLifecycleConfigurationInput {
 
 extension GetBucketLifecycleConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketLifecycleConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetBucketLifecycleConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -7026,7 +7032,7 @@ public struct GetBucketLifecycleConfigurationOutput {
 
 enum GetBucketLifecycleConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -7040,8 +7046,8 @@ enum GetBucketLifecycleConfigurationOutputError {
 
 extension GetBucketLocationInput {
 
-    static func headerProvider(_ value: GetBucketLocationInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetBucketLocationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -7051,9 +7057,9 @@ extension GetBucketLocationInput {
 
 extension GetBucketLocationInput {
 
-    static func queryItemProvider(_ value: GetBucketLocationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "location", value: nil))
+    static func queryItemProvider(_ value: GetBucketLocationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "location", value: nil))
         return items
     }
 }
@@ -7084,7 +7090,7 @@ public struct GetBucketLocationInput {
 
 extension GetBucketLocationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketLocationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetBucketLocationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader.unwrap()
@@ -7108,7 +7114,7 @@ public struct GetBucketLocationOutput {
 
 enum GetBucketLocationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -7122,8 +7128,8 @@ enum GetBucketLocationOutputError {
 
 extension GetBucketLoggingInput {
 
-    static func headerProvider(_ value: GetBucketLoggingInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetBucketLoggingInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -7133,9 +7139,9 @@ extension GetBucketLoggingInput {
 
 extension GetBucketLoggingInput {
 
-    static func queryItemProvider(_ value: GetBucketLoggingInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "logging", value: nil))
+    static func queryItemProvider(_ value: GetBucketLoggingInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "logging", value: nil))
         return items
     }
 }
@@ -7166,7 +7172,7 @@ public struct GetBucketLoggingInput {
 
 extension GetBucketLoggingOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketLoggingOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetBucketLoggingOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -7190,7 +7196,7 @@ public struct GetBucketLoggingOutput {
 
 enum GetBucketLoggingOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -7204,8 +7210,8 @@ enum GetBucketLoggingOutputError {
 
 extension GetBucketMetricsConfigurationInput {
 
-    static func headerProvider(_ value: GetBucketMetricsConfigurationInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetBucketMetricsConfigurationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -7215,15 +7221,15 @@ extension GetBucketMetricsConfigurationInput {
 
 extension GetBucketMetricsConfigurationInput {
 
-    static func queryItemProvider(_ value: GetBucketMetricsConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "metrics", value: nil))
-        items.append(ClientRuntime.SDKURLQueryItem(name: "x-id", value: "GetBucketMetricsConfiguration"))
+    static func queryItemProvider(_ value: GetBucketMetricsConfigurationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "metrics", value: nil))
+        items.append(Smithy.URIQueryItem(name: "x-id", value: "GetBucketMetricsConfiguration"))
         guard let id = value.id else {
             let message = "Creating a URL Query Item failed. id is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let idQueryItem = ClientRuntime.SDKURLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
+        let idQueryItem = Smithy.URIQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
         items.append(idQueryItem)
         return items
     }
@@ -7260,7 +7266,7 @@ public struct GetBucketMetricsConfigurationInput {
 
 extension GetBucketMetricsConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketMetricsConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetBucketMetricsConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -7284,7 +7290,7 @@ public struct GetBucketMetricsConfigurationOutput {
 
 enum GetBucketMetricsConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -7298,8 +7304,8 @@ enum GetBucketMetricsConfigurationOutputError {
 
 extension GetBucketNotificationConfigurationInput {
 
-    static func headerProvider(_ value: GetBucketNotificationConfigurationInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetBucketNotificationConfigurationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -7309,9 +7315,9 @@ extension GetBucketNotificationConfigurationInput {
 
 extension GetBucketNotificationConfigurationInput {
 
-    static func queryItemProvider(_ value: GetBucketNotificationConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "notification", value: nil))
+    static func queryItemProvider(_ value: GetBucketNotificationConfigurationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "notification", value: nil))
         return items
     }
 }
@@ -7342,7 +7348,7 @@ public struct GetBucketNotificationConfigurationInput {
 
 extension GetBucketNotificationConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketNotificationConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetBucketNotificationConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -7382,7 +7388,7 @@ public struct GetBucketNotificationConfigurationOutput {
 
 enum GetBucketNotificationConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -7396,8 +7402,8 @@ enum GetBucketNotificationConfigurationOutputError {
 
 extension GetBucketOwnershipControlsInput {
 
-    static func headerProvider(_ value: GetBucketOwnershipControlsInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetBucketOwnershipControlsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -7407,9 +7413,9 @@ extension GetBucketOwnershipControlsInput {
 
 extension GetBucketOwnershipControlsInput {
 
-    static func queryItemProvider(_ value: GetBucketOwnershipControlsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "ownershipControls", value: nil))
+    static func queryItemProvider(_ value: GetBucketOwnershipControlsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "ownershipControls", value: nil))
         return items
     }
 }
@@ -7440,7 +7446,7 @@ public struct GetBucketOwnershipControlsInput {
 
 extension GetBucketOwnershipControlsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketOwnershipControlsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetBucketOwnershipControlsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -7464,7 +7470,7 @@ public struct GetBucketOwnershipControlsOutput {
 
 enum GetBucketOwnershipControlsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -7478,8 +7484,8 @@ enum GetBucketOwnershipControlsOutputError {
 
 extension GetBucketPolicyInput {
 
-    static func headerProvider(_ value: GetBucketPolicyInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetBucketPolicyInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -7489,9 +7495,9 @@ extension GetBucketPolicyInput {
 
 extension GetBucketPolicyInput {
 
-    static func queryItemProvider(_ value: GetBucketPolicyInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "policy", value: nil))
+    static func queryItemProvider(_ value: GetBucketPolicyInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "policy", value: nil))
         return items
     }
 }
@@ -7522,7 +7528,7 @@ public struct GetBucketPolicyInput {
 
 extension GetBucketPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetBucketPolicyOutput {
         var value = GetBucketPolicyOutput()
         if let data = try await httpResponse.body.readData(), let output = Swift.String(data: data, encoding: .utf8) {
             value.policy = output
@@ -7545,7 +7551,7 @@ public struct GetBucketPolicyOutput {
 
 enum GetBucketPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -7559,8 +7565,8 @@ enum GetBucketPolicyOutputError {
 
 extension GetBucketPolicyStatusInput {
 
-    static func headerProvider(_ value: GetBucketPolicyStatusInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetBucketPolicyStatusInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -7570,9 +7576,9 @@ extension GetBucketPolicyStatusInput {
 
 extension GetBucketPolicyStatusInput {
 
-    static func queryItemProvider(_ value: GetBucketPolicyStatusInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "policyStatus", value: nil))
+    static func queryItemProvider(_ value: GetBucketPolicyStatusInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "policyStatus", value: nil))
         return items
     }
 }
@@ -7603,7 +7609,7 @@ public struct GetBucketPolicyStatusInput {
 
 extension GetBucketPolicyStatusOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketPolicyStatusOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetBucketPolicyStatusOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -7627,7 +7633,7 @@ public struct GetBucketPolicyStatusOutput {
 
 enum GetBucketPolicyStatusOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -7641,8 +7647,8 @@ enum GetBucketPolicyStatusOutputError {
 
 extension GetBucketReplicationInput {
 
-    static func headerProvider(_ value: GetBucketReplicationInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetBucketReplicationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -7652,9 +7658,9 @@ extension GetBucketReplicationInput {
 
 extension GetBucketReplicationInput {
 
-    static func queryItemProvider(_ value: GetBucketReplicationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "replication", value: nil))
+    static func queryItemProvider(_ value: GetBucketReplicationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "replication", value: nil))
         return items
     }
 }
@@ -7685,7 +7691,7 @@ public struct GetBucketReplicationInput {
 
 extension GetBucketReplicationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketReplicationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetBucketReplicationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -7709,7 +7715,7 @@ public struct GetBucketReplicationOutput {
 
 enum GetBucketReplicationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -7723,8 +7729,8 @@ enum GetBucketReplicationOutputError {
 
 extension GetBucketRequestPaymentInput {
 
-    static func headerProvider(_ value: GetBucketRequestPaymentInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetBucketRequestPaymentInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -7734,9 +7740,9 @@ extension GetBucketRequestPaymentInput {
 
 extension GetBucketRequestPaymentInput {
 
-    static func queryItemProvider(_ value: GetBucketRequestPaymentInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "requestPayment", value: nil))
+    static func queryItemProvider(_ value: GetBucketRequestPaymentInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "requestPayment", value: nil))
         return items
     }
 }
@@ -7767,7 +7773,7 @@ public struct GetBucketRequestPaymentInput {
 
 extension GetBucketRequestPaymentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketRequestPaymentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetBucketRequestPaymentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -7791,7 +7797,7 @@ public struct GetBucketRequestPaymentOutput {
 
 enum GetBucketRequestPaymentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -7805,8 +7811,8 @@ enum GetBucketRequestPaymentOutputError {
 
 extension GetBucketTaggingInput {
 
-    static func headerProvider(_ value: GetBucketTaggingInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetBucketTaggingInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -7816,9 +7822,9 @@ extension GetBucketTaggingInput {
 
 extension GetBucketTaggingInput {
 
-    static func queryItemProvider(_ value: GetBucketTaggingInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "tagging", value: nil))
+    static func queryItemProvider(_ value: GetBucketTaggingInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "tagging", value: nil))
         return items
     }
 }
@@ -7849,7 +7855,7 @@ public struct GetBucketTaggingInput {
 
 extension GetBucketTaggingOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketTaggingOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetBucketTaggingOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -7874,7 +7880,7 @@ public struct GetBucketTaggingOutput {
 
 enum GetBucketTaggingOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -7888,8 +7894,8 @@ enum GetBucketTaggingOutputError {
 
 extension GetBucketVersioningInput {
 
-    static func headerProvider(_ value: GetBucketVersioningInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetBucketVersioningInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -7899,9 +7905,9 @@ extension GetBucketVersioningInput {
 
 extension GetBucketVersioningInput {
 
-    static func queryItemProvider(_ value: GetBucketVersioningInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "versioning", value: nil))
+    static func queryItemProvider(_ value: GetBucketVersioningInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "versioning", value: nil))
         return items
     }
 }
@@ -7932,7 +7938,7 @@ public struct GetBucketVersioningInput {
 
 extension GetBucketVersioningOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketVersioningOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetBucketVersioningOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -7961,7 +7967,7 @@ public struct GetBucketVersioningOutput {
 
 enum GetBucketVersioningOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -7975,8 +7981,8 @@ enum GetBucketVersioningOutputError {
 
 extension GetBucketWebsiteInput {
 
-    static func headerProvider(_ value: GetBucketWebsiteInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetBucketWebsiteInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -7986,9 +7992,9 @@ extension GetBucketWebsiteInput {
 
 extension GetBucketWebsiteInput {
 
-    static func queryItemProvider(_ value: GetBucketWebsiteInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "website", value: nil))
+    static func queryItemProvider(_ value: GetBucketWebsiteInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "website", value: nil))
         return items
     }
 }
@@ -8019,7 +8025,7 @@ public struct GetBucketWebsiteInput {
 
 extension GetBucketWebsiteOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketWebsiteOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetBucketWebsiteOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -8058,7 +8064,7 @@ public struct GetBucketWebsiteOutput {
 
 enum GetBucketWebsiteOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -8072,8 +8078,8 @@ enum GetBucketWebsiteOutputError {
 
 extension GetObjectAclInput {
 
-    static func headerProvider(_ value: GetObjectAclInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetObjectAclInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -8086,11 +8092,11 @@ extension GetObjectAclInput {
 
 extension GetObjectAclInput {
 
-    static func queryItemProvider(_ value: GetObjectAclInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "acl", value: nil))
+    static func queryItemProvider(_ value: GetObjectAclInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "acl", value: nil))
         if let versionId = value.versionId {
-            let versionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+            let versionIdQueryItem = Smithy.URIQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
             items.append(versionIdQueryItem)
         }
         return items
@@ -8139,7 +8145,7 @@ public struct GetObjectAclInput {
 
 extension GetObjectAclOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetObjectAclOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetObjectAclOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -8175,7 +8181,7 @@ public struct GetObjectAclOutput {
 
 enum GetObjectAclOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -8195,8 +8201,8 @@ extension GetObjectAttributesInput: Swift.CustomDebugStringConvertible {
 
 extension GetObjectAttributesInput {
 
-    static func headerProvider(_ value: GetObjectAttributesInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetObjectAttributesInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -8229,11 +8235,11 @@ extension GetObjectAttributesInput {
 
 extension GetObjectAttributesInput {
 
-    static func queryItemProvider(_ value: GetObjectAttributesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "attributes", value: nil))
+    static func queryItemProvider(_ value: GetObjectAttributesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "attributes", value: nil))
         if let versionId = value.versionId {
-            let versionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+            let versionIdQueryItem = Smithy.URIQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
             items.append(versionIdQueryItem)
         }
         return items
@@ -8307,7 +8313,7 @@ public struct GetObjectAttributesInput {
 
 extension GetObjectAttributesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetObjectAttributesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetObjectAttributesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -8341,7 +8347,7 @@ public struct GetObjectAttributesOutput {
     /// An ETag is an opaque identifier assigned by a web server to a specific version of a resource found at a URL.
     public var eTag: Swift.String?
     /// The creation date of the object.
-    public var lastModified: ClientRuntime.Date?
+    public var lastModified: Foundation.Date?
     /// A collection of parts associated with a multipart upload.
     public var objectParts: S3ClientTypes.GetObjectAttributesParts?
     /// The size of the object in bytes.
@@ -8357,7 +8363,7 @@ public struct GetObjectAttributesOutput {
         checksum: S3ClientTypes.Checksum? = nil,
         deleteMarker: Swift.Bool? = nil,
         eTag: Swift.String? = nil,
-        lastModified: ClientRuntime.Date? = nil,
+        lastModified: Foundation.Date? = nil,
         objectParts: S3ClientTypes.GetObjectAttributesParts? = nil,
         objectSize: Swift.Int? = nil,
         requestCharged: S3ClientTypes.RequestCharged? = nil,
@@ -8379,7 +8385,7 @@ public struct GetObjectAttributesOutput {
 
 enum GetObjectAttributesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -8454,8 +8460,8 @@ extension GetObjectInput: Swift.CustomDebugStringConvertible {
 
 extension GetObjectInput {
 
-    static func headerProvider(_ value: GetObjectInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetObjectInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let checksumMode = value.checksumMode {
             items.add(Header(name: "x-amz-checksum-mode", value: Swift.String(checksumMode.rawValue)))
         }
@@ -8494,13 +8500,13 @@ extension GetObjectInput {
 }
 
 extension GetObjectInput {
-    public func presignURL(config: S3Client.S3ClientConfiguration, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.URL? {
+    public func presignURL(config: S3Client.S3ClientConfiguration, expiration: Foundation.TimeInterval) async throws -> Foundation.URL? {
         let serviceName = "S3"
         let input = self
-        let client: (SdkHttpRequest, HttpContext) async throws -> HttpResponse = { (_, _) in
-            throw ClientRuntime.ClientError.unknownError("No HTTP client configured for presigned request")
+        let client: (SdkHttpRequest, Smithy.Context) async throws -> SmithyHTTPAPI.HttpResponse = { (_, _) in
+            throw Smithy.ClientError.unknownError("No HTTP client configured for presigned request")
         }
-        let context = ClientRuntime.HttpContextBuilder()
+        let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getObject")
@@ -8519,7 +8525,7 @@ extension GetObjectInput {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = OrchestratorBuilder<GetObjectInput, GetObjectOutput, ClientRuntime.SdkHttpRequest, ClientRuntime.HttpResponse, ClientRuntime.HttpContext>()
+        let builder = OrchestratorBuilder<GetObjectInput, GetObjectOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetObjectInput, GetObjectOutput>(GetObjectInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetObjectInput, GetObjectOutput>())
         let endpointParams = EndpointParams(accelerate: config.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.forcePathStyle ?? false, key: input.key, region: config.region, useArnRegion: config.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.useGlobalEndpoint ?? false)
@@ -8541,13 +8547,13 @@ extension GetObjectInput {
 }
 
 extension GetObjectInput {
-    public func presign(config: S3Client.S3ClientConfiguration, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.SdkHttpRequest? {
+    public func presign(config: S3Client.S3ClientConfiguration, expiration: Foundation.TimeInterval) async throws -> SmithyHTTPAPI.SdkHttpRequest? {
         let serviceName = "S3"
         let input = self
-        let client: (SdkHttpRequest, HttpContext) async throws -> HttpResponse = { (_, _) in
-            throw ClientRuntime.ClientError.unknownError("No HTTP client configured for presigned request")
+        let client: (SmithyHTTPAPI.SdkHttpRequest, Smithy.Context) async throws -> SmithyHTTPAPI.HttpResponse = { (_, _) in
+            throw Smithy.ClientError.unknownError("No HTTP client configured for presigned request")
         }
-        let context = ClientRuntime.HttpContextBuilder()
+        let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getObject")
@@ -8566,7 +8572,7 @@ extension GetObjectInput {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = OrchestratorBuilder<GetObjectInput, GetObjectOutput, ClientRuntime.SdkHttpRequest, ClientRuntime.HttpResponse, ClientRuntime.HttpContext>()
+        let builder = OrchestratorBuilder<GetObjectInput, GetObjectOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetObjectInput, GetObjectOutput>(GetObjectInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetObjectInput, GetObjectOutput>())
         let endpointParams = EndpointParams(accelerate: config.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.forcePathStyle ?? false, key: input.key, region: config.region, useArnRegion: config.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.useGlobalEndpoint ?? false)
@@ -8594,13 +8600,12 @@ public struct GetObjectInputGETQueryItemMiddleware: ClientRuntime.Middleware {
 
     public init() {}
 
-    public func handle<H>(context: Context,
+    public func handle<H>(context: Smithy.Context,
                   input: ClientRuntime.SerializeStepInput<GetObjectInput>,
                   next: H) async throws -> ClientRuntime.OperationOutput<GetObjectOutput>
     where H: Handler,
     Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
+    Self.MOutput == H.Output
     {
         try self.apply(input: input.operationInput, builder: input.builder, attributes: context)
         return try await next.handle(context: context, input: input)
@@ -8608,80 +8613,78 @@ public struct GetObjectInputGETQueryItemMiddleware: ClientRuntime.Middleware {
 
     public typealias MInput = ClientRuntime.SerializeStepInput<GetObjectInput>
     public typealias MOutput = ClientRuntime.OperationOutput<GetObjectOutput>
-    public typealias Context = ClientRuntime.HttpContext
 }
-extension GetObjectInputGETQueryItemMiddleware: ClientRuntime.RequestMessageSerializer {
+extension GetObjectInputGETQueryItemMiddleware: Smithy.RequestMessageSerializer {
     public typealias InputType = GetObjectInput
-    public typealias RequestType = ClientRuntime.SdkHttpRequest
-    public typealias AttributesType = ClientRuntime.HttpContext
+    public typealias RequestType = SmithyHTTPAPI.SdkHttpRequest
 
-    public func apply(input: InputType, builder: ClientRuntime.SdkHttpRequestBuilder, attributes: ClientRuntime.HttpContext) throws {
+    public func apply(input: InputType, builder: SmithyHTTPAPI.SdkHttpRequestBuilder, attributes: Smithy.Context) throws {
         if let bucket = input.bucket {
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "Bucket".urlPercentEncoding(), value: Swift.String(bucket).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "bucket".urlPercentEncoding(), value: "Bucket".urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let ifMatch = input.ifMatch {
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "IfMatch".urlPercentEncoding(), value: Swift.String(ifMatch).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "ifMatch".urlPercentEncoding(), value: "IfMatch".urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let ifNoneMatch = input.ifNoneMatch {
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "IfNoneMatch".urlPercentEncoding(), value: Swift.String(ifNoneMatch).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "ifNoneMatch".urlPercentEncoding(), value: "IfNoneMatch".urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let key = input.key {
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "Key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "key".urlPercentEncoding(), value: "Key".urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let range = input.range {
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "Range".urlPercentEncoding(), value: Swift.String(range).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "range".urlPercentEncoding(), value: "Range".urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let responseCacheControl = input.responseCacheControl {
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "ResponseCacheControl".urlPercentEncoding(), value: Swift.String(responseCacheControl).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "responseCacheControl".urlPercentEncoding(), value: "ResponseCacheControl".urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let responseContentDisposition = input.responseContentDisposition {
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "ResponseContentDisposition".urlPercentEncoding(), value: Swift.String(responseContentDisposition).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "responseContentDisposition".urlPercentEncoding(), value: "ResponseContentDisposition".urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let responseContentEncoding = input.responseContentEncoding {
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "ResponseContentEncoding".urlPercentEncoding(), value: Swift.String(responseContentEncoding).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "responseContentEncoding".urlPercentEncoding(), value: "ResponseContentEncoding".urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let responseContentLanguage = input.responseContentLanguage {
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "ResponseContentLanguage".urlPercentEncoding(), value: Swift.String(responseContentLanguage).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "responseContentLanguage".urlPercentEncoding(), value: "ResponseContentLanguage".urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let responseContentType = input.responseContentType {
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "ResponseContentType".urlPercentEncoding(), value: Swift.String(responseContentType).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "responseContentType".urlPercentEncoding(), value: "ResponseContentType".urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let versionId = input.versionId {
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "VersionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "versionId".urlPercentEncoding(), value: "VersionId".urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let sseCustomerAlgorithm = input.sseCustomerAlgorithm {
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "SSECustomerAlgorithm".urlPercentEncoding(), value: Swift.String(sseCustomerAlgorithm).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "sseCustomerAlgorithm".urlPercentEncoding(), value: "SSECustomerAlgorithm".urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let sseCustomerKey = input.sseCustomerKey {
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "SSECustomerKey".urlPercentEncoding(), value: Swift.String(sseCustomerKey).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "sseCustomerKey".urlPercentEncoding(), value: "SSECustomerKey".urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let sseCustomerKeyMD5 = input.sseCustomerKeyMD5 {
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "SSECustomerKeyMD5".urlPercentEncoding(), value: Swift.String(sseCustomerKeyMD5).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "sseCustomerKeyMD5".urlPercentEncoding(), value: "SSECustomerKeyMD5".urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let requestPayer = input.requestPayer {
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "RequestPayer".urlPercentEncoding(), value: Swift.String(requestPayer.rawValue).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "requestPayer.rawValue".urlPercentEncoding(), value: "RequestPayer".urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let expectedBucketOwner = input.expectedBucketOwner {
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "ExpectedBucketOwner".urlPercentEncoding(), value: Swift.String(expectedBucketOwner).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "expectedBucketOwner".urlPercentEncoding(), value: "ExpectedBucketOwner".urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let checksumMode = input.checksumMode {
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "ChecksumMode".urlPercentEncoding(), value: Swift.String(checksumMode.rawValue).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "checksumMode.rawValue".urlPercentEncoding(), value: "ChecksumMode".urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
     }
@@ -8689,39 +8692,39 @@ extension GetObjectInputGETQueryItemMiddleware: ClientRuntime.RequestMessageSeri
 
 extension GetObjectInput {
 
-    static func queryItemProvider(_ value: GetObjectInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "x-id", value: "GetObject"))
+    static func queryItemProvider(_ value: GetObjectInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "x-id", value: "GetObject"))
         if let versionId = value.versionId {
-            let versionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+            let versionIdQueryItem = Smithy.URIQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
             items.append(versionIdQueryItem)
         }
         if let responseContentDisposition = value.responseContentDisposition {
-            let responseContentDispositionQueryItem = ClientRuntime.SDKURLQueryItem(name: "response-content-disposition".urlPercentEncoding(), value: Swift.String(responseContentDisposition).urlPercentEncoding())
+            let responseContentDispositionQueryItem = Smithy.URIQueryItem(name: "response-content-disposition".urlPercentEncoding(), value: Swift.String(responseContentDisposition).urlPercentEncoding())
             items.append(responseContentDispositionQueryItem)
         }
         if let partNumber = value.partNumber {
-            let partNumberQueryItem = ClientRuntime.SDKURLQueryItem(name: "partNumber".urlPercentEncoding(), value: Swift.String(partNumber).urlPercentEncoding())
+            let partNumberQueryItem = Smithy.URIQueryItem(name: "partNumber".urlPercentEncoding(), value: Swift.String(partNumber).urlPercentEncoding())
             items.append(partNumberQueryItem)
         }
         if let responseContentType = value.responseContentType {
-            let responseContentTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "response-content-type".urlPercentEncoding(), value: Swift.String(responseContentType).urlPercentEncoding())
+            let responseContentTypeQueryItem = Smithy.URIQueryItem(name: "response-content-type".urlPercentEncoding(), value: Swift.String(responseContentType).urlPercentEncoding())
             items.append(responseContentTypeQueryItem)
         }
         if let responseExpires = value.responseExpires {
-            let responseExpiresQueryItem = ClientRuntime.SDKURLQueryItem(name: "response-expires".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .httpDate).string(from: responseExpires)).urlPercentEncoding())
+            let responseExpiresQueryItem = Smithy.URIQueryItem(name: "response-expires".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .httpDate).string(from: responseExpires)).urlPercentEncoding())
             items.append(responseExpiresQueryItem)
         }
         if let responseContentEncoding = value.responseContentEncoding {
-            let responseContentEncodingQueryItem = ClientRuntime.SDKURLQueryItem(name: "response-content-encoding".urlPercentEncoding(), value: Swift.String(responseContentEncoding).urlPercentEncoding())
+            let responseContentEncodingQueryItem = Smithy.URIQueryItem(name: "response-content-encoding".urlPercentEncoding(), value: Swift.String(responseContentEncoding).urlPercentEncoding())
             items.append(responseContentEncodingQueryItem)
         }
         if let responseCacheControl = value.responseCacheControl {
-            let responseCacheControlQueryItem = ClientRuntime.SDKURLQueryItem(name: "response-cache-control".urlPercentEncoding(), value: Swift.String(responseCacheControl).urlPercentEncoding())
+            let responseCacheControlQueryItem = Smithy.URIQueryItem(name: "response-cache-control".urlPercentEncoding(), value: Swift.String(responseCacheControl).urlPercentEncoding())
             items.append(responseCacheControlQueryItem)
         }
         if let responseContentLanguage = value.responseContentLanguage {
-            let responseContentLanguageQueryItem = ClientRuntime.SDKURLQueryItem(name: "response-content-language".urlPercentEncoding(), value: Swift.String(responseContentLanguage).urlPercentEncoding())
+            let responseContentLanguageQueryItem = Smithy.URIQueryItem(name: "response-content-language".urlPercentEncoding(), value: Swift.String(responseContentLanguage).urlPercentEncoding())
             items.append(responseContentLanguageQueryItem)
         }
         return items
@@ -8749,11 +8752,11 @@ public struct GetObjectInput {
     /// Return the object only if its entity tag (ETag) is the same as the one specified in this header; otherwise, return a 412 Precondition Failed error. If both of the If-Match and If-Unmodified-Since headers are present in the request as follows: If-Match condition evaluates to true, and; If-Unmodified-Since condition evaluates to false; then, S3 returns 200 OK and the data requested. For more information about conditional requests, see [RFC 7232](https://tools.ietf.org/html/rfc7232).
     public var ifMatch: Swift.String?
     /// Return the object only if it has been modified since the specified time; otherwise, return a 304 Not Modified error. If both of the If-None-Match and If-Modified-Since headers are present in the request as follows: If-None-Match condition evaluates to false, and; If-Modified-Since condition evaluates to true; then, S3 returns 304 Not Modified status code. For more information about conditional requests, see [RFC 7232](https://tools.ietf.org/html/rfc7232).
-    public var ifModifiedSince: ClientRuntime.Date?
+    public var ifModifiedSince: Foundation.Date?
     /// Return the object only if its entity tag (ETag) is different from the one specified in this header; otherwise, return a 304 Not Modified error. If both of the If-None-Match and If-Modified-Since headers are present in the request as follows: If-None-Match condition evaluates to false, and; If-Modified-Since condition evaluates to true; then, S3 returns 304 Not Modified HTTP status code. For more information about conditional requests, see [RFC 7232](https://tools.ietf.org/html/rfc7232).
     public var ifNoneMatch: Swift.String?
     /// Return the object only if it has not been modified since the specified time; otherwise, return a 412 Precondition Failed error. If both of the If-Match and If-Unmodified-Since headers are present in the request as follows: If-Match condition evaluates to true, and; If-Unmodified-Since condition evaluates to false; then, S3 returns 200 OK and the data requested. For more information about conditional requests, see [RFC 7232](https://tools.ietf.org/html/rfc7232).
-    public var ifUnmodifiedSince: ClientRuntime.Date?
+    public var ifUnmodifiedSince: Foundation.Date?
     /// Key of the object to get.
     /// This member is required.
     public var key: Swift.String?
@@ -8774,7 +8777,7 @@ public struct GetObjectInput {
     /// Sets the Content-Type header of the response.
     public var responseContentType: Swift.String?
     /// Sets the Expires header of the response.
-    public var responseExpires: ClientRuntime.Date?
+    public var responseExpires: Foundation.Date?
     /// Specifies the algorithm to use when decrypting the object (for example, AES256). If you encrypt an object by using server-side encryption with customer-provided encryption keys (SSE-C) when you store the object in Amazon S3, then when you GET the object, you must use the following headers:
     ///
     /// * x-amz-server-side-encryption-customer-algorithm
@@ -8825,9 +8828,9 @@ public struct GetObjectInput {
         checksumMode: S3ClientTypes.ChecksumMode? = nil,
         expectedBucketOwner: Swift.String? = nil,
         ifMatch: Swift.String? = nil,
-        ifModifiedSince: ClientRuntime.Date? = nil,
+        ifModifiedSince: Foundation.Date? = nil,
         ifNoneMatch: Swift.String? = nil,
-        ifUnmodifiedSince: ClientRuntime.Date? = nil,
+        ifUnmodifiedSince: Foundation.Date? = nil,
         key: Swift.String? = nil,
         partNumber: Swift.Int? = nil,
         range: Swift.String? = nil,
@@ -8837,7 +8840,7 @@ public struct GetObjectInput {
         responseContentEncoding: Swift.String? = nil,
         responseContentLanguage: Swift.String? = nil,
         responseContentType: Swift.String? = nil,
-        responseExpires: ClientRuntime.Date? = nil,
+        responseExpires: Foundation.Date? = nil,
         sseCustomerAlgorithm: Swift.String? = nil,
         sseCustomerKey: Swift.String? = nil,
         sseCustomerKeyMD5: Swift.String? = nil,
@@ -8870,8 +8873,8 @@ public struct GetObjectInput {
 
 extension GetObjectLegalHoldInput {
 
-    static func headerProvider(_ value: GetObjectLegalHoldInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetObjectLegalHoldInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -8884,11 +8887,11 @@ extension GetObjectLegalHoldInput {
 
 extension GetObjectLegalHoldInput {
 
-    static func queryItemProvider(_ value: GetObjectLegalHoldInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "legal-hold", value: nil))
+    static func queryItemProvider(_ value: GetObjectLegalHoldInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "legal-hold", value: nil))
         if let versionId = value.versionId {
-            let versionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+            let versionIdQueryItem = Smithy.URIQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
             items.append(versionIdQueryItem)
         }
         return items
@@ -8937,7 +8940,7 @@ public struct GetObjectLegalHoldInput {
 
 extension GetObjectLegalHoldOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetObjectLegalHoldOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetObjectLegalHoldOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -8961,7 +8964,7 @@ public struct GetObjectLegalHoldOutput {
 
 enum GetObjectLegalHoldOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -8975,8 +8978,8 @@ enum GetObjectLegalHoldOutputError {
 
 extension GetObjectLockConfigurationInput {
 
-    static func headerProvider(_ value: GetObjectLockConfigurationInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetObjectLockConfigurationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -8986,9 +8989,9 @@ extension GetObjectLockConfigurationInput {
 
 extension GetObjectLockConfigurationInput {
 
-    static func queryItemProvider(_ value: GetObjectLockConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "object-lock", value: nil))
+    static func queryItemProvider(_ value: GetObjectLockConfigurationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "object-lock", value: nil))
         return items
     }
 }
@@ -9019,7 +9022,7 @@ public struct GetObjectLockConfigurationInput {
 
 extension GetObjectLockConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetObjectLockConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetObjectLockConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -9043,7 +9046,7 @@ public struct GetObjectLockConfigurationOutput {
 
 enum GetObjectLockConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -9062,7 +9065,7 @@ extension GetObjectOutput: Swift.CustomDebugStringConvertible {
 
 extension GetObjectOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetObjectOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetObjectOutput {
         var value = GetObjectOutput()
         if let acceptRangesHeaderValue = httpResponse.headers.value(for: "accept-ranges") {
             value.acceptRanges = acceptRangesHeaderValue
@@ -9194,7 +9197,7 @@ public struct GetObjectOutput {
     /// Indicates that a range of bytes was specified in the request.
     public var acceptRanges: Swift.String?
     /// Object data.
-    public var body: ClientRuntime.ByteStream?
+    public var body: Smithy.ByteStream?
     /// Indicates whether the object uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS). This functionality is not supported for directory buckets.
     public var bucketKeyEnabled: Swift.Bool?
     /// Specifies caching behavior along the request/reply chain.
@@ -9232,7 +9235,7 @@ public struct GetObjectOutput {
     /// The date and time at which the object is no longer cacheable.
     public var expires: Swift.String?
     /// Date and time when the object was last modified. General purpose buckets - When you specify a versionId of the object in your request, if the specified version in the request is a delete marker, the response returns a 405 Method Not Allowed error and the Last-Modified: timestamp response header.
-    public var lastModified: ClientRuntime.Date?
+    public var lastModified: Foundation.Date?
     /// A map of metadata to store with the object in S3.
     public var metadata: [Swift.String:Swift.String]?
     /// This is set to the number of metadata entries not returned in the headers that are prefixed with x-amz-meta-. This can happen if you create metadata using an API like SOAP that supports more flexible metadata than the REST API. For example, using SOAP, you can create metadata whose values are not legal HTTP headers. This functionality is not supported for directory buckets.
@@ -9242,7 +9245,7 @@ public struct GetObjectOutput {
     /// The Object Lock mode that's currently in place for this object. This functionality is not supported for directory buckets.
     public var objectLockMode: S3ClientTypes.ObjectLockMode?
     /// The date and time when this object's Object Lock will expire. This functionality is not supported for directory buckets.
-    public var objectLockRetainUntilDate: ClientRuntime.Date?
+    public var objectLockRetainUntilDate: Foundation.Date?
     /// The count of parts this object has. This value is only returned if you specify partNumber in your request and the object was uploaded as a multipart upload.
     public var partsCount: Swift.Int?
     /// Amazon S3 can return this if your request involves a bucket that is either a source or destination in a replication rule. This functionality is not supported for directory buckets.
@@ -9270,7 +9273,7 @@ public struct GetObjectOutput {
 
     public init(
         acceptRanges: Swift.String? = nil,
-        body: ClientRuntime.ByteStream? = nil,
+        body: Smithy.ByteStream? = nil,
         bucketKeyEnabled: Swift.Bool? = nil,
         cacheControl: Swift.String? = nil,
         checksumCRC32: Swift.String? = nil,
@@ -9287,12 +9290,12 @@ public struct GetObjectOutput {
         eTag: Swift.String? = nil,
         expiration: Swift.String? = nil,
         expires: Swift.String? = nil,
-        lastModified: ClientRuntime.Date? = nil,
+        lastModified: Foundation.Date? = nil,
         metadata: [Swift.String:Swift.String]? = nil,
         missingMeta: Swift.Int? = nil,
         objectLockLegalHoldStatus: S3ClientTypes.ObjectLockLegalHoldStatus? = nil,
         objectLockMode: S3ClientTypes.ObjectLockMode? = nil,
-        objectLockRetainUntilDate: ClientRuntime.Date? = nil,
+        objectLockRetainUntilDate: Foundation.Date? = nil,
         partsCount: Swift.Int? = nil,
         replicationStatus: S3ClientTypes.ReplicationStatus? = nil,
         requestCharged: S3ClientTypes.RequestCharged? = nil,
@@ -9348,7 +9351,7 @@ public struct GetObjectOutput {
 
 enum GetObjectOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -9364,8 +9367,8 @@ enum GetObjectOutputError {
 
 extension GetObjectRetentionInput {
 
-    static func headerProvider(_ value: GetObjectRetentionInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetObjectRetentionInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -9378,11 +9381,11 @@ extension GetObjectRetentionInput {
 
 extension GetObjectRetentionInput {
 
-    static func queryItemProvider(_ value: GetObjectRetentionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "retention", value: nil))
+    static func queryItemProvider(_ value: GetObjectRetentionInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "retention", value: nil))
         if let versionId = value.versionId {
-            let versionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+            let versionIdQueryItem = Smithy.URIQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
             items.append(versionIdQueryItem)
         }
         return items
@@ -9431,7 +9434,7 @@ public struct GetObjectRetentionInput {
 
 extension GetObjectRetentionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetObjectRetentionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetObjectRetentionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -9455,7 +9458,7 @@ public struct GetObjectRetentionOutput {
 
 enum GetObjectRetentionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -9469,8 +9472,8 @@ enum GetObjectRetentionOutputError {
 
 extension GetObjectTaggingInput {
 
-    static func headerProvider(_ value: GetObjectTaggingInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetObjectTaggingInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -9483,11 +9486,11 @@ extension GetObjectTaggingInput {
 
 extension GetObjectTaggingInput {
 
-    static func queryItemProvider(_ value: GetObjectTaggingInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "tagging", value: nil))
+    static func queryItemProvider(_ value: GetObjectTaggingInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "tagging", value: nil))
         if let versionId = value.versionId {
-            let versionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+            let versionIdQueryItem = Smithy.URIQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
             items.append(versionIdQueryItem)
         }
         return items
@@ -9536,7 +9539,7 @@ public struct GetObjectTaggingInput {
 
 extension GetObjectTaggingOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetObjectTaggingOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetObjectTaggingOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -9568,7 +9571,7 @@ public struct GetObjectTaggingOutput {
 
 enum GetObjectTaggingOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -9582,8 +9585,8 @@ enum GetObjectTaggingOutputError {
 
 extension GetObjectTorrentInput {
 
-    static func headerProvider(_ value: GetObjectTorrentInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetObjectTorrentInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -9596,9 +9599,9 @@ extension GetObjectTorrentInput {
 
 extension GetObjectTorrentInput {
 
-    static func queryItemProvider(_ value: GetObjectTorrentInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "torrent", value: nil))
+    static func queryItemProvider(_ value: GetObjectTorrentInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "torrent", value: nil))
         return items
     }
 }
@@ -9641,7 +9644,7 @@ public struct GetObjectTorrentInput {
 
 extension GetObjectTorrentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetObjectTorrentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetObjectTorrentOutput {
         var value = GetObjectTorrentOutput()
         if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
             value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
@@ -9660,12 +9663,12 @@ extension GetObjectTorrentOutput {
 
 public struct GetObjectTorrentOutput {
     /// A Bencoded dictionary as defined by the BitTorrent specification
-    public var body: ClientRuntime.ByteStream?
+    public var body: Smithy.ByteStream?
     /// If present, indicates that the requester was successfully charged for the request. This functionality is not supported for directory buckets.
     public var requestCharged: S3ClientTypes.RequestCharged?
 
     public init(
-        body: ClientRuntime.ByteStream? = nil,
+        body: Smithy.ByteStream? = nil,
         requestCharged: S3ClientTypes.RequestCharged? = nil
     )
     {
@@ -9676,7 +9679,7 @@ public struct GetObjectTorrentOutput {
 
 enum GetObjectTorrentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -9690,8 +9693,8 @@ enum GetObjectTorrentOutputError {
 
 extension GetPublicAccessBlockInput {
 
-    static func headerProvider(_ value: GetPublicAccessBlockInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetPublicAccessBlockInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -9701,9 +9704,9 @@ extension GetPublicAccessBlockInput {
 
 extension GetPublicAccessBlockInput {
 
-    static func queryItemProvider(_ value: GetPublicAccessBlockInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "publicAccessBlock", value: nil))
+    static func queryItemProvider(_ value: GetPublicAccessBlockInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "publicAccessBlock", value: nil))
         return items
     }
 }
@@ -9734,7 +9737,7 @@ public struct GetPublicAccessBlockInput {
 
 extension GetPublicAccessBlockOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetPublicAccessBlockOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetPublicAccessBlockOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -9758,7 +9761,7 @@ public struct GetPublicAccessBlockOutput {
 
 enum GetPublicAccessBlockOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -9909,8 +9912,8 @@ extension S3ClientTypes {
 
 extension HeadBucketInput {
 
-    static func headerProvider(_ value: HeadBucketInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: HeadBucketInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -9944,7 +9947,7 @@ public struct HeadBucketInput {
 
 extension HeadBucketOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> HeadBucketOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> HeadBucketOutput {
         var value = HeadBucketOutput()
         if let accessPointAliasHeaderValue = httpResponse.headers.value(for: "x-amz-access-point-alias") {
             value.accessPointAlias = Swift.Bool(accessPointAliasHeaderValue) ?? false
@@ -9988,7 +9991,7 @@ public struct HeadBucketOutput {
 
 enum HeadBucketOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -10008,8 +10011,8 @@ extension HeadObjectInput: Swift.CustomDebugStringConvertible {
 
 extension HeadObjectInput {
 
-    static func headerProvider(_ value: HeadObjectInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: HeadObjectInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let checksumMode = value.checksumMode {
             items.add(Header(name: "x-amz-checksum-mode", value: Swift.String(checksumMode.rawValue)))
         }
@@ -10049,14 +10052,14 @@ extension HeadObjectInput {
 
 extension HeadObjectInput {
 
-    static func queryItemProvider(_ value: HeadObjectInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: HeadObjectInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let versionId = value.versionId {
-            let versionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+            let versionIdQueryItem = Smithy.URIQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
             items.append(versionIdQueryItem)
         }
         if let partNumber = value.partNumber {
-            let partNumberQueryItem = ClientRuntime.SDKURLQueryItem(name: "partNumber".urlPercentEncoding(), value: Swift.String(partNumber).urlPercentEncoding())
+            let partNumberQueryItem = Smithy.URIQueryItem(name: "partNumber".urlPercentEncoding(), value: Swift.String(partNumber).urlPercentEncoding())
             items.append(partNumberQueryItem)
         }
         return items
@@ -10098,7 +10101,7 @@ public struct HeadObjectInput {
     ///
     ///
     /// Then Amazon S3 returns the 304 Not Modified response code. For more information about conditional requests, see [RFC 7232](https://tools.ietf.org/html/rfc7232).
-    public var ifModifiedSince: ClientRuntime.Date?
+    public var ifModifiedSince: Foundation.Date?
     /// Return the object only if its entity tag (ETag) is different from the one specified; otherwise, return a 304 (not modified) error. If both of the If-None-Match and If-Modified-Since headers are present in the request as follows:
     ///
     /// * If-None-Match condition evaluates to false, and;
@@ -10116,7 +10119,7 @@ public struct HeadObjectInput {
     ///
     ///
     /// Then Amazon S3 returns 200 OK and the data requested. For more information about conditional requests, see [RFC 7232](https://tools.ietf.org/html/rfc7232).
-    public var ifUnmodifiedSince: ClientRuntime.Date?
+    public var ifUnmodifiedSince: Foundation.Date?
     /// The object key.
     /// This member is required.
     public var key: Swift.String?
@@ -10140,9 +10143,9 @@ public struct HeadObjectInput {
         checksumMode: S3ClientTypes.ChecksumMode? = nil,
         expectedBucketOwner: Swift.String? = nil,
         ifMatch: Swift.String? = nil,
-        ifModifiedSince: ClientRuntime.Date? = nil,
+        ifModifiedSince: Foundation.Date? = nil,
         ifNoneMatch: Swift.String? = nil,
-        ifUnmodifiedSince: ClientRuntime.Date? = nil,
+        ifUnmodifiedSince: Foundation.Date? = nil,
         key: Swift.String? = nil,
         partNumber: Swift.Int? = nil,
         range: Swift.String? = nil,
@@ -10178,7 +10181,7 @@ extension HeadObjectOutput: Swift.CustomDebugStringConvertible {
 
 extension HeadObjectOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> HeadObjectOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> HeadObjectOutput {
         var value = HeadObjectOutput()
         if let acceptRangesHeaderValue = httpResponse.headers.value(for: "accept-ranges") {
             value.acceptRanges = acceptRangesHeaderValue
@@ -10331,7 +10334,7 @@ public struct HeadObjectOutput {
     /// The date and time at which the object is no longer cacheable.
     public var expires: Swift.String?
     /// Date and time when the object was last modified.
-    public var lastModified: ClientRuntime.Date?
+    public var lastModified: Foundation.Date?
     /// A map of metadata to store with the object in S3.
     public var metadata: [Swift.String:Swift.String]?
     /// This is set to the number of metadata entries not returned in x-amz-meta headers. This can happen if you create metadata using an API like SOAP that supports more flexible metadata than the REST API. For example, using SOAP, you can create metadata whose values are not legal HTTP headers. This functionality is not supported for directory buckets.
@@ -10341,7 +10344,7 @@ public struct HeadObjectOutput {
     /// The Object Lock mode, if any, that's in effect for this object. This header is only returned if the requester has the s3:GetObjectRetention permission. For more information about S3 Object Lock, see [Object Lock](https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html). This functionality is not supported for directory buckets.
     public var objectLockMode: S3ClientTypes.ObjectLockMode?
     /// The date and time when the Object Lock retention period expires. This header is only returned if the requester has the s3:GetObjectRetention permission. This functionality is not supported for directory buckets.
-    public var objectLockRetainUntilDate: ClientRuntime.Date?
+    public var objectLockRetainUntilDate: Foundation.Date?
     /// The count of parts this object has. This value is only returned if you specify partNumber in your request and the object was uploaded as a multipart upload.
     public var partsCount: Swift.Int?
     /// Amazon S3 can return this header if your request involves a bucket that is either a source or a destination in a replication rule. In replication, you have a source bucket on which you configure replication and destination bucket or buckets where Amazon S3 stores object replicas. When you request an object (GetObject) or object metadata (HeadObject) from these buckets, Amazon S3 will return the x-amz-replication-status header in the response as follows:
@@ -10392,12 +10395,12 @@ public struct HeadObjectOutput {
         eTag: Swift.String? = nil,
         expiration: Swift.String? = nil,
         expires: Swift.String? = nil,
-        lastModified: ClientRuntime.Date? = nil,
+        lastModified: Foundation.Date? = nil,
         metadata: [Swift.String:Swift.String]? = nil,
         missingMeta: Swift.Int? = nil,
         objectLockLegalHoldStatus: S3ClientTypes.ObjectLockLegalHoldStatus? = nil,
         objectLockMode: S3ClientTypes.ObjectLockMode? = nil,
-        objectLockRetainUntilDate: ClientRuntime.Date? = nil,
+        objectLockRetainUntilDate: Foundation.Date? = nil,
         partsCount: Swift.Int? = nil,
         replicationStatus: S3ClientTypes.ReplicationStatus? = nil,
         requestCharged: S3ClientTypes.RequestCharged? = nil,
@@ -10450,7 +10453,7 @@ public struct HeadObjectOutput {
 
 enum HeadObjectOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -11369,14 +11372,14 @@ extension S3ClientTypes {
     /// Container for the expiration for the lifecycle of the object. For more information see, [Managing your storage lifecycle](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lifecycle-mgmt.html) in the Amazon S3 User Guide.
     public struct LifecycleExpiration {
         /// Indicates at what date the object is to be moved or deleted. The date value must conform to the ISO 8601 format. The time is always midnight UTC.
-        public var date: ClientRuntime.Date?
+        public var date: Foundation.Date?
         /// Indicates the lifetime, in days, of the objects that are subject to the rule. The value must be a non-zero positive integer.
         public var days: Swift.Int?
         /// Indicates whether Amazon S3 will remove a delete marker with no noncurrent versions. If set to true, the delete marker will be expired; if set to false the policy takes no action. This cannot be specified with Days or Date in a Lifecycle Expiration Policy.
         public var expiredObjectDeleteMarker: Swift.Bool?
 
         public init(
-            date: ClientRuntime.Date? = nil,
+            date: Foundation.Date? = nil,
             days: Swift.Int? = nil,
             expiredObjectDeleteMarker: Swift.Bool? = nil
         )
@@ -11579,8 +11582,8 @@ extension S3ClientTypes {
 
 extension ListBucketAnalyticsConfigurationsInput {
 
-    static func headerProvider(_ value: ListBucketAnalyticsConfigurationsInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: ListBucketAnalyticsConfigurationsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -11590,12 +11593,12 @@ extension ListBucketAnalyticsConfigurationsInput {
 
 extension ListBucketAnalyticsConfigurationsInput {
 
-    static func queryItemProvider(_ value: ListBucketAnalyticsConfigurationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "analytics", value: nil))
-        items.append(ClientRuntime.SDKURLQueryItem(name: "x-id", value: "ListBucketAnalyticsConfigurations"))
+    static func queryItemProvider(_ value: ListBucketAnalyticsConfigurationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "analytics", value: nil))
+        items.append(Smithy.URIQueryItem(name: "x-id", value: "ListBucketAnalyticsConfigurations"))
         if let continuationToken = value.continuationToken {
-            let continuationTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "continuation-token".urlPercentEncoding(), value: Swift.String(continuationToken).urlPercentEncoding())
+            let continuationTokenQueryItem = Smithy.URIQueryItem(name: "continuation-token".urlPercentEncoding(), value: Swift.String(continuationToken).urlPercentEncoding())
             items.append(continuationTokenQueryItem)
         }
         return items
@@ -11632,7 +11635,7 @@ public struct ListBucketAnalyticsConfigurationsInput {
 
 extension ListBucketAnalyticsConfigurationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListBucketAnalyticsConfigurationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListBucketAnalyticsConfigurationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -11671,7 +11674,7 @@ public struct ListBucketAnalyticsConfigurationsOutput {
 
 enum ListBucketAnalyticsConfigurationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -11685,12 +11688,12 @@ enum ListBucketAnalyticsConfigurationsOutputError {
 
 extension ListBucketIntelligentTieringConfigurationsInput {
 
-    static func queryItemProvider(_ value: ListBucketIntelligentTieringConfigurationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "intelligent-tiering", value: nil))
-        items.append(ClientRuntime.SDKURLQueryItem(name: "x-id", value: "ListBucketIntelligentTieringConfigurations"))
+    static func queryItemProvider(_ value: ListBucketIntelligentTieringConfigurationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "intelligent-tiering", value: nil))
+        items.append(Smithy.URIQueryItem(name: "x-id", value: "ListBucketIntelligentTieringConfigurations"))
         if let continuationToken = value.continuationToken {
-            let continuationTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "continuation-token".urlPercentEncoding(), value: Swift.String(continuationToken).urlPercentEncoding())
+            let continuationTokenQueryItem = Smithy.URIQueryItem(name: "continuation-token".urlPercentEncoding(), value: Swift.String(continuationToken).urlPercentEncoding())
             items.append(continuationTokenQueryItem)
         }
         return items
@@ -11723,7 +11726,7 @@ public struct ListBucketIntelligentTieringConfigurationsInput {
 
 extension ListBucketIntelligentTieringConfigurationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListBucketIntelligentTieringConfigurationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListBucketIntelligentTieringConfigurationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -11762,7 +11765,7 @@ public struct ListBucketIntelligentTieringConfigurationsOutput {
 
 enum ListBucketIntelligentTieringConfigurationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -11776,8 +11779,8 @@ enum ListBucketIntelligentTieringConfigurationsOutputError {
 
 extension ListBucketInventoryConfigurationsInput {
 
-    static func headerProvider(_ value: ListBucketInventoryConfigurationsInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: ListBucketInventoryConfigurationsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -11787,12 +11790,12 @@ extension ListBucketInventoryConfigurationsInput {
 
 extension ListBucketInventoryConfigurationsInput {
 
-    static func queryItemProvider(_ value: ListBucketInventoryConfigurationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "inventory", value: nil))
-        items.append(ClientRuntime.SDKURLQueryItem(name: "x-id", value: "ListBucketInventoryConfigurations"))
+    static func queryItemProvider(_ value: ListBucketInventoryConfigurationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "inventory", value: nil))
+        items.append(Smithy.URIQueryItem(name: "x-id", value: "ListBucketInventoryConfigurations"))
         if let continuationToken = value.continuationToken {
-            let continuationTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "continuation-token".urlPercentEncoding(), value: Swift.String(continuationToken).urlPercentEncoding())
+            let continuationTokenQueryItem = Smithy.URIQueryItem(name: "continuation-token".urlPercentEncoding(), value: Swift.String(continuationToken).urlPercentEncoding())
             items.append(continuationTokenQueryItem)
         }
         return items
@@ -11829,7 +11832,7 @@ public struct ListBucketInventoryConfigurationsInput {
 
 extension ListBucketInventoryConfigurationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListBucketInventoryConfigurationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListBucketInventoryConfigurationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -11868,7 +11871,7 @@ public struct ListBucketInventoryConfigurationsOutput {
 
 enum ListBucketInventoryConfigurationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -11882,8 +11885,8 @@ enum ListBucketInventoryConfigurationsOutputError {
 
 extension ListBucketMetricsConfigurationsInput {
 
-    static func headerProvider(_ value: ListBucketMetricsConfigurationsInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: ListBucketMetricsConfigurationsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -11893,12 +11896,12 @@ extension ListBucketMetricsConfigurationsInput {
 
 extension ListBucketMetricsConfigurationsInput {
 
-    static func queryItemProvider(_ value: ListBucketMetricsConfigurationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "metrics", value: nil))
-        items.append(ClientRuntime.SDKURLQueryItem(name: "x-id", value: "ListBucketMetricsConfigurations"))
+    static func queryItemProvider(_ value: ListBucketMetricsConfigurationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "metrics", value: nil))
+        items.append(Smithy.URIQueryItem(name: "x-id", value: "ListBucketMetricsConfigurations"))
         if let continuationToken = value.continuationToken {
-            let continuationTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "continuation-token".urlPercentEncoding(), value: Swift.String(continuationToken).urlPercentEncoding())
+            let continuationTokenQueryItem = Smithy.URIQueryItem(name: "continuation-token".urlPercentEncoding(), value: Swift.String(continuationToken).urlPercentEncoding())
             items.append(continuationTokenQueryItem)
         }
         return items
@@ -11935,7 +11938,7 @@ public struct ListBucketMetricsConfigurationsInput {
 
 extension ListBucketMetricsConfigurationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListBucketMetricsConfigurationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListBucketMetricsConfigurationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -11974,7 +11977,7 @@ public struct ListBucketMetricsConfigurationsOutput {
 
 enum ListBucketMetricsConfigurationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -11988,9 +11991,9 @@ enum ListBucketMetricsConfigurationsOutputError {
 
 extension ListBucketsInput {
 
-    static func queryItemProvider(_ value: ListBucketsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "x-id", value: "ListBuckets"))
+    static func queryItemProvider(_ value: ListBucketsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "x-id", value: "ListBuckets"))
         return items
     }
 }
@@ -12009,7 +12012,7 @@ public struct ListBucketsInput {
 
 extension ListBucketsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListBucketsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListBucketsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -12038,7 +12041,7 @@ public struct ListBucketsOutput {
 
 enum ListBucketsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -12052,15 +12055,15 @@ enum ListBucketsOutputError {
 
 extension ListDirectoryBucketsInput {
 
-    static func queryItemProvider(_ value: ListDirectoryBucketsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "x-id", value: "ListDirectoryBuckets"))
+    static func queryItemProvider(_ value: ListDirectoryBucketsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "x-id", value: "ListDirectoryBuckets"))
         if let continuationToken = value.continuationToken {
-            let continuationTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "continuation-token".urlPercentEncoding(), value: Swift.String(continuationToken).urlPercentEncoding())
+            let continuationTokenQueryItem = Smithy.URIQueryItem(name: "continuation-token".urlPercentEncoding(), value: Swift.String(continuationToken).urlPercentEncoding())
             items.append(continuationTokenQueryItem)
         }
         if let maxDirectoryBuckets = value.maxDirectoryBuckets {
-            let maxDirectoryBucketsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-directory-buckets".urlPercentEncoding(), value: Swift.String(maxDirectoryBuckets).urlPercentEncoding())
+            let maxDirectoryBucketsQueryItem = Smithy.URIQueryItem(name: "max-directory-buckets".urlPercentEncoding(), value: Swift.String(maxDirectoryBuckets).urlPercentEncoding())
             items.append(maxDirectoryBucketsQueryItem)
         }
         return items
@@ -12092,7 +12095,7 @@ public struct ListDirectoryBucketsInput {
 
 extension ListDirectoryBucketsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListDirectoryBucketsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListDirectoryBucketsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -12121,7 +12124,7 @@ public struct ListDirectoryBucketsOutput {
 
 enum ListDirectoryBucketsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -12135,8 +12138,8 @@ enum ListDirectoryBucketsOutputError {
 
 extension ListMultipartUploadsInput {
 
-    static func headerProvider(_ value: ListMultipartUploadsInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: ListMultipartUploadsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -12149,31 +12152,31 @@ extension ListMultipartUploadsInput {
 
 extension ListMultipartUploadsInput {
 
-    static func queryItemProvider(_ value: ListMultipartUploadsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "uploads", value: nil))
+    static func queryItemProvider(_ value: ListMultipartUploadsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "uploads", value: nil))
         if let uploadIdMarker = value.uploadIdMarker {
-            let uploadIdMarkerQueryItem = ClientRuntime.SDKURLQueryItem(name: "upload-id-marker".urlPercentEncoding(), value: Swift.String(uploadIdMarker).urlPercentEncoding())
+            let uploadIdMarkerQueryItem = Smithy.URIQueryItem(name: "upload-id-marker".urlPercentEncoding(), value: Swift.String(uploadIdMarker).urlPercentEncoding())
             items.append(uploadIdMarkerQueryItem)
         }
         if let delimiter = value.delimiter {
-            let delimiterQueryItem = ClientRuntime.SDKURLQueryItem(name: "delimiter".urlPercentEncoding(), value: Swift.String(delimiter).urlPercentEncoding())
+            let delimiterQueryItem = Smithy.URIQueryItem(name: "delimiter".urlPercentEncoding(), value: Swift.String(delimiter).urlPercentEncoding())
             items.append(delimiterQueryItem)
         }
         if let maxUploads = value.maxUploads {
-            let maxUploadsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-uploads".urlPercentEncoding(), value: Swift.String(maxUploads).urlPercentEncoding())
+            let maxUploadsQueryItem = Smithy.URIQueryItem(name: "max-uploads".urlPercentEncoding(), value: Swift.String(maxUploads).urlPercentEncoding())
             items.append(maxUploadsQueryItem)
         }
         if let encodingType = value.encodingType {
-            let encodingTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "encoding-type".urlPercentEncoding(), value: Swift.String(encodingType.rawValue).urlPercentEncoding())
+            let encodingTypeQueryItem = Smithy.URIQueryItem(name: "encoding-type".urlPercentEncoding(), value: Swift.String(encodingType.rawValue).urlPercentEncoding())
             items.append(encodingTypeQueryItem)
         }
         if let `prefix` = value.`prefix` {
-            let prefixQueryItem = ClientRuntime.SDKURLQueryItem(name: "prefix".urlPercentEncoding(), value: Swift.String(`prefix`).urlPercentEncoding())
+            let prefixQueryItem = Smithy.URIQueryItem(name: "prefix".urlPercentEncoding(), value: Swift.String(`prefix`).urlPercentEncoding())
             items.append(prefixQueryItem)
         }
         if let keyMarker = value.keyMarker {
-            let keyMarkerQueryItem = ClientRuntime.SDKURLQueryItem(name: "key-marker".urlPercentEncoding(), value: Swift.String(keyMarker).urlPercentEncoding())
+            let keyMarkerQueryItem = Smithy.URIQueryItem(name: "key-marker".urlPercentEncoding(), value: Swift.String(keyMarker).urlPercentEncoding())
             items.append(keyMarkerQueryItem)
         }
         return items
@@ -12238,7 +12241,7 @@ public struct ListMultipartUploadsInput {
 
 extension ListMultipartUploadsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListMultipartUploadsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListMultipartUploadsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -12324,7 +12327,7 @@ public struct ListMultipartUploadsOutput {
 
 enum ListMultipartUploadsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -12338,8 +12341,8 @@ enum ListMultipartUploadsOutputError {
 
 extension ListObjectVersionsInput {
 
-    static func headerProvider(_ value: ListObjectVersionsInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: ListObjectVersionsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -12357,31 +12360,31 @@ extension ListObjectVersionsInput {
 
 extension ListObjectVersionsInput {
 
-    static func queryItemProvider(_ value: ListObjectVersionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "versions", value: nil))
+    static func queryItemProvider(_ value: ListObjectVersionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "versions", value: nil))
         if let versionIdMarker = value.versionIdMarker {
-            let versionIdMarkerQueryItem = ClientRuntime.SDKURLQueryItem(name: "version-id-marker".urlPercentEncoding(), value: Swift.String(versionIdMarker).urlPercentEncoding())
+            let versionIdMarkerQueryItem = Smithy.URIQueryItem(name: "version-id-marker".urlPercentEncoding(), value: Swift.String(versionIdMarker).urlPercentEncoding())
             items.append(versionIdMarkerQueryItem)
         }
         if let delimiter = value.delimiter {
-            let delimiterQueryItem = ClientRuntime.SDKURLQueryItem(name: "delimiter".urlPercentEncoding(), value: Swift.String(delimiter).urlPercentEncoding())
+            let delimiterQueryItem = Smithy.URIQueryItem(name: "delimiter".urlPercentEncoding(), value: Swift.String(delimiter).urlPercentEncoding())
             items.append(delimiterQueryItem)
         }
         if let encodingType = value.encodingType {
-            let encodingTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "encoding-type".urlPercentEncoding(), value: Swift.String(encodingType.rawValue).urlPercentEncoding())
+            let encodingTypeQueryItem = Smithy.URIQueryItem(name: "encoding-type".urlPercentEncoding(), value: Swift.String(encodingType.rawValue).urlPercentEncoding())
             items.append(encodingTypeQueryItem)
         }
         if let `prefix` = value.`prefix` {
-            let prefixQueryItem = ClientRuntime.SDKURLQueryItem(name: "prefix".urlPercentEncoding(), value: Swift.String(`prefix`).urlPercentEncoding())
+            let prefixQueryItem = Smithy.URIQueryItem(name: "prefix".urlPercentEncoding(), value: Swift.String(`prefix`).urlPercentEncoding())
             items.append(prefixQueryItem)
         }
         if let maxKeys = value.maxKeys {
-            let maxKeysQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-keys".urlPercentEncoding(), value: Swift.String(maxKeys).urlPercentEncoding())
+            let maxKeysQueryItem = Smithy.URIQueryItem(name: "max-keys".urlPercentEncoding(), value: Swift.String(maxKeys).urlPercentEncoding())
             items.append(maxKeysQueryItem)
         }
         if let keyMarker = value.keyMarker {
-            let keyMarkerQueryItem = ClientRuntime.SDKURLQueryItem(name: "key-marker".urlPercentEncoding(), value: Swift.String(keyMarker).urlPercentEncoding())
+            let keyMarkerQueryItem = Smithy.URIQueryItem(name: "key-marker".urlPercentEncoding(), value: Swift.String(keyMarker).urlPercentEncoding())
             items.append(keyMarkerQueryItem)
         }
         return items
@@ -12446,7 +12449,7 @@ public struct ListObjectVersionsInput {
 
 extension ListObjectVersionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListObjectVersionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListObjectVersionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -12537,7 +12540,7 @@ public struct ListObjectVersionsOutput {
 
 enum ListObjectVersionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -12551,8 +12554,8 @@ enum ListObjectVersionsOutputError {
 
 extension ListObjectsInput {
 
-    static func headerProvider(_ value: ListObjectsInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: ListObjectsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -12570,26 +12573,26 @@ extension ListObjectsInput {
 
 extension ListObjectsInput {
 
-    static func queryItemProvider(_ value: ListObjectsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListObjectsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let delimiter = value.delimiter {
-            let delimiterQueryItem = ClientRuntime.SDKURLQueryItem(name: "delimiter".urlPercentEncoding(), value: Swift.String(delimiter).urlPercentEncoding())
+            let delimiterQueryItem = Smithy.URIQueryItem(name: "delimiter".urlPercentEncoding(), value: Swift.String(delimiter).urlPercentEncoding())
             items.append(delimiterQueryItem)
         }
         if let encodingType = value.encodingType {
-            let encodingTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "encoding-type".urlPercentEncoding(), value: Swift.String(encodingType.rawValue).urlPercentEncoding())
+            let encodingTypeQueryItem = Smithy.URIQueryItem(name: "encoding-type".urlPercentEncoding(), value: Swift.String(encodingType.rawValue).urlPercentEncoding())
             items.append(encodingTypeQueryItem)
         }
         if let marker = value.marker {
-            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            let markerQueryItem = Smithy.URIQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
             items.append(markerQueryItem)
         }
         if let `prefix` = value.`prefix` {
-            let prefixQueryItem = ClientRuntime.SDKURLQueryItem(name: "prefix".urlPercentEncoding(), value: Swift.String(`prefix`).urlPercentEncoding())
+            let prefixQueryItem = Smithy.URIQueryItem(name: "prefix".urlPercentEncoding(), value: Swift.String(`prefix`).urlPercentEncoding())
             items.append(prefixQueryItem)
         }
         if let maxKeys = value.maxKeys {
-            let maxKeysQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-keys".urlPercentEncoding(), value: Swift.String(maxKeys).urlPercentEncoding())
+            let maxKeysQueryItem = Smithy.URIQueryItem(name: "max-keys".urlPercentEncoding(), value: Swift.String(maxKeys).urlPercentEncoding())
             items.append(maxKeysQueryItem)
         }
         return items
@@ -12650,7 +12653,7 @@ public struct ListObjectsInput {
 
 extension ListObjectsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListObjectsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListObjectsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -12726,7 +12729,7 @@ public struct ListObjectsOutput {
 
 enum ListObjectsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -12741,8 +12744,8 @@ enum ListObjectsOutputError {
 
 extension ListObjectsV2Input {
 
-    static func headerProvider(_ value: ListObjectsV2Input) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: ListObjectsV2Input) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -12760,35 +12763,35 @@ extension ListObjectsV2Input {
 
 extension ListObjectsV2Input {
 
-    static func queryItemProvider(_ value: ListObjectsV2Input) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "list-type", value: "2"))
+    static func queryItemProvider(_ value: ListObjectsV2Input) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "list-type", value: "2"))
         if let continuationToken = value.continuationToken {
-            let continuationTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "continuation-token".urlPercentEncoding(), value: Swift.String(continuationToken).urlPercentEncoding())
+            let continuationTokenQueryItem = Smithy.URIQueryItem(name: "continuation-token".urlPercentEncoding(), value: Swift.String(continuationToken).urlPercentEncoding())
             items.append(continuationTokenQueryItem)
         }
         if let delimiter = value.delimiter {
-            let delimiterQueryItem = ClientRuntime.SDKURLQueryItem(name: "delimiter".urlPercentEncoding(), value: Swift.String(delimiter).urlPercentEncoding())
+            let delimiterQueryItem = Smithy.URIQueryItem(name: "delimiter".urlPercentEncoding(), value: Swift.String(delimiter).urlPercentEncoding())
             items.append(delimiterQueryItem)
         }
         if let fetchOwner = value.fetchOwner {
-            let fetchOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "fetch-owner".urlPercentEncoding(), value: Swift.String(fetchOwner).urlPercentEncoding())
+            let fetchOwnerQueryItem = Smithy.URIQueryItem(name: "fetch-owner".urlPercentEncoding(), value: Swift.String(fetchOwner).urlPercentEncoding())
             items.append(fetchOwnerQueryItem)
         }
         if let encodingType = value.encodingType {
-            let encodingTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "encoding-type".urlPercentEncoding(), value: Swift.String(encodingType.rawValue).urlPercentEncoding())
+            let encodingTypeQueryItem = Smithy.URIQueryItem(name: "encoding-type".urlPercentEncoding(), value: Swift.String(encodingType.rawValue).urlPercentEncoding())
             items.append(encodingTypeQueryItem)
         }
         if let startAfter = value.startAfter {
-            let startAfterQueryItem = ClientRuntime.SDKURLQueryItem(name: "start-after".urlPercentEncoding(), value: Swift.String(startAfter).urlPercentEncoding())
+            let startAfterQueryItem = Smithy.URIQueryItem(name: "start-after".urlPercentEncoding(), value: Swift.String(startAfter).urlPercentEncoding())
             items.append(startAfterQueryItem)
         }
         if let `prefix` = value.`prefix` {
-            let prefixQueryItem = ClientRuntime.SDKURLQueryItem(name: "prefix".urlPercentEncoding(), value: Swift.String(`prefix`).urlPercentEncoding())
+            let prefixQueryItem = Smithy.URIQueryItem(name: "prefix".urlPercentEncoding(), value: Swift.String(`prefix`).urlPercentEncoding())
             items.append(prefixQueryItem)
         }
         if let maxKeys = value.maxKeys {
-            let maxKeysQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-keys".urlPercentEncoding(), value: Swift.String(maxKeys).urlPercentEncoding())
+            let maxKeysQueryItem = Smithy.URIQueryItem(name: "max-keys".urlPercentEncoding(), value: Swift.String(maxKeys).urlPercentEncoding())
             items.append(maxKeysQueryItem)
         }
         return items
@@ -12861,7 +12864,7 @@ public struct ListObjectsV2Input {
 
 extension ListObjectsV2Output {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListObjectsV2Output {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListObjectsV2Output {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -12951,7 +12954,7 @@ public struct ListObjectsV2Output {
 
 enum ListObjectsV2OutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -12971,8 +12974,8 @@ extension ListPartsInput: Swift.CustomDebugStringConvertible {
 
 extension ListPartsInput {
 
-    static func headerProvider(_ value: ListPartsInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: ListPartsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -12994,22 +12997,22 @@ extension ListPartsInput {
 
 extension ListPartsInput {
 
-    static func queryItemProvider(_ value: ListPartsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "x-id", value: "ListParts"))
+    static func queryItemProvider(_ value: ListPartsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "x-id", value: "ListParts"))
         if let partNumberMarker = value.partNumberMarker {
-            let partNumberMarkerQueryItem = ClientRuntime.SDKURLQueryItem(name: "part-number-marker".urlPercentEncoding(), value: Swift.String(partNumberMarker).urlPercentEncoding())
+            let partNumberMarkerQueryItem = Smithy.URIQueryItem(name: "part-number-marker".urlPercentEncoding(), value: Swift.String(partNumberMarker).urlPercentEncoding())
             items.append(partNumberMarkerQueryItem)
         }
         if let maxParts = value.maxParts {
-            let maxPartsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-parts".urlPercentEncoding(), value: Swift.String(maxParts).urlPercentEncoding())
+            let maxPartsQueryItem = Smithy.URIQueryItem(name: "max-parts".urlPercentEncoding(), value: Swift.String(maxParts).urlPercentEncoding())
             items.append(maxPartsQueryItem)
         }
         guard let uploadId = value.uploadId else {
             let message = "Creating a URL Query Item failed. uploadId is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let uploadIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "uploadId".urlPercentEncoding(), value: Swift.String(uploadId).urlPercentEncoding())
+        let uploadIdQueryItem = Smithy.URIQueryItem(name: "uploadId".urlPercentEncoding(), value: Swift.String(uploadId).urlPercentEncoding())
         items.append(uploadIdQueryItem)
         return items
     }
@@ -13078,7 +13081,7 @@ public struct ListPartsInput {
 
 extension ListPartsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPartsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPartsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -13110,7 +13113,7 @@ extension ListPartsOutput {
 
 public struct ListPartsOutput {
     /// If the bucket has a lifecycle rule configured with an action to abort incomplete multipart uploads and the prefix in the lifecycle rule matches the object name in the request, then the response includes this header indicating when the initiated multipart upload will become eligible for abort operation. For more information, see [Aborting Incomplete Multipart Uploads Using a Bucket Lifecycle Configuration](https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html#mpu-abort-incomplete-mpu-lifecycle-config). The response will also include the x-amz-abort-rule-id header that will provide the ID of the lifecycle configuration rule that defines this action. This functionality is not supported for directory buckets.
-    public var abortDate: ClientRuntime.Date?
+    public var abortDate: Foundation.Date?
     /// This header is returned along with the x-amz-abort-date header. It identifies applicable lifecycle configuration rule that defines the action to abort incomplete multipart uploads. This functionality is not supported for directory buckets.
     public var abortRuleId: Swift.String?
     /// The name of the bucket to which the multipart upload was initiated. Does not return the access point ARN or access point alias if used.
@@ -13141,7 +13144,7 @@ public struct ListPartsOutput {
     public var uploadId: Swift.String?
 
     public init(
-        abortDate: ClientRuntime.Date? = nil,
+        abortDate: Foundation.Date? = nil,
         abortRuleId: Swift.String? = nil,
         bucket: Swift.String? = nil,
         checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm? = nil,
@@ -13178,7 +13181,7 @@ public struct ListPartsOutput {
 
 enum ListPartsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -13634,7 +13637,7 @@ extension S3ClientTypes {
         /// The algorithm that was used to create a checksum of the object.
         public var checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm?
         /// Date and time at which the multipart upload was initiated.
-        public var initiated: ClientRuntime.Date?
+        public var initiated: Foundation.Date?
         /// Identifies who initiated the multipart upload.
         public var initiator: S3ClientTypes.Initiator?
         /// Key of the object for which the multipart upload was initiated.
@@ -13648,7 +13651,7 @@ extension S3ClientTypes {
 
         public init(
             checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm? = nil,
-            initiated: ClientRuntime.Date? = nil,
+            initiated: Foundation.Date? = nil,
             initiator: S3ClientTypes.Initiator? = nil,
             key: Swift.String? = nil,
             owner: S3ClientTypes.Owner? = nil,
@@ -13958,7 +13961,7 @@ extension S3ClientTypes {
         /// The name that you assign to an object. You use the object key to retrieve the object.
         public var key: Swift.String?
         /// Creation date of the object.
-        public var lastModified: ClientRuntime.Date?
+        public var lastModified: Foundation.Date?
         /// The owner of the object Directory buckets - The bucket owner is returned as the object owner.
         public var owner: S3ClientTypes.Owner?
         /// Specifies the restoration status of an object. Objects in certain storage classes must be restored before they can be retrieved. For more information about these storage classes and how to work with archived objects, see [ Working with archived objects](https://docs.aws.amazon.com/AmazonS3/latest/userguide/archived-objects.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets. Only the S3 Express One Zone storage class is supported by directory buckets to store objects.
@@ -13972,7 +13975,7 @@ extension S3ClientTypes {
             checksumAlgorithm: [S3ClientTypes.ChecksumAlgorithm]? = nil,
             eTag: Swift.String? = nil,
             key: Swift.String? = nil,
-            lastModified: ClientRuntime.Date? = nil,
+            lastModified: Foundation.Date? = nil,
             owner: S3ClientTypes.Owner? = nil,
             restoreStatus: S3ClientTypes.RestoreStatus? = nil,
             size: Swift.Int? = nil,
@@ -14305,11 +14308,11 @@ extension S3ClientTypes {
         /// Indicates the Retention mode for the specified object.
         public var mode: S3ClientTypes.ObjectLockRetentionMode?
         /// The date on which this Object Lock Retention will expire.
-        public var retainUntilDate: ClientRuntime.Date?
+        public var retainUntilDate: Foundation.Date?
 
         public init(
             mode: S3ClientTypes.ObjectLockRetentionMode? = nil,
-            retainUntilDate: ClientRuntime.Date? = nil
+            retainUntilDate: Foundation.Date? = nil
         )
         {
             self.mode = mode
@@ -14576,7 +14579,7 @@ extension S3ClientTypes {
         /// The object key.
         public var key: Swift.String?
         /// Date and time when the object was last modified.
-        public var lastModified: ClientRuntime.Date?
+        public var lastModified: Foundation.Date?
         /// Specifies the owner of the object.
         public var owner: S3ClientTypes.Owner?
         /// Specifies the restoration status of an object. Objects in certain storage classes must be restored before they can be retrieved. For more information about these storage classes and how to work with archived objects, see [ Working with archived objects](https://docs.aws.amazon.com/AmazonS3/latest/userguide/archived-objects.html) in the Amazon S3 User Guide.
@@ -14593,7 +14596,7 @@ extension S3ClientTypes {
             eTag: Swift.String? = nil,
             isLatest: Swift.Bool? = nil,
             key: Swift.String? = nil,
-            lastModified: ClientRuntime.Date? = nil,
+            lastModified: Foundation.Date? = nil,
             owner: S3ClientTypes.Owner? = nil,
             restoreStatus: S3ClientTypes.RestoreStatus? = nil,
             size: Swift.Int? = nil,
@@ -14915,7 +14918,7 @@ extension S3ClientTypes {
         /// Entity tag returned when the part was uploaded.
         public var eTag: Swift.String?
         /// Date and time at which the part was uploaded.
-        public var lastModified: ClientRuntime.Date?
+        public var lastModified: Foundation.Date?
         /// Part number identifying the part. This is a positive integer between 1 and 10,000.
         public var partNumber: Swift.Int?
         /// Size in bytes of the uploaded part data.
@@ -14927,7 +14930,7 @@ extension S3ClientTypes {
             checksumSHA1: Swift.String? = nil,
             checksumSHA256: Swift.String? = nil,
             eTag: Swift.String? = nil,
-            lastModified: ClientRuntime.Date? = nil,
+            lastModified: Foundation.Date? = nil,
             partNumber: Swift.Int? = nil,
             size: Swift.Int? = nil
         )
@@ -15249,8 +15252,8 @@ extension S3ClientTypes {
 
 extension PutBucketAccelerateConfigurationInput {
 
-    static func headerProvider(_ value: PutBucketAccelerateConfigurationInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PutBucketAccelerateConfigurationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let checksumAlgorithm = value.checksumAlgorithm {
             items.add(Header(name: "x-amz-sdk-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
         }
@@ -15263,9 +15266,9 @@ extension PutBucketAccelerateConfigurationInput {
 
 extension PutBucketAccelerateConfigurationInput {
 
-    static func queryItemProvider(_ value: PutBucketAccelerateConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "accelerate", value: nil))
+    static func queryItemProvider(_ value: PutBucketAccelerateConfigurationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "accelerate", value: nil))
         return items
     }
 }
@@ -15313,7 +15316,7 @@ public struct PutBucketAccelerateConfigurationInput {
 
 extension PutBucketAccelerateConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutBucketAccelerateConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutBucketAccelerateConfigurationOutput {
         return PutBucketAccelerateConfigurationOutput()
     }
 }
@@ -15325,7 +15328,7 @@ public struct PutBucketAccelerateConfigurationOutput {
 
 enum PutBucketAccelerateConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -15339,8 +15342,8 @@ enum PutBucketAccelerateConfigurationOutputError {
 
 extension PutBucketAclInput {
 
-    static func headerProvider(_ value: PutBucketAclInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PutBucketAclInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let acl = value.acl {
             items.add(Header(name: "x-amz-acl", value: Swift.String(acl.rawValue)))
         }
@@ -15374,9 +15377,9 @@ extension PutBucketAclInput {
 
 extension PutBucketAclInput {
 
-    static func queryItemProvider(_ value: PutBucketAclInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "acl", value: nil))
+    static func queryItemProvider(_ value: PutBucketAclInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "acl", value: nil))
         return items
     }
 }
@@ -15451,7 +15454,7 @@ public struct PutBucketAclInput {
 
 extension PutBucketAclOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutBucketAclOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutBucketAclOutput {
         return PutBucketAclOutput()
     }
 }
@@ -15463,7 +15466,7 @@ public struct PutBucketAclOutput {
 
 enum PutBucketAclOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -15477,8 +15480,8 @@ enum PutBucketAclOutputError {
 
 extension PutBucketAnalyticsConfigurationInput {
 
-    static func headerProvider(_ value: PutBucketAnalyticsConfigurationInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PutBucketAnalyticsConfigurationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -15488,14 +15491,14 @@ extension PutBucketAnalyticsConfigurationInput {
 
 extension PutBucketAnalyticsConfigurationInput {
 
-    static func queryItemProvider(_ value: PutBucketAnalyticsConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "analytics", value: nil))
+    static func queryItemProvider(_ value: PutBucketAnalyticsConfigurationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "analytics", value: nil))
         guard let id = value.id else {
             let message = "Creating a URL Query Item failed. id is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let idQueryItem = ClientRuntime.SDKURLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
+        let idQueryItem = Smithy.URIQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
         items.append(idQueryItem)
         return items
     }
@@ -15545,7 +15548,7 @@ public struct PutBucketAnalyticsConfigurationInput {
 
 extension PutBucketAnalyticsConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutBucketAnalyticsConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutBucketAnalyticsConfigurationOutput {
         return PutBucketAnalyticsConfigurationOutput()
     }
 }
@@ -15557,7 +15560,7 @@ public struct PutBucketAnalyticsConfigurationOutput {
 
 enum PutBucketAnalyticsConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -15571,8 +15574,8 @@ enum PutBucketAnalyticsConfigurationOutputError {
 
 extension PutBucketCorsInput {
 
-    static func headerProvider(_ value: PutBucketCorsInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PutBucketCorsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let checksumAlgorithm = value.checksumAlgorithm {
             items.add(Header(name: "x-amz-sdk-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
         }
@@ -15588,9 +15591,9 @@ extension PutBucketCorsInput {
 
 extension PutBucketCorsInput {
 
-    static func queryItemProvider(_ value: PutBucketCorsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "cors", value: nil))
+    static func queryItemProvider(_ value: PutBucketCorsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "cors", value: nil))
         return items
     }
 }
@@ -15642,7 +15645,7 @@ public struct PutBucketCorsInput {
 
 extension PutBucketCorsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutBucketCorsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutBucketCorsOutput {
         return PutBucketCorsOutput()
     }
 }
@@ -15654,7 +15657,7 @@ public struct PutBucketCorsOutput {
 
 enum PutBucketCorsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -15668,8 +15671,8 @@ enum PutBucketCorsOutputError {
 
 extension PutBucketEncryptionInput {
 
-    static func headerProvider(_ value: PutBucketEncryptionInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PutBucketEncryptionInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let checksumAlgorithm = value.checksumAlgorithm {
             items.add(Header(name: "x-amz-sdk-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
         }
@@ -15685,9 +15688,9 @@ extension PutBucketEncryptionInput {
 
 extension PutBucketEncryptionInput {
 
-    static func queryItemProvider(_ value: PutBucketEncryptionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "encryption", value: nil))
+    static func queryItemProvider(_ value: PutBucketEncryptionInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "encryption", value: nil))
         return items
     }
 }
@@ -15739,7 +15742,7 @@ public struct PutBucketEncryptionInput {
 
 extension PutBucketEncryptionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutBucketEncryptionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutBucketEncryptionOutput {
         return PutBucketEncryptionOutput()
     }
 }
@@ -15751,7 +15754,7 @@ public struct PutBucketEncryptionOutput {
 
 enum PutBucketEncryptionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -15765,14 +15768,14 @@ enum PutBucketEncryptionOutputError {
 
 extension PutBucketIntelligentTieringConfigurationInput {
 
-    static func queryItemProvider(_ value: PutBucketIntelligentTieringConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "intelligent-tiering", value: nil))
+    static func queryItemProvider(_ value: PutBucketIntelligentTieringConfigurationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "intelligent-tiering", value: nil))
         guard let id = value.id else {
             let message = "Creating a URL Query Item failed. id is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let idQueryItem = ClientRuntime.SDKURLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
+        let idQueryItem = Smithy.URIQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
         items.append(idQueryItem)
         return items
     }
@@ -15818,7 +15821,7 @@ public struct PutBucketIntelligentTieringConfigurationInput {
 
 extension PutBucketIntelligentTieringConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutBucketIntelligentTieringConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutBucketIntelligentTieringConfigurationOutput {
         return PutBucketIntelligentTieringConfigurationOutput()
     }
 }
@@ -15830,7 +15833,7 @@ public struct PutBucketIntelligentTieringConfigurationOutput {
 
 enum PutBucketIntelligentTieringConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -15844,8 +15847,8 @@ enum PutBucketIntelligentTieringConfigurationOutputError {
 
 extension PutBucketInventoryConfigurationInput {
 
-    static func headerProvider(_ value: PutBucketInventoryConfigurationInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PutBucketInventoryConfigurationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -15855,14 +15858,14 @@ extension PutBucketInventoryConfigurationInput {
 
 extension PutBucketInventoryConfigurationInput {
 
-    static func queryItemProvider(_ value: PutBucketInventoryConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "inventory", value: nil))
+    static func queryItemProvider(_ value: PutBucketInventoryConfigurationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "inventory", value: nil))
         guard let id = value.id else {
             let message = "Creating a URL Query Item failed. id is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let idQueryItem = ClientRuntime.SDKURLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
+        let idQueryItem = Smithy.URIQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
         items.append(idQueryItem)
         return items
     }
@@ -15912,7 +15915,7 @@ public struct PutBucketInventoryConfigurationInput {
 
 extension PutBucketInventoryConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutBucketInventoryConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutBucketInventoryConfigurationOutput {
         return PutBucketInventoryConfigurationOutput()
     }
 }
@@ -15924,7 +15927,7 @@ public struct PutBucketInventoryConfigurationOutput {
 
 enum PutBucketInventoryConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -15938,8 +15941,8 @@ enum PutBucketInventoryConfigurationOutputError {
 
 extension PutBucketLifecycleConfigurationInput {
 
-    static func headerProvider(_ value: PutBucketLifecycleConfigurationInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PutBucketLifecycleConfigurationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let checksumAlgorithm = value.checksumAlgorithm {
             items.add(Header(name: "x-amz-sdk-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
         }
@@ -15952,9 +15955,9 @@ extension PutBucketLifecycleConfigurationInput {
 
 extension PutBucketLifecycleConfigurationInput {
 
-    static func queryItemProvider(_ value: PutBucketLifecycleConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "lifecycle", value: nil))
+    static func queryItemProvider(_ value: PutBucketLifecycleConfigurationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "lifecycle", value: nil))
         return items
     }
 }
@@ -16001,7 +16004,7 @@ public struct PutBucketLifecycleConfigurationInput {
 
 extension PutBucketLifecycleConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutBucketLifecycleConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutBucketLifecycleConfigurationOutput {
         return PutBucketLifecycleConfigurationOutput()
     }
 }
@@ -16013,7 +16016,7 @@ public struct PutBucketLifecycleConfigurationOutput {
 
 enum PutBucketLifecycleConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -16027,8 +16030,8 @@ enum PutBucketLifecycleConfigurationOutputError {
 
 extension PutBucketLoggingInput {
 
-    static func headerProvider(_ value: PutBucketLoggingInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PutBucketLoggingInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let checksumAlgorithm = value.checksumAlgorithm {
             items.add(Header(name: "x-amz-sdk-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
         }
@@ -16044,9 +16047,9 @@ extension PutBucketLoggingInput {
 
 extension PutBucketLoggingInput {
 
-    static func queryItemProvider(_ value: PutBucketLoggingInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "logging", value: nil))
+    static func queryItemProvider(_ value: PutBucketLoggingInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "logging", value: nil))
         return items
     }
 }
@@ -16098,7 +16101,7 @@ public struct PutBucketLoggingInput {
 
 extension PutBucketLoggingOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutBucketLoggingOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutBucketLoggingOutput {
         return PutBucketLoggingOutput()
     }
 }
@@ -16110,7 +16113,7 @@ public struct PutBucketLoggingOutput {
 
 enum PutBucketLoggingOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -16124,8 +16127,8 @@ enum PutBucketLoggingOutputError {
 
 extension PutBucketMetricsConfigurationInput {
 
-    static func headerProvider(_ value: PutBucketMetricsConfigurationInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PutBucketMetricsConfigurationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -16135,14 +16138,14 @@ extension PutBucketMetricsConfigurationInput {
 
 extension PutBucketMetricsConfigurationInput {
 
-    static func queryItemProvider(_ value: PutBucketMetricsConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "metrics", value: nil))
+    static func queryItemProvider(_ value: PutBucketMetricsConfigurationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "metrics", value: nil))
         guard let id = value.id else {
             let message = "Creating a URL Query Item failed. id is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let idQueryItem = ClientRuntime.SDKURLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
+        let idQueryItem = Smithy.URIQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
         items.append(idQueryItem)
         return items
     }
@@ -16192,7 +16195,7 @@ public struct PutBucketMetricsConfigurationInput {
 
 extension PutBucketMetricsConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutBucketMetricsConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutBucketMetricsConfigurationOutput {
         return PutBucketMetricsConfigurationOutput()
     }
 }
@@ -16204,7 +16207,7 @@ public struct PutBucketMetricsConfigurationOutput {
 
 enum PutBucketMetricsConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -16218,8 +16221,8 @@ enum PutBucketMetricsConfigurationOutputError {
 
 extension PutBucketNotificationConfigurationInput {
 
-    static func headerProvider(_ value: PutBucketNotificationConfigurationInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PutBucketNotificationConfigurationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -16232,9 +16235,9 @@ extension PutBucketNotificationConfigurationInput {
 
 extension PutBucketNotificationConfigurationInput {
 
-    static func queryItemProvider(_ value: PutBucketNotificationConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "notification", value: nil))
+    static func queryItemProvider(_ value: PutBucketNotificationConfigurationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "notification", value: nil))
         return items
     }
 }
@@ -16282,7 +16285,7 @@ public struct PutBucketNotificationConfigurationInput {
 
 extension PutBucketNotificationConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutBucketNotificationConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutBucketNotificationConfigurationOutput {
         return PutBucketNotificationConfigurationOutput()
     }
 }
@@ -16294,7 +16297,7 @@ public struct PutBucketNotificationConfigurationOutput {
 
 enum PutBucketNotificationConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -16308,8 +16311,8 @@ enum PutBucketNotificationConfigurationOutputError {
 
 extension PutBucketOwnershipControlsInput {
 
-    static func headerProvider(_ value: PutBucketOwnershipControlsInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PutBucketOwnershipControlsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let contentMD5 = value.contentMD5 {
             items.add(Header(name: "Content-MD5", value: Swift.String(contentMD5)))
         }
@@ -16322,9 +16325,9 @@ extension PutBucketOwnershipControlsInput {
 
 extension PutBucketOwnershipControlsInput {
 
-    static func queryItemProvider(_ value: PutBucketOwnershipControlsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "ownershipControls", value: nil))
+    static func queryItemProvider(_ value: PutBucketOwnershipControlsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "ownershipControls", value: nil))
         return items
     }
 }
@@ -16372,7 +16375,7 @@ public struct PutBucketOwnershipControlsInput {
 
 extension PutBucketOwnershipControlsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutBucketOwnershipControlsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutBucketOwnershipControlsOutput {
         return PutBucketOwnershipControlsOutput()
     }
 }
@@ -16384,7 +16387,7 @@ public struct PutBucketOwnershipControlsOutput {
 
 enum PutBucketOwnershipControlsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -16398,8 +16401,8 @@ enum PutBucketOwnershipControlsOutputError {
 
 extension PutBucketPolicyInput {
 
-    static func headerProvider(_ value: PutBucketPolicyInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PutBucketPolicyInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let checksumAlgorithm = value.checksumAlgorithm {
             items.add(Header(name: "x-amz-sdk-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
         }
@@ -16418,9 +16421,9 @@ extension PutBucketPolicyInput {
 
 extension PutBucketPolicyInput {
 
-    static func queryItemProvider(_ value: PutBucketPolicyInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "policy", value: nil))
+    static func queryItemProvider(_ value: PutBucketPolicyInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "policy", value: nil))
         return items
     }
 }
@@ -16487,7 +16490,7 @@ public struct PutBucketPolicyInput {
 
 extension PutBucketPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutBucketPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutBucketPolicyOutput {
         return PutBucketPolicyOutput()
     }
 }
@@ -16499,7 +16502,7 @@ public struct PutBucketPolicyOutput {
 
 enum PutBucketPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -16513,8 +16516,8 @@ enum PutBucketPolicyOutputError {
 
 extension PutBucketReplicationInput {
 
-    static func headerProvider(_ value: PutBucketReplicationInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PutBucketReplicationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let checksumAlgorithm = value.checksumAlgorithm {
             items.add(Header(name: "x-amz-sdk-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
         }
@@ -16533,9 +16536,9 @@ extension PutBucketReplicationInput {
 
 extension PutBucketReplicationInput {
 
-    static func queryItemProvider(_ value: PutBucketReplicationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "replication", value: nil))
+    static func queryItemProvider(_ value: PutBucketReplicationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "replication", value: nil))
         return items
     }
 }
@@ -16591,7 +16594,7 @@ public struct PutBucketReplicationInput {
 
 extension PutBucketReplicationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutBucketReplicationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutBucketReplicationOutput {
         return PutBucketReplicationOutput()
     }
 }
@@ -16603,7 +16606,7 @@ public struct PutBucketReplicationOutput {
 
 enum PutBucketReplicationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -16617,8 +16620,8 @@ enum PutBucketReplicationOutputError {
 
 extension PutBucketRequestPaymentInput {
 
-    static func headerProvider(_ value: PutBucketRequestPaymentInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PutBucketRequestPaymentInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let checksumAlgorithm = value.checksumAlgorithm {
             items.add(Header(name: "x-amz-sdk-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
         }
@@ -16634,9 +16637,9 @@ extension PutBucketRequestPaymentInput {
 
 extension PutBucketRequestPaymentInput {
 
-    static func queryItemProvider(_ value: PutBucketRequestPaymentInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "requestPayment", value: nil))
+    static func queryItemProvider(_ value: PutBucketRequestPaymentInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "requestPayment", value: nil))
         return items
     }
 }
@@ -16688,7 +16691,7 @@ public struct PutBucketRequestPaymentInput {
 
 extension PutBucketRequestPaymentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutBucketRequestPaymentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutBucketRequestPaymentOutput {
         return PutBucketRequestPaymentOutput()
     }
 }
@@ -16700,7 +16703,7 @@ public struct PutBucketRequestPaymentOutput {
 
 enum PutBucketRequestPaymentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -16714,8 +16717,8 @@ enum PutBucketRequestPaymentOutputError {
 
 extension PutBucketTaggingInput {
 
-    static func headerProvider(_ value: PutBucketTaggingInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PutBucketTaggingInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let checksumAlgorithm = value.checksumAlgorithm {
             items.add(Header(name: "x-amz-sdk-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
         }
@@ -16731,9 +16734,9 @@ extension PutBucketTaggingInput {
 
 extension PutBucketTaggingInput {
 
-    static func queryItemProvider(_ value: PutBucketTaggingInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "tagging", value: nil))
+    static func queryItemProvider(_ value: PutBucketTaggingInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "tagging", value: nil))
         return items
     }
 }
@@ -16785,7 +16788,7 @@ public struct PutBucketTaggingInput {
 
 extension PutBucketTaggingOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutBucketTaggingOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutBucketTaggingOutput {
         return PutBucketTaggingOutput()
     }
 }
@@ -16797,7 +16800,7 @@ public struct PutBucketTaggingOutput {
 
 enum PutBucketTaggingOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -16811,8 +16814,8 @@ enum PutBucketTaggingOutputError {
 
 extension PutBucketVersioningInput {
 
-    static func headerProvider(_ value: PutBucketVersioningInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PutBucketVersioningInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let checksumAlgorithm = value.checksumAlgorithm {
             items.add(Header(name: "x-amz-sdk-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
         }
@@ -16831,9 +16834,9 @@ extension PutBucketVersioningInput {
 
 extension PutBucketVersioningInput {
 
-    static func queryItemProvider(_ value: PutBucketVersioningInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "versioning", value: nil))
+    static func queryItemProvider(_ value: PutBucketVersioningInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "versioning", value: nil))
         return items
     }
 }
@@ -16889,7 +16892,7 @@ public struct PutBucketVersioningInput {
 
 extension PutBucketVersioningOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutBucketVersioningOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutBucketVersioningOutput {
         return PutBucketVersioningOutput()
     }
 }
@@ -16901,7 +16904,7 @@ public struct PutBucketVersioningOutput {
 
 enum PutBucketVersioningOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -16915,8 +16918,8 @@ enum PutBucketVersioningOutputError {
 
 extension PutBucketWebsiteInput {
 
-    static func headerProvider(_ value: PutBucketWebsiteInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PutBucketWebsiteInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let checksumAlgorithm = value.checksumAlgorithm {
             items.add(Header(name: "x-amz-sdk-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
         }
@@ -16932,9 +16935,9 @@ extension PutBucketWebsiteInput {
 
 extension PutBucketWebsiteInput {
 
-    static func queryItemProvider(_ value: PutBucketWebsiteInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "website", value: nil))
+    static func queryItemProvider(_ value: PutBucketWebsiteInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "website", value: nil))
         return items
     }
 }
@@ -16986,7 +16989,7 @@ public struct PutBucketWebsiteInput {
 
 extension PutBucketWebsiteOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutBucketWebsiteOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutBucketWebsiteOutput {
         return PutBucketWebsiteOutput()
     }
 }
@@ -16998,7 +17001,7 @@ public struct PutBucketWebsiteOutput {
 
 enum PutBucketWebsiteOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -17012,8 +17015,8 @@ enum PutBucketWebsiteOutputError {
 
 extension PutObjectAclInput {
 
-    static func headerProvider(_ value: PutObjectAclInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PutObjectAclInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let acl = value.acl {
             items.add(Header(name: "x-amz-acl", value: Swift.String(acl.rawValue)))
         }
@@ -17050,11 +17053,11 @@ extension PutObjectAclInput {
 
 extension PutObjectAclInput {
 
-    static func queryItemProvider(_ value: PutObjectAclInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "acl", value: nil))
+    static func queryItemProvider(_ value: PutObjectAclInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "acl", value: nil))
         if let versionId = value.versionId {
-            let versionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+            let versionIdQueryItem = Smithy.URIQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
             items.append(versionIdQueryItem)
         }
         return items
@@ -17147,7 +17150,7 @@ public struct PutObjectAclInput {
 
 extension PutObjectAclOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutObjectAclOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutObjectAclOutput {
         var value = PutObjectAclOutput()
         if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
             value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
@@ -17170,7 +17173,7 @@ public struct PutObjectAclOutput {
 
 enum PutObjectAclOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -17190,8 +17193,8 @@ extension PutObjectInput: Swift.CustomDebugStringConvertible {
 
 extension PutObjectInput {
 
-    static func headerProvider(_ value: PutObjectInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PutObjectInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let acl = value.acl {
             items.add(Header(name: "x-amz-acl", value: Swift.String(acl.rawValue)))
         }
@@ -17301,13 +17304,13 @@ extension PutObjectInput {
 }
 
 extension PutObjectInput {
-    public func presignURL(config: S3Client.S3ClientConfiguration, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.URL? {
+    public func presignURL(config: S3Client.S3ClientConfiguration, expiration: Foundation.TimeInterval) async throws -> Foundation.URL? {
         let serviceName = "S3"
         let input = self
-        let client: (SdkHttpRequest, HttpContext) async throws -> HttpResponse = { (_, _) in
-            throw ClientRuntime.ClientError.unknownError("No HTTP client configured for presigned request")
+        let client: (SdkHttpRequest, Smithy.Context) async throws -> SmithyHTTPAPI.HttpResponse = { (_, _) in
+            throw Smithy.ClientError.unknownError("No HTTP client configured for presigned request")
         }
-        let context = ClientRuntime.HttpContextBuilder()
+        let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putObject")
@@ -17326,7 +17329,7 @@ extension PutObjectInput {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = OrchestratorBuilder<PutObjectInput, PutObjectOutput, ClientRuntime.SdkHttpRequest, ClientRuntime.HttpResponse, ClientRuntime.HttpContext>()
+        let builder = OrchestratorBuilder<PutObjectInput, PutObjectOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutObjectInput, PutObjectOutput>(PutObjectInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutObjectInput, PutObjectOutput>())
         let endpointParams = EndpointParams(accelerate: config.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.forcePathStyle ?? false, key: input.key, region: config.region, useArnRegion: config.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.useGlobalEndpoint ?? false)
@@ -17349,13 +17352,13 @@ extension PutObjectInput {
 }
 
 extension PutObjectInput {
-    public func presign(config: S3Client.S3ClientConfiguration, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.SdkHttpRequest? {
+    public func presign(config: S3Client.S3ClientConfiguration, expiration: Foundation.TimeInterval) async throws -> SmithyHTTPAPI.SdkHttpRequest? {
         let serviceName = "S3"
         let input = self
-        let client: (SdkHttpRequest, HttpContext) async throws -> HttpResponse = { (_, _) in
-            throw ClientRuntime.ClientError.unknownError("No HTTP client configured for presigned request")
+        let client: (SmithyHTTPAPI.SdkHttpRequest, Smithy.Context) async throws -> SmithyHTTPAPI.HttpResponse = { (_, _) in
+            throw Smithy.ClientError.unknownError("No HTTP client configured for presigned request")
         }
-        let context = ClientRuntime.HttpContextBuilder()
+        let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putObject")
@@ -17374,7 +17377,7 @@ extension PutObjectInput {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = OrchestratorBuilder<PutObjectInput, PutObjectOutput, ClientRuntime.SdkHttpRequest, ClientRuntime.HttpResponse, ClientRuntime.HttpContext>()
+        let builder = OrchestratorBuilder<PutObjectInput, PutObjectOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutObjectInput, PutObjectOutput>(PutObjectInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutObjectInput, PutObjectOutput>())
         let endpointParams = EndpointParams(accelerate: config.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.forcePathStyle ?? false, key: input.key, region: config.region, useArnRegion: config.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.useGlobalEndpoint ?? false)
@@ -17406,13 +17409,12 @@ public struct PutObjectPresignedURLMiddleware: ClientRuntime.Middleware {
 
     public init() {}
 
-    public func handle<H>(context: Context,
+    public func handle<H>(context: Smithy.Context,
                   input: ClientRuntime.SerializeStepInput<PutObjectInput>,
                   next: H) async throws -> ClientRuntime.OperationOutput<PutObjectOutput>
     where H: Handler,
     Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
+    Self.MOutput == H.Output
     {
         try self.apply(input: input.operationInput, builder: input.builder, attributes: context)
         return try await next.handle(context: context, input: input)
@@ -17420,17 +17422,15 @@ public struct PutObjectPresignedURLMiddleware: ClientRuntime.Middleware {
 
     public typealias MInput = ClientRuntime.SerializeStepInput<PutObjectInput>
     public typealias MOutput = ClientRuntime.OperationOutput<PutObjectOutput>
-    public typealias Context = ClientRuntime.HttpContext
 }
-extension PutObjectPresignedURLMiddleware: ClientRuntime.RequestMessageSerializer {
+extension PutObjectPresignedURLMiddleware: Smithy.RequestMessageSerializer {
     public typealias InputType = PutObjectInput
-    public typealias RequestType = ClientRuntime.SdkHttpRequest
-    public typealias AttributesType = ClientRuntime.HttpContext
+    public typealias RequestType = SmithyHTTPAPI.SdkHttpRequest
 
-    public func apply(input: InputType, builder: ClientRuntime.SdkHttpRequestBuilder, attributes: ClientRuntime.HttpContext) throws {
+    public func apply(input: InputType, builder: SmithyHTTPAPI.SdkHttpRequestBuilder, attributes: Smithy.Context) throws {
         let metadata = input.metadata ?? [:]
         for (metadataKey, metadataValue) in metadata {
-            let queryItem = ClientRuntime.SDKURLQueryItem(
+            let queryItem = Smithy.URIQueryItem(
                 name: "x-amz-meta-\(metadataKey.urlPercentEncoding())",
                 value: metadataValue.urlPercentEncoding()
             )
@@ -17441,9 +17441,9 @@ extension PutObjectPresignedURLMiddleware: ClientRuntime.RequestMessageSerialize
 
 extension PutObjectInput {
 
-    static func queryItemProvider(_ value: PutObjectInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "x-id", value: "PutObject"))
+    static func queryItemProvider(_ value: PutObjectInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "x-id", value: "PutObject"))
         return items
     }
 }
@@ -17474,7 +17474,7 @@ public struct PutObjectInput {
     /// * This functionality is not supported for Amazon S3 on Outposts.
     public var acl: S3ClientTypes.ObjectCannedACL?
     /// Object data.
-    public var body: ClientRuntime.ByteStream?
+    public var body: Smithy.ByteStream?
     /// The bucket name to which the PUT action was initiated. Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket_name.s3express-az_id.region.amazonaws.com. Path-style requests are not supported. Directory bucket names must be unique in the chosen Availability Zone. Bucket names must follow the format  bucket_base_name--az-id--x-s3 (for example,  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see [Directory bucket naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-bucket-naming-rules.html) in the Amazon S3 User Guide. Access points - When you use this action with an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. Access points and Object Lambda access points are not supported by directory buckets. S3 on Outposts - When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
     /// This member is required.
     public var bucket: Swift.String?
@@ -17553,7 +17553,7 @@ public struct PutObjectInput {
     /// The Object Lock mode that you want to apply to this object. This functionality is not supported for directory buckets.
     public var objectLockMode: S3ClientTypes.ObjectLockMode?
     /// The date and time when you want this object's Object Lock to expire. Must be formatted as a timestamp parameter. This functionality is not supported for directory buckets.
-    public var objectLockRetainUntilDate: ClientRuntime.Date?
+    public var objectLockRetainUntilDate: Foundation.Date?
     /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for corresponding charges to copy the object. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
     public var requestPayer: S3ClientTypes.RequestPayer?
     /// The server-side encryption algorithm that was used when you store this object in Amazon S3 (for example, AES256, aws:kms, aws:kms:dsse). General purpose buckets - You have four mutually exclusive options to protect data using server-side encryption in Amazon S3, depending on how you choose to manage the encryption keys. Specifically, the encryption key options are Amazon S3 managed keys (SSE-S3), Amazon Web Services KMS keys (SSE-KMS or DSSE-KMS), and customer-provided keys (SSE-C). Amazon S3 encrypts data with server-side encryption by using Amazon S3 managed keys (SSE-S3) by default. You can optionally tell Amazon S3 to encrypt data at rest by using server-side encryption with other key options. For more information, see [Using Server-Side Encryption](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingServerSideEncryption.html) in the Amazon S3 User Guide. Directory buckets - For directory buckets, only the server-side encryption with Amazon S3 managed keys (SSE-S3) (AES256) value is supported.
@@ -17581,7 +17581,7 @@ public struct PutObjectInput {
 
     public init(
         acl: S3ClientTypes.ObjectCannedACL? = nil,
-        body: ClientRuntime.ByteStream? = nil,
+        body: Smithy.ByteStream? = nil,
         bucket: Swift.String? = nil,
         bucketKeyEnabled: Swift.Bool? = nil,
         cacheControl: Swift.String? = nil,
@@ -17606,7 +17606,7 @@ public struct PutObjectInput {
         metadata: [Swift.String:Swift.String]? = nil,
         objectLockLegalHoldStatus: S3ClientTypes.ObjectLockLegalHoldStatus? = nil,
         objectLockMode: S3ClientTypes.ObjectLockMode? = nil,
-        objectLockRetainUntilDate: ClientRuntime.Date? = nil,
+        objectLockRetainUntilDate: Foundation.Date? = nil,
         requestPayer: S3ClientTypes.RequestPayer? = nil,
         serverSideEncryption: S3ClientTypes.ServerSideEncryption? = nil,
         sseCustomerAlgorithm: Swift.String? = nil,
@@ -17661,8 +17661,8 @@ public struct PutObjectInput {
 
 extension PutObjectLegalHoldInput {
 
-    static func headerProvider(_ value: PutObjectLegalHoldInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PutObjectLegalHoldInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let checksumAlgorithm = value.checksumAlgorithm {
             items.add(Header(name: "x-amz-sdk-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
         }
@@ -17681,11 +17681,11 @@ extension PutObjectLegalHoldInput {
 
 extension PutObjectLegalHoldInput {
 
-    static func queryItemProvider(_ value: PutObjectLegalHoldInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "legal-hold", value: nil))
+    static func queryItemProvider(_ value: PutObjectLegalHoldInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "legal-hold", value: nil))
         if let versionId = value.versionId {
-            let versionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+            let versionIdQueryItem = Smithy.URIQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
             items.append(versionIdQueryItem)
         }
         return items
@@ -17754,7 +17754,7 @@ public struct PutObjectLegalHoldInput {
 
 extension PutObjectLegalHoldOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutObjectLegalHoldOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutObjectLegalHoldOutput {
         var value = PutObjectLegalHoldOutput()
         if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
             value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
@@ -17777,7 +17777,7 @@ public struct PutObjectLegalHoldOutput {
 
 enum PutObjectLegalHoldOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -17791,8 +17791,8 @@ enum PutObjectLegalHoldOutputError {
 
 extension PutObjectLockConfigurationInput {
 
-    static func headerProvider(_ value: PutObjectLockConfigurationInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PutObjectLockConfigurationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let checksumAlgorithm = value.checksumAlgorithm {
             items.add(Header(name: "x-amz-sdk-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
         }
@@ -17814,9 +17814,9 @@ extension PutObjectLockConfigurationInput {
 
 extension PutObjectLockConfigurationInput {
 
-    static func queryItemProvider(_ value: PutObjectLockConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "object-lock", value: nil))
+    static func queryItemProvider(_ value: PutObjectLockConfigurationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "object-lock", value: nil))
         return items
     }
 }
@@ -17875,7 +17875,7 @@ public struct PutObjectLockConfigurationInput {
 
 extension PutObjectLockConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutObjectLockConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutObjectLockConfigurationOutput {
         var value = PutObjectLockConfigurationOutput()
         if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
             value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
@@ -17898,7 +17898,7 @@ public struct PutObjectLockConfigurationOutput {
 
 enum PutObjectLockConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -17917,7 +17917,7 @@ extension PutObjectOutput: Swift.CustomDebugStringConvertible {
 
 extension PutObjectOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutObjectOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutObjectOutput {
         var value = PutObjectOutput()
         if let bucketKeyEnabledHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-bucket-key-enabled") {
             value.bucketKeyEnabled = Swift.Bool(bucketKeyEnabledHeaderValue) ?? false
@@ -18031,7 +18031,7 @@ public struct PutObjectOutput {
 
 enum PutObjectOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -18045,8 +18045,8 @@ enum PutObjectOutputError {
 
 extension PutObjectRetentionInput {
 
-    static func headerProvider(_ value: PutObjectRetentionInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PutObjectRetentionInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let bypassGovernanceRetention = value.bypassGovernanceRetention {
             items.add(Header(name: "x-amz-bypass-governance-retention", value: Swift.String(bypassGovernanceRetention)))
         }
@@ -18068,11 +18068,11 @@ extension PutObjectRetentionInput {
 
 extension PutObjectRetentionInput {
 
-    static func queryItemProvider(_ value: PutObjectRetentionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "retention", value: nil))
+    static func queryItemProvider(_ value: PutObjectRetentionInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "retention", value: nil))
         if let versionId = value.versionId {
-            let versionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+            let versionIdQueryItem = Smithy.URIQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
             items.append(versionIdQueryItem)
         }
         return items
@@ -18145,7 +18145,7 @@ public struct PutObjectRetentionInput {
 
 extension PutObjectRetentionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutObjectRetentionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutObjectRetentionOutput {
         var value = PutObjectRetentionOutput()
         if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
             value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
@@ -18168,7 +18168,7 @@ public struct PutObjectRetentionOutput {
 
 enum PutObjectRetentionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -18182,8 +18182,8 @@ enum PutObjectRetentionOutputError {
 
 extension PutObjectTaggingInput {
 
-    static func headerProvider(_ value: PutObjectTaggingInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PutObjectTaggingInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let checksumAlgorithm = value.checksumAlgorithm {
             items.add(Header(name: "x-amz-sdk-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
         }
@@ -18202,11 +18202,11 @@ extension PutObjectTaggingInput {
 
 extension PutObjectTaggingInput {
 
-    static func queryItemProvider(_ value: PutObjectTaggingInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "tagging", value: nil))
+    static func queryItemProvider(_ value: PutObjectTaggingInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "tagging", value: nil))
         if let versionId = value.versionId {
-            let versionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+            let versionIdQueryItem = Smithy.URIQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
             items.append(versionIdQueryItem)
         }
         return items
@@ -18276,7 +18276,7 @@ public struct PutObjectTaggingInput {
 
 extension PutObjectTaggingOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutObjectTaggingOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutObjectTaggingOutput {
         var value = PutObjectTaggingOutput()
         if let versionIdHeaderValue = httpResponse.headers.value(for: "x-amz-version-id") {
             value.versionId = versionIdHeaderValue
@@ -18299,7 +18299,7 @@ public struct PutObjectTaggingOutput {
 
 enum PutObjectTaggingOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -18313,8 +18313,8 @@ enum PutObjectTaggingOutputError {
 
 extension PutPublicAccessBlockInput {
 
-    static func headerProvider(_ value: PutPublicAccessBlockInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PutPublicAccessBlockInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let checksumAlgorithm = value.checksumAlgorithm {
             items.add(Header(name: "x-amz-sdk-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
         }
@@ -18330,9 +18330,9 @@ extension PutPublicAccessBlockInput {
 
 extension PutPublicAccessBlockInput {
 
-    static func queryItemProvider(_ value: PutPublicAccessBlockInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "publicAccessBlock", value: nil))
+    static func queryItemProvider(_ value: PutPublicAccessBlockInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "publicAccessBlock", value: nil))
         return items
     }
 }
@@ -18384,7 +18384,7 @@ public struct PutPublicAccessBlockInput {
 
 extension PutPublicAccessBlockOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutPublicAccessBlockOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutPublicAccessBlockOutput {
         return PutPublicAccessBlockOutput()
     }
 }
@@ -18396,7 +18396,7 @@ public struct PutPublicAccessBlockOutput {
 
 enum PutPublicAccessBlockOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -18502,10 +18502,10 @@ extension S3ClientTypes {
     /// The container for the records event.
     public struct RecordsEvent {
         /// The byte array of partial, one or more result records.
-        public var payload: ClientRuntime.Data?
+        public var payload: Foundation.Data?
 
         public init(
-            payload: ClientRuntime.Data? = nil
+            payload: Foundation.Data? = nil
         )
         {
             self.payload = payload
@@ -19151,8 +19151,8 @@ extension S3ClientTypes {
 
 extension RestoreObjectInput {
 
-    static func headerProvider(_ value: RestoreObjectInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: RestoreObjectInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let checksumAlgorithm = value.checksumAlgorithm {
             items.add(Header(name: "x-amz-sdk-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
         }
@@ -19168,11 +19168,11 @@ extension RestoreObjectInput {
 
 extension RestoreObjectInput {
 
-    static func queryItemProvider(_ value: RestoreObjectInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "restore", value: nil))
+    static func queryItemProvider(_ value: RestoreObjectInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "restore", value: nil))
         if let versionId = value.versionId {
-            let versionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+            let versionIdQueryItem = Smithy.URIQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
             items.append(versionIdQueryItem)
         }
         return items
@@ -19237,7 +19237,7 @@ public struct RestoreObjectInput {
 
 extension RestoreObjectOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RestoreObjectOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RestoreObjectOutput {
         var value = RestoreObjectOutput()
         if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
             value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
@@ -19267,7 +19267,7 @@ public struct RestoreObjectOutput {
 
 enum RestoreObjectOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -19377,11 +19377,11 @@ extension S3ClientTypes {
         /// Specifies whether the object is currently being restored. If the object restoration is in progress, the header returns the value TRUE. For example: x-amz-optional-object-attributes: IsRestoreInProgress="true" If the object restoration has completed, the header returns the value FALSE. For example: x-amz-optional-object-attributes: IsRestoreInProgress="false", RestoreExpiryDate="2012-12-21T00:00:00.000Z" If the object hasn't been restored, there is no header response.
         public var isRestoreInProgress: Swift.Bool?
         /// Indicates when the restored copy will expire. This value is populated only if the object has already been restored. For example: x-amz-optional-object-attributes: IsRestoreInProgress="false", RestoreExpiryDate="2012-12-21T00:00:00.000Z"
-        public var restoreExpiryDate: ClientRuntime.Date?
+        public var restoreExpiryDate: Foundation.Date?
 
         public init(
             isRestoreInProgress: Swift.Bool? = nil,
-            restoreExpiryDate: ClientRuntime.Date? = nil
+            restoreExpiryDate: Foundation.Date? = nil
         )
         {
             self.isRestoreInProgress = isRestoreInProgress
@@ -19612,7 +19612,7 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes.SelectObjectContentEventStream {
-    static var unmarshal: ClientRuntime.UnmarshalClosure<S3ClientTypes.SelectObjectContentEventStream> {
+    static var unmarshal: SmithyEventStreamsAPI.UnmarshalClosure<S3ClientTypes.SelectObjectContentEventStream> {
         { message in
             switch try message.type() {
             case .event(let params):
@@ -19641,20 +19641,20 @@ extension S3ClientTypes.SelectObjectContentEventStream {
                     return .sdkUnknown("error processing event stream, unrecognized event: \(params.eventType)")
                 }
             case .exception(let params):
-                let makeError: (ClientRuntime.EventStream.Message, ClientRuntime.EventStream.MessageType.ExceptionParams) throws -> Swift.Error = { message, params in
+                let makeError: (SmithyEventStreamsAPI.Message, SmithyEventStreamsAPI.MessageType.ExceptionParams) throws -> Swift.Error = { message, params in
                     switch params.exceptionType {
                     default:
-                        let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)
+                        let httpResponse = SmithyHTTPAPI.HttpResponse(body: .data(message.payload), statusCode: .ok)
                         return AWSClientRuntime.UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':exceptionType': \(params.exceptionType); contentType: \(params.contentType ?? "nil")", requestID: nil, typeName: nil)
                     }
                 }
                 let error = try makeError(message, params)
                 throw error
             case .error(let params):
-                let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)
+                let httpResponse = SmithyHTTPAPI.HttpResponse(body: .data(message.payload), statusCode: .ok)
                 throw AWSClientRuntime.UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':errorType': \(params.errorCode); message: \(params.message ?? "nil")", requestID: nil, typeName: nil)
             case .unknown(messageType: let messageType):
-                throw ClientRuntime.ClientError.unknownError("unrecognized event stream message ':message-type': \(messageType)")
+                throw Smithy.ClientError.unknownError("unrecognized event stream message ':message-type': \(messageType)")
             }
         }
     }
@@ -19685,8 +19685,8 @@ extension SelectObjectContentInput: Swift.CustomDebugStringConvertible {
 
 extension SelectObjectContentInput {
 
-    static func headerProvider(_ value: SelectObjectContentInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: SelectObjectContentInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
@@ -19705,10 +19705,10 @@ extension SelectObjectContentInput {
 
 extension SelectObjectContentInput {
 
-    static func queryItemProvider(_ value: SelectObjectContentInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "select", value: nil))
-        items.append(ClientRuntime.SDKURLQueryItem(name: "select-type", value: "2"))
+    static func queryItemProvider(_ value: SelectObjectContentInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "select", value: nil))
+        items.append(Smithy.URIQueryItem(name: "select-type", value: "2"))
         return items
     }
 }
@@ -19807,11 +19807,11 @@ public struct SelectObjectContentInput {
 
 extension SelectObjectContentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SelectObjectContentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SelectObjectContentOutput {
         var value = SelectObjectContentOutput()
         if case .stream(let stream) = httpResponse.body {
-            let messageDecoder = AWSClientRuntime.AWSEventStream.AWSMessageDecoder()
-            let decoderStream = ClientRuntime.EventStream.DefaultMessageDecoderStream(stream: stream, messageDecoder: messageDecoder, unmarshalClosure: S3ClientTypes.SelectObjectContentEventStream.unmarshal)
+            let messageDecoder = SmithyEventStreams.DefaultMessageDecoder()
+            let decoderStream = SmithyEventStreams.DefaultMessageDecoderStream(stream: stream, messageDecoder: messageDecoder, unmarshalClosure: S3ClientTypes.SelectObjectContentEventStream.unmarshal)
             value.payload = decoderStream.toAsyncStream()
         }
         return value
@@ -19832,7 +19832,7 @@ public struct SelectObjectContentOutput {
 
 enum SelectObjectContentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -20066,7 +20066,7 @@ extension S3ClientTypes {
         public var accessKeyId: Swift.String?
         /// Temporary security credentials expire after a specified interval. After temporary credentials expire, any calls that you make with those credentials will fail. So you must generate a new set of temporary credentials. Temporary credentials cannot be extended or refreshed beyond the original specified interval.
         /// This member is required.
-        public var expiration: ClientRuntime.Date?
+        public var expiration: Foundation.Date?
         /// A key that's used with the access key ID to cryptographically sign programmatic Amazon Web Services requests. Signing a request identifies the sender and prevents the request from being altered.
         /// This member is required.
         public var secretAccessKey: Swift.String?
@@ -20076,7 +20076,7 @@ extension S3ClientTypes {
 
         public init(
             accessKeyId: Swift.String? = nil,
-            expiration: ClientRuntime.Date? = nil,
+            expiration: Foundation.Date? = nil,
             secretAccessKey: Swift.String? = nil,
             sessionToken: Swift.String? = nil
         )
@@ -20765,14 +20765,14 @@ extension S3ClientTypes {
     /// Specifies when an object transitions to a specified storage class. For more information about Amazon S3 lifecycle configuration rules, see [Transitioning Objects Using Amazon S3 Lifecycle](https://docs.aws.amazon.com/AmazonS3/latest/dev/lifecycle-transition-general-considerations.html) in the Amazon S3 User Guide.
     public struct Transition {
         /// Indicates when objects are transitioned to the specified storage class. The date value must be in ISO 8601 format. The time is always midnight UTC.
-        public var date: ClientRuntime.Date?
+        public var date: Foundation.Date?
         /// Indicates the number of days after creation when objects are transitioned to the specified storage class. The value must be a positive integer.
         public var days: Swift.Int?
         /// The storage class to which you want the object to transition.
         public var storageClass: S3ClientTypes.TransitionStorageClass?
 
         public init(
-            date: ClientRuntime.Date? = nil,
+            date: Foundation.Date? = nil,
             days: Swift.Int? = nil,
             storageClass: S3ClientTypes.TransitionStorageClass? = nil
         )
@@ -20865,8 +20865,8 @@ extension UploadPartCopyInput: Swift.CustomDebugStringConvertible {
 
 extension UploadPartCopyInput {
 
-    static func headerProvider(_ value: UploadPartCopyInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: UploadPartCopyInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let copySource = value.copySource {
             items.add(Header(name: "x-amz-copy-source", value: Swift.String(copySource)))
         }
@@ -20918,20 +20918,20 @@ extension UploadPartCopyInput {
 
 extension UploadPartCopyInput {
 
-    static func queryItemProvider(_ value: UploadPartCopyInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "x-id", value: "UploadPartCopy"))
+    static func queryItemProvider(_ value: UploadPartCopyInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "x-id", value: "UploadPartCopy"))
         guard let partNumber = value.partNumber else {
             let message = "Creating a URL Query Item failed. partNumber is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let partNumberQueryItem = ClientRuntime.SDKURLQueryItem(name: "partNumber".urlPercentEncoding(), value: Swift.String(partNumber).urlPercentEncoding())
+        let partNumberQueryItem = Smithy.URIQueryItem(name: "partNumber".urlPercentEncoding(), value: Swift.String(partNumber).urlPercentEncoding())
         items.append(partNumberQueryItem)
         guard let uploadId = value.uploadId else {
             let message = "Creating a URL Query Item failed. uploadId is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let uploadIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "uploadId".urlPercentEncoding(), value: Swift.String(uploadId).urlPercentEncoding())
+        let uploadIdQueryItem = Smithy.URIQueryItem(name: "uploadId".urlPercentEncoding(), value: Swift.String(uploadId).urlPercentEncoding())
         items.append(uploadIdQueryItem)
         return items
     }
@@ -20971,11 +20971,11 @@ public struct UploadPartCopyInput {
     /// Copies the object if its entity tag (ETag) matches the specified tag. If both of the x-amz-copy-source-if-match and x-amz-copy-source-if-unmodified-since headers are present in the request as follows: x-amz-copy-source-if-match condition evaluates to true, and; x-amz-copy-source-if-unmodified-since condition evaluates to false; Amazon S3 returns 200 OK and copies the data.
     public var copySourceIfMatch: Swift.String?
     /// Copies the object if it has been modified since the specified time. If both of the x-amz-copy-source-if-none-match and x-amz-copy-source-if-modified-since headers are present in the request as follows: x-amz-copy-source-if-none-match condition evaluates to false, and; x-amz-copy-source-if-modified-since condition evaluates to true; Amazon S3 returns 412 Precondition Failed response code.
-    public var copySourceIfModifiedSince: ClientRuntime.Date?
+    public var copySourceIfModifiedSince: Foundation.Date?
     /// Copies the object if its entity tag (ETag) is different than the specified ETag. If both of the x-amz-copy-source-if-none-match and x-amz-copy-source-if-modified-since headers are present in the request as follows: x-amz-copy-source-if-none-match condition evaluates to false, and; x-amz-copy-source-if-modified-since condition evaluates to true; Amazon S3 returns 412 Precondition Failed response code.
     public var copySourceIfNoneMatch: Swift.String?
     /// Copies the object if it hasn't been modified since the specified time. If both of the x-amz-copy-source-if-match and x-amz-copy-source-if-unmodified-since headers are present in the request as follows: x-amz-copy-source-if-match condition evaluates to true, and; x-amz-copy-source-if-unmodified-since condition evaluates to false; Amazon S3 returns 200 OK and copies the data.
-    public var copySourceIfUnmodifiedSince: ClientRuntime.Date?
+    public var copySourceIfUnmodifiedSince: Foundation.Date?
     /// The range of bytes to copy from the source object. The range value must use the form bytes=first-last, where the first and last are the zero-based byte offsets to copy. For example, bytes=0-9 indicates that you want to copy the first 10 bytes of the source. You can copy a range only if the source object is greater than 5 MB.
     public var copySourceRange: Swift.String?
     /// Specifies the algorithm to use when decrypting the source object (for example, AES256). This functionality is not supported when the source object is in a directory bucket.
@@ -21010,9 +21010,9 @@ public struct UploadPartCopyInput {
         bucket: Swift.String? = nil,
         copySource: Swift.String? = nil,
         copySourceIfMatch: Swift.String? = nil,
-        copySourceIfModifiedSince: ClientRuntime.Date? = nil,
+        copySourceIfModifiedSince: Foundation.Date? = nil,
         copySourceIfNoneMatch: Swift.String? = nil,
-        copySourceIfUnmodifiedSince: ClientRuntime.Date? = nil,
+        copySourceIfUnmodifiedSince: Foundation.Date? = nil,
         copySourceRange: Swift.String? = nil,
         copySourceSSECustomerAlgorithm: Swift.String? = nil,
         copySourceSSECustomerKey: Swift.String? = nil,
@@ -21057,7 +21057,7 @@ extension UploadPartCopyOutput: Swift.CustomDebugStringConvertible {
 
 extension UploadPartCopyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UploadPartCopyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UploadPartCopyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -21130,7 +21130,7 @@ public struct UploadPartCopyOutput {
 
 enum UploadPartCopyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -21149,8 +21149,8 @@ extension UploadPartInput: Swift.CustomDebugStringConvertible {
 
 extension UploadPartInput {
 
-    static func headerProvider(_ value: UploadPartInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: UploadPartInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let checksumAlgorithm = value.checksumAlgorithm {
             items.add(Header(name: "x-amz-sdk-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
         }
@@ -21192,13 +21192,13 @@ extension UploadPartInput {
 }
 
 extension UploadPartInput {
-    public func presign(config: S3Client.S3ClientConfiguration, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.SdkHttpRequest? {
+    public func presign(config: S3Client.S3ClientConfiguration, expiration: Foundation.TimeInterval) async throws -> SmithyHTTPAPI.SdkHttpRequest? {
         let serviceName = "S3"
         let input = self
-        let client: (SdkHttpRequest, HttpContext) async throws -> HttpResponse = { (_, _) in
-            throw ClientRuntime.ClientError.unknownError("No HTTP client configured for presigned request")
+        let client: (SmithyHTTPAPI.SdkHttpRequest, Smithy.Context) async throws -> SmithyHTTPAPI.HttpResponse = { (_, _) in
+            throw Smithy.ClientError.unknownError("No HTTP client configured for presigned request")
         }
-        let context = ClientRuntime.HttpContextBuilder()
+        let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "uploadPart")
@@ -21217,7 +21217,7 @@ extension UploadPartInput {
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = OrchestratorBuilder<UploadPartInput, UploadPartOutput, ClientRuntime.SdkHttpRequest, ClientRuntime.HttpResponse, ClientRuntime.HttpContext>()
+        let builder = OrchestratorBuilder<UploadPartInput, UploadPartOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UploadPartInput, UploadPartOutput>(UploadPartInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UploadPartInput, UploadPartOutput>())
         let endpointParams = EndpointParams(accelerate: config.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.forcePathStyle ?? false, key: input.key, region: config.region, useArnRegion: config.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.useGlobalEndpoint ?? false)
@@ -21246,20 +21246,20 @@ extension UploadPartInput {
 
 extension UploadPartInput {
 
-    static func queryItemProvider(_ value: UploadPartInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "x-id", value: "UploadPart"))
+    static func queryItemProvider(_ value: UploadPartInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "x-id", value: "UploadPart"))
         guard let partNumber = value.partNumber else {
             let message = "Creating a URL Query Item failed. partNumber is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let partNumberQueryItem = ClientRuntime.SDKURLQueryItem(name: "partNumber".urlPercentEncoding(), value: Swift.String(partNumber).urlPercentEncoding())
+        let partNumberQueryItem = Smithy.URIQueryItem(name: "partNumber".urlPercentEncoding(), value: Swift.String(partNumber).urlPercentEncoding())
         items.append(partNumberQueryItem)
         guard let uploadId = value.uploadId else {
             let message = "Creating a URL Query Item failed. uploadId is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let uploadIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "uploadId".urlPercentEncoding(), value: Swift.String(uploadId).urlPercentEncoding())
+        let uploadIdQueryItem = Smithy.URIQueryItem(name: "uploadId".urlPercentEncoding(), value: Swift.String(uploadId).urlPercentEncoding())
         items.append(uploadIdQueryItem)
         return items
     }
@@ -21285,7 +21285,7 @@ extension UploadPartInput {
 
 public struct UploadPartInput {
     /// Object data.
-    public var body: ClientRuntime.ByteStream?
+    public var body: Smithy.ByteStream?
     /// The name of the bucket to which the multipart upload was initiated. Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket_name.s3express-az_id.region.amazonaws.com. Path-style requests are not supported. Directory bucket names must be unique in the chosen Availability Zone. Bucket names must follow the format  bucket_base_name--az-id--x-s3 (for example,  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see [Directory bucket naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-bucket-naming-rules.html) in the Amazon S3 User Guide. Access points - When you use this action with an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. Access points and Object Lambda access points are not supported by directory buckets. S3 on Outposts - When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
     /// This member is required.
     public var bucket: Swift.String?
@@ -21324,7 +21324,7 @@ public struct UploadPartInput {
     public var uploadId: Swift.String?
 
     public init(
-        body: ClientRuntime.ByteStream? = nil,
+        body: Smithy.ByteStream? = nil,
         bucket: Swift.String? = nil,
         checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm? = nil,
         checksumCRC32: Swift.String? = nil,
@@ -21370,7 +21370,7 @@ extension UploadPartOutput: Swift.CustomDebugStringConvertible {
 
 extension UploadPartOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UploadPartOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UploadPartOutput {
         var value = UploadPartOutput()
         if let bucketKeyEnabledHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-bucket-key-enabled") {
             value.bucketKeyEnabled = Swift.Bool(bucketKeyEnabledHeaderValue) ?? false
@@ -21463,7 +21463,7 @@ public struct UploadPartOutput {
 
 enum UploadPartOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
@@ -21550,8 +21550,8 @@ extension WriteGetObjectResponseInput: Swift.CustomDebugStringConvertible {
 
 extension WriteGetObjectResponseInput {
 
-    static func headerProvider(_ value: WriteGetObjectResponseInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: WriteGetObjectResponseInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let acceptRanges = value.acceptRanges {
             items.add(Header(name: "x-amz-fwd-header-accept-ranges", value: Swift.String(acceptRanges)))
         }
@@ -21694,7 +21694,7 @@ public struct WriteGetObjectResponseInput {
     /// Indicates that a range of bytes was specified.
     public var acceptRanges: Swift.String?
     /// The object data.
-    public var body: ClientRuntime.ByteStream?
+    public var body: Smithy.ByteStream?
     /// Indicates whether the object stored in Amazon S3 uses an S3 bucket key for server-side encryption with Amazon Web Services KMS (SSE-KMS).
     public var bucketKeyEnabled: Swift.Bool?
     /// Specifies caching behavior along the request/reply chain.
@@ -21732,7 +21732,7 @@ public struct WriteGetObjectResponseInput {
     /// The date and time at which the object is no longer cacheable.
     public var expires: Swift.String?
     /// The date and time that the object was last modified.
-    public var lastModified: ClientRuntime.Date?
+    public var lastModified: Foundation.Date?
     /// A map of metadata to store with the object in S3.
     public var metadata: [Swift.String:Swift.String]?
     /// Set to the number of metadata entries not returned in x-amz-meta headers. This can happen if you create metadata using an API like SOAP that supports more flexible metadata than the REST API. For example, using SOAP, you can create metadata whose values are not legal HTTP headers.
@@ -21742,7 +21742,7 @@ public struct WriteGetObjectResponseInput {
     /// Indicates whether an object stored in Amazon S3 has Object Lock enabled. For more information about S3 Object Lock, see [Object Lock](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lock.html).
     public var objectLockMode: S3ClientTypes.ObjectLockMode?
     /// The date and time when Object Lock is configured to expire.
-    public var objectLockRetainUntilDate: ClientRuntime.Date?
+    public var objectLockRetainUntilDate: Foundation.Date?
     /// The count of parts this object has.
     public var partsCount: Swift.Int?
     /// Indicates if request involves bucket that is either a source or destination in a Replication rule. For more information about S3 Replication, see [Replication](https://docs.aws.amazon.com/AmazonS3/latest/userguide/replication.html).
@@ -21804,7 +21804,7 @@ public struct WriteGetObjectResponseInput {
 
     public init(
         acceptRanges: Swift.String? = nil,
-        body: ClientRuntime.ByteStream? = nil,
+        body: Smithy.ByteStream? = nil,
         bucketKeyEnabled: Swift.Bool? = nil,
         cacheControl: Swift.String? = nil,
         checksumCRC32: Swift.String? = nil,
@@ -21823,12 +21823,12 @@ public struct WriteGetObjectResponseInput {
         errorMessage: Swift.String? = nil,
         expiration: Swift.String? = nil,
         expires: Swift.String? = nil,
-        lastModified: ClientRuntime.Date? = nil,
+        lastModified: Foundation.Date? = nil,
         metadata: [Swift.String:Swift.String]? = nil,
         missingMeta: Swift.Int? = nil,
         objectLockLegalHoldStatus: S3ClientTypes.ObjectLockLegalHoldStatus? = nil,
         objectLockMode: S3ClientTypes.ObjectLockMode? = nil,
-        objectLockRetainUntilDate: ClientRuntime.Date? = nil,
+        objectLockRetainUntilDate: Foundation.Date? = nil,
         partsCount: Swift.Int? = nil,
         replicationStatus: S3ClientTypes.ReplicationStatus? = nil,
         requestCharged: S3ClientTypes.RequestCharged? = nil,
@@ -21890,7 +21890,7 @@ public struct WriteGetObjectResponseInput {
 
 extension WriteGetObjectResponseOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> WriteGetObjectResponseOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> WriteGetObjectResponseOutput {
         return WriteGetObjectResponseOutput()
     }
 }
@@ -21902,7 +21902,7 @@ public struct WriteGetObjectResponseOutput {
 
 enum WriteGetObjectResponseOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)

@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -284,7 +287,7 @@ public struct CreateMonitorInput {
 
 extension CreateMonitorOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateMonitorOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateMonitorOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -315,7 +318,7 @@ public struct CreateMonitorOutput {
 
 enum CreateMonitorOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -357,7 +360,7 @@ public struct DeleteMonitorInput {
 
 extension DeleteMonitorOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteMonitorOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteMonitorOutput {
         return DeleteMonitorOutput()
     }
 }
@@ -369,7 +372,7 @@ public struct DeleteMonitorOutput {
 
 enum DeleteMonitorOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -420,10 +423,10 @@ extension InternetMonitorClientTypes {
 
 extension GetHealthEventInput {
 
-    static func queryItemProvider(_ value: GetHealthEventInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetHealthEventInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let linkedAccountId = value.linkedAccountId {
-            let linkedAccountIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "LinkedAccountId".urlPercentEncoding(), value: Swift.String(linkedAccountId).urlPercentEncoding())
+            let linkedAccountIdQueryItem = Smithy.URIQueryItem(name: "LinkedAccountId".urlPercentEncoding(), value: Swift.String(linkedAccountId).urlPercentEncoding())
             items.append(linkedAccountIdQueryItem)
         }
         return items
@@ -467,7 +470,7 @@ public struct GetHealthEventInput {
 
 extension GetHealthEventOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetHealthEventOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetHealthEventOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -489,9 +492,9 @@ extension GetHealthEventOutput {
 
 public struct GetHealthEventOutput {
     /// The time when a health event was created.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The time when a health event was resolved. If the health event is still active, the end time is not set.
-    public var endedAt: ClientRuntime.Date?
+    public var endedAt: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the event.
     /// This member is required.
     public var eventArn: Swift.String?
@@ -508,27 +511,27 @@ public struct GetHealthEventOutput {
     public var impactedLocations: [InternetMonitorClientTypes.ImpactedLocation]?
     /// The time when a health event was last updated or recalculated.
     /// This member is required.
-    public var lastUpdatedAt: ClientRuntime.Date?
+    public var lastUpdatedAt: Foundation.Date?
     /// The impact on total traffic that a health event has, in increased latency or reduced availability. This is the percentage of how much latency has increased or availability has decreased during the event, compared to what is typical for traffic from this client location to the Amazon Web Services location using this client network.
     public var percentOfTotalTrafficImpacted: Swift.Double?
     /// The time when a health event started.
     /// This member is required.
-    public var startedAt: ClientRuntime.Date?
+    public var startedAt: Foundation.Date?
     /// The status of a health event.
     /// This member is required.
     public var status: InternetMonitorClientTypes.HealthEventStatus?
 
     public init(
-        createdAt: ClientRuntime.Date? = nil,
-        endedAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
+        endedAt: Foundation.Date? = nil,
         eventArn: Swift.String? = nil,
         eventId: Swift.String? = nil,
         healthScoreThreshold: Swift.Double = 0.0,
         impactType: InternetMonitorClientTypes.HealthEventImpactType? = nil,
         impactedLocations: [InternetMonitorClientTypes.ImpactedLocation]? = nil,
-        lastUpdatedAt: ClientRuntime.Date? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
         percentOfTotalTrafficImpacted: Swift.Double? = nil,
-        startedAt: ClientRuntime.Date? = nil,
+        startedAt: Foundation.Date? = nil,
         status: InternetMonitorClientTypes.HealthEventStatus? = nil
     )
     {
@@ -548,7 +551,7 @@ public struct GetHealthEventOutput {
 
 enum GetHealthEventOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -588,7 +591,7 @@ public struct GetInternetEventInput {
 
 extension GetInternetEventOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetInternetEventOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetInternetEventOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -609,7 +612,7 @@ public struct GetInternetEventOutput {
     /// This member is required.
     public var clientLocation: InternetMonitorClientTypes.ClientLocation?
     /// The time when the internet event ended. If the event hasn't ended yet, this value is empty.
-    public var endedAt: ClientRuntime.Date?
+    public var endedAt: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the internet event.
     /// This member is required.
     public var eventArn: Swift.String?
@@ -624,16 +627,16 @@ public struct GetInternetEventOutput {
     public var eventType: InternetMonitorClientTypes.InternetEventType?
     /// The time when the internet event started.
     /// This member is required.
-    public var startedAt: ClientRuntime.Date?
+    public var startedAt: Foundation.Date?
 
     public init(
         clientLocation: InternetMonitorClientTypes.ClientLocation? = nil,
-        endedAt: ClientRuntime.Date? = nil,
+        endedAt: Foundation.Date? = nil,
         eventArn: Swift.String? = nil,
         eventId: Swift.String? = nil,
         eventStatus: InternetMonitorClientTypes.InternetEventStatus? = nil,
         eventType: InternetMonitorClientTypes.InternetEventType? = nil,
-        startedAt: ClientRuntime.Date? = nil
+        startedAt: Foundation.Date? = nil
     )
     {
         self.clientLocation = clientLocation
@@ -648,7 +651,7 @@ public struct GetInternetEventOutput {
 
 enum GetInternetEventOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -665,10 +668,10 @@ enum GetInternetEventOutputError {
 
 extension GetMonitorInput {
 
-    static func queryItemProvider(_ value: GetMonitorInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetMonitorInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let linkedAccountId = value.linkedAccountId {
-            let linkedAccountIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "LinkedAccountId".urlPercentEncoding(), value: Swift.String(linkedAccountId).urlPercentEncoding())
+            let linkedAccountIdQueryItem = Smithy.URIQueryItem(name: "LinkedAccountId".urlPercentEncoding(), value: Swift.String(linkedAccountId).urlPercentEncoding())
             items.append(linkedAccountIdQueryItem)
         }
         return items
@@ -704,7 +707,7 @@ public struct GetMonitorInput {
 
 extension GetMonitorOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetMonitorOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetMonitorOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -729,7 +732,7 @@ extension GetMonitorOutput {
 public struct GetMonitorOutput {
     /// The time when the monitor was created.
     /// This member is required.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The list of health event threshold configurations. The threshold percentage for a health score determines, along with other configuration information, when Internet Monitor creates a health event when there's an internet issue that affects your application end users. For more information, see [ Change health event thresholds](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-overview.html#IMUpdateThresholdFromOverview) in the Internet Monitor section of the CloudWatch User Guide.
     public var healthEventsConfig: InternetMonitorClientTypes.HealthEventsConfig?
     /// Publish internet measurements for Internet Monitor to another location, such as an Amazon S3 bucket. The measurements are also published to Amazon CloudWatch Logs.
@@ -738,7 +741,7 @@ public struct GetMonitorOutput {
     public var maxCityNetworksToMonitor: Swift.Int?
     /// The last time that the monitor was modified.
     /// This member is required.
-    public var modifiedAt: ClientRuntime.Date?
+    public var modifiedAt: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the monitor.
     /// This member is required.
     public var monitorArn: Swift.String?
@@ -761,11 +764,11 @@ public struct GetMonitorOutput {
     public var trafficPercentageToMonitor: Swift.Int?
 
     public init(
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         healthEventsConfig: InternetMonitorClientTypes.HealthEventsConfig? = nil,
         internetMeasurementsLogDelivery: InternetMonitorClientTypes.InternetMeasurementsLogDelivery? = nil,
         maxCityNetworksToMonitor: Swift.Int? = nil,
-        modifiedAt: ClientRuntime.Date? = nil,
+        modifiedAt: Foundation.Date? = nil,
         monitorArn: Swift.String? = nil,
         monitorName: Swift.String? = nil,
         processingStatus: InternetMonitorClientTypes.MonitorProcessingStatusCode? = nil,
@@ -794,7 +797,7 @@ public struct GetMonitorOutput {
 
 enum GetMonitorOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -811,14 +814,14 @@ enum GetMonitorOutputError {
 
 extension GetQueryResultsInput {
 
-    static func queryItemProvider(_ value: GetQueryResultsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetQueryResultsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -866,7 +869,7 @@ public struct GetQueryResultsInput {
 
 extension GetQueryResultsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetQueryResultsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetQueryResultsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -902,7 +905,7 @@ public struct GetQueryResultsOutput {
 
 enum GetQueryResultsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -951,7 +954,7 @@ public struct GetQueryStatusInput {
 
 extension GetQueryStatusOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetQueryStatusOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetQueryStatusOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -976,7 +979,7 @@ public struct GetQueryStatusOutput {
 
 enum GetQueryStatusOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1016,9 +1019,9 @@ extension InternetMonitorClientTypes {
     /// Information about a health event created in a monitor in Amazon CloudWatch Internet Monitor.
     public struct HealthEvent {
         /// When the health event was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The time when a health event ended. If the health event is still active, then the end time is not set.
-        public var endedAt: ClientRuntime.Date?
+        public var endedAt: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the event.
         /// This member is required.
         public var eventArn: Swift.String?
@@ -1035,27 +1038,27 @@ extension InternetMonitorClientTypes {
         public var impactedLocations: [InternetMonitorClientTypes.ImpactedLocation]?
         /// When the health event was last updated.
         /// This member is required.
-        public var lastUpdatedAt: ClientRuntime.Date?
+        public var lastUpdatedAt: Foundation.Date?
         /// The impact on total traffic that a health event has, in increased latency or reduced availability. This is the percentage of how much latency has increased or availability has decreased during the event, compared to what is typical for traffic from this client location to the Amazon Web Services location using this client network.
         public var percentOfTotalTrafficImpacted: Swift.Double?
         /// When a health event started.
         /// This member is required.
-        public var startedAt: ClientRuntime.Date?
+        public var startedAt: Foundation.Date?
         /// The status of a health event.
         /// This member is required.
         public var status: InternetMonitorClientTypes.HealthEventStatus?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
-            endedAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
+            endedAt: Foundation.Date? = nil,
             eventArn: Swift.String? = nil,
             eventId: Swift.String? = nil,
             healthScoreThreshold: Swift.Double = 0.0,
             impactType: InternetMonitorClientTypes.HealthEventImpactType? = nil,
             impactedLocations: [InternetMonitorClientTypes.ImpactedLocation]? = nil,
-            lastUpdatedAt: ClientRuntime.Date? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
             percentOfTotalTrafficImpacted: Swift.Double? = nil,
-            startedAt: ClientRuntime.Date? = nil,
+            startedAt: Foundation.Date? = nil,
             status: InternetMonitorClientTypes.HealthEventStatus? = nil
         )
         {
@@ -1414,7 +1417,7 @@ extension InternetMonitorClientTypes {
         /// This member is required.
         public var clientLocation: InternetMonitorClientTypes.ClientLocation?
         /// The time when an internet event ended. If the event hasn't ended yet, this value is empty.
-        public var endedAt: ClientRuntime.Date?
+        public var endedAt: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the internet event.
         /// This member is required.
         public var eventArn: Swift.String?
@@ -1429,16 +1432,16 @@ extension InternetMonitorClientTypes {
         public var eventType: InternetMonitorClientTypes.InternetEventType?
         /// The time when an internet event started.
         /// This member is required.
-        public var startedAt: ClientRuntime.Date?
+        public var startedAt: Foundation.Date?
 
         public init(
             clientLocation: InternetMonitorClientTypes.ClientLocation? = nil,
-            endedAt: ClientRuntime.Date? = nil,
+            endedAt: Foundation.Date? = nil,
             eventArn: Swift.String? = nil,
             eventId: Swift.String? = nil,
             eventStatus: InternetMonitorClientTypes.InternetEventStatus? = nil,
             eventType: InternetMonitorClientTypes.InternetEventType? = nil,
-            startedAt: ClientRuntime.Date? = nil
+            startedAt: Foundation.Date? = nil
         )
         {
             self.clientLocation = clientLocation
@@ -1585,30 +1588,30 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
 extension ListHealthEventsInput {
 
-    static func queryItemProvider(_ value: ListHealthEventsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListHealthEventsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let linkedAccountId = value.linkedAccountId {
-            let linkedAccountIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "LinkedAccountId".urlPercentEncoding(), value: Swift.String(linkedAccountId).urlPercentEncoding())
+            let linkedAccountIdQueryItem = Smithy.URIQueryItem(name: "LinkedAccountId".urlPercentEncoding(), value: Swift.String(linkedAccountId).urlPercentEncoding())
             items.append(linkedAccountIdQueryItem)
         }
         if let endTime = value.endTime {
-            let endTimeQueryItem = ClientRuntime.SDKURLQueryItem(name: "EndTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endTime)).urlPercentEncoding())
+            let endTimeQueryItem = Smithy.URIQueryItem(name: "EndTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endTime)).urlPercentEncoding())
             items.append(endTimeQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let startTime = value.startTime {
-            let startTimeQueryItem = ClientRuntime.SDKURLQueryItem(name: "StartTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
+            let startTimeQueryItem = Smithy.URIQueryItem(name: "StartTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
             items.append(startTimeQueryItem)
         }
         if let eventStatus = value.eventStatus {
-            let eventStatusQueryItem = ClientRuntime.SDKURLQueryItem(name: "EventStatus".urlPercentEncoding(), value: Swift.String(eventStatus.rawValue).urlPercentEncoding())
+            let eventStatusQueryItem = Smithy.URIQueryItem(name: "EventStatus".urlPercentEncoding(), value: Swift.String(eventStatus.rawValue).urlPercentEncoding())
             items.append(eventStatusQueryItem)
         }
         return items
@@ -1627,7 +1630,7 @@ extension ListHealthEventsInput {
 
 public struct ListHealthEventsInput {
     /// The time when a health event ended. If the health event is still ongoing, then the end time is not set.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// The status of a health event.
     public var eventStatus: InternetMonitorClientTypes.HealthEventStatus?
     /// The account ID for an account that you've set up cross-account sharing for in Amazon CloudWatch Internet Monitor. You configure cross-account sharing by using Amazon CloudWatch Observability Access Manager. For more information, see [Internet Monitor cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cwim-cross-account.html) in the Amazon CloudWatch Internet Monitor User Guide.
@@ -1640,16 +1643,16 @@ public struct ListHealthEventsInput {
     /// The token for the next set of results. You receive this token from a previous call.
     public var nextToken: Swift.String?
     /// The time when a health event started.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
 
     public init(
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         eventStatus: InternetMonitorClientTypes.HealthEventStatus? = nil,
         linkedAccountId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         monitorName: Swift.String? = nil,
         nextToken: Swift.String? = nil,
-        startTime: ClientRuntime.Date? = nil
+        startTime: Foundation.Date? = nil
     )
     {
         self.endTime = endTime
@@ -1664,7 +1667,7 @@ public struct ListHealthEventsInput {
 
 extension ListHealthEventsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListHealthEventsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListHealthEventsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1694,7 +1697,7 @@ public struct ListHealthEventsOutput {
 
 enum ListHealthEventsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1711,30 +1714,30 @@ enum ListHealthEventsOutputError {
 
 extension ListInternetEventsInput {
 
-    static func queryItemProvider(_ value: ListInternetEventsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListInternetEventsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let endTime = value.endTime {
-            let endTimeQueryItem = ClientRuntime.SDKURLQueryItem(name: "EndTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endTime)).urlPercentEncoding())
+            let endTimeQueryItem = Smithy.URIQueryItem(name: "EndTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endTime)).urlPercentEncoding())
             items.append(endTimeQueryItem)
         }
         if let eventType = value.eventType {
-            let eventTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "EventType".urlPercentEncoding(), value: Swift.String(eventType).urlPercentEncoding())
+            let eventTypeQueryItem = Smithy.URIQueryItem(name: "EventType".urlPercentEncoding(), value: Swift.String(eventType).urlPercentEncoding())
             items.append(eventTypeQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "InternetEventMaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "InternetEventMaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let startTime = value.startTime {
-            let startTimeQueryItem = ClientRuntime.SDKURLQueryItem(name: "StartTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
+            let startTimeQueryItem = Smithy.URIQueryItem(name: "StartTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
             items.append(startTimeQueryItem)
         }
         if let eventStatus = value.eventStatus {
-            let eventStatusQueryItem = ClientRuntime.SDKURLQueryItem(name: "EventStatus".urlPercentEncoding(), value: Swift.String(eventStatus).urlPercentEncoding())
+            let eventStatusQueryItem = Smithy.URIQueryItem(name: "EventStatus".urlPercentEncoding(), value: Swift.String(eventStatus).urlPercentEncoding())
             items.append(eventStatusQueryItem)
         }
         return items
@@ -1750,7 +1753,7 @@ extension ListInternetEventsInput {
 
 public struct ListInternetEventsInput {
     /// The end time of the time window that you want to get a list of internet events for.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// The status of an internet event.
     public var eventStatus: Swift.String?
     /// The type of network impairment.
@@ -1760,15 +1763,15 @@ public struct ListInternetEventsInput {
     /// The token for the next set of results. You receive this token from a previous call.
     public var nextToken: Swift.String?
     /// The start time of the time window that you want to get a list of internet events for.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
 
     public init(
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         eventStatus: Swift.String? = nil,
         eventType: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
-        startTime: ClientRuntime.Date? = nil
+        startTime: Foundation.Date? = nil
     )
     {
         self.endTime = endTime
@@ -1782,7 +1785,7 @@ public struct ListInternetEventsInput {
 
 extension ListInternetEventsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListInternetEventsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListInternetEventsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1812,7 +1815,7 @@ public struct ListInternetEventsOutput {
 
 enum ListInternetEventsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1829,22 +1832,22 @@ enum ListInternetEventsOutputError {
 
 extension ListMonitorsInput {
 
-    static func queryItemProvider(_ value: ListMonitorsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListMonitorsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let includeLinkedAccounts = value.includeLinkedAccounts {
-            let includeLinkedAccountsQueryItem = ClientRuntime.SDKURLQueryItem(name: "IncludeLinkedAccounts".urlPercentEncoding(), value: Swift.String(includeLinkedAccounts).urlPercentEncoding())
+            let includeLinkedAccountsQueryItem = Smithy.URIQueryItem(name: "IncludeLinkedAccounts".urlPercentEncoding(), value: Swift.String(includeLinkedAccounts).urlPercentEncoding())
             items.append(includeLinkedAccountsQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let monitorStatus = value.monitorStatus {
-            let monitorStatusQueryItem = ClientRuntime.SDKURLQueryItem(name: "MonitorStatus".urlPercentEncoding(), value: Swift.String(monitorStatus).urlPercentEncoding())
+            let monitorStatusQueryItem = Smithy.URIQueryItem(name: "MonitorStatus".urlPercentEncoding(), value: Swift.String(monitorStatus).urlPercentEncoding())
             items.append(monitorStatusQueryItem)
         }
         return items
@@ -1884,7 +1887,7 @@ public struct ListMonitorsInput {
 
 extension ListMonitorsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListMonitorsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListMonitorsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1914,7 +1917,7 @@ public struct ListMonitorsOutput {
 
 enum ListMonitorsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1954,7 +1957,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1978,7 +1981,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2636,7 +2639,7 @@ extension StartQueryInput {
 public struct StartQueryInput {
     /// The timestamp that is the end of the period that you want to retrieve data for with your query.
     /// This member is required.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// The FilterParameters field that you use with Amazon CloudWatch Internet Monitor queries is a string the defines how you want a query to be filtered. The filter parameters that you can specify depend on the query type, since each query type returns a different set of Internet Monitor data. For more information about specifying filter parameters, see [Using the Amazon CloudWatch Internet Monitor query interface](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-view-cw-tools-cwim-query.html) in the Amazon CloudWatch Internet Monitor User Guide.
     public var filterParameters: [InternetMonitorClientTypes.FilterParameter]?
     /// The account ID for an account that you've set up cross-account sharing for in Amazon CloudWatch Internet Monitor. You configure cross-account sharing by using Amazon CloudWatch Observability Access Manager. For more information, see [Internet Monitor cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cwim-cross-account.html) in the Amazon CloudWatch Internet Monitor User Guide.
@@ -2658,15 +2661,15 @@ public struct StartQueryInput {
     public var queryType: InternetMonitorClientTypes.QueryType?
     /// The timestamp that is the beginning of the period that you want to retrieve data for with your query.
     /// This member is required.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
 
     public init(
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         filterParameters: [InternetMonitorClientTypes.FilterParameter]? = nil,
         linkedAccountId: Swift.String? = nil,
         monitorName: Swift.String? = nil,
         queryType: InternetMonitorClientTypes.QueryType? = nil,
-        startTime: ClientRuntime.Date? = nil
+        startTime: Foundation.Date? = nil
     )
     {
         self.endTime = endTime
@@ -2680,7 +2683,7 @@ public struct StartQueryInput {
 
 extension StartQueryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartQueryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartQueryOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2705,7 +2708,7 @@ public struct StartQueryOutput {
 
 enum StartQueryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2754,7 +2757,7 @@ public struct StopQueryInput {
 
 extension StopQueryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopQueryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopQueryOutput {
         return StopQueryOutput()
     }
 }
@@ -2766,7 +2769,7 @@ public struct StopQueryOutput {
 
 enum StopQueryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2820,7 +2823,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -2832,7 +2835,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2953,14 +2956,14 @@ extension InternetMonitorClientTypes {
 
 extension UntagResourceInput {
 
-    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let tagKeys = value.tagKeys else {
             let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
         tagKeys.forEach { queryItemValue in
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
             items.append(queryItem)
         }
         return items
@@ -2997,7 +3000,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -3009,7 +3012,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3097,7 +3100,7 @@ public struct UpdateMonitorInput {
 
 extension UpdateMonitorOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateMonitorOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateMonitorOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3128,7 +3131,7 @@ public struct UpdateMonitorOutput {
 
 enum UpdateMonitorOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

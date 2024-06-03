@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -61,7 +63,7 @@ extension ComputeOptimizerClientTypes {
         /// The Amazon Web Services account ID.
         public var accountId: Swift.String?
         /// The Unix epoch timestamp, in seconds, of when the account enrollment status was last updated.
-        public var lastUpdatedTimestamp: ClientRuntime.Date?
+        public var lastUpdatedTimestamp: Foundation.Date?
         /// The account enrollment status.
         public var status: ComputeOptimizerClientTypes.Status?
         /// The reason for the account enrollment status. For example, an account might show a status of Pending because member accounts of an organization require more time to be enrolled in the service.
@@ -69,7 +71,7 @@ extension ComputeOptimizerClientTypes {
 
         public init(
             accountId: Swift.String? = nil,
-            lastUpdatedTimestamp: ClientRuntime.Date? = nil,
+            lastUpdatedTimestamp: Foundation.Date? = nil,
             status: ComputeOptimizerClientTypes.Status? = nil,
             statusReason: Swift.String? = nil
         )
@@ -250,7 +252,7 @@ extension ComputeOptimizerClientTypes {
         /// * SQLServer - Infers that SQLServer might be running on the instance.
         public var inferredWorkloadTypes: [ComputeOptimizerClientTypes.InferredWorkloadType]?
         /// The timestamp of when the Auto Scaling group recommendation was last generated.
-        public var lastRefreshTimestamp: ClientRuntime.Date?
+        public var lastRefreshTimestamp: Foundation.Date?
         /// The number of days for which utilization metrics were analyzed for the Auto Scaling group.
         public var lookBackPeriodInDays: Swift.Double
         /// An array of objects that describe the recommendation options for the Auto Scaling group.
@@ -268,7 +270,7 @@ extension ComputeOptimizerClientTypes {
             effectiveRecommendationPreferences: ComputeOptimizerClientTypes.EffectiveRecommendationPreferences? = nil,
             finding: ComputeOptimizerClientTypes.Finding? = nil,
             inferredWorkloadTypes: [ComputeOptimizerClientTypes.InferredWorkloadType]? = nil,
-            lastRefreshTimestamp: ClientRuntime.Date? = nil,
+            lastRefreshTimestamp: Foundation.Date? = nil,
             lookBackPeriodInDays: Swift.Double = 0.0,
             recommendationOptions: [ComputeOptimizerClientTypes.AutoScalingGroupRecommendationOption]? = nil,
             utilizationMetrics: [ComputeOptimizerClientTypes.UtilizationMetric]? = nil
@@ -770,7 +772,7 @@ public struct DeleteRecommendationPreferencesInput {
 
 extension DeleteRecommendationPreferencesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteRecommendationPreferencesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteRecommendationPreferencesOutput {
         return DeleteRecommendationPreferencesOutput()
     }
 }
@@ -782,7 +784,7 @@ public struct DeleteRecommendationPreferencesOutput {
 
 enum DeleteRecommendationPreferencesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -845,7 +847,7 @@ public struct DescribeRecommendationExportJobsInput {
 
 extension DescribeRecommendationExportJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeRecommendationExportJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeRecommendationExportJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -874,7 +876,7 @@ public struct DescribeRecommendationExportJobsOutput {
 
 enum DescribeRecommendationExportJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1460,14 +1462,14 @@ extension ComputeOptimizerClientTypes {
         /// * Memory — The percentage of memory that's currently in use on the service tasks.
         public var name: ComputeOptimizerClientTypes.ECSServiceMetricName?
         /// The timestamps of the projected metric.
-        public var timestamps: [ClientRuntime.Date]?
+        public var timestamps: [Foundation.Date]?
         /// The upper bound values for the projected metric.
         public var upperBoundValues: [Swift.Double]?
 
         public init(
             lowerBoundValues: [Swift.Double]? = nil,
             name: ComputeOptimizerClientTypes.ECSServiceMetricName? = nil,
-            timestamps: [ClientRuntime.Date]? = nil,
+            timestamps: [Foundation.Date]? = nil,
             upperBoundValues: [Swift.Double]? = nil
         )
         {
@@ -1577,7 +1579,7 @@ extension ComputeOptimizerClientTypes {
         /// * MemoryOverprovisioned — The service memory configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the MemoryUtilization metric of the current service during the look-back period.
         public var findingReasonCodes: [ComputeOptimizerClientTypes.ECSServiceRecommendationFindingReasonCode]?
         /// The timestamp of when the Amazon ECS service recommendation was last generated.
-        public var lastRefreshTimestamp: ClientRuntime.Date?
+        public var lastRefreshTimestamp: Foundation.Date?
         /// The launch type the Amazon ECS service is using. Compute Optimizer only supports the Fargate launch type.
         public var launchType: ComputeOptimizerClientTypes.ECSServiceLaunchType?
         /// The number of days the Amazon ECS service utilization metrics were analyzed.
@@ -1598,7 +1600,7 @@ extension ComputeOptimizerClientTypes {
             effectiveRecommendationPreferences: ComputeOptimizerClientTypes.ECSEffectiveRecommendationPreferences? = nil,
             finding: ComputeOptimizerClientTypes.ECSServiceRecommendationFinding? = nil,
             findingReasonCodes: [ComputeOptimizerClientTypes.ECSServiceRecommendationFindingReasonCode]? = nil,
-            lastRefreshTimestamp: ClientRuntime.Date? = nil,
+            lastRefreshTimestamp: Foundation.Date? = nil,
             launchType: ComputeOptimizerClientTypes.ECSServiceLaunchType? = nil,
             lookbackPeriodInDays: Swift.Double = 0.0,
             serviceArn: Swift.String? = nil,
@@ -2164,7 +2166,7 @@ public struct ExportAutoScalingGroupRecommendationsInput {
 
 extension ExportAutoScalingGroupRecommendationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ExportAutoScalingGroupRecommendationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ExportAutoScalingGroupRecommendationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2193,7 +2195,7 @@ public struct ExportAutoScalingGroupRecommendationsOutput {
 
 enum ExportAutoScalingGroupRecommendationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2293,7 +2295,7 @@ public struct ExportEBSVolumeRecommendationsInput {
 
 extension ExportEBSVolumeRecommendationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ExportEBSVolumeRecommendationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ExportEBSVolumeRecommendationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2322,7 +2324,7 @@ public struct ExportEBSVolumeRecommendationsOutput {
 
 enum ExportEBSVolumeRecommendationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2401,7 +2403,7 @@ public struct ExportEC2InstanceRecommendationsInput {
 
 extension ExportEC2InstanceRecommendationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ExportEC2InstanceRecommendationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ExportEC2InstanceRecommendationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2430,7 +2432,7 @@ public struct ExportEC2InstanceRecommendationsOutput {
 
 enum ExportEC2InstanceRecommendationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2504,7 +2506,7 @@ public struct ExportECSServiceRecommendationsInput {
 
 extension ExportECSServiceRecommendationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ExportECSServiceRecommendationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ExportECSServiceRecommendationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2533,7 +2535,7 @@ public struct ExportECSServiceRecommendationsOutput {
 
 enum ExportECSServiceRecommendationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2607,7 +2609,7 @@ public struct ExportLambdaFunctionRecommendationsInput {
 
 extension ExportLambdaFunctionRecommendationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ExportLambdaFunctionRecommendationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ExportLambdaFunctionRecommendationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2636,7 +2638,7 @@ public struct ExportLambdaFunctionRecommendationsOutput {
 
 enum ExportLambdaFunctionRecommendationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2710,7 +2712,7 @@ public struct ExportLicenseRecommendationsInput {
 
 extension ExportLicenseRecommendationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ExportLicenseRecommendationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ExportLicenseRecommendationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2739,7 +2741,7 @@ public struct ExportLicenseRecommendationsOutput {
 
 enum ExportLicenseRecommendationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4050,7 +4052,7 @@ public struct GetAutoScalingGroupRecommendationsInput {
 
 extension GetAutoScalingGroupRecommendationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetAutoScalingGroupRecommendationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetAutoScalingGroupRecommendationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4084,7 +4086,7 @@ public struct GetAutoScalingGroupRecommendationsOutput {
 
 enum GetAutoScalingGroupRecommendationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4152,7 +4154,7 @@ public struct GetEBSVolumeRecommendationsInput {
 
 extension GetEBSVolumeRecommendationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetEBSVolumeRecommendationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetEBSVolumeRecommendationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4186,7 +4188,7 @@ public struct GetEBSVolumeRecommendationsOutput {
 
 enum GetEBSVolumeRecommendationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4259,7 +4261,7 @@ public struct GetEC2InstanceRecommendationsInput {
 
 extension GetEC2InstanceRecommendationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetEC2InstanceRecommendationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetEC2InstanceRecommendationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4293,7 +4295,7 @@ public struct GetEC2InstanceRecommendationsOutput {
 
 enum GetEC2InstanceRecommendationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4335,7 +4337,7 @@ extension GetEC2RecommendationProjectedMetricsInput {
 public struct GetEC2RecommendationProjectedMetricsInput {
     /// The timestamp of the last projected metrics data point to return.
     /// This member is required.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the instances for which to return recommendation projected metrics.
     /// This member is required.
     public var instanceArn: Swift.String?
@@ -4346,17 +4348,17 @@ public struct GetEC2RecommendationProjectedMetricsInput {
     public var recommendationPreferences: ComputeOptimizerClientTypes.RecommendationPreferences?
     /// The timestamp of the first projected metrics data point to return.
     /// This member is required.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
     /// The statistic of the projected metrics.
     /// This member is required.
     public var stat: ComputeOptimizerClientTypes.MetricStatistic?
 
     public init(
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         instanceArn: Swift.String? = nil,
         period: Swift.Int? = nil,
         recommendationPreferences: ComputeOptimizerClientTypes.RecommendationPreferences? = nil,
-        startTime: ClientRuntime.Date? = nil,
+        startTime: Foundation.Date? = nil,
         stat: ComputeOptimizerClientTypes.MetricStatistic? = nil
     )
     {
@@ -4371,7 +4373,7 @@ public struct GetEC2RecommendationProjectedMetricsInput {
 
 extension GetEC2RecommendationProjectedMetricsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetEC2RecommendationProjectedMetricsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetEC2RecommendationProjectedMetricsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4395,7 +4397,7 @@ public struct GetEC2RecommendationProjectedMetricsOutput {
 
 enum GetEC2RecommendationProjectedMetricsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4436,7 +4438,7 @@ extension GetECSServiceRecommendationProjectedMetricsInput {
 public struct GetECSServiceRecommendationProjectedMetricsInput {
     /// The timestamp of the last projected metrics data point to return.
     /// This member is required.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// The granularity, in seconds, of the projected metrics data points.
     /// This member is required.
     public var period: Swift.Int?
@@ -4445,16 +4447,16 @@ public struct GetECSServiceRecommendationProjectedMetricsInput {
     public var serviceArn: Swift.String?
     /// The timestamp of the first projected metrics data point to return.
     /// This member is required.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
     /// The statistic of the projected metrics.
     /// This member is required.
     public var stat: ComputeOptimizerClientTypes.MetricStatistic?
 
     public init(
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         period: Swift.Int? = nil,
         serviceArn: Swift.String? = nil,
-        startTime: ClientRuntime.Date? = nil,
+        startTime: Foundation.Date? = nil,
         stat: ComputeOptimizerClientTypes.MetricStatistic? = nil
     )
     {
@@ -4468,7 +4470,7 @@ public struct GetECSServiceRecommendationProjectedMetricsInput {
 
 extension GetECSServiceRecommendationProjectedMetricsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetECSServiceRecommendationProjectedMetricsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetECSServiceRecommendationProjectedMetricsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4492,7 +4494,7 @@ public struct GetECSServiceRecommendationProjectedMetricsOutput {
 
 enum GetECSServiceRecommendationProjectedMetricsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4560,7 +4562,7 @@ public struct GetECSServiceRecommendationsInput {
 
 extension GetECSServiceRecommendationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetECSServiceRecommendationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetECSServiceRecommendationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4594,7 +4596,7 @@ public struct GetECSServiceRecommendationsOutput {
 
 enum GetECSServiceRecommendationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4643,7 +4645,7 @@ public struct GetEffectiveRecommendationPreferencesInput {
 
 extension GetEffectiveRecommendationPreferencesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetEffectiveRecommendationPreferencesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetEffectiveRecommendationPreferencesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4687,7 +4689,7 @@ public struct GetEffectiveRecommendationPreferencesOutput {
 
 enum GetEffectiveRecommendationPreferencesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4728,7 +4730,7 @@ public struct GetEnrollmentStatusInput {
 
 extension GetEnrollmentStatusOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetEnrollmentStatusOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetEnrollmentStatusOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4744,7 +4746,7 @@ extension GetEnrollmentStatusOutput {
 
 public struct GetEnrollmentStatusOutput {
     /// The Unix epoch timestamp, in seconds, of when the account enrollment status was last updated.
-    public var lastUpdatedTimestamp: ClientRuntime.Date?
+    public var lastUpdatedTimestamp: Foundation.Date?
     /// Confirms the enrollment status of member accounts of the organization, if the account is a management account of an organization.
     public var memberAccountsEnrolled: Swift.Bool
     /// The count of organization member accounts that are opted in to the service, if your account is an organization management account.
@@ -4755,7 +4757,7 @@ public struct GetEnrollmentStatusOutput {
     public var statusReason: Swift.String?
 
     public init(
-        lastUpdatedTimestamp: ClientRuntime.Date? = nil,
+        lastUpdatedTimestamp: Foundation.Date? = nil,
         memberAccountsEnrolled: Swift.Bool = false,
         numberOfMemberAccountsOptedIn: Swift.Int? = nil,
         status: ComputeOptimizerClientTypes.Status? = nil,
@@ -4772,7 +4774,7 @@ public struct GetEnrollmentStatusOutput {
 
 enum GetEnrollmentStatusOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4828,7 +4830,7 @@ public struct GetEnrollmentStatusesForOrganizationInput {
 
 extension GetEnrollmentStatusesForOrganizationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetEnrollmentStatusesForOrganizationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetEnrollmentStatusesForOrganizationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4857,7 +4859,7 @@ public struct GetEnrollmentStatusesForOrganizationOutput {
 
 enum GetEnrollmentStatusesForOrganizationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4923,7 +4925,7 @@ public struct GetLambdaFunctionRecommendationsInput {
 
 extension GetLambdaFunctionRecommendationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetLambdaFunctionRecommendationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetLambdaFunctionRecommendationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4952,7 +4954,7 @@ public struct GetLambdaFunctionRecommendationsOutput {
 
 enum GetLambdaFunctionRecommendationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5020,7 +5022,7 @@ public struct GetLicenseRecommendationsInput {
 
 extension GetLicenseRecommendationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetLicenseRecommendationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetLicenseRecommendationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5054,7 +5056,7 @@ public struct GetLicenseRecommendationsOutput {
 
 enum GetLicenseRecommendationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5154,7 +5156,7 @@ public struct GetRecommendationPreferencesInput {
 
 extension GetRecommendationPreferencesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetRecommendationPreferencesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetRecommendationPreferencesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5183,7 +5185,7 @@ public struct GetRecommendationPreferencesOutput {
 
 enum GetRecommendationPreferencesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5241,7 +5243,7 @@ public struct GetRecommendationSummariesInput {
 
 extension GetRecommendationSummariesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetRecommendationSummariesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetRecommendationSummariesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5270,7 +5272,7 @@ public struct GetRecommendationSummariesOutput {
 
 enum GetRecommendationSummariesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5650,7 +5652,7 @@ extension ComputeOptimizerClientTypes {
         /// The state of the instance when the recommendation was generated.
         public var instanceState: ComputeOptimizerClientTypes.InstanceState?
         /// The timestamp of when the instance recommendation was last generated.
-        public var lastRefreshTimestamp: ClientRuntime.Date?
+        public var lastRefreshTimestamp: Foundation.Date?
         /// The number of days for which utilization metrics were analyzed for the instance.
         public var lookBackPeriodInDays: Swift.Double
         /// An array of objects that describe the recommendation options for the instance.
@@ -5676,7 +5678,7 @@ extension ComputeOptimizerClientTypes {
             instanceArn: Swift.String? = nil,
             instanceName: Swift.String? = nil,
             instanceState: ComputeOptimizerClientTypes.InstanceState? = nil,
-            lastRefreshTimestamp: ClientRuntime.Date? = nil,
+            lastRefreshTimestamp: Foundation.Date? = nil,
             lookBackPeriodInDays: Swift.Double = 0.0,
             recommendationOptions: [ComputeOptimizerClientTypes.InstanceRecommendationOption]? = nil,
             recommendationSources: [ComputeOptimizerClientTypes.RecommendationSource]? = nil,
@@ -6482,7 +6484,7 @@ extension ComputeOptimizerClientTypes {
         /// The version number of the current function.
         public var functionVersion: Swift.String?
         /// The timestamp of when the function recommendation was last generated.
-        public var lastRefreshTimestamp: ClientRuntime.Date?
+        public var lastRefreshTimestamp: Foundation.Date?
         /// The number of days for which utilization metrics were analyzed for the function.
         public var lookbackPeriodInDays: Swift.Double
         /// An array of objects that describe the memory configuration recommendation options for the function.
@@ -6503,7 +6505,7 @@ extension ComputeOptimizerClientTypes {
             findingReasonCodes: [ComputeOptimizerClientTypes.LambdaFunctionRecommendationFindingReasonCode]? = nil,
             functionArn: Swift.String? = nil,
             functionVersion: Swift.String? = nil,
-            lastRefreshTimestamp: ClientRuntime.Date? = nil,
+            lastRefreshTimestamp: Foundation.Date? = nil,
             lookbackPeriodInDays: Swift.Double = 0.0,
             memorySizeRecommendationOptions: [ComputeOptimizerClientTypes.LambdaFunctionMemoryRecommendationOption]? = nil,
             numberOfInvocations: Swift.Int = 0,
@@ -7050,7 +7052,7 @@ extension ComputeOptimizerClientTypes {
         /// * CloudwatchApplicationInsightsError — There is a CloudWatch Application Insights error.
         public var findingReasonCodes: [ComputeOptimizerClientTypes.LicenseFindingReasonCode]?
         /// The timestamp of when the license recommendation was last generated.
-        public var lastRefreshTimestamp: ClientRuntime.Date?
+        public var lastRefreshTimestamp: Foundation.Date?
         /// An array of objects that describe the license recommendation options.
         public var licenseRecommendationOptions: [ComputeOptimizerClientTypes.LicenseRecommendationOption]?
         /// The number of days for which utilization metrics were analyzed for an instance that runs on a license.
@@ -7065,7 +7067,7 @@ extension ComputeOptimizerClientTypes {
             currentLicenseConfiguration: ComputeOptimizerClientTypes.LicenseConfiguration? = nil,
             finding: ComputeOptimizerClientTypes.LicenseFinding? = nil,
             findingReasonCodes: [ComputeOptimizerClientTypes.LicenseFindingReasonCode]? = nil,
-            lastRefreshTimestamp: ClientRuntime.Date? = nil,
+            lastRefreshTimestamp: Foundation.Date? = nil,
             licenseRecommendationOptions: [ComputeOptimizerClientTypes.LicenseRecommendationOption]? = nil,
             lookbackPeriodInDays: Swift.Double = 0.0,
             resourceArn: Swift.String? = nil,
@@ -7694,13 +7696,13 @@ extension ComputeOptimizerClientTypes {
         /// * GPU_MEMORY - The projected percentage of total GPU memory if you adjust your configurations to Compute Optimizer's recommendation option. The GPU and GPU_MEMORY metrics are only returned for resources with the unified CloudWatch Agent installed on them. For more information, see [Enabling NVIDIA GPU utilization with the CloudWatch Agent](https://docs.aws.amazon.com/compute-optimizer/latest/ug/metrics.html#nvidia-cw-agent).
         public var name: ComputeOptimizerClientTypes.MetricName?
         /// The timestamps of the projected utilization metric.
-        public var timestamps: [ClientRuntime.Date]?
+        public var timestamps: [Foundation.Date]?
         /// The values of the projected utilization metrics.
         public var values: [Swift.Double]?
 
         public init(
             name: ComputeOptimizerClientTypes.MetricName? = nil,
-            timestamps: [ClientRuntime.Date]? = nil,
+            timestamps: [Foundation.Date]? = nil,
             values: [Swift.Double]? = nil
         )
         {
@@ -7798,7 +7800,7 @@ public struct PutRecommendationPreferencesInput {
 
 extension PutRecommendationPreferencesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutRecommendationPreferencesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutRecommendationPreferencesOutput {
         return PutRecommendationPreferencesOutput()
     }
 }
@@ -7810,7 +7812,7 @@ public struct PutRecommendationPreferencesOutput {
 
 enum PutRecommendationPreferencesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7880,7 +7882,7 @@ extension ComputeOptimizerClientTypes {
     /// Describes a recommendation export job. Use the [DescribeRecommendationExportJobs] action to view your recommendation export jobs. Use the [ExportAutoScalingGroupRecommendations] or [ExportEC2InstanceRecommendations] actions to request an export of your recommendations.
     public struct RecommendationExportJob {
         /// The timestamp of when the export job was created.
-        public var creationTimestamp: ClientRuntime.Date?
+        public var creationTimestamp: Foundation.Date?
         /// An object that describes the destination of the export file.
         public var destination: ComputeOptimizerClientTypes.ExportDestination?
         /// The reason for an export job failure.
@@ -7888,18 +7890,18 @@ extension ComputeOptimizerClientTypes {
         /// The identification number of the export job.
         public var jobId: Swift.String?
         /// The timestamp of when the export job was last updated.
-        public var lastUpdatedTimestamp: ClientRuntime.Date?
+        public var lastUpdatedTimestamp: Foundation.Date?
         /// The resource type of the exported recommendations.
         public var resourceType: ComputeOptimizerClientTypes.ResourceType?
         /// The status of the export job.
         public var status: ComputeOptimizerClientTypes.JobStatus?
 
         public init(
-            creationTimestamp: ClientRuntime.Date? = nil,
+            creationTimestamp: Foundation.Date? = nil,
             destination: ComputeOptimizerClientTypes.ExportDestination? = nil,
             failureReason: Swift.String? = nil,
             jobId: Swift.String? = nil,
-            lastUpdatedTimestamp: ClientRuntime.Date? = nil,
+            lastUpdatedTimestamp: Foundation.Date? = nil,
             resourceType: ComputeOptimizerClientTypes.ResourceType? = nil,
             status: ComputeOptimizerClientTypes.JobStatus? = nil
         )
@@ -8774,7 +8776,7 @@ public struct UpdateEnrollmentStatusInput {
 
 extension UpdateEnrollmentStatusOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateEnrollmentStatusOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateEnrollmentStatusOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8803,7 +8805,7 @@ public struct UpdateEnrollmentStatusOutput {
 
 enum UpdateEnrollmentStatusOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9019,7 +9021,7 @@ extension ComputeOptimizerClientTypes {
         /// * Optimized —An volume is considered optimized when Compute Optimizer determines that the volume is correctly provisioned to run your workload based on the chosen volume type. For optimized resources, Compute Optimizer might recommend a new generation volume type.
         public var finding: ComputeOptimizerClientTypes.EBSFinding?
         /// The timestamp of when the volume recommendation was last generated.
-        public var lastRefreshTimestamp: ClientRuntime.Date?
+        public var lastRefreshTimestamp: Foundation.Date?
         /// The number of days for which utilization metrics were analyzed for the volume.
         public var lookBackPeriodInDays: Swift.Double
         /// A list of tags assigned to your Amazon EBS volume recommendations.
@@ -9037,7 +9039,7 @@ extension ComputeOptimizerClientTypes {
             currentPerformanceRisk: ComputeOptimizerClientTypes.CurrentPerformanceRisk? = nil,
             effectiveRecommendationPreferences: ComputeOptimizerClientTypes.EBSEffectiveRecommendationPreferences? = nil,
             finding: ComputeOptimizerClientTypes.EBSFinding? = nil,
-            lastRefreshTimestamp: ClientRuntime.Date? = nil,
+            lastRefreshTimestamp: Foundation.Date? = nil,
             lookBackPeriodInDays: Swift.Double = 0.0,
             tags: [ComputeOptimizerClientTypes.Tag]? = nil,
             utilizationMetrics: [ComputeOptimizerClientTypes.EBSUtilizationMetric]? = nil,

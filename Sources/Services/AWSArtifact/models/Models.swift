@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -166,7 +169,7 @@ public struct GetAccountSettingsInput {
 
 extension GetAccountSettingsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetAccountSettingsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetAccountSettingsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -190,7 +193,7 @@ public struct GetAccountSettingsOutput {
 
 enum GetAccountSettingsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -210,23 +213,23 @@ enum GetAccountSettingsOutputError {
 
 extension GetReportInput {
 
-    static func queryItemProvider(_ value: GetReportInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetReportInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let reportVersion = value.reportVersion {
-            let reportVersionQueryItem = ClientRuntime.SDKURLQueryItem(name: "reportVersion".urlPercentEncoding(), value: Swift.String(reportVersion).urlPercentEncoding())
+            let reportVersionQueryItem = Smithy.URIQueryItem(name: "reportVersion".urlPercentEncoding(), value: Swift.String(reportVersion).urlPercentEncoding())
             items.append(reportVersionQueryItem)
         }
         guard let reportId = value.reportId else {
             let message = "Creating a URL Query Item failed. reportId is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let reportIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "reportId".urlPercentEncoding(), value: Swift.String(reportId).urlPercentEncoding())
+        let reportIdQueryItem = Smithy.URIQueryItem(name: "reportId".urlPercentEncoding(), value: Swift.String(reportId).urlPercentEncoding())
         items.append(reportIdQueryItem)
         guard let termToken = value.termToken else {
             let message = "Creating a URL Query Item failed. termToken is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let termTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "termToken".urlPercentEncoding(), value: Swift.String(termToken).urlPercentEncoding())
+        let termTokenQueryItem = Smithy.URIQueryItem(name: "termToken".urlPercentEncoding(), value: Swift.String(termToken).urlPercentEncoding())
         items.append(termTokenQueryItem)
         return items
     }
@@ -263,17 +266,17 @@ public struct GetReportInput {
 
 extension GetReportMetadataInput {
 
-    static func queryItemProvider(_ value: GetReportMetadataInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetReportMetadataInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let reportVersion = value.reportVersion {
-            let reportVersionQueryItem = ClientRuntime.SDKURLQueryItem(name: "reportVersion".urlPercentEncoding(), value: Swift.String(reportVersion).urlPercentEncoding())
+            let reportVersionQueryItem = Smithy.URIQueryItem(name: "reportVersion".urlPercentEncoding(), value: Swift.String(reportVersion).urlPercentEncoding())
             items.append(reportVersionQueryItem)
         }
         guard let reportId = value.reportId else {
             let message = "Creating a URL Query Item failed. reportId is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let reportIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "reportId".urlPercentEncoding(), value: Swift.String(reportId).urlPercentEncoding())
+        let reportIdQueryItem = Smithy.URIQueryItem(name: "reportId".urlPercentEncoding(), value: Swift.String(reportId).urlPercentEncoding())
         items.append(reportIdQueryItem)
         return items
     }
@@ -305,7 +308,7 @@ public struct GetReportMetadataInput {
 
 extension GetReportMetadataOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetReportMetadataOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetReportMetadataOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -329,7 +332,7 @@ public struct GetReportMetadataOutput {
 
 enum GetReportMetadataOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -348,7 +351,7 @@ enum GetReportMetadataOutputError {
 
 extension GetReportOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetReportOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetReportOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -372,7 +375,7 @@ public struct GetReportOutput {
 
 enum GetReportOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -392,17 +395,17 @@ enum GetReportOutputError {
 
 extension GetTermForReportInput {
 
-    static func queryItemProvider(_ value: GetTermForReportInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetTermForReportInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let reportVersion = value.reportVersion {
-            let reportVersionQueryItem = ClientRuntime.SDKURLQueryItem(name: "reportVersion".urlPercentEncoding(), value: Swift.String(reportVersion).urlPercentEncoding())
+            let reportVersionQueryItem = Smithy.URIQueryItem(name: "reportVersion".urlPercentEncoding(), value: Swift.String(reportVersion).urlPercentEncoding())
             items.append(reportVersionQueryItem)
         }
         guard let reportId = value.reportId else {
             let message = "Creating a URL Query Item failed. reportId is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let reportIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "reportId".urlPercentEncoding(), value: Swift.String(reportId).urlPercentEncoding())
+        let reportIdQueryItem = Smithy.URIQueryItem(name: "reportId".urlPercentEncoding(), value: Swift.String(reportId).urlPercentEncoding())
         items.append(reportIdQueryItem)
         return items
     }
@@ -434,7 +437,7 @@ public struct GetTermForReportInput {
 
 extension GetTermForReportOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetTermForReportOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetTermForReportOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -463,7 +466,7 @@ public struct GetTermForReportOutput {
 
 enum GetTermForReportOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -529,14 +532,14 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
 extension ListReportsInput {
 
-    static func queryItemProvider(_ value: ListReportsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListReportsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         return items
@@ -568,7 +571,7 @@ public struct ListReportsInput {
 
 extension ListReportsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListReportsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListReportsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -597,7 +600,7 @@ public struct ListReportsOutput {
 
 enum ListReportsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -705,7 +708,7 @@ public struct PutAccountSettingsInput {
 
 extension PutAccountSettingsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutAccountSettingsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutAccountSettingsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -729,7 +732,7 @@ public struct PutAccountSettingsOutput {
 
 enum PutAccountSettingsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -788,21 +791,21 @@ extension ArtifactClientTypes {
         /// Associated company name for the report resource.
         public var companyName: Swift.String?
         /// Timestamp indicating when the report resource was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// Timestamp indicating when the report resource was deleted.
-        public var deletedAt: ClientRuntime.Date?
+        public var deletedAt: Foundation.Date?
         /// Description for the report resource.
         public var description: Swift.String?
         /// Unique resource ID for the report resource.
         public var id: Swift.String?
         /// Timestamp indicating when the report resource was last modified.
-        public var lastModifiedAt: ClientRuntime.Date?
+        public var lastModifiedAt: Foundation.Date?
         /// Name for the report resource.
         public var name: Swift.String?
         /// Timestamp indicating the report resource effective end.
-        public var periodEnd: ClientRuntime.Date?
+        public var periodEnd: Foundation.Date?
         /// Timestamp indicating the report resource effective start.
-        public var periodStart: ClientRuntime.Date?
+        public var periodStart: Foundation.Date?
         /// Associated product name for the report resource.
         public var productName: Swift.String?
         /// Sequence number to enforce optimistic locking.
@@ -825,14 +828,14 @@ extension ArtifactClientTypes {
             arn: Swift.String? = nil,
             category: Swift.String? = nil,
             companyName: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
-            deletedAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
+            deletedAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
             id: Swift.String? = nil,
-            lastModifiedAt: ClientRuntime.Date? = nil,
+            lastModifiedAt: Foundation.Date? = nil,
             name: Swift.String? = nil,
-            periodEnd: ClientRuntime.Date? = nil,
-            periodStart: ClientRuntime.Date? = nil,
+            periodEnd: Foundation.Date? = nil,
+            periodStart: Foundation.Date? = nil,
             productName: Swift.String? = nil,
             sequenceNumber: Swift.Int? = nil,
             series: Swift.String? = nil,
@@ -907,9 +910,9 @@ extension ArtifactClientTypes {
         /// Name for the report resource.
         public var name: Swift.String?
         /// Timestamp indicating the report resource effective end.
-        public var periodEnd: ClientRuntime.Date?
+        public var periodEnd: Foundation.Date?
         /// Timestamp indicating the report resource effective start.
-        public var periodStart: ClientRuntime.Date?
+        public var periodStart: Foundation.Date?
         /// Associated product name for the report resource.
         public var productName: Swift.String?
         /// Series for the report resource.
@@ -930,8 +933,8 @@ extension ArtifactClientTypes {
             description: Swift.String? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil,
-            periodEnd: ClientRuntime.Date? = nil,
-            periodStart: ClientRuntime.Date? = nil,
+            periodEnd: Foundation.Date? = nil,
+            periodStart: Foundation.Date? = nil,
             productName: Swift.String? = nil,
             series: Swift.String? = nil,
             state: ArtifactClientTypes.PublishedState? = nil,

@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -251,7 +254,7 @@ extension MediaTailorClientTypes {
         public var category: MediaTailorClientTypes.AlertCategory?
         /// The timestamp when the alert was last modified.
         /// This member is required.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// The Amazon Resource Names (ARNs) related to this alert.
         /// This member is required.
         public var relatedResourceArns: [Swift.String]?
@@ -263,7 +266,7 @@ extension MediaTailorClientTypes {
             alertCode: Swift.String? = nil,
             alertMessage: Swift.String? = nil,
             category: MediaTailorClientTypes.AlertCategory? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             relatedResourceArns: [Swift.String]? = nil,
             resourceArn: Swift.String? = nil
         )
@@ -644,11 +647,11 @@ extension MediaTailorClientTypes {
         /// This member is required.
         public var channelState: Swift.String?
         /// The timestamp of when the channel was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The slate used to fill gaps between programs in the schedule. You must configure filler slate if your channel uses the LINEARPlaybackMode. MediaTailor doesn't support filler slate for channels using the LOOPPlaybackMode.
         public var fillerSlate: MediaTailorClientTypes.SlateSource?
         /// The timestamp of when the channel was last modified.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// The log configuration.
         /// This member is required.
         public var logConfiguration: MediaTailorClientTypes.LogConfigurationForChannel?
@@ -669,9 +672,9 @@ extension MediaTailorClientTypes {
             audiences: [Swift.String]? = nil,
             channelName: Swift.String? = nil,
             channelState: Swift.String? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             fillerSlate: MediaTailorClientTypes.SlateSource? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             logConfiguration: MediaTailorClientTypes.LogConfigurationForChannel? = nil,
             outputs: [MediaTailorClientTypes.ResponseOutputItem]? = nil,
             playbackMode: Swift.String? = nil,
@@ -798,7 +801,7 @@ public struct ConfigureLogsForChannelInput {
 
 extension ConfigureLogsForChannelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ConfigureLogsForChannelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ConfigureLogsForChannelOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -827,7 +830,7 @@ public struct ConfigureLogsForChannelOutput {
 
 enum ConfigureLogsForChannelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -875,7 +878,7 @@ public struct ConfigureLogsForPlaybackConfigurationInput {
 
 extension ConfigureLogsForPlaybackConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ConfigureLogsForPlaybackConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ConfigureLogsForPlaybackConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -905,7 +908,7 @@ public struct ConfigureLogsForPlaybackConfigurationOutput {
 
 enum ConfigureLogsForPlaybackConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -985,7 +988,7 @@ public struct CreateChannelInput {
 
 extension CreateChannelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateChannelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateChannelOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1016,11 +1019,11 @@ public struct CreateChannelOutput {
     /// Indicates whether the channel is in a running state or not.
     public var channelState: MediaTailorClientTypes.ChannelState?
     /// The timestamp of when the channel was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// Contains information about the slate used to fill gaps between programs in the schedule.
     public var fillerSlate: MediaTailorClientTypes.SlateSource?
     /// The timestamp of when the channel was last modified.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The output properties to assign to the channel.
     public var outputs: [MediaTailorClientTypes.ResponseOutputItem]?
     /// The playback mode to assign to the channel.
@@ -1037,9 +1040,9 @@ public struct CreateChannelOutput {
         audiences: [Swift.String]? = nil,
         channelName: Swift.String? = nil,
         channelState: MediaTailorClientTypes.ChannelState? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         fillerSlate: MediaTailorClientTypes.SlateSource? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         outputs: [MediaTailorClientTypes.ResponseOutputItem]? = nil,
         playbackMode: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
@@ -1064,7 +1067,7 @@ public struct CreateChannelOutput {
 
 enum CreateChannelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1126,7 +1129,7 @@ public struct CreateLiveSourceInput {
 
 extension CreateLiveSourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateLiveSourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateLiveSourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1146,11 +1149,11 @@ public struct CreateLiveSourceOutput {
     /// The ARN to assign to the live source.
     public var arn: Swift.String?
     /// The time the live source was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// A list of HTTP package configuration parameters for this live source.
     public var httpPackageConfigurations: [MediaTailorClientTypes.HttpPackageConfiguration]?
     /// The time the live source was last modified.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The name to assign to the live source.
     public var liveSourceName: Swift.String?
     /// The name to assign to the source location of the live source.
@@ -1160,9 +1163,9 @@ public struct CreateLiveSourceOutput {
 
     public init(
         arn: Swift.String? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         httpPackageConfigurations: [MediaTailorClientTypes.HttpPackageConfiguration]? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         liveSourceName: Swift.String? = nil,
         sourceLocationName: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
@@ -1180,7 +1183,7 @@ public struct CreateLiveSourceOutput {
 
 enum CreateLiveSourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1248,7 +1251,7 @@ public struct CreatePrefetchScheduleInput {
 
 extension CreatePrefetchScheduleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreatePrefetchScheduleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreatePrefetchScheduleOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1297,7 +1300,7 @@ public struct CreatePrefetchScheduleOutput {
 
 enum CreatePrefetchScheduleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1380,7 +1383,7 @@ public struct CreateProgramInput {
 
 extension CreateProgramOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateProgramOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateProgramOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1413,7 +1416,7 @@ public struct CreateProgramOutput {
     /// The clip range configuration settings.
     public var clipRange: MediaTailorClientTypes.ClipRange?
     /// The time the program was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The duration of the live program in milliseconds.
     public var durationMillis: Swift.Int?
     /// The name of the LiveSource for this Program.
@@ -1421,7 +1424,7 @@ public struct CreateProgramOutput {
     /// The name to assign to this program.
     public var programName: Swift.String?
     /// The scheduled start time for this Program.
-    public var scheduledStartTime: ClientRuntime.Date?
+    public var scheduledStartTime: Foundation.Date?
     /// The name to assign to the source location for this program.
     public var sourceLocationName: Swift.String?
     /// The name that's used to refer to a VOD source.
@@ -1433,11 +1436,11 @@ public struct CreateProgramOutput {
         audienceMedia: [MediaTailorClientTypes.AudienceMedia]? = nil,
         channelName: Swift.String? = nil,
         clipRange: MediaTailorClientTypes.ClipRange? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         durationMillis: Swift.Int? = nil,
         liveSourceName: Swift.String? = nil,
         programName: Swift.String? = nil,
-        scheduledStartTime: ClientRuntime.Date? = nil,
+        scheduledStartTime: Foundation.Date? = nil,
         sourceLocationName: Swift.String? = nil,
         vodSourceName: Swift.String? = nil
     )
@@ -1459,7 +1462,7 @@ public struct CreateProgramOutput {
 
 enum CreateProgramOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1528,7 +1531,7 @@ public struct CreateSourceLocationInput {
 
 extension CreateSourceLocationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateSourceLocationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateSourceLocationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1552,13 +1555,13 @@ public struct CreateSourceLocationOutput {
     /// The ARN to assign to the source location.
     public var arn: Swift.String?
     /// The time the source location was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The optional configuration for the server that serves segments.
     public var defaultSegmentDeliveryConfiguration: MediaTailorClientTypes.DefaultSegmentDeliveryConfiguration?
     /// The source's HTTP package configurations.
     public var httpConfiguration: MediaTailorClientTypes.HttpConfiguration?
     /// The time the source location was last modified.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The segment delivery configurations for the source location. For information about MediaTailor configurations, see [Working with configurations in AWS Elemental MediaTailor](https://docs.aws.amazon.com/mediatailor/latest/ug/configurations.html).
     public var segmentDeliveryConfigurations: [MediaTailorClientTypes.SegmentDeliveryConfiguration]?
     /// The name to assign to the source location.
@@ -1569,10 +1572,10 @@ public struct CreateSourceLocationOutput {
     public init(
         accessConfiguration: MediaTailorClientTypes.AccessConfiguration? = nil,
         arn: Swift.String? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         defaultSegmentDeliveryConfiguration: MediaTailorClientTypes.DefaultSegmentDeliveryConfiguration? = nil,
         httpConfiguration: MediaTailorClientTypes.HttpConfiguration? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         segmentDeliveryConfigurations: [MediaTailorClientTypes.SegmentDeliveryConfiguration]? = nil,
         sourceLocationName: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
@@ -1592,7 +1595,7 @@ public struct CreateSourceLocationOutput {
 
 enum CreateSourceLocationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1654,7 +1657,7 @@ public struct CreateVodSourceInput {
 
 extension CreateVodSourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateVodSourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateVodSourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1674,11 +1677,11 @@ public struct CreateVodSourceOutput {
     /// The ARN to assign to this VOD source.
     public var arn: Swift.String?
     /// The time the VOD source was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// A list of HTTP package configuration parameters for this VOD source.
     public var httpPackageConfigurations: [MediaTailorClientTypes.HttpPackageConfiguration]?
     /// The time the VOD source was last modified.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The name to assign to the source location for this VOD source.
     public var sourceLocationName: Swift.String?
     /// The tags to assign to the VOD source. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see [Tagging AWS Elemental MediaTailor Resources](https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
@@ -1688,9 +1691,9 @@ public struct CreateVodSourceOutput {
 
     public init(
         arn: Swift.String? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         httpPackageConfigurations: [MediaTailorClientTypes.HttpPackageConfiguration]? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         sourceLocationName: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
         vodSourceName: Swift.String? = nil
@@ -1708,7 +1711,7 @@ public struct CreateVodSourceOutput {
 
 enum CreateVodSourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1889,7 +1892,7 @@ public struct DeleteChannelInput {
 
 extension DeleteChannelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteChannelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteChannelOutput {
         return DeleteChannelOutput()
     }
 }
@@ -1901,7 +1904,7 @@ public struct DeleteChannelOutput {
 
 enum DeleteChannelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1937,7 +1940,7 @@ public struct DeleteChannelPolicyInput {
 
 extension DeleteChannelPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteChannelPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteChannelPolicyOutput {
         return DeleteChannelPolicyOutput()
     }
 }
@@ -1949,7 +1952,7 @@ public struct DeleteChannelPolicyOutput {
 
 enum DeleteChannelPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1993,7 +1996,7 @@ public struct DeleteLiveSourceInput {
 
 extension DeleteLiveSourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteLiveSourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteLiveSourceOutput {
         return DeleteLiveSourceOutput()
     }
 }
@@ -2005,7 +2008,7 @@ public struct DeleteLiveSourceOutput {
 
 enum DeleteLiveSourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2041,7 +2044,7 @@ public struct DeletePlaybackConfigurationInput {
 
 extension DeletePlaybackConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeletePlaybackConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeletePlaybackConfigurationOutput {
         return DeletePlaybackConfigurationOutput()
     }
 }
@@ -2053,7 +2056,7 @@ public struct DeletePlaybackConfigurationOutput {
 
 enum DeletePlaybackConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2097,7 +2100,7 @@ public struct DeletePrefetchScheduleInput {
 
 extension DeletePrefetchScheduleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeletePrefetchScheduleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeletePrefetchScheduleOutput {
         return DeletePrefetchScheduleOutput()
     }
 }
@@ -2109,7 +2112,7 @@ public struct DeletePrefetchScheduleOutput {
 
 enum DeletePrefetchScheduleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2153,7 +2156,7 @@ public struct DeleteProgramInput {
 
 extension DeleteProgramOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteProgramOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteProgramOutput {
         return DeleteProgramOutput()
     }
 }
@@ -2165,7 +2168,7 @@ public struct DeleteProgramOutput {
 
 enum DeleteProgramOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2201,7 +2204,7 @@ public struct DeleteSourceLocationInput {
 
 extension DeleteSourceLocationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteSourceLocationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteSourceLocationOutput {
         return DeleteSourceLocationOutput()
     }
 }
@@ -2213,7 +2216,7 @@ public struct DeleteSourceLocationOutput {
 
 enum DeleteSourceLocationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2257,7 +2260,7 @@ public struct DeleteVodSourceInput {
 
 extension DeleteVodSourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteVodSourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteVodSourceOutput {
         return DeleteVodSourceOutput()
     }
 }
@@ -2269,7 +2272,7 @@ public struct DeleteVodSourceOutput {
 
 enum DeleteVodSourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2305,7 +2308,7 @@ public struct DescribeChannelInput {
 
 extension DescribeChannelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeChannelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeChannelOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2337,11 +2340,11 @@ public struct DescribeChannelOutput {
     /// Indicates whether the channel is in a running state or not.
     public var channelState: MediaTailorClientTypes.ChannelState?
     /// The timestamp of when the channel was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// Contains information about the slate used to fill gaps between programs in the schedule.
     public var fillerSlate: MediaTailorClientTypes.SlateSource?
     /// The timestamp of when the channel was last modified.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The log configuration for the channel.
     /// This member is required.
     public var logConfiguration: MediaTailorClientTypes.LogConfigurationForChannel?
@@ -2361,9 +2364,9 @@ public struct DescribeChannelOutput {
         audiences: [Swift.String]? = nil,
         channelName: Swift.String? = nil,
         channelState: MediaTailorClientTypes.ChannelState? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         fillerSlate: MediaTailorClientTypes.SlateSource? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         logConfiguration: MediaTailorClientTypes.LogConfigurationForChannel? = nil,
         outputs: [MediaTailorClientTypes.ResponseOutputItem]? = nil,
         playbackMode: Swift.String? = nil,
@@ -2390,7 +2393,7 @@ public struct DescribeChannelOutput {
 
 enum DescribeChannelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2434,7 +2437,7 @@ public struct DescribeLiveSourceInput {
 
 extension DescribeLiveSourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeLiveSourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeLiveSourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2454,11 +2457,11 @@ public struct DescribeLiveSourceOutput {
     /// The ARN of the live source.
     public var arn: Swift.String?
     /// The timestamp that indicates when the live source was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The HTTP package configurations.
     public var httpPackageConfigurations: [MediaTailorClientTypes.HttpPackageConfiguration]?
     /// The timestamp that indicates when the live source was modified.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The name of the live source.
     public var liveSourceName: Swift.String?
     /// The name of the source location associated with the live source.
@@ -2468,9 +2471,9 @@ public struct DescribeLiveSourceOutput {
 
     public init(
         arn: Swift.String? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         httpPackageConfigurations: [MediaTailorClientTypes.HttpPackageConfiguration]? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         liveSourceName: Swift.String? = nil,
         sourceLocationName: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
@@ -2488,7 +2491,7 @@ public struct DescribeLiveSourceOutput {
 
 enum DescribeLiveSourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2532,7 +2535,7 @@ public struct DescribeProgramInput {
 
 extension DescribeProgramOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeProgramOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeProgramOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2565,7 +2568,7 @@ public struct DescribeProgramOutput {
     /// The clip range configuration settings.
     public var clipRange: MediaTailorClientTypes.ClipRange?
     /// The timestamp of when the program was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The duration of the live program in milliseconds.
     public var durationMillis: Swift.Int?
     /// The name of the LiveSource for this Program.
@@ -2573,7 +2576,7 @@ public struct DescribeProgramOutput {
     /// The name of the program.
     public var programName: Swift.String?
     /// The date and time that the program is scheduled to start in ISO 8601 format and Coordinated Universal Time (UTC). For example, the value 2021-03-27T17:48:16.751Z represents March 27, 2021 at 17:48:16.751 UTC.
-    public var scheduledStartTime: ClientRuntime.Date?
+    public var scheduledStartTime: Foundation.Date?
     /// The source location name.
     public var sourceLocationName: Swift.String?
     /// The name that's used to refer to a VOD source.
@@ -2585,11 +2588,11 @@ public struct DescribeProgramOutput {
         audienceMedia: [MediaTailorClientTypes.AudienceMedia]? = nil,
         channelName: Swift.String? = nil,
         clipRange: MediaTailorClientTypes.ClipRange? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         durationMillis: Swift.Int? = nil,
         liveSourceName: Swift.String? = nil,
         programName: Swift.String? = nil,
-        scheduledStartTime: ClientRuntime.Date? = nil,
+        scheduledStartTime: Foundation.Date? = nil,
         sourceLocationName: Swift.String? = nil,
         vodSourceName: Swift.String? = nil
     )
@@ -2611,7 +2614,7 @@ public struct DescribeProgramOutput {
 
 enum DescribeProgramOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2647,7 +2650,7 @@ public struct DescribeSourceLocationInput {
 
 extension DescribeSourceLocationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeSourceLocationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeSourceLocationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2671,13 +2674,13 @@ public struct DescribeSourceLocationOutput {
     /// The ARN of the source location.
     public var arn: Swift.String?
     /// The timestamp that indicates when the source location was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The default segment delivery configuration settings.
     public var defaultSegmentDeliveryConfiguration: MediaTailorClientTypes.DefaultSegmentDeliveryConfiguration?
     /// The HTTP package configuration settings for the source location.
     public var httpConfiguration: MediaTailorClientTypes.HttpConfiguration?
     /// The timestamp that indicates when the source location was last modified.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// A list of the segment delivery configurations associated with this resource.
     public var segmentDeliveryConfigurations: [MediaTailorClientTypes.SegmentDeliveryConfiguration]?
     /// The name of the source location.
@@ -2688,10 +2691,10 @@ public struct DescribeSourceLocationOutput {
     public init(
         accessConfiguration: MediaTailorClientTypes.AccessConfiguration? = nil,
         arn: Swift.String? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         defaultSegmentDeliveryConfiguration: MediaTailorClientTypes.DefaultSegmentDeliveryConfiguration? = nil,
         httpConfiguration: MediaTailorClientTypes.HttpConfiguration? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         segmentDeliveryConfigurations: [MediaTailorClientTypes.SegmentDeliveryConfiguration]? = nil,
         sourceLocationName: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
@@ -2711,7 +2714,7 @@ public struct DescribeSourceLocationOutput {
 
 enum DescribeSourceLocationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2755,7 +2758,7 @@ public struct DescribeVodSourceInput {
 
 extension DescribeVodSourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeVodSourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeVodSourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2778,11 +2781,11 @@ public struct DescribeVodSourceOutput {
     /// The ARN of the VOD source.
     public var arn: Swift.String?
     /// The timestamp that indicates when the VOD source was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The HTTP package configurations.
     public var httpPackageConfigurations: [MediaTailorClientTypes.HttpPackageConfiguration]?
     /// The last modified time of the VOD source.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The name of the source location associated with the VOD source.
     public var sourceLocationName: Swift.String?
     /// The tags assigned to the VOD source. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see [Tagging AWS Elemental MediaTailor Resources](https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
@@ -2793,9 +2796,9 @@ public struct DescribeVodSourceOutput {
     public init(
         adBreakOpportunities: [MediaTailorClientTypes.AdBreakOpportunity]? = nil,
         arn: Swift.String? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         httpPackageConfigurations: [MediaTailorClientTypes.HttpPackageConfiguration]? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         sourceLocationName: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
         vodSourceName: Swift.String? = nil
@@ -2814,7 +2817,7 @@ public struct DescribeVodSourceOutput {
 
 enum DescribeVodSourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2879,7 +2882,7 @@ public struct GetChannelPolicyInput {
 
 extension GetChannelPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetChannelPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetChannelPolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2903,7 +2906,7 @@ public struct GetChannelPolicyOutput {
 
 enum GetChannelPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2916,22 +2919,22 @@ enum GetChannelPolicyOutputError {
 
 extension GetChannelScheduleInput {
 
-    static func queryItemProvider(_ value: GetChannelScheduleInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetChannelScheduleInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let audience = value.audience {
-            let audienceQueryItem = ClientRuntime.SDKURLQueryItem(name: "audience".urlPercentEncoding(), value: Swift.String(audience).urlPercentEncoding())
+            let audienceQueryItem = Smithy.URIQueryItem(name: "audience".urlPercentEncoding(), value: Swift.String(audience).urlPercentEncoding())
             items.append(audienceQueryItem)
         }
         if let durationMinutes = value.durationMinutes {
-            let durationMinutesQueryItem = ClientRuntime.SDKURLQueryItem(name: "durationMinutes".urlPercentEncoding(), value: Swift.String(durationMinutes).urlPercentEncoding())
+            let durationMinutesQueryItem = Smithy.URIQueryItem(name: "durationMinutes".urlPercentEncoding(), value: Swift.String(durationMinutes).urlPercentEncoding())
             items.append(durationMinutesQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -2979,7 +2982,7 @@ public struct GetChannelScheduleInput {
 
 extension GetChannelScheduleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetChannelScheduleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetChannelScheduleOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3008,7 +3011,7 @@ public struct GetChannelScheduleOutput {
 
 enum GetChannelScheduleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3044,7 +3047,7 @@ public struct GetPlaybackConfigurationInput {
 
 extension GetPlaybackConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetPlaybackConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetPlaybackConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3163,7 +3166,7 @@ public struct GetPlaybackConfigurationOutput {
 
 enum GetPlaybackConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3207,7 +3210,7 @@ public struct GetPrefetchScheduleInput {
 
 extension GetPrefetchScheduleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetPrefetchScheduleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetPrefetchScheduleOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3256,7 +3259,7 @@ public struct GetPrefetchScheduleOutput {
 
 enum GetPrefetchScheduleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3479,20 +3482,20 @@ extension MediaTailorClientTypes {
 
 extension ListAlertsInput {
 
-    static func queryItemProvider(_ value: ListAlertsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListAlertsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let resourceArn = value.resourceArn else {
             let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let resourceArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
+        let resourceArnQueryItem = Smithy.URIQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
         items.append(resourceArnQueryItem)
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -3529,7 +3532,7 @@ public struct ListAlertsInput {
 
 extension ListAlertsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAlertsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAlertsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3558,7 +3561,7 @@ public struct ListAlertsOutput {
 
 enum ListAlertsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3571,14 +3574,14 @@ enum ListAlertsOutputError {
 
 extension ListChannelsInput {
 
-    static func queryItemProvider(_ value: ListChannelsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListChannelsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -3610,7 +3613,7 @@ public struct ListChannelsInput {
 
 extension ListChannelsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListChannelsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListChannelsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3639,7 +3642,7 @@ public struct ListChannelsOutput {
 
 enum ListChannelsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3652,14 +3655,14 @@ enum ListChannelsOutputError {
 
 extension ListLiveSourcesInput {
 
-    static func queryItemProvider(_ value: ListLiveSourcesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListLiveSourcesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -3699,7 +3702,7 @@ public struct ListLiveSourcesInput {
 
 extension ListLiveSourcesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListLiveSourcesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListLiveSourcesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3728,7 +3731,7 @@ public struct ListLiveSourcesOutput {
 
 enum ListLiveSourcesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3741,14 +3744,14 @@ enum ListLiveSourcesOutputError {
 
 extension ListPlaybackConfigurationsInput {
 
-    static func queryItemProvider(_ value: ListPlaybackConfigurationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListPlaybackConfigurationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -3780,7 +3783,7 @@ public struct ListPlaybackConfigurationsInput {
 
 extension ListPlaybackConfigurationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPlaybackConfigurationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPlaybackConfigurationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3809,7 +3812,7 @@ public struct ListPlaybackConfigurationsOutput {
 
 enum ListPlaybackConfigurationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3867,7 +3870,7 @@ public struct ListPrefetchSchedulesInput {
 
 extension ListPrefetchSchedulesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPrefetchSchedulesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPrefetchSchedulesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3896,7 +3899,7 @@ public struct ListPrefetchSchedulesOutput {
 
 enum ListPrefetchSchedulesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3909,14 +3912,14 @@ enum ListPrefetchSchedulesOutputError {
 
 extension ListSourceLocationsInput {
 
-    static func queryItemProvider(_ value: ListSourceLocationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListSourceLocationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -3948,7 +3951,7 @@ public struct ListSourceLocationsInput {
 
 extension ListSourceLocationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListSourceLocationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListSourceLocationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3977,7 +3980,7 @@ public struct ListSourceLocationsOutput {
 
 enum ListSourceLocationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4013,7 +4016,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4037,7 +4040,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4051,14 +4054,14 @@ enum ListTagsForResourceOutputError {
 
 extension ListVodSourcesInput {
 
-    static func queryItemProvider(_ value: ListVodSourcesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListVodSourcesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -4098,7 +4101,7 @@ public struct ListVodSourcesInput {
 
 extension ListVodSourcesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListVodSourcesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListVodSourcesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4127,7 +4130,7 @@ public struct ListVodSourcesOutput {
 
 enum ListVodSourcesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4198,12 +4201,12 @@ extension MediaTailorClientTypes {
         /// This member is required.
         public var arn: Swift.String?
         /// The timestamp that indicates when the live source was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The HTTP package configurations for the live source.
         /// This member is required.
         public var httpPackageConfigurations: [MediaTailorClientTypes.HttpPackageConfiguration]?
         /// The timestamp that indicates when the live source was last modified.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// The name that's used to refer to a live source.
         /// This member is required.
         public var liveSourceName: Swift.String?
@@ -4215,9 +4218,9 @@ extension MediaTailorClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             httpPackageConfigurations: [MediaTailorClientTypes.HttpPackageConfiguration]? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             liveSourceName: Swift.String? = nil,
             sourceLocationName: Swift.String? = nil,
             tags: [Swift.String:Swift.String]? = nil
@@ -4639,14 +4642,14 @@ extension MediaTailorClientTypes {
         public var availMatchingCriteria: [MediaTailorClientTypes.AvailMatchingCriteria]?
         /// The time when MediaTailor no longer considers the prefetched ads for use in an ad break. MediaTailor automatically deletes prefetch schedules no less than seven days after the end time. If you'd like to manually delete the prefetch schedule, you can call DeletePrefetchSchedule.
         /// This member is required.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// The time when prefetched ads are considered for use in an ad break. If you don't specify StartTime, the prefetched ads are available after MediaTailor retrives them from the ad decision server.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
 
         public init(
             availMatchingCriteria: [MediaTailorClientTypes.AvailMatchingCriteria]? = nil,
-            endTime: ClientRuntime.Date? = nil,
-            startTime: ClientRuntime.Date? = nil
+            endTime: Foundation.Date? = nil,
+            startTime: Foundation.Date? = nil
         )
         {
             self.availMatchingCriteria = availMatchingCriteria
@@ -4683,14 +4686,14 @@ extension MediaTailorClientTypes {
         public var dynamicVariables: [Swift.String:Swift.String]?
         /// The time when prefetch retrieval ends for the ad break. Prefetching will be attempted for manifest requests that occur at or before this time.
         /// This member is required.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// The time when prefetch retrievals can start for this break. Ad prefetching will be attempted for manifest requests that occur at or after this time. Defaults to the current time. If not specified, the prefetch retrieval starts as soon as possible.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
 
         public init(
             dynamicVariables: [Swift.String:Swift.String]? = nil,
-            endTime: ClientRuntime.Date? = nil,
-            startTime: ClientRuntime.Date? = nil
+            endTime: Foundation.Date? = nil,
+            startTime: Foundation.Date? = nil
         )
         {
             self.dynamicVariables = dynamicVariables
@@ -4795,7 +4798,7 @@ public struct PutChannelPolicyInput {
 
 extension PutChannelPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutChannelPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutChannelPolicyOutput {
         return PutChannelPolicyOutput()
     }
 }
@@ -4807,7 +4810,7 @@ public struct PutChannelPolicyOutput {
 
 enum PutChannelPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4918,7 +4921,7 @@ public struct PutPlaybackConfigurationInput {
 
 extension PutPlaybackConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutPlaybackConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutPlaybackConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5037,7 +5040,7 @@ public struct PutPlaybackConfigurationOutput {
 
 enum PutPlaybackConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5186,7 +5189,7 @@ extension MediaTailorClientTypes {
         /// The approximate duration of the ad break, in seconds.
         public var approximateDurationSeconds: Swift.Int?
         /// The approximate time that the ad will start playing.
-        public var approximateStartTime: ClientRuntime.Date?
+        public var approximateStartTime: Foundation.Date?
         /// The name of the source location containing the VOD source used for the ad break.
         public var sourceLocationName: Swift.String?
         /// The name of the VOD source used for the ad break.
@@ -5194,7 +5197,7 @@ extension MediaTailorClientTypes {
 
         public init(
             approximateDurationSeconds: Swift.Int? = nil,
-            approximateStartTime: ClientRuntime.Date? = nil,
+            approximateStartTime: Foundation.Date? = nil,
             sourceLocationName: Swift.String? = nil,
             vodSourceName: Swift.String? = nil
         )
@@ -5264,7 +5267,7 @@ extension MediaTailorClientTypes {
         /// The approximate duration of this program, in seconds.
         public var approximateDurationSeconds: Swift.Int?
         /// The approximate time that the program will start playing.
-        public var approximateStartTime: ClientRuntime.Date?
+        public var approximateStartTime: Foundation.Date?
         /// The ARN of the program.
         /// This member is required.
         public var arn: Swift.String?
@@ -5290,7 +5293,7 @@ extension MediaTailorClientTypes {
 
         public init(
             approximateDurationSeconds: Swift.Int? = nil,
-            approximateStartTime: ClientRuntime.Date? = nil,
+            approximateStartTime: Foundation.Date? = nil,
             arn: Swift.String? = nil,
             audiences: [Swift.String]? = nil,
             channelName: Swift.String? = nil,
@@ -5567,14 +5570,14 @@ extension MediaTailorClientTypes {
         /// This member is required.
         public var arn: Swift.String?
         /// The timestamp that indicates when the source location was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The default segment delivery configuration.
         public var defaultSegmentDeliveryConfiguration: MediaTailorClientTypes.DefaultSegmentDeliveryConfiguration?
         /// The HTTP configuration for the source location.
         /// This member is required.
         public var httpConfiguration: MediaTailorClientTypes.HttpConfiguration?
         /// The timestamp that indicates when the source location was last modified.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// The segment delivery configurations for the source location.
         public var segmentDeliveryConfigurations: [MediaTailorClientTypes.SegmentDeliveryConfiguration]?
         /// The name of the source location.
@@ -5586,10 +5589,10 @@ extension MediaTailorClientTypes {
         public init(
             accessConfiguration: MediaTailorClientTypes.AccessConfiguration? = nil,
             arn: Swift.String? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             defaultSegmentDeliveryConfiguration: MediaTailorClientTypes.DefaultSegmentDeliveryConfiguration? = nil,
             httpConfiguration: MediaTailorClientTypes.HttpConfiguration? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             segmentDeliveryConfigurations: [MediaTailorClientTypes.SegmentDeliveryConfiguration]? = nil,
             sourceLocationName: Swift.String? = nil,
             tags: [Swift.String:Swift.String]? = nil
@@ -5683,7 +5686,7 @@ public struct StartChannelInput {
 
 extension StartChannelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartChannelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartChannelOutput {
         return StartChannelOutput()
     }
 }
@@ -5695,7 +5698,7 @@ public struct StartChannelOutput {
 
 enum StartChannelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5731,7 +5734,7 @@ public struct StopChannelInput {
 
 extension StopChannelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopChannelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopChannelOutput {
         return StopChannelOutput()
     }
 }
@@ -5743,7 +5746,7 @@ public struct StopChannelOutput {
 
 enum StopChannelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5792,7 +5795,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -5804,7 +5807,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5985,14 +5988,14 @@ extension MediaTailorClientTypes {
 
 extension UntagResourceInput {
 
-    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let tagKeys = value.tagKeys else {
             let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
         tagKeys.forEach { queryItemValue in
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
             items.append(queryItem)
         }
         return items
@@ -6029,7 +6032,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -6041,7 +6044,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6106,7 +6109,7 @@ public struct UpdateChannelInput {
 
 extension UpdateChannelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateChannelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateChannelOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6137,11 +6140,11 @@ public struct UpdateChannelOutput {
     /// Returns the state whether the channel is running or not.
     public var channelState: MediaTailorClientTypes.ChannelState?
     /// The timestamp of when the channel was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The slate used to fill gaps between programs in the schedule. You must configure filler slate if your channel uses the LINEARPlaybackMode. MediaTailor doesn't support filler slate for channels using the LOOPPlaybackMode.
     public var fillerSlate: MediaTailorClientTypes.SlateSource?
     /// The timestamp that indicates when the channel was last modified.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The channel's output properties.
     public var outputs: [MediaTailorClientTypes.ResponseOutputItem]?
     /// The type of playback mode for this channel. LINEAR - Programs play back-to-back only once. LOOP - Programs play back-to-back in an endless loop. When the last program in the schedule plays, playback loops back to the first program in the schedule.
@@ -6158,9 +6161,9 @@ public struct UpdateChannelOutput {
         audiences: [Swift.String]? = nil,
         channelName: Swift.String? = nil,
         channelState: MediaTailorClientTypes.ChannelState? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         fillerSlate: MediaTailorClientTypes.SlateSource? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         outputs: [MediaTailorClientTypes.ResponseOutputItem]? = nil,
         playbackMode: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
@@ -6185,7 +6188,7 @@ public struct UpdateChannelOutput {
 
 enum UpdateChannelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6242,7 +6245,7 @@ public struct UpdateLiveSourceInput {
 
 extension UpdateLiveSourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateLiveSourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateLiveSourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6262,11 +6265,11 @@ public struct UpdateLiveSourceOutput {
     /// The Amazon Resource Name (ARN) associated with this live source.
     public var arn: Swift.String?
     /// The timestamp that indicates when the live source was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// A list of HTTP package configurations for the live source on this account.
     public var httpPackageConfigurations: [MediaTailorClientTypes.HttpPackageConfiguration]?
     /// The timestamp that indicates when the live source was last modified.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The name of the live source.
     public var liveSourceName: Swift.String?
     /// The name of the source location associated with the live source.
@@ -6276,9 +6279,9 @@ public struct UpdateLiveSourceOutput {
 
     public init(
         arn: Swift.String? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         httpPackageConfigurations: [MediaTailorClientTypes.HttpPackageConfiguration]? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         liveSourceName: Swift.String? = nil,
         sourceLocationName: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
@@ -6296,7 +6299,7 @@ public struct UpdateLiveSourceOutput {
 
 enum UpdateLiveSourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6363,7 +6366,7 @@ public struct UpdateProgramInput {
 
 extension UpdateProgramOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateProgramOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateProgramOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6396,7 +6399,7 @@ public struct UpdateProgramOutput {
     /// The clip range configuration settings.
     public var clipRange: MediaTailorClientTypes.ClipRange?
     /// The time the program was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The duration of the live program in milliseconds.
     public var durationMillis: Swift.Int?
     /// The name of the LiveSource for this Program.
@@ -6404,7 +6407,7 @@ public struct UpdateProgramOutput {
     /// The name to assign to this program.
     public var programName: Swift.String?
     /// The scheduled start time for this Program.
-    public var scheduledStartTime: ClientRuntime.Date?
+    public var scheduledStartTime: Foundation.Date?
     /// The name to assign to the source location for this program.
     public var sourceLocationName: Swift.String?
     /// The name that's used to refer to a VOD source.
@@ -6416,11 +6419,11 @@ public struct UpdateProgramOutput {
         audienceMedia: [MediaTailorClientTypes.AudienceMedia]? = nil,
         channelName: Swift.String? = nil,
         clipRange: MediaTailorClientTypes.ClipRange? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         durationMillis: Swift.Int? = nil,
         liveSourceName: Swift.String? = nil,
         programName: Swift.String? = nil,
-        scheduledStartTime: ClientRuntime.Date? = nil,
+        scheduledStartTime: Foundation.Date? = nil,
         sourceLocationName: Swift.String? = nil,
         vodSourceName: Swift.String? = nil
     )
@@ -6442,7 +6445,7 @@ public struct UpdateProgramOutput {
 
 enum UpdateProgramOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6564,7 +6567,7 @@ public struct UpdateSourceLocationInput {
 
 extension UpdateSourceLocationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateSourceLocationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateSourceLocationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6588,13 +6591,13 @@ public struct UpdateSourceLocationOutput {
     /// The Amazon Resource Name (ARN) associated with the source location.
     public var arn: Swift.String?
     /// The timestamp that indicates when the source location was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The optional configuration for the host server that serves segments.
     public var defaultSegmentDeliveryConfiguration: MediaTailorClientTypes.DefaultSegmentDeliveryConfiguration?
     /// The HTTP configuration for the source location.
     public var httpConfiguration: MediaTailorClientTypes.HttpConfiguration?
     /// The timestamp that indicates when the source location was last modified.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The segment delivery configurations for the source location. For information about MediaTailor configurations, see [Working with configurations in AWS Elemental MediaTailor](https://docs.aws.amazon.com/mediatailor/latest/ug/configurations.html).
     public var segmentDeliveryConfigurations: [MediaTailorClientTypes.SegmentDeliveryConfiguration]?
     /// The name of the source location.
@@ -6605,10 +6608,10 @@ public struct UpdateSourceLocationOutput {
     public init(
         accessConfiguration: MediaTailorClientTypes.AccessConfiguration? = nil,
         arn: Swift.String? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         defaultSegmentDeliveryConfiguration: MediaTailorClientTypes.DefaultSegmentDeliveryConfiguration? = nil,
         httpConfiguration: MediaTailorClientTypes.HttpConfiguration? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         segmentDeliveryConfigurations: [MediaTailorClientTypes.SegmentDeliveryConfiguration]? = nil,
         sourceLocationName: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
@@ -6628,7 +6631,7 @@ public struct UpdateSourceLocationOutput {
 
 enum UpdateSourceLocationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6685,7 +6688,7 @@ public struct UpdateVodSourceInput {
 
 extension UpdateVodSourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateVodSourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateVodSourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6705,11 +6708,11 @@ public struct UpdateVodSourceOutput {
     /// The Amazon Resource Name (ARN) associated with the VOD source.
     public var arn: Swift.String?
     /// The timestamp that indicates when the VOD source was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// A list of HTTP package configurations for the VOD source on this account.
     public var httpPackageConfigurations: [MediaTailorClientTypes.HttpPackageConfiguration]?
     /// The timestamp that indicates when the VOD source was last modified.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The name of the source location associated with the VOD source.
     public var sourceLocationName: Swift.String?
     /// The tags to assign to the VOD source. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see [Tagging AWS Elemental MediaTailor Resources](https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
@@ -6719,9 +6722,9 @@ public struct UpdateVodSourceOutput {
 
     public init(
         arn: Swift.String? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         httpPackageConfigurations: [MediaTailorClientTypes.HttpPackageConfiguration]? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         sourceLocationName: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
         vodSourceName: Swift.String? = nil
@@ -6739,7 +6742,7 @@ public struct UpdateVodSourceOutput {
 
 enum UpdateVodSourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6773,12 +6776,12 @@ extension MediaTailorClientTypes {
         /// This member is required.
         public var arn: Swift.String?
         /// The timestamp that indicates when the VOD source was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The HTTP package configurations for the VOD source.
         /// This member is required.
         public var httpPackageConfigurations: [MediaTailorClientTypes.HttpPackageConfiguration]?
         /// The timestamp that indicates when the VOD source was last modified.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// The name of the source location that the VOD source is associated with.
         /// This member is required.
         public var sourceLocationName: Swift.String?
@@ -6790,9 +6793,9 @@ extension MediaTailorClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             httpPackageConfigurations: [MediaTailorClientTypes.HttpPackageConfiguration]? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             sourceLocationName: Swift.String? = nil,
             tags: [Swift.String:Swift.String]? = nil,
             vodSourceName: Swift.String? = nil

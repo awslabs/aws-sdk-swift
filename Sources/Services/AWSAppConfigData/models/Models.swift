@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -107,13 +110,13 @@ extension AppConfigDataClientTypes {
 
 extension GetLatestConfigurationInput {
 
-    static func queryItemProvider(_ value: GetLatestConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetLatestConfigurationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let configurationToken = value.configurationToken else {
             let message = "Creating a URL Query Item failed. configurationToken is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let configurationTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "configuration_token".urlPercentEncoding(), value: Swift.String(configurationToken).urlPercentEncoding())
+        let configurationTokenQueryItem = Smithy.URIQueryItem(name: "configuration_token".urlPercentEncoding(), value: Swift.String(configurationToken).urlPercentEncoding())
         items.append(configurationTokenQueryItem)
         return items
     }
@@ -146,7 +149,7 @@ extension GetLatestConfigurationOutput: Swift.CustomDebugStringConvertible {
 
 extension GetLatestConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetLatestConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetLatestConfigurationOutput {
         var value = GetLatestConfigurationOutput()
         if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
             value.contentType = contentTypeHeaderValue
@@ -174,7 +177,7 @@ extension GetLatestConfigurationOutput {
 
 public struct GetLatestConfigurationOutput {
     /// The data of the configuration. This may be empty if the client already has the latest version of configuration.
-    public var configuration: ClientRuntime.Data?
+    public var configuration: Foundation.Data?
     /// A standard MIME type describing the format of the configuration content.
     public var contentType: Swift.String?
     /// The latest token describing the current state of the configuration session. This must be provided to the next call to GetLatestConfiguration. This token should only be used once. To support long poll use cases, the token is valid for up to 24 hours. If a GetLatestConfiguration call uses an expired token, the system returns BadRequestException.
@@ -185,7 +188,7 @@ public struct GetLatestConfigurationOutput {
     public var versionLabel: Swift.String?
 
     public init(
-        configuration: ClientRuntime.Data? = nil,
+        configuration: Foundation.Data? = nil,
         contentType: Swift.String? = nil,
         nextPollConfigurationToken: Swift.String? = nil,
         nextPollIntervalInSeconds: Swift.Int = 0,
@@ -202,7 +205,7 @@ public struct GetLatestConfigurationOutput {
 
 enum GetLatestConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -452,7 +455,7 @@ public struct StartConfigurationSessionInput {
 
 extension StartConfigurationSessionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartConfigurationSessionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartConfigurationSessionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -476,7 +479,7 @@ public struct StartConfigurationSessionOutput {
 
 enum StartConfigurationSessionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -72,7 +74,7 @@ extension HealthClientTypes {
         /// The unique identifier for the event. The event ARN has the arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID  format. For example, an event ARN might look like the following: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456
         public var eventArn: Swift.String?
         /// The most recent time that the entity was updated.
-        public var lastUpdatedTime: ClientRuntime.Date?
+        public var lastUpdatedTime: Foundation.Date?
         /// The most recent status of the entity affected by the event. The possible values are IMPAIRED, UNIMPAIRED, and UNKNOWN.
         public var statusCode: HealthClientTypes.EntityStatusCode?
         /// A map of entity tags attached to the affected entity. Currently, the tags property isn't supported.
@@ -84,7 +86,7 @@ extension HealthClientTypes {
             entityUrl: Swift.String? = nil,
             entityValue: Swift.String? = nil,
             eventArn: Swift.String? = nil,
-            lastUpdatedTime: ClientRuntime.Date? = nil,
+            lastUpdatedTime: Foundation.Date? = nil,
             statusCode: HealthClientTypes.EntityStatusCode? = nil,
             tags: [Swift.String:Swift.String]? = nil
         )
@@ -152,13 +154,13 @@ extension HealthClientTypes {
     /// A range of dates and times that is used by the [EventFilter](https://docs.aws.amazon.com/health/latest/APIReference/API_EventFilter.html) and [EntityFilter](https://docs.aws.amazon.com/health/latest/APIReference/API_EntityFilter.html) objects. If from is set and to is set: match items where the timestamp (startTime, endTime, or lastUpdatedTime) is between from and to inclusive. If from is set and to is not set: match items where the timestamp value is equal to or after from. If from is not set and to is set: match items where the timestamp value is equal to or before to.
     public struct DateTimeRange {
         /// The starting date and time of a time range.
-        public var from: ClientRuntime.Date?
+        public var from: Foundation.Date?
         /// The ending date and time of a time range.
-        public var to: ClientRuntime.Date?
+        public var to: Foundation.Date?
 
         public init(
-            from: ClientRuntime.Date? = nil,
-            to: ClientRuntime.Date? = nil
+            from: Foundation.Date? = nil,
+            to: Foundation.Date? = nil
         )
         {
             self.from = from
@@ -208,7 +210,7 @@ public struct DescribeAffectedAccountsForOrganizationInput {
 
 extension DescribeAffectedAccountsForOrganizationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeAffectedAccountsForOrganizationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeAffectedAccountsForOrganizationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -248,7 +250,7 @@ public struct DescribeAffectedAccountsForOrganizationOutput {
 
 enum DescribeAffectedAccountsForOrganizationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -310,7 +312,7 @@ public struct DescribeAffectedEntitiesForOrganizationInput {
 
 extension DescribeAffectedEntitiesForOrganizationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeAffectedEntitiesForOrganizationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeAffectedEntitiesForOrganizationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -344,7 +346,7 @@ public struct DescribeAffectedEntitiesForOrganizationOutput {
 
 enum DescribeAffectedEntitiesForOrganizationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -402,7 +404,7 @@ public struct DescribeAffectedEntitiesInput {
 
 extension DescribeAffectedEntitiesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeAffectedEntitiesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeAffectedEntitiesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -431,7 +433,7 @@ public struct DescribeAffectedEntitiesOutput {
 
 enum DescribeAffectedEntitiesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -479,7 +481,7 @@ public struct DescribeEntityAggregatesForOrganizationInput {
 
 extension DescribeEntityAggregatesForOrganizationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeEntityAggregatesForOrganizationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeEntityAggregatesForOrganizationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -503,7 +505,7 @@ public struct DescribeEntityAggregatesForOrganizationOutput {
 
 enum DescribeEntityAggregatesForOrganizationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -543,7 +545,7 @@ public struct DescribeEntityAggregatesInput {
 
 extension DescribeEntityAggregatesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeEntityAggregatesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeEntityAggregatesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -567,7 +569,7 @@ public struct DescribeEntityAggregatesOutput {
 
 enum DescribeEntityAggregatesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -623,7 +625,7 @@ public struct DescribeEventAggregatesInput {
 
 extension DescribeEventAggregatesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeEventAggregatesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeEventAggregatesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -652,7 +654,7 @@ public struct DescribeEventAggregatesOutput {
 
 enum DescribeEventAggregatesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -699,7 +701,7 @@ public struct DescribeEventDetailsForOrganizationInput {
 
 extension DescribeEventDetailsForOrganizationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeEventDetailsForOrganizationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeEventDetailsForOrganizationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -728,7 +730,7 @@ public struct DescribeEventDetailsForOrganizationOutput {
 
 enum DescribeEventDetailsForOrganizationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -775,7 +777,7 @@ public struct DescribeEventDetailsInput {
 
 extension DescribeEventDetailsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeEventDetailsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeEventDetailsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -804,7 +806,7 @@ public struct DescribeEventDetailsOutput {
 
 enum DescribeEventDetailsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -860,7 +862,7 @@ public struct DescribeEventTypesInput {
 
 extension DescribeEventTypesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeEventTypesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeEventTypesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -889,7 +891,7 @@ public struct DescribeEventTypesOutput {
 
 enum DescribeEventTypesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -946,7 +948,7 @@ public struct DescribeEventsForOrganizationInput {
 
 extension DescribeEventsForOrganizationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeEventsForOrganizationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeEventsForOrganizationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -975,7 +977,7 @@ public struct DescribeEventsForOrganizationOutput {
 
 enum DescribeEventsForOrganizationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1032,7 +1034,7 @@ public struct DescribeEventsInput {
 
 extension DescribeEventsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeEventsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeEventsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1061,7 +1063,7 @@ public struct DescribeEventsOutput {
 
 enum DescribeEventsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1096,7 +1098,7 @@ public struct DescribeHealthServiceStatusForOrganizationInput {
 
 extension DescribeHealthServiceStatusForOrganizationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeHealthServiceStatusForOrganizationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeHealthServiceStatusForOrganizationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1120,7 +1122,7 @@ public struct DescribeHealthServiceStatusForOrganizationOutput {
 
 enum DescribeHealthServiceStatusForOrganizationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1153,7 +1155,7 @@ public struct DisableHealthServiceAccessForOrganizationInput {
 
 extension DisableHealthServiceAccessForOrganizationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DisableHealthServiceAccessForOrganizationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DisableHealthServiceAccessForOrganizationOutput {
         return DisableHealthServiceAccessForOrganizationOutput()
     }
 }
@@ -1165,7 +1167,7 @@ public struct DisableHealthServiceAccessForOrganizationOutput {
 
 enum DisableHealthServiceAccessForOrganizationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1199,7 +1201,7 @@ public struct EnableHealthServiceAccessForOrganizationInput {
 
 extension EnableHealthServiceAccessForOrganizationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> EnableHealthServiceAccessForOrganizationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> EnableHealthServiceAccessForOrganizationOutput {
         return EnableHealthServiceAccessForOrganizationOutput()
     }
 }
@@ -1211,7 +1213,7 @@ public struct EnableHealthServiceAccessForOrganizationOutput {
 
 enum EnableHealthServiceAccessForOrganizationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1417,7 +1419,7 @@ extension HealthClientTypes {
         /// The Amazon Web Services Availability Zone of the event. For example, us-east-1a.
         public var availabilityZone: Swift.String?
         /// The date and time that the event ended.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// This parameter specifies if the Health event is a public Amazon Web Service event or an account-specific event.
         ///
         /// * If the eventScopeCode value is PUBLIC, then the affectedAccounts value is always empty.
@@ -1431,27 +1433,27 @@ extension HealthClientTypes {
         /// The unique identifier for the event type. The format is AWS_SERVICE_DESCRIPTION ; for example, AWS_EC2_SYSTEM_MAINTENANCE_EVENT.
         public var eventTypeCode: Swift.String?
         /// The most recent date and time that the event was updated.
-        public var lastUpdatedTime: ClientRuntime.Date?
+        public var lastUpdatedTime: Foundation.Date?
         /// The Amazon Web Services Region name of the event.
         public var region: Swift.String?
         /// The Amazon Web Service that is affected by the event. For example, EC2, RDS.
         public var service: Swift.String?
         /// The date and time that the event began.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
         /// The most recent status of the event. Possible values are open, closed, and upcoming.
         public var statusCode: HealthClientTypes.EventStatusCode?
 
         public init(
             arn: Swift.String? = nil,
             availabilityZone: Swift.String? = nil,
-            endTime: ClientRuntime.Date? = nil,
+            endTime: Foundation.Date? = nil,
             eventScopeCode: HealthClientTypes.EventScopeCode? = nil,
             eventTypeCategory: HealthClientTypes.EventTypeCategory? = nil,
             eventTypeCode: Swift.String? = nil,
-            lastUpdatedTime: ClientRuntime.Date? = nil,
+            lastUpdatedTime: Foundation.Date? = nil,
             region: Swift.String? = nil,
             service: Swift.String? = nil,
-            startTime: ClientRuntime.Date? = nil,
+            startTime: Foundation.Date? = nil,
             statusCode: HealthClientTypes.EventStatusCode? = nil
         )
         {
@@ -2055,7 +2057,7 @@ extension HealthClientTypes {
         /// The unique identifier for the event. The event ARN has the arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID  format. For example, an event ARN might look like the following: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456
         public var arn: Swift.String?
         /// The date and time that the event ended.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// This parameter specifies if the Health event is a public Amazon Web Service event or an account-specific event.
         ///
         /// * If the eventScopeCode value is PUBLIC, then the affectedAccounts value is always empty.
@@ -2069,26 +2071,26 @@ extension HealthClientTypes {
         /// The unique identifier for the event type. The format is AWS_SERVICE_DESCRIPTION. For example, AWS_EC2_SYSTEM_MAINTENANCE_EVENT.
         public var eventTypeCode: Swift.String?
         /// The most recent date and time that the event was updated.
-        public var lastUpdatedTime: ClientRuntime.Date?
+        public var lastUpdatedTime: Foundation.Date?
         /// The Amazon Web Services Region name of the event.
         public var region: Swift.String?
         /// The Amazon Web Service that is affected by the event, such as EC2 and RDS.
         public var service: Swift.String?
         /// The date and time that the event began.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
         /// The most recent status of the event. Possible values are open, closed, and upcoming.
         public var statusCode: HealthClientTypes.EventStatusCode?
 
         public init(
             arn: Swift.String? = nil,
-            endTime: ClientRuntime.Date? = nil,
+            endTime: Foundation.Date? = nil,
             eventScopeCode: HealthClientTypes.EventScopeCode? = nil,
             eventTypeCategory: HealthClientTypes.EventTypeCategory? = nil,
             eventTypeCode: Swift.String? = nil,
-            lastUpdatedTime: ClientRuntime.Date? = nil,
+            lastUpdatedTime: Foundation.Date? = nil,
             region: Swift.String? = nil,
             service: Swift.String? = nil,
-            startTime: ClientRuntime.Date? = nil,
+            startTime: Foundation.Date? = nil,
             statusCode: HealthClientTypes.EventStatusCode? = nil
         )
         {

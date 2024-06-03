@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -39,7 +42,7 @@ extension IoTSecureTunnelingClientTypes {
 
 extension CloseTunnelInput {
 
-    static func queryItemProvider(_ value: CloseTunnelInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+    static func queryItemProvider(_ value: CloseTunnelInput) throws -> [Smithy.URIQueryItem] {
         return []
     }
 }
@@ -78,7 +81,7 @@ public struct CloseTunnelInput {
 
 extension CloseTunnelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CloseTunnelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CloseTunnelOutput {
         return CloseTunnelOutput()
     }
 }
@@ -90,7 +93,7 @@ public struct CloseTunnelOutput {
 
 enum CloseTunnelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -117,12 +120,12 @@ extension IoTSecureTunnelingClientTypes {
     /// The state of a connection.
     public struct ConnectionState {
         /// The last time the connection status was updated.
-        public var lastUpdatedAt: ClientRuntime.Date?
+        public var lastUpdatedAt: Foundation.Date?
         /// The connection status of the tunnel. Valid values are CONNECTED and DISCONNECTED.
         public var status: IoTSecureTunnelingClientTypes.ConnectionStatus?
 
         public init(
-            lastUpdatedAt: ClientRuntime.Date? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
             status: IoTSecureTunnelingClientTypes.ConnectionStatus? = nil
         )
         {
@@ -192,7 +195,7 @@ public struct DescribeTunnelInput {
 
 extension DescribeTunnelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeTunnelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeTunnelOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -216,7 +219,7 @@ public struct DescribeTunnelOutput {
 
 enum DescribeTunnelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -307,7 +310,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
 extension ListTagsForResourceInput {
 
-    static func queryItemProvider(_ value: ListTagsForResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+    static func queryItemProvider(_ value: ListTagsForResourceInput) throws -> [Smithy.URIQueryItem] {
         return []
     }
 }
@@ -342,7 +345,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -366,7 +369,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -380,7 +383,7 @@ enum ListTagsForResourceOutputError {
 
 extension ListTunnelsInput {
 
-    static func queryItemProvider(_ value: ListTunnelsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+    static func queryItemProvider(_ value: ListTunnelsInput) throws -> [Smithy.URIQueryItem] {
         return []
     }
 }
@@ -422,7 +425,7 @@ public struct ListTunnelsInput {
 
 extension ListTunnelsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTunnelsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTunnelsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -451,7 +454,7 @@ public struct ListTunnelsOutput {
 
 enum ListTunnelsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -511,7 +514,7 @@ extension OpenTunnelOutput: Swift.CustomDebugStringConvertible {
 
 extension OpenTunnelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> OpenTunnelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> OpenTunnelOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -550,7 +553,7 @@ public struct OpenTunnelOutput {
 
 enum OpenTunnelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -644,7 +647,7 @@ extension RotateTunnelAccessTokenOutput: Swift.CustomDebugStringConvertible {
 
 extension RotateTunnelAccessTokenOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RotateTunnelAccessTokenOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RotateTunnelAccessTokenOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -678,7 +681,7 @@ public struct RotateTunnelAccessTokenOutput {
 
 enum RotateTunnelAccessTokenOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -765,7 +768,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -777,7 +780,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -844,7 +847,7 @@ extension IoTSecureTunnelingClientTypes {
     /// A connection between a source computer and a destination device.
     public struct Tunnel {
         /// The time when the tunnel was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// A description of the tunnel.
         public var description: Swift.String?
         /// The destination configuration that specifies the thing name of the destination device and a service name that the local proxy uses to connect to the destination application.
@@ -852,7 +855,7 @@ extension IoTSecureTunnelingClientTypes {
         /// The connection state of the destination application.
         public var destinationConnectionState: IoTSecureTunnelingClientTypes.ConnectionState?
         /// The last time the tunnel was updated.
-        public var lastUpdatedAt: ClientRuntime.Date?
+        public var lastUpdatedAt: Foundation.Date?
         /// The connection state of the source application.
         public var sourceConnectionState: IoTSecureTunnelingClientTypes.ConnectionState?
         /// The status of a tunnel. Valid values are: Open and Closed.
@@ -867,11 +870,11 @@ extension IoTSecureTunnelingClientTypes {
         public var tunnelId: Swift.String?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
             destinationConfig: IoTSecureTunnelingClientTypes.DestinationConfig? = nil,
             destinationConnectionState: IoTSecureTunnelingClientTypes.ConnectionState? = nil,
-            lastUpdatedAt: ClientRuntime.Date? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
             sourceConnectionState: IoTSecureTunnelingClientTypes.ConnectionState? = nil,
             status: IoTSecureTunnelingClientTypes.TunnelStatus? = nil,
             tags: [IoTSecureTunnelingClientTypes.Tag]? = nil,
@@ -944,11 +947,11 @@ extension IoTSecureTunnelingClientTypes {
     /// Information about the tunnel.
     public struct TunnelSummary {
         /// The time the tunnel was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// A description of the tunnel.
         public var description: Swift.String?
         /// The time the tunnel was last updated.
-        public var lastUpdatedAt: ClientRuntime.Date?
+        public var lastUpdatedAt: Foundation.Date?
         /// The status of a tunnel. Valid values are: Open and Closed.
         public var status: IoTSecureTunnelingClientTypes.TunnelStatus?
         /// The Amazon Resource Name of the tunnel.
@@ -957,9 +960,9 @@ extension IoTSecureTunnelingClientTypes {
         public var tunnelId: Swift.String?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
-            lastUpdatedAt: ClientRuntime.Date? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
             status: IoTSecureTunnelingClientTypes.TunnelStatus? = nil,
             tunnelArn: Swift.String? = nil,
             tunnelId: Swift.String? = nil
@@ -1012,7 +1015,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -1024,7 +1027,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -1103,7 +1105,7 @@ public struct CreateDeliveryStreamInput {
 
 extension CreateDeliveryStreamOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateDeliveryStreamOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateDeliveryStreamOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1127,7 +1129,7 @@ public struct CreateDeliveryStreamOutput {
 
 enum CreateDeliveryStreamOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1255,7 +1257,7 @@ public struct DeleteDeliveryStreamInput {
 
 extension DeleteDeliveryStreamOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteDeliveryStreamOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteDeliveryStreamOutput {
         return DeleteDeliveryStreamOutput()
     }
 }
@@ -1267,7 +1269,7 @@ public struct DeleteDeliveryStreamOutput {
 
 enum DeleteDeliveryStreamOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1305,7 +1307,7 @@ extension FirehoseClientTypes {
     /// Contains information about a delivery stream.
     public struct DeliveryStreamDescription {
         /// The date and time that the delivery stream was created.
-        public var createTimestamp: ClientRuntime.Date?
+        public var createTimestamp: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the delivery stream. For more information, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
         /// This member is required.
         public var deliveryStreamARN: Swift.String?
@@ -1333,7 +1335,7 @@ extension FirehoseClientTypes {
         /// This member is required.
         public var hasMoreDestinations: Swift.Bool?
         /// The date and time that the delivery stream was last updated.
-        public var lastUpdateTimestamp: ClientRuntime.Date?
+        public var lastUpdateTimestamp: Foundation.Date?
         /// If the DeliveryStreamType parameter is KinesisStreamAsSource, a [SourceDescription] object describing the source Kinesis data stream.
         public var source: FirehoseClientTypes.SourceDescription?
         /// Each time the destination is updated for a delivery stream, the version ID is changed, and the current version ID is required when updating the destination. This is so that the service knows it is applying the changes to the correct version of the delivery stream.
@@ -1341,7 +1343,7 @@ extension FirehoseClientTypes {
         public var versionId: Swift.String?
 
         public init(
-            createTimestamp: ClientRuntime.Date? = nil,
+            createTimestamp: Foundation.Date? = nil,
             deliveryStreamARN: Swift.String? = nil,
             deliveryStreamEncryptionConfiguration: FirehoseClientTypes.DeliveryStreamEncryptionConfiguration? = nil,
             deliveryStreamName: Swift.String? = nil,
@@ -1350,7 +1352,7 @@ extension FirehoseClientTypes {
             destinations: [FirehoseClientTypes.DestinationDescription]? = nil,
             failureDescription: FirehoseClientTypes.FailureDescription? = nil,
             hasMoreDestinations: Swift.Bool? = nil,
-            lastUpdateTimestamp: ClientRuntime.Date? = nil,
+            lastUpdateTimestamp: Foundation.Date? = nil,
             source: FirehoseClientTypes.SourceDescription? = nil,
             versionId: Swift.String? = nil
         )
@@ -1662,7 +1664,7 @@ public struct DescribeDeliveryStreamInput {
 
 extension DescribeDeliveryStreamOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeDeliveryStreamOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeDeliveryStreamOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1687,7 +1689,7 @@ public struct DescribeDeliveryStreamOutput {
 
 enum DescribeDeliveryStreamOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3406,14 +3408,14 @@ extension FirehoseClientTypes {
     /// Details about a Kinesis data stream used as the source for a Firehose delivery stream.
     public struct KinesisStreamSourceDescription {
         /// Firehose starts retrieving records from the Kinesis data stream starting with this timestamp.
-        public var deliveryStartTimestamp: ClientRuntime.Date?
+        public var deliveryStartTimestamp: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the source Kinesis data stream. For more information, see [Amazon Kinesis Data Streams ARN Format](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kinesis-streams).
         public var kinesisStreamARN: Swift.String?
         /// The ARN of the role used by the source Kinesis data stream. For more information, see [Amazon Web Services Identity and Access Management (IAM) ARN Format](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-iam).
         public var roleARN: Swift.String?
 
         public init(
-            deliveryStartTimestamp: ClientRuntime.Date? = nil,
+            deliveryStartTimestamp: Foundation.Date? = nil,
             kinesisStreamARN: Swift.String? = nil,
             roleARN: Swift.String? = nil
         )
@@ -3510,7 +3512,7 @@ public struct ListDeliveryStreamsInput {
 
 extension ListDeliveryStreamsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListDeliveryStreamsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListDeliveryStreamsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3541,7 +3543,7 @@ public struct ListDeliveryStreamsOutput {
 
 enum ListDeliveryStreamsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3592,7 +3594,7 @@ public struct ListTagsForDeliveryStreamInput {
 
 extension ListTagsForDeliveryStreamOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForDeliveryStreamOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForDeliveryStreamOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3623,7 +3625,7 @@ public struct ListTagsForDeliveryStreamOutput {
 
 enum ListTagsForDeliveryStreamOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3693,7 +3695,7 @@ extension FirehoseClientTypes {
         /// The authentication configuration of the Amazon MSK cluster.
         public var authenticationConfiguration: FirehoseClientTypes.AuthenticationConfiguration?
         /// Firehose starts retrieving records from the topic within the Amazon MSK cluster starting with this timestamp.
-        public var deliveryStartTimestamp: ClientRuntime.Date?
+        public var deliveryStartTimestamp: Foundation.Date?
         /// The ARN of the Amazon MSK cluster.
         public var mskClusterARN: Swift.String?
         /// The topic name within the Amazon MSK cluster.
@@ -3701,7 +3703,7 @@ extension FirehoseClientTypes {
 
         public init(
             authenticationConfiguration: FirehoseClientTypes.AuthenticationConfiguration? = nil,
-            deliveryStartTimestamp: ClientRuntime.Date? = nil,
+            deliveryStartTimestamp: Foundation.Date? = nil,
             mskClusterARN: Swift.String? = nil,
             topicName: Swift.String? = nil
         )
@@ -4330,7 +4332,7 @@ public struct PutRecordBatchInput {
 
 extension PutRecordBatchOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutRecordBatchOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutRecordBatchOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4366,7 +4368,7 @@ public struct PutRecordBatchOutput {
 
 enum PutRecordBatchOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4454,7 +4456,7 @@ public struct PutRecordInput {
 
 extension PutRecordOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutRecordOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutRecordOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4484,7 +4486,7 @@ public struct PutRecordOutput {
 
 enum PutRecordOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4513,10 +4515,10 @@ extension FirehoseClientTypes {
     public struct Record {
         /// The data blob, which is base64-encoded when the blob is serialized. The maximum size of the data blob, before base64-encoding, is 1,000 KiB.
         /// This member is required.
-        public var data: ClientRuntime.Data?
+        public var data: Foundation.Data?
 
         public init(
-            data: ClientRuntime.Data? = nil
+            data: Foundation.Data? = nil
         )
         {
             self.data = data
@@ -6172,7 +6174,7 @@ public struct StartDeliveryStreamEncryptionInput {
 
 extension StartDeliveryStreamEncryptionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartDeliveryStreamEncryptionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartDeliveryStreamEncryptionOutput {
         return StartDeliveryStreamEncryptionOutput()
     }
 }
@@ -6184,7 +6186,7 @@ public struct StartDeliveryStreamEncryptionOutput {
 
 enum StartDeliveryStreamEncryptionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6230,7 +6232,7 @@ public struct StopDeliveryStreamEncryptionInput {
 
 extension StopDeliveryStreamEncryptionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopDeliveryStreamEncryptionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopDeliveryStreamEncryptionOutput {
         return StopDeliveryStreamEncryptionOutput()
     }
 }
@@ -6242,7 +6244,7 @@ public struct StopDeliveryStreamEncryptionOutput {
 
 enum StopDeliveryStreamEncryptionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6331,7 +6333,7 @@ public struct TagDeliveryStreamInput {
 
 extension TagDeliveryStreamOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagDeliveryStreamOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagDeliveryStreamOutput {
         return TagDeliveryStreamOutput()
     }
 }
@@ -6343,7 +6345,7 @@ public struct TagDeliveryStreamOutput {
 
 enum TagDeliveryStreamOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6394,7 +6396,7 @@ public struct UntagDeliveryStreamInput {
 
 extension UntagDeliveryStreamOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagDeliveryStreamOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagDeliveryStreamOutput {
         return UntagDeliveryStreamOutput()
     }
 }
@@ -6406,7 +6408,7 @@ public struct UntagDeliveryStreamOutput {
 
 enum UntagDeliveryStreamOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6509,7 +6511,7 @@ public struct UpdateDestinationInput {
 
 extension UpdateDestinationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateDestinationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateDestinationOutput {
         return UpdateDestinationOutput()
     }
 }
@@ -6521,7 +6523,7 @@ public struct UpdateDestinationOutput {
 
 enum UpdateDestinationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

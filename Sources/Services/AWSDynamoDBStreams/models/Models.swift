@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -22,7 +24,7 @@ extension DynamoDBStreamsClientTypes.AttributeValue {
             case "NS":
                 return .ns(try reader["NS"].readList(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false))
             case "BS":
-                return .bs(try reader["BS"].readList(memberReadingClosure: ClientRuntime.Data.read(from:), memberNodeInfo: "member", isFlattened: false))
+                return .bs(try reader["BS"].readList(memberReadingClosure: Foundation.Data.read(from:), memberNodeInfo: "member", isFlattened: false))
             case "M":
                 return .m(try reader["M"].readMap(valueReadingClosure: DynamoDBStreamsClientTypes.AttributeValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false))
             case "L":
@@ -45,13 +47,13 @@ extension DynamoDBStreamsClientTypes {
         /// An attribute of type Number. For example: "N": "123.45" Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
         case n(Swift.String)
         /// An attribute of type Binary. For example: "B": "dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk"
-        case b(ClientRuntime.Data)
+        case b(Foundation.Data)
         /// An attribute of type String Set. For example: "SS": ["Giraffe", "Hippo" ,"Zebra"]
         case ss([Swift.String])
         /// An attribute of type Number Set. For example: "NS": ["42.2", "-19", "7.5", "3.14"] Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
         case ns([Swift.String])
         /// An attribute of type Binary Set. For example: "BS": ["U3Vubnk=", "UmFpbnk=", "U25vd3k="]
-        case bs([ClientRuntime.Data])
+        case bs([Foundation.Data])
         /// An attribute of type Map. For example: "M": {"Name": {"S": "Joe"}, "Age": {"N": "35"}}
         case m([Swift.String:DynamoDBStreamsClientTypes.AttributeValue])
         /// An attribute of type List. For example: "L": [ {"S": "Cookies"} , {"S": "Coffee"}, {"N": "3.14159"}]
@@ -106,7 +108,7 @@ public struct DescribeStreamInput {
 
 extension DescribeStreamOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeStreamOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeStreamOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -131,7 +133,7 @@ public struct DescribeStreamOutput {
 
 enum DescribeStreamOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -220,7 +222,7 @@ public struct GetRecordsInput {
 
 extension GetRecordsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetRecordsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetRecordsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -250,7 +252,7 @@ public struct GetRecordsOutput {
 
 enum GetRecordsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -322,7 +324,7 @@ public struct GetShardIteratorInput {
 
 extension GetShardIteratorOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetShardIteratorOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetShardIteratorOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -347,7 +349,7 @@ public struct GetShardIteratorOutput {
 
 enum GetShardIteratorOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -577,7 +579,7 @@ public struct ListStreamsInput {
 
 extension ListStreamsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListStreamsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListStreamsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -607,7 +609,7 @@ public struct ListStreamsOutput {
 
 enum ListStreamsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -922,7 +924,7 @@ extension DynamoDBStreamsClientTypes {
     /// Represents all of the data describing a particular stream.
     public struct StreamDescription {
         /// The date and time when the request to create this stream was issued.
-        public var creationRequestDateTime: ClientRuntime.Date?
+        public var creationRequestDateTime: Foundation.Date?
         /// The key attribute(s) of the stream's DynamoDB table.
         public var keySchema: [DynamoDBStreamsClientTypes.KeySchemaElement]?
         /// The shard ID of the item where the operation stopped, inclusive of the previous result set. Use this value to start a new operation, excluding this value in the new request. If LastEvaluatedShardId is empty, then the "last page" of results has been processed and there is currently no more data to be retrieved. If LastEvaluatedShardId is not empty, it does not necessarily mean that there is more data in the result set. The only way to know when you have reached the end of the result set is when LastEvaluatedShardId is empty.
@@ -963,7 +965,7 @@ extension DynamoDBStreamsClientTypes {
         public var tableName: Swift.String?
 
         public init(
-            creationRequestDateTime: ClientRuntime.Date? = nil,
+            creationRequestDateTime: Foundation.Date? = nil,
             keySchema: [DynamoDBStreamsClientTypes.KeySchemaElement]? = nil,
             lastEvaluatedShardId: Swift.String? = nil,
             shards: [DynamoDBStreamsClientTypes.Shard]? = nil,
@@ -1008,7 +1010,7 @@ extension DynamoDBStreamsClientTypes {
     /// A description of a single data modification that was performed on an item in a DynamoDB table.
     public struct StreamRecord {
         /// The approximate date and time when the stream record was created, in [UNIX epoch time](http://www.epochconverter.com/) format and rounded down to the closest second.
-        public var approximateCreationDateTime: ClientRuntime.Date?
+        public var approximateCreationDateTime: Foundation.Date?
         /// The primary key attribute(s) for the DynamoDB item that was modified.
         public var keys: [Swift.String:DynamoDBStreamsClientTypes.AttributeValue]?
         /// The item in the DynamoDB table as it appeared after it was modified.
@@ -1031,7 +1033,7 @@ extension DynamoDBStreamsClientTypes {
         public var streamViewType: DynamoDBStreamsClientTypes.StreamViewType?
 
         public init(
-            approximateCreationDateTime: ClientRuntime.Date? = nil,
+            approximateCreationDateTime: Foundation.Date? = nil,
             keys: [Swift.String:DynamoDBStreamsClientTypes.AttributeValue]? = nil,
             newImage: [Swift.String:DynamoDBStreamsClientTypes.AttributeValue]? = nil,
             oldImage: [Swift.String:DynamoDBStreamsClientTypes.AttributeValue]? = nil,

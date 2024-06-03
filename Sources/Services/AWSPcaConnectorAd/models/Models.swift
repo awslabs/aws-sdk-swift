@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -26,7 +29,7 @@ extension PcaConnectorAdClientTypes {
         /// Permissions to allow or deny an Active Directory group to enroll or autoenroll certificates issued against a template.
         public var accessRights: PcaConnectorAdClientTypes.AccessRights?
         /// The date and time that the Access Control Entry was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// Name of the Active Directory group. This name does not need to match the group name in Active Directory.
         public var groupDisplayName: Swift.String?
         /// Security identifier (SID) of the group object from Active Directory. The SID starts with "S-".
@@ -34,15 +37,15 @@ extension PcaConnectorAdClientTypes {
         /// The Amazon Resource Name (ARN) that was returned when you called [CreateTemplate](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateTemplate.html).
         public var templateArn: Swift.String?
         /// The date and time that the Access Control Entry was updated.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
 
         public init(
             accessRights: PcaConnectorAdClientTypes.AccessRights? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             groupDisplayName: Swift.String? = nil,
             groupSecurityIdentifier: Swift.String? = nil,
             templateArn: Swift.String? = nil,
-            updatedAt: ClientRuntime.Date? = nil
+            updatedAt: Foundation.Date? = nil
         )
         {
             self.accessRights = accessRights
@@ -77,7 +80,7 @@ extension PcaConnectorAdClientTypes {
         /// Allow or deny an Active Directory group from enrolling and autoenrolling certificates issued against a template.
         public var accessRights: PcaConnectorAdClientTypes.AccessRights?
         /// The date and time that the Access Control Entry was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// Name of the Active Directory group. This name does not need to match the group name in Active Directory.
         public var groupDisplayName: Swift.String?
         /// Security identifier (SID) of the group object from Active Directory. The SID starts with "S-".
@@ -85,15 +88,15 @@ extension PcaConnectorAdClientTypes {
         /// The Amazon Resource Name (ARN) that was returned when you called [CreateTemplate](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateTemplate.html).
         public var templateArn: Swift.String?
         /// The date and time that the Access Control Entry was updated.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
 
         public init(
             accessRights: PcaConnectorAdClientTypes.AccessRights? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             groupDisplayName: Swift.String? = nil,
             groupSecurityIdentifier: Swift.String? = nil,
             templateArn: Swift.String? = nil,
-            updatedAt: ClientRuntime.Date? = nil
+            updatedAt: Foundation.Date? = nil
         )
         {
             self.accessRights = accessRights
@@ -741,7 +744,7 @@ extension PcaConnectorAdClientTypes {
         /// Certificate enrollment endpoint for Active Directory domain-joined objects reach out to when requesting certificates.
         public var certificateEnrollmentPolicyServerEndpoint: Swift.String?
         /// The date and time that the connector was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The identifier of the Active Directory.
         public var directoryId: Swift.String?
         /// Status of the connector. Status can be creating, active, deleting, or failed.
@@ -749,7 +752,7 @@ extension PcaConnectorAdClientTypes {
         /// Additional information about the connector status if the status is failed.
         public var statusReason: PcaConnectorAdClientTypes.ConnectorStatusReason?
         /// The date and time that the connector was updated.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
         /// Information of the VPC and security group(s) used with the connector.
         public var vpcInformation: PcaConnectorAdClientTypes.VpcInformation?
 
@@ -757,11 +760,11 @@ extension PcaConnectorAdClientTypes {
             arn: Swift.String? = nil,
             certificateAuthorityArn: Swift.String? = nil,
             certificateEnrollmentPolicyServerEndpoint: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             directoryId: Swift.String? = nil,
             status: PcaConnectorAdClientTypes.ConnectorStatus? = nil,
             statusReason: PcaConnectorAdClientTypes.ConnectorStatusReason? = nil,
-            updatedAt: ClientRuntime.Date? = nil,
+            updatedAt: Foundation.Date? = nil,
             vpcInformation: PcaConnectorAdClientTypes.VpcInformation? = nil
         )
         {
@@ -889,7 +892,7 @@ extension PcaConnectorAdClientTypes {
         /// Certificate enrollment endpoint for Active Directory domain-joined objects to request certificates.
         public var certificateEnrollmentPolicyServerEndpoint: Swift.String?
         /// The date and time that the connector was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The identifier of the Active Directory.
         public var directoryId: Swift.String?
         /// Status of the connector. Status can be creating, active, deleting, or failed.
@@ -897,7 +900,7 @@ extension PcaConnectorAdClientTypes {
         /// Additional information about the connector status if the status is failed.
         public var statusReason: PcaConnectorAdClientTypes.ConnectorStatusReason?
         /// The date and time that the connector was updated.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
         /// Information of the VPC and security group(s) used with the connector.
         public var vpcInformation: PcaConnectorAdClientTypes.VpcInformation?
 
@@ -905,11 +908,11 @@ extension PcaConnectorAdClientTypes {
             arn: Swift.String? = nil,
             certificateAuthorityArn: Swift.String? = nil,
             certificateEnrollmentPolicyServerEndpoint: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             directoryId: Swift.String? = nil,
             status: PcaConnectorAdClientTypes.ConnectorStatus? = nil,
             statusReason: PcaConnectorAdClientTypes.ConnectorStatusReason? = nil,
-            updatedAt: ClientRuntime.Date? = nil,
+            updatedAt: Foundation.Date? = nil,
             vpcInformation: PcaConnectorAdClientTypes.VpcInformation? = nil
         )
         {
@@ -979,7 +982,7 @@ public struct CreateConnectorInput {
 
 extension CreateConnectorOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateConnectorOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateConnectorOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1003,7 +1006,7 @@ public struct CreateConnectorOutput {
 
 enum CreateConnectorOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1061,7 +1064,7 @@ public struct CreateDirectoryRegistrationInput {
 
 extension CreateDirectoryRegistrationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateDirectoryRegistrationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateDirectoryRegistrationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1085,7 +1088,7 @@ public struct CreateDirectoryRegistrationOutput {
 
 enum CreateDirectoryRegistrationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1147,7 +1150,7 @@ public struct CreateServicePrincipalNameInput {
 
 extension CreateServicePrincipalNameOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateServicePrincipalNameOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateServicePrincipalNameOutput {
         return CreateServicePrincipalNameOutput()
     }
 }
@@ -1159,7 +1162,7 @@ public struct CreateServicePrincipalNameOutput {
 
 enum CreateServicePrincipalNameOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1231,7 +1234,7 @@ public struct CreateTemplateGroupAccessControlEntryInput {
 
 extension CreateTemplateGroupAccessControlEntryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateTemplateGroupAccessControlEntryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateTemplateGroupAccessControlEntryOutput {
         return CreateTemplateGroupAccessControlEntryOutput()
     }
 }
@@ -1243,7 +1246,7 @@ public struct CreateTemplateGroupAccessControlEntryOutput {
 
 enum CreateTemplateGroupAccessControlEntryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1313,7 +1316,7 @@ public struct CreateTemplateInput {
 
 extension CreateTemplateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateTemplateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateTemplateOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1337,7 +1340,7 @@ public struct CreateTemplateOutput {
 
 enum CreateTemplateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1380,7 +1383,7 @@ public struct DeleteConnectorInput {
 
 extension DeleteConnectorOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteConnectorOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteConnectorOutput {
         return DeleteConnectorOutput()
     }
 }
@@ -1392,7 +1395,7 @@ public struct DeleteConnectorOutput {
 
 enum DeleteConnectorOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1434,7 +1437,7 @@ public struct DeleteDirectoryRegistrationInput {
 
 extension DeleteDirectoryRegistrationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteDirectoryRegistrationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteDirectoryRegistrationOutput {
         return DeleteDirectoryRegistrationOutput()
     }
 }
@@ -1446,7 +1449,7 @@ public struct DeleteDirectoryRegistrationOutput {
 
 enum DeleteDirectoryRegistrationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1495,7 +1498,7 @@ public struct DeleteServicePrincipalNameInput {
 
 extension DeleteServicePrincipalNameOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteServicePrincipalNameOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteServicePrincipalNameOutput {
         return DeleteServicePrincipalNameOutput()
     }
 }
@@ -1507,7 +1510,7 @@ public struct DeleteServicePrincipalNameOutput {
 
 enum DeleteServicePrincipalNameOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1556,7 +1559,7 @@ public struct DeleteTemplateGroupAccessControlEntryInput {
 
 extension DeleteTemplateGroupAccessControlEntryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteTemplateGroupAccessControlEntryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteTemplateGroupAccessControlEntryOutput {
         return DeleteTemplateGroupAccessControlEntryOutput()
     }
 }
@@ -1568,7 +1571,7 @@ public struct DeleteTemplateGroupAccessControlEntryOutput {
 
 enum DeleteTemplateGroupAccessControlEntryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1610,7 +1613,7 @@ public struct DeleteTemplateInput {
 
 extension DeleteTemplateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteTemplateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteTemplateOutput {
         return DeleteTemplateOutput()
     }
 }
@@ -1622,7 +1625,7 @@ public struct DeleteTemplateOutput {
 
 enum DeleteTemplateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1660,7 +1663,7 @@ extension PcaConnectorAdClientTypes {
         /// The Amazon Resource Name (ARN) that was returned when you called CreateDirectoryRegistration.
         public var arn: Swift.String?
         /// The date and time that the directory registration was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The identifier of the Active Directory.
         public var directoryId: Swift.String?
         /// Status of the directory registration.
@@ -1668,15 +1671,15 @@ extension PcaConnectorAdClientTypes {
         /// Additional information about the directory registration status if the status is failed.
         public var statusReason: PcaConnectorAdClientTypes.DirectoryRegistrationStatusReason?
         /// The date and time that the directory registration was updated.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
 
         public init(
             arn: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             directoryId: Swift.String? = nil,
             status: PcaConnectorAdClientTypes.DirectoryRegistrationStatus? = nil,
             statusReason: PcaConnectorAdClientTypes.DirectoryRegistrationStatusReason? = nil,
-            updatedAt: ClientRuntime.Date? = nil
+            updatedAt: Foundation.Date? = nil
         )
         {
             self.arn = arn
@@ -1787,7 +1790,7 @@ extension PcaConnectorAdClientTypes {
         /// The Amazon Resource Name (ARN) that was returned when you called [CreateDirectoryRegistration](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateDirectoryRegistration.html).
         public var arn: Swift.String?
         /// The date and time that the directory registration was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The identifier of the Active Directory.
         public var directoryId: Swift.String?
         /// Status of the directory registration.
@@ -1795,15 +1798,15 @@ extension PcaConnectorAdClientTypes {
         /// Additional information about the directory registration status if the status is failed.
         public var statusReason: PcaConnectorAdClientTypes.DirectoryRegistrationStatusReason?
         /// The date and time that the directory registration was updated.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
 
         public init(
             arn: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             directoryId: Swift.String? = nil,
             status: PcaConnectorAdClientTypes.DirectoryRegistrationStatus? = nil,
             statusReason: PcaConnectorAdClientTypes.DirectoryRegistrationStatusReason? = nil,
-            updatedAt: ClientRuntime.Date? = nil
+            updatedAt: Foundation.Date? = nil
         )
         {
             self.arn = arn
@@ -2232,7 +2235,7 @@ public struct GetConnectorInput {
 
 extension GetConnectorOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetConnectorOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetConnectorOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2256,7 +2259,7 @@ public struct GetConnectorOutput {
 
 enum GetConnectorOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2297,7 +2300,7 @@ public struct GetDirectoryRegistrationInput {
 
 extension GetDirectoryRegistrationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetDirectoryRegistrationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetDirectoryRegistrationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2321,7 +2324,7 @@ public struct GetDirectoryRegistrationOutput {
 
 enum GetDirectoryRegistrationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2370,7 +2373,7 @@ public struct GetServicePrincipalNameInput {
 
 extension GetServicePrincipalNameOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetServicePrincipalNameOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetServicePrincipalNameOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2394,7 +2397,7 @@ public struct GetServicePrincipalNameOutput {
 
 enum GetServicePrincipalNameOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2443,7 +2446,7 @@ public struct GetTemplateGroupAccessControlEntryInput {
 
 extension GetTemplateGroupAccessControlEntryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetTemplateGroupAccessControlEntryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetTemplateGroupAccessControlEntryOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2467,7 +2470,7 @@ public struct GetTemplateGroupAccessControlEntryOutput {
 
 enum GetTemplateGroupAccessControlEntryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2508,7 +2511,7 @@ public struct GetTemplateInput {
 
 extension GetTemplateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetTemplateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetTemplateOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2532,7 +2535,7 @@ public struct GetTemplateOutput {
 
 enum GetTemplateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2851,14 +2854,14 @@ extension PcaConnectorAdClientTypes {
 
 extension ListConnectorsInput {
 
-    static func queryItemProvider(_ value: ListConnectorsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListConnectorsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -2890,7 +2893,7 @@ public struct ListConnectorsInput {
 
 extension ListConnectorsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListConnectorsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListConnectorsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2919,7 +2922,7 @@ public struct ListConnectorsOutput {
 
 enum ListConnectorsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2936,14 +2939,14 @@ enum ListConnectorsOutputError {
 
 extension ListDirectoryRegistrationsInput {
 
-    static func queryItemProvider(_ value: ListDirectoryRegistrationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListDirectoryRegistrationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -2975,7 +2978,7 @@ public struct ListDirectoryRegistrationsInput {
 
 extension ListDirectoryRegistrationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListDirectoryRegistrationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListDirectoryRegistrationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3004,7 +3007,7 @@ public struct ListDirectoryRegistrationsOutput {
 
 enum ListDirectoryRegistrationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3021,14 +3024,14 @@ enum ListDirectoryRegistrationsOutputError {
 
 extension ListServicePrincipalNamesInput {
 
-    static func queryItemProvider(_ value: ListServicePrincipalNamesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListServicePrincipalNamesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -3068,7 +3071,7 @@ public struct ListServicePrincipalNamesInput {
 
 extension ListServicePrincipalNamesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListServicePrincipalNamesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListServicePrincipalNamesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3097,7 +3100,7 @@ public struct ListServicePrincipalNamesOutput {
 
 enum ListServicePrincipalNamesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3138,7 +3141,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3162,7 +3165,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3180,14 +3183,14 @@ enum ListTagsForResourceOutputError {
 
 extension ListTemplateGroupAccessControlEntriesInput {
 
-    static func queryItemProvider(_ value: ListTemplateGroupAccessControlEntriesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListTemplateGroupAccessControlEntriesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -3227,7 +3230,7 @@ public struct ListTemplateGroupAccessControlEntriesInput {
 
 extension ListTemplateGroupAccessControlEntriesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTemplateGroupAccessControlEntriesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTemplateGroupAccessControlEntriesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3256,7 +3259,7 @@ public struct ListTemplateGroupAccessControlEntriesOutput {
 
 enum ListTemplateGroupAccessControlEntriesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3274,20 +3277,20 @@ enum ListTemplateGroupAccessControlEntriesOutputError {
 
 extension ListTemplatesInput {
 
-    static func queryItemProvider(_ value: ListTemplatesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListTemplatesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let connectorArn = value.connectorArn else {
             let message = "Creating a URL Query Item failed. connectorArn is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let connectorArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "ConnectorArn".urlPercentEncoding(), value: Swift.String(connectorArn).urlPercentEncoding())
+        let connectorArnQueryItem = Smithy.URIQueryItem(name: "ConnectorArn".urlPercentEncoding(), value: Swift.String(connectorArn).urlPercentEncoding())
         items.append(connectorArnQueryItem)
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -3324,7 +3327,7 @@ public struct ListTemplatesInput {
 
 extension ListTemplatesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTemplatesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTemplatesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3353,7 +3356,7 @@ public struct ListTemplatesOutput {
 
 enum ListTemplatesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3794,7 +3797,7 @@ extension PcaConnectorAdClientTypes {
         /// The Amazon Resource Name (ARN) that was returned when you called [CreateConnector.html](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateConnector.html).
         public var connectorArn: Swift.String?
         /// The date and time that the service principal name was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The Amazon Resource Name (ARN) that was returned when you called [CreateDirectoryRegistration](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateDirectoryRegistration.html).
         public var directoryRegistrationArn: Swift.String?
         /// The status of a service principal name.
@@ -3802,15 +3805,15 @@ extension PcaConnectorAdClientTypes {
         /// Additional information for the status of a service principal name if the status is failed.
         public var statusReason: PcaConnectorAdClientTypes.ServicePrincipalNameStatusReason?
         /// The date and time that the service principal name was updated.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
 
         public init(
             connectorArn: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             directoryRegistrationArn: Swift.String? = nil,
             status: PcaConnectorAdClientTypes.ServicePrincipalNameStatus? = nil,
             statusReason: PcaConnectorAdClientTypes.ServicePrincipalNameStatusReason? = nil,
-            updatedAt: ClientRuntime.Date? = nil
+            updatedAt: Foundation.Date? = nil
         )
         {
             self.connectorArn = connectorArn
@@ -3918,7 +3921,7 @@ extension PcaConnectorAdClientTypes {
         /// The Amazon Resource Name (ARN) that was returned when you called [CreateConnector](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateConnector.html).
         public var connectorArn: Swift.String?
         /// The date and time that the service principal name was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The Amazon Resource Name (ARN) that was returned when you called [CreateDirectoryRegistration](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateDirectoryRegistration.html).
         public var directoryRegistrationArn: Swift.String?
         /// The status of a service principal name.
@@ -3926,15 +3929,15 @@ extension PcaConnectorAdClientTypes {
         /// Additional information for the status of a service principal name if the status is failed.
         public var statusReason: PcaConnectorAdClientTypes.ServicePrincipalNameStatusReason?
         /// Time when the service principal name was updated.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
 
         public init(
             connectorArn: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             directoryRegistrationArn: Swift.String? = nil,
             status: PcaConnectorAdClientTypes.ServicePrincipalNameStatus? = nil,
             statusReason: PcaConnectorAdClientTypes.ServicePrincipalNameStatusReason? = nil,
-            updatedAt: ClientRuntime.Date? = nil
+            updatedAt: Foundation.Date? = nil
         )
         {
             self.connectorArn = connectorArn
@@ -4303,7 +4306,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -4315,7 +4318,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4358,7 +4361,7 @@ extension PcaConnectorAdClientTypes {
         /// The Amazon Resource Name (ARN) that was returned when you called [CreateConnector](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateConnector.html).
         public var connectorArn: Swift.String?
         /// The date and time that the template was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// Template configuration to define the information included in certificates. Define certificate validity and renewal periods, certificate request handling and enrollment options, key usage extensions, application policies, and cryptography settings.
         public var definition: PcaConnectorAdClientTypes.TemplateDefinition?
         /// Name of the templates. Template names must be unique.
@@ -4372,19 +4375,19 @@ extension PcaConnectorAdClientTypes {
         /// Status of the template. Status can be creating, active, deleting, or failed.
         public var status: PcaConnectorAdClientTypes.TemplateStatus?
         /// The date and time that the template was updated.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
 
         public init(
             arn: Swift.String? = nil,
             connectorArn: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             definition: PcaConnectorAdClientTypes.TemplateDefinition? = nil,
             name: Swift.String? = nil,
             objectIdentifier: Swift.String? = nil,
             policySchema: Swift.Int? = nil,
             revision: PcaConnectorAdClientTypes.TemplateRevision? = nil,
             status: PcaConnectorAdClientTypes.TemplateStatus? = nil,
-            updatedAt: ClientRuntime.Date? = nil
+            updatedAt: Foundation.Date? = nil
         )
         {
             self.arn = arn
@@ -4537,7 +4540,7 @@ extension PcaConnectorAdClientTypes {
         /// The Amazon Resource Name (ARN) that was returned when you called [CreateConnector](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateConnector.html).
         public var connectorArn: Swift.String?
         /// The date and time that the template was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// Template configuration to define the information included in certificates. Define certificate validity and renewal periods, certificate request handling and enrollment options, key usage extensions, application policies, and cryptography settings.
         public var definition: PcaConnectorAdClientTypes.TemplateDefinition?
         /// Name of the template. The template name must be unique.
@@ -4551,19 +4554,19 @@ extension PcaConnectorAdClientTypes {
         /// Status of the template. Status can be creating, active, deleting, or failed.
         public var status: PcaConnectorAdClientTypes.TemplateStatus?
         /// The date and time that the template was updated.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
 
         public init(
             arn: Swift.String? = nil,
             connectorArn: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             definition: PcaConnectorAdClientTypes.TemplateDefinition? = nil,
             name: Swift.String? = nil,
             objectIdentifier: Swift.String? = nil,
             policySchema: Swift.Int? = nil,
             revision: PcaConnectorAdClientTypes.TemplateRevision? = nil,
             status: PcaConnectorAdClientTypes.TemplateStatus? = nil,
-            updatedAt: ClientRuntime.Date? = nil
+            updatedAt: Foundation.Date? = nil
         )
         {
             self.arn = arn
@@ -4884,14 +4887,14 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension UntagResourceInput {
 
-    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let tagKeys = value.tagKeys else {
             let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
         tagKeys.forEach { queryItemValue in
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
             items.append(queryItem)
         }
         return items
@@ -4928,7 +4931,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -4940,7 +4943,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5006,7 +5009,7 @@ public struct UpdateTemplateGroupAccessControlEntryInput {
 
 extension UpdateTemplateGroupAccessControlEntryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateTemplateGroupAccessControlEntryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateTemplateGroupAccessControlEntryOutput {
         return UpdateTemplateGroupAccessControlEntryOutput()
     }
 }
@@ -5018,7 +5021,7 @@ public struct UpdateTemplateGroupAccessControlEntryOutput {
 
 enum UpdateTemplateGroupAccessControlEntryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5077,7 +5080,7 @@ public struct UpdateTemplateInput {
 
 extension UpdateTemplateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateTemplateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateTemplateOutput {
         return UpdateTemplateOutput()
     }
 }
@@ -5089,7 +5092,7 @@ public struct UpdateTemplateOutput {
 
 enum UpdateTemplateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

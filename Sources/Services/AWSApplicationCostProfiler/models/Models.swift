@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -69,7 +72,7 @@ public struct DeleteReportDefinitionInput {
 
 extension DeleteReportDefinitionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteReportDefinitionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteReportDefinitionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -93,7 +96,7 @@ public struct DeleteReportDefinitionOutput {
 
 enum DeleteReportDefinitionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -162,7 +165,7 @@ public struct GetReportDefinitionInput {
 
 extension GetReportDefinitionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetReportDefinitionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetReportDefinitionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -181,7 +184,7 @@ extension GetReportDefinitionOutput {
 public struct GetReportDefinitionOutput {
     /// Timestamp (milliseconds) when this report definition was created.
     /// This member is required.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// Amazon Simple Storage Service (Amazon S3) location where the report is uploaded.
     /// This member is required.
     public var destinationS3Location: ApplicationCostProfilerClientTypes.S3Location?
@@ -190,7 +193,7 @@ public struct GetReportDefinitionOutput {
     public var format: ApplicationCostProfilerClientTypes.Format?
     /// Timestamp (milliseconds) when this report definition was last updated.
     /// This member is required.
-    public var lastUpdated: ClientRuntime.Date?
+    public var lastUpdated: Foundation.Date?
     /// Description of the report.
     /// This member is required.
     public var reportDescription: Swift.String?
@@ -202,10 +205,10 @@ public struct GetReportDefinitionOutput {
     public var reportId: Swift.String?
 
     public init(
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         destinationS3Location: ApplicationCostProfilerClientTypes.S3Location? = nil,
         format: ApplicationCostProfilerClientTypes.Format? = nil,
-        lastUpdated: ClientRuntime.Date? = nil,
+        lastUpdated: Foundation.Date? = nil,
         reportDescription: Swift.String? = nil,
         reportFrequency: ApplicationCostProfilerClientTypes.ReportFrequency? = nil,
         reportId: Swift.String? = nil
@@ -223,7 +226,7 @@ public struct GetReportDefinitionOutput {
 
 enum GetReportDefinitionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -268,7 +271,7 @@ public struct ImportApplicationUsageInput {
 
 extension ImportApplicationUsageOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ImportApplicationUsageOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ImportApplicationUsageOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -293,7 +296,7 @@ public struct ImportApplicationUsageOutput {
 
 enum ImportApplicationUsageOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -347,14 +350,14 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
 extension ListReportDefinitionsInput {
 
-    static func queryItemProvider(_ value: ListReportDefinitionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListReportDefinitionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -386,7 +389,7 @@ public struct ListReportDefinitionsInput {
 
 extension ListReportDefinitionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListReportDefinitionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListReportDefinitionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -415,7 +418,7 @@ public struct ListReportDefinitionsOutput {
 
 enum ListReportDefinitionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -484,7 +487,7 @@ public struct PutReportDefinitionInput {
 
 extension PutReportDefinitionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutReportDefinitionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutReportDefinitionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -508,7 +511,7 @@ public struct PutReportDefinitionOutput {
 
 enum PutReportDefinitionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -544,13 +547,13 @@ extension ApplicationCostProfilerClientTypes {
     /// The configuration of a report in AWS Application Cost Profiler.
     public struct ReportDefinition {
         /// Timestamp (milliseconds) when this report definition was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The location in Amazon Simple Storage Service (Amazon S3) the reports should be saved to.
         public var destinationS3Location: ApplicationCostProfilerClientTypes.S3Location?
         /// The format used for the generated reports.
         public var format: ApplicationCostProfilerClientTypes.Format?
         /// Timestamp (milliseconds) when this report definition was last updated.
-        public var lastUpdatedAt: ClientRuntime.Date?
+        public var lastUpdatedAt: Foundation.Date?
         /// Description of the report
         public var reportDescription: Swift.String?
         /// The cadence at which the report is generated.
@@ -559,10 +562,10 @@ extension ApplicationCostProfilerClientTypes {
         public var reportId: Swift.String?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             destinationS3Location: ApplicationCostProfilerClientTypes.S3Location? = nil,
             format: ApplicationCostProfilerClientTypes.Format? = nil,
-            lastUpdatedAt: ClientRuntime.Date? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
             reportDescription: Swift.String? = nil,
             reportFrequency: ApplicationCostProfilerClientTypes.ReportFrequency? = nil,
             reportId: Swift.String? = nil
@@ -852,7 +855,7 @@ public struct UpdateReportDefinitionInput {
 
 extension UpdateReportDefinitionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateReportDefinitionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateReportDefinitionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -876,7 +879,7 @@ public struct UpdateReportDefinitionOutput {
 
 enum UpdateReportDefinitionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

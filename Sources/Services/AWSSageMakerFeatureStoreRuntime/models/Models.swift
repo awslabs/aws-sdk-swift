@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -167,7 +169,7 @@ public struct BatchGetRecordInput {
 
 extension BatchGetRecordOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> BatchGetRecordOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BatchGetRecordOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -204,7 +206,7 @@ public struct BatchGetRecordOutput {
 
 enum BatchGetRecordOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -265,28 +267,28 @@ extension SageMakerFeatureStoreRuntimeClientTypes {
 
 extension DeleteRecordInput {
 
-    static func queryItemProvider(_ value: DeleteRecordInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteRecordInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let recordIdentifierValueAsString = value.recordIdentifierValueAsString else {
             let message = "Creating a URL Query Item failed. recordIdentifierValueAsString is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let recordIdentifierValueAsStringQueryItem = ClientRuntime.SDKURLQueryItem(name: "RecordIdentifierValueAsString".urlPercentEncoding(), value: Swift.String(recordIdentifierValueAsString).urlPercentEncoding())
+        let recordIdentifierValueAsStringQueryItem = Smithy.URIQueryItem(name: "RecordIdentifierValueAsString".urlPercentEncoding(), value: Swift.String(recordIdentifierValueAsString).urlPercentEncoding())
         items.append(recordIdentifierValueAsStringQueryItem)
         if let targetStores = value.targetStores {
             targetStores.forEach { queryItemValue in
-                let queryItem = ClientRuntime.SDKURLQueryItem(name: "TargetStores".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                let queryItem = Smithy.URIQueryItem(name: "TargetStores".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
                 items.append(queryItem)
             }
         }
         guard let eventTime = value.eventTime else {
             let message = "Creating a URL Query Item failed. eventTime is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let eventTimeQueryItem = ClientRuntime.SDKURLQueryItem(name: "EventTime".urlPercentEncoding(), value: Swift.String(eventTime).urlPercentEncoding())
+        let eventTimeQueryItem = Smithy.URIQueryItem(name: "EventTime".urlPercentEncoding(), value: Swift.String(eventTime).urlPercentEncoding())
         items.append(eventTimeQueryItem)
         if let deletionMode = value.deletionMode {
-            let deletionModeQueryItem = ClientRuntime.SDKURLQueryItem(name: "DeletionMode".urlPercentEncoding(), value: Swift.String(deletionMode.rawValue).urlPercentEncoding())
+            let deletionModeQueryItem = Smithy.URIQueryItem(name: "DeletionMode".urlPercentEncoding(), value: Swift.String(deletionMode.rawValue).urlPercentEncoding())
             items.append(deletionModeQueryItem)
         }
         return items
@@ -336,7 +338,7 @@ public struct DeleteRecordInput {
 
 extension DeleteRecordOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteRecordOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteRecordOutput {
         return DeleteRecordOutput()
     }
 }
@@ -348,7 +350,7 @@ public struct DeleteRecordOutput {
 
 enum DeleteRecordOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -467,21 +469,21 @@ extension SageMakerFeatureStoreRuntimeClientTypes {
 
 extension GetRecordInput {
 
-    static func queryItemProvider(_ value: GetRecordInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetRecordInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let recordIdentifierValueAsString = value.recordIdentifierValueAsString else {
             let message = "Creating a URL Query Item failed. recordIdentifierValueAsString is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let recordIdentifierValueAsStringQueryItem = ClientRuntime.SDKURLQueryItem(name: "RecordIdentifierValueAsString".urlPercentEncoding(), value: Swift.String(recordIdentifierValueAsString).urlPercentEncoding())
+        let recordIdentifierValueAsStringQueryItem = Smithy.URIQueryItem(name: "RecordIdentifierValueAsString".urlPercentEncoding(), value: Swift.String(recordIdentifierValueAsString).urlPercentEncoding())
         items.append(recordIdentifierValueAsStringQueryItem)
         if let expirationTimeResponse = value.expirationTimeResponse {
-            let expirationTimeResponseQueryItem = ClientRuntime.SDKURLQueryItem(name: "ExpirationTimeResponse".urlPercentEncoding(), value: Swift.String(expirationTimeResponse.rawValue).urlPercentEncoding())
+            let expirationTimeResponseQueryItem = Smithy.URIQueryItem(name: "ExpirationTimeResponse".urlPercentEncoding(), value: Swift.String(expirationTimeResponse.rawValue).urlPercentEncoding())
             items.append(expirationTimeResponseQueryItem)
         }
         if let featureNames = value.featureNames {
             featureNames.forEach { queryItemValue in
-                let queryItem = ClientRuntime.SDKURLQueryItem(name: "FeatureName".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                let queryItem = Smithy.URIQueryItem(name: "FeatureName".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
                 items.append(queryItem)
             }
         }
@@ -527,7 +529,7 @@ public struct GetRecordInput {
 
 extension GetRecordOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetRecordOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetRecordOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -556,7 +558,7 @@ public struct GetRecordOutput {
 
 enum GetRecordOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -663,7 +665,7 @@ public struct PutRecordInput {
 
 extension PutRecordOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutRecordOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutRecordOutput {
         return PutRecordOutput()
     }
 }
@@ -675,7 +677,7 @@ public struct PutRecordOutput {
 
 enum PutRecordOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -227,9 +230,9 @@ extension TranscribeClientTypes {
         /// Indicates which speaker is on which channel.
         public var channelDefinitions: [TranscribeClientTypes.ChannelDefinition]?
         /// The date and time the specified Call Analytics job finished processing. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:33:13.922000-07:00 represents a transcription job that started processing at 12:33 PM UTC-7 on May 4, 2022.
-        public var completionTime: ClientRuntime.Date?
+        public var completionTime: Foundation.Date?
         /// The date and time the specified Call Analytics job request was made. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents a transcription job that started processing at 12:32 PM UTC-7 on May 4, 2022.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) you included in your request.
         public var dataAccessRoleArn: Swift.String?
         /// If CallAnalyticsJobStatus is FAILED, FailureReason contains information about why the Call Analytics job request failed. The FailureReason field contains one of the following values:
@@ -259,7 +262,7 @@ extension TranscribeClientTypes {
         /// Provides information on any additional settings that were included in your request. Additional settings include content redaction and language identification settings.
         public var settings: TranscribeClientTypes.CallAnalyticsJobSettings?
         /// The date and time the specified Call Analytics job began processing. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.789000-07:00 represents a transcription job that started processing at 12:32 PM UTC-7 on May 4, 2022.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
         /// Provides you with the Amazon S3 URI you can use to access your transcript.
         public var transcript: TranscribeClientTypes.Transcript?
 
@@ -268,8 +271,8 @@ extension TranscribeClientTypes {
             callAnalyticsJobName: Swift.String? = nil,
             callAnalyticsJobStatus: TranscribeClientTypes.CallAnalyticsJobStatus? = nil,
             channelDefinitions: [TranscribeClientTypes.ChannelDefinition]? = nil,
-            completionTime: ClientRuntime.Date? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            completionTime: Foundation.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             dataAccessRoleArn: Swift.String? = nil,
             failureReason: Swift.String? = nil,
             identifiedLanguageScore: Swift.Float? = nil,
@@ -278,7 +281,7 @@ extension TranscribeClientTypes {
             mediaFormat: TranscribeClientTypes.MediaFormat? = nil,
             mediaSampleRateHertz: Swift.Int? = nil,
             settings: TranscribeClientTypes.CallAnalyticsJobSettings? = nil,
-            startTime: ClientRuntime.Date? = nil,
+            startTime: Foundation.Date? = nil,
             transcript: TranscribeClientTypes.Transcript? = nil
         )
         {
@@ -464,25 +467,25 @@ extension TranscribeClientTypes {
         /// Provides the status of your Call Analytics job. If the status is COMPLETED, the job is finished and you can find the results at the location specified in TranscriptFileUri (or RedactedTranscriptFileUri, if you requested transcript redaction). If the status is FAILED, FailureReason provides details on why your transcription job failed.
         public var callAnalyticsJobStatus: TranscribeClientTypes.CallAnalyticsJobStatus?
         /// The date and time the specified Call Analytics job finished processing. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:33:13.922000-07:00 represents a transcription job that started processing at 12:33 PM UTC-7 on May 4, 2022.
-        public var completionTime: ClientRuntime.Date?
+        public var completionTime: Foundation.Date?
         /// The date and time the specified Call Analytics job request was made. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents a transcription job that started processing at 12:32 PM UTC-7 on May 4, 2022.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// If CallAnalyticsJobStatus is FAILED, FailureReason contains information about why the Call Analytics job failed. See also: [Common Errors](https://docs.aws.amazon.com/transcribe/latest/APIReference/CommonErrors.html).
         public var failureReason: Swift.String?
         /// The language code used to create your Call Analytics transcription.
         public var languageCode: TranscribeClientTypes.LanguageCode?
         /// The date and time your Call Analytics job began processing. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.789000-07:00 represents a transcription job that started processing at 12:32 PM UTC-7 on May 4, 2022.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
 
         public init(
             callAnalyticsJobDetails: TranscribeClientTypes.CallAnalyticsJobDetails? = nil,
             callAnalyticsJobName: Swift.String? = nil,
             callAnalyticsJobStatus: TranscribeClientTypes.CallAnalyticsJobStatus? = nil,
-            completionTime: ClientRuntime.Date? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            completionTime: Foundation.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             failureReason: Swift.String? = nil,
             languageCode: TranscribeClientTypes.LanguageCode? = nil,
-            startTime: ClientRuntime.Date? = nil
+            startTime: Foundation.Date? = nil
         )
         {
             self.callAnalyticsJobDetails = callAnalyticsJobDetails
@@ -583,19 +586,19 @@ extension TranscribeClientTypes {
         /// The name of the Call Analytics category. Category names are case sensitive and must be unique within an Amazon Web Services account.
         public var categoryName: Swift.String?
         /// The date and time the specified Call Analytics category was created. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7 on May 4, 2022.
-        public var createTime: ClientRuntime.Date?
+        public var createTime: Foundation.Date?
         /// The input type associated with the specified category. POST_CALL refers to a category that is applied to batch transcriptions; REAL_TIME refers to a category that is applied to streaming transcriptions.
         public var inputType: TranscribeClientTypes.InputType?
         /// The date and time the specified Call Analytics category was last updated. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-05T12:45:32.691000-07:00 represents 12:45 PM UTC-7 on May 5, 2022.
-        public var lastUpdateTime: ClientRuntime.Date?
+        public var lastUpdateTime: Foundation.Date?
         /// The rules used to define a Call Analytics category. Each category can have between 1 and 20 rules.
         public var rules: [TranscribeClientTypes.Rule]?
 
         public init(
             categoryName: Swift.String? = nil,
-            createTime: ClientRuntime.Date? = nil,
+            createTime: Foundation.Date? = nil,
             inputType: TranscribeClientTypes.InputType? = nil,
-            lastUpdateTime: ClientRuntime.Date? = nil,
+            lastUpdateTime: Foundation.Date? = nil,
             rules: [TranscribeClientTypes.Rule]? = nil
         )
         {
@@ -768,7 +771,7 @@ public struct CreateCallAnalyticsCategoryInput {
 
 extension CreateCallAnalyticsCategoryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateCallAnalyticsCategoryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateCallAnalyticsCategoryOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -792,7 +795,7 @@ public struct CreateCallAnalyticsCategoryOutput {
 
 enum CreateCallAnalyticsCategoryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -859,7 +862,7 @@ public struct CreateLanguageModelInput {
 
 extension CreateLanguageModelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateLanguageModelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateLanguageModelOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -903,7 +906,7 @@ public struct CreateLanguageModelOutput {
 
 enum CreateLanguageModelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -964,7 +967,7 @@ public struct CreateMedicalVocabularyInput {
 
 extension CreateMedicalVocabularyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateMedicalVocabularyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateMedicalVocabularyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -984,7 +987,7 @@ public struct CreateMedicalVocabularyOutput {
     /// The language code you selected for your custom medical vocabulary. US English (en-US) is the only language supported with Amazon Transcribe Medical.
     public var languageCode: TranscribeClientTypes.LanguageCode?
     /// The date and time you created your custom medical vocabulary. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7 on May 4, 2022.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The name you chose for your custom medical vocabulary.
     public var vocabularyName: Swift.String?
     /// The processing state of your custom medical vocabulary. If the state is READY, you can use the custom vocabulary in a StartMedicalTranscriptionJob request.
@@ -993,7 +996,7 @@ public struct CreateMedicalVocabularyOutput {
     public init(
         failureReason: Swift.String? = nil,
         languageCode: TranscribeClientTypes.LanguageCode? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         vocabularyName: Swift.String? = nil,
         vocabularyState: TranscribeClientTypes.VocabularyState? = nil
     )
@@ -1008,7 +1011,7 @@ public struct CreateMedicalVocabularyOutput {
 
 enum CreateMedicalVocabularyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1078,7 +1081,7 @@ public struct CreateVocabularyFilterInput {
 
 extension CreateVocabularyFilterOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateVocabularyFilterOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateVocabularyFilterOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1094,13 +1097,13 @@ public struct CreateVocabularyFilterOutput {
     /// The language code you selected for your custom vocabulary filter.
     public var languageCode: TranscribeClientTypes.LanguageCode?
     /// The date and time you created your custom vocabulary filter. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7 on May 4, 2022.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The name you chose for your custom vocabulary filter.
     public var vocabularyFilterName: Swift.String?
 
     public init(
         languageCode: TranscribeClientTypes.LanguageCode? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         vocabularyFilterName: Swift.String? = nil
     )
     {
@@ -1112,7 +1115,7 @@ public struct CreateVocabularyFilterOutput {
 
 enum CreateVocabularyFilterOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1182,7 +1185,7 @@ public struct CreateVocabularyInput {
 
 extension CreateVocabularyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateVocabularyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateVocabularyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1202,7 +1205,7 @@ public struct CreateVocabularyOutput {
     /// The language code you selected for your custom vocabulary.
     public var languageCode: TranscribeClientTypes.LanguageCode?
     /// The date and time you created your custom vocabulary. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7 on May 4, 2022.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The name you chose for your custom vocabulary.
     public var vocabularyName: Swift.String?
     /// The processing state of your custom vocabulary. If the state is READY, you can use the custom vocabulary in a StartTranscriptionJob request.
@@ -1211,7 +1214,7 @@ public struct CreateVocabularyOutput {
     public init(
         failureReason: Swift.String? = nil,
         languageCode: TranscribeClientTypes.LanguageCode? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         vocabularyName: Swift.String? = nil,
         vocabularyState: TranscribeClientTypes.VocabularyState? = nil
     )
@@ -1226,7 +1229,7 @@ public struct CreateVocabularyOutput {
 
 enum CreateVocabularyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1271,7 +1274,7 @@ public struct DeleteCallAnalyticsCategoryInput {
 
 extension DeleteCallAnalyticsCategoryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteCallAnalyticsCategoryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteCallAnalyticsCategoryOutput {
         return DeleteCallAnalyticsCategoryOutput()
     }
 }
@@ -1283,7 +1286,7 @@ public struct DeleteCallAnalyticsCategoryOutput {
 
 enum DeleteCallAnalyticsCategoryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1328,7 +1331,7 @@ public struct DeleteCallAnalyticsJobInput {
 
 extension DeleteCallAnalyticsJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteCallAnalyticsJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteCallAnalyticsJobOutput {
         return DeleteCallAnalyticsJobOutput()
     }
 }
@@ -1340,7 +1343,7 @@ public struct DeleteCallAnalyticsJobOutput {
 
 enum DeleteCallAnalyticsJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1384,7 +1387,7 @@ public struct DeleteLanguageModelInput {
 
 extension DeleteLanguageModelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteLanguageModelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteLanguageModelOutput {
         return DeleteLanguageModelOutput()
     }
 }
@@ -1396,7 +1399,7 @@ public struct DeleteLanguageModelOutput {
 
 enum DeleteLanguageModelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1440,7 +1443,7 @@ public struct DeleteMedicalScribeJobInput {
 
 extension DeleteMedicalScribeJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteMedicalScribeJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteMedicalScribeJobOutput {
         return DeleteMedicalScribeJobOutput()
     }
 }
@@ -1452,7 +1455,7 @@ public struct DeleteMedicalScribeJobOutput {
 
 enum DeleteMedicalScribeJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1496,7 +1499,7 @@ public struct DeleteMedicalTranscriptionJobInput {
 
 extension DeleteMedicalTranscriptionJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteMedicalTranscriptionJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteMedicalTranscriptionJobOutput {
         return DeleteMedicalTranscriptionJobOutput()
     }
 }
@@ -1508,7 +1511,7 @@ public struct DeleteMedicalTranscriptionJobOutput {
 
 enum DeleteMedicalTranscriptionJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1552,7 +1555,7 @@ public struct DeleteMedicalVocabularyInput {
 
 extension DeleteMedicalVocabularyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteMedicalVocabularyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteMedicalVocabularyOutput {
         return DeleteMedicalVocabularyOutput()
     }
 }
@@ -1564,7 +1567,7 @@ public struct DeleteMedicalVocabularyOutput {
 
 enum DeleteMedicalVocabularyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1609,7 +1612,7 @@ public struct DeleteTranscriptionJobInput {
 
 extension DeleteTranscriptionJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteTranscriptionJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteTranscriptionJobOutput {
         return DeleteTranscriptionJobOutput()
     }
 }
@@ -1621,7 +1624,7 @@ public struct DeleteTranscriptionJobOutput {
 
 enum DeleteTranscriptionJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1665,7 +1668,7 @@ public struct DeleteVocabularyFilterInput {
 
 extension DeleteVocabularyFilterOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteVocabularyFilterOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteVocabularyFilterOutput {
         return DeleteVocabularyFilterOutput()
     }
 }
@@ -1677,7 +1680,7 @@ public struct DeleteVocabularyFilterOutput {
 
 enum DeleteVocabularyFilterOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1722,7 +1725,7 @@ public struct DeleteVocabularyInput {
 
 extension DeleteVocabularyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteVocabularyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteVocabularyOutput {
         return DeleteVocabularyOutput()
     }
 }
@@ -1734,7 +1737,7 @@ public struct DeleteVocabularyOutput {
 
 enum DeleteVocabularyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1779,7 +1782,7 @@ public struct DescribeLanguageModelInput {
 
 extension DescribeLanguageModelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeLanguageModelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeLanguageModelOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1803,7 +1806,7 @@ public struct DescribeLanguageModelOutput {
 
 enum DescribeLanguageModelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1848,7 +1851,7 @@ public struct GetCallAnalyticsCategoryInput {
 
 extension GetCallAnalyticsCategoryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetCallAnalyticsCategoryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetCallAnalyticsCategoryOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1872,7 +1875,7 @@ public struct GetCallAnalyticsCategoryOutput {
 
 enum GetCallAnalyticsCategoryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1917,7 +1920,7 @@ public struct GetCallAnalyticsJobInput {
 
 extension GetCallAnalyticsJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetCallAnalyticsJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetCallAnalyticsJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1941,7 +1944,7 @@ public struct GetCallAnalyticsJobOutput {
 
 enum GetCallAnalyticsJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1986,7 +1989,7 @@ public struct GetMedicalScribeJobInput {
 
 extension GetMedicalScribeJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetMedicalScribeJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetMedicalScribeJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2010,7 +2013,7 @@ public struct GetMedicalScribeJobOutput {
 
 enum GetMedicalScribeJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2055,7 +2058,7 @@ public struct GetMedicalTranscriptionJobInput {
 
 extension GetMedicalTranscriptionJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetMedicalTranscriptionJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetMedicalTranscriptionJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2079,7 +2082,7 @@ public struct GetMedicalTranscriptionJobOutput {
 
 enum GetMedicalTranscriptionJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2124,7 +2127,7 @@ public struct GetMedicalVocabularyInput {
 
 extension GetMedicalVocabularyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetMedicalVocabularyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetMedicalVocabularyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2147,7 +2150,7 @@ public struct GetMedicalVocabularyOutput {
     /// The language code you selected for your custom medical vocabulary. US English (en-US) is the only language supported with Amazon Transcribe Medical.
     public var languageCode: TranscribeClientTypes.LanguageCode?
     /// The date and time the specified custom medical vocabulary was last modified. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7 on May 4, 2022.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The name of the custom medical vocabulary you requested information about.
     public var vocabularyName: Swift.String?
     /// The processing state of your custom medical vocabulary. If the state is READY, you can use the custom vocabulary in a StartMedicalTranscriptionJob request.
@@ -2157,7 +2160,7 @@ public struct GetMedicalVocabularyOutput {
         downloadUri: Swift.String? = nil,
         failureReason: Swift.String? = nil,
         languageCode: TranscribeClientTypes.LanguageCode? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         vocabularyName: Swift.String? = nil,
         vocabularyState: TranscribeClientTypes.VocabularyState? = nil
     )
@@ -2173,7 +2176,7 @@ public struct GetMedicalVocabularyOutput {
 
 enum GetMedicalVocabularyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2218,7 +2221,7 @@ public struct GetTranscriptionJobInput {
 
 extension GetTranscriptionJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetTranscriptionJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetTranscriptionJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2242,7 +2245,7 @@ public struct GetTranscriptionJobOutput {
 
 enum GetTranscriptionJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2287,7 +2290,7 @@ public struct GetVocabularyFilterInput {
 
 extension GetVocabularyFilterOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetVocabularyFilterOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetVocabularyFilterOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2306,14 +2309,14 @@ public struct GetVocabularyFilterOutput {
     /// The language code you selected for your custom vocabulary filter.
     public var languageCode: TranscribeClientTypes.LanguageCode?
     /// The date and time the specified custom vocabulary filter was last modified. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7 on May 4, 2022.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The name of the custom vocabulary filter you requested information about.
     public var vocabularyFilterName: Swift.String?
 
     public init(
         downloadUri: Swift.String? = nil,
         languageCode: TranscribeClientTypes.LanguageCode? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         vocabularyFilterName: Swift.String? = nil
     )
     {
@@ -2326,7 +2329,7 @@ public struct GetVocabularyFilterOutput {
 
 enum GetVocabularyFilterOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2371,7 +2374,7 @@ public struct GetVocabularyInput {
 
 extension GetVocabularyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetVocabularyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetVocabularyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2394,7 +2397,7 @@ public struct GetVocabularyOutput {
     /// The language code you selected for your custom vocabulary.
     public var languageCode: TranscribeClientTypes.LanguageCode?
     /// The date and time the specified custom vocabulary was last modified. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7 on May 4, 2022.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The name of the custom vocabulary you requested information about.
     public var vocabularyName: Swift.String?
     /// The processing state of your custom vocabulary. If the state is READY, you can use the custom vocabulary in a StartTranscriptionJob request.
@@ -2404,7 +2407,7 @@ public struct GetVocabularyOutput {
         downloadUri: Swift.String? = nil,
         failureReason: Swift.String? = nil,
         languageCode: TranscribeClientTypes.LanguageCode? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         vocabularyName: Swift.String? = nil,
         vocabularyState: TranscribeClientTypes.VocabularyState? = nil
     )
@@ -2420,7 +2423,7 @@ public struct GetVocabularyOutput {
 
 enum GetVocabularyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3095,7 +3098,7 @@ extension TranscribeClientTypes {
         /// The Amazon Transcribe standard language model, or base model, used to create your custom language model.
         public var baseModelName: TranscribeClientTypes.BaseModelName?
         /// The date and time the specified custom language model was created. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7 on May 4, 2022.
-        public var createTime: ClientRuntime.Date?
+        public var createTime: Foundation.Date?
         /// If ModelStatus is FAILED, FailureReason contains information about why the custom language model request failed. See also: [Common Errors](https://docs.aws.amazon.com/transcribe/latest/APIReference/CommonErrors.html).
         public var failureReason: Swift.String?
         /// The Amazon S3 location of the input files used to train and tune your custom language model, in addition to the data access role ARN (Amazon Resource Name) that has permissions to access these data.
@@ -3103,7 +3106,7 @@ extension TranscribeClientTypes {
         /// The language code used to create your custom language model. Each custom language model must contain terms in only one language, and the language you select for your custom language model must match the language of your training and tuning data. For a list of supported languages and their associated language codes, refer to the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html) table. Note that US English (en-US) is the only language supported with Amazon Transcribe Medical.
         public var languageCode: TranscribeClientTypes.CLMLanguageCode?
         /// The date and time the specified custom language model was last modified. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7 on May 4, 2022.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// A unique name, chosen by you, for your custom language model. This name is case sensitive, cannot contain spaces, and must be unique within an Amazon Web Services account.
         public var modelName: Swift.String?
         /// The status of the specified custom language model. When the status displays as COMPLETED the model is ready for use.
@@ -3113,11 +3116,11 @@ extension TranscribeClientTypes {
 
         public init(
             baseModelName: TranscribeClientTypes.BaseModelName? = nil,
-            createTime: ClientRuntime.Date? = nil,
+            createTime: Foundation.Date? = nil,
             failureReason: Swift.String? = nil,
             inputDataConfig: TranscribeClientTypes.InputDataConfig? = nil,
             languageCode: TranscribeClientTypes.CLMLanguageCode? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             modelName: Swift.String? = nil,
             modelStatus: TranscribeClientTypes.ModelStatus? = nil,
             upgradeAvailability: Swift.Bool? = nil
@@ -3176,7 +3179,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
 extension ListCallAnalyticsCategoriesInput {
 
-    static func queryItemProvider(_ value: ListCallAnalyticsCategoriesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+    static func queryItemProvider(_ value: ListCallAnalyticsCategoriesInput) throws -> [Smithy.URIQueryItem] {
         return []
     }
 }
@@ -3214,7 +3217,7 @@ public struct ListCallAnalyticsCategoriesInput {
 
 extension ListCallAnalyticsCategoriesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListCallAnalyticsCategoriesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListCallAnalyticsCategoriesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3243,7 +3246,7 @@ public struct ListCallAnalyticsCategoriesOutput {
 
 enum ListCallAnalyticsCategoriesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3259,7 +3262,7 @@ enum ListCallAnalyticsCategoriesOutputError {
 
 extension ListCallAnalyticsJobsInput {
 
-    static func queryItemProvider(_ value: ListCallAnalyticsJobsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+    static func queryItemProvider(_ value: ListCallAnalyticsJobsInput) throws -> [Smithy.URIQueryItem] {
         return []
     }
 }
@@ -3305,7 +3308,7 @@ public struct ListCallAnalyticsJobsInput {
 
 extension ListCallAnalyticsJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListCallAnalyticsJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListCallAnalyticsJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3339,7 +3342,7 @@ public struct ListCallAnalyticsJobsOutput {
 
 enum ListCallAnalyticsJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3355,7 +3358,7 @@ enum ListCallAnalyticsJobsOutputError {
 
 extension ListLanguageModelsInput {
 
-    static func queryItemProvider(_ value: ListLanguageModelsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+    static func queryItemProvider(_ value: ListLanguageModelsInput) throws -> [Smithy.URIQueryItem] {
         return []
     }
 }
@@ -3401,7 +3404,7 @@ public struct ListLanguageModelsInput {
 
 extension ListLanguageModelsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListLanguageModelsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListLanguageModelsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3430,7 +3433,7 @@ public struct ListLanguageModelsOutput {
 
 enum ListLanguageModelsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3446,7 +3449,7 @@ enum ListLanguageModelsOutputError {
 
 extension ListMedicalScribeJobsInput {
 
-    static func queryItemProvider(_ value: ListMedicalScribeJobsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+    static func queryItemProvider(_ value: ListMedicalScribeJobsInput) throws -> [Smithy.URIQueryItem] {
         return []
     }
 }
@@ -3492,7 +3495,7 @@ public struct ListMedicalScribeJobsInput {
 
 extension ListMedicalScribeJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListMedicalScribeJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListMedicalScribeJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3526,7 +3529,7 @@ public struct ListMedicalScribeJobsOutput {
 
 enum ListMedicalScribeJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3542,7 +3545,7 @@ enum ListMedicalScribeJobsOutputError {
 
 extension ListMedicalTranscriptionJobsInput {
 
-    static func queryItemProvider(_ value: ListMedicalTranscriptionJobsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+    static func queryItemProvider(_ value: ListMedicalTranscriptionJobsInput) throws -> [Smithy.URIQueryItem] {
         return []
     }
 }
@@ -3588,7 +3591,7 @@ public struct ListMedicalTranscriptionJobsInput {
 
 extension ListMedicalTranscriptionJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListMedicalTranscriptionJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListMedicalTranscriptionJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3622,7 +3625,7 @@ public struct ListMedicalTranscriptionJobsOutput {
 
 enum ListMedicalTranscriptionJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3638,7 +3641,7 @@ enum ListMedicalTranscriptionJobsOutputError {
 
 extension ListMedicalVocabulariesInput {
 
-    static func queryItemProvider(_ value: ListMedicalVocabulariesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+    static func queryItemProvider(_ value: ListMedicalVocabulariesInput) throws -> [Smithy.URIQueryItem] {
         return []
     }
 }
@@ -3684,7 +3687,7 @@ public struct ListMedicalVocabulariesInput {
 
 extension ListMedicalVocabulariesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListMedicalVocabulariesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListMedicalVocabulariesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3718,7 +3721,7 @@ public struct ListMedicalVocabulariesOutput {
 
 enum ListMedicalVocabulariesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3762,7 +3765,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3791,7 +3794,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3808,7 +3811,7 @@ enum ListTagsForResourceOutputError {
 
 extension ListTranscriptionJobsInput {
 
-    static func queryItemProvider(_ value: ListTranscriptionJobsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+    static func queryItemProvider(_ value: ListTranscriptionJobsInput) throws -> [Smithy.URIQueryItem] {
         return []
     }
 }
@@ -3854,7 +3857,7 @@ public struct ListTranscriptionJobsInput {
 
 extension ListTranscriptionJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTranscriptionJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTranscriptionJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3888,7 +3891,7 @@ public struct ListTranscriptionJobsOutput {
 
 enum ListTranscriptionJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3904,7 +3907,7 @@ enum ListTranscriptionJobsOutputError {
 
 extension ListVocabulariesInput {
 
-    static func queryItemProvider(_ value: ListVocabulariesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+    static func queryItemProvider(_ value: ListVocabulariesInput) throws -> [Smithy.URIQueryItem] {
         return []
     }
 }
@@ -3950,7 +3953,7 @@ public struct ListVocabulariesInput {
 
 extension ListVocabulariesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListVocabulariesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListVocabulariesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3984,7 +3987,7 @@ public struct ListVocabulariesOutput {
 
 enum ListVocabulariesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4000,7 +4003,7 @@ enum ListVocabulariesOutputError {
 
 extension ListVocabularyFiltersInput {
 
-    static func queryItemProvider(_ value: ListVocabularyFiltersInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+    static func queryItemProvider(_ value: ListVocabularyFiltersInput) throws -> [Smithy.URIQueryItem] {
         return []
     }
 }
@@ -4042,7 +4045,7 @@ public struct ListVocabularyFiltersInput {
 
 extension ListVocabularyFiltersOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListVocabularyFiltersOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListVocabularyFiltersOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4071,7 +4074,7 @@ public struct ListVocabularyFiltersOutput {
 
 enum ListVocabularyFiltersOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4276,9 +4279,9 @@ extension TranscribeClientTypes {
         /// Makes it possible to specify which speaker is on which channel. For example, if the clinician is the first participant to speak, you would set ChannelId of the first ChannelDefinition in the list to 0 (to indicate the first channel) and ParticipantRole to CLINICIAN (to indicate that it's the clinician speaking). Then you would set the ChannelId of the second ChannelDefinition in the list to 1 (to indicate the second channel) and ParticipantRole to PATIENT (to indicate that it's the patient speaking).
         public var channelDefinitions: [TranscribeClientTypes.MedicalScribeChannelDefinition]?
         /// The date and time the specified Medical Scribe job finished processing. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents a Medical Scribe job that finished processing at 12:32 PM UTC-7 on May 4, 2022.
-        public var completionTime: ClientRuntime.Date?
+        public var completionTime: Foundation.Date?
         /// The date and time the specified Medical Scribe job request was made. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents a Medical Scribe job that started processing at 12:32 PM UTC-7 on May 4, 2022.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files, write to the output bucket, and use your KMS key if supplied. If the role that you specify doesn’t have the appropriate permissions your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see [IAM ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns).
         public var dataAccessRoleArn: Swift.String?
         /// If MedicalScribeJobStatus is FAILED, FailureReason contains information about why the transcription job failed. See also: [Common Errors](https://docs.aws.amazon.com/transcribe/latest/APIReference/CommonErrors.html).
@@ -4296,14 +4299,14 @@ extension TranscribeClientTypes {
         /// Makes it possible to control how your Medical Scribe job is processed using a MedicalScribeSettings object. Specify ChannelIdentification if ChannelDefinitions are set. Enabled ShowSpeakerLabels if ChannelIdentification and ChannelDefinitions are not set. One and only one of ChannelIdentification and ShowSpeakerLabels must be set. If ShowSpeakerLabels is set, MaxSpeakerLabels must also be set. Use Settings to specify a vocabulary or vocabulary filter or both using VocabularyName, VocabularyFilterName. VocabularyFilterMethod must be specified if VocabularyFilterName is set.
         public var settings: TranscribeClientTypes.MedicalScribeSettings?
         /// The date and time your Medical Scribe job began processing. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.789000-07:00 represents a Medical Scribe job that started processing at 12:32 PM UTC-7 on May 4, 2022.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
         /// Adds one or more custom tags, each in the form of a key:value pair, to the Medica Scribe job. To learn more about using tags with Amazon Transcribe, refer to [Tagging resources](https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html).
         public var tags: [TranscribeClientTypes.Tag]?
 
         public init(
             channelDefinitions: [TranscribeClientTypes.MedicalScribeChannelDefinition]? = nil,
-            completionTime: ClientRuntime.Date? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            completionTime: Foundation.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             dataAccessRoleArn: Swift.String? = nil,
             failureReason: Swift.String? = nil,
             languageCode: TranscribeClientTypes.MedicalScribeLanguageCode? = nil,
@@ -4312,7 +4315,7 @@ extension TranscribeClientTypes {
             medicalScribeJobStatus: TranscribeClientTypes.MedicalScribeJobStatus? = nil,
             medicalScribeOutput: TranscribeClientTypes.MedicalScribeOutput? = nil,
             settings: TranscribeClientTypes.MedicalScribeSettings? = nil,
-            startTime: ClientRuntime.Date? = nil,
+            startTime: Foundation.Date? = nil,
             tags: [TranscribeClientTypes.Tag]? = nil
         )
         {
@@ -4389,9 +4392,9 @@ extension TranscribeClientTypes {
     /// Provides detailed information about a specific Medical Scribe job.
     public struct MedicalScribeJobSummary {
         /// The date and time the specified Medical Scribe job finished processing. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents a Medical Scribe job that finished processing at 12:32 PM UTC-7 on May 4, 2022.
-        public var completionTime: ClientRuntime.Date?
+        public var completionTime: Foundation.Date?
         /// The date and time the specified Medical Scribe job request was made. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents a Medical Scribe job that started processing at 12:32 PM UTC-7 on May 4, 2022.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// If MedicalScribeJobStatus is FAILED, FailureReason contains information about why the transcription job failed. See also: [Common Errors](https://docs.aws.amazon.com/transcribe/latest/APIReference/CommonErrors.html).
         public var failureReason: Swift.String?
         /// The language code used to create your Medical Scribe job. US English (en-US) is the only supported language for Medical Scribe jobs.
@@ -4401,16 +4404,16 @@ extension TranscribeClientTypes {
         /// Provides the status of the specified Medical Scribe job. If the status is COMPLETED, the job is finished and you can find the results at the location specified in MedicalScribeOutput If the status is FAILED, FailureReason provides details on why your Medical Scribe job failed.
         public var medicalScribeJobStatus: TranscribeClientTypes.MedicalScribeJobStatus?
         /// The date and time your Medical Scribe job began processing. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.789000-07:00 represents a Medical Scribe job that started processing at 12:32 PM UTC-7 on May 4, 2022.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
 
         public init(
-            completionTime: ClientRuntime.Date? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            completionTime: Foundation.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             failureReason: Swift.String? = nil,
             languageCode: TranscribeClientTypes.MedicalScribeLanguageCode? = nil,
             medicalScribeJobName: Swift.String? = nil,
             medicalScribeJobStatus: TranscribeClientTypes.MedicalScribeJobStatus? = nil,
-            startTime: ClientRuntime.Date? = nil
+            startTime: Foundation.Date? = nil
         )
         {
             self.completionTime = completionTime
@@ -4629,11 +4632,11 @@ extension TranscribeClientTypes {
     /// Provides detailed information about a medical transcription job. To view the status of the specified medical transcription job, check the TranscriptionJobStatus field. If the status is COMPLETED, the job is finished and you can find the results at the location specified in TranscriptFileUri. If the status is FAILED, FailureReason provides details on why your transcription job failed.
     public struct MedicalTranscriptionJob {
         /// The date and time the specified medical transcription job finished processing. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:33:13.922000-07:00 represents a transcription job that started processing at 12:33 PM UTC-7 on May 4, 2022.
-        public var completionTime: ClientRuntime.Date?
+        public var completionTime: Foundation.Date?
         /// Indicates whether content identification was enabled for your transcription request.
         public var contentIdentificationType: TranscribeClientTypes.MedicalContentIdentificationType?
         /// The date and time the specified medical transcription job request was made. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents a transcription job that started processing at 12:32 PM UTC-7 on May 4, 2022.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// If TranscriptionJobStatus is FAILED, FailureReason contains information about why the transcription job request failed. The FailureReason field contains one of the following values:
         ///
         /// * Unsupported media format. The media format specified in MediaFormat isn't valid. Refer to refer to the MediaFormat parameter for a list of supported formats.
@@ -4663,7 +4666,7 @@ extension TranscribeClientTypes {
         /// Describes the medical specialty represented in your media.
         public var specialty: TranscribeClientTypes.Specialty?
         /// The date and time the specified medical transcription job began processing. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.789000-07:00 represents a transcription job that started processing at 12:32 PM UTC-7 on May 4, 2022.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
         /// The tags, each in the form of a key:value pair, assigned to the specified medical transcription job.
         public var tags: [TranscribeClientTypes.Tag]?
         /// Provides you with the Amazon S3 URI you can use to access your transcript.
@@ -4674,9 +4677,9 @@ extension TranscribeClientTypes {
         public var type: TranscribeClientTypes.ModelType?
 
         public init(
-            completionTime: ClientRuntime.Date? = nil,
+            completionTime: Foundation.Date? = nil,
             contentIdentificationType: TranscribeClientTypes.MedicalContentIdentificationType? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             failureReason: Swift.String? = nil,
             languageCode: TranscribeClientTypes.LanguageCode? = nil,
             media: TranscribeClientTypes.Media? = nil,
@@ -4685,7 +4688,7 @@ extension TranscribeClientTypes {
             medicalTranscriptionJobName: Swift.String? = nil,
             settings: TranscribeClientTypes.MedicalTranscriptionSetting? = nil,
             specialty: TranscribeClientTypes.Specialty? = nil,
-            startTime: ClientRuntime.Date? = nil,
+            startTime: Foundation.Date? = nil,
             tags: [TranscribeClientTypes.Tag]? = nil,
             transcript: TranscribeClientTypes.MedicalTranscript? = nil,
             transcriptionJobStatus: TranscribeClientTypes.TranscriptionJobStatus? = nil,
@@ -4737,11 +4740,11 @@ extension TranscribeClientTypes {
     /// Provides detailed information about a specific medical transcription job.
     public struct MedicalTranscriptionJobSummary {
         /// The date and time the specified medical transcription job finished processing. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:33:13.922000-07:00 represents a transcription job that started processing at 12:33 PM UTC-7 on May 4, 2022.
-        public var completionTime: ClientRuntime.Date?
+        public var completionTime: Foundation.Date?
         /// Labels all personal health information (PHI) identified in your transcript. For more information, see [Identifying personal health information (PHI) in a transcription](https://docs.aws.amazon.com/transcribe/latest/dg/phi-id.html).
         public var contentIdentificationType: TranscribeClientTypes.MedicalContentIdentificationType?
         /// The date and time the specified medical transcription job request was made. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents a transcription job that started processing at 12:32 PM UTC-7 on May 4, 2022.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// If TranscriptionJobStatus is FAILED, FailureReason contains information about why the transcription job failed. See also: [Common Errors](https://docs.aws.amazon.com/transcribe/latest/APIReference/CommonErrors.html).
         public var failureReason: Swift.String?
         /// The language code used to create your medical transcription. US English (en-US) is the only supported language for medical transcriptions.
@@ -4753,22 +4756,22 @@ extension TranscribeClientTypes {
         /// Provides the medical specialty represented in your media.
         public var specialty: TranscribeClientTypes.Specialty?
         /// The date and time your medical transcription job began processing. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.789000-07:00 represents a transcription job that started processing at 12:32 PM UTC-7 on May 4, 2022.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
         /// Provides the status of your medical transcription job. If the status is COMPLETED, the job is finished and you can find the results at the location specified in TranscriptFileUri. If the status is FAILED, FailureReason provides details on why your transcription job failed.
         public var transcriptionJobStatus: TranscribeClientTypes.TranscriptionJobStatus?
         /// Indicates whether the input media is a dictation or a conversation, as specified in the StartMedicalTranscriptionJob request.
         public var type: TranscribeClientTypes.ModelType?
 
         public init(
-            completionTime: ClientRuntime.Date? = nil,
+            completionTime: Foundation.Date? = nil,
             contentIdentificationType: TranscribeClientTypes.MedicalContentIdentificationType? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             failureReason: Swift.String? = nil,
             languageCode: TranscribeClientTypes.LanguageCode? = nil,
             medicalTranscriptionJobName: Swift.String? = nil,
             outputLocationType: TranscribeClientTypes.OutputLocationType? = nil,
             specialty: TranscribeClientTypes.Specialty? = nil,
-            startTime: ClientRuntime.Date? = nil,
+            startTime: Foundation.Date? = nil,
             transcriptionJobStatus: TranscribeClientTypes.TranscriptionJobStatus? = nil,
             type: TranscribeClientTypes.ModelType? = nil
         )
@@ -5567,7 +5570,7 @@ public struct StartCallAnalyticsJobInput {
 
 extension StartCallAnalyticsJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartCallAnalyticsJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartCallAnalyticsJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5591,7 +5594,7 @@ public struct StartCallAnalyticsJobOutput {
 
 enum StartCallAnalyticsJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5697,7 +5700,7 @@ public struct StartMedicalScribeJobInput {
 
 extension StartMedicalScribeJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartMedicalScribeJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartMedicalScribeJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5721,7 +5724,7 @@ public struct StartMedicalScribeJobOutput {
 
 enum StartMedicalScribeJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5864,7 +5867,7 @@ public struct StartMedicalTranscriptionJobInput {
 
 extension StartMedicalTranscriptionJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartMedicalTranscriptionJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartMedicalTranscriptionJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5888,7 +5891,7 @@ public struct StartMedicalTranscriptionJobOutput {
 
 enum StartMedicalTranscriptionJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6057,7 +6060,7 @@ public struct StartTranscriptionJobInput {
 
 extension StartTranscriptionJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartTranscriptionJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartTranscriptionJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6081,7 +6084,7 @@ public struct StartTranscriptionJobOutput {
 
 enum StartTranscriptionJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6296,7 +6299,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -6308,7 +6311,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6550,11 +6553,11 @@ extension TranscribeClientTypes {
     /// Provides detailed information about a transcription job. To view the status of the specified transcription job, check the TranscriptionJobStatus field. If the status is COMPLETED, the job is finished and you can find the results at the location specified in TranscriptFileUri. If the status is FAILED, FailureReason provides details on why your transcription job failed. If you enabled content redaction, the redacted transcript can be found at the location specified in RedactedTranscriptFileUri.
     public struct TranscriptionJob {
         /// The date and time the specified transcription job finished processing. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:33:13.922000-07:00 represents a transcription job that started processing at 12:33 PM UTC-7 on May 4, 2022.
-        public var completionTime: ClientRuntime.Date?
+        public var completionTime: Foundation.Date?
         /// Indicates whether redaction was enabled in your transcript.
         public var contentRedaction: TranscribeClientTypes.ContentRedaction?
         /// The date and time the specified transcription job request was made. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents a transcription job that started processing at 12:32 PM UTC-7 on May 4, 2022.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// If TranscriptionJobStatus is FAILED, FailureReason contains information about why the transcription job request failed. The FailureReason field contains one of the following values:
         ///
         /// * Unsupported media format. The media format specified in MediaFormat isn't valid. Refer to refer to the MediaFormat parameter for a list of supported formats.
@@ -6596,7 +6599,7 @@ extension TranscribeClientTypes {
         /// Provides information on any additional settings that were included in your request. Additional settings include channel identification, alternative transcriptions, speaker partitioning, custom vocabularies, and custom vocabulary filters.
         public var settings: TranscribeClientTypes.Settings?
         /// The date and time the specified transcription job began processing. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.789000-07:00 represents a transcription job that started processing at 12:32 PM UTC-7 on May 4, 2022.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
         /// Indicates whether subtitles were generated with your transcription.
         public var subtitles: TranscribeClientTypes.SubtitlesOutput?
         /// The tags, each in the form of a key:value pair, assigned to the specified transcription job.
@@ -6611,9 +6614,9 @@ extension TranscribeClientTypes {
         public var transcriptionJobStatus: TranscribeClientTypes.TranscriptionJobStatus?
 
         public init(
-            completionTime: ClientRuntime.Date? = nil,
+            completionTime: Foundation.Date? = nil,
             contentRedaction: TranscribeClientTypes.ContentRedaction? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             failureReason: Swift.String? = nil,
             identifiedLanguageScore: Swift.Float? = nil,
             identifyLanguage: Swift.Bool? = nil,
@@ -6628,7 +6631,7 @@ extension TranscribeClientTypes {
             mediaSampleRateHertz: Swift.Int? = nil,
             modelSettings: TranscribeClientTypes.ModelSettings? = nil,
             settings: TranscribeClientTypes.Settings? = nil,
-            startTime: ClientRuntime.Date? = nil,
+            startTime: Foundation.Date? = nil,
             subtitles: TranscribeClientTypes.SubtitlesOutput? = nil,
             tags: [TranscribeClientTypes.Tag]? = nil,
             toxicityDetection: [TranscribeClientTypes.ToxicityDetectionSettings]? = nil,
@@ -6729,11 +6732,11 @@ extension TranscribeClientTypes {
     /// Provides detailed information about a specific transcription job.
     public struct TranscriptionJobSummary {
         /// The date and time the specified transcription job finished processing. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:33:13.922000-07:00 represents a transcription job that started processing at 12:33 PM UTC-7 on May 4, 2022.
-        public var completionTime: ClientRuntime.Date?
+        public var completionTime: Foundation.Date?
         /// The content redaction settings of the transcription job.
         public var contentRedaction: TranscribeClientTypes.ContentRedaction?
         /// The date and time the specified transcription job request was made. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents a transcription job that started processing at 12:32 PM UTC-7 on May 4, 2022.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// If TranscriptionJobStatus is FAILED, FailureReason contains information about why the transcription job failed. See also: [Common Errors](https://docs.aws.amazon.com/transcribe/latest/APIReference/CommonErrors.html).
         public var failureReason: Swift.String?
         /// The confidence score associated with the language identified in your media file. Confidence scores are values between 0 and 1; a larger value indicates a higher probability that the identified language correctly matches the language spoken in your media.
@@ -6751,7 +6754,7 @@ extension TranscribeClientTypes {
         /// Indicates where the specified transcription output is stored. If the value is CUSTOMER_BUCKET, the location is the Amazon S3 bucket you specified using the OutputBucketName parameter in your request. If you also included OutputKey in your request, your output is located in the path you specified in your request. If the value is SERVICE_BUCKET, the location is a service-managed Amazon S3 bucket. To access a transcript stored in a service-managed bucket, use the URI shown in the TranscriptFileUri or RedactedTranscriptFileUri field.
         public var outputLocationType: TranscribeClientTypes.OutputLocationType?
         /// The date and time your transcription job began processing. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.789000-07:00 represents a transcription job that started processing at 12:32 PM UTC-7 on May 4, 2022.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
         /// Indicates whether toxicity detection was enabled for the specified transcription job.
         public var toxicityDetection: [TranscribeClientTypes.ToxicityDetectionSettings]?
         /// The name of the transcription job. Job names are case sensitive and must be unique within an Amazon Web Services account.
@@ -6760,9 +6763,9 @@ extension TranscribeClientTypes {
         public var transcriptionJobStatus: TranscribeClientTypes.TranscriptionJobStatus?
 
         public init(
-            completionTime: ClientRuntime.Date? = nil,
+            completionTime: Foundation.Date? = nil,
             contentRedaction: TranscribeClientTypes.ContentRedaction? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             failureReason: Swift.String? = nil,
             identifiedLanguageScore: Swift.Float? = nil,
             identifyLanguage: Swift.Bool? = nil,
@@ -6771,7 +6774,7 @@ extension TranscribeClientTypes {
             languageCodes: [TranscribeClientTypes.LanguageCodeItem]? = nil,
             modelSettings: TranscribeClientTypes.ModelSettings? = nil,
             outputLocationType: TranscribeClientTypes.OutputLocationType? = nil,
-            startTime: ClientRuntime.Date? = nil,
+            startTime: Foundation.Date? = nil,
             toxicityDetection: [TranscribeClientTypes.ToxicityDetectionSettings]? = nil,
             transcriptionJobName: Swift.String? = nil,
             transcriptionJobStatus: TranscribeClientTypes.TranscriptionJobStatus? = nil
@@ -6861,7 +6864,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -6873,7 +6876,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6929,7 +6932,7 @@ public struct UpdateCallAnalyticsCategoryInput {
 
 extension UpdateCallAnalyticsCategoryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateCallAnalyticsCategoryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateCallAnalyticsCategoryOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6953,7 +6956,7 @@ public struct UpdateCallAnalyticsCategoryOutput {
 
 enum UpdateCallAnalyticsCategoryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7010,7 +7013,7 @@ public struct UpdateMedicalVocabularyInput {
 
 extension UpdateMedicalVocabularyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateMedicalVocabularyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateMedicalVocabularyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7027,7 +7030,7 @@ public struct UpdateMedicalVocabularyOutput {
     /// The language code you selected for your custom medical vocabulary. US English (en-US) is the only language supported with Amazon Transcribe Medical.
     public var languageCode: TranscribeClientTypes.LanguageCode?
     /// The date and time the specified custom medical vocabulary was last updated. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7 on May 4, 2022.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The name of the updated custom medical vocabulary.
     public var vocabularyName: Swift.String?
     /// The processing state of your custom medical vocabulary. If the state is READY, you can use the custom vocabulary in a StartMedicalTranscriptionJob request.
@@ -7035,7 +7038,7 @@ public struct UpdateMedicalVocabularyOutput {
 
     public init(
         languageCode: TranscribeClientTypes.LanguageCode? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         vocabularyName: Swift.String? = nil,
         vocabularyState: TranscribeClientTypes.VocabularyState? = nil
     )
@@ -7049,7 +7052,7 @@ public struct UpdateMedicalVocabularyOutput {
 
 enum UpdateMedicalVocabularyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7109,7 +7112,7 @@ public struct UpdateVocabularyFilterInput {
 
 extension UpdateVocabularyFilterOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateVocabularyFilterOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateVocabularyFilterOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7125,13 +7128,13 @@ public struct UpdateVocabularyFilterOutput {
     /// The language code you selected for your custom vocabulary filter.
     public var languageCode: TranscribeClientTypes.LanguageCode?
     /// The date and time the specified custom vocabulary filter was last updated. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7 on May 4, 2022.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The name of the updated custom vocabulary filter.
     public var vocabularyFilterName: Swift.String?
 
     public init(
         languageCode: TranscribeClientTypes.LanguageCode? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         vocabularyFilterName: Swift.String? = nil
     )
     {
@@ -7143,7 +7146,7 @@ public struct UpdateVocabularyFilterOutput {
 
 enum UpdateVocabularyFilterOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7208,7 +7211,7 @@ public struct UpdateVocabularyInput {
 
 extension UpdateVocabularyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateVocabularyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateVocabularyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7225,7 +7228,7 @@ public struct UpdateVocabularyOutput {
     /// The language code you selected for your custom vocabulary.
     public var languageCode: TranscribeClientTypes.LanguageCode?
     /// The date and time the specified custom vocabulary was last updated. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7 on May 4, 2022.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The name of the updated custom vocabulary.
     public var vocabularyName: Swift.String?
     /// The processing state of your custom vocabulary. If the state is READY, you can use the custom vocabulary in a StartTranscriptionJob request.
@@ -7233,7 +7236,7 @@ public struct UpdateVocabularyOutput {
 
     public init(
         languageCode: TranscribeClientTypes.LanguageCode? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         vocabularyName: Swift.String? = nil,
         vocabularyState: TranscribeClientTypes.VocabularyState? = nil
     )
@@ -7247,7 +7250,7 @@ public struct UpdateVocabularyOutput {
 
 enum UpdateVocabularyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7281,13 +7284,13 @@ extension TranscribeClientTypes {
         /// The language code that represents the language of the entries in your vocabulary filter. Each custom vocabulary filter must contain terms in only one language. A custom vocabulary filter can only be used to transcribe files in the same language as the filter. For example, if you create a custom vocabulary filter using US English (en-US), you can only apply this filter to files that contain English audio. For a list of supported languages and their associated language codes, refer to the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html) table.
         public var languageCode: TranscribeClientTypes.LanguageCode?
         /// The date and time the specified custom vocabulary filter was last modified. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7 on May 4, 2022.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// A unique name, chosen by you, for your custom vocabulary filter. This name is case sensitive, cannot contain spaces, and must be unique within an Amazon Web Services account.
         public var vocabularyFilterName: Swift.String?
 
         public init(
             languageCode: TranscribeClientTypes.LanguageCode? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             vocabularyFilterName: Swift.String? = nil
         )
         {
@@ -7350,7 +7353,7 @@ extension TranscribeClientTypes {
         /// The language code used to create your custom vocabulary. Each custom vocabulary must contain terms in only one language. A custom vocabulary can only be used to transcribe files in the same language as the custom vocabulary. For example, if you create a custom vocabulary using US English (en-US), you can only apply this custom vocabulary to files that contain English audio.
         public var languageCode: TranscribeClientTypes.LanguageCode?
         /// The date and time the specified custom vocabulary was last modified. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7 on May 4, 2022.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// A unique name, chosen by you, for your custom vocabulary. This name is case sensitive, cannot contain spaces, and must be unique within an Amazon Web Services account.
         public var vocabularyName: Swift.String?
         /// The processing state of your custom vocabulary. If the state is READY, you can use the custom vocabulary in a StartTranscriptionJob request.
@@ -7358,7 +7361,7 @@ extension TranscribeClientTypes {
 
         public init(
             languageCode: TranscribeClientTypes.LanguageCode? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             vocabularyName: Swift.String? = nil,
             vocabularyState: TranscribeClientTypes.VocabularyState? = nil
         )

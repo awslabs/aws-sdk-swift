@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -122,19 +125,19 @@ extension MediaPackageV2ClientTypes {
         public var channelGroupName: Swift.String?
         /// The date and time the channel group was created.
         /// This member is required.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// Any descriptive information that you want to add to the channel group for future identification purposes.
         public var description: Swift.String?
         /// The date and time the channel group was modified.
         /// This member is required.
-        public var modifiedAt: ClientRuntime.Date?
+        public var modifiedAt: Foundation.Date?
 
         public init(
             arn: Swift.String? = nil,
             channelGroupName: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
-            modifiedAt: ClientRuntime.Date? = nil
+            modifiedAt: Foundation.Date? = nil
         )
         {
             self.arn = arn
@@ -176,20 +179,20 @@ extension MediaPackageV2ClientTypes {
         public var channelName: Swift.String?
         /// The date and time the channel was created.
         /// This member is required.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// Any descriptive information that you want to add to the channel for future identification purposes.
         public var description: Swift.String?
         /// The date and time the channel was modified.
         /// This member is required.
-        public var modifiedAt: ClientRuntime.Date?
+        public var modifiedAt: Foundation.Date?
 
         public init(
             arn: Swift.String? = nil,
             channelGroupName: Swift.String? = nil,
             channelName: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
-            modifiedAt: ClientRuntime.Date? = nil
+            modifiedAt: Foundation.Date? = nil
         )
         {
             self.arn = arn
@@ -340,8 +343,8 @@ extension MediaPackageV2ClientTypes {
 
 extension CreateChannelGroupInput {
 
-    static func headerProvider(_ value: CreateChannelGroupInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: CreateChannelGroupInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let clientToken = value.clientToken {
             items.add(Header(name: "x-amzn-client-token", value: Swift.String(clientToken)))
         }
@@ -394,7 +397,7 @@ public struct CreateChannelGroupInput {
 
 extension CreateChannelGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateChannelGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateChannelGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -420,7 +423,7 @@ public struct CreateChannelGroupOutput {
     public var channelGroupName: Swift.String?
     /// The date and time the channel group was created.
     /// This member is required.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The description for your channel group.
     public var description: Swift.String?
     /// The current Entity Tag (ETag) associated with this resource. The entity tag can be used to safely make concurrent updates to the resource.
@@ -430,18 +433,18 @@ public struct CreateChannelGroupOutput {
     public var egressDomain: Swift.String?
     /// The date and time the channel group was modified.
     /// This member is required.
-    public var modifiedAt: ClientRuntime.Date?
+    public var modifiedAt: Foundation.Date?
     /// The comma-separated list of tag key:value pairs assigned to the channel group.
     public var tags: [Swift.String:Swift.String]?
 
     public init(
         arn: Swift.String? = nil,
         channelGroupName: Swift.String? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
         eTag: Swift.String? = nil,
         egressDomain: Swift.String? = nil,
-        modifiedAt: ClientRuntime.Date? = nil,
+        modifiedAt: Foundation.Date? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
     {
@@ -458,7 +461,7 @@ public struct CreateChannelGroupOutput {
 
 enum CreateChannelGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -478,8 +481,8 @@ enum CreateChannelGroupOutputError {
 
 extension CreateChannelInput {
 
-    static func headerProvider(_ value: CreateChannelInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: CreateChannelInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let clientToken = value.clientToken {
             items.add(Header(name: "x-amzn-client-token", value: Swift.String(clientToken)))
         }
@@ -540,7 +543,7 @@ public struct CreateChannelInput {
 
 extension CreateChannelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateChannelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateChannelOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -570,7 +573,7 @@ public struct CreateChannelOutput {
     public var channelName: Swift.String?
     /// The date and time the channel was created.
     /// This member is required.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The description for your channel.
     public var description: Swift.String?
     /// The current Entity Tag (ETag) associated with this resource. The entity tag can be used to safely make concurrent updates to the resource.
@@ -579,7 +582,7 @@ public struct CreateChannelOutput {
     public var ingestEndpoints: [MediaPackageV2ClientTypes.IngestEndpoint]?
     /// The date and time the channel was modified.
     /// This member is required.
-    public var modifiedAt: ClientRuntime.Date?
+    public var modifiedAt: Foundation.Date?
     /// The comma-separated list of tag key:value pairs assigned to the channel.
     public var tags: [Swift.String:Swift.String]?
 
@@ -587,11 +590,11 @@ public struct CreateChannelOutput {
         arn: Swift.String? = nil,
         channelGroupName: Swift.String? = nil,
         channelName: Swift.String? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
         eTag: Swift.String? = nil,
         ingestEndpoints: [MediaPackageV2ClientTypes.IngestEndpoint]? = nil,
-        modifiedAt: ClientRuntime.Date? = nil,
+        modifiedAt: Foundation.Date? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
     {
@@ -609,7 +612,7 @@ public struct CreateChannelOutput {
 
 enum CreateChannelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -806,8 +809,8 @@ extension MediaPackageV2ClientTypes {
 
 extension CreateOriginEndpointInput {
 
-    static func headerProvider(_ value: CreateOriginEndpointInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: CreateOriginEndpointInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let clientToken = value.clientToken {
             items.add(Header(name: "x-amzn-client-token", value: Swift.String(clientToken)))
         }
@@ -907,7 +910,7 @@ public struct CreateOriginEndpointInput {
 
 extension CreateOriginEndpointOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateOriginEndpointOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateOriginEndpointOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -946,7 +949,7 @@ public struct CreateOriginEndpointOutput {
     public var containerType: MediaPackageV2ClientTypes.ContainerType?
     /// The date and time the origin endpoint was created.
     /// This member is required.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// A DASH manifest configuration.
     public var dashManifests: [MediaPackageV2ClientTypes.GetDashManifestConfiguration]?
     /// The description for your origin endpoint.
@@ -959,7 +962,7 @@ public struct CreateOriginEndpointOutput {
     public var lowLatencyHlsManifests: [MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration]?
     /// The date and time the origin endpoint was modified.
     /// This member is required.
-    public var modifiedAt: ClientRuntime.Date?
+    public var modifiedAt: Foundation.Date?
     /// The name that describes the origin endpoint. The name is the primary identifier for the origin endpoint, and and must be unique for your account in the AWS Region and channel.
     /// This member is required.
     public var originEndpointName: Swift.String?
@@ -976,13 +979,13 @@ public struct CreateOriginEndpointOutput {
         channelGroupName: Swift.String? = nil,
         channelName: Swift.String? = nil,
         containerType: MediaPackageV2ClientTypes.ContainerType? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         dashManifests: [MediaPackageV2ClientTypes.GetDashManifestConfiguration]? = nil,
         description: Swift.String? = nil,
         eTag: Swift.String? = nil,
         hlsManifests: [MediaPackageV2ClientTypes.GetHlsManifestConfiguration]? = nil,
         lowLatencyHlsManifests: [MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration]? = nil,
-        modifiedAt: ClientRuntime.Date? = nil,
+        modifiedAt: Foundation.Date? = nil,
         originEndpointName: Swift.String? = nil,
         segment: MediaPackageV2ClientTypes.Segment? = nil,
         startoverWindowSeconds: Swift.Int? = nil,
@@ -1009,7 +1012,7 @@ public struct CreateOriginEndpointOutput {
 
 enum CreateOriginEndpointOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1217,7 +1220,7 @@ public struct DeleteChannelGroupInput {
 
 extension DeleteChannelGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteChannelGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteChannelGroupOutput {
         return DeleteChannelGroupOutput()
     }
 }
@@ -1229,7 +1232,7 @@ public struct DeleteChannelGroupOutput {
 
 enum DeleteChannelGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1278,7 +1281,7 @@ public struct DeleteChannelInput {
 
 extension DeleteChannelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteChannelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteChannelOutput {
         return DeleteChannelOutput()
     }
 }
@@ -1290,7 +1293,7 @@ public struct DeleteChannelOutput {
 
 enum DeleteChannelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1339,7 +1342,7 @@ public struct DeleteChannelPolicyInput {
 
 extension DeleteChannelPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteChannelPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteChannelPolicyOutput {
         return DeleteChannelPolicyOutput()
     }
 }
@@ -1351,7 +1354,7 @@ public struct DeleteChannelPolicyOutput {
 
 enum DeleteChannelPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1408,7 +1411,7 @@ public struct DeleteOriginEndpointInput {
 
 extension DeleteOriginEndpointOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteOriginEndpointOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteOriginEndpointOutput {
         return DeleteOriginEndpointOutput()
     }
 }
@@ -1420,7 +1423,7 @@ public struct DeleteOriginEndpointOutput {
 
 enum DeleteOriginEndpointOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1476,7 +1479,7 @@ public struct DeleteOriginEndpointPolicyInput {
 
 extension DeleteOriginEndpointPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteOriginEndpointPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteOriginEndpointPolicyOutput {
         return DeleteOriginEndpointPolicyOutput()
     }
 }
@@ -1488,7 +1491,7 @@ public struct DeleteOriginEndpointPolicyOutput {
 
 enum DeleteOriginEndpointPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1721,18 +1724,18 @@ extension MediaPackageV2ClientTypes {
     /// Filter configuration includes settings for manifest filtering, start and end times, and time delay that apply to all of your egress requests for this manifest.
     public struct FilterConfiguration {
         /// Optionally specify the end time for all of your manifest egress requests. When you include end time, note that you cannot use end time query parameters for this manifest's endpoint URL.
-        public var end: ClientRuntime.Date?
+        public var end: Foundation.Date?
         /// Optionally specify one or more manifest filters for all of your manifest egress requests. When you include a manifest filter, note that you cannot use an identical manifest filter query parameter for this manifest's endpoint URL.
         public var manifestFilter: Swift.String?
         /// Optionally specify the start time for all of your manifest egress requests. When you include start time, note that you cannot use start time query parameters for this manifest's endpoint URL.
-        public var start: ClientRuntime.Date?
+        public var start: Foundation.Date?
         /// Optionally specify the time delay for all of your manifest egress requests. Enter a value that is smaller than your endpoint's startover window. When you include time delay, note that you cannot use time delay query parameters for this manifest's endpoint URL.
         public var timeDelaySeconds: Swift.Int?
 
         public init(
-            end: ClientRuntime.Date? = nil,
+            end: Foundation.Date? = nil,
             manifestFilter: Swift.String? = nil,
-            start: ClientRuntime.Date? = nil,
+            start: Foundation.Date? = nil,
             timeDelaySeconds: Swift.Int? = nil
         )
         {
@@ -1770,7 +1773,7 @@ public struct GetChannelGroupInput {
 
 extension GetChannelGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetChannelGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetChannelGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1796,7 +1799,7 @@ public struct GetChannelGroupOutput {
     public var channelGroupName: Swift.String?
     /// The date and time the channel group was created.
     /// This member is required.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The description for your channel group.
     public var description: Swift.String?
     /// The current Entity Tag (ETag) associated with this resource. The entity tag can be used to safely make concurrent updates to the resource.
@@ -1806,18 +1809,18 @@ public struct GetChannelGroupOutput {
     public var egressDomain: Swift.String?
     /// The date and time the channel group was modified.
     /// This member is required.
-    public var modifiedAt: ClientRuntime.Date?
+    public var modifiedAt: Foundation.Date?
     /// The comma-separated list of tag key:value pairs assigned to the channel group.
     public var tags: [Swift.String:Swift.String]?
 
     public init(
         arn: Swift.String? = nil,
         channelGroupName: Swift.String? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
         eTag: Swift.String? = nil,
         egressDomain: Swift.String? = nil,
-        modifiedAt: ClientRuntime.Date? = nil,
+        modifiedAt: Foundation.Date? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
     {
@@ -1834,7 +1837,7 @@ public struct GetChannelGroupOutput {
 
 enum GetChannelGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1883,7 +1886,7 @@ public struct GetChannelInput {
 
 extension GetChannelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetChannelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetChannelOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1913,7 +1916,7 @@ public struct GetChannelOutput {
     public var channelName: Swift.String?
     /// The date and time the channel was created.
     /// This member is required.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The description for your channel.
     public var description: Swift.String?
     /// The current Entity Tag (ETag) associated with this resource. The entity tag can be used to safely make concurrent updates to the resource.
@@ -1922,7 +1925,7 @@ public struct GetChannelOutput {
     public var ingestEndpoints: [MediaPackageV2ClientTypes.IngestEndpoint]?
     /// The date and time the channel was modified.
     /// This member is required.
-    public var modifiedAt: ClientRuntime.Date?
+    public var modifiedAt: Foundation.Date?
     /// The comma-separated list of tag key:value pairs assigned to the channel.
     public var tags: [Swift.String:Swift.String]?
 
@@ -1930,11 +1933,11 @@ public struct GetChannelOutput {
         arn: Swift.String? = nil,
         channelGroupName: Swift.String? = nil,
         channelName: Swift.String? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
         eTag: Swift.String? = nil,
         ingestEndpoints: [MediaPackageV2ClientTypes.IngestEndpoint]? = nil,
-        modifiedAt: ClientRuntime.Date? = nil,
+        modifiedAt: Foundation.Date? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
     {
@@ -1952,7 +1955,7 @@ public struct GetChannelOutput {
 
 enum GetChannelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2001,7 +2004,7 @@ public struct GetChannelPolicyInput {
 
 extension GetChannelPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetChannelPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetChannelPolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2038,7 +2041,7 @@ public struct GetChannelPolicyOutput {
 
 enum GetChannelPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2296,7 +2299,7 @@ public struct GetOriginEndpointInput {
 
 extension GetOriginEndpointOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetOriginEndpointOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetOriginEndpointOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2335,7 +2338,7 @@ public struct GetOriginEndpointOutput {
     public var containerType: MediaPackageV2ClientTypes.ContainerType?
     /// The date and time the origin endpoint was created.
     /// This member is required.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// A DASH manifest configuration.
     public var dashManifests: [MediaPackageV2ClientTypes.GetDashManifestConfiguration]?
     /// The description for your origin endpoint.
@@ -2348,7 +2351,7 @@ public struct GetOriginEndpointOutput {
     public var lowLatencyHlsManifests: [MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration]?
     /// The date and time the origin endpoint was modified.
     /// This member is required.
-    public var modifiedAt: ClientRuntime.Date?
+    public var modifiedAt: Foundation.Date?
     /// The name that describes the origin endpoint. The name is the primary identifier for the origin endpoint, and and must be unique for your account in the AWS Region and channel.
     /// This member is required.
     public var originEndpointName: Swift.String?
@@ -2365,13 +2368,13 @@ public struct GetOriginEndpointOutput {
         channelGroupName: Swift.String? = nil,
         channelName: Swift.String? = nil,
         containerType: MediaPackageV2ClientTypes.ContainerType? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         dashManifests: [MediaPackageV2ClientTypes.GetDashManifestConfiguration]? = nil,
         description: Swift.String? = nil,
         eTag: Swift.String? = nil,
         hlsManifests: [MediaPackageV2ClientTypes.GetHlsManifestConfiguration]? = nil,
         lowLatencyHlsManifests: [MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration]? = nil,
-        modifiedAt: ClientRuntime.Date? = nil,
+        modifiedAt: Foundation.Date? = nil,
         originEndpointName: Swift.String? = nil,
         segment: MediaPackageV2ClientTypes.Segment? = nil,
         startoverWindowSeconds: Swift.Int? = nil,
@@ -2398,7 +2401,7 @@ public struct GetOriginEndpointOutput {
 
 enum GetOriginEndpointOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2455,7 +2458,7 @@ public struct GetOriginEndpointPolicyInput {
 
 extension GetOriginEndpointPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetOriginEndpointPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetOriginEndpointPolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2498,7 +2501,7 @@ public struct GetOriginEndpointPolicyOutput {
 
 enum GetOriginEndpointPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2584,14 +2587,14 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
 extension ListChannelGroupsInput {
 
-    static func queryItemProvider(_ value: ListChannelGroupsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListChannelGroupsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -2623,7 +2626,7 @@ public struct ListChannelGroupsInput {
 
 extension ListChannelGroupsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListChannelGroupsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListChannelGroupsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2652,7 +2655,7 @@ public struct ListChannelGroupsOutput {
 
 enum ListChannelGroupsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2669,14 +2672,14 @@ enum ListChannelGroupsOutputError {
 
 extension ListChannelsInput {
 
-    static func queryItemProvider(_ value: ListChannelsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListChannelsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -2716,7 +2719,7 @@ public struct ListChannelsInput {
 
 extension ListChannelsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListChannelsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListChannelsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2745,7 +2748,7 @@ public struct ListChannelsOutput {
 
 enum ListChannelsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2869,14 +2872,14 @@ extension MediaPackageV2ClientTypes {
 
 extension ListOriginEndpointsInput {
 
-    static func queryItemProvider(_ value: ListOriginEndpointsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListOriginEndpointsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -2924,7 +2927,7 @@ public struct ListOriginEndpointsInput {
 
 extension ListOriginEndpointsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListOriginEndpointsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListOriginEndpointsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2953,7 +2956,7 @@ public struct ListOriginEndpointsOutput {
 
 enum ListOriginEndpointsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2994,7 +2997,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3018,7 +3021,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3068,7 +3071,7 @@ extension MediaPackageV2ClientTypes {
         /// This member is required.
         public var containerType: MediaPackageV2ClientTypes.ContainerType?
         /// The date and time the origin endpoint was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// A DASH manifest configuration.
         public var dashManifests: [MediaPackageV2ClientTypes.ListDashManifestConfiguration]?
         /// Any descriptive information that you want to add to the origin endpoint for future identification purposes.
@@ -3078,7 +3081,7 @@ extension MediaPackageV2ClientTypes {
         /// A low-latency HLS manifest configuration.
         public var lowLatencyHlsManifests: [MediaPackageV2ClientTypes.ListLowLatencyHlsManifestConfiguration]?
         /// The date and time the origin endpoint was modified.
-        public var modifiedAt: ClientRuntime.Date?
+        public var modifiedAt: Foundation.Date?
         /// The name that describes the origin endpoint. The name is the primary identifier for the origin endpoint, and and must be unique for your account in the AWS Region and channel.
         /// This member is required.
         public var originEndpointName: Swift.String?
@@ -3088,12 +3091,12 @@ extension MediaPackageV2ClientTypes {
             channelGroupName: Swift.String? = nil,
             channelName: Swift.String? = nil,
             containerType: MediaPackageV2ClientTypes.ContainerType? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             dashManifests: [MediaPackageV2ClientTypes.ListDashManifestConfiguration]? = nil,
             description: Swift.String? = nil,
             hlsManifests: [MediaPackageV2ClientTypes.ListHlsManifestConfiguration]? = nil,
             lowLatencyHlsManifests: [MediaPackageV2ClientTypes.ListLowLatencyHlsManifestConfiguration]? = nil,
-            modifiedAt: ClientRuntime.Date? = nil,
+            modifiedAt: Foundation.Date? = nil,
             originEndpointName: Swift.String? = nil
         )
         {
@@ -3250,7 +3253,7 @@ public struct PutChannelPolicyInput {
 
 extension PutChannelPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutChannelPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutChannelPolicyOutput {
         return PutChannelPolicyOutput()
     }
 }
@@ -3262,7 +3265,7 @@ public struct PutChannelPolicyOutput {
 
 enum PutChannelPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3333,7 +3336,7 @@ public struct PutOriginEndpointPolicyInput {
 
 extension PutOriginEndpointPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutOriginEndpointPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutOriginEndpointPolicyOutput {
         return PutOriginEndpointPolicyOutput()
     }
 }
@@ -3345,7 +3348,7 @@ public struct PutOriginEndpointPolicyOutput {
 
 enum PutOriginEndpointPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3787,7 +3790,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -3799,7 +3802,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3879,14 +3882,14 @@ extension MediaPackageV2ClientTypes {
 
 extension UntagResourceInput {
 
-    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let tagKeys = value.tagKeys else {
             let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
         tagKeys.forEach { queryItemValue in
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
             items.append(queryItem)
         }
         return items
@@ -3923,7 +3926,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -3935,7 +3938,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3949,8 +3952,8 @@ enum UntagResourceOutputError {
 
 extension UpdateChannelGroupInput {
 
-    static func headerProvider(_ value: UpdateChannelGroupInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: UpdateChannelGroupInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let eTag = value.eTag {
             items.add(Header(name: "x-amzn-update-if-match", value: Swift.String(eTag)))
         }
@@ -3999,7 +4002,7 @@ public struct UpdateChannelGroupInput {
 
 extension UpdateChannelGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateChannelGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateChannelGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4025,7 +4028,7 @@ public struct UpdateChannelGroupOutput {
     public var channelGroupName: Swift.String?
     /// The date and time the channel group was created.
     /// This member is required.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The description for your channel group.
     public var description: Swift.String?
     /// The current Entity Tag (ETag) associated with this resource. The entity tag can be used to safely make concurrent updates to the resource.
@@ -4035,18 +4038,18 @@ public struct UpdateChannelGroupOutput {
     public var egressDomain: Swift.String?
     /// The date and time the channel group was modified.
     /// This member is required.
-    public var modifiedAt: ClientRuntime.Date?
+    public var modifiedAt: Foundation.Date?
     /// The comma-separated list of tag key:value pairs assigned to the channel group.
     public var tags: [Swift.String:Swift.String]?
 
     public init(
         arn: Swift.String? = nil,
         channelGroupName: Swift.String? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
         eTag: Swift.String? = nil,
         egressDomain: Swift.String? = nil,
-        modifiedAt: ClientRuntime.Date? = nil,
+        modifiedAt: Foundation.Date? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
     {
@@ -4063,7 +4066,7 @@ public struct UpdateChannelGroupOutput {
 
 enum UpdateChannelGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4082,8 +4085,8 @@ enum UpdateChannelGroupOutputError {
 
 extension UpdateChannelInput {
 
-    static func headerProvider(_ value: UpdateChannelInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: UpdateChannelInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let eTag = value.eTag {
             items.add(Header(name: "x-amzn-update-if-match", value: Swift.String(eTag)))
         }
@@ -4140,7 +4143,7 @@ public struct UpdateChannelInput {
 
 extension UpdateChannelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateChannelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateChannelOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4170,7 +4173,7 @@ public struct UpdateChannelOutput {
     public var channelName: Swift.String?
     /// The date and time the channel was created.
     /// This member is required.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The description for your channel.
     public var description: Swift.String?
     /// The current Entity Tag (ETag) associated with this resource. The entity tag can be used to safely make concurrent updates to the resource.
@@ -4179,7 +4182,7 @@ public struct UpdateChannelOutput {
     public var ingestEndpoints: [MediaPackageV2ClientTypes.IngestEndpoint]?
     /// The date and time the channel was modified.
     /// This member is required.
-    public var modifiedAt: ClientRuntime.Date?
+    public var modifiedAt: Foundation.Date?
     /// The comma-separated list of tag key:value pairs assigned to the channel.
     public var tags: [Swift.String:Swift.String]?
 
@@ -4187,11 +4190,11 @@ public struct UpdateChannelOutput {
         arn: Swift.String? = nil,
         channelGroupName: Swift.String? = nil,
         channelName: Swift.String? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
         eTag: Swift.String? = nil,
         ingestEndpoints: [MediaPackageV2ClientTypes.IngestEndpoint]? = nil,
-        modifiedAt: ClientRuntime.Date? = nil,
+        modifiedAt: Foundation.Date? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
     {
@@ -4209,7 +4212,7 @@ public struct UpdateChannelOutput {
 
 enum UpdateChannelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4228,8 +4231,8 @@ enum UpdateChannelOutputError {
 
 extension UpdateOriginEndpointInput {
 
-    static func headerProvider(_ value: UpdateOriginEndpointInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: UpdateOriginEndpointInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let eTag = value.eTag {
             items.add(Header(name: "x-amzn-update-if-match", value: Swift.String(eTag)))
         }
@@ -4325,7 +4328,7 @@ public struct UpdateOriginEndpointInput {
 
 extension UpdateOriginEndpointOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateOriginEndpointOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateOriginEndpointOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4364,7 +4367,7 @@ public struct UpdateOriginEndpointOutput {
     public var containerType: MediaPackageV2ClientTypes.ContainerType?
     /// The date and time the origin endpoint was created.
     /// This member is required.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// A DASH manifest configuration.
     public var dashManifests: [MediaPackageV2ClientTypes.GetDashManifestConfiguration]?
     /// The description of the origin endpoint.
@@ -4377,7 +4380,7 @@ public struct UpdateOriginEndpointOutput {
     public var lowLatencyHlsManifests: [MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration]?
     /// The date and time the origin endpoint was modified.
     /// This member is required.
-    public var modifiedAt: ClientRuntime.Date?
+    public var modifiedAt: Foundation.Date?
     /// The name that describes the origin endpoint. The name is the primary identifier for the origin endpoint, and and must be unique for your account in the AWS Region and channel.
     /// This member is required.
     public var originEndpointName: Swift.String?
@@ -4394,13 +4397,13 @@ public struct UpdateOriginEndpointOutput {
         channelGroupName: Swift.String? = nil,
         channelName: Swift.String? = nil,
         containerType: MediaPackageV2ClientTypes.ContainerType? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         dashManifests: [MediaPackageV2ClientTypes.GetDashManifestConfiguration]? = nil,
         description: Swift.String? = nil,
         eTag: Swift.String? = nil,
         hlsManifests: [MediaPackageV2ClientTypes.GetHlsManifestConfiguration]? = nil,
         lowLatencyHlsManifests: [MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration]? = nil,
-        modifiedAt: ClientRuntime.Date? = nil,
+        modifiedAt: Foundation.Date? = nil,
         originEndpointName: Swift.String? = nil,
         segment: MediaPackageV2ClientTypes.Segment? = nil,
         startoverWindowSeconds: Swift.Int? = nil,
@@ -4427,7 +4430,7 @@ public struct UpdateOriginEndpointOutput {
 
 enum UpdateOriginEndpointOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

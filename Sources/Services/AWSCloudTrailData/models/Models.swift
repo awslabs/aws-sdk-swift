@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -263,16 +265,16 @@ public struct InvalidChannelARN: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
 extension PutAuditEventsInput {
 
-    static func queryItemProvider(_ value: PutAuditEventsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: PutAuditEventsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let channelArn = value.channelArn else {
             let message = "Creating a URL Query Item failed. channelArn is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let channelArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "channelArn".urlPercentEncoding(), value: Swift.String(channelArn).urlPercentEncoding())
+        let channelArnQueryItem = Smithy.URIQueryItem(name: "channelArn".urlPercentEncoding(), value: Swift.String(channelArn).urlPercentEncoding())
         items.append(channelArnQueryItem)
         if let externalId = value.externalId {
-            let externalIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "externalId".urlPercentEncoding(), value: Swift.String(externalId).urlPercentEncoding())
+            let externalIdQueryItem = Smithy.URIQueryItem(name: "externalId".urlPercentEncoding(), value: Swift.String(externalId).urlPercentEncoding())
             items.append(externalIdQueryItem)
         }
         return items
@@ -318,7 +320,7 @@ public struct PutAuditEventsInput {
 
 extension PutAuditEventsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutAuditEventsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutAuditEventsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -349,7 +351,7 @@ public struct PutAuditEventsOutput {
 
 enum PutAuditEventsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

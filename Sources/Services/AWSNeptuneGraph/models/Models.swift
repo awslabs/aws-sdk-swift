@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -69,7 +72,7 @@ public struct CancelImportTaskInput {
 
 extension CancelImportTaskOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CancelImportTaskOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CancelImportTaskOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -122,7 +125,7 @@ public struct CancelImportTaskOutput {
 
 enum CancelImportTaskOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -140,8 +143,8 @@ enum CancelImportTaskOutputError {
 
 extension CancelQueryInput {
 
-    static func headerProvider(_ value: CancelQueryInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: CancelQueryInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let graphIdentifier = value.graphIdentifier {
             items.add(Header(name: "graphIdentifier", value: Swift.String(graphIdentifier)))
         }
@@ -179,7 +182,7 @@ public struct CancelQueryInput {
 
 extension CancelQueryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CancelQueryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CancelQueryOutput {
         return CancelQueryOutput()
     }
 }
@@ -191,7 +194,7 @@ public struct CancelQueryOutput {
 
 enum CancelQueryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -343,7 +346,7 @@ public struct CreateGraphInput {
 
 extension CreateGraphOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateGraphOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateGraphOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -374,7 +377,7 @@ public struct CreateGraphOutput {
     /// The build number of the graph software.
     public var buildNumber: Swift.String?
     /// The time when the graph was created.
-    public var createTime: ClientRuntime.Date?
+    public var createTime: Foundation.Date?
     /// A value that indicates whether the graph has deletion protection enabled. The graph can't be deleted when deletion protection is enabled.
     public var deletionProtection: Swift.Bool?
     /// The graph endpoint.
@@ -405,7 +408,7 @@ public struct CreateGraphOutput {
     public init(
         arn: Swift.String? = nil,
         buildNumber: Swift.String? = nil,
-        createTime: ClientRuntime.Date? = nil,
+        createTime: Foundation.Date? = nil,
         deletionProtection: Swift.Bool? = nil,
         endpoint: Swift.String? = nil,
         id: Swift.String? = nil,
@@ -440,7 +443,7 @@ public struct CreateGraphOutput {
 
 enum CreateGraphOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -497,7 +500,7 @@ public struct CreateGraphSnapshotInput {
 
 extension CreateGraphSnapshotOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateGraphSnapshotOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateGraphSnapshotOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -526,7 +529,7 @@ public struct CreateGraphSnapshotOutput {
     /// This member is required.
     public var name: Swift.String?
     /// The snapshot creation time
-    public var snapshotCreateTime: ClientRuntime.Date?
+    public var snapshotCreateTime: Foundation.Date?
     /// The Id of the Neptune Analytics graph from which the snapshot is created.
     public var sourceGraphId: Swift.String?
     /// The current state of the snapshot.
@@ -537,7 +540,7 @@ public struct CreateGraphSnapshotOutput {
         id: Swift.String? = nil,
         kmsKeyIdentifier: Swift.String? = nil,
         name: Swift.String? = nil,
-        snapshotCreateTime: ClientRuntime.Date? = nil,
+        snapshotCreateTime: Foundation.Date? = nil,
         sourceGraphId: Swift.String? = nil,
         status: NeptuneGraphClientTypes.SnapshotStatus? = nil
     )
@@ -554,7 +557,7 @@ public struct CreateGraphSnapshotOutput {
 
 enum CreateGraphSnapshotOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -668,7 +671,7 @@ public struct CreateGraphUsingImportTaskInput {
 
 extension CreateGraphUsingImportTaskOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateGraphUsingImportTaskOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateGraphUsingImportTaskOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -726,7 +729,7 @@ public struct CreateGraphUsingImportTaskOutput {
 
 enum CreateGraphUsingImportTaskOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -789,7 +792,7 @@ public struct CreatePrivateGraphEndpointInput {
 
 extension CreatePrivateGraphEndpointOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreatePrivateGraphEndpointOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreatePrivateGraphEndpointOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -831,7 +834,7 @@ public struct CreatePrivateGraphEndpointOutput {
 
 enum CreatePrivateGraphEndpointOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -850,13 +853,13 @@ enum CreatePrivateGraphEndpointOutputError {
 
 extension DeleteGraphInput {
 
-    static func queryItemProvider(_ value: DeleteGraphInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteGraphInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let skipSnapshot = value.skipSnapshot else {
             let message = "Creating a URL Query Item failed. skipSnapshot is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let skipSnapshotQueryItem = ClientRuntime.SDKURLQueryItem(name: "skipSnapshot".urlPercentEncoding(), value: Swift.String(skipSnapshot).urlPercentEncoding())
+        let skipSnapshotQueryItem = Smithy.URIQueryItem(name: "skipSnapshot".urlPercentEncoding(), value: Swift.String(skipSnapshot).urlPercentEncoding())
         items.append(skipSnapshotQueryItem)
         return items
     }
@@ -892,7 +895,7 @@ public struct DeleteGraphInput {
 
 extension DeleteGraphOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteGraphOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteGraphOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -923,7 +926,7 @@ public struct DeleteGraphOutput {
     /// The build number associated with the graph.
     public var buildNumber: Swift.String?
     /// The time at which the graph was created.
-    public var createTime: ClientRuntime.Date?
+    public var createTime: Foundation.Date?
     /// If true, deletion protection was enabled for the graph.
     public var deletionProtection: Swift.Bool?
     /// The graph endpoint.
@@ -954,7 +957,7 @@ public struct DeleteGraphOutput {
     public init(
         arn: Swift.String? = nil,
         buildNumber: Swift.String? = nil,
-        createTime: ClientRuntime.Date? = nil,
+        createTime: Foundation.Date? = nil,
         deletionProtection: Swift.Bool? = nil,
         endpoint: Swift.String? = nil,
         id: Swift.String? = nil,
@@ -989,7 +992,7 @@ public struct DeleteGraphOutput {
 
 enum DeleteGraphOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1030,7 +1033,7 @@ public struct DeleteGraphSnapshotInput {
 
 extension DeleteGraphSnapshotOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteGraphSnapshotOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteGraphSnapshotOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1059,7 +1062,7 @@ public struct DeleteGraphSnapshotOutput {
     /// This member is required.
     public var name: Swift.String?
     /// The time when the snapshot was created.
-    public var snapshotCreateTime: ClientRuntime.Date?
+    public var snapshotCreateTime: Foundation.Date?
     /// The graph identifier for the graph from which the snapshot was created.
     public var sourceGraphId: Swift.String?
     /// The status of the graph snapshot.
@@ -1070,7 +1073,7 @@ public struct DeleteGraphSnapshotOutput {
         id: Swift.String? = nil,
         kmsKeyIdentifier: Swift.String? = nil,
         name: Swift.String? = nil,
-        snapshotCreateTime: ClientRuntime.Date? = nil,
+        snapshotCreateTime: Foundation.Date? = nil,
         sourceGraphId: Swift.String? = nil,
         status: NeptuneGraphClientTypes.SnapshotStatus? = nil
     )
@@ -1087,7 +1090,7 @@ public struct DeleteGraphSnapshotOutput {
 
 enum DeleteGraphSnapshotOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1136,7 +1139,7 @@ public struct DeletePrivateGraphEndpointInput {
 
 extension DeletePrivateGraphEndpointOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeletePrivateGraphEndpointOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeletePrivateGraphEndpointOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1178,7 +1181,7 @@ public struct DeletePrivateGraphEndpointOutput {
 
 enum DeletePrivateGraphEndpointOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1227,8 +1230,8 @@ extension NeptuneGraphClientTypes {
 
 extension ExecuteQueryInput {
 
-    static func headerProvider(_ value: ExecuteQueryInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: ExecuteQueryInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let graphIdentifier = value.graphIdentifier {
             items.add(Header(name: "graphIdentifier", value: Swift.String(graphIdentifier)))
         }
@@ -1297,7 +1300,7 @@ public struct ExecuteQueryInput {
 
 extension ExecuteQueryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ExecuteQueryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ExecuteQueryOutput {
         var value = ExecuteQueryOutput()
         switch httpResponse.body {
         case .data(let data):
@@ -1314,10 +1317,10 @@ extension ExecuteQueryOutput {
 public struct ExecuteQueryOutput {
     /// The query results.
     /// This member is required.
-    public var payload: ClientRuntime.ByteStream?
+    public var payload: Smithy.ByteStream?
 
     public init(
-        payload: ClientRuntime.ByteStream? = nil
+        payload: Smithy.ByteStream? = nil
     )
     {
         self.payload = payload
@@ -1326,7 +1329,7 @@ public struct ExecuteQueryOutput {
 
 enum ExecuteQueryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1426,7 +1429,7 @@ public struct GetGraphInput {
 
 extension GetGraphOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetGraphOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetGraphOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1457,7 +1460,7 @@ public struct GetGraphOutput {
     /// The build number of the graph.
     public var buildNumber: Swift.String?
     /// The time at which the graph was created.
-    public var createTime: ClientRuntime.Date?
+    public var createTime: Foundation.Date?
     /// If true, deletion protection is enabled for the graph.
     public var deletionProtection: Swift.Bool?
     /// The graph endpoint.
@@ -1488,7 +1491,7 @@ public struct GetGraphOutput {
     public init(
         arn: Swift.String? = nil,
         buildNumber: Swift.String? = nil,
-        createTime: ClientRuntime.Date? = nil,
+        createTime: Foundation.Date? = nil,
         deletionProtection: Swift.Bool? = nil,
         endpoint: Swift.String? = nil,
         id: Swift.String? = nil,
@@ -1523,7 +1526,7 @@ public struct GetGraphOutput {
 
 enum GetGraphOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1563,7 +1566,7 @@ public struct GetGraphSnapshotInput {
 
 extension GetGraphSnapshotOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetGraphSnapshotOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetGraphSnapshotOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1592,7 +1595,7 @@ public struct GetGraphSnapshotOutput {
     /// This member is required.
     public var name: Swift.String?
     /// The time when the snapshot was created.
-    public var snapshotCreateTime: ClientRuntime.Date?
+    public var snapshotCreateTime: Foundation.Date?
     /// The graph identifier for the graph for which a snapshot is to be created.
     public var sourceGraphId: Swift.String?
     /// The status of the graph snapshot.
@@ -1603,7 +1606,7 @@ public struct GetGraphSnapshotOutput {
         id: Swift.String? = nil,
         kmsKeyIdentifier: Swift.String? = nil,
         name: Swift.String? = nil,
-        snapshotCreateTime: ClientRuntime.Date? = nil,
+        snapshotCreateTime: Foundation.Date? = nil,
         sourceGraphId: Swift.String? = nil,
         status: NeptuneGraphClientTypes.SnapshotStatus? = nil
     )
@@ -1620,7 +1623,7 @@ public struct GetGraphSnapshotOutput {
 
 enum GetGraphSnapshotOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1637,8 +1640,8 @@ enum GetGraphSnapshotOutputError {
 
 extension GetGraphSummaryInput {
 
-    static func headerProvider(_ value: GetGraphSummaryInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetGraphSummaryInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let graphIdentifier = value.graphIdentifier {
             items.add(Header(name: "graphIdentifier", value: Swift.String(graphIdentifier)))
         }
@@ -1648,10 +1651,10 @@ extension GetGraphSummaryInput {
 
 extension GetGraphSummaryInput {
 
-    static func queryItemProvider(_ value: GetGraphSummaryInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetGraphSummaryInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let mode = value.mode {
-            let modeQueryItem = ClientRuntime.SDKURLQueryItem(name: "mode".urlPercentEncoding(), value: Swift.String(mode.rawValue).urlPercentEncoding())
+            let modeQueryItem = Smithy.URIQueryItem(name: "mode".urlPercentEncoding(), value: Swift.String(mode.rawValue).urlPercentEncoding())
             items.append(modeQueryItem)
         }
         return items
@@ -1684,7 +1687,7 @@ public struct GetGraphSummaryInput {
 
 extension GetGraphSummaryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetGraphSummaryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetGraphSummaryOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1700,13 +1703,13 @@ public struct GetGraphSummaryOutput {
     /// The graph summary.
     public var graphSummary: NeptuneGraphClientTypes.GraphDataSummary?
     /// The timestamp, in ISO 8601 format, of the time at which Neptune Analytics last computed statistics.
-    public var lastStatisticsComputationTime: ClientRuntime.Date?
+    public var lastStatisticsComputationTime: Foundation.Date?
     /// Display the version of this tool.
     public var version: Swift.String?
 
     public init(
         graphSummary: NeptuneGraphClientTypes.GraphDataSummary? = nil,
-        lastStatisticsComputationTime: ClientRuntime.Date? = nil,
+        lastStatisticsComputationTime: Foundation.Date? = nil,
         version: Swift.String? = nil
     )
     {
@@ -1718,7 +1721,7 @@ public struct GetGraphSummaryOutput {
 
 enum GetGraphSummaryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1759,7 +1762,7 @@ public struct GetImportTaskInput {
 
 extension GetImportTaskOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetImportTaskOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetImportTaskOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1852,7 +1855,7 @@ public struct GetImportTaskOutput {
 
 enum GetImportTaskOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1900,7 +1903,7 @@ public struct GetPrivateGraphEndpointInput {
 
 extension GetPrivateGraphEndpointOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetPrivateGraphEndpointOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetPrivateGraphEndpointOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1942,7 +1945,7 @@ public struct GetPrivateGraphEndpointOutput {
 
 enum GetPrivateGraphEndpointOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1959,8 +1962,8 @@ enum GetPrivateGraphEndpointOutputError {
 
 extension GetQueryInput {
 
-    static func headerProvider(_ value: GetQueryInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetQueryInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let graphIdentifier = value.graphIdentifier {
             items.add(Header(name: "graphIdentifier", value: Swift.String(graphIdentifier)))
         }
@@ -1998,7 +2001,7 @@ public struct GetQueryInput {
 
 extension GetQueryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetQueryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetQueryOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2042,7 +2045,7 @@ public struct GetQueryOutput {
 
 enum GetQueryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2180,7 +2183,7 @@ extension NeptuneGraphClientTypes {
         /// This member is required.
         public var name: Swift.String?
         /// The time when the snapshot was created.
-        public var snapshotCreateTime: ClientRuntime.Date?
+        public var snapshotCreateTime: Foundation.Date?
         /// The graph identifier for the graph for which a snapshot is to be created.
         public var sourceGraphId: Swift.String?
         /// The status of the graph snapshot.
@@ -2191,7 +2194,7 @@ extension NeptuneGraphClientTypes {
             id: Swift.String? = nil,
             kmsKeyIdentifier: Swift.String? = nil,
             name: Swift.String? = nil,
-            snapshotCreateTime: ClientRuntime.Date? = nil,
+            snapshotCreateTime: Foundation.Date? = nil,
             sourceGraphId: Swift.String? = nil,
             status: NeptuneGraphClientTypes.SnapshotStatus? = nil
         )
@@ -2425,7 +2428,7 @@ extension NeptuneGraphClientTypes {
         public var progressPercentage: Swift.Int?
         /// Time at which the import task started.
         /// This member is required.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
         /// The number of statements in the import task.
         /// This member is required.
         public var statementCount: Swift.Int?
@@ -2441,7 +2444,7 @@ extension NeptuneGraphClientTypes {
             errorCount: Swift.Int? = nil,
             errorDetails: Swift.String? = nil,
             progressPercentage: Swift.Int? = nil,
-            startTime: ClientRuntime.Date? = nil,
+            startTime: Foundation.Date? = nil,
             statementCount: Swift.Int? = nil,
             status: Swift.String? = nil,
             timeElapsedSeconds: Swift.Int? = nil
@@ -2609,18 +2612,18 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
 extension ListGraphSnapshotsInput {
 
-    static func queryItemProvider(_ value: ListGraphSnapshotsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListGraphSnapshotsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let graphIdentifier = value.graphIdentifier {
-            let graphIdentifierQueryItem = ClientRuntime.SDKURLQueryItem(name: "graphIdentifier".urlPercentEncoding(), value: Swift.String(graphIdentifier).urlPercentEncoding())
+            let graphIdentifierQueryItem = Smithy.URIQueryItem(name: "graphIdentifier".urlPercentEncoding(), value: Swift.String(graphIdentifier).urlPercentEncoding())
             items.append(graphIdentifierQueryItem)
         }
         return items
@@ -2656,7 +2659,7 @@ public struct ListGraphSnapshotsInput {
 
 extension ListGraphSnapshotsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListGraphSnapshotsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListGraphSnapshotsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2686,7 +2689,7 @@ public struct ListGraphSnapshotsOutput {
 
 enum ListGraphSnapshotsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2703,14 +2706,14 @@ enum ListGraphSnapshotsOutputError {
 
 extension ListGraphsInput {
 
-    static func queryItemProvider(_ value: ListGraphsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListGraphsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -2742,7 +2745,7 @@ public struct ListGraphsInput {
 
 extension ListGraphsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListGraphsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListGraphsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2772,7 +2775,7 @@ public struct ListGraphsOutput {
 
 enum ListGraphsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2788,14 +2791,14 @@ enum ListGraphsOutputError {
 
 extension ListImportTasksInput {
 
-    static func queryItemProvider(_ value: ListImportTasksInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListImportTasksInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -2827,7 +2830,7 @@ public struct ListImportTasksInput {
 
 extension ListImportTasksOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListImportTasksOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListImportTasksOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2857,7 +2860,7 @@ public struct ListImportTasksOutput {
 
 enum ListImportTasksOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2874,14 +2877,14 @@ enum ListImportTasksOutputError {
 
 extension ListPrivateGraphEndpointsInput {
 
-    static func queryItemProvider(_ value: ListPrivateGraphEndpointsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListPrivateGraphEndpointsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -2921,7 +2924,7 @@ public struct ListPrivateGraphEndpointsInput {
 
 extension ListPrivateGraphEndpointsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPrivateGraphEndpointsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPrivateGraphEndpointsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2951,7 +2954,7 @@ public struct ListPrivateGraphEndpointsOutput {
 
 enum ListPrivateGraphEndpointsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2968,8 +2971,8 @@ enum ListPrivateGraphEndpointsOutputError {
 
 extension ListQueriesInput {
 
-    static func headerProvider(_ value: ListQueriesInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: ListQueriesInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let graphIdentifier = value.graphIdentifier {
             items.add(Header(name: "graphIdentifier", value: Swift.String(graphIdentifier)))
         }
@@ -2979,16 +2982,16 @@ extension ListQueriesInput {
 
 extension ListQueriesInput {
 
-    static func queryItemProvider(_ value: ListQueriesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListQueriesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let maxResults = value.maxResults else {
             let message = "Creating a URL Query Item failed. maxResults is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+        let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
         items.append(maxResultsQueryItem)
         if let state = value.state {
-            let stateQueryItem = ClientRuntime.SDKURLQueryItem(name: "state".urlPercentEncoding(), value: Swift.String(state.rawValue).urlPercentEncoding())
+            let stateQueryItem = Smithy.URIQueryItem(name: "state".urlPercentEncoding(), value: Swift.String(state.rawValue).urlPercentEncoding())
             items.append(stateQueryItem)
         }
         return items
@@ -3026,7 +3029,7 @@ public struct ListQueriesInput {
 
 extension ListQueriesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListQueriesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListQueriesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3051,7 +3054,7 @@ public struct ListQueriesOutput {
 
 enum ListQueriesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3091,7 +3094,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3115,7 +3118,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3507,7 +3510,7 @@ public struct ResetGraphInput {
 
 extension ResetGraphOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ResetGraphOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ResetGraphOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3538,7 +3541,7 @@ public struct ResetGraphOutput {
     /// The build number of the graph.
     public var buildNumber: Swift.String?
     /// The time at which the graph was created.
-    public var createTime: ClientRuntime.Date?
+    public var createTime: Foundation.Date?
     /// If true, deletion protection is enabled for the graph.
     public var deletionProtection: Swift.Bool?
     /// The graph endpoint.
@@ -3569,7 +3572,7 @@ public struct ResetGraphOutput {
     public init(
         arn: Swift.String? = nil,
         buildNumber: Swift.String? = nil,
-        createTime: ClientRuntime.Date? = nil,
+        createTime: Foundation.Date? = nil,
         deletionProtection: Swift.Bool? = nil,
         endpoint: Swift.String? = nil,
         id: Swift.String? = nil,
@@ -3604,7 +3607,7 @@ public struct ResetGraphOutput {
 
 enum ResetGraphOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3722,7 +3725,7 @@ public struct RestoreGraphFromSnapshotInput {
 
 extension RestoreGraphFromSnapshotOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RestoreGraphFromSnapshotOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RestoreGraphFromSnapshotOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3753,7 +3756,7 @@ public struct RestoreGraphFromSnapshotOutput {
     /// The build number of the graph.
     public var buildNumber: Swift.String?
     /// The time at which the graph was created.
-    public var createTime: ClientRuntime.Date?
+    public var createTime: Foundation.Date?
     /// If true, deletion protection is enabled for the graph.
     public var deletionProtection: Swift.Bool?
     /// The graph endpoint.
@@ -3784,7 +3787,7 @@ public struct RestoreGraphFromSnapshotOutput {
     public init(
         arn: Swift.String? = nil,
         buildNumber: Swift.String? = nil,
-        createTime: ClientRuntime.Date? = nil,
+        createTime: Foundation.Date? = nil,
         deletionProtection: Swift.Bool? = nil,
         endpoint: Swift.String? = nil,
         id: Swift.String? = nil,
@@ -3819,7 +3822,7 @@ public struct RestoreGraphFromSnapshotOutput {
 
 enum RestoreGraphFromSnapshotOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3988,7 +3991,7 @@ public struct StartImportTaskInput {
 
 extension StartImportTaskOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartImportTaskOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartImportTaskOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4046,7 +4049,7 @@ public struct StartImportTaskOutput {
 
 enum StartImportTaskOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4100,7 +4103,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -4112,7 +4115,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4250,14 +4253,14 @@ extension NeptuneGraphClientTypes {
 
 extension UntagResourceInput {
 
-    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let tagKeys = value.tagKeys else {
             let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
         tagKeys.forEach { queryItemValue in
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
             items.append(queryItem)
         }
         return items
@@ -4294,7 +4297,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -4306,7 +4309,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4368,7 +4371,7 @@ public struct UpdateGraphInput {
 
 extension UpdateGraphOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateGraphOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateGraphOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4399,7 +4402,7 @@ public struct UpdateGraphOutput {
     /// The build number of the graph.
     public var buildNumber: Swift.String?
     /// The time at which the graph was created.
-    public var createTime: ClientRuntime.Date?
+    public var createTime: Foundation.Date?
     /// If true, deletion protection is enabled for the graph.
     public var deletionProtection: Swift.Bool?
     /// The graph endpoint.
@@ -4430,7 +4433,7 @@ public struct UpdateGraphOutput {
     public init(
         arn: Swift.String? = nil,
         buildNumber: Swift.String? = nil,
-        createTime: ClientRuntime.Date? = nil,
+        createTime: Foundation.Date? = nil,
         deletionProtection: Swift.Bool? = nil,
         endpoint: Swift.String? = nil,
         id: Swift.String? = nil,
@@ -4465,7 +4468,7 @@ public struct UpdateGraphOutput {
 
 enum UpdateGraphOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

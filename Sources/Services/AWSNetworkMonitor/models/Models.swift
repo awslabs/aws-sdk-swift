@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -158,7 +161,7 @@ public struct CreateMonitorInput {
 
 extension CreateMonitorOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateMonitorOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateMonitorOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -205,7 +208,7 @@ public struct CreateMonitorOutput {
 
 enum CreateMonitorOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -322,7 +325,7 @@ public struct CreateProbeInput {
 
 extension CreateProbeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateProbeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateProbeOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -348,14 +351,14 @@ public struct CreateProbeOutput {
     /// Indicates whether the IP address is IPV4 or IPV6.
     public var addressFamily: NetworkMonitorClientTypes.AddressFamily?
     /// The time and date that the probe was created.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The destination IP address for the monitor. This must be either an IPv4 or IPv6 address.
     /// This member is required.
     public var destination: Swift.String?
     /// The port associated with the destination. This is required only if the protocol is TCP and must be a number between 1 and 65536.
     public var destinationPort: Swift.Int?
     /// The time and date when the probe was last modified.
-    public var modifiedAt: ClientRuntime.Date?
+    public var modifiedAt: Foundation.Date?
     /// The size of the packets sent between the source and destination. This must be a number between 56 and 8500.
     public var packetSize: Swift.Int?
     /// The ARN of the probe.
@@ -377,10 +380,10 @@ public struct CreateProbeOutput {
 
     public init(
         addressFamily: NetworkMonitorClientTypes.AddressFamily? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         destination: Swift.String? = nil,
         destinationPort: Swift.Int? = nil,
-        modifiedAt: ClientRuntime.Date? = nil,
+        modifiedAt: Foundation.Date? = nil,
         packetSize: Swift.Int? = nil,
         probeArn: Swift.String? = nil,
         probeId: Swift.String? = nil,
@@ -409,7 +412,7 @@ public struct CreateProbeOutput {
 
 enum CreateProbeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -451,7 +454,7 @@ public struct DeleteMonitorInput {
 
 extension DeleteMonitorOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteMonitorOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteMonitorOutput {
         return DeleteMonitorOutput()
     }
 }
@@ -463,7 +466,7 @@ public struct DeleteMonitorOutput {
 
 enum DeleteMonitorOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -512,7 +515,7 @@ public struct DeleteProbeInput {
 
 extension DeleteProbeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteProbeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteProbeOutput {
         return DeleteProbeOutput()
     }
 }
@@ -524,7 +527,7 @@ public struct DeleteProbeOutput {
 
 enum DeleteProbeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -566,7 +569,7 @@ public struct GetMonitorInput {
 
 extension GetMonitorOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetMonitorOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetMonitorOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -589,10 +592,10 @@ public struct GetMonitorOutput {
     public var aggregationPeriod: Swift.Int?
     /// The time and date when the monitor was created.
     /// This member is required.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The time and date when the monitor was last modified.
     /// This member is required.
-    public var modifiedAt: ClientRuntime.Date?
+    public var modifiedAt: Foundation.Date?
     /// The ARN of the selected monitor.
     /// This member is required.
     public var monitorArn: Swift.String?
@@ -609,8 +612,8 @@ public struct GetMonitorOutput {
 
     public init(
         aggregationPeriod: Swift.Int? = nil,
-        createdAt: ClientRuntime.Date? = nil,
-        modifiedAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
+        modifiedAt: Foundation.Date? = nil,
         monitorArn: Swift.String? = nil,
         monitorName: Swift.String? = nil,
         probes: [NetworkMonitorClientTypes.Probe]? = nil,
@@ -631,7 +634,7 @@ public struct GetMonitorOutput {
 
 enum GetMonitorOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -680,7 +683,7 @@ public struct GetProbeInput {
 
 extension GetProbeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetProbeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetProbeOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -706,14 +709,14 @@ public struct GetProbeOutput {
     /// Indicates whether the IP address is IPV4 or IPV6.
     public var addressFamily: NetworkMonitorClientTypes.AddressFamily?
     /// The time and date that the probe was created.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The destination IP address for the monitor. This must be either an IPv4 or IPv6 address.
     /// This member is required.
     public var destination: Swift.String?
     /// The port associated with the destination. This is required only if the protocol is TCP and must be a number between 1 and 65536.
     public var destinationPort: Swift.Int?
     /// The time and date that the probe was last modified.
-    public var modifiedAt: ClientRuntime.Date?
+    public var modifiedAt: Foundation.Date?
     /// The size of the packets sent between the source and destination. This must be a number between 56 and 8500.
     public var packetSize: Swift.Int?
     /// The ARN of the probe.
@@ -735,10 +738,10 @@ public struct GetProbeOutput {
 
     public init(
         addressFamily: NetworkMonitorClientTypes.AddressFamily? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         destination: Swift.String? = nil,
         destinationPort: Swift.Int? = nil,
-        modifiedAt: ClientRuntime.Date? = nil,
+        modifiedAt: Foundation.Date? = nil,
         packetSize: Swift.Int? = nil,
         probeArn: Swift.String? = nil,
         probeId: Swift.String? = nil,
@@ -767,7 +770,7 @@ public struct GetProbeOutput {
 
 enum GetProbeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -822,18 +825,18 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
 extension ListMonitorsInput {
 
-    static func queryItemProvider(_ value: ListMonitorsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListMonitorsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let state = value.state {
-            let stateQueryItem = ClientRuntime.SDKURLQueryItem(name: "state".urlPercentEncoding(), value: Swift.String(state).urlPercentEncoding())
+            let stateQueryItem = Smithy.URIQueryItem(name: "state".urlPercentEncoding(), value: Swift.String(state).urlPercentEncoding())
             items.append(stateQueryItem)
         }
         return items
@@ -869,7 +872,7 @@ public struct ListMonitorsInput {
 
 extension ListMonitorsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListMonitorsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListMonitorsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -899,7 +902,7 @@ public struct ListMonitorsOutput {
 
 enum ListMonitorsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -939,7 +942,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -963,7 +966,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1097,14 +1100,14 @@ extension NetworkMonitorClientTypes {
         /// The IPv4 or IPv6 address for the probe.
         public var addressFamily: NetworkMonitorClientTypes.AddressFamily?
         /// The time and date the probe was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The destination for the probe. This should be either an IPV4 or IPV6.
         /// This member is required.
         public var destination: Swift.String?
         /// The destination port for the probe. This is required only if the protocol is TCP and must be a number between 1 and 65536.
         public var destinationPort: Swift.Int?
         /// The time and date that the probe was last modified.
-        public var modifiedAt: ClientRuntime.Date?
+        public var modifiedAt: Foundation.Date?
         /// The size of the packets traveling between the source and destination. This must be a number between 56 and
         public var packetSize: Swift.Int?
         /// The ARN of the probe.
@@ -1126,10 +1129,10 @@ extension NetworkMonitorClientTypes {
 
         public init(
             addressFamily: NetworkMonitorClientTypes.AddressFamily? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             destination: Swift.String? = nil,
             destinationPort: Swift.Int? = nil,
-            modifiedAt: ClientRuntime.Date? = nil,
+            modifiedAt: Foundation.Date? = nil,
             packetSize: Swift.Int? = nil,
             probeArn: Swift.String? = nil,
             probeId: Swift.String? = nil,
@@ -1392,7 +1395,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -1404,7 +1407,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1460,14 +1463,14 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension UntagResourceInput {
 
-    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let tagKeys = value.tagKeys else {
             let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
         tagKeys.forEach { queryItemValue in
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
             items.append(queryItem)
         }
         return items
@@ -1504,7 +1507,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -1516,7 +1519,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1571,7 +1574,7 @@ public struct UpdateMonitorInput {
 
 extension UpdateMonitorOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateMonitorOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateMonitorOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1618,7 +1621,7 @@ public struct UpdateMonitorOutput {
 
 enum UpdateMonitorOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1700,7 +1703,7 @@ public struct UpdateProbeInput {
 
 extension UpdateProbeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateProbeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateProbeOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1726,14 +1729,14 @@ public struct UpdateProbeOutput {
     /// The updated IP address family. This must be either IPV4 or IPV6.
     public var addressFamily: NetworkMonitorClientTypes.AddressFamily?
     /// The time and date that the probe was created.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The updated destination IP address for the probe.
     /// This member is required.
     public var destination: Swift.String?
     /// The updated destination port. This must be a number between 1 and 65536.
     public var destinationPort: Swift.Int?
     /// The time and date that the probe was last updated.
-    public var modifiedAt: ClientRuntime.Date?
+    public var modifiedAt: Foundation.Date?
     /// The updated packet size for the probe.
     public var packetSize: Swift.Int?
     /// The updated ARN of the probe.
@@ -1755,10 +1758,10 @@ public struct UpdateProbeOutput {
 
     public init(
         addressFamily: NetworkMonitorClientTypes.AddressFamily? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         destination: Swift.String? = nil,
         destinationPort: Swift.Int? = nil,
-        modifiedAt: ClientRuntime.Date? = nil,
+        modifiedAt: Foundation.Date? = nil,
         packetSize: Swift.Int? = nil,
         probeArn: Swift.String? = nil,
         probeId: Swift.String? = nil,
@@ -1787,7 +1790,7 @@ public struct UpdateProbeOutput {
 
 enum UpdateProbeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

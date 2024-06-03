@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -271,7 +273,7 @@ public struct AssociateOriginationIdentityInput {
 
 extension AssociateOriginationIdentityOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AssociateOriginationIdentityOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AssociateOriginationIdentityOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -315,7 +317,7 @@ public struct AssociateOriginationIdentityOutput {
 
 enum AssociateOriginationIdentityOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -369,7 +371,7 @@ public struct AssociateProtectConfigurationInput {
 
 extension AssociateProtectConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AssociateProtectConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AssociateProtectConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -412,7 +414,7 @@ public struct AssociateProtectConfigurationOutput {
 
 enum AssociateProtectConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -625,7 +627,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public var configurationSetName: Swift.String?
         /// The time when the ConfigurationSet was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
         /// This member is required.
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive.
         public var defaultMessageType: PinpointSMSVoiceV2ClientTypes.MessageType?
         /// The default sender ID used by the ConfigurationSet.
@@ -639,7 +641,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public init(
             configurationSetArn: Swift.String? = nil,
             configurationSetName: Swift.String? = nil,
-            createdTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
             defaultMessageType: PinpointSMSVoiceV2ClientTypes.MessageType? = nil,
             defaultSenderId: Swift.String? = nil,
             eventDestinations: [PinpointSMSVoiceV2ClientTypes.EventDestination]? = nil,
@@ -878,7 +880,7 @@ public struct CreateConfigurationSetInput {
 
 extension CreateConfigurationSetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateConfigurationSetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateConfigurationSetOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -897,14 +899,14 @@ public struct CreateConfigurationSetOutput {
     /// The name of the new configuration set.
     public var configurationSetName: Swift.String?
     /// The time when the configuration set was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
-    public var createdTimestamp: ClientRuntime.Date?
+    public var createdTimestamp: Foundation.Date?
     /// An array of key and value pair tags that's associated with the configuration set.
     public var tags: [PinpointSMSVoiceV2ClientTypes.Tag]?
 
     public init(
         configurationSetArn: Swift.String? = nil,
         configurationSetName: Swift.String? = nil,
-        createdTimestamp: ClientRuntime.Date? = nil,
+        createdTimestamp: Foundation.Date? = nil,
         tags: [PinpointSMSVoiceV2ClientTypes.Tag]? = nil
     )
     {
@@ -917,7 +919,7 @@ public struct CreateConfigurationSetOutput {
 
 enum CreateConfigurationSetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -996,7 +998,7 @@ public struct CreateEventDestinationInput {
 
 extension CreateEventDestinationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateEventDestinationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateEventDestinationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1030,7 +1032,7 @@ public struct CreateEventDestinationOutput {
 
 enum CreateEventDestinationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1088,7 +1090,7 @@ public struct CreateOptOutListInput {
 
 extension CreateOptOutListOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateOptOutListOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateOptOutListOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1103,7 +1105,7 @@ extension CreateOptOutListOutput {
 
 public struct CreateOptOutListOutput {
     /// The time when the pool was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
-    public var createdTimestamp: ClientRuntime.Date?
+    public var createdTimestamp: Foundation.Date?
     /// The Amazon Resource Name (ARN) for the OptOutList.
     public var optOutListArn: Swift.String?
     /// The name of the new OptOutList.
@@ -1112,7 +1114,7 @@ public struct CreateOptOutListOutput {
     public var tags: [PinpointSMSVoiceV2ClientTypes.Tag]?
 
     public init(
-        createdTimestamp: ClientRuntime.Date? = nil,
+        createdTimestamp: Foundation.Date? = nil,
         optOutListArn: Swift.String? = nil,
         optOutListName: Swift.String? = nil,
         tags: [PinpointSMSVoiceV2ClientTypes.Tag]? = nil
@@ -1127,7 +1129,7 @@ public struct CreateOptOutListOutput {
 
 enum CreateOptOutListOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1201,7 +1203,7 @@ public struct CreatePoolInput {
 
 extension CreatePoolOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreatePoolOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreatePoolOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1225,7 +1227,7 @@ extension CreatePoolOutput {
 
 public struct CreatePoolOutput {
     /// The time when the pool was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
-    public var createdTimestamp: ClientRuntime.Date?
+    public var createdTimestamp: Foundation.Date?
     /// When set to true deletion protection is enabled. By default this is set to false.
     public var deletionProtectionEnabled: Swift.Bool
     /// The type of message for the pool to use.
@@ -1258,7 +1260,7 @@ public struct CreatePoolOutput {
     public var twoWayEnabled: Swift.Bool
 
     public init(
-        createdTimestamp: ClientRuntime.Date? = nil,
+        createdTimestamp: Foundation.Date? = nil,
         deletionProtectionEnabled: Swift.Bool = false,
         messageType: PinpointSMSVoiceV2ClientTypes.MessageType? = nil,
         optOutListName: Swift.String? = nil,
@@ -1291,7 +1293,7 @@ public struct CreatePoolOutput {
 
 enum CreatePoolOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1348,7 +1350,7 @@ public struct CreateProtectConfigurationInput {
 
 extension CreateProtectConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateProtectConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateProtectConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1369,7 +1371,7 @@ public struct CreateProtectConfigurationOutput {
     public var accountDefault: Swift.Bool
     /// The time when the protect configuration was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
     /// This member is required.
-    public var createdTimestamp: ClientRuntime.Date?
+    public var createdTimestamp: Foundation.Date?
     /// When set to true deletion protection is enabled. By default this is set to false.
     /// This member is required.
     public var deletionProtectionEnabled: Swift.Bool
@@ -1384,7 +1386,7 @@ public struct CreateProtectConfigurationOutput {
 
     public init(
         accountDefault: Swift.Bool = false,
-        createdTimestamp: ClientRuntime.Date? = nil,
+        createdTimestamp: Foundation.Date? = nil,
         deletionProtectionEnabled: Swift.Bool = false,
         protectConfigurationArn: Swift.String? = nil,
         protectConfigurationId: Swift.String? = nil,
@@ -1402,7 +1404,7 @@ public struct CreateProtectConfigurationOutput {
 
 enum CreateProtectConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1454,7 +1456,7 @@ public struct CreateRegistrationAssociationInput {
 
 extension CreateRegistrationAssociationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateRegistrationAssociationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateRegistrationAssociationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1519,7 +1521,7 @@ public struct CreateRegistrationAssociationOutput {
 
 enum CreateRegistrationAssociationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1557,7 +1559,7 @@ extension CreateRegistrationAttachmentInput {
 
 public struct CreateRegistrationAttachmentInput {
     /// The registration file to upload. The maximum file size is 1MiB and valid file extensions are PDF, JPEG and PNG.
-    public var attachmentBody: ClientRuntime.Data?
+    public var attachmentBody: Foundation.Data?
     /// A URL to the required registration file. For example, you can provide the S3 object URL.
     public var attachmentUrl: Swift.String?
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
@@ -1566,7 +1568,7 @@ public struct CreateRegistrationAttachmentInput {
     public var tags: [PinpointSMSVoiceV2ClientTypes.Tag]?
 
     public init(
-        attachmentBody: ClientRuntime.Data? = nil,
+        attachmentBody: Foundation.Data? = nil,
         attachmentUrl: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         tags: [PinpointSMSVoiceV2ClientTypes.Tag]? = nil
@@ -1581,7 +1583,7 @@ public struct CreateRegistrationAttachmentInput {
 
 extension CreateRegistrationAttachmentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateRegistrationAttachmentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateRegistrationAttachmentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1609,7 +1611,7 @@ public struct CreateRegistrationAttachmentOutput {
     public var attachmentStatus: PinpointSMSVoiceV2ClientTypes.AttachmentStatus?
     /// The time when the registration attachment was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
     /// This member is required.
-    public var createdTimestamp: ClientRuntime.Date?
+    public var createdTimestamp: Foundation.Date?
     /// The Amazon Resource Name (ARN) for the registration attachment.
     /// This member is required.
     public var registrationAttachmentArn: Swift.String?
@@ -1621,7 +1623,7 @@ public struct CreateRegistrationAttachmentOutput {
 
     public init(
         attachmentStatus: PinpointSMSVoiceV2ClientTypes.AttachmentStatus? = nil,
-        createdTimestamp: ClientRuntime.Date? = nil,
+        createdTimestamp: Foundation.Date? = nil,
         registrationAttachmentArn: Swift.String? = nil,
         registrationAttachmentId: Swift.String? = nil,
         tags: [PinpointSMSVoiceV2ClientTypes.Tag]? = nil
@@ -1637,7 +1639,7 @@ public struct CreateRegistrationAttachmentOutput {
 
 enum CreateRegistrationAttachmentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1694,7 +1696,7 @@ public struct CreateRegistrationInput {
 
 extension CreateRegistrationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateRegistrationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateRegistrationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1716,7 +1718,7 @@ public struct CreateRegistrationOutput {
     public var additionalAttributes: [Swift.String:Swift.String]?
     /// The time when the registration was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
     /// This member is required.
-    public var createdTimestamp: ClientRuntime.Date?
+    public var createdTimestamp: Foundation.Date?
     /// The current version number of the registration.
     /// This member is required.
     public var currentVersionNumber: Swift.Int?
@@ -1753,7 +1755,7 @@ public struct CreateRegistrationOutput {
 
     public init(
         additionalAttributes: [Swift.String:Swift.String]? = nil,
-        createdTimestamp: ClientRuntime.Date? = nil,
+        createdTimestamp: Foundation.Date? = nil,
         currentVersionNumber: Swift.Int? = nil,
         registrationArn: Swift.String? = nil,
         registrationId: Swift.String? = nil,
@@ -1775,7 +1777,7 @@ public struct CreateRegistrationOutput {
 
 enum CreateRegistrationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1822,7 +1824,7 @@ public struct CreateRegistrationVersionInput {
 
 extension CreateRegistrationVersionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateRegistrationVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateRegistrationVersionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1887,7 +1889,7 @@ public struct CreateRegistrationVersionOutput {
 
 enum CreateRegistrationVersionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1945,7 +1947,7 @@ public struct CreateVerifiedDestinationNumberInput {
 
 extension CreateVerifiedDestinationNumberOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateVerifiedDestinationNumberOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateVerifiedDestinationNumberOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1963,7 +1965,7 @@ extension CreateVerifiedDestinationNumberOutput {
 public struct CreateVerifiedDestinationNumberOutput {
     /// The time when the verified phone number was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
     /// This member is required.
-    public var createdTimestamp: ClientRuntime.Date?
+    public var createdTimestamp: Foundation.Date?
     /// The verified destination phone number, in E.164 format.
     /// This member is required.
     public var destinationPhoneNumber: Swift.String?
@@ -1984,7 +1986,7 @@ public struct CreateVerifiedDestinationNumberOutput {
     public var verifiedDestinationNumberId: Swift.String?
 
     public init(
-        createdTimestamp: ClientRuntime.Date? = nil,
+        createdTimestamp: Foundation.Date? = nil,
         destinationPhoneNumber: Swift.String? = nil,
         status: PinpointSMSVoiceV2ClientTypes.VerificationStatus? = nil,
         tags: [PinpointSMSVoiceV2ClientTypes.Tag]? = nil,
@@ -2003,7 +2005,7 @@ public struct CreateVerifiedDestinationNumberOutput {
 
 enum CreateVerifiedDestinationNumberOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2042,7 +2044,7 @@ public struct DeleteAccountDefaultProtectConfigurationInput {
 
 extension DeleteAccountDefaultProtectConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteAccountDefaultProtectConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteAccountDefaultProtectConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2073,7 +2075,7 @@ public struct DeleteAccountDefaultProtectConfigurationOutput {
 
 enum DeleteAccountDefaultProtectConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2119,7 +2121,7 @@ public struct DeleteConfigurationSetInput {
 
 extension DeleteConfigurationSetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteConfigurationSetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteConfigurationSetOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2140,7 +2142,7 @@ public struct DeleteConfigurationSetOutput {
     /// The name of the deleted configuration set.
     public var configurationSetName: Swift.String?
     /// The time that the deleted configuration set was created in [UNIX epoch time](https://www.epochconverter.com/) format.
-    public var createdTimestamp: ClientRuntime.Date?
+    public var createdTimestamp: Foundation.Date?
     /// The default message type of the configuration set that was deleted.
     public var defaultMessageType: PinpointSMSVoiceV2ClientTypes.MessageType?
     /// The default Sender ID of the configuration set that was deleted.
@@ -2151,7 +2153,7 @@ public struct DeleteConfigurationSetOutput {
     public init(
         configurationSetArn: Swift.String? = nil,
         configurationSetName: Swift.String? = nil,
-        createdTimestamp: ClientRuntime.Date? = nil,
+        createdTimestamp: Foundation.Date? = nil,
         defaultMessageType: PinpointSMSVoiceV2ClientTypes.MessageType? = nil,
         defaultSenderId: Swift.String? = nil,
         eventDestinations: [PinpointSMSVoiceV2ClientTypes.EventDestination]? = nil
@@ -2168,7 +2170,7 @@ public struct DeleteConfigurationSetOutput {
 
 enum DeleteConfigurationSetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2214,7 +2216,7 @@ public struct DeleteDefaultMessageTypeInput {
 
 extension DeleteDefaultMessageTypeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteDefaultMessageTypeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteDefaultMessageTypeOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2248,7 +2250,7 @@ public struct DeleteDefaultMessageTypeOutput {
 
 enum DeleteDefaultMessageTypeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2294,7 +2296,7 @@ public struct DeleteDefaultSenderIdInput {
 
 extension DeleteDefaultSenderIdOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteDefaultSenderIdOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteDefaultSenderIdOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2328,7 +2330,7 @@ public struct DeleteDefaultSenderIdOutput {
 
 enum DeleteDefaultSenderIdOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2380,7 +2382,7 @@ public struct DeleteEventDestinationInput {
 
 extension DeleteEventDestinationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteEventDestinationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteEventDestinationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2414,7 +2416,7 @@ public struct DeleteEventDestinationOutput {
 
 enum DeleteEventDestinationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2466,7 +2468,7 @@ public struct DeleteKeywordInput {
 
 extension DeleteKeywordOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteKeywordOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteKeywordOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2510,7 +2512,7 @@ public struct DeleteKeywordOutput {
 
 enum DeleteKeywordOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2549,7 +2551,7 @@ public struct DeleteMediaMessageSpendLimitOverrideInput {
 
 extension DeleteMediaMessageSpendLimitOverrideOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteMediaMessageSpendLimitOverrideOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteMediaMessageSpendLimitOverrideOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2573,7 +2575,7 @@ public struct DeleteMediaMessageSpendLimitOverrideOutput {
 
 enum DeleteMediaMessageSpendLimitOverrideOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2618,7 +2620,7 @@ public struct DeleteOptOutListInput {
 
 extension DeleteOptOutListOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteOptOutListOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteOptOutListOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2632,14 +2634,14 @@ extension DeleteOptOutListOutput {
 
 public struct DeleteOptOutListOutput {
     /// The time when the OptOutList was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
-    public var createdTimestamp: ClientRuntime.Date?
+    public var createdTimestamp: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the OptOutList that was removed.
     public var optOutListArn: Swift.String?
     /// The name of the OptOutList that was removed.
     public var optOutListName: Swift.String?
 
     public init(
-        createdTimestamp: ClientRuntime.Date? = nil,
+        createdTimestamp: Foundation.Date? = nil,
         optOutListArn: Swift.String? = nil,
         optOutListName: Swift.String? = nil
     )
@@ -2652,7 +2654,7 @@ public struct DeleteOptOutListOutput {
 
 enum DeleteOptOutListOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2705,7 +2707,7 @@ public struct DeleteOptedOutNumberInput {
 
 extension DeleteOptedOutNumberOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteOptedOutNumberOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteOptedOutNumberOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2729,14 +2731,14 @@ public struct DeleteOptedOutNumberOutput {
     /// The phone number that was removed from the OptOutList.
     public var optedOutNumber: Swift.String?
     /// The time that the number was removed at, in [UNIX epoch time](https://www.epochconverter.com/) format.
-    public var optedOutTimestamp: ClientRuntime.Date?
+    public var optedOutTimestamp: Foundation.Date?
 
     public init(
         endUserOptedOut: Swift.Bool = false,
         optOutListArn: Swift.String? = nil,
         optOutListName: Swift.String? = nil,
         optedOutNumber: Swift.String? = nil,
-        optedOutTimestamp: ClientRuntime.Date? = nil
+        optedOutTimestamp: Foundation.Date? = nil
     )
     {
         self.endUserOptedOut = endUserOptedOut
@@ -2749,7 +2751,7 @@ public struct DeleteOptedOutNumberOutput {
 
 enum DeleteOptedOutNumberOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2796,7 +2798,7 @@ public struct DeletePoolInput {
 
 extension DeletePoolOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeletePoolOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeletePoolOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2818,7 +2820,7 @@ extension DeletePoolOutput {
 
 public struct DeletePoolOutput {
     /// The time when the pool was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
-    public var createdTimestamp: ClientRuntime.Date?
+    public var createdTimestamp: Foundation.Date?
     /// The message type that was associated with the deleted pool.
     public var messageType: PinpointSMSVoiceV2ClientTypes.MessageType?
     /// The name of the OptOutList that was associated with the deleted pool.
@@ -2847,7 +2849,7 @@ public struct DeletePoolOutput {
     public var twoWayEnabled: Swift.Bool
 
     public init(
-        createdTimestamp: ClientRuntime.Date? = nil,
+        createdTimestamp: Foundation.Date? = nil,
         messageType: PinpointSMSVoiceV2ClientTypes.MessageType? = nil,
         optOutListName: Swift.String? = nil,
         poolArn: Swift.String? = nil,
@@ -2876,7 +2878,7 @@ public struct DeletePoolOutput {
 
 enum DeletePoolOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2923,7 +2925,7 @@ public struct DeleteProtectConfigurationInput {
 
 extension DeleteProtectConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteProtectConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteProtectConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2943,7 +2945,7 @@ public struct DeleteProtectConfigurationOutput {
     public var accountDefault: Swift.Bool
     /// The time when the protect configuration was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
     /// This member is required.
-    public var createdTimestamp: ClientRuntime.Date?
+    public var createdTimestamp: Foundation.Date?
     /// The status of deletion protection for the protect configuration. When set to true deletion protection is enabled. By default this is set to false.
     /// This member is required.
     public var deletionProtectionEnabled: Swift.Bool
@@ -2956,7 +2958,7 @@ public struct DeleteProtectConfigurationOutput {
 
     public init(
         accountDefault: Swift.Bool = false,
-        createdTimestamp: ClientRuntime.Date? = nil,
+        createdTimestamp: Foundation.Date? = nil,
         deletionProtectionEnabled: Swift.Bool = false,
         protectConfigurationArn: Swift.String? = nil,
         protectConfigurationId: Swift.String? = nil
@@ -2972,7 +2974,7 @@ public struct DeleteProtectConfigurationOutput {
 
 enum DeleteProtectConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3019,7 +3021,7 @@ public struct DeleteRegistrationAttachmentInput {
 
 extension DeleteRegistrationAttachmentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteRegistrationAttachmentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteRegistrationAttachmentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3049,7 +3051,7 @@ public struct DeleteRegistrationAttachmentOutput {
     public var attachmentUploadErrorReason: PinpointSMSVoiceV2ClientTypes.AttachmentUploadErrorReason?
     /// The time when the registration attachment was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
     /// This member is required.
-    public var createdTimestamp: ClientRuntime.Date?
+    public var createdTimestamp: Foundation.Date?
     /// The Amazon Resource Name (ARN) for the registration attachment.
     /// This member is required.
     public var registrationAttachmentArn: Swift.String?
@@ -3060,7 +3062,7 @@ public struct DeleteRegistrationAttachmentOutput {
     public init(
         attachmentStatus: PinpointSMSVoiceV2ClientTypes.AttachmentStatus? = nil,
         attachmentUploadErrorReason: PinpointSMSVoiceV2ClientTypes.AttachmentUploadErrorReason? = nil,
-        createdTimestamp: ClientRuntime.Date? = nil,
+        createdTimestamp: Foundation.Date? = nil,
         registrationAttachmentArn: Swift.String? = nil,
         registrationAttachmentId: Swift.String? = nil
     )
@@ -3075,7 +3077,7 @@ public struct DeleteRegistrationAttachmentOutput {
 
 enum DeleteRegistrationAttachmentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3128,7 +3130,7 @@ public struct DeleteRegistrationFieldValueInput {
 
 extension DeleteRegistrationFieldValueOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteRegistrationFieldValueOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteRegistrationFieldValueOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3186,7 +3188,7 @@ public struct DeleteRegistrationFieldValueOutput {
 
 enum DeleteRegistrationFieldValueOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3233,7 +3235,7 @@ public struct DeleteRegistrationInput {
 
 extension DeleteRegistrationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteRegistrationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteRegistrationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3258,7 +3260,7 @@ public struct DeleteRegistrationOutput {
     public var approvedVersionNumber: Swift.Int?
     /// The time when the registration was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
     /// This member is required.
-    public var createdTimestamp: ClientRuntime.Date?
+    public var createdTimestamp: Foundation.Date?
     /// The current version number of the registration.
     /// This member is required.
     public var currentVersionNumber: Swift.Int?
@@ -3296,7 +3298,7 @@ public struct DeleteRegistrationOutput {
     public init(
         additionalAttributes: [Swift.String:Swift.String]? = nil,
         approvedVersionNumber: Swift.Int? = nil,
-        createdTimestamp: ClientRuntime.Date? = nil,
+        createdTimestamp: Foundation.Date? = nil,
         currentVersionNumber: Swift.Int? = nil,
         latestDeniedVersionNumber: Swift.Int? = nil,
         registrationArn: Swift.String? = nil,
@@ -3319,7 +3321,7 @@ public struct DeleteRegistrationOutput {
 
 enum DeleteRegistrationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3358,7 +3360,7 @@ public struct DeleteTextMessageSpendLimitOverrideInput {
 
 extension DeleteTextMessageSpendLimitOverrideOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteTextMessageSpendLimitOverrideOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteTextMessageSpendLimitOverrideOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3382,7 +3384,7 @@ public struct DeleteTextMessageSpendLimitOverrideOutput {
 
 enum DeleteTextMessageSpendLimitOverrideOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3427,7 +3429,7 @@ public struct DeleteVerifiedDestinationNumberInput {
 
 extension DeleteVerifiedDestinationNumberOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteVerifiedDestinationNumberOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteVerifiedDestinationNumberOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3443,7 +3445,7 @@ extension DeleteVerifiedDestinationNumberOutput {
 public struct DeleteVerifiedDestinationNumberOutput {
     /// The time when the destination phone number was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
     /// This member is required.
-    public var createdTimestamp: ClientRuntime.Date?
+    public var createdTimestamp: Foundation.Date?
     /// The verified destination phone number, in E.164 format.
     /// This member is required.
     public var destinationPhoneNumber: Swift.String?
@@ -3455,7 +3457,7 @@ public struct DeleteVerifiedDestinationNumberOutput {
     public var verifiedDestinationNumberId: Swift.String?
 
     public init(
-        createdTimestamp: ClientRuntime.Date? = nil,
+        createdTimestamp: Foundation.Date? = nil,
         destinationPhoneNumber: Swift.String? = nil,
         verifiedDestinationNumberArn: Swift.String? = nil,
         verifiedDestinationNumberId: Swift.String? = nil
@@ -3470,7 +3472,7 @@ public struct DeleteVerifiedDestinationNumberOutput {
 
 enum DeleteVerifiedDestinationNumberOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3509,7 +3511,7 @@ public struct DeleteVoiceMessageSpendLimitOverrideInput {
 
 extension DeleteVoiceMessageSpendLimitOverrideOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteVoiceMessageSpendLimitOverrideOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteVoiceMessageSpendLimitOverrideOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3533,7 +3535,7 @@ public struct DeleteVoiceMessageSpendLimitOverrideOutput {
 
 enum DeleteVoiceMessageSpendLimitOverrideOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3582,7 +3584,7 @@ public struct DescribeAccountAttributesInput {
 
 extension DescribeAccountAttributesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeAccountAttributesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeAccountAttributesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3611,7 +3613,7 @@ public struct DescribeAccountAttributesOutput {
 
 enum DescribeAccountAttributesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3660,7 +3662,7 @@ public struct DescribeAccountLimitsInput {
 
 extension DescribeAccountLimitsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeAccountLimitsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeAccountLimitsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3689,7 +3691,7 @@ public struct DescribeAccountLimitsOutput {
 
 enum DescribeAccountLimitsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3748,7 +3750,7 @@ public struct DescribeConfigurationSetsInput {
 
 extension DescribeConfigurationSetsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeConfigurationSetsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeConfigurationSetsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3777,7 +3779,7 @@ public struct DescribeConfigurationSetsOutput {
 
 enum DescribeConfigurationSetsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3843,7 +3845,7 @@ public struct DescribeKeywordsInput {
 
 extension DescribeKeywordsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeKeywordsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeKeywordsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3882,7 +3884,7 @@ public struct DescribeKeywordsOutput {
 
 enum DescribeKeywordsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3937,7 +3939,7 @@ public struct DescribeOptOutListsInput {
 
 extension DescribeOptOutListsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeOptOutListsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeOptOutListsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3966,7 +3968,7 @@ public struct DescribeOptOutListsOutput {
 
 enum DescribeOptOutListsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4032,7 +4034,7 @@ public struct DescribeOptedOutNumbersInput {
 
 extension DescribeOptedOutNumbersOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeOptedOutNumbersOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeOptedOutNumbersOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4071,7 +4073,7 @@ public struct DescribeOptedOutNumbersOutput {
 
 enum DescribeOptedOutNumbersOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4131,7 +4133,7 @@ public struct DescribePhoneNumbersInput {
 
 extension DescribePhoneNumbersOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribePhoneNumbersOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribePhoneNumbersOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4160,7 +4162,7 @@ public struct DescribePhoneNumbersOutput {
 
 enum DescribePhoneNumbersOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4220,7 +4222,7 @@ public struct DescribePoolsInput {
 
 extension DescribePoolsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribePoolsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribePoolsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4249,7 +4251,7 @@ public struct DescribePoolsOutput {
 
 enum DescribePoolsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4309,7 +4311,7 @@ public struct DescribeProtectConfigurationsInput {
 
 extension DescribeProtectConfigurationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeProtectConfigurationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeProtectConfigurationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4338,7 +4340,7 @@ public struct DescribeProtectConfigurationsOutput {
 
 enum DescribeProtectConfigurationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4398,7 +4400,7 @@ public struct DescribeRegistrationAttachmentsInput {
 
 extension DescribeRegistrationAttachmentsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeRegistrationAttachmentsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeRegistrationAttachmentsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4428,7 +4430,7 @@ public struct DescribeRegistrationAttachmentsOutput {
 
 enum DescribeRegistrationAttachmentsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4494,7 +4496,7 @@ public struct DescribeRegistrationFieldDefinitionsInput {
 
 extension DescribeRegistrationFieldDefinitionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeRegistrationFieldDefinitionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeRegistrationFieldDefinitionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4530,7 +4532,7 @@ public struct DescribeRegistrationFieldDefinitionsOutput {
 
 enum DescribeRegistrationFieldDefinitionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4600,7 +4602,7 @@ public struct DescribeRegistrationFieldValuesInput {
 
 extension DescribeRegistrationFieldValuesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeRegistrationFieldValuesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeRegistrationFieldValuesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4648,7 +4650,7 @@ public struct DescribeRegistrationFieldValuesOutput {
 
 enum DescribeRegistrationFieldValuesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4709,7 +4711,7 @@ public struct DescribeRegistrationSectionDefinitionsInput {
 
 extension DescribeRegistrationSectionDefinitionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeRegistrationSectionDefinitionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeRegistrationSectionDefinitionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4745,7 +4747,7 @@ public struct DescribeRegistrationSectionDefinitionsOutput {
 
 enum DescribeRegistrationSectionDefinitionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4804,7 +4806,7 @@ public struct DescribeRegistrationTypeDefinitionsInput {
 
 extension DescribeRegistrationTypeDefinitionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeRegistrationTypeDefinitionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeRegistrationTypeDefinitionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4834,7 +4836,7 @@ public struct DescribeRegistrationTypeDefinitionsOutput {
 
 enum DescribeRegistrationTypeDefinitionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4899,7 +4901,7 @@ public struct DescribeRegistrationVersionsInput {
 
 extension DescribeRegistrationVersionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeRegistrationVersionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeRegistrationVersionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4941,7 +4943,7 @@ public struct DescribeRegistrationVersionsOutput {
 
 enum DescribeRegistrationVersionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5001,7 +5003,7 @@ public struct DescribeRegistrationsInput {
 
 extension DescribeRegistrationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeRegistrationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeRegistrationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5031,7 +5033,7 @@ public struct DescribeRegistrationsOutput {
 
 enum DescribeRegistrationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5091,7 +5093,7 @@ public struct DescribeSenderIdsInput {
 
 extension DescribeSenderIdsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeSenderIdsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeSenderIdsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5120,7 +5122,7 @@ public struct DescribeSenderIdsOutput {
 
 enum DescribeSenderIdsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5170,7 +5172,7 @@ public struct DescribeSpendLimitsInput {
 
 extension DescribeSpendLimitsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeSpendLimitsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeSpendLimitsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5199,7 +5201,7 @@ public struct DescribeSpendLimitsOutput {
 
 enum DescribeSpendLimitsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5263,7 +5265,7 @@ public struct DescribeVerifiedDestinationNumbersInput {
 
 extension DescribeVerifiedDestinationNumbersOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeVerifiedDestinationNumbersOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeVerifiedDestinationNumbersOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5293,7 +5295,7 @@ public struct DescribeVerifiedDestinationNumbersOutput {
 
 enum DescribeVerifiedDestinationNumbersOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5385,7 +5387,7 @@ public struct DisassociateOriginationIdentityInput {
 
 extension DisassociateOriginationIdentityOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DisassociateOriginationIdentityOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DisassociateOriginationIdentityOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5429,7 +5431,7 @@ public struct DisassociateOriginationIdentityOutput {
 
 enum DisassociateOriginationIdentityOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5482,7 +5484,7 @@ public struct DisassociateProtectConfigurationInput {
 
 extension DisassociateProtectConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DisassociateProtectConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DisassociateProtectConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5525,7 +5527,7 @@ public struct DisassociateProtectConfigurationOutput {
 
 enum DisassociateProtectConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5572,7 +5574,7 @@ public struct DiscardRegistrationVersionInput {
 
 extension DiscardRegistrationVersionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DiscardRegistrationVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DiscardRegistrationVersionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5637,7 +5639,7 @@ public struct DiscardRegistrationVersionOutput {
 
 enum DiscardRegistrationVersionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5957,7 +5959,7 @@ public struct GetProtectConfigurationCountryRuleSetInput {
 
 extension GetProtectConfigurationCountryRuleSetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetProtectConfigurationCountryRuleSetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetProtectConfigurationCountryRuleSetOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6000,7 +6002,7 @@ public struct GetProtectConfigurationCountryRuleSetOutput {
 
 enum GetProtectConfigurationCountryRuleSetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6332,7 +6334,7 @@ public struct ListPoolOriginationIdentitiesInput {
 
 extension ListPoolOriginationIdentitiesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPoolOriginationIdentitiesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPoolOriginationIdentitiesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6371,7 +6373,7 @@ public struct ListPoolOriginationIdentitiesOutput {
 
 enum ListPoolOriginationIdentitiesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6432,7 +6434,7 @@ public struct ListRegistrationAssociationsInput {
 
 extension ListRegistrationAssociationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListRegistrationAssociationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListRegistrationAssociationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6480,7 +6482,7 @@ public struct ListRegistrationAssociationsOutput {
 
 enum ListRegistrationAssociationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6526,7 +6528,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6555,7 +6557,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6725,7 +6727,7 @@ extension PinpointSMSVoiceV2ClientTypes {
     public struct OptOutListInformation {
         /// The time when the OutOutList was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
         /// This member is required.
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the OptOutList.
         /// This member is required.
         public var optOutListArn: Swift.String?
@@ -6734,7 +6736,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public var optOutListName: Swift.String?
 
         public init(
-            createdTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
             optOutListArn: Swift.String? = nil,
             optOutListName: Swift.String? = nil
         )
@@ -6827,12 +6829,12 @@ extension PinpointSMSVoiceV2ClientTypes {
         public var optedOutNumber: Swift.String?
         /// The time that the op tout occurred, in [UNIX epoch time](https://www.epochconverter.com/) format.
         /// This member is required.
-        public var optedOutTimestamp: ClientRuntime.Date?
+        public var optedOutTimestamp: Foundation.Date?
 
         public init(
             endUserOptedOut: Swift.Bool = false,
             optedOutNumber: Swift.String? = nil,
-            optedOutTimestamp: ClientRuntime.Date? = nil
+            optedOutTimestamp: Foundation.Date? = nil
         )
         {
             self.endUserOptedOut = endUserOptedOut
@@ -7009,7 +7011,7 @@ extension PinpointSMSVoiceV2ClientTypes {
     public struct PhoneNumberInformation {
         /// The time when the phone number was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
         /// This member is required.
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// When set to true the phone number can't be deleted.
         /// This member is required.
         public var deletionProtectionEnabled: Swift.Bool
@@ -7058,7 +7060,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public var twoWayEnabled: Swift.Bool
 
         public init(
-            createdTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
             deletionProtectionEnabled: Swift.Bool = false,
             isoCountryCode: Swift.String? = nil,
             messageType: PinpointSMSVoiceV2ClientTypes.MessageType? = nil,
@@ -7207,7 +7209,7 @@ extension PinpointSMSVoiceV2ClientTypes {
     public struct PoolInformation {
         /// The time when the pool was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
         /// This member is required.
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// When set to true the pool can't be deleted.
         /// This member is required.
         public var deletionProtectionEnabled: Swift.Bool
@@ -7241,7 +7243,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public var twoWayEnabled: Swift.Bool
 
         public init(
-            createdTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
             deletionProtectionEnabled: Swift.Bool = false,
             messageType: PinpointSMSVoiceV2ClientTypes.MessageType? = nil,
             optOutListName: Swift.String? = nil,
@@ -7478,7 +7480,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public var accountDefault: Swift.Bool
         /// The time when the protect configuration was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
         /// This member is required.
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// The status of deletion protection for the protect configuration. When set to true deletion protection is enabled. By default this is set to false.
         /// This member is required.
         public var deletionProtectionEnabled: Swift.Bool
@@ -7491,7 +7493,7 @@ extension PinpointSMSVoiceV2ClientTypes {
 
         public init(
             accountDefault: Swift.Bool = false,
-            createdTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
             deletionProtectionEnabled: Swift.Bool = false,
             protectConfigurationArn: Swift.String? = nil,
             protectConfigurationId: Swift.String? = nil
@@ -7589,7 +7591,7 @@ public struct PutKeywordInput {
 
 extension PutKeywordOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutKeywordOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutKeywordOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7633,7 +7635,7 @@ public struct PutKeywordOutput {
 
 enum PutKeywordOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7687,7 +7689,7 @@ public struct PutOptedOutNumberInput {
 
 extension PutOptedOutNumberOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutOptedOutNumberOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutOptedOutNumberOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7711,14 +7713,14 @@ public struct PutOptedOutNumberOutput {
     /// The phone number that was added to the OptOutList.
     public var optedOutNumber: Swift.String?
     /// The time that the phone number was added to the OptOutList, in [UNIX epoch time](https://www.epochconverter.com/) format.
-    public var optedOutTimestamp: ClientRuntime.Date?
+    public var optedOutTimestamp: Foundation.Date?
 
     public init(
         endUserOptedOut: Swift.Bool = false,
         optOutListArn: Swift.String? = nil,
         optOutListName: Swift.String? = nil,
         optedOutNumber: Swift.String? = nil,
-        optedOutTimestamp: ClientRuntime.Date? = nil
+        optedOutTimestamp: Foundation.Date? = nil
     )
     {
         self.endUserOptedOut = endUserOptedOut
@@ -7731,7 +7733,7 @@ public struct PutOptedOutNumberOutput {
 
 enum PutOptedOutNumberOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7798,7 +7800,7 @@ public struct PutRegistrationFieldValueInput {
 
 extension PutRegistrationFieldValueOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutRegistrationFieldValueOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutRegistrationFieldValueOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7856,7 +7858,7 @@ public struct PutRegistrationFieldValueOutput {
 
 enum PutRegistrationFieldValueOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8103,7 +8105,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public var attachmentUploadErrorReason: PinpointSMSVoiceV2ClientTypes.AttachmentUploadErrorReason?
         /// The time when the registration attachment was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
         /// This member is required.
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// The Amazon Resource Name (ARN) for the registration attachment.
         /// This member is required.
         public var registrationAttachmentArn: Swift.String?
@@ -8114,7 +8116,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public init(
             attachmentStatus: PinpointSMSVoiceV2ClientTypes.AttachmentStatus? = nil,
             attachmentUploadErrorReason: PinpointSMSVoiceV2ClientTypes.AttachmentUploadErrorReason? = nil,
-            createdTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
             registrationAttachmentArn: Swift.String? = nil,
             registrationAttachmentId: Swift.String? = nil
         )
@@ -8467,7 +8469,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public var approvedVersionNumber: Swift.Int?
         /// The time when the registration was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
         /// This member is required.
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// The current version number of the registration.
         /// This member is required.
         public var currentVersionNumber: Swift.Int?
@@ -8505,7 +8507,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public init(
             additionalAttributes: [Swift.String:Swift.String]? = nil,
             approvedVersionNumber: Swift.Int? = nil,
-            createdTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
             currentVersionNumber: Swift.Int? = nil,
             latestDeniedVersionNumber: Swift.Int? = nil,
             registrationArn: Swift.String? = nil,
@@ -8986,32 +8988,32 @@ extension PinpointSMSVoiceV2ClientTypes {
     /// The RegistrationVersionStatusHistory object contains the time stamps for when the reservations status changes.
     public struct RegistrationVersionStatusHistory {
         /// The time when the registration was in the approved state, in [UNIX epoch time](https://www.epochconverter.com/) format.
-        public var approvedTimestamp: ClientRuntime.Date?
+        public var approvedTimestamp: Foundation.Date?
         /// The time when the registration was in the archived state, in [UNIX epoch time](https://www.epochconverter.com/) format.
-        public var archivedTimestamp: ClientRuntime.Date?
+        public var archivedTimestamp: Foundation.Date?
         /// The time when the registration was in the denied state, in [UNIX epoch time](https://www.epochconverter.com/) format.
-        public var deniedTimestamp: ClientRuntime.Date?
+        public var deniedTimestamp: Foundation.Date?
         /// The time when the registration was in the discarded state, in [UNIX epoch time](https://www.epochconverter.com/) format.
-        public var discardedTimestamp: ClientRuntime.Date?
+        public var discardedTimestamp: Foundation.Date?
         /// The time when the registration was in the draft state, in [UNIX epoch time](https://www.epochconverter.com/) format.
         /// This member is required.
-        public var draftTimestamp: ClientRuntime.Date?
+        public var draftTimestamp: Foundation.Date?
         /// The time when the registration was in the reviewing state, in [UNIX epoch time](https://www.epochconverter.com/) format.
-        public var reviewingTimestamp: ClientRuntime.Date?
+        public var reviewingTimestamp: Foundation.Date?
         /// The time when the registration was in the revoked state, in [UNIX epoch time](https://www.epochconverter.com/) format.
-        public var revokedTimestamp: ClientRuntime.Date?
+        public var revokedTimestamp: Foundation.Date?
         /// The time when the registration was in the submitted state, in [UNIX epoch time](https://www.epochconverter.com/) format.
-        public var submittedTimestamp: ClientRuntime.Date?
+        public var submittedTimestamp: Foundation.Date?
 
         public init(
-            approvedTimestamp: ClientRuntime.Date? = nil,
-            archivedTimestamp: ClientRuntime.Date? = nil,
-            deniedTimestamp: ClientRuntime.Date? = nil,
-            discardedTimestamp: ClientRuntime.Date? = nil,
-            draftTimestamp: ClientRuntime.Date? = nil,
-            reviewingTimestamp: ClientRuntime.Date? = nil,
-            revokedTimestamp: ClientRuntime.Date? = nil,
-            submittedTimestamp: ClientRuntime.Date? = nil
+            approvedTimestamp: Foundation.Date? = nil,
+            archivedTimestamp: Foundation.Date? = nil,
+            deniedTimestamp: Foundation.Date? = nil,
+            discardedTimestamp: Foundation.Date? = nil,
+            draftTimestamp: Foundation.Date? = nil,
+            reviewingTimestamp: Foundation.Date? = nil,
+            revokedTimestamp: Foundation.Date? = nil,
+            submittedTimestamp: Foundation.Date? = nil
         )
         {
             self.approvedTimestamp = approvedTimestamp
@@ -9057,7 +9059,7 @@ public struct ReleasePhoneNumberInput {
 
 extension ReleasePhoneNumberOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ReleasePhoneNumberOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ReleasePhoneNumberOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -9084,7 +9086,7 @@ extension ReleasePhoneNumberOutput {
 
 public struct ReleasePhoneNumberOutput {
     /// The time when the phone number was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
-    public var createdTimestamp: ClientRuntime.Date?
+    public var createdTimestamp: Foundation.Date?
     /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
     public var isoCountryCode: Swift.String?
     /// The message type that was associated with the phone number.
@@ -9117,7 +9119,7 @@ public struct ReleasePhoneNumberOutput {
     public var twoWayEnabled: Swift.Bool
 
     public init(
-        createdTimestamp: ClientRuntime.Date? = nil,
+        createdTimestamp: Foundation.Date? = nil,
         isoCountryCode: Swift.String? = nil,
         messageType: PinpointSMSVoiceV2ClientTypes.MessageType? = nil,
         monthlyLeasingPrice: Swift.String? = nil,
@@ -9156,7 +9158,7 @@ public struct ReleasePhoneNumberOutput {
 
 enum ReleasePhoneNumberOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9209,7 +9211,7 @@ public struct ReleaseSenderIdInput {
 
 extension ReleaseSenderIdOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ReleaseSenderIdOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ReleaseSenderIdOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -9269,7 +9271,7 @@ public struct ReleaseSenderIdOutput {
 
 enum ReleaseSenderIdOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9364,7 +9366,7 @@ public struct RequestPhoneNumberInput {
 
 extension RequestPhoneNumberOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RequestPhoneNumberOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RequestPhoneNumberOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -9394,7 +9396,7 @@ extension RequestPhoneNumberOutput {
 
 public struct RequestPhoneNumberOutput {
     /// The time when the phone number was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
-    public var createdTimestamp: ClientRuntime.Date?
+    public var createdTimestamp: Foundation.Date?
     /// By default this is set to false. When set to true the phone number can't be deleted.
     public var deletionProtectionEnabled: Swift.Bool
     /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
@@ -9433,7 +9435,7 @@ public struct RequestPhoneNumberOutput {
     public var twoWayEnabled: Swift.Bool
 
     public init(
-        createdTimestamp: ClientRuntime.Date? = nil,
+        createdTimestamp: Foundation.Date? = nil,
         deletionProtectionEnabled: Swift.Bool = false,
         isoCountryCode: Swift.String? = nil,
         messageType: PinpointSMSVoiceV2ClientTypes.MessageType? = nil,
@@ -9478,7 +9480,7 @@ public struct RequestPhoneNumberOutput {
 
 enum RequestPhoneNumberOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9552,7 +9554,7 @@ public struct RequestSenderIdInput {
 
 extension RequestSenderIdOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RequestSenderIdOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RequestSenderIdOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -9618,7 +9620,7 @@ public struct RequestSenderIdOutput {
 
 enum RequestSenderIdOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9916,7 +9918,7 @@ public struct SendDestinationNumberVerificationCodeInput {
 
 extension SendDestinationNumberVerificationCodeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SendDestinationNumberVerificationCodeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SendDestinationNumberVerificationCodeOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -9941,7 +9943,7 @@ public struct SendDestinationNumberVerificationCodeOutput {
 
 enum SendDestinationNumberVerificationCodeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10035,7 +10037,7 @@ public struct SendMediaMessageInput {
 
 extension SendMediaMessageOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SendMediaMessageOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SendMediaMessageOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -10059,7 +10061,7 @@ public struct SendMediaMessageOutput {
 
 enum SendMediaMessageOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10162,7 +10164,7 @@ public struct SendTextMessageInput {
 
 extension SendTextMessageOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SendTextMessageOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SendTextMessageOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -10186,7 +10188,7 @@ public struct SendTextMessageOutput {
 
 enum SendTextMessageOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10289,7 +10291,7 @@ public struct SendVoiceMessageInput {
 
 extension SendVoiceMessageOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SendVoiceMessageOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SendVoiceMessageOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -10313,7 +10315,7 @@ public struct SendVoiceMessageOutput {
 
 enum SendVoiceMessageOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10663,7 +10665,7 @@ public struct SetAccountDefaultProtectConfigurationInput {
 
 extension SetAccountDefaultProtectConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SetAccountDefaultProtectConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SetAccountDefaultProtectConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -10694,7 +10696,7 @@ public struct SetAccountDefaultProtectConfigurationOutput {
 
 enum SetAccountDefaultProtectConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10746,7 +10748,7 @@ public struct SetDefaultMessageTypeInput {
 
 extension SetDefaultMessageTypeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SetDefaultMessageTypeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SetDefaultMessageTypeOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -10780,7 +10782,7 @@ public struct SetDefaultMessageTypeOutput {
 
 enum SetDefaultMessageTypeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10832,7 +10834,7 @@ public struct SetDefaultSenderIdInput {
 
 extension SetDefaultSenderIdOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SetDefaultSenderIdOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SetDefaultSenderIdOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -10866,7 +10868,7 @@ public struct SetDefaultSenderIdOutput {
 
 enum SetDefaultSenderIdOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10912,7 +10914,7 @@ public struct SetMediaMessageSpendLimitOverrideInput {
 
 extension SetMediaMessageSpendLimitOverrideOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SetMediaMessageSpendLimitOverrideOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SetMediaMessageSpendLimitOverrideOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -10936,7 +10938,7 @@ public struct SetMediaMessageSpendLimitOverrideOutput {
 
 enum SetMediaMessageSpendLimitOverrideOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10981,7 +10983,7 @@ public struct SetTextMessageSpendLimitOverrideInput {
 
 extension SetTextMessageSpendLimitOverrideOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SetTextMessageSpendLimitOverrideOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SetTextMessageSpendLimitOverrideOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -11005,7 +11007,7 @@ public struct SetTextMessageSpendLimitOverrideOutput {
 
 enum SetTextMessageSpendLimitOverrideOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11050,7 +11052,7 @@ public struct SetVoiceMessageSpendLimitOverrideInput {
 
 extension SetVoiceMessageSpendLimitOverrideOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SetVoiceMessageSpendLimitOverrideOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SetVoiceMessageSpendLimitOverrideOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -11074,7 +11076,7 @@ public struct SetVoiceMessageSpendLimitOverrideOutput {
 
 enum SetVoiceMessageSpendLimitOverrideOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11228,7 +11230,7 @@ public struct SubmitRegistrationVersionInput {
 
 extension SubmitRegistrationVersionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SubmitRegistrationVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SubmitRegistrationVersionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -11293,7 +11295,7 @@ public struct SubmitRegistrationVersionOutput {
 
 enum SubmitRegistrationVersionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11441,7 +11443,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -11453,7 +11455,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11582,7 +11584,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -11594,7 +11596,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11671,7 +11673,7 @@ public struct UpdateEventDestinationInput {
 
 extension UpdateEventDestinationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateEventDestinationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateEventDestinationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -11705,7 +11707,7 @@ public struct UpdateEventDestinationOutput {
 
 enum UpdateEventDestinationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11782,7 +11784,7 @@ public struct UpdatePhoneNumberInput {
 
 extension UpdatePhoneNumberOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdatePhoneNumberOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdatePhoneNumberOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -11810,7 +11812,7 @@ extension UpdatePhoneNumberOutput {
 
 public struct UpdatePhoneNumberOutput {
     /// The time when the phone number was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
-    public var createdTimestamp: ClientRuntime.Date?
+    public var createdTimestamp: Foundation.Date?
     /// When set to true the phone number can't be deleted.
     public var deletionProtectionEnabled: Swift.Bool
     /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
@@ -11845,7 +11847,7 @@ public struct UpdatePhoneNumberOutput {
     public var twoWayEnabled: Swift.Bool
 
     public init(
-        createdTimestamp: ClientRuntime.Date? = nil,
+        createdTimestamp: Foundation.Date? = nil,
         deletionProtectionEnabled: Swift.Bool = false,
         isoCountryCode: Swift.String? = nil,
         messageType: PinpointSMSVoiceV2ClientTypes.MessageType? = nil,
@@ -11886,7 +11888,7 @@ public struct UpdatePhoneNumberOutput {
 
 enum UpdatePhoneNumberOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11968,7 +11970,7 @@ public struct UpdatePoolInput {
 
 extension UpdatePoolOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdatePoolOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdatePoolOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -11991,7 +11993,7 @@ extension UpdatePoolOutput {
 
 public struct UpdatePoolOutput {
     /// The time when the pool was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
-    public var createdTimestamp: ClientRuntime.Date?
+    public var createdTimestamp: Foundation.Date?
     /// When set to true the pool can't be deleted.
     public var deletionProtectionEnabled: Swift.Bool
     /// The type of message for the pool to use.
@@ -12016,7 +12018,7 @@ public struct UpdatePoolOutput {
     public var twoWayEnabled: Swift.Bool
 
     public init(
-        createdTimestamp: ClientRuntime.Date? = nil,
+        createdTimestamp: Foundation.Date? = nil,
         deletionProtectionEnabled: Swift.Bool = false,
         messageType: PinpointSMSVoiceV2ClientTypes.MessageType? = nil,
         optOutListName: Swift.String? = nil,
@@ -12047,7 +12049,7 @@ public struct UpdatePoolOutput {
 
 enum UpdatePoolOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12106,7 +12108,7 @@ public struct UpdateProtectConfigurationCountryRuleSetInput {
 
 extension UpdateProtectConfigurationCountryRuleSetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateProtectConfigurationCountryRuleSetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateProtectConfigurationCountryRuleSetOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -12149,7 +12151,7 @@ public struct UpdateProtectConfigurationCountryRuleSetOutput {
 
 enum UpdateProtectConfigurationCountryRuleSetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12200,7 +12202,7 @@ public struct UpdateProtectConfigurationInput {
 
 extension UpdateProtectConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateProtectConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateProtectConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -12220,7 +12222,7 @@ public struct UpdateProtectConfigurationOutput {
     public var accountDefault: Swift.Bool
     /// The time when the protect configuration was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
     /// This member is required.
-    public var createdTimestamp: ClientRuntime.Date?
+    public var createdTimestamp: Foundation.Date?
     /// The status of deletion protection for the protect configuration. When set to true deletion protection is enabled. By default this is set to false.
     /// This member is required.
     public var deletionProtectionEnabled: Swift.Bool
@@ -12233,7 +12235,7 @@ public struct UpdateProtectConfigurationOutput {
 
     public init(
         accountDefault: Swift.Bool = false,
-        createdTimestamp: ClientRuntime.Date? = nil,
+        createdTimestamp: Foundation.Date? = nil,
         deletionProtectionEnabled: Swift.Bool = false,
         protectConfigurationArn: Swift.String? = nil,
         protectConfigurationId: Swift.String? = nil
@@ -12249,7 +12251,7 @@ public struct UpdateProtectConfigurationOutput {
 
 enum UpdateProtectConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12306,7 +12308,7 @@ public struct UpdateSenderIdInput {
 
 extension UpdateSenderIdOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateSenderIdOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateSenderIdOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -12372,7 +12374,7 @@ public struct UpdateSenderIdOutput {
 
 enum UpdateSenderIdOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12742,7 +12744,7 @@ extension PinpointSMSVoiceV2ClientTypes {
     public struct VerifiedDestinationNumberInformation {
         /// The time when the destination phone number was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
         /// This member is required.
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// The verified destination phone number, in E.164 format.
         /// This member is required.
         public var destinationPhoneNumber: Swift.String?
@@ -12761,7 +12763,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public var verifiedDestinationNumberId: Swift.String?
 
         public init(
-            createdTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
             destinationPhoneNumber: Swift.String? = nil,
             status: PinpointSMSVoiceV2ClientTypes.VerificationStatus? = nil,
             verifiedDestinationNumberArn: Swift.String? = nil,
@@ -12814,7 +12816,7 @@ public struct VerifyDestinationNumberInput {
 
 extension VerifyDestinationNumberOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> VerifyDestinationNumberOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> VerifyDestinationNumberOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -12831,7 +12833,7 @@ extension VerifyDestinationNumberOutput {
 public struct VerifyDestinationNumberOutput {
     /// The time when the destination phone number was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
     /// This member is required.
-    public var createdTimestamp: ClientRuntime.Date?
+    public var createdTimestamp: Foundation.Date?
     /// The phone number in E.164 format.
     /// This member is required.
     public var destinationPhoneNumber: Swift.String?
@@ -12846,7 +12848,7 @@ public struct VerifyDestinationNumberOutput {
     public var verifiedDestinationNumberId: Swift.String?
 
     public init(
-        createdTimestamp: ClientRuntime.Date? = nil,
+        createdTimestamp: Foundation.Date? = nil,
         destinationPhoneNumber: Swift.String? = nil,
         status: PinpointSMSVoiceV2ClientTypes.VerificationStatus? = nil,
         verifiedDestinationNumberArn: Swift.String? = nil,
@@ -12863,7 +12865,7 @@ public struct VerifyDestinationNumberOutput {
 
 enum VerifyDestinationNumberOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

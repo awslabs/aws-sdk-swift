@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -62,21 +65,21 @@ extension AmpClientTypes {
     public struct AlertManagerDefinitionDescription {
         /// The date and time that the alert manager definition was created.
         /// This member is required.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The actual alert manager definition. For details about the alert manager definition, see [AlertManagedDefinitionData](https://docs.aws.amazon.com/prometheus/latest/APIReference/yaml-AlertManagerDefinitionData.html).
         /// This member is required.
-        public var data: ClientRuntime.Data?
+        public var data: Foundation.Data?
         /// The date and time that the alert manager definition was most recently changed.
         /// This member is required.
-        public var modifiedAt: ClientRuntime.Date?
+        public var modifiedAt: Foundation.Date?
         /// A structure that displays the current status of the alert manager definition..
         /// This member is required.
         public var status: AmpClientTypes.AlertManagerDefinitionStatus?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
-            data: ClientRuntime.Data? = nil,
-            modifiedAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
+            data: Foundation.Data? = nil,
+            modifiedAt: Foundation.Date? = nil,
             status: AmpClientTypes.AlertManagerDefinitionStatus? = nil
         )
         {
@@ -279,14 +282,14 @@ public struct CreateAlertManagerDefinitionInput {
     public var clientToken: Swift.String?
     /// The alert manager definition to add. A base64-encoded version of the YAML alert manager definition file. For details about the alert manager definition, see [AlertManagedDefinitionData](https://docs.aws.amazon.com/prometheus/latest/APIReference/yaml-AlertManagerDefinitionData.html).
     /// This member is required.
-    public var data: ClientRuntime.Data?
+    public var data: Foundation.Data?
     /// The ID of the workspace to add the alert manager definition to.
     /// This member is required.
     public var workspaceId: Swift.String?
 
     public init(
         clientToken: Swift.String? = nil,
-        data: ClientRuntime.Data? = nil,
+        data: Foundation.Data? = nil,
         workspaceId: Swift.String? = nil
     )
     {
@@ -298,7 +301,7 @@ public struct CreateAlertManagerDefinitionInput {
 
 extension CreateAlertManagerDefinitionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateAlertManagerDefinitionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateAlertManagerDefinitionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -324,7 +327,7 @@ public struct CreateAlertManagerDefinitionOutput {
 
 enum CreateAlertManagerDefinitionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -386,7 +389,7 @@ public struct CreateLoggingConfigurationInput {
 
 extension CreateLoggingConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateLoggingConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateLoggingConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -412,7 +415,7 @@ public struct CreateLoggingConfigurationOutput {
 
 enum CreateLoggingConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -454,7 +457,7 @@ public struct CreateRuleGroupsNamespaceInput {
     public var clientToken: Swift.String?
     /// The rules file to use in the new namespace. Contains the base64-encoded version of the YAML rules file. For details about the rule groups namespace structure, see [RuleGroupsNamespaceData](https://docs.aws.amazon.com/prometheus/latest/APIReference/yaml-RuleGroupsNamespaceData.html).
     /// This member is required.
-    public var data: ClientRuntime.Data?
+    public var data: Foundation.Data?
     /// The name for the new rule groups namespace.
     /// This member is required.
     public var name: Swift.String?
@@ -466,7 +469,7 @@ public struct CreateRuleGroupsNamespaceInput {
 
     public init(
         clientToken: Swift.String? = nil,
-        data: ClientRuntime.Data? = nil,
+        data: Foundation.Data? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
         workspaceId: Swift.String? = nil
@@ -482,7 +485,7 @@ public struct CreateRuleGroupsNamespaceInput {
 
 extension CreateRuleGroupsNamespaceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateRuleGroupsNamespaceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateRuleGroupsNamespaceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -525,7 +528,7 @@ public struct CreateRuleGroupsNamespaceOutput {
 
 enum CreateRuleGroupsNamespaceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -601,7 +604,7 @@ public struct CreateScraperInput {
 
 extension CreateScraperOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateScraperOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateScraperOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -644,7 +647,7 @@ public struct CreateScraperOutput {
 
 enum CreateScraperOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -707,7 +710,7 @@ public struct CreateWorkspaceInput {
 
 extension CreateWorkspaceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateWorkspaceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateWorkspaceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -755,7 +758,7 @@ public struct CreateWorkspaceOutput {
 
 enum CreateWorkspaceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -774,10 +777,10 @@ enum CreateWorkspaceOutputError {
 
 extension DeleteAlertManagerDefinitionInput {
 
-    static func queryItemProvider(_ value: DeleteAlertManagerDefinitionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteAlertManagerDefinitionInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let clientToken = value.clientToken {
-            let clientTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
             items.append(clientTokenQueryItem)
         }
         return items
@@ -814,7 +817,7 @@ public struct DeleteAlertManagerDefinitionInput {
 
 extension DeleteAlertManagerDefinitionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteAlertManagerDefinitionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteAlertManagerDefinitionOutput {
         return DeleteAlertManagerDefinitionOutput()
     }
 }
@@ -826,7 +829,7 @@ public struct DeleteAlertManagerDefinitionOutput {
 
 enum DeleteAlertManagerDefinitionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -845,10 +848,10 @@ enum DeleteAlertManagerDefinitionOutputError {
 
 extension DeleteLoggingConfigurationInput {
 
-    static func queryItemProvider(_ value: DeleteLoggingConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteLoggingConfigurationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let clientToken = value.clientToken {
-            let clientTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
             items.append(clientTokenQueryItem)
         }
         return items
@@ -885,7 +888,7 @@ public struct DeleteLoggingConfigurationInput {
 
 extension DeleteLoggingConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteLoggingConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteLoggingConfigurationOutput {
         return DeleteLoggingConfigurationOutput()
     }
 }
@@ -897,7 +900,7 @@ public struct DeleteLoggingConfigurationOutput {
 
 enum DeleteLoggingConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -915,10 +918,10 @@ enum DeleteLoggingConfigurationOutputError {
 
 extension DeleteRuleGroupsNamespaceInput {
 
-    static func queryItemProvider(_ value: DeleteRuleGroupsNamespaceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteRuleGroupsNamespaceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let clientToken = value.clientToken {
-            let clientTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
             items.append(clientTokenQueryItem)
         }
         return items
@@ -963,7 +966,7 @@ public struct DeleteRuleGroupsNamespaceInput {
 
 extension DeleteRuleGroupsNamespaceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteRuleGroupsNamespaceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteRuleGroupsNamespaceOutput {
         return DeleteRuleGroupsNamespaceOutput()
     }
 }
@@ -975,7 +978,7 @@ public struct DeleteRuleGroupsNamespaceOutput {
 
 enum DeleteRuleGroupsNamespaceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -994,10 +997,10 @@ enum DeleteRuleGroupsNamespaceOutputError {
 
 extension DeleteScraperInput {
 
-    static func queryItemProvider(_ value: DeleteScraperInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteScraperInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let clientToken = value.clientToken {
-            let clientTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
             items.append(clientTokenQueryItem)
         }
         return items
@@ -1034,7 +1037,7 @@ public struct DeleteScraperInput {
 
 extension DeleteScraperOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteScraperOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteScraperOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1066,7 +1069,7 @@ public struct DeleteScraperOutput {
 
 enum DeleteScraperOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1085,10 +1088,10 @@ enum DeleteScraperOutputError {
 
 extension DeleteWorkspaceInput {
 
-    static func queryItemProvider(_ value: DeleteWorkspaceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteWorkspaceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let clientToken = value.clientToken {
-            let clientTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
             items.append(clientTokenQueryItem)
         }
         return items
@@ -1125,7 +1128,7 @@ public struct DeleteWorkspaceInput {
 
 extension DeleteWorkspaceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteWorkspaceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteWorkspaceOutput {
         return DeleteWorkspaceOutput()
     }
 }
@@ -1137,7 +1140,7 @@ public struct DeleteWorkspaceOutput {
 
 enum DeleteWorkspaceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1180,7 +1183,7 @@ public struct DescribeAlertManagerDefinitionInput {
 
 extension DescribeAlertManagerDefinitionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeAlertManagerDefinitionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeAlertManagerDefinitionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1206,7 +1209,7 @@ public struct DescribeAlertManagerDefinitionOutput {
 
 enum DescribeAlertManagerDefinitionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1248,7 +1251,7 @@ public struct DescribeLoggingConfigurationInput {
 
 extension DescribeLoggingConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeLoggingConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeLoggingConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1274,7 +1277,7 @@ public struct DescribeLoggingConfigurationOutput {
 
 enum DescribeLoggingConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1323,7 +1326,7 @@ public struct DescribeRuleGroupsNamespaceInput {
 
 extension DescribeRuleGroupsNamespaceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeRuleGroupsNamespaceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeRuleGroupsNamespaceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1349,7 +1352,7 @@ public struct DescribeRuleGroupsNamespaceOutput {
 
 enum DescribeRuleGroupsNamespaceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1391,7 +1394,7 @@ public struct DescribeScraperInput {
 
 extension DescribeScraperOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeScraperOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeScraperOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1417,7 +1420,7 @@ public struct DescribeScraperOutput {
 
 enum DescribeScraperOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1459,7 +1462,7 @@ public struct DescribeWorkspaceInput {
 
 extension DescribeWorkspaceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeWorkspaceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeWorkspaceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1485,7 +1488,7 @@ public struct DescribeWorkspaceOutput {
 
 enum DescribeWorkspaceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1595,7 +1598,7 @@ public struct GetDefaultScraperConfigurationInput {
 
 extension GetDefaultScraperConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetDefaultScraperConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetDefaultScraperConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1609,10 +1612,10 @@ extension GetDefaultScraperConfigurationOutput {
 public struct GetDefaultScraperConfigurationOutput {
     /// The configuration file. Base 64 encoded. For more information, see [Scraper configuration](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-configuration)in the Amazon Managed Service for Prometheus User Guide.
     /// This member is required.
-    public var configuration: ClientRuntime.Data?
+    public var configuration: Foundation.Data?
 
     public init(
-        configuration: ClientRuntime.Data? = nil
+        configuration: Foundation.Data? = nil
     )
     {
         self.configuration = configuration
@@ -1621,7 +1624,7 @@ public struct GetDefaultScraperConfigurationOutput {
 
 enum GetDefaultScraperConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1684,18 +1687,18 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
 extension ListRuleGroupsNamespacesInput {
 
-    static func queryItemProvider(_ value: ListRuleGroupsNamespacesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListRuleGroupsNamespacesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let name = value.name {
-            let nameQueryItem = ClientRuntime.SDKURLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
+            let nameQueryItem = Smithy.URIQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
             items.append(nameQueryItem)
         }
         return items
@@ -1740,7 +1743,7 @@ public struct ListRuleGroupsNamespacesInput {
 
 extension ListRuleGroupsNamespacesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListRuleGroupsNamespacesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListRuleGroupsNamespacesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1771,7 +1774,7 @@ public struct ListRuleGroupsNamespacesOutput {
 
 enum ListRuleGroupsNamespacesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1789,14 +1792,14 @@ enum ListRuleGroupsNamespacesOutputError {
 
 extension ListScrapersInput {
 
-    static func queryItemProvider(_ value: ListScrapersInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListScrapersInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let filters = value.filters {
@@ -1804,7 +1807,7 @@ extension ListScrapersInput {
             filters.forEach { key0, value0 in
                 if !currentQueryItemNames.contains(key0) {
                     value0.forEach { value1 in
-                        let queryItem = ClientRuntime.SDKURLQueryItem(name: key0.urlPercentEncoding(), value: value1.urlPercentEncoding())
+                        let queryItem = Smithy.URIQueryItem(name: key0.urlPercentEncoding(), value: value1.urlPercentEncoding())
                         items.append(queryItem)
                     }
                 }
@@ -1844,7 +1847,7 @@ public struct ListScrapersInput {
 
 extension ListScrapersOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListScrapersOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListScrapersOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1875,7 +1878,7 @@ public struct ListScrapersOutput {
 
 enum ListScrapersOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1915,7 +1918,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1939,7 +1942,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1957,18 +1960,18 @@ enum ListTagsForResourceOutputError {
 
 extension ListWorkspacesInput {
 
-    static func queryItemProvider(_ value: ListWorkspacesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListWorkspacesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let alias = value.alias {
-            let aliasQueryItem = ClientRuntime.SDKURLQueryItem(name: "alias".urlPercentEncoding(), value: Swift.String(alias).urlPercentEncoding())
+            let aliasQueryItem = Smithy.URIQueryItem(name: "alias".urlPercentEncoding(), value: Swift.String(alias).urlPercentEncoding())
             items.append(aliasQueryItem)
         }
         return items
@@ -2005,7 +2008,7 @@ public struct ListWorkspacesInput {
 
 extension ListWorkspacesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListWorkspacesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListWorkspacesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2036,7 +2039,7 @@ public struct ListWorkspacesOutput {
 
 enum ListWorkspacesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2070,13 +2073,13 @@ extension AmpClientTypes {
     public struct LoggingConfigurationMetadata {
         /// The date and time that the logging configuration was created.
         /// This member is required.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The ARN of the CloudWatch log group to which the vended log data will be published.
         /// This member is required.
         public var logGroupArn: Swift.String?
         /// The date and time that the logging configuration was most recently changed.
         /// This member is required.
-        public var modifiedAt: ClientRuntime.Date?
+        public var modifiedAt: Foundation.Date?
         /// The current status of the logging configuration.
         /// This member is required.
         public var status: AmpClientTypes.LoggingConfigurationStatus?
@@ -2085,9 +2088,9 @@ extension AmpClientTypes {
         public var workspace: Swift.String?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             logGroupArn: Swift.String? = nil,
-            modifiedAt: ClientRuntime.Date? = nil,
+            modifiedAt: Foundation.Date? = nil,
             status: AmpClientTypes.LoggingConfigurationStatus? = nil,
             workspace: Swift.String? = nil
         )
@@ -2207,14 +2210,14 @@ public struct PutAlertManagerDefinitionInput {
     public var clientToken: Swift.String?
     /// The alert manager definition to use. A base64-encoded version of the YAML alert manager definition file. For details about the alert manager definition, see [AlertManagedDefinitionData](https://docs.aws.amazon.com/prometheus/latest/APIReference/yaml-AlertManagerDefinitionData.html).
     /// This member is required.
-    public var data: ClientRuntime.Data?
+    public var data: Foundation.Data?
     /// The ID of the workspace to update the alert manager definition in.
     /// This member is required.
     public var workspaceId: Swift.String?
 
     public init(
         clientToken: Swift.String? = nil,
-        data: ClientRuntime.Data? = nil,
+        data: Foundation.Data? = nil,
         workspaceId: Swift.String? = nil
     )
     {
@@ -2226,7 +2229,7 @@ public struct PutAlertManagerDefinitionInput {
 
 extension PutAlertManagerDefinitionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutAlertManagerDefinitionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutAlertManagerDefinitionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2252,7 +2255,7 @@ public struct PutAlertManagerDefinitionOutput {
 
 enum PutAlertManagerDefinitionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2298,7 +2301,7 @@ public struct PutRuleGroupsNamespaceInput {
     public var clientToken: Swift.String?
     /// The new rules file to use in the namespace. A base64-encoded version of the YAML rule groups file. For details about the rule groups namespace structure, see [RuleGroupsNamespaceData](https://docs.aws.amazon.com/prometheus/latest/APIReference/yaml-RuleGroupsNamespaceData.html).
     /// This member is required.
-    public var data: ClientRuntime.Data?
+    public var data: Foundation.Data?
     /// The name of the rule groups namespace that you are updating.
     /// This member is required.
     public var name: Swift.String?
@@ -2308,7 +2311,7 @@ public struct PutRuleGroupsNamespaceInput {
 
     public init(
         clientToken: Swift.String? = nil,
-        data: ClientRuntime.Data? = nil,
+        data: Foundation.Data? = nil,
         name: Swift.String? = nil,
         workspaceId: Swift.String? = nil
     )
@@ -2322,7 +2325,7 @@ public struct PutRuleGroupsNamespaceInput {
 
 extension PutRuleGroupsNamespaceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutRuleGroupsNamespaceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutRuleGroupsNamespaceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2365,7 +2368,7 @@ public struct PutRuleGroupsNamespaceOutput {
 
 enum PutRuleGroupsNamespaceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2458,13 +2461,13 @@ extension AmpClientTypes {
         public var arn: Swift.String?
         /// The date and time that the rule groups namespace was created.
         /// This member is required.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The rule groups file used in the namespace. For details about the rule groups namespace structure, see [RuleGroupsNamespaceData](https://docs.aws.amazon.com/prometheus/latest/APIReference/yaml-RuleGroupsNamespaceData.html).
         /// This member is required.
-        public var data: ClientRuntime.Data?
+        public var data: Foundation.Data?
         /// The date and time that the rule groups namespace was most recently changed.
         /// This member is required.
-        public var modifiedAt: ClientRuntime.Date?
+        public var modifiedAt: Foundation.Date?
         /// The name of the rule groups namespace.
         /// This member is required.
         public var name: Swift.String?
@@ -2476,9 +2479,9 @@ extension AmpClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
-            data: ClientRuntime.Data? = nil,
-            modifiedAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
+            data: Foundation.Data? = nil,
+            modifiedAt: Foundation.Date? = nil,
             name: Swift.String? = nil,
             status: AmpClientTypes.RuleGroupsNamespaceStatus? = nil,
             tags: [Swift.String:Swift.String]? = nil
@@ -2599,10 +2602,10 @@ extension AmpClientTypes {
         public var arn: Swift.String?
         /// The date and time that the rule groups namespace was created.
         /// This member is required.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The date and time that the rule groups namespace was most recently changed.
         /// This member is required.
-        public var modifiedAt: ClientRuntime.Date?
+        public var modifiedAt: Foundation.Date?
         /// The name of the rule groups namespace.
         /// This member is required.
         public var name: Swift.String?
@@ -2614,8 +2617,8 @@ extension AmpClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
-            modifiedAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
+            modifiedAt: Foundation.Date? = nil,
             name: Swift.String? = nil,
             status: AmpClientTypes.RuleGroupsNamespaceStatus? = nil,
             tags: [Swift.String:Swift.String]? = nil
@@ -2660,7 +2663,7 @@ extension AmpClientTypes {
     /// A scrape configuration for a scraper, base 64 encoded. For more information, see [Scraper configuration] in the Amazon Managed Service for Prometheus User Guide.
     public enum ScrapeConfiguration {
         /// The base 64 encoded scrape configuration file.
-        case configurationblob(ClientRuntime.Data)
+        case configurationblob(Foundation.Data)
         case sdkUnknown(Swift.String)
     }
 
@@ -2697,13 +2700,13 @@ extension AmpClientTypes {
         public var arn: Swift.String?
         /// The date and time that the scraper was created.
         /// This member is required.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The Amazon Managed Service for Prometheus workspace the scraper sends metrics to.
         /// This member is required.
         public var destination: AmpClientTypes.Destination?
         /// The date and time that the scraper was last modified.
         /// This member is required.
-        public var lastModifiedAt: ClientRuntime.Date?
+        public var lastModifiedAt: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the IAM role that provides permissions for the scraper to discover and collect metrics on your behalf.
         /// This member is required.
         public var roleArn: Swift.String?
@@ -2727,9 +2730,9 @@ extension AmpClientTypes {
         public init(
             alias: Swift.String? = nil,
             arn: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             destination: AmpClientTypes.Destination? = nil,
-            lastModifiedAt: ClientRuntime.Date? = nil,
+            lastModifiedAt: Foundation.Date? = nil,
             roleArn: Swift.String? = nil,
             scrapeConfiguration: AmpClientTypes.ScrapeConfiguration? = nil,
             scraperId: Swift.String? = nil,
@@ -2857,13 +2860,13 @@ extension AmpClientTypes {
         public var arn: Swift.String?
         /// The date and time that the scraper was created.
         /// This member is required.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The Amazon Managed Service for Prometheus workspace the scraper sends metrics to.
         /// This member is required.
         public var destination: AmpClientTypes.Destination?
         /// The date and time that the scraper was last modified.
         /// This member is required.
-        public var lastModifiedAt: ClientRuntime.Date?
+        public var lastModifiedAt: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the IAM role that provides permissions for the scraper to discover and collect metrics on your behalf.
         /// This member is required.
         public var roleArn: Swift.String?
@@ -2884,9 +2887,9 @@ extension AmpClientTypes {
         public init(
             alias: Swift.String? = nil,
             arn: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             destination: AmpClientTypes.Destination? = nil,
-            lastModifiedAt: ClientRuntime.Date? = nil,
+            lastModifiedAt: Foundation.Date? = nil,
             roleArn: Swift.String? = nil,
             scraperId: Swift.String? = nil,
             source: AmpClientTypes.Source? = nil,
@@ -3046,7 +3049,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -3058,7 +3061,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3133,14 +3136,14 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension UntagResourceInput {
 
-    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let tagKeys = value.tagKeys else {
             let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
         tagKeys.forEach { queryItemValue in
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
             items.append(queryItem)
         }
         return items
@@ -3177,7 +3180,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -3189,7 +3192,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3249,7 +3252,7 @@ public struct UpdateLoggingConfigurationInput {
 
 extension UpdateLoggingConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateLoggingConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateLoggingConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3275,7 +3278,7 @@ public struct UpdateLoggingConfigurationOutput {
 
 enum UpdateLoggingConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3334,7 +3337,7 @@ public struct UpdateWorkspaceAliasInput {
 
 extension UpdateWorkspaceAliasOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateWorkspaceAliasOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateWorkspaceAliasOutput {
         return UpdateWorkspaceAliasOutput()
     }
 }
@@ -3346,7 +3349,7 @@ public struct UpdateWorkspaceAliasOutput {
 
 enum UpdateWorkspaceAliasOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3510,7 +3513,7 @@ extension AmpClientTypes {
         public var arn: Swift.String?
         /// The date and time that the workspace was created.
         /// This member is required.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// (optional) If the workspace was created with a customer managed KMS key, the ARN for the key used.
         public var kmsKeyArn: Swift.String?
         /// The Prometheus endpoint available for this workspace.
@@ -3527,7 +3530,7 @@ extension AmpClientTypes {
         public init(
             alias: Swift.String? = nil,
             arn: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             kmsKeyArn: Swift.String? = nil,
             prometheusEndpoint: Swift.String? = nil,
             status: AmpClientTypes.WorkspaceStatus? = nil,
@@ -3645,7 +3648,7 @@ extension AmpClientTypes {
         public var arn: Swift.String?
         /// The date and time that the workspace was created.
         /// This member is required.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// (optional) If the workspace was created with a customer managed KMS key, the ARN for the key used.
         public var kmsKeyArn: Swift.String?
         /// The current status of the workspace.
@@ -3660,7 +3663,7 @@ extension AmpClientTypes {
         public init(
             alias: Swift.String? = nil,
             arn: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             kmsKeyArn: Swift.String? = nil,
             status: AmpClientTypes.WorkspaceStatus? = nil,
             tags: [Swift.String:Swift.String]? = nil,

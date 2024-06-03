@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -608,7 +611,7 @@ public struct CreatePipeInput {
 
 extension CreatePipeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreatePipeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreatePipeOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -627,22 +630,22 @@ public struct CreatePipeOutput {
     /// The ARN of the pipe.
     public var arn: Swift.String?
     /// The time the pipe was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The state the pipe is in.
     public var currentState: PipesClientTypes.PipeState?
     /// The state the pipe should be in.
     public var desiredState: PipesClientTypes.RequestedPipeState?
     /// When the pipe was last updated, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The name of the pipe.
     public var name: Swift.String?
 
     public init(
         arn: Swift.String? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         currentState: PipesClientTypes.PipeState? = nil,
         desiredState: PipesClientTypes.RequestedPipeState? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         name: Swift.String? = nil
     )
     {
@@ -657,7 +660,7 @@ public struct CreatePipeOutput {
 
 enum CreatePipeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -730,7 +733,7 @@ public struct DeletePipeInput {
 
 extension DeletePipeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeletePipeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeletePipeOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -749,22 +752,22 @@ public struct DeletePipeOutput {
     /// The ARN of the pipe.
     public var arn: Swift.String?
     /// The time the pipe was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The state the pipe is in.
     public var currentState: PipesClientTypes.PipeState?
     /// The state the pipe should be in.
     public var desiredState: PipesClientTypes.RequestedPipeStateDescribeResponse?
     /// When the pipe was last updated, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The name of the pipe.
     public var name: Swift.String?
 
     public init(
         arn: Swift.String? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         currentState: PipesClientTypes.PipeState? = nil,
         desiredState: PipesClientTypes.RequestedPipeStateDescribeResponse? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         name: Swift.String? = nil
     )
     {
@@ -779,7 +782,7 @@ public struct DeletePipeOutput {
 
 enum DeletePipeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -825,7 +828,7 @@ extension DescribePipeOutput: Swift.CustomDebugStringConvertible {
 
 extension DescribePipeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribePipeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribePipeOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -855,7 +858,7 @@ public struct DescribePipeOutput {
     /// The ARN of the pipe.
     public var arn: Swift.String?
     /// The time the pipe was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The state the pipe is in.
     public var currentState: PipesClientTypes.PipeState?
     /// A description of the pipe.
@@ -867,7 +870,7 @@ public struct DescribePipeOutput {
     /// The parameters required to set up enrichment on your pipe.
     public var enrichmentParameters: PipesClientTypes.PipeEnrichmentParameters?
     /// When the pipe was last updated, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The logging configuration settings for the pipe.
     public var logConfiguration: PipesClientTypes.PipeLogConfiguration?
     /// The name of the pipe.
@@ -889,13 +892,13 @@ public struct DescribePipeOutput {
 
     public init(
         arn: Swift.String? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         currentState: PipesClientTypes.PipeState? = nil,
         description: Swift.String? = nil,
         desiredState: PipesClientTypes.RequestedPipeStateDescribeResponse? = nil,
         enrichment: Swift.String? = nil,
         enrichmentParameters: PipesClientTypes.PipeEnrichmentParameters? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         logConfiguration: PipesClientTypes.PipeLogConfiguration? = nil,
         name: Swift.String? = nil,
         roleArn: Swift.String? = nil,
@@ -929,7 +932,7 @@ public struct DescribePipeOutput {
 
 enum DescribePipeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1621,34 +1624,34 @@ extension ListPipesInput: Swift.CustomDebugStringConvertible {
 
 extension ListPipesInput {
 
-    static func queryItemProvider(_ value: ListPipesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListPipesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let namePrefix = value.namePrefix {
-            let namePrefixQueryItem = ClientRuntime.SDKURLQueryItem(name: "NamePrefix".urlPercentEncoding(), value: Swift.String(namePrefix).urlPercentEncoding())
+            let namePrefixQueryItem = Smithy.URIQueryItem(name: "NamePrefix".urlPercentEncoding(), value: Swift.String(namePrefix).urlPercentEncoding())
             items.append(namePrefixQueryItem)
         }
         if let targetPrefix = value.targetPrefix {
-            let targetPrefixQueryItem = ClientRuntime.SDKURLQueryItem(name: "TargetPrefix".urlPercentEncoding(), value: Swift.String(targetPrefix).urlPercentEncoding())
+            let targetPrefixQueryItem = Smithy.URIQueryItem(name: "TargetPrefix".urlPercentEncoding(), value: Swift.String(targetPrefix).urlPercentEncoding())
             items.append(targetPrefixQueryItem)
         }
         if let sourcePrefix = value.sourcePrefix {
-            let sourcePrefixQueryItem = ClientRuntime.SDKURLQueryItem(name: "SourcePrefix".urlPercentEncoding(), value: Swift.String(sourcePrefix).urlPercentEncoding())
+            let sourcePrefixQueryItem = Smithy.URIQueryItem(name: "SourcePrefix".urlPercentEncoding(), value: Swift.String(sourcePrefix).urlPercentEncoding())
             items.append(sourcePrefixQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let desiredState = value.desiredState {
-            let desiredStateQueryItem = ClientRuntime.SDKURLQueryItem(name: "DesiredState".urlPercentEncoding(), value: Swift.String(desiredState.rawValue).urlPercentEncoding())
+            let desiredStateQueryItem = Smithy.URIQueryItem(name: "DesiredState".urlPercentEncoding(), value: Swift.String(desiredState.rawValue).urlPercentEncoding())
             items.append(desiredStateQueryItem)
         }
         if let currentState = value.currentState {
-            let currentStateQueryItem = ClientRuntime.SDKURLQueryItem(name: "CurrentState".urlPercentEncoding(), value: Swift.String(currentState.rawValue).urlPercentEncoding())
+            let currentStateQueryItem = Smithy.URIQueryItem(name: "CurrentState".urlPercentEncoding(), value: Swift.String(currentState.rawValue).urlPercentEncoding())
             items.append(currentStateQueryItem)
         }
         if let limit = value.limit {
-            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "Limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            let limitQueryItem = Smithy.URIQueryItem(name: "Limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
             items.append(limitQueryItem)
         }
         return items
@@ -1705,7 +1708,7 @@ extension ListPipesOutput: Swift.CustomDebugStringConvertible {
 
 extension ListPipesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPipesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPipesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1734,7 +1737,7 @@ public struct ListPipesOutput {
 
 enum ListPipesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1773,7 +1776,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1797,7 +1800,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2068,7 +2071,7 @@ extension PipesClientTypes {
         /// The ARN of the pipe.
         public var arn: Swift.String?
         /// The time the pipe was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The state the pipe is in.
         public var currentState: PipesClientTypes.PipeState?
         /// The state the pipe should be in.
@@ -2076,7 +2079,7 @@ extension PipesClientTypes {
         /// The ARN of the enrichment resource.
         public var enrichment: Swift.String?
         /// When the pipe was last updated, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// The name of the pipe.
         public var name: Swift.String?
         /// The ARN of the source resource.
@@ -2088,11 +2091,11 @@ extension PipesClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             currentState: PipesClientTypes.PipeState? = nil,
             desiredState: PipesClientTypes.RequestedPipeState? = nil,
             enrichment: Swift.String? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             source: Swift.String? = nil,
             stateReason: Swift.String? = nil,
@@ -2472,7 +2475,7 @@ extension PipesClientTypes {
         /// This member is required.
         public var startingPosition: PipesClientTypes.KinesisStreamStartPosition?
         /// With StartingPosition set to AT_TIMESTAMP, the time from which to start reading, in Unix time seconds.
-        public var startingPositionTimestamp: ClientRuntime.Date?
+        public var startingPositionTimestamp: Foundation.Date?
 
         public init(
             batchSize: Swift.Int? = nil,
@@ -2483,7 +2486,7 @@ extension PipesClientTypes {
             onPartialBatchItemFailure: PipesClientTypes.OnPartialBatchItemFailureStreams? = nil,
             parallelizationFactor: Swift.Int? = nil,
             startingPosition: PipesClientTypes.KinesisStreamStartPosition? = nil,
-            startingPositionTimestamp: ClientRuntime.Date? = nil
+            startingPositionTimestamp: Foundation.Date? = nil
         )
         {
             self.batchSize = batchSize
@@ -4216,7 +4219,7 @@ public struct StartPipeInput {
 
 extension StartPipeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartPipeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartPipeOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4235,22 +4238,22 @@ public struct StartPipeOutput {
     /// The ARN of the pipe.
     public var arn: Swift.String?
     /// The time the pipe was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The state the pipe is in.
     public var currentState: PipesClientTypes.PipeState?
     /// The state the pipe should be in.
     public var desiredState: PipesClientTypes.RequestedPipeState?
     /// When the pipe was last updated, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The name of the pipe.
     public var name: Swift.String?
 
     public init(
         arn: Swift.String? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         currentState: PipesClientTypes.PipeState? = nil,
         desiredState: PipesClientTypes.RequestedPipeState? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         name: Swift.String? = nil
     )
     {
@@ -4265,7 +4268,7 @@ public struct StartPipeOutput {
 
 enum StartPipeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4306,7 +4309,7 @@ public struct StopPipeInput {
 
 extension StopPipeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopPipeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopPipeOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4325,22 +4328,22 @@ public struct StopPipeOutput {
     /// The ARN of the pipe.
     public var arn: Swift.String?
     /// The time the pipe was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The state the pipe is in.
     public var currentState: PipesClientTypes.PipeState?
     /// The state the pipe should be in.
     public var desiredState: PipesClientTypes.RequestedPipeState?
     /// When the pipe was last updated, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The name of the pipe.
     public var name: Swift.String?
 
     public init(
         arn: Swift.String? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         currentState: PipesClientTypes.PipeState? = nil,
         desiredState: PipesClientTypes.RequestedPipeState? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         name: Swift.String? = nil
     )
     {
@@ -4355,7 +4358,7 @@ public struct StopPipeOutput {
 
 enum StopPipeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4453,7 +4456,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -4465,7 +4468,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4537,14 +4540,14 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension UntagResourceInput {
 
-    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let tagKeys = value.tagKeys else {
             let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
         tagKeys.forEach { queryItemValue in
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
             items.append(queryItem)
         }
         return items
@@ -4581,7 +4584,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -4593,7 +4596,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4690,7 +4693,7 @@ public struct UpdatePipeInput {
 
 extension UpdatePipeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdatePipeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdatePipeOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4709,22 +4712,22 @@ public struct UpdatePipeOutput {
     /// The ARN of the pipe.
     public var arn: Swift.String?
     /// The time the pipe was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The state the pipe is in.
     public var currentState: PipesClientTypes.PipeState?
     /// The state the pipe should be in.
     public var desiredState: PipesClientTypes.RequestedPipeState?
     /// When the pipe was last updated, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The name of the pipe.
     public var name: Swift.String?
 
     public init(
         arn: Swift.String? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         currentState: PipesClientTypes.PipeState? = nil,
         desiredState: PipesClientTypes.RequestedPipeState? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         name: Swift.String? = nil
     )
     {
@@ -4739,7 +4742,7 @@ public struct UpdatePipeOutput {
 
 enum UpdatePipeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -73,7 +76,7 @@ extension TrustedAdvisorClientTypes {
         /// The Recommendation ARN
         public var accountRecommendationArn: Swift.String?
         /// When the Recommendation was last updated
-        public var lastUpdatedAt: ClientRuntime.Date?
+        public var lastUpdatedAt: Foundation.Date?
         /// The lifecycle stage from AWS Trusted Advisor Priority
         public var lifecycleStage: TrustedAdvisorClientTypes.RecommendationLifecycleStage?
         /// Reason for the lifecycle stage change
@@ -88,7 +91,7 @@ extension TrustedAdvisorClientTypes {
         public init(
             accountId: Swift.String? = nil,
             accountRecommendationArn: Swift.String? = nil,
-            lastUpdatedAt: ClientRuntime.Date? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
             lifecycleStage: TrustedAdvisorClientTypes.RecommendationLifecycleStage? = nil,
             updateReason: Swift.String? = nil,
             updateReasonCode: TrustedAdvisorClientTypes.UpdateRecommendationLifecycleStageReasonCode? = nil,
@@ -139,7 +142,7 @@ public struct BatchUpdateRecommendationResourceExclusionInput {
 
 extension BatchUpdateRecommendationResourceExclusionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> BatchUpdateRecommendationResourceExclusionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BatchUpdateRecommendationResourceExclusionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -164,7 +167,7 @@ public struct BatchUpdateRecommendationResourceExclusionOutput {
 
 enum BatchUpdateRecommendationResourceExclusionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -341,7 +344,7 @@ public struct GetOrganizationRecommendationInput {
 
 extension GetOrganizationRecommendationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetOrganizationRecommendationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetOrganizationRecommendationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -365,7 +368,7 @@ public struct GetOrganizationRecommendationOutput {
 
 enum GetOrganizationRecommendationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -406,7 +409,7 @@ public struct GetRecommendationInput {
 
 extension GetRecommendationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetRecommendationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetRecommendationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -430,7 +433,7 @@ public struct GetRecommendationOutput {
 
 enum GetRecommendationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -486,30 +489,30 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
 extension ListChecksInput {
 
-    static func queryItemProvider(_ value: ListChecksInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListChecksInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let pillar = value.pillar {
-            let pillarQueryItem = ClientRuntime.SDKURLQueryItem(name: "pillar".urlPercentEncoding(), value: Swift.String(pillar.rawValue).urlPercentEncoding())
+            let pillarQueryItem = Smithy.URIQueryItem(name: "pillar".urlPercentEncoding(), value: Swift.String(pillar.rawValue).urlPercentEncoding())
             items.append(pillarQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let language = value.language {
-            let languageQueryItem = ClientRuntime.SDKURLQueryItem(name: "language".urlPercentEncoding(), value: Swift.String(language.rawValue).urlPercentEncoding())
+            let languageQueryItem = Smithy.URIQueryItem(name: "language".urlPercentEncoding(), value: Swift.String(language.rawValue).urlPercentEncoding())
             items.append(languageQueryItem)
         }
         if let source = value.source {
-            let sourceQueryItem = ClientRuntime.SDKURLQueryItem(name: "source".urlPercentEncoding(), value: Swift.String(source.rawValue).urlPercentEncoding())
+            let sourceQueryItem = Smithy.URIQueryItem(name: "source".urlPercentEncoding(), value: Swift.String(source.rawValue).urlPercentEncoding())
             items.append(sourceQueryItem)
         }
         if let awsService = value.awsService {
-            let awsServiceQueryItem = ClientRuntime.SDKURLQueryItem(name: "awsService".urlPercentEncoding(), value: Swift.String(awsService).urlPercentEncoding())
+            let awsServiceQueryItem = Smithy.URIQueryItem(name: "awsService".urlPercentEncoding(), value: Swift.String(awsService).urlPercentEncoding())
             items.append(awsServiceQueryItem)
         }
         return items
@@ -557,7 +560,7 @@ public struct ListChecksInput {
 
 extension ListChecksOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListChecksOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListChecksOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -587,7 +590,7 @@ public struct ListChecksOutput {
 
 enum ListChecksOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -604,18 +607,18 @@ enum ListChecksOutputError {
 
 extension ListOrganizationRecommendationAccountsInput {
 
-    static func queryItemProvider(_ value: ListOrganizationRecommendationAccountsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListOrganizationRecommendationAccountsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let affectedAccountId = value.affectedAccountId {
-            let affectedAccountIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "affectedAccountId".urlPercentEncoding(), value: Swift.String(affectedAccountId).urlPercentEncoding())
+            let affectedAccountIdQueryItem = Smithy.URIQueryItem(name: "affectedAccountId".urlPercentEncoding(), value: Swift.String(affectedAccountId).urlPercentEncoding())
             items.append(affectedAccountIdQueryItem)
         }
         return items
@@ -659,7 +662,7 @@ public struct ListOrganizationRecommendationAccountsInput {
 
 extension ListOrganizationRecommendationAccountsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListOrganizationRecommendationAccountsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListOrganizationRecommendationAccountsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -689,7 +692,7 @@ public struct ListOrganizationRecommendationAccountsOutput {
 
 enum ListOrganizationRecommendationAccountsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -707,30 +710,30 @@ enum ListOrganizationRecommendationAccountsOutputError {
 
 extension ListOrganizationRecommendationResourcesInput {
 
-    static func queryItemProvider(_ value: ListOrganizationRecommendationResourcesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListOrganizationRecommendationResourcesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let regionCode = value.regionCode {
-            let regionCodeQueryItem = ClientRuntime.SDKURLQueryItem(name: "regionCode".urlPercentEncoding(), value: Swift.String(regionCode).urlPercentEncoding())
+            let regionCodeQueryItem = Smithy.URIQueryItem(name: "regionCode".urlPercentEncoding(), value: Swift.String(regionCode).urlPercentEncoding())
             items.append(regionCodeQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let exclusionStatus = value.exclusionStatus {
-            let exclusionStatusQueryItem = ClientRuntime.SDKURLQueryItem(name: "exclusionStatus".urlPercentEncoding(), value: Swift.String(exclusionStatus.rawValue).urlPercentEncoding())
+            let exclusionStatusQueryItem = Smithy.URIQueryItem(name: "exclusionStatus".urlPercentEncoding(), value: Swift.String(exclusionStatus.rawValue).urlPercentEncoding())
             items.append(exclusionStatusQueryItem)
         }
         if let affectedAccountId = value.affectedAccountId {
-            let affectedAccountIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "affectedAccountId".urlPercentEncoding(), value: Swift.String(affectedAccountId).urlPercentEncoding())
+            let affectedAccountIdQueryItem = Smithy.URIQueryItem(name: "affectedAccountId".urlPercentEncoding(), value: Swift.String(affectedAccountId).urlPercentEncoding())
             items.append(affectedAccountIdQueryItem)
         }
         if let status = value.status {
-            let statusQueryItem = ClientRuntime.SDKURLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            let statusQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
             items.append(statusQueryItem)
         }
         return items
@@ -786,7 +789,7 @@ public struct ListOrganizationRecommendationResourcesInput {
 
 extension ListOrganizationRecommendationResourcesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListOrganizationRecommendationResourcesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListOrganizationRecommendationResourcesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -816,7 +819,7 @@ public struct ListOrganizationRecommendationResourcesOutput {
 
 enum ListOrganizationRecommendationResourcesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -834,46 +837,46 @@ enum ListOrganizationRecommendationResourcesOutputError {
 
 extension ListOrganizationRecommendationsInput {
 
-    static func queryItemProvider(_ value: ListOrganizationRecommendationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListOrganizationRecommendationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let beforeLastUpdatedAt = value.beforeLastUpdatedAt {
-            let beforeLastUpdatedAtQueryItem = ClientRuntime.SDKURLQueryItem(name: "beforeLastUpdatedAt".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: beforeLastUpdatedAt)).urlPercentEncoding())
+            let beforeLastUpdatedAtQueryItem = Smithy.URIQueryItem(name: "beforeLastUpdatedAt".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: beforeLastUpdatedAt)).urlPercentEncoding())
             items.append(beforeLastUpdatedAtQueryItem)
         }
         if let pillar = value.pillar {
-            let pillarQueryItem = ClientRuntime.SDKURLQueryItem(name: "pillar".urlPercentEncoding(), value: Swift.String(pillar.rawValue).urlPercentEncoding())
+            let pillarQueryItem = Smithy.URIQueryItem(name: "pillar".urlPercentEncoding(), value: Swift.String(pillar.rawValue).urlPercentEncoding())
             items.append(pillarQueryItem)
         }
         if let afterLastUpdatedAt = value.afterLastUpdatedAt {
-            let afterLastUpdatedAtQueryItem = ClientRuntime.SDKURLQueryItem(name: "afterLastUpdatedAt".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: afterLastUpdatedAt)).urlPercentEncoding())
+            let afterLastUpdatedAtQueryItem = Smithy.URIQueryItem(name: "afterLastUpdatedAt".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: afterLastUpdatedAt)).urlPercentEncoding())
             items.append(afterLastUpdatedAtQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let checkIdentifier = value.checkIdentifier {
-            let checkIdentifierQueryItem = ClientRuntime.SDKURLQueryItem(name: "checkIdentifier".urlPercentEncoding(), value: Swift.String(checkIdentifier).urlPercentEncoding())
+            let checkIdentifierQueryItem = Smithy.URIQueryItem(name: "checkIdentifier".urlPercentEncoding(), value: Swift.String(checkIdentifier).urlPercentEncoding())
             items.append(checkIdentifierQueryItem)
         }
         if let source = value.source {
-            let sourceQueryItem = ClientRuntime.SDKURLQueryItem(name: "source".urlPercentEncoding(), value: Swift.String(source.rawValue).urlPercentEncoding())
+            let sourceQueryItem = Smithy.URIQueryItem(name: "source".urlPercentEncoding(), value: Swift.String(source.rawValue).urlPercentEncoding())
             items.append(sourceQueryItem)
         }
         if let type = value.type {
-            let typeQueryItem = ClientRuntime.SDKURLQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
+            let typeQueryItem = Smithy.URIQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
             items.append(typeQueryItem)
         }
         if let awsService = value.awsService {
-            let awsServiceQueryItem = ClientRuntime.SDKURLQueryItem(name: "awsService".urlPercentEncoding(), value: Swift.String(awsService).urlPercentEncoding())
+            let awsServiceQueryItem = Smithy.URIQueryItem(name: "awsService".urlPercentEncoding(), value: Swift.String(awsService).urlPercentEncoding())
             items.append(awsServiceQueryItem)
         }
         if let status = value.status {
-            let statusQueryItem = ClientRuntime.SDKURLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            let statusQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
             items.append(statusQueryItem)
         }
         return items
@@ -889,11 +892,11 @@ extension ListOrganizationRecommendationsInput {
 
 public struct ListOrganizationRecommendationsInput {
     /// After the last update of the Recommendation
-    public var afterLastUpdatedAt: ClientRuntime.Date?
+    public var afterLastUpdatedAt: Foundation.Date?
     /// The aws service associated with the Recommendation
     public var awsService: Swift.String?
     /// Before the last update of the Recommendation
-    public var beforeLastUpdatedAt: ClientRuntime.Date?
+    public var beforeLastUpdatedAt: Foundation.Date?
     /// The check identifier of the Recommendation
     public var checkIdentifier: Swift.String?
     /// The maximum number of results to return per page.
@@ -910,9 +913,9 @@ public struct ListOrganizationRecommendationsInput {
     public var type: TrustedAdvisorClientTypes.RecommendationType?
 
     public init(
-        afterLastUpdatedAt: ClientRuntime.Date? = nil,
+        afterLastUpdatedAt: Foundation.Date? = nil,
         awsService: Swift.String? = nil,
-        beforeLastUpdatedAt: ClientRuntime.Date? = nil,
+        beforeLastUpdatedAt: Foundation.Date? = nil,
         checkIdentifier: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -937,7 +940,7 @@ public struct ListOrganizationRecommendationsInput {
 
 extension ListOrganizationRecommendationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListOrganizationRecommendationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListOrganizationRecommendationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -967,7 +970,7 @@ public struct ListOrganizationRecommendationsOutput {
 
 enum ListOrganizationRecommendationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -984,26 +987,26 @@ enum ListOrganizationRecommendationsOutputError {
 
 extension ListRecommendationResourcesInput {
 
-    static func queryItemProvider(_ value: ListRecommendationResourcesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListRecommendationResourcesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let regionCode = value.regionCode {
-            let regionCodeQueryItem = ClientRuntime.SDKURLQueryItem(name: "regionCode".urlPercentEncoding(), value: Swift.String(regionCode).urlPercentEncoding())
+            let regionCodeQueryItem = Smithy.URIQueryItem(name: "regionCode".urlPercentEncoding(), value: Swift.String(regionCode).urlPercentEncoding())
             items.append(regionCodeQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let exclusionStatus = value.exclusionStatus {
-            let exclusionStatusQueryItem = ClientRuntime.SDKURLQueryItem(name: "exclusionStatus".urlPercentEncoding(), value: Swift.String(exclusionStatus.rawValue).urlPercentEncoding())
+            let exclusionStatusQueryItem = Smithy.URIQueryItem(name: "exclusionStatus".urlPercentEncoding(), value: Swift.String(exclusionStatus.rawValue).urlPercentEncoding())
             items.append(exclusionStatusQueryItem)
         }
         if let status = value.status {
-            let statusQueryItem = ClientRuntime.SDKURLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            let statusQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
             items.append(statusQueryItem)
         }
         return items
@@ -1055,7 +1058,7 @@ public struct ListRecommendationResourcesInput {
 
 extension ListRecommendationResourcesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListRecommendationResourcesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListRecommendationResourcesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1085,7 +1088,7 @@ public struct ListRecommendationResourcesOutput {
 
 enum ListRecommendationResourcesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1103,46 +1106,46 @@ enum ListRecommendationResourcesOutputError {
 
 extension ListRecommendationsInput {
 
-    static func queryItemProvider(_ value: ListRecommendationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListRecommendationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let beforeLastUpdatedAt = value.beforeLastUpdatedAt {
-            let beforeLastUpdatedAtQueryItem = ClientRuntime.SDKURLQueryItem(name: "beforeLastUpdatedAt".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: beforeLastUpdatedAt)).urlPercentEncoding())
+            let beforeLastUpdatedAtQueryItem = Smithy.URIQueryItem(name: "beforeLastUpdatedAt".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: beforeLastUpdatedAt)).urlPercentEncoding())
             items.append(beforeLastUpdatedAtQueryItem)
         }
         if let pillar = value.pillar {
-            let pillarQueryItem = ClientRuntime.SDKURLQueryItem(name: "pillar".urlPercentEncoding(), value: Swift.String(pillar.rawValue).urlPercentEncoding())
+            let pillarQueryItem = Smithy.URIQueryItem(name: "pillar".urlPercentEncoding(), value: Swift.String(pillar.rawValue).urlPercentEncoding())
             items.append(pillarQueryItem)
         }
         if let afterLastUpdatedAt = value.afterLastUpdatedAt {
-            let afterLastUpdatedAtQueryItem = ClientRuntime.SDKURLQueryItem(name: "afterLastUpdatedAt".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: afterLastUpdatedAt)).urlPercentEncoding())
+            let afterLastUpdatedAtQueryItem = Smithy.URIQueryItem(name: "afterLastUpdatedAt".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: afterLastUpdatedAt)).urlPercentEncoding())
             items.append(afterLastUpdatedAtQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let checkIdentifier = value.checkIdentifier {
-            let checkIdentifierQueryItem = ClientRuntime.SDKURLQueryItem(name: "checkIdentifier".urlPercentEncoding(), value: Swift.String(checkIdentifier).urlPercentEncoding())
+            let checkIdentifierQueryItem = Smithy.URIQueryItem(name: "checkIdentifier".urlPercentEncoding(), value: Swift.String(checkIdentifier).urlPercentEncoding())
             items.append(checkIdentifierQueryItem)
         }
         if let source = value.source {
-            let sourceQueryItem = ClientRuntime.SDKURLQueryItem(name: "source".urlPercentEncoding(), value: Swift.String(source.rawValue).urlPercentEncoding())
+            let sourceQueryItem = Smithy.URIQueryItem(name: "source".urlPercentEncoding(), value: Swift.String(source.rawValue).urlPercentEncoding())
             items.append(sourceQueryItem)
         }
         if let type = value.type {
-            let typeQueryItem = ClientRuntime.SDKURLQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
+            let typeQueryItem = Smithy.URIQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
             items.append(typeQueryItem)
         }
         if let awsService = value.awsService {
-            let awsServiceQueryItem = ClientRuntime.SDKURLQueryItem(name: "awsService".urlPercentEncoding(), value: Swift.String(awsService).urlPercentEncoding())
+            let awsServiceQueryItem = Smithy.URIQueryItem(name: "awsService".urlPercentEncoding(), value: Swift.String(awsService).urlPercentEncoding())
             items.append(awsServiceQueryItem)
         }
         if let status = value.status {
-            let statusQueryItem = ClientRuntime.SDKURLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            let statusQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
             items.append(statusQueryItem)
         }
         return items
@@ -1158,11 +1161,11 @@ extension ListRecommendationsInput {
 
 public struct ListRecommendationsInput {
     /// After the last update of the Recommendation
-    public var afterLastUpdatedAt: ClientRuntime.Date?
+    public var afterLastUpdatedAt: Foundation.Date?
     /// The aws service associated with the Recommendation
     public var awsService: Swift.String?
     /// Before the last update of the Recommendation
-    public var beforeLastUpdatedAt: ClientRuntime.Date?
+    public var beforeLastUpdatedAt: Foundation.Date?
     /// The check identifier of the Recommendation
     public var checkIdentifier: Swift.String?
     /// The maximum number of results to return per page.
@@ -1179,9 +1182,9 @@ public struct ListRecommendationsInput {
     public var type: TrustedAdvisorClientTypes.RecommendationType?
 
     public init(
-        afterLastUpdatedAt: ClientRuntime.Date? = nil,
+        afterLastUpdatedAt: Foundation.Date? = nil,
         awsService: Swift.String? = nil,
-        beforeLastUpdatedAt: ClientRuntime.Date? = nil,
+        beforeLastUpdatedAt: Foundation.Date? = nil,
         checkIdentifier: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -1206,7 +1209,7 @@ public struct ListRecommendationsInput {
 
 extension ListRecommendationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListRecommendationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListRecommendationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1236,7 +1239,7 @@ public struct ListRecommendationsOutput {
 
 enum ListRecommendationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1297,7 +1300,7 @@ extension TrustedAdvisorClientTypes {
         /// The AWS Trusted Advisor Check ARN that relates to the Recommendation
         public var checkArn: Swift.String?
         /// When the Recommendation was created, if created by AWS Trusted Advisor Priority
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The creator, if created by AWS Trusted Advisor Priority
         public var createdBy: Swift.String?
         /// A description for AWS Trusted Advisor recommendations
@@ -1307,7 +1310,7 @@ extension TrustedAdvisorClientTypes {
         /// This member is required.
         public var id: Swift.String?
         /// When the Recommendation was last updated
-        public var lastUpdatedAt: ClientRuntime.Date?
+        public var lastUpdatedAt: Foundation.Date?
         /// The lifecycle stage from AWS Trusted Advisor Priority
         public var lifecycleStage: TrustedAdvisorClientTypes.RecommendationLifecycleStage?
         /// The name of the AWS Trusted Advisor Recommendation
@@ -1319,7 +1322,7 @@ extension TrustedAdvisorClientTypes {
         /// This member is required.
         public var pillars: [TrustedAdvisorClientTypes.RecommendationPillar]?
         /// When the Recommendation was resolved
-        public var resolvedAt: ClientRuntime.Date?
+        public var resolvedAt: Foundation.Date?
         /// An aggregation of all resources
         /// This member is required.
         public var resourcesAggregates: TrustedAdvisorClientTypes.RecommendationResourcesAggregates?
@@ -1345,16 +1348,16 @@ extension TrustedAdvisorClientTypes {
             arn: Swift.String? = nil,
             awsServices: [Swift.String]? = nil,
             checkArn: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             createdBy: Swift.String? = nil,
             description: Swift.String? = nil,
             id: Swift.String? = nil,
-            lastUpdatedAt: ClientRuntime.Date? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
             lifecycleStage: TrustedAdvisorClientTypes.RecommendationLifecycleStage? = nil,
             name: Swift.String? = nil,
             pillarSpecificAggregates: TrustedAdvisorClientTypes.RecommendationPillarSpecificAggregates? = nil,
             pillars: [TrustedAdvisorClientTypes.RecommendationPillar]? = nil,
-            resolvedAt: ClientRuntime.Date? = nil,
+            resolvedAt: Foundation.Date? = nil,
             resourcesAggregates: TrustedAdvisorClientTypes.RecommendationResourcesAggregates? = nil,
             source: TrustedAdvisorClientTypes.RecommendationSource? = nil,
             status: TrustedAdvisorClientTypes.RecommendationStatus? = nil,
@@ -1428,7 +1431,7 @@ extension TrustedAdvisorClientTypes {
         public var id: Swift.String?
         /// When the Recommendation Resource was last updated
         /// This member is required.
-        public var lastUpdatedAt: ClientRuntime.Date?
+        public var lastUpdatedAt: Foundation.Date?
         /// Metadata associated with the Recommendation Resource
         /// This member is required.
         public var metadata: [Swift.String:Swift.String]?
@@ -1448,7 +1451,7 @@ extension TrustedAdvisorClientTypes {
             awsResourceId: Swift.String? = nil,
             exclusionStatus: TrustedAdvisorClientTypes.ExclusionStatus? = nil,
             id: Swift.String? = nil,
-            lastUpdatedAt: ClientRuntime.Date? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
             metadata: [Swift.String:Swift.String]? = nil,
             recommendationArn: Swift.String? = nil,
             regionCode: Swift.String? = nil,
@@ -1504,12 +1507,12 @@ extension TrustedAdvisorClientTypes {
         /// The AWS Trusted Advisor Check ARN that relates to the Recommendation
         public var checkArn: Swift.String?
         /// When the Recommendation was created, if created by AWS Trusted Advisor Priority
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The ID which identifies where the Recommendation was produced
         /// This member is required.
         public var id: Swift.String?
         /// When the Recommendation was last updated
-        public var lastUpdatedAt: ClientRuntime.Date?
+        public var lastUpdatedAt: Foundation.Date?
         /// The lifecycle stage from AWS Trusted Advisor Priority
         public var lifecycleStage: TrustedAdvisorClientTypes.RecommendationLifecycleStage?
         /// The name of the AWS Trusted Advisor Recommendation
@@ -1537,9 +1540,9 @@ extension TrustedAdvisorClientTypes {
             arn: Swift.String? = nil,
             awsServices: [Swift.String]? = nil,
             checkArn: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             id: Swift.String? = nil,
-            lastUpdatedAt: ClientRuntime.Date? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
             lifecycleStage: TrustedAdvisorClientTypes.RecommendationLifecycleStage? = nil,
             name: Swift.String? = nil,
             pillarSpecificAggregates: TrustedAdvisorClientTypes.RecommendationPillarSpecificAggregates? = nil,
@@ -1615,7 +1618,7 @@ extension TrustedAdvisorClientTypes {
         /// The AWS Trusted Advisor Check ARN that relates to the Recommendation
         public var checkArn: Swift.String?
         /// When the Recommendation was created, if created by AWS Trusted Advisor Priority
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The creator, if created by AWS Trusted Advisor Priority
         public var createdBy: Swift.String?
         /// A description for AWS Trusted Advisor recommendations
@@ -1625,7 +1628,7 @@ extension TrustedAdvisorClientTypes {
         /// This member is required.
         public var id: Swift.String?
         /// When the Recommendation was last updated
-        public var lastUpdatedAt: ClientRuntime.Date?
+        public var lastUpdatedAt: Foundation.Date?
         /// The lifecycle stage from AWS Trusted Advisor Priority
         public var lifecycleStage: TrustedAdvisorClientTypes.RecommendationLifecycleStage?
         /// The name of the AWS Trusted Advisor Recommendation
@@ -1637,7 +1640,7 @@ extension TrustedAdvisorClientTypes {
         /// This member is required.
         public var pillars: [TrustedAdvisorClientTypes.RecommendationPillar]?
         /// When the Recommendation was resolved
-        public var resolvedAt: ClientRuntime.Date?
+        public var resolvedAt: Foundation.Date?
         /// An aggregation of all resources
         /// This member is required.
         public var resourcesAggregates: TrustedAdvisorClientTypes.RecommendationResourcesAggregates?
@@ -1663,16 +1666,16 @@ extension TrustedAdvisorClientTypes {
             arn: Swift.String? = nil,
             awsServices: [Swift.String]? = nil,
             checkArn: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             createdBy: Swift.String? = nil,
             description: Swift.String? = nil,
             id: Swift.String? = nil,
-            lastUpdatedAt: ClientRuntime.Date? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
             lifecycleStage: TrustedAdvisorClientTypes.RecommendationLifecycleStage? = nil,
             name: Swift.String? = nil,
             pillarSpecificAggregates: TrustedAdvisorClientTypes.RecommendationPillarSpecificAggregates? = nil,
             pillars: [TrustedAdvisorClientTypes.RecommendationPillar]? = nil,
-            resolvedAt: ClientRuntime.Date? = nil,
+            resolvedAt: Foundation.Date? = nil,
             resourcesAggregates: TrustedAdvisorClientTypes.RecommendationResourcesAggregates? = nil,
             source: TrustedAdvisorClientTypes.RecommendationSource? = nil,
             status: TrustedAdvisorClientTypes.RecommendationStatus? = nil,
@@ -1965,7 +1968,7 @@ extension TrustedAdvisorClientTypes {
         public var id: Swift.String?
         /// When the Recommendation Resource was last updated
         /// This member is required.
-        public var lastUpdatedAt: ClientRuntime.Date?
+        public var lastUpdatedAt: Foundation.Date?
         /// Metadata associated with the Recommendation Resource
         /// This member is required.
         public var metadata: [Swift.String:Swift.String]?
@@ -1984,7 +1987,7 @@ extension TrustedAdvisorClientTypes {
             awsResourceId: Swift.String? = nil,
             exclusionStatus: TrustedAdvisorClientTypes.ExclusionStatus? = nil,
             id: Swift.String? = nil,
-            lastUpdatedAt: ClientRuntime.Date? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
             metadata: [Swift.String:Swift.String]? = nil,
             recommendationArn: Swift.String? = nil,
             regionCode: Swift.String? = nil,
@@ -2172,12 +2175,12 @@ extension TrustedAdvisorClientTypes {
         /// The AWS Trusted Advisor Check ARN that relates to the Recommendation
         public var checkArn: Swift.String?
         /// When the Recommendation was created, if created by AWS Trusted Advisor Priority
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The ID which identifies where the Recommendation was produced
         /// This member is required.
         public var id: Swift.String?
         /// When the Recommendation was last updated
-        public var lastUpdatedAt: ClientRuntime.Date?
+        public var lastUpdatedAt: Foundation.Date?
         /// The lifecycle stage from AWS Trusted Advisor Priority
         public var lifecycleStage: TrustedAdvisorClientTypes.RecommendationLifecycleStage?
         /// The name of the AWS Trusted Advisor Recommendation
@@ -2205,9 +2208,9 @@ extension TrustedAdvisorClientTypes {
             arn: Swift.String? = nil,
             awsServices: [Swift.String]? = nil,
             checkArn: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             id: Swift.String? = nil,
-            lastUpdatedAt: ClientRuntime.Date? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
             lifecycleStage: TrustedAdvisorClientTypes.RecommendationLifecycleStage? = nil,
             name: Swift.String? = nil,
             pillarSpecificAggregates: TrustedAdvisorClientTypes.RecommendationPillarSpecificAggregates? = nil,
@@ -2429,7 +2432,7 @@ public struct UpdateOrganizationRecommendationLifecycleInput {
 
 extension UpdateOrganizationRecommendationLifecycleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateOrganizationRecommendationLifecycleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateOrganizationRecommendationLifecycleOutput {
         return UpdateOrganizationRecommendationLifecycleOutput()
     }
 }
@@ -2441,7 +2444,7 @@ public struct UpdateOrganizationRecommendationLifecycleOutput {
 
 enum UpdateOrganizationRecommendationLifecycleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2511,7 +2514,7 @@ public struct UpdateRecommendationLifecycleInput {
 
 extension UpdateRecommendationLifecycleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateRecommendationLifecycleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateRecommendationLifecycleOutput {
         return UpdateRecommendationLifecycleOutput()
     }
 }
@@ -2523,7 +2526,7 @@ public struct UpdateRecommendationLifecycleOutput {
 
 enum UpdateRecommendationLifecycleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

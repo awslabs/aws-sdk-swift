@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -95,7 +97,7 @@ extension PersonalizeEventsClientTypes {
         public var sessionId: Swift.String?
         /// The timestamp for when the action interaction event occurred. Timestamps must be in Unix epoch time format, in seconds.
         /// This member is required.
-        public var timestamp: ClientRuntime.Date?
+        public var timestamp: Foundation.Date?
         /// The ID of the user who interacted with the action. This corresponds to the USER_ID field of the Action interaction schema.
         public var userId: Swift.String?
 
@@ -107,7 +109,7 @@ extension PersonalizeEventsClientTypes {
             properties: Swift.String? = nil,
             recommendationId: Swift.String? = nil,
             sessionId: Swift.String? = nil,
-            timestamp: ClientRuntime.Date? = nil,
+            timestamp: Foundation.Date? = nil,
             userId: Swift.String? = nil
         )
         {
@@ -181,7 +183,7 @@ extension PersonalizeEventsClientTypes {
         public var recommendationId: Swift.String?
         /// The timestamp (in Unix time) on the client side when the event occurred.
         /// This member is required.
-        public var sentAt: ClientRuntime.Date?
+        public var sentAt: Foundation.Date?
 
         public init(
             eventId: Swift.String? = nil,
@@ -192,7 +194,7 @@ extension PersonalizeEventsClientTypes {
             metricAttribution: PersonalizeEventsClientTypes.MetricAttribution? = nil,
             properties: Swift.String? = nil,
             recommendationId: Swift.String? = nil,
-            sentAt: ClientRuntime.Date? = nil
+            sentAt: Foundation.Date? = nil
         )
         {
             self.eventId = eventId
@@ -344,7 +346,7 @@ public struct PutActionInteractionsInput {
 
 extension PutActionInteractionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutActionInteractionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutActionInteractionsOutput {
         return PutActionInteractionsOutput()
     }
 }
@@ -356,7 +358,7 @@ public struct PutActionInteractionsOutput {
 
 enum PutActionInteractionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -406,7 +408,7 @@ public struct PutActionsInput {
 
 extension PutActionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutActionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutActionsOutput {
         return PutActionsOutput()
     }
 }
@@ -418,7 +420,7 @@ public struct PutActionsOutput {
 
 enum PutActionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -484,7 +486,7 @@ public struct PutEventsInput {
 
 extension PutEventsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutEventsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutEventsOutput {
         return PutEventsOutput()
     }
 }
@@ -496,7 +498,7 @@ public struct PutEventsOutput {
 
 enum PutEventsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -544,7 +546,7 @@ public struct PutItemsInput {
 
 extension PutItemsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutItemsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutItemsOutput {
         return PutItemsOutput()
     }
 }
@@ -556,7 +558,7 @@ public struct PutItemsOutput {
 
 enum PutItemsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -606,7 +608,7 @@ public struct PutUsersInput {
 
 extension PutUsersOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutUsersOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutUsersOutput {
         return PutUsersOutput()
     }
 }
@@ -618,7 +620,7 @@ public struct PutUsersOutput {
 
 enum PutUsersOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

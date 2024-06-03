@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -509,7 +512,7 @@ extension KafkaConnectClientTypes {
         /// The state of the connector.
         public var connectorState: KafkaConnectClientTypes.ConnectorState?
         /// The time that the connector was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The current version of the connector.
         public var currentVersion: Swift.String?
         /// The details of the Apache Kafka cluster to which the connector is connected.
@@ -535,7 +538,7 @@ extension KafkaConnectClientTypes {
             connectorDescription: Swift.String? = nil,
             connectorName: Swift.String? = nil,
             connectorState: KafkaConnectClientTypes.ConnectorState? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             currentVersion: Swift.String? = nil,
             kafkaCluster: KafkaConnectClientTypes.KafkaClusterDescription? = nil,
             kafkaClusterClientAuthentication: KafkaConnectClientTypes.KafkaClusterClientAuthenticationDescription? = nil,
@@ -670,7 +673,7 @@ public struct CreateConnectorInput {
 
 extension CreateConnectorOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateConnectorOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateConnectorOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -704,7 +707,7 @@ public struct CreateConnectorOutput {
 
 enum CreateConnectorOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -775,7 +778,7 @@ public struct CreateCustomPluginInput {
 
 extension CreateCustomPluginOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateCustomPluginOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateCustomPluginOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -814,7 +817,7 @@ public struct CreateCustomPluginOutput {
 
 enum CreateCustomPluginOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -884,7 +887,7 @@ public struct CreateWorkerConfigurationInput {
 
 extension CreateWorkerConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateWorkerConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateWorkerConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -900,7 +903,7 @@ extension CreateWorkerConfigurationOutput {
 
 public struct CreateWorkerConfigurationOutput {
     /// The time that the worker configuration was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The latest revision of the worker configuration.
     public var latestRevision: KafkaConnectClientTypes.WorkerConfigurationRevisionSummary?
     /// The name of the worker configuration.
@@ -911,7 +914,7 @@ public struct CreateWorkerConfigurationOutput {
     public var workerConfigurationState: KafkaConnectClientTypes.WorkerConfigurationState?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         latestRevision: KafkaConnectClientTypes.WorkerConfigurationRevisionSummary? = nil,
         name: Swift.String? = nil,
         workerConfigurationArn: Swift.String? = nil,
@@ -928,7 +931,7 @@ public struct CreateWorkerConfigurationOutput {
 
 enum CreateWorkerConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1141,7 +1144,7 @@ extension KafkaConnectClientTypes {
         /// The format of the plugin file.
         public var contentType: KafkaConnectClientTypes.CustomPluginContentType?
         /// The time that the custom plugin was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The description of the custom plugin.
         public var description: Swift.String?
         /// Details about the custom plugin file.
@@ -1153,7 +1156,7 @@ extension KafkaConnectClientTypes {
 
         public init(
             contentType: KafkaConnectClientTypes.CustomPluginContentType? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
             fileDescription: KafkaConnectClientTypes.CustomPluginFileDescription? = nil,
             location: KafkaConnectClientTypes.CustomPluginLocationDescription? = nil,
@@ -1231,7 +1234,7 @@ extension KafkaConnectClientTypes {
     /// A summary of the custom plugin.
     public struct CustomPluginSummary {
         /// The time that the custom plugin was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the custom plugin.
         public var customPluginArn: Swift.String?
         /// The state of the custom plugin.
@@ -1244,7 +1247,7 @@ extension KafkaConnectClientTypes {
         public var name: Swift.String?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             customPluginArn: Swift.String? = nil,
             customPluginState: KafkaConnectClientTypes.CustomPluginState? = nil,
             description: Swift.String? = nil,
@@ -1265,10 +1268,10 @@ extension KafkaConnectClientTypes {
 
 extension DeleteConnectorInput {
 
-    static func queryItemProvider(_ value: DeleteConnectorInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteConnectorInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let currentVersion = value.currentVersion {
-            let currentVersionQueryItem = ClientRuntime.SDKURLQueryItem(name: "currentVersion".urlPercentEncoding(), value: Swift.String(currentVersion).urlPercentEncoding())
+            let currentVersionQueryItem = Smithy.URIQueryItem(name: "currentVersion".urlPercentEncoding(), value: Swift.String(currentVersion).urlPercentEncoding())
             items.append(currentVersionQueryItem)
         }
         return items
@@ -1304,7 +1307,7 @@ public struct DeleteConnectorInput {
 
 extension DeleteConnectorOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteConnectorOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteConnectorOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1333,7 +1336,7 @@ public struct DeleteConnectorOutput {
 
 enum DeleteConnectorOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1376,7 +1379,7 @@ public struct DeleteCustomPluginInput {
 
 extension DeleteCustomPluginOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteCustomPluginOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteCustomPluginOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1405,7 +1408,7 @@ public struct DeleteCustomPluginOutput {
 
 enum DeleteCustomPluginOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1448,7 +1451,7 @@ public struct DeleteWorkerConfigurationInput {
 
 extension DeleteWorkerConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteWorkerConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteWorkerConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1477,7 +1480,7 @@ public struct DeleteWorkerConfigurationOutput {
 
 enum DeleteWorkerConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1525,7 +1528,7 @@ extension DescribeConnectorOutput: Swift.CustomDebugStringConvertible {
 
 extension DescribeConnectorOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeConnectorOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeConnectorOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1565,7 +1568,7 @@ public struct DescribeConnectorOutput {
     /// The state of the connector.
     public var connectorState: KafkaConnectClientTypes.ConnectorState?
     /// The time the connector was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The current version of the connector.
     public var currentVersion: Swift.String?
     /// The Apache Kafka cluster that the connector is connected to.
@@ -1594,7 +1597,7 @@ public struct DescribeConnectorOutput {
         connectorDescription: Swift.String? = nil,
         connectorName: Swift.String? = nil,
         connectorState: KafkaConnectClientTypes.ConnectorState? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         currentVersion: Swift.String? = nil,
         kafkaCluster: KafkaConnectClientTypes.KafkaClusterDescription? = nil,
         kafkaClusterClientAuthentication: KafkaConnectClientTypes.KafkaClusterClientAuthenticationDescription? = nil,
@@ -1629,7 +1632,7 @@ public struct DescribeConnectorOutput {
 
 enum DescribeConnectorOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1672,7 +1675,7 @@ public struct DescribeCustomPluginInput {
 
 extension DescribeCustomPluginOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeCustomPluginOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeCustomPluginOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1690,7 +1693,7 @@ extension DescribeCustomPluginOutput {
 
 public struct DescribeCustomPluginOutput {
     /// The time that the custom plugin was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the custom plugin.
     public var customPluginArn: Swift.String?
     /// The state of the custom plugin.
@@ -1705,7 +1708,7 @@ public struct DescribeCustomPluginOutput {
     public var stateDescription: KafkaConnectClientTypes.StateDescription?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         customPluginArn: Swift.String? = nil,
         customPluginState: KafkaConnectClientTypes.CustomPluginState? = nil,
         description: Swift.String? = nil,
@@ -1726,7 +1729,7 @@ public struct DescribeCustomPluginOutput {
 
 enum DescribeCustomPluginOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1769,7 +1772,7 @@ public struct DescribeWorkerConfigurationInput {
 
 extension DescribeWorkerConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeWorkerConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeWorkerConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1786,7 +1789,7 @@ extension DescribeWorkerConfigurationOutput {
 
 public struct DescribeWorkerConfigurationOutput {
     /// The time that the worker configuration was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The description of the worker configuration.
     public var description: Swift.String?
     /// The latest revision of the custom configuration.
@@ -1799,7 +1802,7 @@ public struct DescribeWorkerConfigurationOutput {
     public var workerConfigurationState: KafkaConnectClientTypes.WorkerConfigurationState?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         latestRevision: KafkaConnectClientTypes.WorkerConfigurationRevisionDescription? = nil,
         name: Swift.String? = nil,
@@ -1818,7 +1821,7 @@ public struct DescribeWorkerConfigurationOutput {
 
 enum DescribeWorkerConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2186,18 +2189,18 @@ public enum KafkaConnectClientTypes {}
 
 extension ListConnectorsInput {
 
-    static func queryItemProvider(_ value: ListConnectorsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListConnectorsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if value.maxResults != 0 {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(value.maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(value.maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let connectorNamePrefix = value.connectorNamePrefix {
-            let connectorNamePrefixQueryItem = ClientRuntime.SDKURLQueryItem(name: "connectorNamePrefix".urlPercentEncoding(), value: Swift.String(connectorNamePrefix).urlPercentEncoding())
+            let connectorNamePrefixQueryItem = Smithy.URIQueryItem(name: "connectorNamePrefix".urlPercentEncoding(), value: Swift.String(connectorNamePrefix).urlPercentEncoding())
             items.append(connectorNamePrefixQueryItem)
         }
         return items
@@ -2233,7 +2236,7 @@ public struct ListConnectorsInput {
 
 extension ListConnectorsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListConnectorsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListConnectorsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2262,7 +2265,7 @@ public struct ListConnectorsOutput {
 
 enum ListConnectorsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2282,18 +2285,18 @@ enum ListConnectorsOutputError {
 
 extension ListCustomPluginsInput {
 
-    static func queryItemProvider(_ value: ListCustomPluginsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListCustomPluginsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if value.maxResults != 0 {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(value.maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(value.maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let namePrefix = value.namePrefix {
-            let namePrefixQueryItem = ClientRuntime.SDKURLQueryItem(name: "namePrefix".urlPercentEncoding(), value: Swift.String(namePrefix).urlPercentEncoding())
+            let namePrefixQueryItem = Smithy.URIQueryItem(name: "namePrefix".urlPercentEncoding(), value: Swift.String(namePrefix).urlPercentEncoding())
             items.append(namePrefixQueryItem)
         }
         return items
@@ -2329,7 +2332,7 @@ public struct ListCustomPluginsInput {
 
 extension ListCustomPluginsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListCustomPluginsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListCustomPluginsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2358,7 +2361,7 @@ public struct ListCustomPluginsOutput {
 
 enum ListCustomPluginsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2401,7 +2404,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2425,7 +2428,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2445,18 +2448,18 @@ enum ListTagsForResourceOutputError {
 
 extension ListWorkerConfigurationsInput {
 
-    static func queryItemProvider(_ value: ListWorkerConfigurationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListWorkerConfigurationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if value.maxResults != 0 {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(value.maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(value.maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let namePrefix = value.namePrefix {
-            let namePrefixQueryItem = ClientRuntime.SDKURLQueryItem(name: "namePrefix".urlPercentEncoding(), value: Swift.String(namePrefix).urlPercentEncoding())
+            let namePrefixQueryItem = Smithy.URIQueryItem(name: "namePrefix".urlPercentEncoding(), value: Swift.String(namePrefix).urlPercentEncoding())
             items.append(namePrefixQueryItem)
         }
         return items
@@ -2492,7 +2495,7 @@ public struct ListWorkerConfigurationsInput {
 
 extension ListWorkerConfigurationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListWorkerConfigurationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListWorkerConfigurationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2521,7 +2524,7 @@ public struct ListWorkerConfigurationsOutput {
 
 enum ListWorkerConfigurationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3172,7 +3175,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -3184,7 +3187,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3279,14 +3282,14 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension UntagResourceInput {
 
-    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let tagKeys = value.tagKeys else {
             let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
         tagKeys.forEach { queryItemValue in
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
             items.append(queryItem)
         }
         return items
@@ -3323,7 +3326,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -3335,7 +3338,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3355,13 +3358,13 @@ enum UntagResourceOutputError {
 
 extension UpdateConnectorInput {
 
-    static func queryItemProvider(_ value: UpdateConnectorInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UpdateConnectorInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let currentVersion = value.currentVersion else {
             let message = "Creating a URL Query Item failed. currentVersion is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let currentVersionQueryItem = ClientRuntime.SDKURLQueryItem(name: "currentVersion".urlPercentEncoding(), value: Swift.String(currentVersion).urlPercentEncoding())
+        let currentVersionQueryItem = Smithy.URIQueryItem(name: "currentVersion".urlPercentEncoding(), value: Swift.String(currentVersion).urlPercentEncoding())
         items.append(currentVersionQueryItem)
         return items
     }
@@ -3410,7 +3413,7 @@ public struct UpdateConnectorInput {
 
 extension UpdateConnectorOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateConnectorOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateConnectorOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3439,7 +3442,7 @@ public struct UpdateConnectorOutput {
 
 enum UpdateConnectorOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3602,7 +3605,7 @@ extension KafkaConnectClientTypes {
     /// The description of the worker configuration revision.
     public struct WorkerConfigurationRevisionDescription {
         /// The time that the worker configuration was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The description of the worker configuration revision.
         public var description: Swift.String?
         /// Base64 encoded contents of the connect-distributed.properties file.
@@ -3611,7 +3614,7 @@ extension KafkaConnectClientTypes {
         public var revision: Swift.Int
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
             propertiesFileContent: Swift.String? = nil,
             revision: Swift.Int = 0
@@ -3642,14 +3645,14 @@ extension KafkaConnectClientTypes {
     /// The summary of a worker configuration revision.
     public struct WorkerConfigurationRevisionSummary {
         /// The time that a worker configuration revision was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The description of a worker configuration revision.
         public var description: Swift.String?
         /// The revision of a worker configuration.
         public var revision: Swift.Int
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
             revision: Swift.Int = 0
         )
@@ -3710,7 +3713,7 @@ extension KafkaConnectClientTypes {
     /// The summary of a worker configuration.
     public struct WorkerConfigurationSummary {
         /// The time that a worker configuration was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The description of a worker configuration.
         public var description: Swift.String?
         /// The latest revision of a worker configuration.
@@ -3723,7 +3726,7 @@ extension KafkaConnectClientTypes {
         public var workerConfigurationState: KafkaConnectClientTypes.WorkerConfigurationState?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
             latestRevision: KafkaConnectClientTypes.WorkerConfigurationRevisionSummary? = nil,
             name: Swift.String? = nil,

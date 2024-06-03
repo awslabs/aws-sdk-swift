@@ -4,6 +4,7 @@ import AWSClientRuntime
 @testable import AWSS3Control
 import AwsCommonRuntimeKit
 import ClientRuntime
+import SmithyHTTPAPI
 import SmithyTestUtil
 import XCTest
 
@@ -39,10 +40,10 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        var headers = Headers()
+        var headers = SmithyHTTPAPI.Headers()
         headers.add(name: "x-amz-account-id", values: ["123456789012"])
         headers.add(name: "x-amz-outpost-id", values: ["op-01234567890123456"])
-        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-outposts.us-west-2.amazonaws.com", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3-outposts.us-west-2.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -73,10 +74,10 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        var headers = Headers()
+        var headers = SmithyHTTPAPI.Headers()
         headers.add(name: "x-amz-account-id", values: ["123456789012"])
         headers.add(name: "x-amz-outpost-id", values: ["op-01234567890123456"])
-        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-outposts.us-east-1.amazonaws.com", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3-outposts.us-east-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -107,10 +108,10 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        var headers = Headers()
+        var headers = SmithyHTTPAPI.Headers()
         headers.add(name: "x-amz-account-id", values: ["123456789012"])
         headers.add(name: "x-amz-outpost-id", values: ["op-01234567890123456"])
-        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-outposts.us-west-2.amazonaws.com", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3-outposts.us-west-2.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -141,10 +142,10 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        var headers = Headers()
+        var headers = SmithyHTTPAPI.Headers()
         headers.add(name: "x-amz-account-id", values: ["123456789012"])
         headers.add(name: "x-amz-outpost-id", values: ["op-01234567890123456"])
-        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-outposts.cn-north-1.amazonaws.com.cn", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3-outposts.cn-north-1.amazonaws.com.cn", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -175,10 +176,10 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        var headers = Headers()
+        var headers = SmithyHTTPAPI.Headers()
         headers.add(name: "x-amz-account-id", values: ["123456789012"])
         headers.add(name: "x-amz-outpost-id", values: ["op-01234567890123456"])
-        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-outposts.us-west-2.amazonaws.com", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3-outposts.us-west-2.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -209,10 +210,10 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        var headers = Headers()
+        var headers = SmithyHTTPAPI.Headers()
         headers.add(name: "x-amz-account-id", values: ["123456789012"])
         headers.add(name: "x-amz-outpost-id", values: ["op-01234567890123456"])
-        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-outposts-fips.us-west-2.amazonaws.com", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3-outposts-fips.us-west-2.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -243,10 +244,10 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        var headers = Headers()
+        var headers = SmithyHTTPAPI.Headers()
         headers.add(name: "x-amz-account-id", values: ["123456789012"])
         headers.add(name: "x-amz-outpost-id", values: ["op-01234567890123456"])
-        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-outposts-fips.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3-outposts-fips.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -277,10 +278,10 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        var headers = Headers()
+        var headers = SmithyHTTPAPI.Headers()
         headers.add(name: "x-amz-account-id", values: ["123456789012"])
         headers.add(name: "x-amz-outpost-id", values: ["op-01234567890123456"])
-        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-outposts.cn-north-1.amazonaws.com.cn", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3-outposts.cn-north-1.amazonaws.com.cn", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -311,10 +312,10 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        var headers = Headers()
+        var headers = SmithyHTTPAPI.Headers()
         headers.add(name: "x-amz-account-id", values: ["123456789012"])
         headers.add(name: "x-amz-outpost-id", values: ["op-01234567890123456"])
-        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-outposts-fips.cn-north-1.amazonaws.com.cn", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3-outposts-fips.cn-north-1.amazonaws.com.cn", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -345,10 +346,10 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        var headers = Headers()
+        var headers = SmithyHTTPAPI.Headers()
         headers.add(name: "x-amz-account-id", values: ["123456789012"])
         headers.add(name: "x-amz-outpost-id", values: ["op-01234567890123456"])
-        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-outposts-fips.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3-outposts-fips.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -379,10 +380,10 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        var headers = Headers()
+        var headers = SmithyHTTPAPI.Headers()
         headers.add(name: "x-amz-account-id", values: ["123456789012"])
         headers.add(name: "x-amz-outpost-id", values: ["op-01234567890123456"])
-        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-outposts.af-south-1.amazonaws.com", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3-outposts.af-south-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -413,10 +414,10 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        var headers = Headers()
+        var headers = SmithyHTTPAPI.Headers()
         headers.add(name: "x-amz-account-id", values: ["123456789012"])
         headers.add(name: "x-amz-outpost-id", values: ["op-01234567890123456"])
-        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-outposts-fips.af-south-1.amazonaws.com", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3-outposts-fips.af-south-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -447,10 +448,10 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        var headers = Headers()
+        var headers = SmithyHTTPAPI.Headers()
         headers.add(name: "x-amz-account-id", values: ["123456789012"])
         headers.add(name: "x-amz-outpost-id", values: ["op-01234567890123456"])
-        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-outposts-fips.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3-outposts-fips.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -481,8 +482,8 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-outposts.us-east-2.amazonaws.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3-outposts.us-east-2.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -513,8 +514,8 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-outposts-fips.us-east-2.amazonaws.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3-outposts-fips.us-east-2.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -544,8 +545,8 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-control.us-east-2.amazonaws.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3-control.us-east-2.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -576,8 +577,8 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-outposts.us-east-2.amazonaws.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3-outposts.us-east-2.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -607,8 +608,8 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://123456789012.s3-control.us-east-2.amazonaws.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://123456789012.s3-control.us-east-2.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -639,8 +640,8 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-outposts-fips.us-east-2.amazonaws.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3-outposts-fips.us-east-2.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -671,10 +672,10 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        var headers = Headers()
+        var headers = SmithyHTTPAPI.Headers()
         headers.add(name: "x-amz-account-id", values: ["123456789012"])
         headers.add(name: "x-amz-outpost-id", values: ["op-01234567890123456"])
-        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-outposts.us-west-2.api.aws", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3-outposts.us-west-2.api.aws", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -705,10 +706,10 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        var headers = Headers()
+        var headers = SmithyHTTPAPI.Headers()
         headers.add(name: "x-amz-account-id", values: ["123456789012"])
         headers.add(name: "x-amz-outpost-id", values: ["op-01234567890123456"])
-        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-outposts.af-south-1.api.aws", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3-outposts.af-south-1.api.aws", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -739,10 +740,10 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        var headers = Headers()
+        var headers = SmithyHTTPAPI.Headers()
         headers.add(name: "x-amz-account-id", values: ["123456789012"])
         headers.add(name: "x-amz-outpost-id", values: ["op-01234567890123456"])
-        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-outposts-fips.af-south-1.api.aws", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3-outposts-fips.af-south-1.api.aws", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -837,8 +838,8 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://myid-1234.s3-control.us-west-2.amazonaws.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://myid-1234.s3-control.us-west-2.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -870,10 +871,10 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        var headers = Headers()
+        var headers = SmithyHTTPAPI.Headers()
         headers.add(name: "x-amz-account-id", values: ["123456789012"])
         headers.add(name: "x-amz-outpost-id", values: ["op-01234567890123456"])
-        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-outposts.us-west-2.amazonaws.com", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3-outposts.us-west-2.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -928,8 +929,8 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://123456789012.control.vpce-1a2b3c4d-5e6f.s3.us-west-2.vpce.amazonaws.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://123456789012.control.vpce-1a2b3c4d-5e6f.s3.us-west-2.vpce.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -961,10 +962,10 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        var headers = Headers()
+        var headers = SmithyHTTPAPI.Headers()
         headers.add(name: "x-amz-account-id", values: ["123456789012"])
         headers.add(name: "x-amz-outpost-id", values: ["op-01234567890123456"])
-        let expected = try ClientRuntime.Endpoint(urlString: "https://beta.example.com", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://beta.example.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -1040,8 +1041,8 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://beta.example.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://beta.example.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -1072,10 +1073,10 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        var headers = Headers()
+        var headers = SmithyHTTPAPI.Headers()
         headers.add(name: "x-amz-account-id", values: ["123456789012"])
         headers.add(name: "x-amz-outpost-id", values: ["op-01234567890123456"])
-        let expected = try ClientRuntime.Endpoint(urlString: "https://beta.example.com", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://beta.example.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -1107,8 +1108,8 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://beta.example.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://beta.example.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -1140,8 +1141,8 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://beta.example.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://beta.example.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -1172,8 +1173,8 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-outposts-fips.us-east-2.api.aws", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3-outposts-fips.us-east-2.api.aws", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -1205,8 +1206,8 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://beta.example.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://beta.example.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -1258,10 +1259,10 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        var headers = Headers()
+        var headers = SmithyHTTPAPI.Headers()
         headers.add(name: "x-amz-account-id", values: ["123456789012"])
         headers.add(name: "x-amz-outpost-id", values: ["op-01234567890123456"])
-        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-outposts.us-west-2.amazonaws.com", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3-outposts.us-west-2.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -1291,10 +1292,10 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        var headers = Headers()
+        var headers = SmithyHTTPAPI.Headers()
         headers.add(name: "x-amz-account-id", values: ["123456789012"])
         headers.add(name: "x-amz-outpost-id", values: ["op-01234567890123456"])
-        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-outposts.us-east-1.amazonaws.com", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3-outposts.us-east-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -1324,10 +1325,10 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        var headers = Headers()
+        var headers = SmithyHTTPAPI.Headers()
         headers.add(name: "x-amz-account-id", values: ["123456789012"])
         headers.add(name: "x-amz-outpost-id", values: ["op-01234567890123456"])
-        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-outposts.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3-outposts.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -1357,10 +1358,10 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        var headers = Headers()
+        var headers = SmithyHTTPAPI.Headers()
         headers.add(name: "x-amz-account-id", values: ["123456789012"])
         headers.add(name: "x-amz-outpost-id", values: ["op-01234567890123456"])
-        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-outposts-fips.us-gov-west-1.amazonaws.com", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3-outposts-fips.us-gov-west-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -1390,10 +1391,10 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        var headers = Headers()
+        var headers = SmithyHTTPAPI.Headers()
         headers.add(name: "x-amz-account-id", values: ["123456789012"])
         headers.add(name: "x-amz-outpost-id", values: ["op-01234567890123456"])
-        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-outposts-fips.us-east-2.amazonaws.com", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3-outposts-fips.us-east-2.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -1423,10 +1424,10 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        var headers = Headers()
+        var headers = SmithyHTTPAPI.Headers()
         headers.add(name: "x-amz-account-id", values: ["123456789012"])
         headers.add(name: "x-amz-outpost-id", values: ["op-01234567890123456"])
-        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-outposts-fips.us-east-2.api.aws", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3-outposts-fips.us-east-2.api.aws", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -1456,10 +1457,10 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        var headers = Headers()
+        var headers = SmithyHTTPAPI.Headers()
         headers.add(name: "x-amz-account-id", values: ["123456789012"])
         headers.add(name: "x-amz-outpost-id", values: ["op-01234567890123456"])
-        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-outposts.cn-north-1.amazonaws.com.cn", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3-outposts.cn-north-1.amazonaws.com.cn", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -1489,10 +1490,10 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        var headers = Headers()
+        var headers = SmithyHTTPAPI.Headers()
         headers.add(name: "x-amz-account-id", values: ["123456789012"])
         headers.add(name: "x-amz-outpost-id", values: ["op-01234567890123456"])
-        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-outposts.us-east-1.amazonaws.com", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3-outposts.us-east-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -1522,10 +1523,10 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        var headers = Headers()
+        var headers = SmithyHTTPAPI.Headers()
         headers.add(name: "x-amz-account-id", values: ["123456789012"])
         headers.add(name: "x-amz-outpost-id", values: ["op-01234567890123456"])
-        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-outposts.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3-outposts.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -1555,10 +1556,10 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        var headers = Headers()
+        var headers = SmithyHTTPAPI.Headers()
         headers.add(name: "x-amz-account-id", values: ["123456789012"])
         headers.add(name: "x-amz-outpost-id", values: ["op-01234567890123456"])
-        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-outposts-fips.us-gov-west-1.amazonaws.com", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3-outposts-fips.us-gov-west-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -1588,10 +1589,10 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        var headers = Headers()
+        var headers = SmithyHTTPAPI.Headers()
         headers.add(name: "x-amz-account-id", values: ["123456789012"])
         headers.add(name: "x-amz-outpost-id", values: ["op-01234567890123456"])
-        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-outposts-fips.us-east-2.amazonaws.com", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3-outposts-fips.us-east-2.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -1621,10 +1622,10 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        var headers = Headers()
+        var headers = SmithyHTTPAPI.Headers()
         headers.add(name: "x-amz-account-id", values: ["123456789012"])
         headers.add(name: "x-amz-outpost-id", values: ["op-01234567890123456"])
-        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-outposts.us-west-2.api.aws", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3-outposts.us-west-2.api.aws", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -1654,10 +1655,10 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        var headers = Headers()
+        var headers = SmithyHTTPAPI.Headers()
         headers.add(name: "x-amz-account-id", values: ["123456789012"])
         headers.add(name: "x-amz-outpost-id", values: ["op-01234567890123456"])
-        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-outposts.af-south-1.amazonaws.com", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3-outposts.af-south-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -1687,10 +1688,10 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        var headers = Headers()
+        var headers = SmithyHTTPAPI.Headers()
         headers.add(name: "x-amz-account-id", values: ["123456789012"])
         headers.add(name: "x-amz-outpost-id", values: ["op-01234567890123456"])
-        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-outposts.us-east-1.amazonaws.com", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3-outposts.us-east-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -1720,10 +1721,10 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        var headers = Headers()
+        var headers = SmithyHTTPAPI.Headers()
         headers.add(name: "x-amz-account-id", values: ["123456789012"])
         headers.add(name: "x-amz-outpost-id", values: ["op-01234567890123456"])
-        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-outposts.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3-outposts.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -1753,10 +1754,10 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        var headers = Headers()
+        var headers = SmithyHTTPAPI.Headers()
         headers.add(name: "x-amz-account-id", values: ["123456789012"])
         headers.add(name: "x-amz-outpost-id", values: ["op-01234567890123456"])
-        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-outposts-fips.us-gov-west-1.amazonaws.com", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3-outposts-fips.us-gov-west-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -1786,10 +1787,10 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        var headers = Headers()
+        var headers = SmithyHTTPAPI.Headers()
         headers.add(name: "x-amz-account-id", values: ["123456789012"])
         headers.add(name: "x-amz-outpost-id", values: ["op-01234567890123456"])
-        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-outposts-fips.us-east-2.amazonaws.com", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3-outposts-fips.us-east-2.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -1903,8 +1904,8 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://1234567890.s3-control.us-west-2.amazonaws.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://1234567890.s3-control.us-west-2.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -1934,8 +1935,8 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://1234567890.s3-control.dualstack.us-east-1.amazonaws.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://1234567890.s3-control.dualstack.us-east-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -1965,8 +1966,8 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://1234567890.s3-control-fips.us-east-1.amazonaws.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://1234567890.s3-control-fips.us-east-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -1996,8 +1997,8 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://123456789012.s3-control-fips.us-east-1.amazonaws.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://123456789012.s3-control-fips.us-east-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -2023,8 +2024,8 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-control.us-east-1.amazonaws.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3-control.us-east-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -2051,8 +2052,8 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-control-fips.us-east-1.amazonaws.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3-control-fips.us-east-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -2079,8 +2080,8 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-control.dualstack.us-east-1.amazonaws.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3-control.dualstack.us-east-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -2108,8 +2109,8 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-control-fips.dualstack.us-east-1.amazonaws.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3-control-fips.dualstack.us-east-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -2135,8 +2136,8 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-control.cn-north-1.amazonaws.com.cn", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3-control.cn-north-1.amazonaws.com.cn", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -2185,8 +2186,8 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://123456789012.s3-control.us-east-1.amazonaws.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://123456789012.s3-control.us-east-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -2237,8 +2238,8 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://123456789012.s3-control-fips.us-east-1.amazonaws.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://123456789012.s3-control-fips.us-east-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -2268,8 +2269,8 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://123456789012.s3-control-fips.dualstack.us-east-1.amazonaws.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://123456789012.s3-control-fips.dualstack.us-east-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -2298,8 +2299,8 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://123456789012.example.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://123456789012.example.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -2386,8 +2387,8 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://123456789012.example.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://123456789012.example.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -2415,8 +2416,8 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -2444,8 +2445,8 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -2636,8 +2637,8 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://123456789012.beta.example.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://123456789012.beta.example.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -2668,10 +2669,10 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        var headers = Headers()
+        var headers = SmithyHTTPAPI.Headers()
         headers.add(name: "x-amz-account-id", values: ["123456789012"])
         headers.add(name: "x-amz-outpost-id", values: ["op-01234567890123456"])
-        let expected = try ClientRuntime.Endpoint(urlString: "https://beta.example.com", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://beta.example.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -2833,8 +2834,8 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-outposts.us-west-2.amazonaws.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3-outposts.us-west-2.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -2911,10 +2912,10 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        var headers = Headers()
+        var headers = SmithyHTTPAPI.Headers()
         headers.add(name: "x-amz-account-id", values: ["123456789012"])
         headers.add(name: "x-amz-outpost-id", values: ["op-01234567890123456"])
-        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-outposts.us-east-1.amazonaws.com", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3-outposts.us-east-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -2944,10 +2945,10 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        var headers = Headers()
+        var headers = SmithyHTTPAPI.Headers()
         headers.add(name: "x-amz-account-id", values: ["123456789012"])
         headers.add(name: "x-amz-outpost-id", values: ["op-01234567890123456"])
-        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-outposts.us-east-1.amazonaws.com", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3-outposts.us-east-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -3045,10 +3046,10 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        var headers = Headers()
+        var headers = SmithyHTTPAPI.Headers()
         headers.add(name: "x-amz-account-id", values: ["123456789012"])
         headers.add(name: "x-amz-outpost-id", values: ["op-01234567890123456"])
-        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-outposts.us-west-2.amazonaws.com", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3-outposts.us-west-2.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -3078,8 +3079,8 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://10.0.1.12:433", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://10.0.1.12:433", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -3108,8 +3109,8 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://10.0.1.12:433", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://10.0.1.12:433", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -3139,8 +3140,8 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://10.0.1.12", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://10.0.1.12", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -3170,8 +3171,8 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "http://s3snow.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "http://s3snow.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }

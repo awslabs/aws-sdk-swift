@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -173,7 +175,7 @@ extension BatchDetectDominantLanguageOutput: Swift.CustomDebugStringConvertible 
 
 extension BatchDetectDominantLanguageOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> BatchDetectDominantLanguageOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BatchDetectDominantLanguageOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -204,7 +206,7 @@ public struct BatchDetectDominantLanguageOutput {
 
 enum BatchDetectDominantLanguageOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -297,7 +299,7 @@ extension BatchDetectEntitiesOutput: Swift.CustomDebugStringConvertible {
 
 extension BatchDetectEntitiesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> BatchDetectEntitiesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BatchDetectEntitiesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -328,7 +330,7 @@ public struct BatchDetectEntitiesOutput {
 
 enum BatchDetectEntitiesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -422,7 +424,7 @@ extension BatchDetectKeyPhrasesOutput: Swift.CustomDebugStringConvertible {
 
 extension BatchDetectKeyPhrasesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> BatchDetectKeyPhrasesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BatchDetectKeyPhrasesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -453,7 +455,7 @@ public struct BatchDetectKeyPhrasesOutput {
 
 enum BatchDetectKeyPhrasesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -552,7 +554,7 @@ extension BatchDetectSentimentOutput: Swift.CustomDebugStringConvertible {
 
 extension BatchDetectSentimentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> BatchDetectSentimentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BatchDetectSentimentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -583,7 +585,7 @@ public struct BatchDetectSentimentOutput {
 
 enum BatchDetectSentimentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -677,7 +679,7 @@ extension BatchDetectSyntaxOutput: Swift.CustomDebugStringConvertible {
 
 extension BatchDetectSyntaxOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> BatchDetectSyntaxOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BatchDetectSyntaxOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -708,7 +710,7 @@ public struct BatchDetectSyntaxOutput {
 
 enum BatchDetectSyntaxOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -802,7 +804,7 @@ extension BatchDetectTargetedSentimentOutput: Swift.CustomDebugStringConvertible
 
 extension BatchDetectTargetedSentimentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> BatchDetectTargetedSentimentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BatchDetectTargetedSentimentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -833,7 +835,7 @@ public struct BatchDetectTargetedSentimentOutput {
 
 enum BatchDetectTargetedSentimentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1257,7 +1259,7 @@ extension ClassifyDocumentInput {
 
 public struct ClassifyDocumentInput {
     /// Use the Bytes parameter to input a text, PDF, Word or image file. When you classify a document using a custom model, you can also use the Bytes parameter to input an Amazon Textract DetectDocumentText or AnalyzeDocument output file. To classify a document using the prompt safety classifier, use the Text parameter for input. Provide the input document as a sequence of base64-encoded bytes. If your code uses an Amazon Web Services SDK to classify documents, the SDK may encode the document file bytes for you. The maximum length of this field depends on the input document type. For details, see [ Inputs for real-time custom analysis](https://docs.aws.amazon.com/comprehend/latest/dg/idp-inputs-sync.html) in the Comprehend Developer Guide. If you use the Bytes parameter, do not use the Text parameter.
-    public var bytes: ClientRuntime.Data?
+    public var bytes: Foundation.Data?
     /// Provides configuration parameters to override the default actions for extracting text from PDF documents and image files.
     public var documentReaderConfig: ComprehendClientTypes.DocumentReaderConfig?
     /// The Amazon Resource Number (ARN) of the endpoint. For prompt safety classification, Amazon Comprehend provides the endpoint ARN. For more information about prompt safety classifiers, see [Prompt safety classification](https://docs.aws.amazon.com/comprehend/latest/dg/trust-safety.html#prompt-classification) in the Amazon Comprehend Developer Guide For custom classification, you create an endpoint for your custom model. For more information, see [Using Amazon Comprehend endpoints](https://docs.aws.amazon.com/comprehend/latest/dg/using-endpoints.html).
@@ -1267,7 +1269,7 @@ public struct ClassifyDocumentInput {
     public var text: Swift.String?
 
     public init(
-        bytes: ClientRuntime.Data? = nil,
+        bytes: Foundation.Data? = nil,
         documentReaderConfig: ComprehendClientTypes.DocumentReaderConfig? = nil,
         endpointArn: Swift.String? = nil,
         text: Swift.String? = nil
@@ -1288,7 +1290,7 @@ extension ClassifyDocumentOutput: Swift.CustomDebugStringConvertible {
 
 extension ClassifyDocumentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ClassifyDocumentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ClassifyDocumentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1337,7 +1339,7 @@ public struct ClassifyDocumentOutput {
 
 enum ClassifyDocumentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1427,7 +1429,7 @@ public struct ContainsPiiEntitiesInput {
 
 extension ContainsPiiEntitiesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ContainsPiiEntitiesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ContainsPiiEntitiesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1451,7 +1453,7 @@ public struct ContainsPiiEntitiesOutput {
 
 enum ContainsPiiEntitiesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1528,7 +1530,7 @@ public struct CreateDatasetInput {
 
 extension CreateDatasetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateDatasetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateDatasetOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1552,7 +1554,7 @@ public struct CreateDatasetOutput {
 
 enum CreateDatasetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1671,7 +1673,7 @@ public struct CreateDocumentClassifierInput {
 
 extension CreateDocumentClassifierOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateDocumentClassifierOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateDocumentClassifierOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1695,7 +1697,7 @@ public struct CreateDocumentClassifierOutput {
 
 enum CreateDocumentClassifierOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1775,7 +1777,7 @@ public struct CreateEndpointInput {
 
 extension CreateEndpointOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateEndpointOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateEndpointOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1804,7 +1806,7 @@ public struct CreateEndpointOutput {
 
 enum CreateEndpointOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1914,7 +1916,7 @@ public struct CreateEntityRecognizerInput {
 
 extension CreateEntityRecognizerOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateEntityRecognizerOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateEntityRecognizerOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1938,7 +1940,7 @@ public struct CreateEntityRecognizerOutput {
 
 enum CreateEntityRecognizerOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2029,7 +2031,7 @@ public struct CreateFlywheelInput {
 
 extension CreateFlywheelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateFlywheelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateFlywheelOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2058,7 +2060,7 @@ public struct CreateFlywheelOutput {
 
 enum CreateFlywheelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2367,17 +2369,17 @@ extension ComprehendClientTypes {
     /// Filter the datasets based on creation time or dataset status.
     public struct DatasetFilter {
         /// Filter the datasets to include datasets created after the specified time.
-        public var creationTimeAfter: ClientRuntime.Date?
+        public var creationTimeAfter: Foundation.Date?
         /// Filter the datasets to include datasets created before the specified time.
-        public var creationTimeBefore: ClientRuntime.Date?
+        public var creationTimeBefore: Foundation.Date?
         /// Filter the datasets based on the dataset type.
         public var datasetType: ComprehendClientTypes.DatasetType?
         /// Filter the datasets based on the dataset status.
         public var status: ComprehendClientTypes.DatasetStatus?
 
         public init(
-            creationTimeAfter: ClientRuntime.Date? = nil,
-            creationTimeBefore: ClientRuntime.Date? = nil,
+            creationTimeAfter: Foundation.Date? = nil,
+            creationTimeBefore: Foundation.Date? = nil,
             datasetType: ComprehendClientTypes.DatasetType? = nil,
             status: ComprehendClientTypes.DatasetStatus? = nil
         )
@@ -2453,7 +2455,7 @@ extension ComprehendClientTypes {
     /// Properties associated with the dataset.
     public struct DatasetProperties {
         /// Creation time of the dataset.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The ARN of the dataset.
         public var datasetArn: Swift.String?
         /// The name of the dataset.
@@ -2465,7 +2467,7 @@ extension ComprehendClientTypes {
         /// Description of the dataset.
         public var description: Swift.String?
         /// Time when the data from the dataset becomes available in the data lake.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// A description of the status of the dataset.
         public var message: Swift.String?
         /// The number of documents in the dataset.
@@ -2474,13 +2476,13 @@ extension ComprehendClientTypes {
         public var status: ComprehendClientTypes.DatasetStatus?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             datasetArn: Swift.String? = nil,
             datasetName: Swift.String? = nil,
             datasetS3Uri: Swift.String? = nil,
             datasetType: ComprehendClientTypes.DatasetType? = nil,
             description: Swift.String? = nil,
-            endTime: ClientRuntime.Date? = nil,
+            endTime: Foundation.Date? = nil,
             message: Swift.String? = nil,
             numberOfDocuments: Swift.Int? = nil,
             status: ComprehendClientTypes.DatasetStatus? = nil
@@ -2592,7 +2594,7 @@ public struct DeleteDocumentClassifierInput {
 
 extension DeleteDocumentClassifierOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteDocumentClassifierOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteDocumentClassifierOutput {
         return DeleteDocumentClassifierOutput()
     }
 }
@@ -2604,7 +2606,7 @@ public struct DeleteDocumentClassifierOutput {
 
 enum DeleteDocumentClassifierOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2651,7 +2653,7 @@ public struct DeleteEndpointInput {
 
 extension DeleteEndpointOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteEndpointOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteEndpointOutput {
         return DeleteEndpointOutput()
     }
 }
@@ -2663,7 +2665,7 @@ public struct DeleteEndpointOutput {
 
 enum DeleteEndpointOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2709,7 +2711,7 @@ public struct DeleteEntityRecognizerInput {
 
 extension DeleteEntityRecognizerOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteEntityRecognizerOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteEntityRecognizerOutput {
         return DeleteEntityRecognizerOutput()
     }
 }
@@ -2721,7 +2723,7 @@ public struct DeleteEntityRecognizerOutput {
 
 enum DeleteEntityRecognizerOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2768,7 +2770,7 @@ public struct DeleteFlywheelInput {
 
 extension DeleteFlywheelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteFlywheelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteFlywheelOutput {
         return DeleteFlywheelOutput()
     }
 }
@@ -2780,7 +2782,7 @@ public struct DeleteFlywheelOutput {
 
 enum DeleteFlywheelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2832,7 +2834,7 @@ public struct DeleteResourcePolicyInput {
 
 extension DeleteResourcePolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteResourcePolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteResourcePolicyOutput {
         return DeleteResourcePolicyOutput()
     }
 }
@@ -2844,7 +2846,7 @@ public struct DeleteResourcePolicyOutput {
 
 enum DeleteResourcePolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2888,7 +2890,7 @@ public struct DescribeDatasetInput {
 
 extension DescribeDatasetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeDatasetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeDatasetOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2912,7 +2914,7 @@ public struct DescribeDatasetOutput {
 
 enum DescribeDatasetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2957,7 +2959,7 @@ public struct DescribeDocumentClassificationJobInput {
 
 extension DescribeDocumentClassificationJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeDocumentClassificationJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeDocumentClassificationJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2981,7 +2983,7 @@ public struct DescribeDocumentClassificationJobOutput {
 
 enum DescribeDocumentClassificationJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3026,7 +3028,7 @@ public struct DescribeDocumentClassifierInput {
 
 extension DescribeDocumentClassifierOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeDocumentClassifierOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeDocumentClassifierOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3050,7 +3052,7 @@ public struct DescribeDocumentClassifierOutput {
 
 enum DescribeDocumentClassifierOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3095,7 +3097,7 @@ public struct DescribeDominantLanguageDetectionJobInput {
 
 extension DescribeDominantLanguageDetectionJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeDominantLanguageDetectionJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeDominantLanguageDetectionJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3119,7 +3121,7 @@ public struct DescribeDominantLanguageDetectionJobOutput {
 
 enum DescribeDominantLanguageDetectionJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3164,7 +3166,7 @@ public struct DescribeEndpointInput {
 
 extension DescribeEndpointOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeEndpointOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeEndpointOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3188,7 +3190,7 @@ public struct DescribeEndpointOutput {
 
 enum DescribeEndpointOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3233,7 +3235,7 @@ public struct DescribeEntitiesDetectionJobInput {
 
 extension DescribeEntitiesDetectionJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeEntitiesDetectionJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeEntitiesDetectionJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3257,7 +3259,7 @@ public struct DescribeEntitiesDetectionJobOutput {
 
 enum DescribeEntitiesDetectionJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3302,7 +3304,7 @@ public struct DescribeEntityRecognizerInput {
 
 extension DescribeEntityRecognizerOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeEntityRecognizerOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeEntityRecognizerOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3326,7 +3328,7 @@ public struct DescribeEntityRecognizerOutput {
 
 enum DescribeEntityRecognizerOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3371,7 +3373,7 @@ public struct DescribeEventsDetectionJobInput {
 
 extension DescribeEventsDetectionJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeEventsDetectionJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeEventsDetectionJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3395,7 +3397,7 @@ public struct DescribeEventsDetectionJobOutput {
 
 enum DescribeEventsDetectionJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3474,7 +3476,7 @@ public struct DescribeFlywheelIterationInput {
 
 extension DescribeFlywheelIterationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeFlywheelIterationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeFlywheelIterationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3498,7 +3500,7 @@ public struct DescribeFlywheelIterationOutput {
 
 enum DescribeFlywheelIterationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3515,7 +3517,7 @@ enum DescribeFlywheelIterationOutputError {
 
 extension DescribeFlywheelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeFlywheelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeFlywheelOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3539,7 +3541,7 @@ public struct DescribeFlywheelOutput {
 
 enum DescribeFlywheelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3584,7 +3586,7 @@ public struct DescribeKeyPhrasesDetectionJobInput {
 
 extension DescribeKeyPhrasesDetectionJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeKeyPhrasesDetectionJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeKeyPhrasesDetectionJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3608,7 +3610,7 @@ public struct DescribeKeyPhrasesDetectionJobOutput {
 
 enum DescribeKeyPhrasesDetectionJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3653,7 +3655,7 @@ public struct DescribePiiEntitiesDetectionJobInput {
 
 extension DescribePiiEntitiesDetectionJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribePiiEntitiesDetectionJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribePiiEntitiesDetectionJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3677,7 +3679,7 @@ public struct DescribePiiEntitiesDetectionJobOutput {
 
 enum DescribePiiEntitiesDetectionJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3722,7 +3724,7 @@ public struct DescribeResourcePolicyInput {
 
 extension DescribeResourcePolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeResourcePolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeResourcePolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3737,17 +3739,17 @@ extension DescribeResourcePolicyOutput {
 
 public struct DescribeResourcePolicyOutput {
     /// The time at which the policy was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The time at which the policy was last modified.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The revision ID of the policy. Each time you modify a policy, Amazon Comprehend assigns a new revision ID, and it deletes the prior version of the policy.
     public var policyRevisionId: Swift.String?
     /// The JSON body of the resource-based policy.
     public var resourcePolicy: Swift.String?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         policyRevisionId: Swift.String? = nil,
         resourcePolicy: Swift.String? = nil
     )
@@ -3761,7 +3763,7 @@ public struct DescribeResourcePolicyOutput {
 
 enum DescribeResourcePolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3805,7 +3807,7 @@ public struct DescribeSentimentDetectionJobInput {
 
 extension DescribeSentimentDetectionJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeSentimentDetectionJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeSentimentDetectionJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3829,7 +3831,7 @@ public struct DescribeSentimentDetectionJobOutput {
 
 enum DescribeSentimentDetectionJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3874,7 +3876,7 @@ public struct DescribeTargetedSentimentDetectionJobInput {
 
 extension DescribeTargetedSentimentDetectionJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeTargetedSentimentDetectionJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeTargetedSentimentDetectionJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3898,7 +3900,7 @@ public struct DescribeTargetedSentimentDetectionJobOutput {
 
 enum DescribeTargetedSentimentDetectionJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3943,7 +3945,7 @@ public struct DescribeTopicsDetectionJobInput {
 
 extension DescribeTopicsDetectionJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeTopicsDetectionJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeTopicsDetectionJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3967,7 +3969,7 @@ public struct DescribeTopicsDetectionJobOutput {
 
 enum DescribeTopicsDetectionJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4023,7 +4025,7 @@ extension DetectDominantLanguageOutput: Swift.CustomDebugStringConvertible {
 
 extension DetectDominantLanguageOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DetectDominantLanguageOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DetectDominantLanguageOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4047,7 +4049,7 @@ public struct DetectDominantLanguageOutput {
 
 enum DetectDominantLanguageOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4087,7 +4089,7 @@ extension DetectEntitiesInput {
 
 public struct DetectEntitiesInput {
     /// This field applies only when you use a custom entity recognition model that was trained with PDF annotations. For other cases, enter your text input in the Text field. Use the Bytes parameter to input a text, PDF, Word or image file. Using a plain-text file in the Bytes parameter is equivelent to using the Text parameter (the Entities field in the response is identical). You can also use the Bytes parameter to input an Amazon Textract DetectDocumentText or AnalyzeDocument output file. Provide the input document as a sequence of base64-encoded bytes. If your code uses an Amazon Web Services SDK to detect entities, the SDK may encode the document file bytes for you. The maximum length of this field depends on the input document type. For details, see [ Inputs for real-time custom analysis](https://docs.aws.amazon.com/comprehend/latest/dg/idp-inputs-sync.html) in the Comprehend Developer Guide. If you use the Bytes parameter, do not use the Text parameter.
-    public var bytes: ClientRuntime.Data?
+    public var bytes: Foundation.Data?
     /// Provides configuration parameters to override the default actions for extracting text from PDF documents and image files.
     public var documentReaderConfig: ComprehendClientTypes.DocumentReaderConfig?
     /// The Amazon Resource Name of an endpoint that is associated with a custom entity recognition model. Provide an endpoint if you want to detect entities by using your own custom model instead of the default model that is used by Amazon Comprehend. If you specify an endpoint, Amazon Comprehend uses the language of your custom model, and it ignores any language code that you provide in your request. For information about endpoints, see [Managing endpoints](https://docs.aws.amazon.com/comprehend/latest/dg/manage-endpoints.html).
@@ -4098,7 +4100,7 @@ public struct DetectEntitiesInput {
     public var text: Swift.String?
 
     public init(
-        bytes: ClientRuntime.Data? = nil,
+        bytes: Foundation.Data? = nil,
         documentReaderConfig: ComprehendClientTypes.DocumentReaderConfig? = nil,
         endpointArn: Swift.String? = nil,
         languageCode: ComprehendClientTypes.LanguageCode? = nil,
@@ -4121,7 +4123,7 @@ extension DetectEntitiesOutput: Swift.CustomDebugStringConvertible {
 
 extension DetectEntitiesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DetectEntitiesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DetectEntitiesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4165,7 +4167,7 @@ public struct DetectEntitiesOutput {
 
 enum DetectEntitiesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4228,7 +4230,7 @@ extension DetectKeyPhrasesOutput: Swift.CustomDebugStringConvertible {
 
 extension DetectKeyPhrasesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DetectKeyPhrasesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DetectKeyPhrasesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4252,7 +4254,7 @@ public struct DetectKeyPhrasesOutput {
 
 enum DetectKeyPhrasesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4303,7 +4305,7 @@ public struct DetectPiiEntitiesInput {
 
 extension DetectPiiEntitiesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DetectPiiEntitiesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DetectPiiEntitiesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4327,7 +4329,7 @@ public struct DetectPiiEntitiesOutput {
 
 enum DetectPiiEntitiesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4389,7 +4391,7 @@ extension DetectSentimentOutput: Swift.CustomDebugStringConvertible {
 
 extension DetectSentimentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DetectSentimentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DetectSentimentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4418,7 +4420,7 @@ public struct DetectSentimentOutput {
 
 enum DetectSentimentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4480,7 +4482,7 @@ extension DetectSyntaxOutput: Swift.CustomDebugStringConvertible {
 
 extension DetectSyntaxOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DetectSyntaxOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DetectSyntaxOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4504,7 +4506,7 @@ public struct DetectSyntaxOutput {
 
 enum DetectSyntaxOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4566,7 +4568,7 @@ extension DetectTargetedSentimentOutput: Swift.CustomDebugStringConvertible {
 
 extension DetectTargetedSentimentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DetectTargetedSentimentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DetectTargetedSentimentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4590,7 +4592,7 @@ public struct DetectTargetedSentimentOutput {
 
 enum DetectTargetedSentimentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4646,7 +4648,7 @@ public struct DetectToxicContentInput {
 
 extension DetectToxicContentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DetectToxicContentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DetectToxicContentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4670,7 +4672,7 @@ public struct DetectToxicContentOutput {
 
 enum DetectToxicContentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4778,15 +4780,15 @@ extension ComprehendClientTypes {
         /// Filters the list based on job status. Returns only jobs with the specified status.
         public var jobStatus: ComprehendClientTypes.JobStatus?
         /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted after the specified time. Jobs are returned in descending order, newest to oldest.
-        public var submitTimeAfter: ClientRuntime.Date?
+        public var submitTimeAfter: Foundation.Date?
         /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted before the specified time. Jobs are returned in ascending order, oldest to newest.
-        public var submitTimeBefore: ClientRuntime.Date?
+        public var submitTimeBefore: Foundation.Date?
 
         public init(
             jobName: Swift.String? = nil,
             jobStatus: ComprehendClientTypes.JobStatus? = nil,
-            submitTimeAfter: ClientRuntime.Date? = nil,
-            submitTimeBefore: ClientRuntime.Date? = nil
+            submitTimeAfter: Foundation.Date? = nil,
+            submitTimeBefore: Foundation.Date? = nil
         )
         {
             self.jobName = jobName
@@ -4829,7 +4831,7 @@ extension ComprehendClientTypes {
         /// The Amazon Resource Name (ARN) that identifies the document classifier.
         public var documentClassifierArn: Swift.String?
         /// The time that the document classification job completed.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// The Amazon Resource Number (ARN) of the flywheel
         public var flywheelArn: Swift.String?
         /// The input data configuration that you supplied when you created the document classification job.
@@ -4847,7 +4849,7 @@ extension ComprehendClientTypes {
         /// The output data configuration that you supplied when you created the document classification job.
         public var outputDataConfig: ComprehendClientTypes.OutputDataConfig?
         /// The time that the document classification job was submitted for processing.
-        public var submitTime: ClientRuntime.Date?
+        public var submitTime: Foundation.Date?
         /// ID for the Amazon Web Services Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:
         ///
         /// * KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"
@@ -4860,7 +4862,7 @@ extension ComprehendClientTypes {
         public init(
             dataAccessRoleArn: Swift.String? = nil,
             documentClassifierArn: Swift.String? = nil,
-            endTime: ClientRuntime.Date? = nil,
+            endTime: Foundation.Date? = nil,
             flywheelArn: Swift.String? = nil,
             inputDataConfig: ComprehendClientTypes.InputDataConfig? = nil,
             jobArn: Swift.String? = nil,
@@ -4869,7 +4871,7 @@ extension ComprehendClientTypes {
             jobStatus: ComprehendClientTypes.JobStatus? = nil,
             message: Swift.String? = nil,
             outputDataConfig: ComprehendClientTypes.OutputDataConfig? = nil,
-            submitTime: ClientRuntime.Date? = nil,
+            submitTime: Foundation.Date? = nil,
             volumeKmsKeyId: Swift.String? = nil,
             vpcConfig: ComprehendClientTypes.VpcConfig? = nil
         )
@@ -5008,15 +5010,15 @@ extension ComprehendClientTypes {
         /// Filters the list of classifiers based on status.
         public var status: ComprehendClientTypes.ModelStatus?
         /// Filters the list of classifiers based on the time that the classifier was submitted for processing. Returns only classifiers submitted after the specified time. Classifiers are returned in descending order, newest to oldest.
-        public var submitTimeAfter: ClientRuntime.Date?
+        public var submitTimeAfter: Foundation.Date?
         /// Filters the list of classifiers based on the time that the classifier was submitted for processing. Returns only classifiers submitted before the specified time. Classifiers are returned in ascending order, oldest to newest.
-        public var submitTimeBefore: ClientRuntime.Date?
+        public var submitTimeBefore: Foundation.Date?
 
         public init(
             documentClassifierName: Swift.String? = nil,
             status: ComprehendClientTypes.ModelStatus? = nil,
-            submitTimeAfter: ClientRuntime.Date? = nil,
-            submitTimeBefore: ClientRuntime.Date? = nil
+            submitTimeAfter: Foundation.Date? = nil,
+            submitTimeBefore: Foundation.Date? = nil
         )
         {
             self.documentClassifierName = documentClassifierName
@@ -5240,7 +5242,7 @@ extension ComprehendClientTypes {
         /// The Amazon Resource Name (ARN) that identifies the document classifier.
         public var documentClassifierArn: Swift.String?
         /// The time that training the document classifier completed.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// The Amazon Resource Number (ARN) of the flywheel
         public var flywheelArn: Swift.String?
         /// The input data configuration that you supplied when you created the document classifier for training.
@@ -5264,11 +5266,11 @@ extension ComprehendClientTypes {
         /// The status of the document classifier. If the status is TRAINED the classifier is ready to use. If the status is TRAINED_WITH_WARNINGS the classifier training succeeded, but you should review the warnings returned in the CreateDocumentClassifier response. If the status is FAILED you can see additional information about why the classifier wasn't trained in the Message field.
         public var status: ComprehendClientTypes.ModelStatus?
         /// The time that the document classifier was submitted for training.
-        public var submitTime: ClientRuntime.Date?
+        public var submitTime: Foundation.Date?
         /// The time that training of the document classifier was completed. Indicates the time when the training completes on documentation classifiers. You are billed for the time interval between this time and the value of TrainingStartTime.
-        public var trainingEndTime: ClientRuntime.Date?
+        public var trainingEndTime: Foundation.Date?
         /// Indicates the time when the training starts on documentation classifiers. You are billed for the time interval between this time and the value of TrainingEndTime.
-        public var trainingStartTime: ClientRuntime.Date?
+        public var trainingStartTime: Foundation.Date?
         /// The version name that you assigned to the document classifier.
         public var versionName: Swift.String?
         /// ID for the Amazon Web Services Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:
@@ -5284,7 +5286,7 @@ extension ComprehendClientTypes {
             classifierMetadata: ComprehendClientTypes.ClassifierMetadata? = nil,
             dataAccessRoleArn: Swift.String? = nil,
             documentClassifierArn: Swift.String? = nil,
-            endTime: ClientRuntime.Date? = nil,
+            endTime: Foundation.Date? = nil,
             flywheelArn: Swift.String? = nil,
             inputDataConfig: ComprehendClientTypes.DocumentClassifierInputDataConfig? = nil,
             languageCode: ComprehendClientTypes.LanguageCode? = nil,
@@ -5294,9 +5296,9 @@ extension ComprehendClientTypes {
             outputDataConfig: ComprehendClientTypes.DocumentClassifierOutputDataConfig? = nil,
             sourceModelArn: Swift.String? = nil,
             status: ComprehendClientTypes.ModelStatus? = nil,
-            submitTime: ClientRuntime.Date? = nil,
-            trainingEndTime: ClientRuntime.Date? = nil,
-            trainingStartTime: ClientRuntime.Date? = nil,
+            submitTime: Foundation.Date? = nil,
+            trainingEndTime: Foundation.Date? = nil,
+            trainingStartTime: Foundation.Date? = nil,
             versionName: Swift.String? = nil,
             volumeKmsKeyId: Swift.String? = nil,
             vpcConfig: ComprehendClientTypes.VpcConfig? = nil
@@ -5346,7 +5348,7 @@ extension ComprehendClientTypes {
         /// The name that you assigned the document classifier.
         public var documentClassifierName: Swift.String?
         /// The time that the latest document classifier version was submitted for processing.
-        public var latestVersionCreatedAt: ClientRuntime.Date?
+        public var latestVersionCreatedAt: Foundation.Date?
         /// The version name you assigned to the latest document classifier version.
         public var latestVersionName: Swift.String?
         /// Provides the status of the latest document classifier version.
@@ -5356,7 +5358,7 @@ extension ComprehendClientTypes {
 
         public init(
             documentClassifierName: Swift.String? = nil,
-            latestVersionCreatedAt: ClientRuntime.Date? = nil,
+            latestVersionCreatedAt: Foundation.Date? = nil,
             latestVersionName: Swift.String? = nil,
             latestVersionStatus: ComprehendClientTypes.ModelStatus? = nil,
             numberOfVersions: Swift.Int? = nil
@@ -5717,15 +5719,15 @@ extension ComprehendClientTypes {
         /// Filters the list of jobs based on job status. Returns only jobs with the specified status.
         public var jobStatus: ComprehendClientTypes.JobStatus?
         /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted after the specified time. Jobs are returned in descending order, newest to oldest.
-        public var submitTimeAfter: ClientRuntime.Date?
+        public var submitTimeAfter: Foundation.Date?
         /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted before the specified time. Jobs are returned in ascending order, oldest to newest.
-        public var submitTimeBefore: ClientRuntime.Date?
+        public var submitTimeBefore: Foundation.Date?
 
         public init(
             jobName: Swift.String? = nil,
             jobStatus: ComprehendClientTypes.JobStatus? = nil,
-            submitTimeAfter: ClientRuntime.Date? = nil,
-            submitTimeBefore: ClientRuntime.Date? = nil
+            submitTimeAfter: Foundation.Date? = nil,
+            submitTimeBefore: Foundation.Date? = nil
         )
         {
             self.jobName = jobName
@@ -5764,7 +5766,7 @@ extension ComprehendClientTypes {
         /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data.
         public var dataAccessRoleArn: Swift.String?
         /// The time that the dominant language detection job completed.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// The input data configuration that you supplied when you created the dominant language detection job.
         public var inputDataConfig: ComprehendClientTypes.InputDataConfig?
         /// The Amazon Resource Name (ARN) of the dominant language detection job. It is a unique, fully qualified identifier for the job. It includes the Amazon Web Services account, Amazon Web Services Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::dominant-language-detection-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:dominant-language-detection-job/1234abcd12ab34cd56ef1234567890ab
@@ -5780,7 +5782,7 @@ extension ComprehendClientTypes {
         /// The output data configuration that you supplied when you created the dominant language detection job.
         public var outputDataConfig: ComprehendClientTypes.OutputDataConfig?
         /// The time that the dominant language detection job was submitted for processing.
-        public var submitTime: ClientRuntime.Date?
+        public var submitTime: Foundation.Date?
         /// ID for the Amazon Web Services Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:
         ///
         /// * KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"
@@ -5792,7 +5794,7 @@ extension ComprehendClientTypes {
 
         public init(
             dataAccessRoleArn: Swift.String? = nil,
-            endTime: ClientRuntime.Date? = nil,
+            endTime: Foundation.Date? = nil,
             inputDataConfig: ComprehendClientTypes.InputDataConfig? = nil,
             jobArn: Swift.String? = nil,
             jobId: Swift.String? = nil,
@@ -5800,7 +5802,7 @@ extension ComprehendClientTypes {
             jobStatus: ComprehendClientTypes.JobStatus? = nil,
             message: Swift.String? = nil,
             outputDataConfig: ComprehendClientTypes.OutputDataConfig? = nil,
-            submitTime: ClientRuntime.Date? = nil,
+            submitTime: Foundation.Date? = nil,
             volumeKmsKeyId: Swift.String? = nil,
             vpcConfig: ComprehendClientTypes.VpcConfig? = nil
         )
@@ -5837,17 +5839,17 @@ extension ComprehendClientTypes {
     /// The filter used to determine which endpoints are returned. You can filter jobs on their name, model, status, or the date and time that they were created. You can only set one filter at a time.
     public struct EndpointFilter {
         /// Specifies a date after which the returned endpoint or endpoints were created.
-        public var creationTimeAfter: ClientRuntime.Date?
+        public var creationTimeAfter: Foundation.Date?
         /// Specifies a date before which the returned endpoint or endpoints were created.
-        public var creationTimeBefore: ClientRuntime.Date?
+        public var creationTimeBefore: Foundation.Date?
         /// The Amazon Resource Number (ARN) of the model to which the endpoint is attached.
         public var modelArn: Swift.String?
         /// Specifies the status of the endpoint being returned. Possible values are: Creating, Ready, Updating, Deleting, Failed.
         public var status: ComprehendClientTypes.EndpointStatus?
 
         public init(
-            creationTimeAfter: ClientRuntime.Date? = nil,
-            creationTimeBefore: ClientRuntime.Date? = nil,
+            creationTimeAfter: Foundation.Date? = nil,
+            creationTimeBefore: Foundation.Date? = nil,
             modelArn: Swift.String? = nil,
             status: ComprehendClientTypes.EndpointStatus? = nil
         )
@@ -5886,7 +5888,7 @@ extension ComprehendClientTypes {
     /// Specifies information about the specified endpoint. For information about endpoints, see [Managing endpoints](https://docs.aws.amazon.com/comprehend/latest/dg/manage-endpoints.html).
     public struct EndpointProperties {
         /// The creation date and time of the endpoint.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The number of inference units currently used by the model using this endpoint.
         public var currentInferenceUnits: Swift.Int?
         /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to trained custom models encrypted with a customer managed key (ModelKmsKeyId).
@@ -5902,7 +5904,7 @@ extension ComprehendClientTypes {
         /// The Amazon Resource Number (ARN) of the flywheel
         public var flywheelArn: Swift.String?
         /// The date and time that the endpoint was last modified.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// Specifies a reason for failure in cases of Failed status.
         public var message: Swift.String?
         /// The Amazon Resource Number (ARN) of the model to which the endpoint is attached.
@@ -5911,7 +5913,7 @@ extension ComprehendClientTypes {
         public var status: ComprehendClientTypes.EndpointStatus?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             currentInferenceUnits: Swift.Int? = nil,
             dataAccessRoleArn: Swift.String? = nil,
             desiredDataAccessRoleArn: Swift.String? = nil,
@@ -5919,7 +5921,7 @@ extension ComprehendClientTypes {
             desiredModelArn: Swift.String? = nil,
             endpointArn: Swift.String? = nil,
             flywheelArn: Swift.String? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             message: Swift.String? = nil,
             modelArn: Swift.String? = nil,
             status: ComprehendClientTypes.EndpointStatus? = nil
@@ -5999,15 +6001,15 @@ extension ComprehendClientTypes {
         /// Filters the list of jobs based on job status. Returns only jobs with the specified status.
         public var jobStatus: ComprehendClientTypes.JobStatus?
         /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted after the specified time. Jobs are returned in descending order, newest to oldest.
-        public var submitTimeAfter: ClientRuntime.Date?
+        public var submitTimeAfter: Foundation.Date?
         /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted before the specified time. Jobs are returned in ascending order, oldest to newest.
-        public var submitTimeBefore: ClientRuntime.Date?
+        public var submitTimeBefore: Foundation.Date?
 
         public init(
             jobName: Swift.String? = nil,
             jobStatus: ComprehendClientTypes.JobStatus? = nil,
-            submitTimeAfter: ClientRuntime.Date? = nil,
-            submitTimeBefore: ClientRuntime.Date? = nil
+            submitTimeAfter: Foundation.Date? = nil,
+            submitTimeBefore: Foundation.Date? = nil
         )
         {
             self.jobName = jobName
@@ -6049,7 +6051,7 @@ extension ComprehendClientTypes {
         /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data.
         public var dataAccessRoleArn: Swift.String?
         /// The time that the entities detection job completed
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) that identifies the entity recognizer.
         public var entityRecognizerArn: Swift.String?
         /// The Amazon Resource Name (ARN) of the flywheel associated with this job.
@@ -6071,7 +6073,7 @@ extension ComprehendClientTypes {
         /// The output data configuration that you supplied when you created the entities detection job.
         public var outputDataConfig: ComprehendClientTypes.OutputDataConfig?
         /// The time that the entities detection job was submitted for processing.
-        public var submitTime: ClientRuntime.Date?
+        public var submitTime: Foundation.Date?
         /// ID for the Amazon Web Services Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:
         ///
         /// * KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"
@@ -6083,7 +6085,7 @@ extension ComprehendClientTypes {
 
         public init(
             dataAccessRoleArn: Swift.String? = nil,
-            endTime: ClientRuntime.Date? = nil,
+            endTime: Foundation.Date? = nil,
             entityRecognizerArn: Swift.String? = nil,
             flywheelArn: Swift.String? = nil,
             inputDataConfig: ComprehendClientTypes.InputDataConfig? = nil,
@@ -6094,7 +6096,7 @@ extension ComprehendClientTypes {
             languageCode: ComprehendClientTypes.LanguageCode? = nil,
             message: Swift.String? = nil,
             outputDataConfig: ComprehendClientTypes.OutputDataConfig? = nil,
-            submitTime: ClientRuntime.Date? = nil,
+            submitTime: Foundation.Date? = nil,
             volumeKmsKeyId: Swift.String? = nil,
             vpcConfig: ComprehendClientTypes.VpcConfig? = nil
         )
@@ -6431,15 +6433,15 @@ extension ComprehendClientTypes {
         /// The status of an entity recognizer.
         public var status: ComprehendClientTypes.ModelStatus?
         /// Filters the list of entities based on the time that the list was submitted for processing. Returns only jobs submitted after the specified time. Jobs are returned in ascending order, oldest to newest.
-        public var submitTimeAfter: ClientRuntime.Date?
+        public var submitTimeAfter: Foundation.Date?
         /// Filters the list of entities based on the time that the list was submitted for processing. Returns only jobs submitted before the specified time. Jobs are returned in descending order, newest to oldest.
-        public var submitTimeBefore: ClientRuntime.Date?
+        public var submitTimeBefore: Foundation.Date?
 
         public init(
             recognizerName: Swift.String? = nil,
             status: ComprehendClientTypes.ModelStatus? = nil,
-            submitTimeAfter: ClientRuntime.Date? = nil,
-            submitTimeBefore: ClientRuntime.Date? = nil
+            submitTimeAfter: Foundation.Date? = nil,
+            submitTimeBefore: Foundation.Date? = nil
         )
         {
             self.recognizerName = recognizerName
@@ -6667,7 +6669,7 @@ extension ComprehendClientTypes {
         /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data.
         public var dataAccessRoleArn: Swift.String?
         /// The time that the recognizer creation completed.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) that identifies the entity recognizer.
         public var entityRecognizerArn: Swift.String?
         /// The Amazon Resource Number (ARN) of the flywheel
@@ -6693,11 +6695,11 @@ extension ComprehendClientTypes {
         /// Provides the status of the entity recognizer.
         public var status: ComprehendClientTypes.ModelStatus?
         /// The time that the recognizer was submitted for processing.
-        public var submitTime: ClientRuntime.Date?
+        public var submitTime: Foundation.Date?
         /// The time that training of the entity recognizer was completed.
-        public var trainingEndTime: ClientRuntime.Date?
+        public var trainingEndTime: Foundation.Date?
         /// The time that training of the entity recognizer started.
-        public var trainingStartTime: ClientRuntime.Date?
+        public var trainingStartTime: Foundation.Date?
         /// The version name you assigned to the entity recognizer.
         public var versionName: Swift.String?
         /// ID for the Amazon Web Services Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:
@@ -6711,7 +6713,7 @@ extension ComprehendClientTypes {
 
         public init(
             dataAccessRoleArn: Swift.String? = nil,
-            endTime: ClientRuntime.Date? = nil,
+            endTime: Foundation.Date? = nil,
             entityRecognizerArn: Swift.String? = nil,
             flywheelArn: Swift.String? = nil,
             inputDataConfig: ComprehendClientTypes.EntityRecognizerInputDataConfig? = nil,
@@ -6722,9 +6724,9 @@ extension ComprehendClientTypes {
             recognizerMetadata: ComprehendClientTypes.EntityRecognizerMetadata? = nil,
             sourceModelArn: Swift.String? = nil,
             status: ComprehendClientTypes.ModelStatus? = nil,
-            submitTime: ClientRuntime.Date? = nil,
-            trainingEndTime: ClientRuntime.Date? = nil,
-            trainingStartTime: ClientRuntime.Date? = nil,
+            submitTime: Foundation.Date? = nil,
+            trainingEndTime: Foundation.Date? = nil,
+            trainingStartTime: Foundation.Date? = nil,
             versionName: Swift.String? = nil,
             volumeKmsKeyId: Swift.String? = nil,
             vpcConfig: ComprehendClientTypes.VpcConfig? = nil
@@ -6771,7 +6773,7 @@ extension ComprehendClientTypes {
     /// Describes the information about an entity recognizer and its versions.
     public struct EntityRecognizerSummary {
         /// The time that the latest entity recognizer version was submitted for processing.
-        public var latestVersionCreatedAt: ClientRuntime.Date?
+        public var latestVersionCreatedAt: Foundation.Date?
         /// The version name you assigned to the latest entity recognizer version.
         public var latestVersionName: Swift.String?
         /// Provides the status of the latest entity recognizer version.
@@ -6782,7 +6784,7 @@ extension ComprehendClientTypes {
         public var recognizerName: Swift.String?
 
         public init(
-            latestVersionCreatedAt: ClientRuntime.Date? = nil,
+            latestVersionCreatedAt: Foundation.Date? = nil,
             latestVersionName: Swift.String? = nil,
             latestVersionStatus: ComprehendClientTypes.ModelStatus? = nil,
             numberOfVersions: Swift.Int? = nil,
@@ -6982,15 +6984,15 @@ extension ComprehendClientTypes {
         /// Filters the list of jobs based on job status. Returns only jobs with the specified status.
         public var jobStatus: ComprehendClientTypes.JobStatus?
         /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted after the specified time. Jobs are returned in descending order, newest to oldest.
-        public var submitTimeAfter: ClientRuntime.Date?
+        public var submitTimeAfter: Foundation.Date?
         /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted before the specified time. Jobs are returned in ascending order, oldest to newest.
-        public var submitTimeBefore: ClientRuntime.Date?
+        public var submitTimeBefore: Foundation.Date?
 
         public init(
             jobName: Swift.String? = nil,
             jobStatus: ComprehendClientTypes.JobStatus? = nil,
-            submitTimeAfter: ClientRuntime.Date? = nil,
-            submitTimeBefore: ClientRuntime.Date? = nil
+            submitTimeAfter: Foundation.Date? = nil,
+            submitTimeBefore: Foundation.Date? = nil
         )
         {
             self.jobName = jobName
@@ -7029,7 +7031,7 @@ extension ComprehendClientTypes {
         /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data.
         public var dataAccessRoleArn: Swift.String?
         /// The time that the events detection job completed.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// The input data configuration that you supplied when you created the events detection job.
         public var inputDataConfig: ComprehendClientTypes.InputDataConfig?
         /// The Amazon Resource Name (ARN) of the events detection job. It is a unique, fully qualified identifier for the job. It includes the Amazon Web Services account, Amazon Web Services Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::events-detection-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:events-detection-job/1234abcd12ab34cd56ef1234567890ab
@@ -7047,13 +7049,13 @@ extension ComprehendClientTypes {
         /// The output data configuration that you supplied when you created the events detection job.
         public var outputDataConfig: ComprehendClientTypes.OutputDataConfig?
         /// The time that the events detection job was submitted for processing.
-        public var submitTime: ClientRuntime.Date?
+        public var submitTime: Foundation.Date?
         /// The types of events that are detected by the job.
         public var targetEventTypes: [Swift.String]?
 
         public init(
             dataAccessRoleArn: Swift.String? = nil,
-            endTime: ClientRuntime.Date? = nil,
+            endTime: Foundation.Date? = nil,
             inputDataConfig: ComprehendClientTypes.InputDataConfig? = nil,
             jobArn: Swift.String? = nil,
             jobId: Swift.String? = nil,
@@ -7062,7 +7064,7 @@ extension ComprehendClientTypes {
             languageCode: ComprehendClientTypes.LanguageCode? = nil,
             message: Swift.String? = nil,
             outputDataConfig: ComprehendClientTypes.OutputDataConfig? = nil,
-            submitTime: ClientRuntime.Date? = nil,
+            submitTime: Foundation.Date? = nil,
             targetEventTypes: [Swift.String]? = nil
         )
         {
@@ -7128,15 +7130,15 @@ extension ComprehendClientTypes {
     /// Filter the flywheels based on creation time or flywheel status.
     public struct FlywheelFilter {
         /// Filter the flywheels to include flywheels created after the specified time.
-        public var creationTimeAfter: ClientRuntime.Date?
+        public var creationTimeAfter: Foundation.Date?
         /// Filter the flywheels to include flywheels created before the specified time.
-        public var creationTimeBefore: ClientRuntime.Date?
+        public var creationTimeBefore: Foundation.Date?
         /// Filter the flywheels based on the flywheel status.
         public var status: ComprehendClientTypes.FlywheelStatus?
 
         public init(
-            creationTimeAfter: ClientRuntime.Date? = nil,
-            creationTimeBefore: ClientRuntime.Date? = nil,
+            creationTimeAfter: Foundation.Date? = nil,
+            creationTimeBefore: Foundation.Date? = nil,
             status: ComprehendClientTypes.FlywheelStatus? = nil
         )
         {
@@ -7161,13 +7163,13 @@ extension ComprehendClientTypes {
     /// Filter the flywheel iterations based on creation time.
     public struct FlywheelIterationFilter {
         /// Filter the flywheel iterations to include iterations created after the specified time.
-        public var creationTimeAfter: ClientRuntime.Date?
+        public var creationTimeAfter: Foundation.Date?
         /// Filter the flywheel iterations to include iterations created before the specified time.
-        public var creationTimeBefore: ClientRuntime.Date?
+        public var creationTimeBefore: Foundation.Date?
 
         public init(
-            creationTimeAfter: ClientRuntime.Date? = nil,
-            creationTimeBefore: ClientRuntime.Date? = nil
+            creationTimeAfter: Foundation.Date? = nil,
+            creationTimeBefore: Foundation.Date? = nil
         )
         {
             self.creationTimeAfter = creationTimeAfter
@@ -7201,9 +7203,9 @@ extension ComprehendClientTypes {
     /// The configuration properties of a flywheel iteration.
     public struct FlywheelIterationProperties {
         /// The creation start time of the flywheel iteration.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The completion time of this flywheel iteration.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// The ARN of the evaluated model associated with this flywheel iteration.
         public var evaluatedModelArn: Swift.String?
         /// The evaluation metrics associated with the evaluated model.
@@ -7224,8 +7226,8 @@ extension ComprehendClientTypes {
         public var trainedModelMetrics: ComprehendClientTypes.FlywheelModelEvaluationMetrics?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
-            endTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
+            endTime: Foundation.Date? = nil,
             evaluatedModelArn: Swift.String? = nil,
             evaluatedModelMetrics: ComprehendClientTypes.FlywheelModelEvaluationMetrics? = nil,
             evaluationManifestS3Prefix: Swift.String? = nil,
@@ -7362,7 +7364,7 @@ extension ComprehendClientTypes {
         /// The Amazon Resource Number (ARN) of the active model version.
         public var activeModelArn: Swift.String?
         /// Creation time of the flywheel.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend permission to access the flywheel data.
         public var dataAccessRoleArn: Swift.String?
         /// Amazon S3 URI of the data lake location.
@@ -7372,7 +7374,7 @@ extension ComprehendClientTypes {
         /// The Amazon Resource Number (ARN) of the flywheel.
         public var flywheelArn: Swift.String?
         /// Last modified time for the flywheel.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// The most recent flywheel iteration.
         public var latestFlywheelIteration: Swift.String?
         /// A description of the status of the flywheel.
@@ -7386,12 +7388,12 @@ extension ComprehendClientTypes {
 
         public init(
             activeModelArn: Swift.String? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             dataAccessRoleArn: Swift.String? = nil,
             dataLakeS3Uri: Swift.String? = nil,
             dataSecurityConfig: ComprehendClientTypes.DataSecurityConfig? = nil,
             flywheelArn: Swift.String? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             latestFlywheelIteration: Swift.String? = nil,
             message: Swift.String? = nil,
             modelType: ComprehendClientTypes.ModelType? = nil,
@@ -7478,13 +7480,13 @@ extension ComprehendClientTypes {
         /// ARN of the active model version for the flywheel.
         public var activeModelArn: Swift.String?
         /// Creation time of the flywheel.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// Amazon S3 URI of the data lake location.
         public var dataLakeS3Uri: Swift.String?
         /// The Amazon Resource Number (ARN) of the flywheel
         public var flywheelArn: Swift.String?
         /// Last modified time for the flywheel.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// The most recent flywheel iteration.
         public var latestFlywheelIteration: Swift.String?
         /// A description of the status of the flywheel.
@@ -7496,10 +7498,10 @@ extension ComprehendClientTypes {
 
         public init(
             activeModelArn: Swift.String? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             dataLakeS3Uri: Swift.String? = nil,
             flywheelArn: Swift.String? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             latestFlywheelIteration: Swift.String? = nil,
             message: Swift.String? = nil,
             modelType: ComprehendClientTypes.ModelType? = nil,
@@ -7610,7 +7612,7 @@ public struct ImportModelInput {
 
 extension ImportModelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ImportModelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ImportModelOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7634,7 +7636,7 @@ public struct ImportModelOutput {
 
 enum ImportModelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8090,15 +8092,15 @@ extension ComprehendClientTypes {
         /// Filters the list of jobs based on job status. Returns only jobs with the specified status.
         public var jobStatus: ComprehendClientTypes.JobStatus?
         /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted after the specified time. Jobs are returned in descending order, newest to oldest.
-        public var submitTimeAfter: ClientRuntime.Date?
+        public var submitTimeAfter: Foundation.Date?
         /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted before the specified time. Jobs are returned in ascending order, oldest to newest.
-        public var submitTimeBefore: ClientRuntime.Date?
+        public var submitTimeBefore: Foundation.Date?
 
         public init(
             jobName: Swift.String? = nil,
             jobStatus: ComprehendClientTypes.JobStatus? = nil,
-            submitTimeAfter: ClientRuntime.Date? = nil,
-            submitTimeBefore: ClientRuntime.Date? = nil
+            submitTimeAfter: Foundation.Date? = nil,
+            submitTimeBefore: Foundation.Date? = nil
         )
         {
             self.jobName = jobName
@@ -8138,7 +8140,7 @@ extension ComprehendClientTypes {
         /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data.
         public var dataAccessRoleArn: Swift.String?
         /// The time that the key phrases detection job completed.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// The input data configuration that you supplied when you created the key phrases detection job.
         public var inputDataConfig: ComprehendClientTypes.InputDataConfig?
         /// The Amazon Resource Name (ARN) of the key phrases detection job. It is a unique, fully qualified identifier for the job. It includes the Amazon Web Services account, Amazon Web Services Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::key-phrases-detection-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:key-phrases-detection-job/1234abcd12ab34cd56ef1234567890ab
@@ -8156,7 +8158,7 @@ extension ComprehendClientTypes {
         /// The output data configuration that you supplied when you created the key phrases detection job.
         public var outputDataConfig: ComprehendClientTypes.OutputDataConfig?
         /// The time that the key phrases detection job was submitted for processing.
-        public var submitTime: ClientRuntime.Date?
+        public var submitTime: Foundation.Date?
         /// ID for the KMS key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:
         ///
         /// * KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"
@@ -8168,7 +8170,7 @@ extension ComprehendClientTypes {
 
         public init(
             dataAccessRoleArn: Swift.String? = nil,
-            endTime: ClientRuntime.Date? = nil,
+            endTime: Foundation.Date? = nil,
             inputDataConfig: ComprehendClientTypes.InputDataConfig? = nil,
             jobArn: Swift.String? = nil,
             jobId: Swift.String? = nil,
@@ -8177,7 +8179,7 @@ extension ComprehendClientTypes {
             languageCode: ComprehendClientTypes.LanguageCode? = nil,
             message: Swift.String? = nil,
             outputDataConfig: ComprehendClientTypes.OutputDataConfig? = nil,
-            submitTime: ClientRuntime.Date? = nil,
+            submitTime: Foundation.Date? = nil,
             volumeKmsKeyId: Swift.String? = nil,
             vpcConfig: ComprehendClientTypes.VpcConfig? = nil
         )
@@ -8340,7 +8342,7 @@ public struct ListDatasetsInput {
 
 extension ListDatasetsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListDatasetsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListDatasetsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8369,7 +8371,7 @@ public struct ListDatasetsOutput {
 
 enum ListDatasetsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8424,7 +8426,7 @@ public struct ListDocumentClassificationJobsInput {
 
 extension ListDocumentClassificationJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListDocumentClassificationJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListDocumentClassificationJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8453,7 +8455,7 @@ public struct ListDocumentClassificationJobsOutput {
 
 enum ListDocumentClassificationJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8502,7 +8504,7 @@ public struct ListDocumentClassifierSummariesInput {
 
 extension ListDocumentClassifierSummariesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListDocumentClassifierSummariesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListDocumentClassifierSummariesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8531,7 +8533,7 @@ public struct ListDocumentClassifierSummariesOutput {
 
 enum ListDocumentClassifierSummariesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8584,7 +8586,7 @@ public struct ListDocumentClassifiersInput {
 
 extension ListDocumentClassifiersOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListDocumentClassifiersOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListDocumentClassifiersOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8613,7 +8615,7 @@ public struct ListDocumentClassifiersOutput {
 
 enum ListDocumentClassifiersOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8667,7 +8669,7 @@ public struct ListDominantLanguageDetectionJobsInput {
 
 extension ListDominantLanguageDetectionJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListDominantLanguageDetectionJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListDominantLanguageDetectionJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8696,7 +8698,7 @@ public struct ListDominantLanguageDetectionJobsOutput {
 
 enum ListDominantLanguageDetectionJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8750,7 +8752,7 @@ public struct ListEndpointsInput {
 
 extension ListEndpointsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListEndpointsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListEndpointsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8779,7 +8781,7 @@ public struct ListEndpointsOutput {
 
 enum ListEndpointsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8832,7 +8834,7 @@ public struct ListEntitiesDetectionJobsInput {
 
 extension ListEntitiesDetectionJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListEntitiesDetectionJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListEntitiesDetectionJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8861,7 +8863,7 @@ public struct ListEntitiesDetectionJobsOutput {
 
 enum ListEntitiesDetectionJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8910,7 +8912,7 @@ public struct ListEntityRecognizerSummariesInput {
 
 extension ListEntityRecognizerSummariesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListEntityRecognizerSummariesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListEntityRecognizerSummariesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8939,7 +8941,7 @@ public struct ListEntityRecognizerSummariesOutput {
 
 enum ListEntityRecognizerSummariesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8992,7 +8994,7 @@ public struct ListEntityRecognizersInput {
 
 extension ListEntityRecognizersOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListEntityRecognizersOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListEntityRecognizersOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -9021,7 +9023,7 @@ public struct ListEntityRecognizersOutput {
 
 enum ListEntityRecognizersOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9075,7 +9077,7 @@ public struct ListEventsDetectionJobsInput {
 
 extension ListEventsDetectionJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListEventsDetectionJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListEventsDetectionJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -9104,7 +9106,7 @@ public struct ListEventsDetectionJobsOutput {
 
 enum ListEventsDetectionJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9164,7 +9166,7 @@ public struct ListFlywheelIterationHistoryInput {
 
 extension ListFlywheelIterationHistoryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListFlywheelIterationHistoryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListFlywheelIterationHistoryOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -9193,7 +9195,7 @@ public struct ListFlywheelIterationHistoryOutput {
 
 enum ListFlywheelIterationHistoryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9248,7 +9250,7 @@ public struct ListFlywheelsInput {
 
 extension ListFlywheelsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListFlywheelsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListFlywheelsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -9277,7 +9279,7 @@ public struct ListFlywheelsOutput {
 
 enum ListFlywheelsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9331,7 +9333,7 @@ public struct ListKeyPhrasesDetectionJobsInput {
 
 extension ListKeyPhrasesDetectionJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListKeyPhrasesDetectionJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListKeyPhrasesDetectionJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -9360,7 +9362,7 @@ public struct ListKeyPhrasesDetectionJobsOutput {
 
 enum ListKeyPhrasesDetectionJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9414,7 +9416,7 @@ public struct ListPiiEntitiesDetectionJobsInput {
 
 extension ListPiiEntitiesDetectionJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPiiEntitiesDetectionJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPiiEntitiesDetectionJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -9443,7 +9445,7 @@ public struct ListPiiEntitiesDetectionJobsOutput {
 
 enum ListPiiEntitiesDetectionJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9497,7 +9499,7 @@ public struct ListSentimentDetectionJobsInput {
 
 extension ListSentimentDetectionJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListSentimentDetectionJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListSentimentDetectionJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -9526,7 +9528,7 @@ public struct ListSentimentDetectionJobsOutput {
 
 enum ListSentimentDetectionJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9571,7 +9573,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -9600,7 +9602,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9653,7 +9655,7 @@ public struct ListTargetedSentimentDetectionJobsInput {
 
 extension ListTargetedSentimentDetectionJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTargetedSentimentDetectionJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTargetedSentimentDetectionJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -9682,7 +9684,7 @@ public struct ListTargetedSentimentDetectionJobsOutput {
 
 enum ListTargetedSentimentDetectionJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9736,7 +9738,7 @@ public struct ListTopicsDetectionJobsInput {
 
 extension ListTopicsDetectionJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTopicsDetectionJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTopicsDetectionJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -9765,7 +9767,7 @@ public struct ListTopicsDetectionJobsOutput {
 
 enum ListTopicsDetectionJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10127,15 +10129,15 @@ extension ComprehendClientTypes {
         /// Filters the list of jobs based on job status. Returns only jobs with the specified status.
         public var jobStatus: ComprehendClientTypes.JobStatus?
         /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted after the specified time. Jobs are returned in descending order, newest to oldest.
-        public var submitTimeAfter: ClientRuntime.Date?
+        public var submitTimeAfter: Foundation.Date?
         /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted before the specified time. Jobs are returned in ascending order, oldest to newest.
-        public var submitTimeBefore: ClientRuntime.Date?
+        public var submitTimeBefore: Foundation.Date?
 
         public init(
             jobName: Swift.String? = nil,
             jobStatus: ComprehendClientTypes.JobStatus? = nil,
-            submitTimeAfter: ClientRuntime.Date? = nil,
-            submitTimeBefore: ClientRuntime.Date? = nil
+            submitTimeAfter: Foundation.Date? = nil,
+            submitTimeBefore: Foundation.Date? = nil
         )
         {
             self.jobName = jobName
@@ -10175,7 +10177,7 @@ extension ComprehendClientTypes {
         /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data.
         public var dataAccessRoleArn: Swift.String?
         /// The time that the PII entities detection job completed.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// The input properties for a PII entities detection job.
         public var inputDataConfig: ComprehendClientTypes.InputDataConfig?
         /// The Amazon Resource Name (ARN) of the PII entities detection job. It is a unique, fully qualified identifier for the job. It includes the Amazon Web Services account, Amazon Web Services Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::pii-entities-detection-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:pii-entities-detection-job/1234abcd12ab34cd56ef1234567890ab
@@ -10197,11 +10199,11 @@ extension ComprehendClientTypes {
         /// Provides configuration parameters for PII entity redaction. This parameter is required if you set the Mode parameter to ONLY_REDACTION. In that case, you must provide a RedactionConfig definition that includes the PiiEntityTypes parameter.
         public var redactionConfig: ComprehendClientTypes.RedactionConfig?
         /// The time that the PII entities detection job was submitted for processing.
-        public var submitTime: ClientRuntime.Date?
+        public var submitTime: Foundation.Date?
 
         public init(
             dataAccessRoleArn: Swift.String? = nil,
-            endTime: ClientRuntime.Date? = nil,
+            endTime: Foundation.Date? = nil,
             inputDataConfig: ComprehendClientTypes.InputDataConfig? = nil,
             jobArn: Swift.String? = nil,
             jobId: Swift.String? = nil,
@@ -10212,7 +10214,7 @@ extension ComprehendClientTypes {
             mode: ComprehendClientTypes.PiiEntitiesDetectionMode? = nil,
             outputDataConfig: ComprehendClientTypes.PiiOutputDataConfig? = nil,
             redactionConfig: ComprehendClientTypes.RedactionConfig? = nil,
-            submitTime: ClientRuntime.Date? = nil
+            submitTime: Foundation.Date? = nil
         )
         {
             self.dataAccessRoleArn = dataAccessRoleArn
@@ -10570,7 +10572,7 @@ public struct PutResourcePolicyInput {
 
 extension PutResourcePolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutResourcePolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutResourcePolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -10594,7 +10596,7 @@ public struct PutResourcePolicyOutput {
 
 enum PutResourcePolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10875,15 +10877,15 @@ extension ComprehendClientTypes {
         /// Filters the list of jobs based on job status. Returns only jobs with the specified status.
         public var jobStatus: ComprehendClientTypes.JobStatus?
         /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted after the specified time. Jobs are returned in descending order, newest to oldest.
-        public var submitTimeAfter: ClientRuntime.Date?
+        public var submitTimeAfter: Foundation.Date?
         /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted before the specified time. Jobs are returned in ascending order, oldest to newest.
-        public var submitTimeBefore: ClientRuntime.Date?
+        public var submitTimeBefore: Foundation.Date?
 
         public init(
             jobName: Swift.String? = nil,
             jobStatus: ComprehendClientTypes.JobStatus? = nil,
-            submitTimeAfter: ClientRuntime.Date? = nil,
-            submitTimeBefore: ClientRuntime.Date? = nil
+            submitTimeAfter: Foundation.Date? = nil,
+            submitTimeBefore: Foundation.Date? = nil
         )
         {
             self.jobName = jobName
@@ -10923,7 +10925,7 @@ extension ComprehendClientTypes {
         /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data.
         public var dataAccessRoleArn: Swift.String?
         /// The time that the sentiment detection job ended.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// The input data configuration that you supplied when you created the sentiment detection job.
         public var inputDataConfig: ComprehendClientTypes.InputDataConfig?
         /// The Amazon Resource Name (ARN) of the sentiment detection job. It is a unique, fully qualified identifier for the job. It includes the Amazon Web Services account, Amazon Web Services Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::sentiment-detection-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:sentiment-detection-job/1234abcd12ab34cd56ef1234567890ab
@@ -10941,7 +10943,7 @@ extension ComprehendClientTypes {
         /// The output data configuration that you supplied when you created the sentiment detection job.
         public var outputDataConfig: ComprehendClientTypes.OutputDataConfig?
         /// The time that the sentiment detection job was submitted for processing.
-        public var submitTime: ClientRuntime.Date?
+        public var submitTime: Foundation.Date?
         /// ID for the Amazon Web Services Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:
         ///
         /// * KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"
@@ -10953,7 +10955,7 @@ extension ComprehendClientTypes {
 
         public init(
             dataAccessRoleArn: Swift.String? = nil,
-            endTime: ClientRuntime.Date? = nil,
+            endTime: Foundation.Date? = nil,
             inputDataConfig: ComprehendClientTypes.InputDataConfig? = nil,
             jobArn: Swift.String? = nil,
             jobId: Swift.String? = nil,
@@ -10962,7 +10964,7 @@ extension ComprehendClientTypes {
             languageCode: ComprehendClientTypes.LanguageCode? = nil,
             message: Swift.String? = nil,
             outputDataConfig: ComprehendClientTypes.OutputDataConfig? = nil,
-            submitTime: ClientRuntime.Date? = nil,
+            submitTime: Foundation.Date? = nil,
             volumeKmsKeyId: Swift.String? = nil,
             vpcConfig: ComprehendClientTypes.VpcConfig? = nil
         )
@@ -11171,7 +11173,7 @@ public struct StartDocumentClassificationJobInput {
 
 extension StartDocumentClassificationJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartDocumentClassificationJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartDocumentClassificationJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -11222,7 +11224,7 @@ public struct StartDocumentClassificationJobOutput {
 
 enum StartDocumentClassificationJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11312,7 +11314,7 @@ public struct StartDominantLanguageDetectionJobInput {
 
 extension StartDominantLanguageDetectionJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartDominantLanguageDetectionJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartDominantLanguageDetectionJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -11354,7 +11356,7 @@ public struct StartDominantLanguageDetectionJobOutput {
 
 enum StartDominantLanguageDetectionJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11458,7 +11460,7 @@ public struct StartEntitiesDetectionJobInput {
 
 extension StartEntitiesDetectionJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartEntitiesDetectionJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartEntitiesDetectionJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -11509,7 +11511,7 @@ public struct StartEntitiesDetectionJobOutput {
 
 enum StartEntitiesDetectionJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11597,7 +11599,7 @@ public struct StartEventsDetectionJobInput {
 
 extension StartEventsDetectionJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartEventsDetectionJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartEventsDetectionJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -11631,7 +11633,7 @@ public struct StartEventsDetectionJobOutput {
 
 enum StartEventsDetectionJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11683,7 +11685,7 @@ public struct StartFlywheelIterationInput {
 
 extension StartFlywheelIterationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartFlywheelIterationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartFlywheelIterationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -11712,7 +11714,7 @@ public struct StartFlywheelIterationOutput {
 
 enum StartFlywheelIterationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11805,7 +11807,7 @@ public struct StartKeyPhrasesDetectionJobInput {
 
 extension StartKeyPhrasesDetectionJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartKeyPhrasesDetectionJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartKeyPhrasesDetectionJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -11847,7 +11849,7 @@ public struct StartKeyPhrasesDetectionJobOutput {
 
 enum StartKeyPhrasesDetectionJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11938,7 +11940,7 @@ public struct StartPiiEntitiesDetectionJobInput {
 
 extension StartPiiEntitiesDetectionJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartPiiEntitiesDetectionJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartPiiEntitiesDetectionJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -11972,7 +11974,7 @@ public struct StartPiiEntitiesDetectionJobOutput {
 
 enum StartPiiEntitiesDetectionJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12066,7 +12068,7 @@ public struct StartSentimentDetectionJobInput {
 
 extension StartSentimentDetectionJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartSentimentDetectionJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartSentimentDetectionJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -12108,7 +12110,7 @@ public struct StartSentimentDetectionJobOutput {
 
 enum StartSentimentDetectionJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12202,7 +12204,7 @@ public struct StartTargetedSentimentDetectionJobInput {
 
 extension StartTargetedSentimentDetectionJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartTargetedSentimentDetectionJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartTargetedSentimentDetectionJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -12244,7 +12246,7 @@ public struct StartTargetedSentimentDetectionJobOutput {
 
 enum StartTargetedSentimentDetectionJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12337,7 +12339,7 @@ public struct StartTopicsDetectionJobInput {
 
 extension StartTopicsDetectionJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartTopicsDetectionJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartTopicsDetectionJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -12379,7 +12381,7 @@ public struct StartTopicsDetectionJobOutput {
 
 enum StartTopicsDetectionJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12426,7 +12428,7 @@ public struct StopDominantLanguageDetectionJobInput {
 
 extension StopDominantLanguageDetectionJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopDominantLanguageDetectionJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopDominantLanguageDetectionJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -12455,7 +12457,7 @@ public struct StopDominantLanguageDetectionJobOutput {
 
 enum StopDominantLanguageDetectionJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12499,7 +12501,7 @@ public struct StopEntitiesDetectionJobInput {
 
 extension StopEntitiesDetectionJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopEntitiesDetectionJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopEntitiesDetectionJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -12528,7 +12530,7 @@ public struct StopEntitiesDetectionJobOutput {
 
 enum StopEntitiesDetectionJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12572,7 +12574,7 @@ public struct StopEventsDetectionJobInput {
 
 extension StopEventsDetectionJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopEventsDetectionJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopEventsDetectionJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -12601,7 +12603,7 @@ public struct StopEventsDetectionJobOutput {
 
 enum StopEventsDetectionJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12645,7 +12647,7 @@ public struct StopKeyPhrasesDetectionJobInput {
 
 extension StopKeyPhrasesDetectionJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopKeyPhrasesDetectionJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopKeyPhrasesDetectionJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -12674,7 +12676,7 @@ public struct StopKeyPhrasesDetectionJobOutput {
 
 enum StopKeyPhrasesDetectionJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12718,7 +12720,7 @@ public struct StopPiiEntitiesDetectionJobInput {
 
 extension StopPiiEntitiesDetectionJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopPiiEntitiesDetectionJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopPiiEntitiesDetectionJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -12747,7 +12749,7 @@ public struct StopPiiEntitiesDetectionJobOutput {
 
 enum StopPiiEntitiesDetectionJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12791,7 +12793,7 @@ public struct StopSentimentDetectionJobInput {
 
 extension StopSentimentDetectionJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopSentimentDetectionJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopSentimentDetectionJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -12820,7 +12822,7 @@ public struct StopSentimentDetectionJobOutput {
 
 enum StopSentimentDetectionJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12864,7 +12866,7 @@ public struct StopTargetedSentimentDetectionJobInput {
 
 extension StopTargetedSentimentDetectionJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopTargetedSentimentDetectionJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopTargetedSentimentDetectionJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -12893,7 +12895,7 @@ public struct StopTargetedSentimentDetectionJobOutput {
 
 enum StopTargetedSentimentDetectionJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12937,7 +12939,7 @@ public struct StopTrainingDocumentClassifierInput {
 
 extension StopTrainingDocumentClassifierOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopTrainingDocumentClassifierOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopTrainingDocumentClassifierOutput {
         return StopTrainingDocumentClassifierOutput()
     }
 }
@@ -12949,7 +12951,7 @@ public struct StopTrainingDocumentClassifierOutput {
 
 enum StopTrainingDocumentClassifierOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12994,7 +12996,7 @@ public struct StopTrainingEntityRecognizerInput {
 
 extension StopTrainingEntityRecognizerOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopTrainingEntityRecognizerOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopTrainingEntityRecognizerOutput {
         return StopTrainingEntityRecognizerOutput()
     }
 }
@@ -13006,7 +13008,7 @@ public struct StopTrainingEntityRecognizerOutput {
 
 enum StopTrainingEntityRecognizerOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -13182,7 +13184,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -13194,7 +13196,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -13229,15 +13231,15 @@ extension ComprehendClientTypes {
         /// Filters the list of jobs based on job status. Returns only jobs with the specified status.
         public var jobStatus: ComprehendClientTypes.JobStatus?
         /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted after the specified time. Jobs are returned in descending order, newest to oldest.
-        public var submitTimeAfter: ClientRuntime.Date?
+        public var submitTimeAfter: Foundation.Date?
         /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted before the specified time. Jobs are returned in ascending order, oldest to newest.
-        public var submitTimeBefore: ClientRuntime.Date?
+        public var submitTimeBefore: Foundation.Date?
 
         public init(
             jobName: Swift.String? = nil,
             jobStatus: ComprehendClientTypes.JobStatus? = nil,
-            submitTimeAfter: ClientRuntime.Date? = nil,
-            submitTimeBefore: ClientRuntime.Date? = nil
+            submitTimeAfter: Foundation.Date? = nil,
+            submitTimeBefore: Foundation.Date? = nil
         )
         {
             self.jobName = jobName
@@ -13277,7 +13279,7 @@ extension ComprehendClientTypes {
         /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data.
         public var dataAccessRoleArn: Swift.String?
         /// The time that the targeted sentiment detection job ended.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// The input properties for an inference job. The document reader config field applies only to non-text inputs for custom analysis.
         public var inputDataConfig: ComprehendClientTypes.InputDataConfig?
         /// The Amazon Resource Name (ARN) of the targeted sentiment detection job. It is a unique, fully qualified identifier for the job. It includes the Amazon Web Services account, Amazon Web Services Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::targeted-sentiment-detection-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:targeted-sentiment-detection-job/1234abcd12ab34cd56ef1234567890ab
@@ -13295,7 +13297,7 @@ extension ComprehendClientTypes {
         /// Provides configuration parameters for the output of inference jobs.
         public var outputDataConfig: ComprehendClientTypes.OutputDataConfig?
         /// The time that the targeted sentiment detection job was submitted for processing.
-        public var submitTime: ClientRuntime.Date?
+        public var submitTime: Foundation.Date?
         /// ID for the KMS key that Amazon Comprehend uses to encrypt the data on the storage volume attached to the ML compute instance(s) that process the targeted sentiment detection job. The VolumeKmsKeyId can be either of the following formats:
         ///
         /// * KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"
@@ -13307,7 +13309,7 @@ extension ComprehendClientTypes {
 
         public init(
             dataAccessRoleArn: Swift.String? = nil,
-            endTime: ClientRuntime.Date? = nil,
+            endTime: Foundation.Date? = nil,
             inputDataConfig: ComprehendClientTypes.InputDataConfig? = nil,
             jobArn: Swift.String? = nil,
             jobId: Swift.String? = nil,
@@ -13316,7 +13318,7 @@ extension ComprehendClientTypes {
             languageCode: ComprehendClientTypes.LanguageCode? = nil,
             message: Swift.String? = nil,
             outputDataConfig: ComprehendClientTypes.OutputDataConfig? = nil,
-            submitTime: ClientRuntime.Date? = nil,
+            submitTime: Foundation.Date? = nil,
             volumeKmsKeyId: Swift.String? = nil,
             vpcConfig: ComprehendClientTypes.VpcConfig? = nil
         )
@@ -13741,15 +13743,15 @@ extension ComprehendClientTypes {
         /// Filters the list of topic detection jobs based on job status. Returns only jobs with the specified status.
         public var jobStatus: ComprehendClientTypes.JobStatus?
         /// Filters the list of jobs based on the time that the job was submitted for processing. Only returns jobs submitted after the specified time. Jobs are returned in ascending order, oldest to newest.
-        public var submitTimeAfter: ClientRuntime.Date?
+        public var submitTimeAfter: Foundation.Date?
         /// Filters the list of jobs based on the time that the job was submitted for processing. Only returns jobs submitted before the specified time. Jobs are returned in descending order, newest to oldest.
-        public var submitTimeBefore: ClientRuntime.Date?
+        public var submitTimeBefore: Foundation.Date?
 
         public init(
             jobName: Swift.String? = nil,
             jobStatus: ComprehendClientTypes.JobStatus? = nil,
-            submitTimeAfter: ClientRuntime.Date? = nil,
-            submitTimeBefore: ClientRuntime.Date? = nil
+            submitTimeAfter: Foundation.Date? = nil,
+            submitTimeBefore: Foundation.Date? = nil
         )
         {
             self.jobName = jobName
@@ -13789,7 +13791,7 @@ extension ComprehendClientTypes {
         /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your job data.
         public var dataAccessRoleArn: Swift.String?
         /// The time that the topic detection job was completed.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// The input data configuration supplied when you created the topic detection job.
         public var inputDataConfig: ComprehendClientTypes.InputDataConfig?
         /// The Amazon Resource Name (ARN) of the topics detection job. It is a unique, fully qualified identifier for the job. It includes the Amazon Web Services account, Amazon Web Services Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::topics-detection-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:topics-detection-job/1234abcd12ab34cd56ef1234567890ab
@@ -13807,7 +13809,7 @@ extension ComprehendClientTypes {
         /// The output data configuration supplied when you created the topic detection job.
         public var outputDataConfig: ComprehendClientTypes.OutputDataConfig?
         /// The time that the topic detection job was submitted for processing.
-        public var submitTime: ClientRuntime.Date?
+        public var submitTime: Foundation.Date?
         /// ID for the Amazon Web Services Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:
         ///
         /// * KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"
@@ -13819,7 +13821,7 @@ extension ComprehendClientTypes {
 
         public init(
             dataAccessRoleArn: Swift.String? = nil,
-            endTime: ClientRuntime.Date? = nil,
+            endTime: Foundation.Date? = nil,
             inputDataConfig: ComprehendClientTypes.InputDataConfig? = nil,
             jobArn: Swift.String? = nil,
             jobId: Swift.String? = nil,
@@ -13828,7 +13830,7 @@ extension ComprehendClientTypes {
             message: Swift.String? = nil,
             numberOfTopics: Swift.Int? = nil,
             outputDataConfig: ComprehendClientTypes.OutputDataConfig? = nil,
-            submitTime: ClientRuntime.Date? = nil,
+            submitTime: Foundation.Date? = nil,
             volumeKmsKeyId: Swift.String? = nil,
             vpcConfig: ComprehendClientTypes.VpcConfig? = nil
         )
@@ -14030,7 +14032,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -14042,7 +14044,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -14146,7 +14148,7 @@ public struct UpdateEndpointInput {
 
 extension UpdateEndpointOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateEndpointOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateEndpointOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -14170,7 +14172,7 @@ public struct UpdateEndpointOutput {
 
 enum UpdateEndpointOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -14233,7 +14235,7 @@ public struct UpdateFlywheelInput {
 
 extension UpdateFlywheelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateFlywheelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateFlywheelOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -14257,7 +14259,7 @@ public struct UpdateFlywheelOutput {
 
 enum UpdateFlywheelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -266,7 +269,7 @@ public struct CreateEvaluationJobInput {
 
 extension CreateEvaluationJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateEvaluationJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateEvaluationJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -291,7 +294,7 @@ public struct CreateEvaluationJobOutput {
 
 enum CreateEvaluationJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -396,7 +399,7 @@ public struct CreateGuardrailInput {
 
 extension CreateGuardrailOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateGuardrailOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateGuardrailOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -412,7 +415,7 @@ extension CreateGuardrailOutput {
 public struct CreateGuardrailOutput {
     /// The time at which the guardrail was created.
     /// This member is required.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The ARN of the guardrail that was created.
     /// This member is required.
     public var guardrailArn: Swift.String?
@@ -424,7 +427,7 @@ public struct CreateGuardrailOutput {
     public var version: Swift.String?
 
     public init(
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         guardrailArn: Swift.String? = nil,
         guardrailId: Swift.String? = nil,
         version: Swift.String? = nil
@@ -439,7 +442,7 @@ public struct CreateGuardrailOutput {
 
 enum CreateGuardrailOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -505,7 +508,7 @@ public struct CreateGuardrailVersionInput {
 
 extension CreateGuardrailVersionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateGuardrailVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateGuardrailVersionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -536,7 +539,7 @@ public struct CreateGuardrailVersionOutput {
 
 enum CreateGuardrailVersionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -655,7 +658,7 @@ public struct CreateModelCustomizationJobInput {
 
 extension CreateModelCustomizationJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateModelCustomizationJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateModelCustomizationJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -680,7 +683,7 @@ public struct CreateModelCustomizationJobOutput {
 
 enum CreateModelCustomizationJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -756,7 +759,7 @@ public struct CreateProvisionedModelThroughputInput {
 
 extension CreateProvisionedModelThroughputOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateProvisionedModelThroughputOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateProvisionedModelThroughputOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -781,7 +784,7 @@ public struct CreateProvisionedModelThroughputOutput {
 
 enum CreateProvisionedModelThroughputOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -825,7 +828,7 @@ extension BedrockClientTypes {
         public var baseModelName: Swift.String?
         /// Creation time of the model.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// Specifies whether to carry out continued pre-training of a model or whether to fine-tune it. For more information, see [Custom models](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html).
         public var customizationType: BedrockClientTypes.CustomizationType?
         /// The Amazon Resource Name (ARN) of the custom model.
@@ -838,7 +841,7 @@ extension BedrockClientTypes {
         public init(
             baseModelArn: Swift.String? = nil,
             baseModelName: Swift.String? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             customizationType: BedrockClientTypes.CustomizationType? = nil,
             modelArn: Swift.String? = nil,
             modelName: Swift.String? = nil
@@ -909,7 +912,7 @@ public struct DeleteCustomModelInput {
 
 extension DeleteCustomModelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteCustomModelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteCustomModelOutput {
         return DeleteCustomModelOutput()
     }
 }
@@ -921,7 +924,7 @@ public struct DeleteCustomModelOutput {
 
 enum DeleteCustomModelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -940,10 +943,10 @@ enum DeleteCustomModelOutputError {
 
 extension DeleteGuardrailInput {
 
-    static func queryItemProvider(_ value: DeleteGuardrailInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteGuardrailInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let guardrailVersion = value.guardrailVersion {
-            let guardrailVersionQueryItem = ClientRuntime.SDKURLQueryItem(name: "guardrailVersion".urlPercentEncoding(), value: Swift.String(guardrailVersion).urlPercentEncoding())
+            let guardrailVersionQueryItem = Smithy.URIQueryItem(name: "guardrailVersion".urlPercentEncoding(), value: Swift.String(guardrailVersion).urlPercentEncoding())
             items.append(guardrailVersionQueryItem)
         }
         return items
@@ -979,7 +982,7 @@ public struct DeleteGuardrailInput {
 
 extension DeleteGuardrailOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteGuardrailOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteGuardrailOutput {
         return DeleteGuardrailOutput()
     }
 }
@@ -991,7 +994,7 @@ public struct DeleteGuardrailOutput {
 
 enum DeleteGuardrailOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1022,7 +1025,7 @@ public struct DeleteModelInvocationLoggingConfigurationInput {
 
 extension DeleteModelInvocationLoggingConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteModelInvocationLoggingConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteModelInvocationLoggingConfigurationOutput {
         return DeleteModelInvocationLoggingConfigurationOutput()
     }
 }
@@ -1034,7 +1037,7 @@ public struct DeleteModelInvocationLoggingConfigurationOutput {
 
 enum DeleteModelInvocationLoggingConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1073,7 +1076,7 @@ public struct DeleteProvisionedModelThroughputInput {
 
 extension DeleteProvisionedModelThroughputOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteProvisionedModelThroughputOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteProvisionedModelThroughputOutput {
         return DeleteProvisionedModelThroughputOutput()
     }
 }
@@ -1085,7 +1088,7 @@ public struct DeleteProvisionedModelThroughputOutput {
 
 enum DeleteProvisionedModelThroughputOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1497,7 +1500,7 @@ extension BedrockClientTypes {
     public struct EvaluationSummary {
         /// When the model evaluation job was created.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// What task type was used in the model evaluation job.
         /// This member is required.
         public var evaluationTaskTypes: [BedrockClientTypes.EvaluationTaskType]?
@@ -1518,7 +1521,7 @@ extension BedrockClientTypes {
         public var status: BedrockClientTypes.EvaluationJobStatus?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             evaluationTaskTypes: [BedrockClientTypes.EvaluationTaskType]? = nil,
             jobArn: Swift.String? = nil,
             jobName: Swift.String? = nil,
@@ -1842,7 +1845,7 @@ public struct GetCustomModelInput {
 
 extension GetCustomModelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetCustomModelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetCustomModelOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1871,7 +1874,7 @@ public struct GetCustomModelOutput {
     public var baseModelArn: Swift.String?
     /// Creation time of the model.
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The type of model customization.
     public var customizationType: BedrockClientTypes.CustomizationType?
     /// Hyperparameter values associated with this model. For details on the format for different models, see [Custom model hyperparameters](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models-hp.html).
@@ -1904,7 +1907,7 @@ public struct GetCustomModelOutput {
 
     public init(
         baseModelArn: Swift.String? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         customizationType: BedrockClientTypes.CustomizationType? = nil,
         hyperParameters: [Swift.String:Swift.String]? = nil,
         jobArn: Swift.String? = nil,
@@ -1938,7 +1941,7 @@ public struct GetCustomModelOutput {
 
 enum GetCustomModelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1989,7 +1992,7 @@ extension GetEvaluationJobOutput: Swift.CustomDebugStringConvertible {
 
 extension GetEvaluationJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetEvaluationJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetEvaluationJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2014,7 +2017,7 @@ extension GetEvaluationJobOutput {
 public struct GetEvaluationJobOutput {
     /// When the model evaluation job was created.
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the customer managed key specified when the model evaluation job was created.
     public var customerEncryptionKeyId: Swift.String?
     /// Contains details about the type of model evaluation job, the metrics used, the task type selected, the datasets used, and any custom metrics you defined.
@@ -2037,7 +2040,7 @@ public struct GetEvaluationJobOutput {
     /// This member is required.
     public var jobType: BedrockClientTypes.EvaluationJobType?
     /// When the model evaluation job was last modified.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// Amazon S3 location for where output data is saved.
     /// This member is required.
     public var outputDataConfig: BedrockClientTypes.EvaluationOutputDataConfig?
@@ -2049,7 +2052,7 @@ public struct GetEvaluationJobOutput {
     public var status: BedrockClientTypes.EvaluationJobStatus?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         customerEncryptionKeyId: Swift.String? = nil,
         evaluationConfig: BedrockClientTypes.EvaluationConfig? = nil,
         failureMessages: [Swift.String]? = nil,
@@ -2058,7 +2061,7 @@ public struct GetEvaluationJobOutput {
         jobDescription: Swift.String? = nil,
         jobName: Swift.String? = nil,
         jobType: BedrockClientTypes.EvaluationJobType? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         outputDataConfig: BedrockClientTypes.EvaluationOutputDataConfig? = nil,
         roleArn: Swift.String? = nil,
         status: BedrockClientTypes.EvaluationJobStatus? = nil
@@ -2082,7 +2085,7 @@ public struct GetEvaluationJobOutput {
 
 enum GetEvaluationJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2123,7 +2126,7 @@ public struct GetFoundationModelInput {
 
 extension GetFoundationModelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetFoundationModelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetFoundationModelOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2147,7 +2150,7 @@ public struct GetFoundationModelOutput {
 
 enum GetFoundationModelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2165,10 +2168,10 @@ enum GetFoundationModelOutputError {
 
 extension GetGuardrailInput {
 
-    static func queryItemProvider(_ value: GetGuardrailInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetGuardrailInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let guardrailVersion = value.guardrailVersion {
-            let guardrailVersionQueryItem = ClientRuntime.SDKURLQueryItem(name: "guardrailVersion".urlPercentEncoding(), value: Swift.String(guardrailVersion).urlPercentEncoding())
+            let guardrailVersionQueryItem = Smithy.URIQueryItem(name: "guardrailVersion".urlPercentEncoding(), value: Swift.String(guardrailVersion).urlPercentEncoding())
             items.append(guardrailVersionQueryItem)
         }
         return items
@@ -2209,7 +2212,7 @@ extension GetGuardrailOutput: Swift.CustomDebugStringConvertible {
 
 extension GetGuardrailOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetGuardrailOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetGuardrailOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2246,7 +2249,7 @@ public struct GetGuardrailOutput {
     public var contentPolicy: BedrockClientTypes.GuardrailContentPolicy?
     /// The date and time at which the guardrail was created.
     /// This member is required.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The description of the guardrail.
     public var description: Swift.String?
     /// Appears if the status of the guardrail is FAILED. A list of recommendations to carry out before retrying the request.
@@ -2273,7 +2276,7 @@ public struct GetGuardrailOutput {
     public var topicPolicy: BedrockClientTypes.GuardrailTopicPolicy?
     /// The date and time at which the guardrail was updated.
     /// This member is required.
-    public var updatedAt: ClientRuntime.Date?
+    public var updatedAt: Foundation.Date?
     /// The version of the guardrail.
     /// This member is required.
     public var version: Swift.String?
@@ -2284,7 +2287,7 @@ public struct GetGuardrailOutput {
         blockedInputMessaging: Swift.String? = nil,
         blockedOutputsMessaging: Swift.String? = nil,
         contentPolicy: BedrockClientTypes.GuardrailContentPolicy? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
         failureRecommendations: [Swift.String]? = nil,
         guardrailArn: Swift.String? = nil,
@@ -2295,7 +2298,7 @@ public struct GetGuardrailOutput {
         status: BedrockClientTypes.GuardrailStatus? = nil,
         statusReasons: [Swift.String]? = nil,
         topicPolicy: BedrockClientTypes.GuardrailTopicPolicy? = nil,
-        updatedAt: ClientRuntime.Date? = nil,
+        updatedAt: Foundation.Date? = nil,
         version: Swift.String? = nil,
         wordPolicy: BedrockClientTypes.GuardrailWordPolicy? = nil
     )
@@ -2322,7 +2325,7 @@ public struct GetGuardrailOutput {
 
 enum GetGuardrailOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2363,7 +2366,7 @@ public struct GetModelCustomizationJobInput {
 
 extension GetModelCustomizationJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetModelCustomizationJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetModelCustomizationJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2401,11 +2404,11 @@ public struct GetModelCustomizationJobOutput {
     public var clientRequestToken: Swift.String?
     /// Time that the resource was created.
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The type of model customization.
     public var customizationType: BedrockClientTypes.CustomizationType?
     /// Time that the resource transitioned to terminal state.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// Information about why the job failed.
     public var failureMessage: Swift.String?
     /// The hyperparameter values for the job. For details on the format for different models, see [Custom model hyperparameters](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models-hp.html).
@@ -2418,7 +2421,7 @@ public struct GetModelCustomizationJobOutput {
     /// This member is required.
     public var jobName: Swift.String?
     /// Time that the resource was last modified.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// Output data configuration
     /// This member is required.
     public var outputDataConfig: BedrockClientTypes.OutputDataConfig?
@@ -2450,14 +2453,14 @@ public struct GetModelCustomizationJobOutput {
     public init(
         baseModelArn: Swift.String? = nil,
         clientRequestToken: Swift.String? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         customizationType: BedrockClientTypes.CustomizationType? = nil,
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         failureMessage: Swift.String? = nil,
         hyperParameters: [Swift.String:Swift.String]? = nil,
         jobArn: Swift.String? = nil,
         jobName: Swift.String? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         outputDataConfig: BedrockClientTypes.OutputDataConfig? = nil,
         outputModelArn: Swift.String? = nil,
         outputModelKmsKeyArn: Swift.String? = nil,
@@ -2497,7 +2500,7 @@ public struct GetModelCustomizationJobOutput {
 
 enum GetModelCustomizationJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2527,7 +2530,7 @@ public struct GetModelInvocationLoggingConfigurationInput {
 
 extension GetModelInvocationLoggingConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetModelInvocationLoggingConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetModelInvocationLoggingConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2551,7 +2554,7 @@ public struct GetModelInvocationLoggingConfigurationOutput {
 
 enum GetModelInvocationLoggingConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2590,7 +2593,7 @@ public struct GetProvisionedModelThroughputInput {
 
 extension GetProvisionedModelThroughputOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetProvisionedModelThroughputOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetProvisionedModelThroughputOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2616,10 +2619,10 @@ public struct GetProvisionedModelThroughputOutput {
     /// Commitment duration of the Provisioned Throughput.
     public var commitmentDuration: BedrockClientTypes.CommitmentDuration?
     /// The timestamp for when the commitment term for the Provisioned Throughput expires.
-    public var commitmentExpirationTime: ClientRuntime.Date?
+    public var commitmentExpirationTime: Foundation.Date?
     /// The timestamp of the creation time for this Provisioned Throughput.
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the model requested to be associated to this Provisioned Throughput. This value differs from the modelArn if updating hasn't completed.
     /// This member is required.
     public var desiredModelArn: Swift.String?
@@ -2633,7 +2636,7 @@ public struct GetProvisionedModelThroughputOutput {
     public var foundationModelArn: Swift.String?
     /// The timestamp of the last time that this Provisioned Throughput was modified.
     /// This member is required.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the model associated with this Provisioned Throughput.
     /// This member is required.
     public var modelArn: Swift.String?
@@ -2652,13 +2655,13 @@ public struct GetProvisionedModelThroughputOutput {
 
     public init(
         commitmentDuration: BedrockClientTypes.CommitmentDuration? = nil,
-        commitmentExpirationTime: ClientRuntime.Date? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        commitmentExpirationTime: Foundation.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         desiredModelArn: Swift.String? = nil,
         desiredModelUnits: Swift.Int? = nil,
         failureMessage: Swift.String? = nil,
         foundationModelArn: Swift.String? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         modelArn: Swift.String? = nil,
         modelUnits: Swift.Int? = nil,
         provisionedModelArn: Swift.String? = nil,
@@ -2684,7 +2687,7 @@ public struct GetProvisionedModelThroughputOutput {
 
 enum GetProvisionedModelThroughputOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3443,7 +3446,7 @@ extension BedrockClientTypes {
         public var arn: Swift.String?
         /// The date and time at which the guardrail was created.
         /// This member is required.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// A description of the guardrail.
         public var description: Swift.String?
         /// The unique identifier of the guardrail.
@@ -3457,19 +3460,19 @@ extension BedrockClientTypes {
         public var status: BedrockClientTypes.GuardrailStatus?
         /// The date and time at which the guardrail was last updated.
         /// This member is required.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
         /// The version of the guardrail.
         /// This member is required.
         public var version: Swift.String?
 
         public init(
             arn: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             status: BedrockClientTypes.GuardrailStatus? = nil,
-            updatedAt: ClientRuntime.Date? = nil,
+            updatedAt: Foundation.Date? = nil,
             version: Swift.String? = nil
         )
         {
@@ -3988,42 +3991,42 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
 extension ListCustomModelsInput {
 
-    static func queryItemProvider(_ value: ListCustomModelsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListCustomModelsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nameContains = value.nameContains {
-            let nameContainsQueryItem = ClientRuntime.SDKURLQueryItem(name: "nameContains".urlPercentEncoding(), value: Swift.String(nameContains).urlPercentEncoding())
+            let nameContainsQueryItem = Smithy.URIQueryItem(name: "nameContains".urlPercentEncoding(), value: Swift.String(nameContains).urlPercentEncoding())
             items.append(nameContainsQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let sortOrder = value.sortOrder {
-            let sortOrderQueryItem = ClientRuntime.SDKURLQueryItem(name: "sortOrder".urlPercentEncoding(), value: Swift.String(sortOrder.rawValue).urlPercentEncoding())
+            let sortOrderQueryItem = Smithy.URIQueryItem(name: "sortOrder".urlPercentEncoding(), value: Swift.String(sortOrder.rawValue).urlPercentEncoding())
             items.append(sortOrderQueryItem)
         }
         if let creationTimeAfter = value.creationTimeAfter {
-            let creationTimeAfterQueryItem = ClientRuntime.SDKURLQueryItem(name: "creationTimeAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: creationTimeAfter)).urlPercentEncoding())
+            let creationTimeAfterQueryItem = Smithy.URIQueryItem(name: "creationTimeAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: creationTimeAfter)).urlPercentEncoding())
             items.append(creationTimeAfterQueryItem)
         }
         if let baseModelArnEquals = value.baseModelArnEquals {
-            let baseModelArnEqualsQueryItem = ClientRuntime.SDKURLQueryItem(name: "baseModelArnEquals".urlPercentEncoding(), value: Swift.String(baseModelArnEquals).urlPercentEncoding())
+            let baseModelArnEqualsQueryItem = Smithy.URIQueryItem(name: "baseModelArnEquals".urlPercentEncoding(), value: Swift.String(baseModelArnEquals).urlPercentEncoding())
             items.append(baseModelArnEqualsQueryItem)
         }
         if let sortBy = value.sortBy {
-            let sortByQueryItem = ClientRuntime.SDKURLQueryItem(name: "sortBy".urlPercentEncoding(), value: Swift.String(sortBy.rawValue).urlPercentEncoding())
+            let sortByQueryItem = Smithy.URIQueryItem(name: "sortBy".urlPercentEncoding(), value: Swift.String(sortBy.rawValue).urlPercentEncoding())
             items.append(sortByQueryItem)
         }
         if let foundationModelArnEquals = value.foundationModelArnEquals {
-            let foundationModelArnEqualsQueryItem = ClientRuntime.SDKURLQueryItem(name: "foundationModelArnEquals".urlPercentEncoding(), value: Swift.String(foundationModelArnEquals).urlPercentEncoding())
+            let foundationModelArnEqualsQueryItem = Smithy.URIQueryItem(name: "foundationModelArnEquals".urlPercentEncoding(), value: Swift.String(foundationModelArnEquals).urlPercentEncoding())
             items.append(foundationModelArnEqualsQueryItem)
         }
         if let creationTimeBefore = value.creationTimeBefore {
-            let creationTimeBeforeQueryItem = ClientRuntime.SDKURLQueryItem(name: "creationTimeBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: creationTimeBefore)).urlPercentEncoding())
+            let creationTimeBeforeQueryItem = Smithy.URIQueryItem(name: "creationTimeBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: creationTimeBefore)).urlPercentEncoding())
             items.append(creationTimeBeforeQueryItem)
         }
         return items
@@ -4041,9 +4044,9 @@ public struct ListCustomModelsInput {
     /// Return custom models only if the base model Amazon Resource Name (ARN) matches this parameter.
     public var baseModelArnEquals: Swift.String?
     /// Return custom models created after the specified time.
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// Return custom models created before the specified time.
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// Return custom models only if the foundation model Amazon Resource Name (ARN) matches this parameter.
     public var foundationModelArnEquals: Swift.String?
     /// Maximum number of results to return in the response.
@@ -4059,8 +4062,8 @@ public struct ListCustomModelsInput {
 
     public init(
         baseModelArnEquals: Swift.String? = nil,
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
         foundationModelArnEquals: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nameContains: Swift.String? = nil,
@@ -4083,7 +4086,7 @@ public struct ListCustomModelsInput {
 
 extension ListCustomModelsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListCustomModelsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListCustomModelsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4112,7 +4115,7 @@ public struct ListCustomModelsOutput {
 
 enum ListCustomModelsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4129,38 +4132,38 @@ enum ListCustomModelsOutputError {
 
 extension ListEvaluationJobsInput {
 
-    static func queryItemProvider(_ value: ListEvaluationJobsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListEvaluationJobsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nameContains = value.nameContains {
-            let nameContainsQueryItem = ClientRuntime.SDKURLQueryItem(name: "nameContains".urlPercentEncoding(), value: Swift.String(nameContains).urlPercentEncoding())
+            let nameContainsQueryItem = Smithy.URIQueryItem(name: "nameContains".urlPercentEncoding(), value: Swift.String(nameContains).urlPercentEncoding())
             items.append(nameContainsQueryItem)
         }
         if let statusEquals = value.statusEquals {
-            let statusEqualsQueryItem = ClientRuntime.SDKURLQueryItem(name: "statusEquals".urlPercentEncoding(), value: Swift.String(statusEquals.rawValue).urlPercentEncoding())
+            let statusEqualsQueryItem = Smithy.URIQueryItem(name: "statusEquals".urlPercentEncoding(), value: Swift.String(statusEquals.rawValue).urlPercentEncoding())
             items.append(statusEqualsQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let sortOrder = value.sortOrder {
-            let sortOrderQueryItem = ClientRuntime.SDKURLQueryItem(name: "sortOrder".urlPercentEncoding(), value: Swift.String(sortOrder.rawValue).urlPercentEncoding())
+            let sortOrderQueryItem = Smithy.URIQueryItem(name: "sortOrder".urlPercentEncoding(), value: Swift.String(sortOrder.rawValue).urlPercentEncoding())
             items.append(sortOrderQueryItem)
         }
         if let creationTimeAfter = value.creationTimeAfter {
-            let creationTimeAfterQueryItem = ClientRuntime.SDKURLQueryItem(name: "creationTimeAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: creationTimeAfter)).urlPercentEncoding())
+            let creationTimeAfterQueryItem = Smithy.URIQueryItem(name: "creationTimeAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: creationTimeAfter)).urlPercentEncoding())
             items.append(creationTimeAfterQueryItem)
         }
         if let sortBy = value.sortBy {
-            let sortByQueryItem = ClientRuntime.SDKURLQueryItem(name: "sortBy".urlPercentEncoding(), value: Swift.String(sortBy.rawValue).urlPercentEncoding())
+            let sortByQueryItem = Smithy.URIQueryItem(name: "sortBy".urlPercentEncoding(), value: Swift.String(sortBy.rawValue).urlPercentEncoding())
             items.append(sortByQueryItem)
         }
         if let creationTimeBefore = value.creationTimeBefore {
-            let creationTimeBeforeQueryItem = ClientRuntime.SDKURLQueryItem(name: "creationTimeBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: creationTimeBefore)).urlPercentEncoding())
+            let creationTimeBeforeQueryItem = Smithy.URIQueryItem(name: "creationTimeBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: creationTimeBefore)).urlPercentEncoding())
             items.append(creationTimeBeforeQueryItem)
         }
         return items
@@ -4176,9 +4179,9 @@ extension ListEvaluationJobsInput {
 
 public struct ListEvaluationJobsInput {
     /// A filter that includes model evaluation jobs created after the time specified.
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// A filter that includes model evaluation jobs created prior to the time specified.
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// The maximum number of results to return.
     public var maxResults: Swift.Int?
     /// Query parameter string for model evaluation job names.
@@ -4193,8 +4196,8 @@ public struct ListEvaluationJobsInput {
     public var statusEquals: BedrockClientTypes.EvaluationJobStatus?
 
     public init(
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nameContains: Swift.String? = nil,
         nextToken: Swift.String? = nil,
@@ -4216,7 +4219,7 @@ public struct ListEvaluationJobsInput {
 
 extension ListEvaluationJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListEvaluationJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListEvaluationJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4245,7 +4248,7 @@ public struct ListEvaluationJobsOutput {
 
 enum ListEvaluationJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4262,22 +4265,22 @@ enum ListEvaluationJobsOutputError {
 
 extension ListFoundationModelsInput {
 
-    static func queryItemProvider(_ value: ListFoundationModelsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListFoundationModelsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let byOutputModality = value.byOutputModality {
-            let byOutputModalityQueryItem = ClientRuntime.SDKURLQueryItem(name: "byOutputModality".urlPercentEncoding(), value: Swift.String(byOutputModality.rawValue).urlPercentEncoding())
+            let byOutputModalityQueryItem = Smithy.URIQueryItem(name: "byOutputModality".urlPercentEncoding(), value: Swift.String(byOutputModality.rawValue).urlPercentEncoding())
             items.append(byOutputModalityQueryItem)
         }
         if let byCustomizationType = value.byCustomizationType {
-            let byCustomizationTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "byCustomizationType".urlPercentEncoding(), value: Swift.String(byCustomizationType.rawValue).urlPercentEncoding())
+            let byCustomizationTypeQueryItem = Smithy.URIQueryItem(name: "byCustomizationType".urlPercentEncoding(), value: Swift.String(byCustomizationType.rawValue).urlPercentEncoding())
             items.append(byCustomizationTypeQueryItem)
         }
         if let byProvider = value.byProvider {
-            let byProviderQueryItem = ClientRuntime.SDKURLQueryItem(name: "byProvider".urlPercentEncoding(), value: Swift.String(byProvider).urlPercentEncoding())
+            let byProviderQueryItem = Smithy.URIQueryItem(name: "byProvider".urlPercentEncoding(), value: Swift.String(byProvider).urlPercentEncoding())
             items.append(byProviderQueryItem)
         }
         if let byInferenceType = value.byInferenceType {
-            let byInferenceTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "byInferenceType".urlPercentEncoding(), value: Swift.String(byInferenceType.rawValue).urlPercentEncoding())
+            let byInferenceTypeQueryItem = Smithy.URIQueryItem(name: "byInferenceType".urlPercentEncoding(), value: Swift.String(byInferenceType.rawValue).urlPercentEncoding())
             items.append(byInferenceTypeQueryItem)
         }
         return items
@@ -4317,7 +4320,7 @@ public struct ListFoundationModelsInput {
 
 extension ListFoundationModelsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListFoundationModelsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListFoundationModelsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4341,7 +4344,7 @@ public struct ListFoundationModelsOutput {
 
 enum ListFoundationModelsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4358,18 +4361,18 @@ enum ListFoundationModelsOutputError {
 
 extension ListGuardrailsInput {
 
-    static func queryItemProvider(_ value: ListGuardrailsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListGuardrailsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let guardrailIdentifier = value.guardrailIdentifier {
-            let guardrailIdentifierQueryItem = ClientRuntime.SDKURLQueryItem(name: "guardrailIdentifier".urlPercentEncoding(), value: Swift.String(guardrailIdentifier).urlPercentEncoding())
+            let guardrailIdentifierQueryItem = Smithy.URIQueryItem(name: "guardrailIdentifier".urlPercentEncoding(), value: Swift.String(guardrailIdentifier).urlPercentEncoding())
             items.append(guardrailIdentifierQueryItem)
         }
         return items
@@ -4405,7 +4408,7 @@ public struct ListGuardrailsInput {
 
 extension ListGuardrailsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListGuardrailsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListGuardrailsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4435,7 +4438,7 @@ public struct ListGuardrailsOutput {
 
 enum ListGuardrailsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4453,38 +4456,38 @@ enum ListGuardrailsOutputError {
 
 extension ListModelCustomizationJobsInput {
 
-    static func queryItemProvider(_ value: ListModelCustomizationJobsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListModelCustomizationJobsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nameContains = value.nameContains {
-            let nameContainsQueryItem = ClientRuntime.SDKURLQueryItem(name: "nameContains".urlPercentEncoding(), value: Swift.String(nameContains).urlPercentEncoding())
+            let nameContainsQueryItem = Smithy.URIQueryItem(name: "nameContains".urlPercentEncoding(), value: Swift.String(nameContains).urlPercentEncoding())
             items.append(nameContainsQueryItem)
         }
         if let statusEquals = value.statusEquals {
-            let statusEqualsQueryItem = ClientRuntime.SDKURLQueryItem(name: "statusEquals".urlPercentEncoding(), value: Swift.String(statusEquals.rawValue).urlPercentEncoding())
+            let statusEqualsQueryItem = Smithy.URIQueryItem(name: "statusEquals".urlPercentEncoding(), value: Swift.String(statusEquals.rawValue).urlPercentEncoding())
             items.append(statusEqualsQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let sortOrder = value.sortOrder {
-            let sortOrderQueryItem = ClientRuntime.SDKURLQueryItem(name: "sortOrder".urlPercentEncoding(), value: Swift.String(sortOrder.rawValue).urlPercentEncoding())
+            let sortOrderQueryItem = Smithy.URIQueryItem(name: "sortOrder".urlPercentEncoding(), value: Swift.String(sortOrder.rawValue).urlPercentEncoding())
             items.append(sortOrderQueryItem)
         }
         if let creationTimeAfter = value.creationTimeAfter {
-            let creationTimeAfterQueryItem = ClientRuntime.SDKURLQueryItem(name: "creationTimeAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: creationTimeAfter)).urlPercentEncoding())
+            let creationTimeAfterQueryItem = Smithy.URIQueryItem(name: "creationTimeAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: creationTimeAfter)).urlPercentEncoding())
             items.append(creationTimeAfterQueryItem)
         }
         if let sortBy = value.sortBy {
-            let sortByQueryItem = ClientRuntime.SDKURLQueryItem(name: "sortBy".urlPercentEncoding(), value: Swift.String(sortBy.rawValue).urlPercentEncoding())
+            let sortByQueryItem = Smithy.URIQueryItem(name: "sortBy".urlPercentEncoding(), value: Swift.String(sortBy.rawValue).urlPercentEncoding())
             items.append(sortByQueryItem)
         }
         if let creationTimeBefore = value.creationTimeBefore {
-            let creationTimeBeforeQueryItem = ClientRuntime.SDKURLQueryItem(name: "creationTimeBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: creationTimeBefore)).urlPercentEncoding())
+            let creationTimeBeforeQueryItem = Smithy.URIQueryItem(name: "creationTimeBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: creationTimeBefore)).urlPercentEncoding())
             items.append(creationTimeBeforeQueryItem)
         }
         return items
@@ -4500,9 +4503,9 @@ extension ListModelCustomizationJobsInput {
 
 public struct ListModelCustomizationJobsInput {
     /// Return customization jobs created after the specified time.
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// Return customization jobs created before the specified time.
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// Maximum number of results to return in the response.
     public var maxResults: Swift.Int?
     /// Return customization jobs only if the job name contains these characters.
@@ -4517,8 +4520,8 @@ public struct ListModelCustomizationJobsInput {
     public var statusEquals: BedrockClientTypes.FineTuningJobStatus?
 
     public init(
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nameContains: Swift.String? = nil,
         nextToken: Swift.String? = nil,
@@ -4540,7 +4543,7 @@ public struct ListModelCustomizationJobsInput {
 
 extension ListModelCustomizationJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListModelCustomizationJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListModelCustomizationJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4569,7 +4572,7 @@ public struct ListModelCustomizationJobsOutput {
 
 enum ListModelCustomizationJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4586,42 +4589,42 @@ enum ListModelCustomizationJobsOutputError {
 
 extension ListProvisionedModelThroughputsInput {
 
-    static func queryItemProvider(_ value: ListProvisionedModelThroughputsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListProvisionedModelThroughputsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nameContains = value.nameContains {
-            let nameContainsQueryItem = ClientRuntime.SDKURLQueryItem(name: "nameContains".urlPercentEncoding(), value: Swift.String(nameContains).urlPercentEncoding())
+            let nameContainsQueryItem = Smithy.URIQueryItem(name: "nameContains".urlPercentEncoding(), value: Swift.String(nameContains).urlPercentEncoding())
             items.append(nameContainsQueryItem)
         }
         if let statusEquals = value.statusEquals {
-            let statusEqualsQueryItem = ClientRuntime.SDKURLQueryItem(name: "statusEquals".urlPercentEncoding(), value: Swift.String(statusEquals.rawValue).urlPercentEncoding())
+            let statusEqualsQueryItem = Smithy.URIQueryItem(name: "statusEquals".urlPercentEncoding(), value: Swift.String(statusEquals.rawValue).urlPercentEncoding())
             items.append(statusEqualsQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let sortOrder = value.sortOrder {
-            let sortOrderQueryItem = ClientRuntime.SDKURLQueryItem(name: "sortOrder".urlPercentEncoding(), value: Swift.String(sortOrder.rawValue).urlPercentEncoding())
+            let sortOrderQueryItem = Smithy.URIQueryItem(name: "sortOrder".urlPercentEncoding(), value: Swift.String(sortOrder.rawValue).urlPercentEncoding())
             items.append(sortOrderQueryItem)
         }
         if let creationTimeAfter = value.creationTimeAfter {
-            let creationTimeAfterQueryItem = ClientRuntime.SDKURLQueryItem(name: "creationTimeAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: creationTimeAfter)).urlPercentEncoding())
+            let creationTimeAfterQueryItem = Smithy.URIQueryItem(name: "creationTimeAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: creationTimeAfter)).urlPercentEncoding())
             items.append(creationTimeAfterQueryItem)
         }
         if let modelArnEquals = value.modelArnEquals {
-            let modelArnEqualsQueryItem = ClientRuntime.SDKURLQueryItem(name: "modelArnEquals".urlPercentEncoding(), value: Swift.String(modelArnEquals).urlPercentEncoding())
+            let modelArnEqualsQueryItem = Smithy.URIQueryItem(name: "modelArnEquals".urlPercentEncoding(), value: Swift.String(modelArnEquals).urlPercentEncoding())
             items.append(modelArnEqualsQueryItem)
         }
         if let sortBy = value.sortBy {
-            let sortByQueryItem = ClientRuntime.SDKURLQueryItem(name: "sortBy".urlPercentEncoding(), value: Swift.String(sortBy.rawValue).urlPercentEncoding())
+            let sortByQueryItem = Smithy.URIQueryItem(name: "sortBy".urlPercentEncoding(), value: Swift.String(sortBy.rawValue).urlPercentEncoding())
             items.append(sortByQueryItem)
         }
         if let creationTimeBefore = value.creationTimeBefore {
-            let creationTimeBeforeQueryItem = ClientRuntime.SDKURLQueryItem(name: "creationTimeBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: creationTimeBefore)).urlPercentEncoding())
+            let creationTimeBeforeQueryItem = Smithy.URIQueryItem(name: "creationTimeBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: creationTimeBefore)).urlPercentEncoding())
             items.append(creationTimeBeforeQueryItem)
         }
         return items
@@ -4637,9 +4640,9 @@ extension ListProvisionedModelThroughputsInput {
 
 public struct ListProvisionedModelThroughputsInput {
     /// A filter that returns Provisioned Throughputs created after the specified time.
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// A filter that returns Provisioned Throughputs created before the specified time.
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// THe maximum number of results to return in the response. If there are more results than the number you specified, the response returns a nextToken value. To see the next batch of results, send the nextToken value in another list request.
     public var maxResults: Swift.Int?
     /// A filter that returns Provisioned Throughputs whose model Amazon Resource Name (ARN) is equal to the value that you specify.
@@ -4656,8 +4659,8 @@ public struct ListProvisionedModelThroughputsInput {
     public var statusEquals: BedrockClientTypes.ProvisionedModelStatus?
 
     public init(
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         modelArnEquals: Swift.String? = nil,
         nameContains: Swift.String? = nil,
@@ -4681,7 +4684,7 @@ public struct ListProvisionedModelThroughputsInput {
 
 extension ListProvisionedModelThroughputsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListProvisionedModelThroughputsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListProvisionedModelThroughputsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4710,7 +4713,7 @@ public struct ListProvisionedModelThroughputsOutput {
 
 enum ListProvisionedModelThroughputsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4755,7 +4758,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4779,7 +4782,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4944,7 +4947,7 @@ extension BedrockClientTypes {
         public var baseModelArn: Swift.String?
         /// Creation time of the custom model.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// Amazon Resource Name (ARN) of the custom model.
         public var customModelArn: Swift.String?
         /// Name of the custom model.
@@ -4952,7 +4955,7 @@ extension BedrockClientTypes {
         /// Specifies whether to carry out continued pre-training of a model or whether to fine-tune it. For more information, see [Custom models](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html).
         public var customizationType: BedrockClientTypes.CustomizationType?
         /// Time that the customization job ended.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// Amazon Resource Name (ARN) of the customization job.
         /// This member is required.
         public var jobArn: Swift.String?
@@ -4960,21 +4963,21 @@ extension BedrockClientTypes {
         /// This member is required.
         public var jobName: Swift.String?
         /// Time that the customization job was last modified.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// Status of the customization job.
         /// This member is required.
         public var status: BedrockClientTypes.ModelCustomizationJobStatus?
 
         public init(
             baseModelArn: Swift.String? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             customModelArn: Swift.String? = nil,
             customModelName: Swift.String? = nil,
             customizationType: BedrockClientTypes.CustomizationType? = nil,
-            endTime: ClientRuntime.Date? = nil,
+            endTime: Foundation.Date? = nil,
             jobArn: Swift.String? = nil,
             jobName: Swift.String? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             status: BedrockClientTypes.ModelCustomizationJobStatus? = nil
         )
         {
@@ -5121,10 +5124,10 @@ extension BedrockClientTypes {
         /// The duration for which the Provisioned Throughput was committed.
         public var commitmentDuration: BedrockClientTypes.CommitmentDuration?
         /// The timestamp for when the commitment term of the Provisioned Throughput expires.
-        public var commitmentExpirationTime: ClientRuntime.Date?
+        public var commitmentExpirationTime: Foundation.Date?
         /// The time that the Provisioned Throughput was created.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the model requested to be associated to this Provisioned Throughput. This value differs from the modelArn if updating hasn't completed.
         /// This member is required.
         public var desiredModelArn: Swift.String?
@@ -5136,7 +5139,7 @@ extension BedrockClientTypes {
         public var foundationModelArn: Swift.String?
         /// The time that the Provisioned Throughput was last modified.
         /// This member is required.
-        public var lastModifiedTime: ClientRuntime.Date?
+        public var lastModifiedTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the model associated with the Provisioned Throughput.
         /// This member is required.
         public var modelArn: Swift.String?
@@ -5155,12 +5158,12 @@ extension BedrockClientTypes {
 
         public init(
             commitmentDuration: BedrockClientTypes.CommitmentDuration? = nil,
-            commitmentExpirationTime: ClientRuntime.Date? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            commitmentExpirationTime: Foundation.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             desiredModelArn: Swift.String? = nil,
             desiredModelUnits: Swift.Int? = nil,
             foundationModelArn: Swift.String? = nil,
-            lastModifiedTime: ClientRuntime.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             modelArn: Swift.String? = nil,
             modelUnits: Swift.Int? = nil,
             provisionedModelArn: Swift.String? = nil,
@@ -5215,7 +5218,7 @@ public struct PutModelInvocationLoggingConfigurationInput {
 
 extension PutModelInvocationLoggingConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutModelInvocationLoggingConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutModelInvocationLoggingConfigurationOutput {
         return PutModelInvocationLoggingConfigurationOutput()
     }
 }
@@ -5227,7 +5230,7 @@ public struct PutModelInvocationLoggingConfigurationOutput {
 
 enum PutModelInvocationLoggingConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5491,7 +5494,7 @@ public struct StopEvaluationJobInput {
 
 extension StopEvaluationJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopEvaluationJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopEvaluationJobOutput {
         return StopEvaluationJobOutput()
     }
 }
@@ -5503,7 +5506,7 @@ public struct StopEvaluationJobOutput {
 
 enum StopEvaluationJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5545,7 +5548,7 @@ public struct StopModelCustomizationJobInput {
 
 extension StopModelCustomizationJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopModelCustomizationJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopModelCustomizationJobOutput {
         return StopModelCustomizationJobOutput()
     }
 }
@@ -5557,7 +5560,7 @@ public struct StopModelCustomizationJobOutput {
 
 enum StopModelCustomizationJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5649,7 +5652,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -5661,7 +5664,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5851,7 +5854,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -5863,7 +5866,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5964,7 +5967,7 @@ public struct UpdateGuardrailInput {
 
 extension UpdateGuardrailOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateGuardrailOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateGuardrailOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5986,7 +5989,7 @@ public struct UpdateGuardrailOutput {
     public var guardrailId: Swift.String?
     /// The date and time at which the guardrail was updated.
     /// This member is required.
-    public var updatedAt: ClientRuntime.Date?
+    public var updatedAt: Foundation.Date?
     /// The version of the guardrail.
     /// This member is required.
     public var version: Swift.String?
@@ -5994,7 +5997,7 @@ public struct UpdateGuardrailOutput {
     public init(
         guardrailArn: Swift.String? = nil,
         guardrailId: Swift.String? = nil,
-        updatedAt: ClientRuntime.Date? = nil,
+        updatedAt: Foundation.Date? = nil,
         version: Swift.String? = nil
     )
     {
@@ -6007,7 +6010,7 @@ public struct UpdateGuardrailOutput {
 
 enum UpdateGuardrailOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6071,7 +6074,7 @@ public struct UpdateProvisionedModelThroughputInput {
 
 extension UpdateProvisionedModelThroughputOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateProvisionedModelThroughputOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateProvisionedModelThroughputOutput {
         return UpdateProvisionedModelThroughputOutput()
     }
 }
@@ -6083,7 +6086,7 @@ public struct UpdateProvisionedModelThroughputOutput {
 
 enum UpdateProvisionedModelThroughputOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

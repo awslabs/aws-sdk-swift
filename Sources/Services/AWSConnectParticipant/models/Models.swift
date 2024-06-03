@@ -2,6 +2,7 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -177,8 +178,8 @@ extension ConnectParticipantClientTypes {
 
 extension CompleteAttachmentUploadInput {
 
-    static func headerProvider(_ value: CompleteAttachmentUploadInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: CompleteAttachmentUploadInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let connectionToken = value.connectionToken {
             items.add(Header(name: "X-Amz-Bearer", value: Swift.String(connectionToken)))
         }
@@ -227,7 +228,7 @@ public struct CompleteAttachmentUploadInput {
 
 extension CompleteAttachmentUploadOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CompleteAttachmentUploadOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CompleteAttachmentUploadOutput {
         return CompleteAttachmentUploadOutput()
     }
 }
@@ -239,7 +240,7 @@ public struct CompleteAttachmentUploadOutput {
 
 enum CompleteAttachmentUploadOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -358,8 +359,8 @@ extension ConnectParticipantClientTypes {
 
 extension CreateParticipantConnectionInput {
 
-    static func headerProvider(_ value: CreateParticipantConnectionInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: CreateParticipantConnectionInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let participantToken = value.participantToken {
             items.add(Header(name: "X-Amz-Bearer", value: Swift.String(participantToken)))
         }
@@ -406,7 +407,7 @@ public struct CreateParticipantConnectionInput {
 
 extension CreateParticipantConnectionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateParticipantConnectionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateParticipantConnectionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -435,7 +436,7 @@ public struct CreateParticipantConnectionOutput {
 
 enum CreateParticipantConnectionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -452,8 +453,8 @@ enum CreateParticipantConnectionOutputError {
 
 extension DescribeViewInput {
 
-    static func headerProvider(_ value: DescribeViewInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DescribeViewInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let connectionToken = value.connectionToken {
             items.add(Header(name: "X-Amz-Bearer", value: Swift.String(connectionToken)))
         }
@@ -491,7 +492,7 @@ public struct DescribeViewInput {
 
 extension DescribeViewOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeViewOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeViewOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -515,7 +516,7 @@ public struct DescribeViewOutput {
 
 enum DescribeViewOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -533,8 +534,8 @@ enum DescribeViewOutputError {
 
 extension DisconnectParticipantInput {
 
-    static func headerProvider(_ value: DisconnectParticipantInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DisconnectParticipantInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let connectionToken = value.connectionToken {
             items.add(Header(name: "X-Amz-Bearer", value: Swift.String(connectionToken)))
         }
@@ -576,7 +577,7 @@ public struct DisconnectParticipantInput {
 
 extension DisconnectParticipantOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DisconnectParticipantOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DisconnectParticipantOutput {
         return DisconnectParticipantOutput()
     }
 }
@@ -588,7 +589,7 @@ public struct DisconnectParticipantOutput {
 
 enum DisconnectParticipantOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -605,8 +606,8 @@ enum DisconnectParticipantOutputError {
 
 extension GetAttachmentInput {
 
-    static func headerProvider(_ value: GetAttachmentInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetAttachmentInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let connectionToken = value.connectionToken {
             items.add(Header(name: "X-Amz-Bearer", value: Swift.String(connectionToken)))
         }
@@ -649,7 +650,7 @@ public struct GetAttachmentInput {
 
 extension GetAttachmentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetAttachmentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetAttachmentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -678,7 +679,7 @@ public struct GetAttachmentOutput {
 
 enum GetAttachmentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -695,8 +696,8 @@ enum GetAttachmentOutputError {
 
 extension GetTranscriptInput {
 
-    static func headerProvider(_ value: GetTranscriptInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetTranscriptInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let connectionToken = value.connectionToken {
             items.add(Header(name: "X-Amz-Bearer", value: Swift.String(connectionToken)))
         }
@@ -763,7 +764,7 @@ public struct GetTranscriptInput {
 
 extension GetTranscriptOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetTranscriptOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetTranscriptOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -797,7 +798,7 @@ public struct GetTranscriptOutput {
 
 enum GetTranscriptOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1161,8 +1162,8 @@ extension ConnectParticipantClientTypes {
 
 extension SendEventInput {
 
-    static func headerProvider(_ value: SendEventInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: SendEventInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let connectionToken = value.connectionToken {
             items.add(Header(name: "X-Amz-Bearer", value: Swift.String(connectionToken)))
         }
@@ -1223,7 +1224,7 @@ public struct SendEventInput {
 
 extension SendEventOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SendEventOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SendEventOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1252,7 +1253,7 @@ public struct SendEventOutput {
 
 enum SendEventOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1270,8 +1271,8 @@ enum SendEventOutputError {
 
 extension SendMessageInput {
 
-    static func headerProvider(_ value: SendMessageInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: SendMessageInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let connectionToken = value.connectionToken {
             items.add(Header(name: "X-Amz-Bearer", value: Swift.String(connectionToken)))
         }
@@ -1331,7 +1332,7 @@ public struct SendMessageInput {
 
 extension SendMessageOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SendMessageOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SendMessageOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1360,7 +1361,7 @@ public struct SendMessageOutput {
 
 enum SendMessageOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1444,8 +1445,8 @@ extension ConnectParticipantClientTypes {
 
 extension StartAttachmentUploadInput {
 
-    static func headerProvider(_ value: StartAttachmentUploadInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: StartAttachmentUploadInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let connectionToken = value.connectionToken {
             items.add(Header(name: "X-Amz-Bearer", value: Swift.String(connectionToken)))
         }
@@ -1506,7 +1507,7 @@ public struct StartAttachmentUploadInput {
 
 extension StartAttachmentUploadOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartAttachmentUploadOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartAttachmentUploadOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1535,7 +1536,7 @@ public struct StartAttachmentUploadOutput {
 
 enum StartAttachmentUploadOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

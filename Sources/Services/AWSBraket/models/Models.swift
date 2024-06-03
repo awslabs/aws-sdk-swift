@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -171,7 +174,7 @@ public struct CancelJobInput {
 
 extension CancelJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CancelJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CancelJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -202,7 +205,7 @@ public struct CancelJobOutput {
 
 enum CancelJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -257,7 +260,7 @@ public struct CancelQuantumTaskInput {
 
 extension CancelQuantumTaskOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CancelQuantumTaskOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CancelQuantumTaskOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -288,7 +291,7 @@ public struct CancelQuantumTaskOutput {
 
 enum CancelQuantumTaskOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -528,7 +531,7 @@ public struct CreateJobInput {
 
 extension CreateJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -553,7 +556,7 @@ public struct CreateJobOutput {
 
 enum CreateJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -652,7 +655,7 @@ public struct CreateQuantumTaskInput {
 
 extension CreateQuantumTaskOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateQuantumTaskOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateQuantumTaskOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -677,7 +680,7 @@ public struct CreateQuantumTaskOutput {
 
 enum CreateQuantumTaskOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1008,7 +1011,7 @@ public struct GetDeviceInput {
 
 extension GetDeviceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetDeviceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetDeviceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1068,7 +1071,7 @@ public struct GetDeviceOutput {
 
 enum GetDeviceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1086,11 +1089,11 @@ enum GetDeviceOutputError {
 
 extension GetJobInput {
 
-    static func queryItemProvider(_ value: GetJobInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetJobInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let additionalAttributeNames = value.additionalAttributeNames {
             additionalAttributeNames.forEach { queryItemValue in
-                let queryItem = ClientRuntime.SDKURLQueryItem(name: "additionalAttributeNames".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                let queryItem = Smithy.URIQueryItem(name: "additionalAttributeNames".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
                 items.append(queryItem)
             }
         }
@@ -1127,7 +1130,7 @@ public struct GetJobInput {
 
 extension GetJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1169,11 +1172,11 @@ public struct GetJobOutput {
     public var checkpointConfig: BraketClientTypes.JobCheckpointConfig?
     /// The date and time that the Amazon Braket job was created.
     /// This member is required.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The quantum processing unit (QPU) or simulator used to run the Amazon Braket job.
     public var deviceConfig: BraketClientTypes.DeviceConfig?
     /// The date and time that the Amazon Braket job ended.
-    public var endedAt: ClientRuntime.Date?
+    public var endedAt: Foundation.Date?
     /// Details about the type and time events occurred related to the Amazon Braket job.
     public var events: [BraketClientTypes.JobEventDetails]?
     /// A description of the reason why an Amazon Braket job failed, if it failed.
@@ -1200,7 +1203,7 @@ public struct GetJobOutput {
     /// This member is required.
     public var roleArn: Swift.String?
     /// The date and time that the Amazon Braket job was started.
-    public var startedAt: ClientRuntime.Date?
+    public var startedAt: Foundation.Date?
     /// The status of the Amazon Braket job.
     /// This member is required.
     public var status: BraketClientTypes.JobPrimaryStatus?
@@ -1214,9 +1217,9 @@ public struct GetJobOutput {
         associations: [BraketClientTypes.Association]? = nil,
         billableDuration: Swift.Int? = nil,
         checkpointConfig: BraketClientTypes.JobCheckpointConfig? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         deviceConfig: BraketClientTypes.DeviceConfig? = nil,
-        endedAt: ClientRuntime.Date? = nil,
+        endedAt: Foundation.Date? = nil,
         events: [BraketClientTypes.JobEventDetails]? = nil,
         failureReason: Swift.String? = nil,
         hyperParameters: [Swift.String:Swift.String]? = nil,
@@ -1227,7 +1230,7 @@ public struct GetJobOutput {
         outputDataConfig: BraketClientTypes.JobOutputDataConfig? = nil,
         queueInfo: BraketClientTypes.HybridJobQueueInfo? = nil,
         roleArn: Swift.String? = nil,
-        startedAt: ClientRuntime.Date? = nil,
+        startedAt: Foundation.Date? = nil,
         status: BraketClientTypes.JobPrimaryStatus? = nil,
         stoppingCondition: BraketClientTypes.JobStoppingCondition? = nil,
         tags: [Swift.String:Swift.String]? = nil
@@ -1259,7 +1262,7 @@ public struct GetJobOutput {
 
 enum GetJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1277,11 +1280,11 @@ enum GetJobOutputError {
 
 extension GetQuantumTaskInput {
 
-    static func queryItemProvider(_ value: GetQuantumTaskInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetQuantumTaskInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let additionalAttributeNames = value.additionalAttributeNames {
             additionalAttributeNames.forEach { queryItemValue in
-                let queryItem = ClientRuntime.SDKURLQueryItem(name: "additionalAttributeNames".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                let queryItem = Smithy.URIQueryItem(name: "additionalAttributeNames".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
                 items.append(queryItem)
             }
         }
@@ -1318,7 +1321,7 @@ public struct GetQuantumTaskInput {
 
 extension GetQuantumTaskOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetQuantumTaskOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetQuantumTaskOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1346,7 +1349,7 @@ public struct GetQuantumTaskOutput {
     public var associations: [BraketClientTypes.Association]?
     /// The time at which the task was created.
     /// This member is required.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The ARN of the device the task was run on.
     /// This member is required.
     public var deviceArn: Swift.String?
@@ -1354,7 +1357,7 @@ public struct GetQuantumTaskOutput {
     /// This member is required.
     public var deviceParameters: Swift.String?
     /// The time at which the task ended.
-    public var endedAt: ClientRuntime.Date?
+    public var endedAt: Foundation.Date?
     /// The reason that a task failed.
     public var failureReason: Swift.String?
     /// The ARN of the Amazon Braket job associated with the quantum task.
@@ -1381,10 +1384,10 @@ public struct GetQuantumTaskOutput {
 
     public init(
         associations: [BraketClientTypes.Association]? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         deviceArn: Swift.String? = nil,
         deviceParameters: Swift.String? = nil,
-        endedAt: ClientRuntime.Date? = nil,
+        endedAt: Foundation.Date? = nil,
         failureReason: Swift.String? = nil,
         jobArn: Swift.String? = nil,
         outputS3Bucket: Swift.String? = nil,
@@ -1415,7 +1418,7 @@ public struct GetQuantumTaskOutput {
 
 enum GetQuantumTaskOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1820,12 +1823,12 @@ extension BraketClientTypes {
         /// A message describing the event that occurred related to the Amazon Braket job.
         public var message: Swift.String?
         /// The type of event that occurred related to the Amazon Braket job.
-        public var timeOfEvent: ClientRuntime.Date?
+        public var timeOfEvent: Foundation.Date?
 
         public init(
             eventType: BraketClientTypes.JobEventType? = nil,
             message: Swift.String? = nil,
-            timeOfEvent: ClientRuntime.Date? = nil
+            timeOfEvent: Foundation.Date? = nil
         )
         {
             self.eventType = eventType
@@ -2024,12 +2027,12 @@ extension BraketClientTypes {
     public struct JobSummary {
         /// The date and time that the Amazon Braket job was created.
         /// This member is required.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// Provides summary information about the primary device used by an Amazon Braket job.
         /// This member is required.
         public var device: Swift.String?
         /// The date and time that the Amazon Braket job ended.
-        public var endedAt: ClientRuntime.Date?
+        public var endedAt: Foundation.Date?
         /// The ARN of the Amazon Braket job.
         /// This member is required.
         public var jobArn: Swift.String?
@@ -2037,7 +2040,7 @@ extension BraketClientTypes {
         /// This member is required.
         public var jobName: Swift.String?
         /// The date and time that the Amazon Braket job was started.
-        public var startedAt: ClientRuntime.Date?
+        public var startedAt: Foundation.Date?
         /// The status of the Amazon Braket job.
         /// This member is required.
         public var status: BraketClientTypes.JobPrimaryStatus?
@@ -2045,12 +2048,12 @@ extension BraketClientTypes {
         public var tags: [Swift.String:Swift.String]?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             device: Swift.String? = nil,
-            endedAt: ClientRuntime.Date? = nil,
+            endedAt: Foundation.Date? = nil,
             jobArn: Swift.String? = nil,
             jobName: Swift.String? = nil,
-            startedAt: ClientRuntime.Date? = nil,
+            startedAt: Foundation.Date? = nil,
             status: BraketClientTypes.JobPrimaryStatus? = nil,
             tags: [Swift.String:Swift.String]? = nil
         )
@@ -2093,7 +2096,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2117,7 +2120,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2267,12 +2270,12 @@ extension BraketClientTypes {
     public struct QuantumTaskSummary {
         /// The time at which the task was created.
         /// This member is required.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The ARN of the device the task ran on.
         /// This member is required.
         public var deviceArn: Swift.String?
         /// The time at which the task finished.
-        public var endedAt: ClientRuntime.Date?
+        public var endedAt: Foundation.Date?
         /// The S3 bucket where the task result file is stored..
         /// This member is required.
         public var outputS3Bucket: Swift.String?
@@ -2292,9 +2295,9 @@ extension BraketClientTypes {
         public var tags: [Swift.String:Swift.String]?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             deviceArn: Swift.String? = nil,
-            endedAt: ClientRuntime.Date? = nil,
+            endedAt: Foundation.Date? = nil,
             outputS3Bucket: Swift.String? = nil,
             outputS3Directory: Swift.String? = nil,
             quantumTaskArn: Swift.String? = nil,
@@ -2560,7 +2563,7 @@ public struct SearchDevicesInput {
 
 extension SearchDevicesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SearchDevicesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SearchDevicesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2590,7 +2593,7 @@ public struct SearchDevicesOutput {
 
 enum SearchDevicesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2726,7 +2729,7 @@ public struct SearchJobsInput {
 
 extension SearchJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SearchJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SearchJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2756,7 +2759,7 @@ public struct SearchJobsOutput {
 
 enum SearchJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2889,7 +2892,7 @@ public struct SearchQuantumTasksInput {
 
 extension SearchQuantumTasksOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SearchQuantumTasksOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SearchQuantumTasksOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2919,7 +2922,7 @@ public struct SearchQuantumTasksOutput {
 
 enum SearchQuantumTasksOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3009,7 +3012,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -3021,7 +3024,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3074,14 +3077,14 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension UntagResourceInput {
 
-    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let tagKeys = value.tagKeys else {
             let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
         tagKeys.forEach { queryItemValue in
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
             items.append(queryItem)
         }
         return items
@@ -3118,7 +3121,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -3130,7 +3133,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

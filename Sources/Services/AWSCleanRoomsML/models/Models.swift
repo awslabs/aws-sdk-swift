@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -139,7 +142,7 @@ extension CleanRoomsMLClientTypes {
         public var audienceSize: CleanRoomsMLClientTypes.AudienceSize?
         /// The time at which the audience export job was created.
         /// This member is required.
-        public var createTime: ClientRuntime.Date?
+        public var createTime: Foundation.Date?
         /// The description of the audience export job.
         public var description: Swift.String?
         /// The name of the audience export job.
@@ -154,18 +157,18 @@ extension CleanRoomsMLClientTypes {
         public var statusDetails: CleanRoomsMLClientTypes.StatusDetails?
         /// The most recent time at which the audience export job was updated.
         /// This member is required.
-        public var updateTime: ClientRuntime.Date?
+        public var updateTime: Foundation.Date?
 
         public init(
             audienceGenerationJobArn: Swift.String? = nil,
             audienceSize: CleanRoomsMLClientTypes.AudienceSize? = nil,
-            createTime: ClientRuntime.Date? = nil,
+            createTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
             name: Swift.String? = nil,
             outputLocation: Swift.String? = nil,
             status: CleanRoomsMLClientTypes.AudienceExportJobStatus? = nil,
             statusDetails: CleanRoomsMLClientTypes.StatusDetails? = nil,
-            updateTime: ClientRuntime.Date? = nil
+            updateTime: Foundation.Date? = nil
         )
         {
             self.audienceGenerationJobArn = audienceGenerationJobArn
@@ -300,7 +303,7 @@ extension CleanRoomsMLClientTypes {
         public var configuredAudienceModelArn: Swift.String?
         /// The time at which the audience generation job was created.
         /// This member is required.
-        public var createTime: ClientRuntime.Date?
+        public var createTime: Foundation.Date?
         /// The description of the audience generation job.
         public var description: Swift.String?
         /// The name of the audience generation job.
@@ -313,18 +316,18 @@ extension CleanRoomsMLClientTypes {
         public var status: CleanRoomsMLClientTypes.AudienceGenerationJobStatus?
         /// The most recent time at which the audience generation job was updated.
         /// This member is required.
-        public var updateTime: ClientRuntime.Date?
+        public var updateTime: Foundation.Date?
 
         public init(
             audienceGenerationJobArn: Swift.String? = nil,
             collaborationId: Swift.String? = nil,
             configuredAudienceModelArn: Swift.String? = nil,
-            createTime: ClientRuntime.Date? = nil,
+            createTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
             name: Swift.String? = nil,
             startedBy: Swift.String? = nil,
             status: CleanRoomsMLClientTypes.AudienceGenerationJobStatus? = nil,
-            updateTime: ClientRuntime.Date? = nil
+            updateTime: Foundation.Date? = nil
         )
         {
             self.audienceGenerationJobArn = audienceGenerationJobArn
@@ -409,7 +412,7 @@ extension CleanRoomsMLClientTypes {
         public var audienceModelArn: Swift.String?
         /// The time at which the audience model was created.
         /// This member is required.
-        public var createTime: ClientRuntime.Date?
+        public var createTime: Foundation.Date?
         /// The description of the audience model.
         public var description: Swift.String?
         /// The name of the audience model.
@@ -423,16 +426,16 @@ extension CleanRoomsMLClientTypes {
         public var trainingDatasetArn: Swift.String?
         /// The most recent time at which the audience model was updated.
         /// This member is required.
-        public var updateTime: ClientRuntime.Date?
+        public var updateTime: Foundation.Date?
 
         public init(
             audienceModelArn: Swift.String? = nil,
-            createTime: ClientRuntime.Date? = nil,
+            createTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
             name: Swift.String? = nil,
             status: CleanRoomsMLClientTypes.AudienceModelStatus? = nil,
             trainingDatasetArn: Swift.String? = nil,
-            updateTime: ClientRuntime.Date? = nil
+            updateTime: Foundation.Date? = nil
         )
         {
             self.audienceModelArn = audienceModelArn
@@ -758,7 +761,7 @@ extension CleanRoomsMLClientTypes {
         public var configuredAudienceModelArn: Swift.String?
         /// The time at which the configured audience model was created.
         /// This member is required.
-        public var createTime: ClientRuntime.Date?
+        public var createTime: Foundation.Date?
         /// The description of the configured audience model.
         public var description: Swift.String?
         /// The name of the configured audience model.
@@ -772,17 +775,17 @@ extension CleanRoomsMLClientTypes {
         public var status: CleanRoomsMLClientTypes.ConfiguredAudienceModelStatus?
         /// The most recent time at which the configured audience model was updated.
         /// This member is required.
-        public var updateTime: ClientRuntime.Date?
+        public var updateTime: Foundation.Date?
 
         public init(
             audienceModelArn: Swift.String? = nil,
             configuredAudienceModelArn: Swift.String? = nil,
-            createTime: ClientRuntime.Date? = nil,
+            createTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
             name: Swift.String? = nil,
             outputConfig: CleanRoomsMLClientTypes.ConfiguredAudienceModelOutputConfig? = nil,
             status: CleanRoomsMLClientTypes.ConfiguredAudienceModelStatus? = nil,
-            updateTime: ClientRuntime.Date? = nil
+            updateTime: Foundation.Date? = nil
         )
         {
             self.audienceModelArn = audienceModelArn
@@ -882,9 +885,9 @@ public struct CreateAudienceModelInput {
     /// * Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Clean Rooms ML considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
     public var tags: [Swift.String:Swift.String]?
     /// The end date and time of the training window.
-    public var trainingDataEndTime: ClientRuntime.Date?
+    public var trainingDataEndTime: Foundation.Date?
     /// The start date and time of the training window.
-    public var trainingDataStartTime: ClientRuntime.Date?
+    public var trainingDataStartTime: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the training dataset for this audience model.
     /// This member is required.
     public var trainingDatasetArn: Swift.String?
@@ -894,8 +897,8 @@ public struct CreateAudienceModelInput {
         kmsKeyArn: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
-        trainingDataEndTime: ClientRuntime.Date? = nil,
-        trainingDataStartTime: ClientRuntime.Date? = nil,
+        trainingDataEndTime: Foundation.Date? = nil,
+        trainingDataStartTime: Foundation.Date? = nil,
         trainingDatasetArn: Swift.String? = nil
     )
     {
@@ -911,7 +914,7 @@ public struct CreateAudienceModelInput {
 
 extension CreateAudienceModelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateAudienceModelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateAudienceModelOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -936,7 +939,7 @@ public struct CreateAudienceModelOutput {
 
 enum CreateAudienceModelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1039,7 +1042,7 @@ public struct CreateConfiguredAudienceModelInput {
 
 extension CreateConfiguredAudienceModelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateConfiguredAudienceModelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateConfiguredAudienceModelOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1064,7 +1067,7 @@ public struct CreateConfiguredAudienceModelOutput {
 
 enum CreateConfiguredAudienceModelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1146,7 +1149,7 @@ public struct CreateTrainingDatasetInput {
 
 extension CreateTrainingDatasetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateTrainingDatasetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateTrainingDatasetOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1171,7 +1174,7 @@ public struct CreateTrainingDatasetOutput {
 
 enum CreateTrainingDatasetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1346,7 +1349,7 @@ public struct DeleteAudienceGenerationJobInput {
 
 extension DeleteAudienceGenerationJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteAudienceGenerationJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteAudienceGenerationJobOutput {
         return DeleteAudienceGenerationJobOutput()
     }
 }
@@ -1358,7 +1361,7 @@ public struct DeleteAudienceGenerationJobOutput {
 
 enum DeleteAudienceGenerationJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1398,7 +1401,7 @@ public struct DeleteAudienceModelInput {
 
 extension DeleteAudienceModelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteAudienceModelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteAudienceModelOutput {
         return DeleteAudienceModelOutput()
     }
 }
@@ -1410,7 +1413,7 @@ public struct DeleteAudienceModelOutput {
 
 enum DeleteAudienceModelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1450,7 +1453,7 @@ public struct DeleteConfiguredAudienceModelInput {
 
 extension DeleteConfiguredAudienceModelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteConfiguredAudienceModelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteConfiguredAudienceModelOutput {
         return DeleteConfiguredAudienceModelOutput()
     }
 }
@@ -1462,7 +1465,7 @@ public struct DeleteConfiguredAudienceModelOutput {
 
 enum DeleteConfiguredAudienceModelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1502,7 +1505,7 @@ public struct DeleteConfiguredAudienceModelPolicyInput {
 
 extension DeleteConfiguredAudienceModelPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteConfiguredAudienceModelPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteConfiguredAudienceModelPolicyOutput {
         return DeleteConfiguredAudienceModelPolicyOutput()
     }
 }
@@ -1514,7 +1517,7 @@ public struct DeleteConfiguredAudienceModelPolicyOutput {
 
 enum DeleteConfiguredAudienceModelPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1553,7 +1556,7 @@ public struct DeleteTrainingDatasetInput {
 
 extension DeleteTrainingDatasetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteTrainingDatasetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteTrainingDatasetOutput {
         return DeleteTrainingDatasetOutput()
     }
 }
@@ -1565,7 +1568,7 @@ public struct DeleteTrainingDatasetOutput {
 
 enum DeleteTrainingDatasetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1605,7 +1608,7 @@ public struct GetAudienceGenerationJobInput {
 
 extension GetAudienceGenerationJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetAudienceGenerationJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetAudienceGenerationJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1639,7 +1642,7 @@ public struct GetAudienceGenerationJobOutput {
     public var configuredAudienceModelArn: Swift.String?
     /// The time at which the audience generation job was created.
     /// This member is required.
-    public var createTime: ClientRuntime.Date?
+    public var createTime: Foundation.Date?
     /// The description of the audience generation job.
     public var description: Swift.String?
     /// Configure whether the seed users are included in the output audience. By default, Clean Rooms ML removes seed users from the output audience. If you specify TRUE, the seed users will appear first in the output. Clean Rooms ML does not explicitly reveal whether a user was in the seed, but the recipient of the audience will know that the first minimumSeedSize count of users are from the seed.
@@ -1662,13 +1665,13 @@ public struct GetAudienceGenerationJobOutput {
     public var tags: [Swift.String:Swift.String]?
     /// The most recent time at which the audience generation job was updated.
     /// This member is required.
-    public var updateTime: ClientRuntime.Date?
+    public var updateTime: Foundation.Date?
 
     public init(
         audienceGenerationJobArn: Swift.String? = nil,
         collaborationId: Swift.String? = nil,
         configuredAudienceModelArn: Swift.String? = nil,
-        createTime: ClientRuntime.Date? = nil,
+        createTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         includeSeedInOutput: Swift.Bool? = nil,
         metrics: CleanRoomsMLClientTypes.AudienceQualityMetrics? = nil,
@@ -1678,7 +1681,7 @@ public struct GetAudienceGenerationJobOutput {
         status: CleanRoomsMLClientTypes.AudienceGenerationJobStatus? = nil,
         statusDetails: CleanRoomsMLClientTypes.StatusDetails? = nil,
         tags: [Swift.String:Swift.String]? = nil,
-        updateTime: ClientRuntime.Date? = nil
+        updateTime: Foundation.Date? = nil
     )
     {
         self.audienceGenerationJobArn = audienceGenerationJobArn
@@ -1700,7 +1703,7 @@ public struct GetAudienceGenerationJobOutput {
 
 enum GetAudienceGenerationJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1739,7 +1742,7 @@ public struct GetAudienceModelInput {
 
 extension GetAudienceModelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetAudienceModelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetAudienceModelOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1766,7 +1769,7 @@ public struct GetAudienceModelOutput {
     public var audienceModelArn: Swift.String?
     /// The time at which the audience model was created.
     /// This member is required.
-    public var createTime: ClientRuntime.Date?
+    public var createTime: Foundation.Date?
     /// The description of the audience model.
     public var description: Swift.String?
     /// The KMS key ARN used for the audience model.
@@ -1782,29 +1785,29 @@ public struct GetAudienceModelOutput {
     /// The tags that are assigned to the audience model.
     public var tags: [Swift.String:Swift.String]?
     /// The end date specified for the training window.
-    public var trainingDataEndTime: ClientRuntime.Date?
+    public var trainingDataEndTime: Foundation.Date?
     /// The start date specified for the training window.
-    public var trainingDataStartTime: ClientRuntime.Date?
+    public var trainingDataStartTime: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the training dataset that was used for this audience model.
     /// This member is required.
     public var trainingDatasetArn: Swift.String?
     /// The most recent time at which the audience model was updated.
     /// This member is required.
-    public var updateTime: ClientRuntime.Date?
+    public var updateTime: Foundation.Date?
 
     public init(
         audienceModelArn: Swift.String? = nil,
-        createTime: ClientRuntime.Date? = nil,
+        createTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         kmsKeyArn: Swift.String? = nil,
         name: Swift.String? = nil,
         status: CleanRoomsMLClientTypes.AudienceModelStatus? = nil,
         statusDetails: CleanRoomsMLClientTypes.StatusDetails? = nil,
         tags: [Swift.String:Swift.String]? = nil,
-        trainingDataEndTime: ClientRuntime.Date? = nil,
-        trainingDataStartTime: ClientRuntime.Date? = nil,
+        trainingDataEndTime: Foundation.Date? = nil,
+        trainingDataStartTime: Foundation.Date? = nil,
         trainingDatasetArn: Swift.String? = nil,
-        updateTime: ClientRuntime.Date? = nil
+        updateTime: Foundation.Date? = nil
     )
     {
         self.audienceModelArn = audienceModelArn
@@ -1824,7 +1827,7 @@ public struct GetAudienceModelOutput {
 
 enum GetAudienceModelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1863,7 +1866,7 @@ public struct GetConfiguredAudienceModelInput {
 
 extension GetConfiguredAudienceModelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetConfiguredAudienceModelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetConfiguredAudienceModelOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1898,7 +1901,7 @@ public struct GetConfiguredAudienceModelOutput {
     public var configuredAudienceModelArn: Swift.String?
     /// The time at which the configured audience model was created.
     /// This member is required.
-    public var createTime: ClientRuntime.Date?
+    public var createTime: Foundation.Date?
     /// The description of the configured audience model.
     public var description: Swift.String?
     /// The minimum number of users from the seed audience that must match with users in the training data of the audience model.
@@ -1919,14 +1922,14 @@ public struct GetConfiguredAudienceModelOutput {
     public var tags: [Swift.String:Swift.String]?
     /// The most recent time at which the configured audience model was updated.
     /// This member is required.
-    public var updateTime: ClientRuntime.Date?
+    public var updateTime: Foundation.Date?
 
     public init(
         audienceModelArn: Swift.String? = nil,
         audienceSizeConfig: CleanRoomsMLClientTypes.AudienceSizeConfig? = nil,
         childResourceTagOnCreatePolicy: CleanRoomsMLClientTypes.TagOnCreatePolicy? = nil,
         configuredAudienceModelArn: Swift.String? = nil,
-        createTime: ClientRuntime.Date? = nil,
+        createTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         minMatchingSeedSize: Swift.Int? = nil,
         name: Swift.String? = nil,
@@ -1934,7 +1937,7 @@ public struct GetConfiguredAudienceModelOutput {
         sharedAudienceMetrics: [CleanRoomsMLClientTypes.SharedAudienceMetrics]? = nil,
         status: CleanRoomsMLClientTypes.ConfiguredAudienceModelStatus? = nil,
         tags: [Swift.String:Swift.String]? = nil,
-        updateTime: ClientRuntime.Date? = nil
+        updateTime: Foundation.Date? = nil
     )
     {
         self.audienceModelArn = audienceModelArn
@@ -1955,7 +1958,7 @@ public struct GetConfiguredAudienceModelOutput {
 
 enum GetConfiguredAudienceModelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1994,7 +1997,7 @@ public struct GetConfiguredAudienceModelPolicyInput {
 
 extension GetConfiguredAudienceModelPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetConfiguredAudienceModelPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetConfiguredAudienceModelPolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2031,7 +2034,7 @@ public struct GetConfiguredAudienceModelPolicyOutput {
 
 enum GetConfiguredAudienceModelPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2070,7 +2073,7 @@ public struct GetTrainingDatasetInput {
 
 extension GetTrainingDatasetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetTrainingDatasetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetTrainingDatasetOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2091,7 +2094,7 @@ extension GetTrainingDatasetOutput {
 public struct GetTrainingDatasetOutput {
     /// The time at which the training dataset was created.
     /// This member is required.
-    public var createTime: ClientRuntime.Date?
+    public var createTime: Foundation.Date?
     /// The description of the training dataset.
     public var description: Swift.String?
     /// The name of the training dataset.
@@ -2113,10 +2116,10 @@ public struct GetTrainingDatasetOutput {
     public var trainingDatasetArn: Swift.String?
     /// The most recent time at which the training dataset was updated.
     /// This member is required.
-    public var updateTime: ClientRuntime.Date?
+    public var updateTime: Foundation.Date?
 
     public init(
-        createTime: ClientRuntime.Date? = nil,
+        createTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         roleArn: Swift.String? = nil,
@@ -2124,7 +2127,7 @@ public struct GetTrainingDatasetOutput {
         tags: [Swift.String:Swift.String]? = nil,
         trainingData: [CleanRoomsMLClientTypes.Dataset]? = nil,
         trainingDatasetArn: Swift.String? = nil,
-        updateTime: ClientRuntime.Date? = nil
+        updateTime: Foundation.Date? = nil
     )
     {
         self.createTime = createTime
@@ -2141,7 +2144,7 @@ public struct GetTrainingDatasetOutput {
 
 enum GetTrainingDatasetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2202,18 +2205,18 @@ extension CleanRoomsMLClientTypes {
 
 extension ListAudienceExportJobsInput {
 
-    static func queryItemProvider(_ value: ListAudienceExportJobsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListAudienceExportJobsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let audienceGenerationJobArn = value.audienceGenerationJobArn {
-            let audienceGenerationJobArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "audienceGenerationJobArn".urlPercentEncoding(), value: Swift.String(audienceGenerationJobArn).urlPercentEncoding())
+            let audienceGenerationJobArnQueryItem = Smithy.URIQueryItem(name: "audienceGenerationJobArn".urlPercentEncoding(), value: Swift.String(audienceGenerationJobArn).urlPercentEncoding())
             items.append(audienceGenerationJobArnQueryItem)
         }
         return items
@@ -2249,7 +2252,7 @@ public struct ListAudienceExportJobsInput {
 
 extension ListAudienceExportJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAudienceExportJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAudienceExportJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2279,7 +2282,7 @@ public struct ListAudienceExportJobsOutput {
 
 enum ListAudienceExportJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2294,22 +2297,22 @@ enum ListAudienceExportJobsOutputError {
 
 extension ListAudienceGenerationJobsInput {
 
-    static func queryItemProvider(_ value: ListAudienceGenerationJobsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListAudienceGenerationJobsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let configuredAudienceModelArn = value.configuredAudienceModelArn {
-            let configuredAudienceModelArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "configuredAudienceModelArn".urlPercentEncoding(), value: Swift.String(configuredAudienceModelArn).urlPercentEncoding())
+            let configuredAudienceModelArnQueryItem = Smithy.URIQueryItem(name: "configuredAudienceModelArn".urlPercentEncoding(), value: Swift.String(configuredAudienceModelArn).urlPercentEncoding())
             items.append(configuredAudienceModelArnQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let collaborationId = value.collaborationId {
-            let collaborationIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "collaborationId".urlPercentEncoding(), value: Swift.String(collaborationId).urlPercentEncoding())
+            let collaborationIdQueryItem = Smithy.URIQueryItem(name: "collaborationId".urlPercentEncoding(), value: Swift.String(collaborationId).urlPercentEncoding())
             items.append(collaborationIdQueryItem)
         }
         return items
@@ -2349,7 +2352,7 @@ public struct ListAudienceGenerationJobsInput {
 
 extension ListAudienceGenerationJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAudienceGenerationJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAudienceGenerationJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2379,7 +2382,7 @@ public struct ListAudienceGenerationJobsOutput {
 
 enum ListAudienceGenerationJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2394,14 +2397,14 @@ enum ListAudienceGenerationJobsOutputError {
 
 extension ListAudienceModelsInput {
 
-    static func queryItemProvider(_ value: ListAudienceModelsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListAudienceModelsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -2433,7 +2436,7 @@ public struct ListAudienceModelsInput {
 
 extension ListAudienceModelsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAudienceModelsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAudienceModelsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2463,7 +2466,7 @@ public struct ListAudienceModelsOutput {
 
 enum ListAudienceModelsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2478,14 +2481,14 @@ enum ListAudienceModelsOutputError {
 
 extension ListConfiguredAudienceModelsInput {
 
-    static func queryItemProvider(_ value: ListConfiguredAudienceModelsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListConfiguredAudienceModelsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -2517,7 +2520,7 @@ public struct ListConfiguredAudienceModelsInput {
 
 extension ListConfiguredAudienceModelsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListConfiguredAudienceModelsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListConfiguredAudienceModelsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2547,7 +2550,7 @@ public struct ListConfiguredAudienceModelsOutput {
 
 enum ListConfiguredAudienceModelsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2585,7 +2588,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2610,7 +2613,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2626,14 +2629,14 @@ enum ListTagsForResourceOutputError {
 
 extension ListTrainingDatasetsInput {
 
-    static func queryItemProvider(_ value: ListTrainingDatasetsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListTrainingDatasetsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -2665,7 +2668,7 @@ public struct ListTrainingDatasetsInput {
 
 extension ListTrainingDatasetsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTrainingDatasetsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTrainingDatasetsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2695,7 +2698,7 @@ public struct ListTrainingDatasetsOutput {
 
 enum ListTrainingDatasetsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2785,7 +2788,7 @@ public struct PutConfiguredAudienceModelPolicyInput {
 
 extension PutConfiguredAudienceModelPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutConfiguredAudienceModelPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutConfiguredAudienceModelPolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2816,7 +2819,7 @@ public struct PutConfiguredAudienceModelPolicyOutput {
 
 enum PutConfiguredAudienceModelPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3046,7 +3049,7 @@ public struct StartAudienceExportJobInput {
 
 extension StartAudienceExportJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartAudienceExportJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartAudienceExportJobOutput {
         return StartAudienceExportJobOutput()
     }
 }
@@ -3058,7 +3061,7 @@ public struct StartAudienceExportJobOutput {
 
 enum StartAudienceExportJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3150,7 +3153,7 @@ public struct StartAudienceGenerationJobInput {
 
 extension StartAudienceGenerationJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartAudienceGenerationJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartAudienceGenerationJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3175,7 +3178,7 @@ public struct StartAudienceGenerationJobOutput {
 
 enum StartAudienceGenerationJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3303,7 +3306,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -3315,7 +3318,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3375,7 +3378,7 @@ extension CleanRoomsMLClientTypes {
     public struct TrainingDatasetSummary {
         /// The time at which the training dataset was created.
         /// This member is required.
-        public var createTime: ClientRuntime.Date?
+        public var createTime: Foundation.Date?
         /// The description of the training dataset.
         public var description: Swift.String?
         /// The name of the training dataset.
@@ -3389,15 +3392,15 @@ extension CleanRoomsMLClientTypes {
         public var trainingDatasetArn: Swift.String?
         /// The most recent time at which the training dataset was updated.
         /// This member is required.
-        public var updateTime: ClientRuntime.Date?
+        public var updateTime: Foundation.Date?
 
         public init(
-            createTime: ClientRuntime.Date? = nil,
+            createTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
             name: Swift.String? = nil,
             status: CleanRoomsMLClientTypes.TrainingDatasetStatus? = nil,
             trainingDatasetArn: Swift.String? = nil,
-            updateTime: ClientRuntime.Date? = nil
+            updateTime: Foundation.Date? = nil
         )
         {
             self.createTime = createTime
@@ -3413,14 +3416,14 @@ extension CleanRoomsMLClientTypes {
 
 extension UntagResourceInput {
 
-    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let tagKeys = value.tagKeys else {
             let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
         tagKeys.forEach { queryItemValue in
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
             items.append(queryItem)
         }
         return items
@@ -3457,7 +3460,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -3469,7 +3472,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3545,7 +3548,7 @@ public struct UpdateConfiguredAudienceModelInput {
 
 extension UpdateConfiguredAudienceModelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateConfiguredAudienceModelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateConfiguredAudienceModelOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3570,7 +3573,7 @@ public struct UpdateConfiguredAudienceModelOutput {
 
 enum UpdateConfiguredAudienceModelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

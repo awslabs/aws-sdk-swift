@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -241,7 +243,7 @@ extension VerifiedPermissionsClientTypes {
 
 extension BatchIsAuthorizedOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> BatchIsAuthorizedOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BatchIsAuthorizedOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -266,7 +268,7 @@ public struct BatchIsAuthorizedOutput {
 
 enum BatchIsAuthorizedOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -427,7 +429,7 @@ extension VerifiedPermissionsClientTypes {
 
 extension BatchIsAuthorizedWithTokenOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> BatchIsAuthorizedWithTokenOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BatchIsAuthorizedWithTokenOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -457,7 +459,7 @@ public struct BatchIsAuthorizedWithTokenOutput {
 
 enum BatchIsAuthorizedWithTokenOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -930,7 +932,7 @@ public struct CreateIdentitySourceInput {
 
 extension CreateIdentitySourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateIdentitySourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateIdentitySourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -946,21 +948,21 @@ extension CreateIdentitySourceOutput {
 public struct CreateIdentitySourceOutput {
     /// The date and time the identity source was originally created.
     /// This member is required.
-    public var createdDate: ClientRuntime.Date?
+    public var createdDate: Foundation.Date?
     /// The unique ID of the new identity source.
     /// This member is required.
     public var identitySourceId: Swift.String?
     /// The date and time the identity source was most recently updated.
     /// This member is required.
-    public var lastUpdatedDate: ClientRuntime.Date?
+    public var lastUpdatedDate: Foundation.Date?
     /// The ID of the policy store that contains the identity source.
     /// This member is required.
     public var policyStoreId: Swift.String?
 
     public init(
-        createdDate: ClientRuntime.Date? = nil,
+        createdDate: Foundation.Date? = nil,
         identitySourceId: Swift.String? = nil,
-        lastUpdatedDate: ClientRuntime.Date? = nil,
+        lastUpdatedDate: Foundation.Date? = nil,
         policyStoreId: Swift.String? = nil
     )
     {
@@ -973,7 +975,7 @@ public struct CreateIdentitySourceOutput {
 
 enum CreateIdentitySourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1029,7 +1031,7 @@ public struct CreatePolicyInput {
 
 extension CreatePolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreatePolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreatePolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1052,12 +1054,12 @@ public struct CreatePolicyOutput {
     public var actions: [VerifiedPermissionsClientTypes.ActionIdentifier]?
     /// The date and time the policy was originally created.
     /// This member is required.
-    public var createdDate: ClientRuntime.Date?
+    public var createdDate: Foundation.Date?
     /// The effect of the decision that a policy returns to an authorization request. For example, "effect": "Permit".
     public var effect: VerifiedPermissionsClientTypes.PolicyEffect?
     /// The date and time the policy was last updated.
     /// This member is required.
-    public var lastUpdatedDate: ClientRuntime.Date?
+    public var lastUpdatedDate: Foundation.Date?
     /// The unique ID of the new policy.
     /// This member is required.
     public var policyId: Swift.String?
@@ -1074,9 +1076,9 @@ public struct CreatePolicyOutput {
 
     public init(
         actions: [VerifiedPermissionsClientTypes.ActionIdentifier]? = nil,
-        createdDate: ClientRuntime.Date? = nil,
+        createdDate: Foundation.Date? = nil,
         effect: VerifiedPermissionsClientTypes.PolicyEffect? = nil,
-        lastUpdatedDate: ClientRuntime.Date? = nil,
+        lastUpdatedDate: Foundation.Date? = nil,
         policyId: Swift.String? = nil,
         policyStoreId: Swift.String? = nil,
         policyType: VerifiedPermissionsClientTypes.PolicyType? = nil,
@@ -1098,7 +1100,7 @@ public struct CreatePolicyOutput {
 
 enum CreatePolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1158,7 +1160,7 @@ public struct CreatePolicyStoreInput {
 
 extension CreatePolicyStoreOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreatePolicyStoreOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreatePolicyStoreOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1177,18 +1179,18 @@ public struct CreatePolicyStoreOutput {
     public var arn: Swift.String?
     /// The date and time the policy store was originally created.
     /// This member is required.
-    public var createdDate: ClientRuntime.Date?
+    public var createdDate: Foundation.Date?
     /// The date and time the policy store was last updated.
     /// This member is required.
-    public var lastUpdatedDate: ClientRuntime.Date?
+    public var lastUpdatedDate: Foundation.Date?
     /// The unique ID of the new policy store.
     /// This member is required.
     public var policyStoreId: Swift.String?
 
     public init(
         arn: Swift.String? = nil,
-        createdDate: ClientRuntime.Date? = nil,
-        lastUpdatedDate: ClientRuntime.Date? = nil,
+        createdDate: Foundation.Date? = nil,
+        lastUpdatedDate: Foundation.Date? = nil,
         policyStoreId: Swift.String? = nil
     )
     {
@@ -1201,7 +1203,7 @@ public struct CreatePolicyStoreOutput {
 
 enum CreatePolicyStoreOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1266,7 +1268,7 @@ public struct CreatePolicyTemplateInput {
 
 extension CreatePolicyTemplateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreatePolicyTemplateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreatePolicyTemplateOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1282,10 +1284,10 @@ extension CreatePolicyTemplateOutput {
 public struct CreatePolicyTemplateOutput {
     /// The date and time the policy template was originally created.
     /// This member is required.
-    public var createdDate: ClientRuntime.Date?
+    public var createdDate: Foundation.Date?
     /// The date and time the policy template was most recently updated.
     /// This member is required.
-    public var lastUpdatedDate: ClientRuntime.Date?
+    public var lastUpdatedDate: Foundation.Date?
     /// The ID of the policy store that contains the policy template.
     /// This member is required.
     public var policyStoreId: Swift.String?
@@ -1294,8 +1296,8 @@ public struct CreatePolicyTemplateOutput {
     public var policyTemplateId: Swift.String?
 
     public init(
-        createdDate: ClientRuntime.Date? = nil,
-        lastUpdatedDate: ClientRuntime.Date? = nil,
+        createdDate: Foundation.Date? = nil,
+        lastUpdatedDate: Foundation.Date? = nil,
         policyStoreId: Swift.String? = nil,
         policyTemplateId: Swift.String? = nil
     )
@@ -1309,7 +1311,7 @@ public struct CreatePolicyTemplateOutput {
 
 enum CreatePolicyTemplateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1389,7 +1391,7 @@ public struct DeleteIdentitySourceInput {
 
 extension DeleteIdentitySourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteIdentitySourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteIdentitySourceOutput {
         return DeleteIdentitySourceOutput()
     }
 }
@@ -1401,7 +1403,7 @@ public struct DeleteIdentitySourceOutput {
 
 enum DeleteIdentitySourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1451,7 +1453,7 @@ public struct DeletePolicyInput {
 
 extension DeletePolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeletePolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeletePolicyOutput {
         return DeletePolicyOutput()
     }
 }
@@ -1463,7 +1465,7 @@ public struct DeletePolicyOutput {
 
 enum DeletePolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1507,7 +1509,7 @@ public struct DeletePolicyStoreInput {
 
 extension DeletePolicyStoreOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeletePolicyStoreOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeletePolicyStoreOutput {
         return DeletePolicyStoreOutput()
     }
 }
@@ -1519,7 +1521,7 @@ public struct DeletePolicyStoreOutput {
 
 enum DeletePolicyStoreOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1567,7 +1569,7 @@ public struct DeletePolicyTemplateInput {
 
 extension DeletePolicyTemplateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeletePolicyTemplateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeletePolicyTemplateOutput {
         return DeletePolicyTemplateOutput()
     }
 }
@@ -1579,7 +1581,7 @@ public struct DeletePolicyTemplateOutput {
 
 enum DeletePolicyTemplateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1823,7 +1825,7 @@ extension GetIdentitySourceOutput: Swift.CustomDebugStringConvertible {
 
 extension GetIdentitySourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetIdentitySourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetIdentitySourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1844,7 +1846,7 @@ public struct GetIdentitySourceOutput {
     public var configuration: VerifiedPermissionsClientTypes.ConfigurationDetail?
     /// The date and time that the identity source was originally created.
     /// This member is required.
-    public var createdDate: ClientRuntime.Date?
+    public var createdDate: Foundation.Date?
     /// A structure that describes the configuration of the identity source.
     @available(*, deprecated, message: "This attribute has been replaced by configuration.cognitoUserPoolConfiguration")
     public var details: VerifiedPermissionsClientTypes.IdentitySourceDetails?
@@ -1853,7 +1855,7 @@ public struct GetIdentitySourceOutput {
     public var identitySourceId: Swift.String?
     /// The date and time that the identity source was most recently updated.
     /// This member is required.
-    public var lastUpdatedDate: ClientRuntime.Date?
+    public var lastUpdatedDate: Foundation.Date?
     /// The ID of the policy store that contains the identity source.
     /// This member is required.
     public var policyStoreId: Swift.String?
@@ -1863,10 +1865,10 @@ public struct GetIdentitySourceOutput {
 
     public init(
         configuration: VerifiedPermissionsClientTypes.ConfigurationDetail? = nil,
-        createdDate: ClientRuntime.Date? = nil,
+        createdDate: Foundation.Date? = nil,
         details: VerifiedPermissionsClientTypes.IdentitySourceDetails? = nil,
         identitySourceId: Swift.String? = nil,
-        lastUpdatedDate: ClientRuntime.Date? = nil,
+        lastUpdatedDate: Foundation.Date? = nil,
         policyStoreId: Swift.String? = nil,
         principalEntityType: Swift.String? = nil
     )
@@ -1883,7 +1885,7 @@ public struct GetIdentitySourceOutput {
 
 enum GetIdentitySourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1932,7 +1934,7 @@ public struct GetPolicyInput {
 
 extension GetPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetPolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1956,7 +1958,7 @@ public struct GetPolicyOutput {
     public var actions: [VerifiedPermissionsClientTypes.ActionIdentifier]?
     /// The date and time that the policy was originally created.
     /// This member is required.
-    public var createdDate: ClientRuntime.Date?
+    public var createdDate: Foundation.Date?
     /// The definition of the requested policy.
     /// This member is required.
     public var definition: VerifiedPermissionsClientTypes.PolicyDefinitionDetail?
@@ -1964,7 +1966,7 @@ public struct GetPolicyOutput {
     public var effect: VerifiedPermissionsClientTypes.PolicyEffect?
     /// The date and time that the policy was last updated.
     /// This member is required.
-    public var lastUpdatedDate: ClientRuntime.Date?
+    public var lastUpdatedDate: Foundation.Date?
     /// The unique ID of the policy that you want information about.
     /// This member is required.
     public var policyId: Swift.String?
@@ -1981,10 +1983,10 @@ public struct GetPolicyOutput {
 
     public init(
         actions: [VerifiedPermissionsClientTypes.ActionIdentifier]? = nil,
-        createdDate: ClientRuntime.Date? = nil,
+        createdDate: Foundation.Date? = nil,
         definition: VerifiedPermissionsClientTypes.PolicyDefinitionDetail? = nil,
         effect: VerifiedPermissionsClientTypes.PolicyEffect? = nil,
-        lastUpdatedDate: ClientRuntime.Date? = nil,
+        lastUpdatedDate: Foundation.Date? = nil,
         policyId: Swift.String? = nil,
         policyStoreId: Swift.String? = nil,
         policyType: VerifiedPermissionsClientTypes.PolicyType? = nil,
@@ -2007,7 +2009,7 @@ public struct GetPolicyOutput {
 
 enum GetPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2055,7 +2057,7 @@ extension GetPolicyStoreOutput: Swift.CustomDebugStringConvertible {
 
 extension GetPolicyStoreOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetPolicyStoreOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetPolicyStoreOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2076,12 +2078,12 @@ public struct GetPolicyStoreOutput {
     public var arn: Swift.String?
     /// The date and time that the policy store was originally created.
     /// This member is required.
-    public var createdDate: ClientRuntime.Date?
+    public var createdDate: Foundation.Date?
     /// Descriptive text that you can provide to help with identification of the current policy store.
     public var description: Swift.String?
     /// The date and time that the policy store was last updated.
     /// This member is required.
-    public var lastUpdatedDate: ClientRuntime.Date?
+    public var lastUpdatedDate: Foundation.Date?
     /// The ID of the policy store;
     /// This member is required.
     public var policyStoreId: Swift.String?
@@ -2091,9 +2093,9 @@ public struct GetPolicyStoreOutput {
 
     public init(
         arn: Swift.String? = nil,
-        createdDate: ClientRuntime.Date? = nil,
+        createdDate: Foundation.Date? = nil,
         description: Swift.String? = nil,
-        lastUpdatedDate: ClientRuntime.Date? = nil,
+        lastUpdatedDate: Foundation.Date? = nil,
         policyStoreId: Swift.String? = nil,
         validationSettings: VerifiedPermissionsClientTypes.ValidationSettings? = nil
     )
@@ -2109,7 +2111,7 @@ public struct GetPolicyStoreOutput {
 
 enum GetPolicyStoreOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2163,7 +2165,7 @@ extension GetPolicyTemplateOutput: Swift.CustomDebugStringConvertible {
 
 extension GetPolicyTemplateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetPolicyTemplateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetPolicyTemplateOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2181,12 +2183,12 @@ extension GetPolicyTemplateOutput {
 public struct GetPolicyTemplateOutput {
     /// The date and time that the policy template was originally created.
     /// This member is required.
-    public var createdDate: ClientRuntime.Date?
+    public var createdDate: Foundation.Date?
     /// The description of the policy template.
     public var description: Swift.String?
     /// The date and time that the policy template was most recently updated.
     /// This member is required.
-    public var lastUpdatedDate: ClientRuntime.Date?
+    public var lastUpdatedDate: Foundation.Date?
     /// The ID of the policy store that contains the policy template.
     /// This member is required.
     public var policyStoreId: Swift.String?
@@ -2198,9 +2200,9 @@ public struct GetPolicyTemplateOutput {
     public var statement: Swift.String?
 
     public init(
-        createdDate: ClientRuntime.Date? = nil,
+        createdDate: Foundation.Date? = nil,
         description: Swift.String? = nil,
-        lastUpdatedDate: ClientRuntime.Date? = nil,
+        lastUpdatedDate: Foundation.Date? = nil,
         policyStoreId: Swift.String? = nil,
         policyTemplateId: Swift.String? = nil,
         statement: Swift.String? = nil
@@ -2217,7 +2219,7 @@ public struct GetPolicyTemplateOutput {
 
 enum GetPolicyTemplateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2265,7 +2267,7 @@ extension GetSchemaOutput: Swift.CustomDebugStringConvertible {
 
 extension GetSchemaOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetSchemaOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetSchemaOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2282,10 +2284,10 @@ extension GetSchemaOutput {
 public struct GetSchemaOutput {
     /// The date and time that the schema was originally created.
     /// This member is required.
-    public var createdDate: ClientRuntime.Date?
+    public var createdDate: Foundation.Date?
     /// The date and time that the schema was most recently updated.
     /// This member is required.
-    public var lastUpdatedDate: ClientRuntime.Date?
+    public var lastUpdatedDate: Foundation.Date?
     /// The namespaces of the entities referenced by this schema.
     public var namespaces: [Swift.String]?
     /// The ID of the policy store that contains the schema.
@@ -2296,8 +2298,8 @@ public struct GetSchemaOutput {
     public var schema: Swift.String?
 
     public init(
-        createdDate: ClientRuntime.Date? = nil,
-        lastUpdatedDate: ClientRuntime.Date? = nil,
+        createdDate: Foundation.Date? = nil,
+        lastUpdatedDate: Foundation.Date? = nil,
         namespaces: [Swift.String]? = nil,
         policyStoreId: Swift.String? = nil,
         schema: Swift.String? = nil
@@ -2313,7 +2315,7 @@ public struct GetSchemaOutput {
 
 enum GetSchemaOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2429,7 +2431,7 @@ extension VerifiedPermissionsClientTypes {
         public var configuration: VerifiedPermissionsClientTypes.ConfigurationItem?
         /// The date and time the identity source was originally created.
         /// This member is required.
-        public var createdDate: ClientRuntime.Date?
+        public var createdDate: Foundation.Date?
         /// A structure that contains the details of the associated identity provider (IdP).
         @available(*, deprecated, message: "This attribute has been replaced by configuration.cognitoUserPoolConfiguration")
         public var details: VerifiedPermissionsClientTypes.IdentitySourceItemDetails?
@@ -2438,7 +2440,7 @@ extension VerifiedPermissionsClientTypes {
         public var identitySourceId: Swift.String?
         /// The date and time the identity source was most recently updated.
         /// This member is required.
-        public var lastUpdatedDate: ClientRuntime.Date?
+        public var lastUpdatedDate: Foundation.Date?
         /// The identifier of the policy store that contains the identity source.
         /// This member is required.
         public var policyStoreId: Swift.String?
@@ -2448,10 +2450,10 @@ extension VerifiedPermissionsClientTypes {
 
         public init(
             configuration: VerifiedPermissionsClientTypes.ConfigurationItem? = nil,
-            createdDate: ClientRuntime.Date? = nil,
+            createdDate: Foundation.Date? = nil,
             details: VerifiedPermissionsClientTypes.IdentitySourceItemDetails? = nil,
             identitySourceId: Swift.String? = nil,
-            lastUpdatedDate: ClientRuntime.Date? = nil,
+            lastUpdatedDate: Foundation.Date? = nil,
             policyStoreId: Swift.String? = nil,
             principalEntityType: Swift.String? = nil
         )
@@ -2607,7 +2609,7 @@ public struct IsAuthorizedInput {
 
 extension IsAuthorizedOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> IsAuthorizedOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> IsAuthorizedOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2644,7 +2646,7 @@ public struct IsAuthorizedOutput {
 
 enum IsAuthorizedOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2726,7 +2728,7 @@ public struct IsAuthorizedWithTokenInput {
 
 extension IsAuthorizedWithTokenOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> IsAuthorizedWithTokenOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> IsAuthorizedWithTokenOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2768,7 +2770,7 @@ public struct IsAuthorizedWithTokenOutput {
 
 enum IsAuthorizedWithTokenOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2826,7 +2828,7 @@ public struct ListIdentitySourcesInput {
 
 extension ListIdentitySourcesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListIdentitySourcesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListIdentitySourcesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2856,7 +2858,7 @@ public struct ListIdentitySourcesOutput {
 
 enum ListIdentitySourcesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2914,7 +2916,7 @@ public struct ListPoliciesInput {
 
 extension ListPoliciesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPoliciesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPoliciesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2944,7 +2946,7 @@ public struct ListPoliciesOutput {
 
 enum ListPoliciesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2991,7 +2993,7 @@ public struct ListPolicyStoresInput {
 
 extension ListPolicyStoresOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPolicyStoresOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPolicyStoresOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3021,7 +3023,7 @@ public struct ListPolicyStoresOutput {
 
 enum ListPolicyStoresOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3073,7 +3075,7 @@ public struct ListPolicyTemplatesInput {
 
 extension ListPolicyTemplatesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPolicyTemplatesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPolicyTemplatesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3103,7 +3105,7 @@ public struct ListPolicyTemplatesOutput {
 
 enum ListPolicyTemplatesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3319,7 +3321,7 @@ extension VerifiedPermissionsClientTypes {
         public var actions: [VerifiedPermissionsClientTypes.ActionIdentifier]?
         /// The date and time the policy was created.
         /// This member is required.
-        public var createdDate: ClientRuntime.Date?
+        public var createdDate: Foundation.Date?
         /// The policy definition of an item in the list of policies returned.
         /// This member is required.
         public var definition: VerifiedPermissionsClientTypes.PolicyDefinitionItem?
@@ -3327,7 +3329,7 @@ extension VerifiedPermissionsClientTypes {
         public var effect: VerifiedPermissionsClientTypes.PolicyEffect?
         /// The date and time the policy was most recently updated.
         /// This member is required.
-        public var lastUpdatedDate: ClientRuntime.Date?
+        public var lastUpdatedDate: Foundation.Date?
         /// The identifier of the policy you want information about.
         /// This member is required.
         public var policyId: Swift.String?
@@ -3348,10 +3350,10 @@ extension VerifiedPermissionsClientTypes {
 
         public init(
             actions: [VerifiedPermissionsClientTypes.ActionIdentifier]? = nil,
-            createdDate: ClientRuntime.Date? = nil,
+            createdDate: Foundation.Date? = nil,
             definition: VerifiedPermissionsClientTypes.PolicyDefinitionItem? = nil,
             effect: VerifiedPermissionsClientTypes.PolicyEffect? = nil,
-            lastUpdatedDate: ClientRuntime.Date? = nil,
+            lastUpdatedDate: Foundation.Date? = nil,
             policyId: Swift.String? = nil,
             policyStoreId: Swift.String? = nil,
             policyType: VerifiedPermissionsClientTypes.PolicyType? = nil,
@@ -3401,20 +3403,20 @@ extension VerifiedPermissionsClientTypes {
         public var arn: Swift.String?
         /// The date and time the policy was created.
         /// This member is required.
-        public var createdDate: ClientRuntime.Date?
+        public var createdDate: Foundation.Date?
         /// Descriptive text that you can provide to help with identification of the current policy store.
         public var description: Swift.String?
         /// The date and time the policy store was most recently updated.
-        public var lastUpdatedDate: ClientRuntime.Date?
+        public var lastUpdatedDate: Foundation.Date?
         /// The unique identifier of the policy store.
         /// This member is required.
         public var policyStoreId: Swift.String?
 
         public init(
             arn: Swift.String? = nil,
-            createdDate: ClientRuntime.Date? = nil,
+            createdDate: Foundation.Date? = nil,
             description: Swift.String? = nil,
-            lastUpdatedDate: ClientRuntime.Date? = nil,
+            lastUpdatedDate: Foundation.Date? = nil,
             policyStoreId: Swift.String? = nil
         )
         {
@@ -3452,12 +3454,12 @@ extension VerifiedPermissionsClientTypes {
     public struct PolicyTemplateItem {
         /// The date and time that the policy template was created.
         /// This member is required.
-        public var createdDate: ClientRuntime.Date?
+        public var createdDate: Foundation.Date?
         /// The description attached to the policy template.
         public var description: Swift.String?
         /// The date and time that the policy template was most recently updated.
         /// This member is required.
-        public var lastUpdatedDate: ClientRuntime.Date?
+        public var lastUpdatedDate: Foundation.Date?
         /// The unique identifier of the policy store that contains the template.
         /// This member is required.
         public var policyStoreId: Swift.String?
@@ -3466,9 +3468,9 @@ extension VerifiedPermissionsClientTypes {
         public var policyTemplateId: Swift.String?
 
         public init(
-            createdDate: ClientRuntime.Date? = nil,
+            createdDate: Foundation.Date? = nil,
             description: Swift.String? = nil,
-            lastUpdatedDate: ClientRuntime.Date? = nil,
+            lastUpdatedDate: Foundation.Date? = nil,
             policyStoreId: Swift.String? = nil,
             policyTemplateId: Swift.String? = nil
         )
@@ -3548,7 +3550,7 @@ public struct PutSchemaInput {
 
 extension PutSchemaOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutSchemaOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutSchemaOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3564,10 +3566,10 @@ extension PutSchemaOutput {
 public struct PutSchemaOutput {
     /// The date and time that the schema was originally created.
     /// This member is required.
-    public var createdDate: ClientRuntime.Date?
+    public var createdDate: Foundation.Date?
     /// The date and time that the schema was last updated.
     /// This member is required.
-    public var lastUpdatedDate: ClientRuntime.Date?
+    public var lastUpdatedDate: Foundation.Date?
     /// Identifies the namespaces of the entities referenced by this schema.
     /// This member is required.
     public var namespaces: [Swift.String]?
@@ -3576,8 +3578,8 @@ public struct PutSchemaOutput {
     public var policyStoreId: Swift.String?
 
     public init(
-        createdDate: ClientRuntime.Date? = nil,
-        lastUpdatedDate: ClientRuntime.Date? = nil,
+        createdDate: Foundation.Date? = nil,
+        lastUpdatedDate: Foundation.Date? = nil,
         namespaces: [Swift.String]? = nil,
         policyStoreId: Swift.String? = nil
     )
@@ -3591,7 +3593,7 @@ public struct PutSchemaOutput {
 
 enum PutSchemaOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4209,7 +4211,7 @@ public struct UpdateIdentitySourceInput {
 
 extension UpdateIdentitySourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateIdentitySourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateIdentitySourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4225,21 +4227,21 @@ extension UpdateIdentitySourceOutput {
 public struct UpdateIdentitySourceOutput {
     /// The date and time that the updated identity source was originally created.
     /// This member is required.
-    public var createdDate: ClientRuntime.Date?
+    public var createdDate: Foundation.Date?
     /// The ID of the updated identity source.
     /// This member is required.
     public var identitySourceId: Swift.String?
     /// The date and time that the identity source was most recently updated.
     /// This member is required.
-    public var lastUpdatedDate: ClientRuntime.Date?
+    public var lastUpdatedDate: Foundation.Date?
     /// The ID of the policy store that contains the updated identity source.
     /// This member is required.
     public var policyStoreId: Swift.String?
 
     public init(
-        createdDate: ClientRuntime.Date? = nil,
+        createdDate: Foundation.Date? = nil,
         identitySourceId: Swift.String? = nil,
-        lastUpdatedDate: ClientRuntime.Date? = nil,
+        lastUpdatedDate: Foundation.Date? = nil,
         policyStoreId: Swift.String? = nil
     )
     {
@@ -4252,7 +4254,7 @@ public struct UpdateIdentitySourceOutput {
 
 enum UpdateIdentitySourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4346,7 +4348,7 @@ public struct UpdatePolicyInput {
 
 extension UpdatePolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdatePolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdatePolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4369,12 +4371,12 @@ public struct UpdatePolicyOutput {
     public var actions: [VerifiedPermissionsClientTypes.ActionIdentifier]?
     /// The date and time that the policy was originally created.
     /// This member is required.
-    public var createdDate: ClientRuntime.Date?
+    public var createdDate: Foundation.Date?
     /// The effect of the decision that a policy returns to an authorization request. For example, "effect": "Permit".
     public var effect: VerifiedPermissionsClientTypes.PolicyEffect?
     /// The date and time that the policy was most recently updated.
     /// This member is required.
-    public var lastUpdatedDate: ClientRuntime.Date?
+    public var lastUpdatedDate: Foundation.Date?
     /// The ID of the policy that was updated.
     /// This member is required.
     public var policyId: Swift.String?
@@ -4391,9 +4393,9 @@ public struct UpdatePolicyOutput {
 
     public init(
         actions: [VerifiedPermissionsClientTypes.ActionIdentifier]? = nil,
-        createdDate: ClientRuntime.Date? = nil,
+        createdDate: Foundation.Date? = nil,
         effect: VerifiedPermissionsClientTypes.PolicyEffect? = nil,
-        lastUpdatedDate: ClientRuntime.Date? = nil,
+        lastUpdatedDate: Foundation.Date? = nil,
         policyId: Swift.String? = nil,
         policyStoreId: Swift.String? = nil,
         policyType: VerifiedPermissionsClientTypes.PolicyType? = nil,
@@ -4415,7 +4417,7 @@ public struct UpdatePolicyOutput {
 
 enum UpdatePolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4476,7 +4478,7 @@ public struct UpdatePolicyStoreInput {
 
 extension UpdatePolicyStoreOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdatePolicyStoreOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdatePolicyStoreOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4495,18 +4497,18 @@ public struct UpdatePolicyStoreOutput {
     public var arn: Swift.String?
     /// The date and time that the policy store was originally created.
     /// This member is required.
-    public var createdDate: ClientRuntime.Date?
+    public var createdDate: Foundation.Date?
     /// The date and time that the policy store was most recently updated.
     /// This member is required.
-    public var lastUpdatedDate: ClientRuntime.Date?
+    public var lastUpdatedDate: Foundation.Date?
     /// The ID of the updated policy store.
     /// This member is required.
     public var policyStoreId: Swift.String?
 
     public init(
         arn: Swift.String? = nil,
-        createdDate: ClientRuntime.Date? = nil,
-        lastUpdatedDate: ClientRuntime.Date? = nil,
+        createdDate: Foundation.Date? = nil,
+        lastUpdatedDate: Foundation.Date? = nil,
         policyStoreId: Swift.String? = nil
     )
     {
@@ -4519,7 +4521,7 @@ public struct UpdatePolicyStoreOutput {
 
 enum UpdatePolicyStoreOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4598,7 +4600,7 @@ public struct UpdatePolicyTemplateInput {
 
 extension UpdatePolicyTemplateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdatePolicyTemplateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdatePolicyTemplateOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4614,10 +4616,10 @@ extension UpdatePolicyTemplateOutput {
 public struct UpdatePolicyTemplateOutput {
     /// The date and time that the policy template was originally created.
     /// This member is required.
-    public var createdDate: ClientRuntime.Date?
+    public var createdDate: Foundation.Date?
     /// The date and time that the policy template was most recently updated.
     /// This member is required.
-    public var lastUpdatedDate: ClientRuntime.Date?
+    public var lastUpdatedDate: Foundation.Date?
     /// The ID of the policy store that contains the updated policy template.
     /// This member is required.
     public var policyStoreId: Swift.String?
@@ -4626,8 +4628,8 @@ public struct UpdatePolicyTemplateOutput {
     public var policyTemplateId: Swift.String?
 
     public init(
-        createdDate: ClientRuntime.Date? = nil,
-        lastUpdatedDate: ClientRuntime.Date? = nil,
+        createdDate: Foundation.Date? = nil,
+        lastUpdatedDate: Foundation.Date? = nil,
         policyStoreId: Swift.String? = nil,
         policyTemplateId: Swift.String? = nil
     )
@@ -4641,7 +4643,7 @@ public struct UpdatePolicyTemplateOutput {
 
 enum UpdatePolicyTemplateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

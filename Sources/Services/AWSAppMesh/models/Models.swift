@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -393,10 +396,10 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
 extension CreateGatewayRouteInput {
 
-    static func queryItemProvider(_ value: CreateGatewayRouteInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: CreateGatewayRouteInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let meshOwner = value.meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            let meshOwnerQueryItem = Smithy.URIQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
             items.append(meshOwnerQueryItem)
         }
         return items
@@ -469,7 +472,7 @@ public struct CreateGatewayRouteInput {
 
 extension CreateGatewayRouteOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateGatewayRouteOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateGatewayRouteOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -494,7 +497,7 @@ public struct CreateGatewayRouteOutput {
 
 enum CreateGatewayRouteOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -559,7 +562,7 @@ public struct CreateMeshInput {
 
 extension CreateMeshOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateMeshOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateMeshOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -585,7 +588,7 @@ public struct CreateMeshOutput {
 
 enum CreateMeshOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -606,10 +609,10 @@ enum CreateMeshOutputError {
 
 extension CreateRouteInput {
 
-    static func queryItemProvider(_ value: CreateRouteInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: CreateRouteInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let meshOwner = value.meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            let meshOwnerQueryItem = Smithy.URIQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
             items.append(meshOwnerQueryItem)
         }
         return items
@@ -683,7 +686,7 @@ public struct CreateRouteInput {
 
 extension CreateRouteOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateRouteOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateRouteOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -709,7 +712,7 @@ public struct CreateRouteOutput {
 
 enum CreateRouteOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -730,10 +733,10 @@ enum CreateRouteOutputError {
 
 extension CreateVirtualGatewayInput {
 
-    static func queryItemProvider(_ value: CreateVirtualGatewayInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: CreateVirtualGatewayInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let meshOwner = value.meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            let meshOwnerQueryItem = Smithy.URIQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
             items.append(meshOwnerQueryItem)
         }
         return items
@@ -798,7 +801,7 @@ public struct CreateVirtualGatewayInput {
 
 extension CreateVirtualGatewayOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateVirtualGatewayOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateVirtualGatewayOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -823,7 +826,7 @@ public struct CreateVirtualGatewayOutput {
 
 enum CreateVirtualGatewayOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -844,10 +847,10 @@ enum CreateVirtualGatewayOutputError {
 
 extension CreateVirtualNodeInput {
 
-    static func queryItemProvider(_ value: CreateVirtualNodeInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: CreateVirtualNodeInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let meshOwner = value.meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            let meshOwnerQueryItem = Smithy.URIQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
             items.append(meshOwnerQueryItem)
         }
         return items
@@ -913,7 +916,7 @@ public struct CreateVirtualNodeInput {
 
 extension CreateVirtualNodeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateVirtualNodeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateVirtualNodeOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -939,7 +942,7 @@ public struct CreateVirtualNodeOutput {
 
 enum CreateVirtualNodeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -960,10 +963,10 @@ enum CreateVirtualNodeOutputError {
 
 extension CreateVirtualRouterInput {
 
-    static func queryItemProvider(_ value: CreateVirtualRouterInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: CreateVirtualRouterInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let meshOwner = value.meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            let meshOwnerQueryItem = Smithy.URIQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
             items.append(meshOwnerQueryItem)
         }
         return items
@@ -1029,7 +1032,7 @@ public struct CreateVirtualRouterInput {
 
 extension CreateVirtualRouterOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateVirtualRouterOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateVirtualRouterOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1055,7 +1058,7 @@ public struct CreateVirtualRouterOutput {
 
 enum CreateVirtualRouterOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1076,10 +1079,10 @@ enum CreateVirtualRouterOutputError {
 
 extension CreateVirtualServiceInput {
 
-    static func queryItemProvider(_ value: CreateVirtualServiceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: CreateVirtualServiceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let meshOwner = value.meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            let meshOwnerQueryItem = Smithy.URIQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
             items.append(meshOwnerQueryItem)
         }
         return items
@@ -1145,7 +1148,7 @@ public struct CreateVirtualServiceInput {
 
 extension CreateVirtualServiceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateVirtualServiceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateVirtualServiceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1171,7 +1174,7 @@ public struct CreateVirtualServiceOutput {
 
 enum CreateVirtualServiceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1221,10 +1224,10 @@ extension AppMeshClientTypes {
 
 extension DeleteGatewayRouteInput {
 
-    static func queryItemProvider(_ value: DeleteGatewayRouteInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteGatewayRouteInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let meshOwner = value.meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            let meshOwnerQueryItem = Smithy.URIQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
             items.append(meshOwnerQueryItem)
         }
         return items
@@ -1276,7 +1279,7 @@ public struct DeleteGatewayRouteInput {
 
 extension DeleteGatewayRouteOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteGatewayRouteOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteGatewayRouteOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1301,7 +1304,7 @@ public struct DeleteGatewayRouteOutput {
 
 enum DeleteGatewayRouteOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1345,7 +1348,7 @@ public struct DeleteMeshInput {
 
 extension DeleteMeshOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteMeshOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteMeshOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1371,7 +1374,7 @@ public struct DeleteMeshOutput {
 
 enum DeleteMeshOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1391,10 +1394,10 @@ enum DeleteMeshOutputError {
 
 extension DeleteRouteInput {
 
-    static func queryItemProvider(_ value: DeleteRouteInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteRouteInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let meshOwner = value.meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            let meshOwnerQueryItem = Smithy.URIQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
             items.append(meshOwnerQueryItem)
         }
         return items
@@ -1447,7 +1450,7 @@ public struct DeleteRouteInput {
 
 extension DeleteRouteOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteRouteOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteRouteOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1473,7 +1476,7 @@ public struct DeleteRouteOutput {
 
 enum DeleteRouteOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1493,10 +1496,10 @@ enum DeleteRouteOutputError {
 
 extension DeleteVirtualGatewayInput {
 
-    static func queryItemProvider(_ value: DeleteVirtualGatewayInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteVirtualGatewayInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let meshOwner = value.meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            let meshOwnerQueryItem = Smithy.URIQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
             items.append(meshOwnerQueryItem)
         }
         return items
@@ -1540,7 +1543,7 @@ public struct DeleteVirtualGatewayInput {
 
 extension DeleteVirtualGatewayOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteVirtualGatewayOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteVirtualGatewayOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1565,7 +1568,7 @@ public struct DeleteVirtualGatewayOutput {
 
 enum DeleteVirtualGatewayOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1585,10 +1588,10 @@ enum DeleteVirtualGatewayOutputError {
 
 extension DeleteVirtualNodeInput {
 
-    static func queryItemProvider(_ value: DeleteVirtualNodeInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteVirtualNodeInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let meshOwner = value.meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            let meshOwnerQueryItem = Smithy.URIQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
             items.append(meshOwnerQueryItem)
         }
         return items
@@ -1633,7 +1636,7 @@ public struct DeleteVirtualNodeInput {
 
 extension DeleteVirtualNodeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteVirtualNodeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteVirtualNodeOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1659,7 +1662,7 @@ public struct DeleteVirtualNodeOutput {
 
 enum DeleteVirtualNodeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1679,10 +1682,10 @@ enum DeleteVirtualNodeOutputError {
 
 extension DeleteVirtualRouterInput {
 
-    static func queryItemProvider(_ value: DeleteVirtualRouterInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteVirtualRouterInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let meshOwner = value.meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            let meshOwnerQueryItem = Smithy.URIQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
             items.append(meshOwnerQueryItem)
         }
         return items
@@ -1727,7 +1730,7 @@ public struct DeleteVirtualRouterInput {
 
 extension DeleteVirtualRouterOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteVirtualRouterOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteVirtualRouterOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1753,7 +1756,7 @@ public struct DeleteVirtualRouterOutput {
 
 enum DeleteVirtualRouterOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1773,10 +1776,10 @@ enum DeleteVirtualRouterOutputError {
 
 extension DeleteVirtualServiceInput {
 
-    static func queryItemProvider(_ value: DeleteVirtualServiceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteVirtualServiceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let meshOwner = value.meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            let meshOwnerQueryItem = Smithy.URIQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
             items.append(meshOwnerQueryItem)
         }
         return items
@@ -1821,7 +1824,7 @@ public struct DeleteVirtualServiceInput {
 
 extension DeleteVirtualServiceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteVirtualServiceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteVirtualServiceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1847,7 +1850,7 @@ public struct DeleteVirtualServiceOutput {
 
 enum DeleteVirtualServiceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1867,10 +1870,10 @@ enum DeleteVirtualServiceOutputError {
 
 extension DescribeGatewayRouteInput {
 
-    static func queryItemProvider(_ value: DescribeGatewayRouteInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DescribeGatewayRouteInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let meshOwner = value.meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            let meshOwnerQueryItem = Smithy.URIQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
             items.append(meshOwnerQueryItem)
         }
         return items
@@ -1922,7 +1925,7 @@ public struct DescribeGatewayRouteInput {
 
 extension DescribeGatewayRouteOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeGatewayRouteOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeGatewayRouteOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1947,7 +1950,7 @@ public struct DescribeGatewayRouteOutput {
 
 enum DescribeGatewayRouteOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1966,10 +1969,10 @@ enum DescribeGatewayRouteOutputError {
 
 extension DescribeMeshInput {
 
-    static func queryItemProvider(_ value: DescribeMeshInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DescribeMeshInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let meshOwner = value.meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            let meshOwnerQueryItem = Smithy.URIQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
             items.append(meshOwnerQueryItem)
         }
         return items
@@ -2006,7 +2009,7 @@ public struct DescribeMeshInput {
 
 extension DescribeMeshOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeMeshOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeMeshOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2032,7 +2035,7 @@ public struct DescribeMeshOutput {
 
 enum DescribeMeshOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2051,10 +2054,10 @@ enum DescribeMeshOutputError {
 
 extension DescribeRouteInput {
 
-    static func queryItemProvider(_ value: DescribeRouteInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DescribeRouteInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let meshOwner = value.meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            let meshOwnerQueryItem = Smithy.URIQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
             items.append(meshOwnerQueryItem)
         }
         return items
@@ -2107,7 +2110,7 @@ public struct DescribeRouteInput {
 
 extension DescribeRouteOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeRouteOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeRouteOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2133,7 +2136,7 @@ public struct DescribeRouteOutput {
 
 enum DescribeRouteOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2152,10 +2155,10 @@ enum DescribeRouteOutputError {
 
 extension DescribeVirtualGatewayInput {
 
-    static func queryItemProvider(_ value: DescribeVirtualGatewayInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DescribeVirtualGatewayInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let meshOwner = value.meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            let meshOwnerQueryItem = Smithy.URIQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
             items.append(meshOwnerQueryItem)
         }
         return items
@@ -2199,7 +2202,7 @@ public struct DescribeVirtualGatewayInput {
 
 extension DescribeVirtualGatewayOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeVirtualGatewayOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeVirtualGatewayOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2224,7 +2227,7 @@ public struct DescribeVirtualGatewayOutput {
 
 enum DescribeVirtualGatewayOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2243,10 +2246,10 @@ enum DescribeVirtualGatewayOutputError {
 
 extension DescribeVirtualNodeInput {
 
-    static func queryItemProvider(_ value: DescribeVirtualNodeInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DescribeVirtualNodeInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let meshOwner = value.meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            let meshOwnerQueryItem = Smithy.URIQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
             items.append(meshOwnerQueryItem)
         }
         return items
@@ -2291,7 +2294,7 @@ public struct DescribeVirtualNodeInput {
 
 extension DescribeVirtualNodeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeVirtualNodeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeVirtualNodeOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2317,7 +2320,7 @@ public struct DescribeVirtualNodeOutput {
 
 enum DescribeVirtualNodeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2336,10 +2339,10 @@ enum DescribeVirtualNodeOutputError {
 
 extension DescribeVirtualRouterInput {
 
-    static func queryItemProvider(_ value: DescribeVirtualRouterInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DescribeVirtualRouterInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let meshOwner = value.meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            let meshOwnerQueryItem = Smithy.URIQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
             items.append(meshOwnerQueryItem)
         }
         return items
@@ -2384,7 +2387,7 @@ public struct DescribeVirtualRouterInput {
 
 extension DescribeVirtualRouterOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeVirtualRouterOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeVirtualRouterOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2410,7 +2413,7 @@ public struct DescribeVirtualRouterOutput {
 
 enum DescribeVirtualRouterOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2429,10 +2432,10 @@ enum DescribeVirtualRouterOutputError {
 
 extension DescribeVirtualServiceInput {
 
-    static func queryItemProvider(_ value: DescribeVirtualServiceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DescribeVirtualServiceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let meshOwner = value.meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            let meshOwnerQueryItem = Smithy.URIQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
             items.append(meshOwnerQueryItem)
         }
         return items
@@ -2477,7 +2480,7 @@ public struct DescribeVirtualServiceInput {
 
 extension DescribeVirtualServiceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeVirtualServiceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeVirtualServiceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2503,7 +2506,7 @@ public struct DescribeVirtualServiceOutput {
 
 enum DescribeVirtualServiceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2946,13 +2949,13 @@ extension AppMeshClientTypes {
         public var arn: Swift.String?
         /// The Unix epoch timestamp in seconds for when the resource was created.
         /// This member is required.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The name of the gateway route.
         /// This member is required.
         public var gatewayRouteName: Swift.String?
         /// The Unix epoch timestamp in seconds for when the resource was last updated.
         /// This member is required.
-        public var lastUpdatedAt: ClientRuntime.Date?
+        public var lastUpdatedAt: Foundation.Date?
         /// The name of the service mesh that the resource resides in.
         /// This member is required.
         public var meshName: Swift.String?
@@ -2971,9 +2974,9 @@ extension AppMeshClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             gatewayRouteName: Swift.String? = nil,
-            lastUpdatedAt: ClientRuntime.Date? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
             meshName: Swift.String? = nil,
             meshOwner: Swift.String? = nil,
             resourceOwner: Swift.String? = nil,
@@ -4829,18 +4832,18 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
 extension ListGatewayRoutesInput {
 
-    static func queryItemProvider(_ value: ListGatewayRoutesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListGatewayRoutesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let limit = value.limit {
-            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            let limitQueryItem = Smithy.URIQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
             items.append(limitQueryItem)
         }
         if let meshOwner = value.meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            let meshOwnerQueryItem = Smithy.URIQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
             items.append(meshOwnerQueryItem)
         }
         return items
@@ -4892,7 +4895,7 @@ public struct ListGatewayRoutesInput {
 
 extension ListGatewayRoutesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListGatewayRoutesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListGatewayRoutesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4922,7 +4925,7 @@ public struct ListGatewayRoutesOutput {
 
 enum ListGatewayRoutesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4941,14 +4944,14 @@ enum ListGatewayRoutesOutputError {
 
 extension ListMeshesInput {
 
-    static func queryItemProvider(_ value: ListMeshesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListMeshesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let limit = value.limit {
-            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            let limitQueryItem = Smithy.URIQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
             items.append(limitQueryItem)
         }
         return items
@@ -4981,7 +4984,7 @@ public struct ListMeshesInput {
 
 extension ListMeshesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListMeshesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListMeshesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5012,7 +5015,7 @@ public struct ListMeshesOutput {
 
 enum ListMeshesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5031,18 +5034,18 @@ enum ListMeshesOutputError {
 
 extension ListRoutesInput {
 
-    static func queryItemProvider(_ value: ListRoutesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListRoutesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let limit = value.limit {
-            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            let limitQueryItem = Smithy.URIQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
             items.append(limitQueryItem)
         }
         if let meshOwner = value.meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            let meshOwnerQueryItem = Smithy.URIQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
             items.append(meshOwnerQueryItem)
         }
         return items
@@ -5095,7 +5098,7 @@ public struct ListRoutesInput {
 
 extension ListRoutesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListRoutesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListRoutesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5126,7 +5129,7 @@ public struct ListRoutesOutput {
 
 enum ListRoutesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5145,21 +5148,21 @@ enum ListRoutesOutputError {
 
 extension ListTagsForResourceInput {
 
-    static func queryItemProvider(_ value: ListTagsForResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListTagsForResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let limit = value.limit {
-            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            let limitQueryItem = Smithy.URIQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
             items.append(limitQueryItem)
         }
         guard let resourceArn = value.resourceArn else {
             let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let resourceArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
+        let resourceArnQueryItem = Smithy.URIQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
         items.append(resourceArnQueryItem)
         return items
     }
@@ -5196,7 +5199,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5227,7 +5230,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5246,18 +5249,18 @@ enum ListTagsForResourceOutputError {
 
 extension ListVirtualGatewaysInput {
 
-    static func queryItemProvider(_ value: ListVirtualGatewaysInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListVirtualGatewaysInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let limit = value.limit {
-            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            let limitQueryItem = Smithy.URIQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
             items.append(limitQueryItem)
         }
         if let meshOwner = value.meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            let meshOwnerQueryItem = Smithy.URIQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
             items.append(meshOwnerQueryItem)
         }
         return items
@@ -5301,7 +5304,7 @@ public struct ListVirtualGatewaysInput {
 
 extension ListVirtualGatewaysOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListVirtualGatewaysOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListVirtualGatewaysOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5331,7 +5334,7 @@ public struct ListVirtualGatewaysOutput {
 
 enum ListVirtualGatewaysOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5350,18 +5353,18 @@ enum ListVirtualGatewaysOutputError {
 
 extension ListVirtualNodesInput {
 
-    static func queryItemProvider(_ value: ListVirtualNodesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListVirtualNodesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let limit = value.limit {
-            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            let limitQueryItem = Smithy.URIQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
             items.append(limitQueryItem)
         }
         if let meshOwner = value.meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            let meshOwnerQueryItem = Smithy.URIQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
             items.append(meshOwnerQueryItem)
         }
         return items
@@ -5406,7 +5409,7 @@ public struct ListVirtualNodesInput {
 
 extension ListVirtualNodesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListVirtualNodesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListVirtualNodesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5437,7 +5440,7 @@ public struct ListVirtualNodesOutput {
 
 enum ListVirtualNodesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5456,18 +5459,18 @@ enum ListVirtualNodesOutputError {
 
 extension ListVirtualRoutersInput {
 
-    static func queryItemProvider(_ value: ListVirtualRoutersInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListVirtualRoutersInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let limit = value.limit {
-            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            let limitQueryItem = Smithy.URIQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
             items.append(limitQueryItem)
         }
         if let meshOwner = value.meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            let meshOwnerQueryItem = Smithy.URIQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
             items.append(meshOwnerQueryItem)
         }
         return items
@@ -5512,7 +5515,7 @@ public struct ListVirtualRoutersInput {
 
 extension ListVirtualRoutersOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListVirtualRoutersOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListVirtualRoutersOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5543,7 +5546,7 @@ public struct ListVirtualRoutersOutput {
 
 enum ListVirtualRoutersOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5562,18 +5565,18 @@ enum ListVirtualRoutersOutputError {
 
 extension ListVirtualServicesInput {
 
-    static func queryItemProvider(_ value: ListVirtualServicesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListVirtualServicesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let limit = value.limit {
-            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            let limitQueryItem = Smithy.URIQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
             items.append(limitQueryItem)
         }
         if let meshOwner = value.meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            let meshOwnerQueryItem = Smithy.URIQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
             items.append(meshOwnerQueryItem)
         }
         return items
@@ -5618,7 +5621,7 @@ public struct ListVirtualServicesInput {
 
 extension ListVirtualServicesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListVirtualServicesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListVirtualServicesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5649,7 +5652,7 @@ public struct ListVirtualServicesOutput {
 
 enum ListVirtualServicesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6269,10 +6272,10 @@ extension AppMeshClientTypes {
         public var arn: Swift.String?
         /// The Unix epoch timestamp in seconds for when the resource was created.
         /// This member is required.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The Unix epoch timestamp in seconds for when the resource was last updated.
         /// This member is required.
-        public var lastUpdatedAt: ClientRuntime.Date?
+        public var lastUpdatedAt: Foundation.Date?
         /// The name of the service mesh.
         /// This member is required.
         public var meshName: Swift.String?
@@ -6288,8 +6291,8 @@ extension AppMeshClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
-            lastUpdatedAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
             meshName: Swift.String? = nil,
             meshOwner: Swift.String? = nil,
             resourceOwner: Swift.String? = nil,
@@ -6690,10 +6693,10 @@ extension AppMeshClientTypes {
         public var arn: Swift.String?
         /// The Unix epoch timestamp in seconds for when the resource was created.
         /// This member is required.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The Unix epoch timestamp in seconds for when the resource was last updated.
         /// This member is required.
-        public var lastUpdatedAt: ClientRuntime.Date?
+        public var lastUpdatedAt: Foundation.Date?
         /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see [Working with shared meshes](https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html).
         /// This member is required.
         public var meshOwner: Swift.String?
@@ -6709,8 +6712,8 @@ extension AppMeshClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
-            lastUpdatedAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
             meshOwner: Swift.String? = nil,
             resourceOwner: Swift.String? = nil,
             uid: Swift.String? = nil,
@@ -6812,10 +6815,10 @@ extension AppMeshClientTypes {
         public var arn: Swift.String?
         /// The Unix epoch timestamp in seconds for when the resource was created.
         /// This member is required.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The Unix epoch timestamp in seconds for when the resource was last updated.
         /// This member is required.
-        public var lastUpdatedAt: ClientRuntime.Date?
+        public var lastUpdatedAt: Foundation.Date?
         /// The name of the service mesh that the route resides in.
         /// This member is required.
         public var meshName: Swift.String?
@@ -6837,8 +6840,8 @@ extension AppMeshClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
-            lastUpdatedAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
             meshName: Swift.String? = nil,
             meshOwner: Swift.String? = nil,
             resourceOwner: Swift.String? = nil,
@@ -7157,13 +7160,13 @@ extension AppMeshClientTypes {
 
 extension TagResourceInput {
 
-    static func queryItemProvider(_ value: TagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: TagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let resourceArn = value.resourceArn else {
             let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let resourceArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
+        let resourceArnQueryItem = Smithy.URIQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
         items.append(resourceArnQueryItem)
         return items
     }
@@ -7205,7 +7208,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -7218,7 +7221,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7656,13 +7659,13 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
 
 extension UntagResourceInput {
 
-    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let resourceArn = value.resourceArn else {
             let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let resourceArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
+        let resourceArnQueryItem = Smithy.URIQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
         items.append(resourceArnQueryItem)
         return items
     }
@@ -7704,7 +7707,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -7717,7 +7720,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7736,10 +7739,10 @@ enum UntagResourceOutputError {
 
 extension UpdateGatewayRouteInput {
 
-    static func queryItemProvider(_ value: UpdateGatewayRouteInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UpdateGatewayRouteInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let meshOwner = value.meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            let meshOwnerQueryItem = Smithy.URIQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
             items.append(meshOwnerQueryItem)
         }
         return items
@@ -7809,7 +7812,7 @@ public struct UpdateGatewayRouteInput {
 
 extension UpdateGatewayRouteOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateGatewayRouteOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateGatewayRouteOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7834,7 +7837,7 @@ public struct UpdateGatewayRouteOutput {
 
 enum UpdateGatewayRouteOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7896,7 +7899,7 @@ public struct UpdateMeshInput {
 
 extension UpdateMeshOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateMeshOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateMeshOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7922,7 +7925,7 @@ public struct UpdateMeshOutput {
 
 enum UpdateMeshOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7942,10 +7945,10 @@ enum UpdateMeshOutputError {
 
 extension UpdateRouteInput {
 
-    static func queryItemProvider(_ value: UpdateRouteInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UpdateRouteInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let meshOwner = value.meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            let meshOwnerQueryItem = Smithy.URIQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
             items.append(meshOwnerQueryItem)
         }
         return items
@@ -8016,7 +8019,7 @@ public struct UpdateRouteInput {
 
 extension UpdateRouteOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateRouteOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateRouteOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8042,7 +8045,7 @@ public struct UpdateRouteOutput {
 
 enum UpdateRouteOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8063,10 +8066,10 @@ enum UpdateRouteOutputError {
 
 extension UpdateVirtualGatewayInput {
 
-    static func queryItemProvider(_ value: UpdateVirtualGatewayInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UpdateVirtualGatewayInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let meshOwner = value.meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            let meshOwnerQueryItem = Smithy.URIQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
             items.append(meshOwnerQueryItem)
         }
         return items
@@ -8128,7 +8131,7 @@ public struct UpdateVirtualGatewayInput {
 
 extension UpdateVirtualGatewayOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateVirtualGatewayOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateVirtualGatewayOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8153,7 +8156,7 @@ public struct UpdateVirtualGatewayOutput {
 
 enum UpdateVirtualGatewayOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8174,10 +8177,10 @@ enum UpdateVirtualGatewayOutputError {
 
 extension UpdateVirtualNodeInput {
 
-    static func queryItemProvider(_ value: UpdateVirtualNodeInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UpdateVirtualNodeInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let meshOwner = value.meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            let meshOwnerQueryItem = Smithy.URIQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
             items.append(meshOwnerQueryItem)
         }
         return items
@@ -8240,7 +8243,7 @@ public struct UpdateVirtualNodeInput {
 
 extension UpdateVirtualNodeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateVirtualNodeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateVirtualNodeOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8266,7 +8269,7 @@ public struct UpdateVirtualNodeOutput {
 
 enum UpdateVirtualNodeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8287,10 +8290,10 @@ enum UpdateVirtualNodeOutputError {
 
 extension UpdateVirtualRouterInput {
 
-    static func queryItemProvider(_ value: UpdateVirtualRouterInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UpdateVirtualRouterInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let meshOwner = value.meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            let meshOwnerQueryItem = Smithy.URIQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
             items.append(meshOwnerQueryItem)
         }
         return items
@@ -8353,7 +8356,7 @@ public struct UpdateVirtualRouterInput {
 
 extension UpdateVirtualRouterOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateVirtualRouterOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateVirtualRouterOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8379,7 +8382,7 @@ public struct UpdateVirtualRouterOutput {
 
 enum UpdateVirtualRouterOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8400,10 +8403,10 @@ enum UpdateVirtualRouterOutputError {
 
 extension UpdateVirtualServiceInput {
 
-    static func queryItemProvider(_ value: UpdateVirtualServiceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UpdateVirtualServiceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let meshOwner = value.meshOwner {
-            let meshOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
+            let meshOwnerQueryItem = Smithy.URIQueryItem(name: "meshOwner".urlPercentEncoding(), value: Swift.String(meshOwner).urlPercentEncoding())
             items.append(meshOwnerQueryItem)
         }
         return items
@@ -8466,7 +8469,7 @@ public struct UpdateVirtualServiceInput {
 
 extension UpdateVirtualServiceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateVirtualServiceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateVirtualServiceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8492,7 +8495,7 @@ public struct UpdateVirtualServiceOutput {
 
 enum UpdateVirtualServiceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9493,10 +9496,10 @@ extension AppMeshClientTypes {
         public var arn: Swift.String?
         /// The Unix epoch timestamp in seconds for when the resource was created.
         /// This member is required.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The Unix epoch timestamp in seconds for when the resource was last updated.
         /// This member is required.
-        public var lastUpdatedAt: ClientRuntime.Date?
+        public var lastUpdatedAt: Foundation.Date?
         /// The name of the service mesh that the resource resides in.
         /// This member is required.
         public var meshName: Swift.String?
@@ -9515,8 +9518,8 @@ extension AppMeshClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
-            lastUpdatedAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
             meshName: Swift.String? = nil,
             meshOwner: Swift.String? = nil,
             resourceOwner: Swift.String? = nil,
@@ -10050,10 +10053,10 @@ extension AppMeshClientTypes {
         public var arn: Swift.String?
         /// The Unix epoch timestamp in seconds for when the resource was created.
         /// This member is required.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The Unix epoch timestamp in seconds for when the resource was last updated.
         /// This member is required.
-        public var lastUpdatedAt: ClientRuntime.Date?
+        public var lastUpdatedAt: Foundation.Date?
         /// The name of the service mesh that the virtual node resides in.
         /// This member is required.
         public var meshName: Swift.String?
@@ -10072,8 +10075,8 @@ extension AppMeshClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
-            lastUpdatedAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
             meshName: Swift.String? = nil,
             meshOwner: Swift.String? = nil,
             resourceOwner: Swift.String? = nil,
@@ -10380,10 +10383,10 @@ extension AppMeshClientTypes {
         public var arn: Swift.String?
         /// The Unix epoch timestamp in seconds for when the resource was created.
         /// This member is required.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The Unix epoch timestamp in seconds for when the resource was last updated.
         /// This member is required.
-        public var lastUpdatedAt: ClientRuntime.Date?
+        public var lastUpdatedAt: Foundation.Date?
         /// The name of the service mesh that the virtual router resides in.
         /// This member is required.
         public var meshName: Swift.String?
@@ -10402,8 +10405,8 @@ extension AppMeshClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
-            lastUpdatedAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
             meshName: Swift.String? = nil,
             meshOwner: Swift.String? = nil,
             resourceOwner: Swift.String? = nil,
@@ -10700,10 +10703,10 @@ extension AppMeshClientTypes {
         public var arn: Swift.String?
         /// The Unix epoch timestamp in seconds for when the resource was created.
         /// This member is required.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The Unix epoch timestamp in seconds for when the resource was last updated.
         /// This member is required.
-        public var lastUpdatedAt: ClientRuntime.Date?
+        public var lastUpdatedAt: Foundation.Date?
         /// The name of the service mesh that the virtual service resides in.
         /// This member is required.
         public var meshName: Swift.String?
@@ -10722,8 +10725,8 @@ extension AppMeshClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
-            lastUpdatedAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
             meshName: Swift.String? = nil,
             meshOwner: Swift.String? = nil,
             resourceOwner: Swift.String? = nil,

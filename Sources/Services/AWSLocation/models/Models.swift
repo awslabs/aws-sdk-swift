@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -203,7 +206,7 @@ public struct AssociateTrackerConsumerInput {
 
 extension AssociateTrackerConsumerOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AssociateTrackerConsumerOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AssociateTrackerConsumerOutput {
         return AssociateTrackerConsumerOutput()
     }
 }
@@ -215,7 +218,7 @@ public struct AssociateTrackerConsumerOutput {
 
 enum AssociateTrackerConsumerOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -306,7 +309,7 @@ public struct BatchDeleteDevicePositionHistoryInput {
 
 extension BatchDeleteDevicePositionHistoryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> BatchDeleteDevicePositionHistoryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BatchDeleteDevicePositionHistoryOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -331,7 +334,7 @@ public struct BatchDeleteDevicePositionHistoryOutput {
 
 enum BatchDeleteDevicePositionHistoryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -418,7 +421,7 @@ public struct BatchDeleteGeofenceInput {
 
 extension BatchDeleteGeofenceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> BatchDeleteGeofenceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BatchDeleteGeofenceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -443,7 +446,7 @@ public struct BatchDeleteGeofenceOutput {
 
 enum BatchDeleteGeofenceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -482,12 +485,12 @@ extension LocationClientTypes {
         public var error: LocationClientTypes.BatchItemError?
         /// Specifies a timestamp for when the error occurred in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ
         /// This member is required.
-        public var sampleTime: ClientRuntime.Date?
+        public var sampleTime: Foundation.Date?
 
         public init(
             deviceId: Swift.String? = nil,
             error: LocationClientTypes.BatchItemError? = nil,
-            sampleTime: ClientRuntime.Date? = nil
+            sampleTime: Foundation.Date? = nil
         )
         {
             self.deviceId = deviceId
@@ -536,7 +539,7 @@ public struct BatchEvaluateGeofencesInput {
 
 extension BatchEvaluateGeofencesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> BatchEvaluateGeofencesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BatchEvaluateGeofencesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -561,7 +564,7 @@ public struct BatchEvaluateGeofencesOutput {
 
 enum BatchEvaluateGeofencesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -650,7 +653,7 @@ public struct BatchGetDevicePositionInput {
 
 extension BatchGetDevicePositionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> BatchGetDevicePositionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BatchGetDevicePositionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -681,7 +684,7 @@ public struct BatchGetDevicePositionOutput {
 
 enum BatchGetDevicePositionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -846,7 +849,7 @@ public struct BatchPutGeofenceInput {
 
 extension BatchPutGeofenceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> BatchPutGeofenceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BatchPutGeofenceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -877,7 +880,7 @@ public struct BatchPutGeofenceOutput {
 
 enum BatchPutGeofenceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -951,18 +954,18 @@ extension LocationClientTypes {
     public struct BatchPutGeofenceSuccess {
         /// The timestamp for when the geofence was stored in a geofence collection in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ
         /// This member is required.
-        public var createTime: ClientRuntime.Date?
+        public var createTime: Foundation.Date?
         /// The geofence successfully stored in a geofence collection.
         /// This member is required.
         public var geofenceId: Swift.String?
         /// The timestamp for when the geofence was last updated in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ
         /// This member is required.
-        public var updateTime: ClientRuntime.Date?
+        public var updateTime: Foundation.Date?
 
         public init(
-            createTime: ClientRuntime.Date? = nil,
+            createTime: Foundation.Date? = nil,
             geofenceId: Swift.String? = nil,
-            updateTime: ClientRuntime.Date? = nil
+            updateTime: Foundation.Date? = nil
         )
         {
             self.createTime = createTime
@@ -996,12 +999,12 @@ extension LocationClientTypes {
         public var error: LocationClientTypes.BatchItemError?
         /// The timestamp at which the device position was determined. Uses [ ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
         /// This member is required.
-        public var sampleTime: ClientRuntime.Date?
+        public var sampleTime: Foundation.Date?
 
         public init(
             deviceId: Swift.String? = nil,
             error: LocationClientTypes.BatchItemError? = nil,
-            sampleTime: ClientRuntime.Date? = nil
+            sampleTime: Foundation.Date? = nil
         )
         {
             self.deviceId = deviceId
@@ -1050,7 +1053,7 @@ public struct BatchUpdateDevicePositionInput {
 
 extension BatchUpdateDevicePositionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> BatchUpdateDevicePositionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BatchUpdateDevicePositionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1075,7 +1078,7 @@ public struct BatchUpdateDevicePositionOutput {
 
 enum BatchUpdateDevicePositionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1127,10 +1130,10 @@ extension CalculateRouteInput: Swift.CustomDebugStringConvertible {
 
 extension CalculateRouteInput {
 
-    static func queryItemProvider(_ value: CalculateRouteInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: CalculateRouteInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let key = value.key {
-            let keyQueryItem = ClientRuntime.SDKURLQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
+            let keyQueryItem = Smithy.URIQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
             items.append(keyQueryItem)
         }
         return items
@@ -1168,7 +1171,7 @@ extension CalculateRouteInput {
 
 public struct CalculateRouteInput {
     /// Specifies the desired time of arrival. Uses the given time to calculate the route. Otherwise, the best time of day to travel with the best traffic conditions is used to calculate the route. ArrivalTime is not supported Esri.
-    public var arrivalTime: ClientRuntime.Date?
+    public var arrivalTime: Foundation.Date?
     /// The name of the route calculator resource that you want to use to calculate the route.
     /// This member is required.
     public var calculatorName: Swift.String?
@@ -1187,7 +1190,7 @@ public struct CalculateRouteInput {
     /// Specifies the desired time of departure. Uses the given time to calculate the route. Otherwise, the best time of day to travel with the best traffic conditions is used to calculate the route.
     ///
     /// * In [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ. For example, 2020–07-2T12:15:20.000Z+01:00
-    public var departureTime: ClientRuntime.Date?
+    public var departureTime: Foundation.Date?
     /// The finish position for the route. Defined in [World Geodetic System (WGS 84)](https://earth-info.nga.mil/index.php?dir=wgs84&action=wgs84) format: [longitude, latitude].
     ///
     /// * For example, [-122.339, 47.615]
@@ -1224,12 +1227,12 @@ public struct CalculateRouteInput {
     public var waypointPositions: [[Swift.Double]]?
 
     public init(
-        arrivalTime: ClientRuntime.Date? = nil,
+        arrivalTime: Foundation.Date? = nil,
         calculatorName: Swift.String? = nil,
         carModeOptions: LocationClientTypes.CalculateRouteCarModeOptions? = nil,
         departNow: Swift.Bool? = nil,
         departurePosition: [Swift.Double]? = nil,
-        departureTime: ClientRuntime.Date? = nil,
+        departureTime: Foundation.Date? = nil,
         destinationPosition: [Swift.Double]? = nil,
         distanceUnit: LocationClientTypes.DistanceUnit? = nil,
         includeLegGeometry: Swift.Bool? = nil,
@@ -1264,10 +1267,10 @@ extension CalculateRouteMatrixInput: Swift.CustomDebugStringConvertible {
 
 extension CalculateRouteMatrixInput {
 
-    static func queryItemProvider(_ value: CalculateRouteMatrixInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: CalculateRouteMatrixInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let key = value.key {
-            let keyQueryItem = ClientRuntime.SDKURLQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
+            let keyQueryItem = Smithy.URIQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
             items.append(keyQueryItem)
         }
         return items
@@ -1313,7 +1316,7 @@ public struct CalculateRouteMatrixInput {
     /// Specifies the desired time of departure. Uses the given time to calculate the route matrix. You can't set both DepartureTime and DepartNow. If neither is set, the best time of day to travel with the best traffic conditions is used to calculate the route matrix. Setting a departure time in the past returns a 400 ValidationException error.
     ///
     /// * In [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ. For example, 2020–07-2T12:15:20.000Z+01:00
-    public var departureTime: ClientRuntime.Date?
+    public var departureTime: Foundation.Date?
     /// The list of destination positions for the route matrix. An array of points, each of which is itself a 2-value array defined in [WGS 84](https://earth-info.nga.mil/GandG/wgs84/index.html) format: [longitude, latitude]. For example, [-122.339, 47.615] Depending on the data provider selected in the route calculator resource there may be additional restrictions on the inputs you can choose. See [ Position restrictions](https://docs.aws.amazon.com/location/latest/developerguide/calculate-route-matrix.html#matrix-routing-position-limits) in the Amazon Location Service Developer Guide. For route calculators that use Esri as the data provider, if you specify a destination that's not located on a road, Amazon Location [ moves the position to the nearest road](https://docs.aws.amazon.com/location/latest/developerguide/snap-to-nearby-road.html). The snapped value is available in the result in SnappedDestinationPositions. Valid Values: [-180 to 180,-90 to 90]
     /// This member is required.
     public var destinationPositions: [[Swift.Double]]?
@@ -1338,7 +1341,7 @@ public struct CalculateRouteMatrixInput {
         carModeOptions: LocationClientTypes.CalculateRouteCarModeOptions? = nil,
         departNow: Swift.Bool? = nil,
         departurePositions: [[Swift.Double]]? = nil,
-        departureTime: ClientRuntime.Date? = nil,
+        departureTime: Foundation.Date? = nil,
         destinationPositions: [[Swift.Double]]? = nil,
         distanceUnit: LocationClientTypes.DistanceUnit? = nil,
         key: Swift.String? = nil,
@@ -1361,7 +1364,7 @@ public struct CalculateRouteMatrixInput {
 
 extension CalculateRouteMatrixOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CalculateRouteMatrixOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CalculateRouteMatrixOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1403,7 +1406,7 @@ public struct CalculateRouteMatrixOutput {
 
 enum CalculateRouteMatrixOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1475,7 +1478,7 @@ extension LocationClientTypes {
 
 extension CalculateRouteOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CalculateRouteOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CalculateRouteOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1518,7 +1521,7 @@ public struct CalculateRouteOutput {
 
 enum CalculateRouteOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1795,7 +1798,7 @@ public struct CreateGeofenceCollectionInput {
 
 extension CreateGeofenceCollectionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateGeofenceCollectionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateGeofenceCollectionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1818,12 +1821,12 @@ public struct CreateGeofenceCollectionOutput {
     public var collectionName: Swift.String?
     /// The timestamp for when the geofence collection was created in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ
     /// This member is required.
-    public var createTime: ClientRuntime.Date?
+    public var createTime: Foundation.Date?
 
     public init(
         collectionArn: Swift.String? = nil,
         collectionName: Swift.String? = nil,
-        createTime: ClientRuntime.Date? = nil
+        createTime: Foundation.Date? = nil
     )
     {
         self.collectionArn = collectionArn
@@ -1834,7 +1837,7 @@ public struct CreateGeofenceCollectionOutput {
 
 enum CreateGeofenceCollectionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1875,7 +1878,7 @@ public struct CreateKeyInput {
     /// An optional description for the API key resource.
     public var description: Swift.String?
     /// The optional timestamp for when the API key resource will expire in [ ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ. One of NoExpiry or ExpireTime must be set.
-    public var expireTime: ClientRuntime.Date?
+    public var expireTime: Foundation.Date?
     /// A custom name for the API key resource. Requirements:
     ///
     /// * Contain only alphanumeric characters (A–Z, a–z, 0–9), hyphens (-), periods (.), and underscores (_).
@@ -1907,7 +1910,7 @@ public struct CreateKeyInput {
 
     public init(
         description: Swift.String? = nil,
-        expireTime: ClientRuntime.Date? = nil,
+        expireTime: Foundation.Date? = nil,
         keyName: Swift.String? = nil,
         noExpiry: Swift.Bool? = nil,
         restrictions: LocationClientTypes.ApiKeyRestrictions? = nil,
@@ -1930,7 +1933,7 @@ extension CreateKeyOutput: Swift.CustomDebugStringConvertible {
 
 extension CreateKeyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateKeyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateKeyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1946,7 +1949,7 @@ extension CreateKeyOutput {
 public struct CreateKeyOutput {
     /// The timestamp for when the API key resource was created in [ ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
     /// This member is required.
-    public var createTime: ClientRuntime.Date?
+    public var createTime: Foundation.Date?
     /// The key value/string of an API key. This value is used when making API calls to authorize the call. For example, see [GetMapGlyphs](https://docs.aws.amazon.com/location/latest/APIReference/API_GetMapGlyphs.html).
     /// This member is required.
     public var key: Swift.String?
@@ -1960,7 +1963,7 @@ public struct CreateKeyOutput {
     public var keyName: Swift.String?
 
     public init(
-        createTime: ClientRuntime.Date? = nil,
+        createTime: Foundation.Date? = nil,
         key: Swift.String? = nil,
         keyArn: Swift.String? = nil,
         keyName: Swift.String? = nil
@@ -1975,7 +1978,7 @@ public struct CreateKeyOutput {
 
 enum CreateKeyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2056,7 +2059,7 @@ public struct CreateMapInput {
 
 extension CreateMapOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateMapOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateMapOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2071,7 +2074,7 @@ extension CreateMapOutput {
 public struct CreateMapOutput {
     /// The timestamp for when the map resource was created in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
     /// This member is required.
-    public var createTime: ClientRuntime.Date?
+    public var createTime: Foundation.Date?
     /// The Amazon Resource Name (ARN) for the map resource. Used to specify a resource across all Amazon Web Services.
     ///
     /// * Format example: arn:aws:geo:region:account-id:map/ExampleMap
@@ -2082,7 +2085,7 @@ public struct CreateMapOutput {
     public var mapName: Swift.String?
 
     public init(
-        createTime: ClientRuntime.Date? = nil,
+        createTime: Foundation.Date? = nil,
         mapArn: Swift.String? = nil,
         mapName: Swift.String? = nil
     )
@@ -2095,7 +2098,7 @@ public struct CreateMapOutput {
 
 enum CreateMapOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2190,7 +2193,7 @@ public struct CreatePlaceIndexInput {
 
 extension CreatePlaceIndexOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreatePlaceIndexOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreatePlaceIndexOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2205,7 +2208,7 @@ extension CreatePlaceIndexOutput {
 public struct CreatePlaceIndexOutput {
     /// The timestamp for when the place index resource was created in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
     /// This member is required.
-    public var createTime: ClientRuntime.Date?
+    public var createTime: Foundation.Date?
     /// The Amazon Resource Name (ARN) for the place index resource. Used to specify a resource across Amazon Web Services.
     ///
     /// * Format example: arn:aws:geo:region:account-id:place-index/ExamplePlaceIndex
@@ -2216,7 +2219,7 @@ public struct CreatePlaceIndexOutput {
     public var indexName: Swift.String?
 
     public init(
-        createTime: ClientRuntime.Date? = nil,
+        createTime: Foundation.Date? = nil,
         indexArn: Swift.String? = nil,
         indexName: Swift.String? = nil
     )
@@ -2229,7 +2232,7 @@ public struct CreatePlaceIndexOutput {
 
 enum CreatePlaceIndexOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2324,7 +2327,7 @@ public struct CreateRouteCalculatorInput {
 
 extension CreateRouteCalculatorOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateRouteCalculatorOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateRouteCalculatorOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2351,12 +2354,12 @@ public struct CreateRouteCalculatorOutput {
     ///
     /// * For example, 2020–07-2T12:15:20.000Z+01:00
     /// This member is required.
-    public var createTime: ClientRuntime.Date?
+    public var createTime: Foundation.Date?
 
     public init(
         calculatorArn: Swift.String? = nil,
         calculatorName: Swift.String? = nil,
-        createTime: ClientRuntime.Date? = nil
+        createTime: Foundation.Date? = nil
     )
     {
         self.calculatorArn = calculatorArn
@@ -2367,7 +2370,7 @@ public struct CreateRouteCalculatorOutput {
 
 enum CreateRouteCalculatorOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2471,7 +2474,7 @@ public struct CreateTrackerInput {
 
 extension CreateTrackerOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateTrackerOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateTrackerOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2486,7 +2489,7 @@ extension CreateTrackerOutput {
 public struct CreateTrackerOutput {
     /// The timestamp for when the tracker resource was created in [ ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
     /// This member is required.
-    public var createTime: ClientRuntime.Date?
+    public var createTime: Foundation.Date?
     /// The Amazon Resource Name (ARN) for the tracker resource. Used when you need to specify a resource across all Amazon Web Services.
     ///
     /// * Format example: arn:aws:geo:region:account-id:tracker/ExampleTracker
@@ -2497,7 +2500,7 @@ public struct CreateTrackerOutput {
     public var trackerName: Swift.String?
 
     public init(
-        createTime: ClientRuntime.Date? = nil,
+        createTime: Foundation.Date? = nil,
         trackerArn: Swift.String? = nil,
         trackerName: Swift.String? = nil
     )
@@ -2510,7 +2513,7 @@ public struct CreateTrackerOutput {
 
 enum CreateTrackerOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2597,7 +2600,7 @@ public struct DeleteGeofenceCollectionInput {
 
 extension DeleteGeofenceCollectionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteGeofenceCollectionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteGeofenceCollectionOutput {
         return DeleteGeofenceCollectionOutput()
     }
 }
@@ -2609,7 +2612,7 @@ public struct DeleteGeofenceCollectionOutput {
 
 enum DeleteGeofenceCollectionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2627,10 +2630,10 @@ enum DeleteGeofenceCollectionOutputError {
 
 extension DeleteKeyInput {
 
-    static func queryItemProvider(_ value: DeleteKeyInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteKeyInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let forceDelete = value.forceDelete {
-            let forceDeleteQueryItem = ClientRuntime.SDKURLQueryItem(name: "forceDelete".urlPercentEncoding(), value: Swift.String(forceDelete).urlPercentEncoding())
+            let forceDeleteQueryItem = Smithy.URIQueryItem(name: "forceDelete".urlPercentEncoding(), value: Swift.String(forceDelete).urlPercentEncoding())
             items.append(forceDeleteQueryItem)
         }
         return items
@@ -2666,7 +2669,7 @@ public struct DeleteKeyInput {
 
 extension DeleteKeyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteKeyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteKeyOutput {
         return DeleteKeyOutput()
     }
 }
@@ -2678,7 +2681,7 @@ public struct DeleteKeyOutput {
 
 enum DeleteKeyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2719,7 +2722,7 @@ public struct DeleteMapInput {
 
 extension DeleteMapOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteMapOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteMapOutput {
         return DeleteMapOutput()
     }
 }
@@ -2731,7 +2734,7 @@ public struct DeleteMapOutput {
 
 enum DeleteMapOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2772,7 +2775,7 @@ public struct DeletePlaceIndexInput {
 
 extension DeletePlaceIndexOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeletePlaceIndexOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeletePlaceIndexOutput {
         return DeletePlaceIndexOutput()
     }
 }
@@ -2784,7 +2787,7 @@ public struct DeletePlaceIndexOutput {
 
 enum DeletePlaceIndexOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2825,7 +2828,7 @@ public struct DeleteRouteCalculatorInput {
 
 extension DeleteRouteCalculatorOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteRouteCalculatorOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteRouteCalculatorOutput {
         return DeleteRouteCalculatorOutput()
     }
 }
@@ -2837,7 +2840,7 @@ public struct DeleteRouteCalculatorOutput {
 
 enum DeleteRouteCalculatorOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2878,7 +2881,7 @@ public struct DeleteTrackerInput {
 
 extension DeleteTrackerOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteTrackerOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteTrackerOutput {
         return DeleteTrackerOutput()
     }
 }
@@ -2890,7 +2893,7 @@ public struct DeleteTrackerOutput {
 
 enum DeleteTrackerOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2931,7 +2934,7 @@ public struct DescribeGeofenceCollectionInput {
 
 extension DescribeGeofenceCollectionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeGeofenceCollectionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeGeofenceCollectionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2959,7 +2962,7 @@ public struct DescribeGeofenceCollectionOutput {
     public var collectionName: Swift.String?
     /// The timestamp for when the geofence resource was created in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ
     /// This member is required.
-    public var createTime: ClientRuntime.Date?
+    public var createTime: Foundation.Date?
     /// The optional description for the geofence collection.
     /// This member is required.
     public var description: Swift.String?
@@ -2971,17 +2974,17 @@ public struct DescribeGeofenceCollectionOutput {
     public var tags: [Swift.String:Swift.String]?
     /// The timestamp for when the geofence collection was last updated in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ
     /// This member is required.
-    public var updateTime: ClientRuntime.Date?
+    public var updateTime: Foundation.Date?
 
     public init(
         collectionArn: Swift.String? = nil,
         collectionName: Swift.String? = nil,
-        createTime: ClientRuntime.Date? = nil,
+        createTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         geofenceCount: Swift.Int? = nil,
         kmsKeyId: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
-        updateTime: ClientRuntime.Date? = nil
+        updateTime: Foundation.Date? = nil
     )
     {
         self.collectionArn = collectionArn
@@ -2997,7 +3000,7 @@ public struct DescribeGeofenceCollectionOutput {
 
 enum DescribeGeofenceCollectionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3043,7 +3046,7 @@ extension DescribeKeyOutput: Swift.CustomDebugStringConvertible {
 
 extension DescribeKeyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeKeyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeKeyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3064,12 +3067,12 @@ extension DescribeKeyOutput {
 public struct DescribeKeyOutput {
     /// The timestamp for when the API key resource was created in [ ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
     /// This member is required.
-    public var createTime: ClientRuntime.Date?
+    public var createTime: Foundation.Date?
     /// The optional description for the API key resource.
     public var description: Swift.String?
     /// The timestamp for when the API key resource will expire in [ ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
     /// This member is required.
-    public var expireTime: ClientRuntime.Date?
+    public var expireTime: Foundation.Date?
     /// The key value/string of an API key.
     /// This member is required.
     public var key: Swift.String?
@@ -3088,18 +3091,18 @@ public struct DescribeKeyOutput {
     public var tags: [Swift.String:Swift.String]?
     /// The timestamp for when the API key resource was last updated in [ ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
     /// This member is required.
-    public var updateTime: ClientRuntime.Date?
+    public var updateTime: Foundation.Date?
 
     public init(
-        createTime: ClientRuntime.Date? = nil,
+        createTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
-        expireTime: ClientRuntime.Date? = nil,
+        expireTime: Foundation.Date? = nil,
         key: Swift.String? = nil,
         keyArn: Swift.String? = nil,
         keyName: Swift.String? = nil,
         restrictions: LocationClientTypes.ApiKeyRestrictions? = nil,
         tags: [Swift.String:Swift.String]? = nil,
-        updateTime: ClientRuntime.Date? = nil
+        updateTime: Foundation.Date? = nil
     )
     {
         self.createTime = createTime
@@ -3116,7 +3119,7 @@ public struct DescribeKeyOutput {
 
 enum DescribeKeyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3157,7 +3160,7 @@ public struct DescribeMapInput {
 
 extension DescribeMapOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeMapOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeMapOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3180,7 +3183,7 @@ public struct DescribeMapOutput {
     public var configuration: LocationClientTypes.MapConfiguration?
     /// The timestamp for when the map resource was created in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
     /// This member is required.
-    public var createTime: ClientRuntime.Date?
+    public var createTime: Foundation.Date?
     /// Specifies the data provider for the associated map tiles.
     /// This member is required.
     public var dataSource: Swift.String?
@@ -3199,17 +3202,17 @@ public struct DescribeMapOutput {
     public var tags: [Swift.String:Swift.String]?
     /// The timestamp for when the map resource was last update in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
     /// This member is required.
-    public var updateTime: ClientRuntime.Date?
+    public var updateTime: Foundation.Date?
 
     public init(
         configuration: LocationClientTypes.MapConfiguration? = nil,
-        createTime: ClientRuntime.Date? = nil,
+        createTime: Foundation.Date? = nil,
         dataSource: Swift.String? = nil,
         description: Swift.String? = nil,
         mapArn: Swift.String? = nil,
         mapName: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
-        updateTime: ClientRuntime.Date? = nil
+        updateTime: Foundation.Date? = nil
     )
     {
         self.configuration = configuration
@@ -3225,7 +3228,7 @@ public struct DescribeMapOutput {
 
 enum DescribeMapOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3266,7 +3269,7 @@ public struct DescribePlaceIndexInput {
 
 extension DescribePlaceIndexOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribePlaceIndexOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribePlaceIndexOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3286,7 +3289,7 @@ extension DescribePlaceIndexOutput {
 public struct DescribePlaceIndexOutput {
     /// The timestamp for when the place index resource was created in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
     /// This member is required.
-    public var createTime: ClientRuntime.Date?
+    public var createTime: Foundation.Date?
     /// The data provider of geospatial data. Values can be one of the following:
     ///
     /// * Esri
@@ -3317,17 +3320,17 @@ public struct DescribePlaceIndexOutput {
     public var tags: [Swift.String:Swift.String]?
     /// The timestamp for when the place index resource was last updated in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
     /// This member is required.
-    public var updateTime: ClientRuntime.Date?
+    public var updateTime: Foundation.Date?
 
     public init(
-        createTime: ClientRuntime.Date? = nil,
+        createTime: Foundation.Date? = nil,
         dataSource: Swift.String? = nil,
         dataSourceConfiguration: LocationClientTypes.DataSourceConfiguration? = nil,
         description: Swift.String? = nil,
         indexArn: Swift.String? = nil,
         indexName: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
-        updateTime: ClientRuntime.Date? = nil
+        updateTime: Foundation.Date? = nil
     )
     {
         self.createTime = createTime
@@ -3343,7 +3346,7 @@ public struct DescribePlaceIndexOutput {
 
 enum DescribePlaceIndexOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3384,7 +3387,7 @@ public struct DescribeRouteCalculatorInput {
 
 extension DescribeRouteCalculatorOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeRouteCalculatorOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeRouteCalculatorOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3413,7 +3416,7 @@ public struct DescribeRouteCalculatorOutput {
     ///
     /// * For example, 2020–07-2T12:15:20.000Z+01:00
     /// This member is required.
-    public var createTime: ClientRuntime.Date?
+    public var createTime: Foundation.Date?
     /// The data provider of traffic and road network data. Indicates one of the available providers:
     ///
     /// * Esri
@@ -3435,16 +3438,16 @@ public struct DescribeRouteCalculatorOutput {
     ///
     /// * For example, 2020–07-2T12:15:20.000Z+01:00
     /// This member is required.
-    public var updateTime: ClientRuntime.Date?
+    public var updateTime: Foundation.Date?
 
     public init(
         calculatorArn: Swift.String? = nil,
         calculatorName: Swift.String? = nil,
-        createTime: ClientRuntime.Date? = nil,
+        createTime: Foundation.Date? = nil,
         dataSource: Swift.String? = nil,
         description: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
-        updateTime: ClientRuntime.Date? = nil
+        updateTime: Foundation.Date? = nil
     )
     {
         self.calculatorArn = calculatorArn
@@ -3459,7 +3462,7 @@ public struct DescribeRouteCalculatorOutput {
 
 enum DescribeRouteCalculatorOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3500,7 +3503,7 @@ public struct DescribeTrackerInput {
 
 extension DescribeTrackerOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeTrackerOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeTrackerOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3522,7 +3525,7 @@ extension DescribeTrackerOutput {
 public struct DescribeTrackerOutput {
     /// The timestamp for when the tracker resource was created in [ ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
     /// This member is required.
-    public var createTime: ClientRuntime.Date?
+    public var createTime: Foundation.Date?
     /// The optional description for the tracker resource.
     /// This member is required.
     public var description: Swift.String?
@@ -3546,10 +3549,10 @@ public struct DescribeTrackerOutput {
     public var trackerName: Swift.String?
     /// The timestamp for when the tracker resource was last updated in [ ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
     /// This member is required.
-    public var updateTime: ClientRuntime.Date?
+    public var updateTime: Foundation.Date?
 
     public init(
-        createTime: ClientRuntime.Date? = nil,
+        createTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         eventBridgeEnabled: Swift.Bool? = nil,
         kmsKeyEnableGeospatialQueries: Swift.Bool? = nil,
@@ -3558,7 +3561,7 @@ public struct DescribeTrackerOutput {
         tags: [Swift.String:Swift.String]? = nil,
         trackerArn: Swift.String? = nil,
         trackerName: Swift.String? = nil,
-        updateTime: ClientRuntime.Date? = nil
+        updateTime: Foundation.Date? = nil
     )
     {
         self.createTime = createTime
@@ -3576,7 +3579,7 @@ public struct DescribeTrackerOutput {
 
 enum DescribeTrackerOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3626,18 +3629,18 @@ extension LocationClientTypes {
         public var positionProperties: [Swift.String:Swift.String]?
         /// The timestamp for when the tracker resource received the device position in [ ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
         /// This member is required.
-        public var receivedTime: ClientRuntime.Date?
+        public var receivedTime: Foundation.Date?
         /// The timestamp at which the device's position was determined. Uses [ ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
         /// This member is required.
-        public var sampleTime: ClientRuntime.Date?
+        public var sampleTime: Foundation.Date?
 
         public init(
             accuracy: LocationClientTypes.PositionalAccuracy? = nil,
             deviceId: Swift.String? = nil,
             position: [Swift.Double]? = nil,
             positionProperties: [Swift.String:Swift.String]? = nil,
-            receivedTime: ClientRuntime.Date? = nil,
-            sampleTime: ClientRuntime.Date? = nil
+            receivedTime: Foundation.Date? = nil,
+            sampleTime: Foundation.Date? = nil
         )
         {
             self.accuracy = accuracy
@@ -3683,14 +3686,14 @@ extension LocationClientTypes {
         public var positionProperties: [Swift.String:Swift.String]?
         /// The timestamp at which the device's position was determined. Uses [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ
         /// This member is required.
-        public var sampleTime: ClientRuntime.Date?
+        public var sampleTime: Foundation.Date?
 
         public init(
             accuracy: LocationClientTypes.PositionalAccuracy? = nil,
             deviceId: Swift.String? = nil,
             position: [Swift.Double]? = nil,
             positionProperties: [Swift.String:Swift.String]? = nil,
-            sampleTime: ClientRuntime.Date? = nil
+            sampleTime: Foundation.Date? = nil
         )
         {
             self.accuracy = accuracy
@@ -3767,7 +3770,7 @@ public struct DisassociateTrackerConsumerInput {
 
 extension DisassociateTrackerConsumerOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DisassociateTrackerConsumerOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DisassociateTrackerConsumerOutput {
         return DisassociateTrackerConsumerOutput()
     }
 }
@@ -3779,7 +3782,7 @@ public struct DisassociateTrackerConsumerOutput {
 
 enum DisassociateTrackerConsumerOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3897,7 +3900,7 @@ public struct GetDevicePositionHistoryInput {
     /// Specify the end time for the position history in [ ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ. By default, the value will be the time that the request is made. Requirement:
     ///
     /// * The time specified for EndTimeExclusive must be after the time for StartTimeInclusive.
-    public var endTimeExclusive: ClientRuntime.Date?
+    public var endTimeExclusive: Foundation.Date?
     /// An optional limit for the number of device positions returned in a single call. Default value: 100
     public var maxResults: Swift.Int?
     /// The pagination token specifying which page of results to return in the response. If no token is provided, the default page is the first page. Default value: null
@@ -3905,17 +3908,17 @@ public struct GetDevicePositionHistoryInput {
     /// Specify the start time for the position history in [ ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ. By default, the value will be 24 hours prior to the time that the request is made. Requirement:
     ///
     /// * The time specified for StartTimeInclusive must be before EndTimeExclusive.
-    public var startTimeInclusive: ClientRuntime.Date?
+    public var startTimeInclusive: Foundation.Date?
     /// The tracker resource receiving the request for the device position history.
     /// This member is required.
     public var trackerName: Swift.String?
 
     public init(
         deviceId: Swift.String? = nil,
-        endTimeExclusive: ClientRuntime.Date? = nil,
+        endTimeExclusive: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
-        startTimeInclusive: ClientRuntime.Date? = nil,
+        startTimeInclusive: Foundation.Date? = nil,
         trackerName: Swift.String? = nil
     )
     {
@@ -3930,7 +3933,7 @@ public struct GetDevicePositionHistoryInput {
 
 extension GetDevicePositionHistoryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetDevicePositionHistoryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetDevicePositionHistoryOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3960,7 +3963,7 @@ public struct GetDevicePositionHistoryOutput {
 
 enum GetDevicePositionHistoryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4014,7 +4017,7 @@ extension GetDevicePositionOutput: Swift.CustomDebugStringConvertible {
 
 extension GetDevicePositionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetDevicePositionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetDevicePositionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4041,18 +4044,18 @@ public struct GetDevicePositionOutput {
     public var positionProperties: [Swift.String:Swift.String]?
     /// The timestamp for when the tracker resource received the device position in [ ISO 8601 ](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
     /// This member is required.
-    public var receivedTime: ClientRuntime.Date?
+    public var receivedTime: Foundation.Date?
     /// The timestamp at which the device's position was determined. Uses [ ISO 8601 ](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
     /// This member is required.
-    public var sampleTime: ClientRuntime.Date?
+    public var sampleTime: Foundation.Date?
 
     public init(
         accuracy: LocationClientTypes.PositionalAccuracy? = nil,
         deviceId: Swift.String? = nil,
         position: [Swift.Double]? = nil,
         positionProperties: [Swift.String:Swift.String]? = nil,
-        receivedTime: ClientRuntime.Date? = nil,
-        sampleTime: ClientRuntime.Date? = nil
+        receivedTime: Foundation.Date? = nil,
+        sampleTime: Foundation.Date? = nil
     )
     {
         self.accuracy = accuracy
@@ -4066,7 +4069,7 @@ public struct GetDevicePositionOutput {
 
 enum GetDevicePositionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4120,7 +4123,7 @@ extension GetGeofenceOutput: Swift.CustomDebugStringConvertible {
 
 extension GetGeofenceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetGeofenceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetGeofenceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4138,7 +4141,7 @@ extension GetGeofenceOutput {
 public struct GetGeofenceOutput {
     /// The timestamp for when the geofence collection was created in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ
     /// This member is required.
-    public var createTime: ClientRuntime.Date?
+    public var createTime: Foundation.Date?
     /// The geofence identifier.
     /// This member is required.
     public var geofenceId: Swift.String?
@@ -4162,15 +4165,15 @@ public struct GetGeofenceOutput {
     public var status: Swift.String?
     /// The timestamp for when the geofence collection was last updated in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ
     /// This member is required.
-    public var updateTime: ClientRuntime.Date?
+    public var updateTime: Foundation.Date?
 
     public init(
-        createTime: ClientRuntime.Date? = nil,
+        createTime: Foundation.Date? = nil,
         geofenceId: Swift.String? = nil,
         geofenceProperties: [Swift.String:Swift.String]? = nil,
         geometry: LocationClientTypes.GeofenceGeometry? = nil,
         status: Swift.String? = nil,
-        updateTime: ClientRuntime.Date? = nil
+        updateTime: Foundation.Date? = nil
     )
     {
         self.createTime = createTime
@@ -4184,7 +4187,7 @@ public struct GetGeofenceOutput {
 
 enum GetGeofenceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4207,10 +4210,10 @@ extension GetMapGlyphsInput: Swift.CustomDebugStringConvertible {
 
 extension GetMapGlyphsInput {
 
-    static func queryItemProvider(_ value: GetMapGlyphsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetMapGlyphsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let key = value.key {
-            let keyQueryItem = ClientRuntime.SDKURLQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
+            let keyQueryItem = Smithy.URIQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
             items.append(keyQueryItem)
         }
         return items
@@ -4292,7 +4295,7 @@ public struct GetMapGlyphsInput {
 
 extension GetMapGlyphsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetMapGlyphsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetMapGlyphsOutput {
         var value = GetMapGlyphsOutput()
         if let cacheControlHeaderValue = httpResponse.headers.value(for: "Cache-Control") {
             value.cacheControl = cacheControlHeaderValue
@@ -4314,14 +4317,14 @@ extension GetMapGlyphsOutput {
 
 public struct GetMapGlyphsOutput {
     /// The glyph, as binary blob.
-    public var blob: ClientRuntime.Data?
+    public var blob: Foundation.Data?
     /// The HTTP Cache-Control directive for the value.
     public var cacheControl: Swift.String?
     /// The map glyph content type. For example, application/octet-stream.
     public var contentType: Swift.String?
 
     public init(
-        blob: ClientRuntime.Data? = nil,
+        blob: Foundation.Data? = nil,
         cacheControl: Swift.String? = nil,
         contentType: Swift.String? = nil
     )
@@ -4334,7 +4337,7 @@ public struct GetMapGlyphsOutput {
 
 enum GetMapGlyphsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4357,10 +4360,10 @@ extension GetMapSpritesInput: Swift.CustomDebugStringConvertible {
 
 extension GetMapSpritesInput {
 
-    static func queryItemProvider(_ value: GetMapSpritesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetMapSpritesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let key = value.key {
-            let keyQueryItem = ClientRuntime.SDKURLQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
+            let keyQueryItem = Smithy.URIQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
             items.append(keyQueryItem)
         }
         return items
@@ -4415,7 +4418,7 @@ public struct GetMapSpritesInput {
 
 extension GetMapSpritesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetMapSpritesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetMapSpritesOutput {
         var value = GetMapSpritesOutput()
         if let cacheControlHeaderValue = httpResponse.headers.value(for: "Cache-Control") {
             value.cacheControl = cacheControlHeaderValue
@@ -4437,14 +4440,14 @@ extension GetMapSpritesOutput {
 
 public struct GetMapSpritesOutput {
     /// Contains the body of the sprite sheet or JSON offset ﬁle.
-    public var blob: ClientRuntime.Data?
+    public var blob: Foundation.Data?
     /// The HTTP Cache-Control directive for the value.
     public var cacheControl: Swift.String?
     /// The content type of the sprite sheet and offsets. For example, the sprite sheet content type is image/png, and the sprite offset JSON document is application/json.
     public var contentType: Swift.String?
 
     public init(
-        blob: ClientRuntime.Data? = nil,
+        blob: Foundation.Data? = nil,
         cacheControl: Swift.String? = nil,
         contentType: Swift.String? = nil
     )
@@ -4457,7 +4460,7 @@ public struct GetMapSpritesOutput {
 
 enum GetMapSpritesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4480,10 +4483,10 @@ extension GetMapStyleDescriptorInput: Swift.CustomDebugStringConvertible {
 
 extension GetMapStyleDescriptorInput {
 
-    static func queryItemProvider(_ value: GetMapStyleDescriptorInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetMapStyleDescriptorInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let key = value.key {
-            let keyQueryItem = ClientRuntime.SDKURLQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
+            let keyQueryItem = Smithy.URIQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
             items.append(keyQueryItem)
         }
         return items
@@ -4519,7 +4522,7 @@ public struct GetMapStyleDescriptorInput {
 
 extension GetMapStyleDescriptorOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetMapStyleDescriptorOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetMapStyleDescriptorOutput {
         var value = GetMapStyleDescriptorOutput()
         if let cacheControlHeaderValue = httpResponse.headers.value(for: "Cache-Control") {
             value.cacheControl = cacheControlHeaderValue
@@ -4541,14 +4544,14 @@ extension GetMapStyleDescriptorOutput {
 
 public struct GetMapStyleDescriptorOutput {
     /// Contains the body of the style descriptor.
-    public var blob: ClientRuntime.Data?
+    public var blob: Foundation.Data?
     /// The HTTP Cache-Control directive for the value.
     public var cacheControl: Swift.String?
     /// The style descriptor's content type. For example, application/json.
     public var contentType: Swift.String?
 
     public init(
-        blob: ClientRuntime.Data? = nil,
+        blob: Foundation.Data? = nil,
         cacheControl: Swift.String? = nil,
         contentType: Swift.String? = nil
     )
@@ -4561,7 +4564,7 @@ public struct GetMapStyleDescriptorOutput {
 
 enum GetMapStyleDescriptorOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4584,10 +4587,10 @@ extension GetMapTileInput: Swift.CustomDebugStringConvertible {
 
 extension GetMapTileInput {
 
-    static func queryItemProvider(_ value: GetMapTileInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetMapTileInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let key = value.key {
-            let keyQueryItem = ClientRuntime.SDKURLQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
+            let keyQueryItem = Smithy.URIQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
             items.append(keyQueryItem)
         }
         return items
@@ -4647,7 +4650,7 @@ public struct GetMapTileInput {
 
 extension GetMapTileOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetMapTileOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetMapTileOutput {
         var value = GetMapTileOutput()
         if let cacheControlHeaderValue = httpResponse.headers.value(for: "Cache-Control") {
             value.cacheControl = cacheControlHeaderValue
@@ -4669,14 +4672,14 @@ extension GetMapTileOutput {
 
 public struct GetMapTileOutput {
     /// Contains Mapbox Vector Tile (MVT) data.
-    public var blob: ClientRuntime.Data?
+    public var blob: Foundation.Data?
     /// The HTTP Cache-Control directive for the value.
     public var cacheControl: Swift.String?
     /// The map tile's content type. For example, application/vnd.mapbox-vector-tile.
     public var contentType: Swift.String?
 
     public init(
-        blob: ClientRuntime.Data? = nil,
+        blob: Foundation.Data? = nil,
         cacheControl: Swift.String? = nil,
         contentType: Swift.String? = nil
     )
@@ -4689,7 +4692,7 @@ public struct GetMapTileOutput {
 
 enum GetMapTileOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4712,14 +4715,14 @@ extension GetPlaceInput: Swift.CustomDebugStringConvertible {
 
 extension GetPlaceInput {
 
-    static func queryItemProvider(_ value: GetPlaceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetPlaceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let language = value.language {
-            let languageQueryItem = ClientRuntime.SDKURLQueryItem(name: "language".urlPercentEncoding(), value: Swift.String(language).urlPercentEncoding())
+            let languageQueryItem = Smithy.URIQueryItem(name: "language".urlPercentEncoding(), value: Swift.String(language).urlPercentEncoding())
             items.append(languageQueryItem)
         }
         if let key = value.key {
-            let keyQueryItem = ClientRuntime.SDKURLQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
+            let keyQueryItem = Smithy.URIQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
             items.append(keyQueryItem)
         }
         return items
@@ -4777,7 +4780,7 @@ public struct GetPlaceInput {
 
 extension GetPlaceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetPlaceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetPlaceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4802,7 +4805,7 @@ public struct GetPlaceOutput {
 
 enum GetPlaceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5036,7 +5039,7 @@ public struct ListDevicePositionsInput {
 
 extension ListDevicePositionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListDevicePositionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListDevicePositionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5066,7 +5069,7 @@ public struct ListDevicePositionsOutput {
 
 enum ListDevicePositionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5115,14 +5118,14 @@ extension LocationClientTypes {
         public var positionProperties: [Swift.String:Swift.String]?
         /// The timestamp at which the device position was determined. Uses [ ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
         /// This member is required.
-        public var sampleTime: ClientRuntime.Date?
+        public var sampleTime: Foundation.Date?
 
         public init(
             accuracy: LocationClientTypes.PositionalAccuracy? = nil,
             deviceId: Swift.String? = nil,
             position: [Swift.Double]? = nil,
             positionProperties: [Swift.String:Swift.String]? = nil,
-            sampleTime: ClientRuntime.Date? = nil
+            sampleTime: Foundation.Date? = nil
         )
         {
             self.accuracy = accuracy
@@ -5169,7 +5172,7 @@ public struct ListGeofenceCollectionsInput {
 
 extension ListGeofenceCollectionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListGeofenceCollectionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListGeofenceCollectionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5199,7 +5202,7 @@ public struct ListGeofenceCollectionsOutput {
 
 enum ListGeofenceCollectionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5235,19 +5238,19 @@ extension LocationClientTypes {
         public var collectionName: Swift.String?
         /// The timestamp for when the geofence collection was created in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ
         /// This member is required.
-        public var createTime: ClientRuntime.Date?
+        public var createTime: Foundation.Date?
         /// The description for the geofence collection
         /// This member is required.
         public var description: Swift.String?
         /// Specifies a timestamp for when the resource was last updated in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ
         /// This member is required.
-        public var updateTime: ClientRuntime.Date?
+        public var updateTime: Foundation.Date?
 
         public init(
             collectionName: Swift.String? = nil,
-            createTime: ClientRuntime.Date? = nil,
+            createTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
-            updateTime: ClientRuntime.Date? = nil
+            updateTime: Foundation.Date? = nil
         )
         {
             self.collectionName = collectionName
@@ -5284,7 +5287,7 @@ extension LocationClientTypes {
     public struct ListGeofenceResponseEntry {
         /// The timestamp for when the geofence was stored in a geofence collection in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ
         /// This member is required.
-        public var createTime: ClientRuntime.Date?
+        public var createTime: Foundation.Date?
         /// The geofence identifier.
         /// This member is required.
         public var geofenceId: Swift.String?
@@ -5308,15 +5311,15 @@ extension LocationClientTypes {
         public var status: Swift.String?
         /// The timestamp for when the geofence was last updated in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ
         /// This member is required.
-        public var updateTime: ClientRuntime.Date?
+        public var updateTime: Foundation.Date?
 
         public init(
-            createTime: ClientRuntime.Date? = nil,
+            createTime: Foundation.Date? = nil,
             geofenceId: Swift.String? = nil,
             geofenceProperties: [Swift.String:Swift.String]? = nil,
             geometry: LocationClientTypes.GeofenceGeometry? = nil,
             status: Swift.String? = nil,
-            updateTime: ClientRuntime.Date? = nil
+            updateTime: Foundation.Date? = nil
         )
         {
             self.createTime = createTime
@@ -5372,7 +5375,7 @@ public struct ListGeofencesInput {
 
 extension ListGeofencesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListGeofencesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListGeofencesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5402,7 +5405,7 @@ public struct ListGeofencesOutput {
 
 enum ListGeofencesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5457,7 +5460,7 @@ public struct ListKeysInput {
 
 extension ListKeysOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListKeysOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListKeysOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5487,7 +5490,7 @@ public struct ListKeysOutput {
 
 enum ListKeysOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5522,12 +5525,12 @@ extension LocationClientTypes {
     public struct ListKeysResponseEntry {
         /// The timestamp of when the API key was created, in [ ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
         /// This member is required.
-        public var createTime: ClientRuntime.Date?
+        public var createTime: Foundation.Date?
         /// The optional description for the API key resource.
         public var description: Swift.String?
         /// The timestamp for when the API key resource will expire, in [ ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
         /// This member is required.
-        public var expireTime: ClientRuntime.Date?
+        public var expireTime: Foundation.Date?
         /// The name of the API key resource.
         /// This member is required.
         public var keyName: Swift.String?
@@ -5536,15 +5539,15 @@ extension LocationClientTypes {
         public var restrictions: LocationClientTypes.ApiKeyRestrictions?
         /// The timestamp of when the API key was last updated, in [ ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
         /// This member is required.
-        public var updateTime: ClientRuntime.Date?
+        public var updateTime: Foundation.Date?
 
         public init(
-            createTime: ClientRuntime.Date? = nil,
+            createTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
-            expireTime: ClientRuntime.Date? = nil,
+            expireTime: Foundation.Date? = nil,
             keyName: Swift.String? = nil,
             restrictions: LocationClientTypes.ApiKeyRestrictions? = nil,
-            updateTime: ClientRuntime.Date? = nil
+            updateTime: Foundation.Date? = nil
         )
         {
             self.createTime = createTime
@@ -5592,7 +5595,7 @@ public struct ListMapsInput {
 
 extension ListMapsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListMapsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListMapsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5622,7 +5625,7 @@ public struct ListMapsOutput {
 
 enum ListMapsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5656,7 +5659,7 @@ extension LocationClientTypes {
     public struct ListMapsResponseEntry {
         /// The timestamp for when the map resource was created in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
         /// This member is required.
-        public var createTime: ClientRuntime.Date?
+        public var createTime: Foundation.Date?
         /// Specifies the data provider for the associated map tiles.
         /// This member is required.
         public var dataSource: Swift.String?
@@ -5668,14 +5671,14 @@ extension LocationClientTypes {
         public var mapName: Swift.String?
         /// The timestamp for when the map resource was last updated in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
         /// This member is required.
-        public var updateTime: ClientRuntime.Date?
+        public var updateTime: Foundation.Date?
 
         public init(
-            createTime: ClientRuntime.Date? = nil,
+            createTime: Foundation.Date? = nil,
             dataSource: Swift.String? = nil,
             description: Swift.String? = nil,
             mapName: Swift.String? = nil,
-            updateTime: ClientRuntime.Date? = nil
+            updateTime: Foundation.Date? = nil
         )
         {
             self.createTime = createTime
@@ -5722,7 +5725,7 @@ public struct ListPlaceIndexesInput {
 
 extension ListPlaceIndexesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPlaceIndexesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPlaceIndexesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5752,7 +5755,7 @@ public struct ListPlaceIndexesOutput {
 
 enum ListPlaceIndexesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5786,7 +5789,7 @@ extension LocationClientTypes {
     public struct ListPlaceIndexesResponseEntry {
         /// The timestamp for when the place index resource was created in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
         /// This member is required.
-        public var createTime: ClientRuntime.Date?
+        public var createTime: Foundation.Date?
         /// The data provider of geospatial data. Values can be one of the following:
         ///
         /// * Esri
@@ -5807,14 +5810,14 @@ extension LocationClientTypes {
         public var indexName: Swift.String?
         /// The timestamp for when the place index resource was last updated in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
         /// This member is required.
-        public var updateTime: ClientRuntime.Date?
+        public var updateTime: Foundation.Date?
 
         public init(
-            createTime: ClientRuntime.Date? = nil,
+            createTime: Foundation.Date? = nil,
             dataSource: Swift.String? = nil,
             description: Swift.String? = nil,
             indexName: Swift.String? = nil,
-            updateTime: ClientRuntime.Date? = nil
+            updateTime: Foundation.Date? = nil
         )
         {
             self.createTime = createTime
@@ -5861,7 +5864,7 @@ public struct ListRouteCalculatorsInput {
 
 extension ListRouteCalculatorsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListRouteCalculatorsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListRouteCalculatorsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5891,7 +5894,7 @@ public struct ListRouteCalculatorsOutput {
 
 enum ListRouteCalculatorsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5930,7 +5933,7 @@ extension LocationClientTypes {
         ///
         /// * For example, 2020–07-2T12:15:20.000Z+01:00
         /// This member is required.
-        public var createTime: ClientRuntime.Date?
+        public var createTime: Foundation.Date?
         /// The data provider of traffic and road network data. Indicates one of the available providers:
         ///
         /// * Esri
@@ -5950,14 +5953,14 @@ extension LocationClientTypes {
         ///
         /// * For example, 2020–07-2T12:15:20.000Z+01:00
         /// This member is required.
-        public var updateTime: ClientRuntime.Date?
+        public var updateTime: Foundation.Date?
 
         public init(
             calculatorName: Swift.String? = nil,
-            createTime: ClientRuntime.Date? = nil,
+            createTime: Foundation.Date? = nil,
             dataSource: Swift.String? = nil,
             description: Swift.String? = nil,
-            updateTime: ClientRuntime.Date? = nil
+            updateTime: Foundation.Date? = nil
         )
         {
             self.calculatorName = calculatorName
@@ -5997,7 +6000,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6023,7 +6026,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6081,7 +6084,7 @@ public struct ListTrackerConsumersInput {
 
 extension ListTrackerConsumersOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTrackerConsumersOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTrackerConsumersOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6111,7 +6114,7 @@ public struct ListTrackerConsumersOutput {
 
 enum ListTrackerConsumersOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6161,7 +6164,7 @@ public struct ListTrackersInput {
 
 extension ListTrackersOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTrackersOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTrackersOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6191,7 +6194,7 @@ public struct ListTrackersOutput {
 
 enum ListTrackersOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6224,7 +6227,7 @@ extension LocationClientTypes {
     public struct ListTrackersResponseEntry {
         /// The timestamp for when the tracker resource was created in [ ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
         /// This member is required.
-        public var createTime: ClientRuntime.Date?
+        public var createTime: Foundation.Date?
         /// The description for the tracker resource.
         /// This member is required.
         public var description: Swift.String?
@@ -6233,13 +6236,13 @@ extension LocationClientTypes {
         public var trackerName: Swift.String?
         /// The timestamp at which the device's position was determined. Uses [ ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
         /// This member is required.
-        public var updateTime: ClientRuntime.Date?
+        public var updateTime: Foundation.Date?
 
         public init(
-            createTime: ClientRuntime.Date? = nil,
+            createTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
             trackerName: Swift.String? = nil,
-            updateTime: ClientRuntime.Date? = nil
+            updateTime: Foundation.Date? = nil
         )
         {
             self.createTime = createTime
@@ -6663,7 +6666,7 @@ public struct PutGeofenceInput {
 
 extension PutGeofenceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutGeofenceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutGeofenceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6678,18 +6681,18 @@ extension PutGeofenceOutput {
 public struct PutGeofenceOutput {
     /// The timestamp for when the geofence was created in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ
     /// This member is required.
-    public var createTime: ClientRuntime.Date?
+    public var createTime: Foundation.Date?
     /// The geofence identifier entered in the request.
     /// This member is required.
     public var geofenceId: Swift.String?
     /// The timestamp for when the geofence was last updated in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ
     /// This member is required.
-    public var updateTime: ClientRuntime.Date?
+    public var updateTime: Foundation.Date?
 
     public init(
-        createTime: ClientRuntime.Date? = nil,
+        createTime: Foundation.Date? = nil,
         geofenceId: Swift.String? = nil,
-        updateTime: ClientRuntime.Date? = nil
+        updateTime: Foundation.Date? = nil
     )
     {
         self.createTime = createTime
@@ -6700,7 +6703,7 @@ public struct PutGeofenceOutput {
 
 enum PutGeofenceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7030,10 +7033,10 @@ extension SearchPlaceIndexForPositionInput: Swift.CustomDebugStringConvertible {
 
 extension SearchPlaceIndexForPositionInput {
 
-    static func queryItemProvider(_ value: SearchPlaceIndexForPositionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: SearchPlaceIndexForPositionInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let key = value.key {
-            let keyQueryItem = ClientRuntime.SDKURLQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
+            let keyQueryItem = Smithy.URIQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
             items.append(keyQueryItem)
         }
         return items
@@ -7092,7 +7095,7 @@ public struct SearchPlaceIndexForPositionInput {
 
 extension SearchPlaceIndexForPositionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SearchPlaceIndexForPositionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SearchPlaceIndexForPositionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7123,7 +7126,7 @@ public struct SearchPlaceIndexForPositionOutput {
 
 enum SearchPlaceIndexForPositionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7203,10 +7206,10 @@ extension SearchPlaceIndexForSuggestionsInput: Swift.CustomDebugStringConvertibl
 
 extension SearchPlaceIndexForSuggestionsInput {
 
-    static func queryItemProvider(_ value: SearchPlaceIndexForSuggestionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: SearchPlaceIndexForSuggestionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let key = value.key {
-            let keyQueryItem = ClientRuntime.SDKURLQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
+            let keyQueryItem = Smithy.URIQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
             items.append(keyQueryItem)
         }
         return items
@@ -7287,7 +7290,7 @@ public struct SearchPlaceIndexForSuggestionsInput {
 
 extension SearchPlaceIndexForSuggestionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SearchPlaceIndexForSuggestionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SearchPlaceIndexForSuggestionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7318,7 +7321,7 @@ public struct SearchPlaceIndexForSuggestionsOutput {
 
 enum SearchPlaceIndexForSuggestionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7418,10 +7421,10 @@ extension SearchPlaceIndexForTextInput: Swift.CustomDebugStringConvertible {
 
 extension SearchPlaceIndexForTextInput {
 
-    static func queryItemProvider(_ value: SearchPlaceIndexForTextInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: SearchPlaceIndexForTextInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let key = value.key {
-            let keyQueryItem = ClientRuntime.SDKURLQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
+            let keyQueryItem = Smithy.URIQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
             items.append(keyQueryItem)
         }
         return items
@@ -7502,7 +7505,7 @@ public struct SearchPlaceIndexForTextInput {
 
 extension SearchPlaceIndexForTextOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SearchPlaceIndexForTextOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SearchPlaceIndexForTextOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7533,7 +7536,7 @@ public struct SearchPlaceIndexForTextOutput {
 
 enum SearchPlaceIndexForTextOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7808,7 +7811,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -7820,7 +7823,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8055,14 +8058,14 @@ extension LocationClientTypes {
 
 extension UntagResourceInput {
 
-    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let tagKeys = value.tagKeys else {
             let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
         tagKeys.forEach { queryItemValue in
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
             items.append(queryItem)
         }
         return items
@@ -8101,7 +8104,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -8113,7 +8116,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8166,7 +8169,7 @@ public struct UpdateGeofenceCollectionInput {
 
 extension UpdateGeofenceCollectionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateGeofenceCollectionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateGeofenceCollectionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8189,12 +8192,12 @@ public struct UpdateGeofenceCollectionOutput {
     public var collectionName: Swift.String?
     /// The time when the geofence collection was last updated in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ
     /// This member is required.
-    public var updateTime: ClientRuntime.Date?
+    public var updateTime: Foundation.Date?
 
     public init(
         collectionArn: Swift.String? = nil,
         collectionName: Swift.String? = nil,
-        updateTime: ClientRuntime.Date? = nil
+        updateTime: Foundation.Date? = nil
     )
     {
         self.collectionArn = collectionArn
@@ -8205,7 +8208,7 @@ public struct UpdateGeofenceCollectionOutput {
 
 enum UpdateGeofenceCollectionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8247,7 +8250,7 @@ public struct UpdateKeyInput {
     /// Updates the description for the API key resource.
     public var description: Swift.String?
     /// Updates the timestamp for when the API key resource will expire in [ ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
-    public var expireTime: ClientRuntime.Date?
+    public var expireTime: Foundation.Date?
     /// The boolean flag to be included for updating ExpireTime or Restrictions details. Must be set to true to update an API key resource that has been used in the past 7 days. False if force update is not preferred Default value: False
     public var forceUpdate: Swift.Bool?
     /// The name of the API key resource to update.
@@ -8260,7 +8263,7 @@ public struct UpdateKeyInput {
 
     public init(
         description: Swift.String? = nil,
-        expireTime: ClientRuntime.Date? = nil,
+        expireTime: Foundation.Date? = nil,
         forceUpdate: Swift.Bool? = nil,
         keyName: Swift.String? = nil,
         noExpiry: Swift.Bool? = nil,
@@ -8278,7 +8281,7 @@ public struct UpdateKeyInput {
 
 extension UpdateKeyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateKeyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateKeyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8301,12 +8304,12 @@ public struct UpdateKeyOutput {
     public var keyName: Swift.String?
     /// The timestamp for when the API key resource was last updated in [ ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
     /// This member is required.
-    public var updateTime: ClientRuntime.Date?
+    public var updateTime: Foundation.Date?
 
     public init(
         keyArn: Swift.String? = nil,
         keyName: Swift.String? = nil,
-        updateTime: ClientRuntime.Date? = nil
+        updateTime: Foundation.Date? = nil
     )
     {
         self.keyArn = keyArn
@@ -8317,7 +8320,7 @@ public struct UpdateKeyOutput {
 
 enum UpdateKeyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8375,7 +8378,7 @@ public struct UpdateMapInput {
 
 extension UpdateMapOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateMapOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateMapOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8398,12 +8401,12 @@ public struct UpdateMapOutput {
     public var mapName: Swift.String?
     /// The timestamp for when the map resource was last updated in [ ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
     /// This member is required.
-    public var updateTime: ClientRuntime.Date?
+    public var updateTime: Foundation.Date?
 
     public init(
         mapArn: Swift.String? = nil,
         mapName: Swift.String? = nil,
-        updateTime: ClientRuntime.Date? = nil
+        updateTime: Foundation.Date? = nil
     )
     {
         self.mapArn = mapArn
@@ -8414,7 +8417,7 @@ public struct UpdateMapOutput {
 
 enum UpdateMapOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8472,7 +8475,7 @@ public struct UpdatePlaceIndexInput {
 
 extension UpdatePlaceIndexOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdatePlaceIndexOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdatePlaceIndexOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8495,12 +8498,12 @@ public struct UpdatePlaceIndexOutput {
     public var indexName: Swift.String?
     /// The timestamp for when the place index resource was last updated in [ ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
     /// This member is required.
-    public var updateTime: ClientRuntime.Date?
+    public var updateTime: Foundation.Date?
 
     public init(
         indexArn: Swift.String? = nil,
         indexName: Swift.String? = nil,
-        updateTime: ClientRuntime.Date? = nil
+        updateTime: Foundation.Date? = nil
     )
     {
         self.indexArn = indexArn
@@ -8511,7 +8514,7 @@ public struct UpdatePlaceIndexOutput {
 
 enum UpdatePlaceIndexOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8564,7 +8567,7 @@ public struct UpdateRouteCalculatorInput {
 
 extension UpdateRouteCalculatorOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateRouteCalculatorOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateRouteCalculatorOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8587,12 +8590,12 @@ public struct UpdateRouteCalculatorOutput {
     public var calculatorName: Swift.String?
     /// The timestamp for when the route calculator was last updated in [ ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
     /// This member is required.
-    public var updateTime: ClientRuntime.Date?
+    public var updateTime: Foundation.Date?
 
     public init(
         calculatorArn: Swift.String? = nil,
         calculatorName: Swift.String? = nil,
-        updateTime: ClientRuntime.Date? = nil
+        updateTime: Foundation.Date? = nil
     )
     {
         self.calculatorArn = calculatorArn
@@ -8603,7 +8606,7 @@ public struct UpdateRouteCalculatorOutput {
 
 enum UpdateRouteCalculatorOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8677,7 +8680,7 @@ public struct UpdateTrackerInput {
 
 extension UpdateTrackerOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateTrackerOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateTrackerOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8700,12 +8703,12 @@ public struct UpdateTrackerOutput {
     public var trackerName: Swift.String?
     /// The timestamp for when the tracker resource was last updated in [ ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
     /// This member is required.
-    public var updateTime: ClientRuntime.Date?
+    public var updateTime: Foundation.Date?
 
     public init(
         trackerArn: Swift.String? = nil,
         trackerName: Swift.String? = nil,
-        updateTime: ClientRuntime.Date? = nil
+        updateTime: Foundation.Date? = nil
     )
     {
         self.trackerArn = trackerArn
@@ -8716,7 +8719,7 @@ public struct UpdateTrackerOutput {
 
 enum UpdateTrackerOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

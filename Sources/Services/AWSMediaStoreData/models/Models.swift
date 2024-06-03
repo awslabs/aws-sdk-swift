@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -67,7 +70,7 @@ public struct DeleteObjectInput {
 
 extension DeleteObjectOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteObjectOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteObjectOutput {
         return DeleteObjectOutput()
     }
 }
@@ -79,7 +82,7 @@ public struct DeleteObjectOutput {
 
 enum DeleteObjectOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -118,7 +121,7 @@ public struct DescribeObjectInput {
 
 extension DescribeObjectOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeObjectOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeObjectOutput {
         var value = DescribeObjectOutput()
         if let cacheControlHeaderValue = httpResponse.headers.value(for: "Cache-Control") {
             value.cacheControl = cacheControlHeaderValue
@@ -149,14 +152,14 @@ public struct DescribeObjectOutput {
     /// The ETag that represents a unique instance of the object.
     public var eTag: Swift.String?
     /// The date and time that the object was last modified.
-    public var lastModified: ClientRuntime.Date?
+    public var lastModified: Foundation.Date?
 
     public init(
         cacheControl: Swift.String? = nil,
         contentLength: Swift.Int? = nil,
         contentType: Swift.String? = nil,
         eTag: Swift.String? = nil,
-        lastModified: ClientRuntime.Date? = nil
+        lastModified: Foundation.Date? = nil
     )
     {
         self.cacheControl = cacheControl
@@ -169,7 +172,7 @@ public struct DescribeObjectOutput {
 
 enum DescribeObjectOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -185,8 +188,8 @@ enum DescribeObjectOutputError {
 
 extension GetObjectInput {
 
-    static func headerProvider(_ value: GetObjectInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetObjectInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let range = value.range {
             items.add(Header(name: "Range", value: Swift.String(range)))
         }
@@ -223,7 +226,7 @@ public struct GetObjectInput {
 
 extension GetObjectOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetObjectOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetObjectOutput {
         var value = GetObjectOutput()
         if let cacheControlHeaderValue = httpResponse.headers.value(for: "Cache-Control") {
             value.cacheControl = cacheControlHeaderValue
@@ -258,7 +261,7 @@ extension GetObjectOutput {
 
 public struct GetObjectOutput {
     /// The bytes of the object.
-    public var body: ClientRuntime.ByteStream?
+    public var body: Smithy.ByteStream?
     /// An optional CacheControl header that allows the caller to control the object's cache behavior. Headers can be passed in as specified in the HTTP spec at [https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9](https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9). Headers with a custom user-defined value are also accepted.
     public var cacheControl: Swift.String?
     /// The length of the object in bytes.
@@ -270,19 +273,19 @@ public struct GetObjectOutput {
     /// The ETag that represents a unique instance of the object.
     public var eTag: Swift.String?
     /// The date and time that the object was last modified.
-    public var lastModified: ClientRuntime.Date?
+    public var lastModified: Foundation.Date?
     /// The HTML status code of the request. Status codes ranging from 200 to 299 indicate success. All other status codes indicate the type of error that occurred.
     /// This member is required.
     public var statusCode: Swift.Int
 
     public init(
-        body: ClientRuntime.ByteStream? = nil,
+        body: Smithy.ByteStream? = nil,
         cacheControl: Swift.String? = nil,
         contentLength: Swift.Int? = nil,
         contentRange: Swift.String? = nil,
         contentType: Swift.String? = nil,
         eTag: Swift.String? = nil,
-        lastModified: ClientRuntime.Date? = nil,
+        lastModified: Foundation.Date? = nil,
         statusCode: Swift.Int = 0
     )
     {
@@ -299,7 +302,7 @@ public struct GetObjectOutput {
 
 enum GetObjectOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -376,7 +379,7 @@ extension MediaStoreDataClientTypes {
         /// The ETag that represents a unique instance of the item.
         public var eTag: Swift.String?
         /// The date and time that the item was last modified.
-        public var lastModified: ClientRuntime.Date?
+        public var lastModified: Foundation.Date?
         /// The name of the item.
         public var name: Swift.String?
         /// The item type (folder or object).
@@ -386,7 +389,7 @@ extension MediaStoreDataClientTypes {
             contentLength: Swift.Int? = nil,
             contentType: Swift.String? = nil,
             eTag: Swift.String? = nil,
-            lastModified: ClientRuntime.Date? = nil,
+            lastModified: Foundation.Date? = nil,
             name: Swift.String? = nil,
             type: MediaStoreDataClientTypes.ItemType? = nil
         )
@@ -433,18 +436,18 @@ extension MediaStoreDataClientTypes {
 
 extension ListItemsInput {
 
-    static func queryItemProvider(_ value: ListItemsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListItemsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let path = value.path {
-            let pathQueryItem = ClientRuntime.SDKURLQueryItem(name: "Path".urlPercentEncoding(), value: Swift.String(path).urlPercentEncoding())
+            let pathQueryItem = Smithy.URIQueryItem(name: "Path".urlPercentEncoding(), value: Swift.String(path).urlPercentEncoding())
             items.append(pathQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -480,7 +483,7 @@ public struct ListItemsInput {
 
 extension ListItemsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListItemsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListItemsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -509,7 +512,7 @@ public struct ListItemsOutput {
 
 enum ListItemsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -563,8 +566,8 @@ public struct ObjectNotFoundException: ClientRuntime.ModeledError, AWSClientRunt
 
 extension PutObjectInput {
 
-    static func headerProvider(_ value: PutObjectInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PutObjectInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let cacheControl = value.cacheControl {
             items.add(Header(name: "Cache-Control", value: Swift.String(cacheControl)))
         }
@@ -602,7 +605,7 @@ extension PutObjectInput {
 public struct PutObjectInput {
     /// The bytes to be stored.
     /// This member is required.
-    public var body: ClientRuntime.ByteStream?
+    public var body: Smithy.ByteStream?
     /// An optional CacheControl header that allows the caller to control the object's cache behavior. Headers can be passed in as specified in the HTTP at [https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9](https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9). Headers with a custom user-defined value are also accepted.
     public var cacheControl: Swift.String?
     /// The content type of the object.
@@ -616,7 +619,7 @@ public struct PutObjectInput {
     public var uploadAvailability: MediaStoreDataClientTypes.UploadAvailability?
 
     public init(
-        body: ClientRuntime.ByteStream? = nil,
+        body: Smithy.ByteStream? = nil,
         cacheControl: Swift.String? = nil,
         contentType: Swift.String? = nil,
         path: Swift.String? = nil,
@@ -635,7 +638,7 @@ public struct PutObjectInput {
 
 extension PutObjectOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutObjectOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutObjectOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -669,7 +672,7 @@ public struct PutObjectOutput {
 
 enum PutObjectOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

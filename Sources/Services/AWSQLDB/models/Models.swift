@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -38,7 +41,7 @@ public struct CancelJournalKinesisStreamInput {
 
 extension CancelJournalKinesisStreamOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CancelJournalKinesisStreamOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CancelJournalKinesisStreamOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -62,7 +65,7 @@ public struct CancelJournalKinesisStreamOutput {
 
 enum CancelJournalKinesisStreamOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -154,7 +157,7 @@ public struct CreateLedgerInput {
 
 extension CreateLedgerOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateLedgerOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateLedgerOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -174,7 +177,7 @@ public struct CreateLedgerOutput {
     /// The Amazon Resource Name (ARN) for the ledger.
     public var arn: Swift.String?
     /// The date and time, in epoch time format, when the ledger was created. (Epoch time format is the number of seconds elapsed since 12:00:00 AM January 1, 1970 UTC.)
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// Specifies whether the ledger is protected from being deleted by any user. If not defined during ledger creation, this feature is enabled (true) by default. If deletion protection is enabled, you must first disable it before you can delete the ledger. You can disable it by calling the UpdateLedger operation to set this parameter to false.
     public var deletionProtection: Swift.Bool?
     /// The ARN of the customer managed KMS key that the ledger uses for encryption at rest. If this parameter is undefined, the ledger uses an Amazon Web Services owned KMS key for encryption.
@@ -188,7 +191,7 @@ public struct CreateLedgerOutput {
 
     public init(
         arn: Swift.String? = nil,
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         deletionProtection: Swift.Bool? = nil,
         kmsKeyArn: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -208,7 +211,7 @@ public struct CreateLedgerOutput {
 
 enum CreateLedgerOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -248,7 +251,7 @@ public struct DeleteLedgerInput {
 
 extension DeleteLedgerOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteLedgerOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteLedgerOutput {
         return DeleteLedgerOutput()
     }
 }
@@ -260,7 +263,7 @@ public struct DeleteLedgerOutput {
 
 enum DeleteLedgerOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -308,7 +311,7 @@ public struct DescribeJournalKinesisStreamInput {
 
 extension DescribeJournalKinesisStreamOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeJournalKinesisStreamOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeJournalKinesisStreamOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -332,7 +335,7 @@ public struct DescribeJournalKinesisStreamOutput {
 
 enum DescribeJournalKinesisStreamOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -379,7 +382,7 @@ public struct DescribeJournalS3ExportInput {
 
 extension DescribeJournalS3ExportOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeJournalS3ExportOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeJournalS3ExportOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -404,7 +407,7 @@ public struct DescribeJournalS3ExportOutput {
 
 enum DescribeJournalS3ExportOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -441,7 +444,7 @@ public struct DescribeLedgerInput {
 
 extension DescribeLedgerOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeLedgerOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeLedgerOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -461,7 +464,7 @@ public struct DescribeLedgerOutput {
     /// The Amazon Resource Name (ARN) for the ledger.
     public var arn: Swift.String?
     /// The date and time, in epoch time format, when the ledger was created. (Epoch time format is the number of seconds elapsed since 12:00:00 AM January 1, 1970 UTC.)
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// Specifies whether the ledger is protected from being deleted by any user. If not defined during ledger creation, this feature is enabled (true) by default. If deletion protection is enabled, you must first disable it before you can delete the ledger. You can disable it by calling the UpdateLedger operation to set this parameter to false.
     public var deletionProtection: Swift.Bool?
     /// Information about the encryption of data at rest in the ledger. This includes the current status, the KMS key, and when the key became inaccessible (in the case of an error). If this parameter is undefined, the ledger uses an Amazon Web Services owned KMS key for encryption.
@@ -475,7 +478,7 @@ public struct DescribeLedgerOutput {
 
     public init(
         arn: Swift.String? = nil,
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         deletionProtection: Swift.Bool? = nil,
         encryptionDescription: QLDBClientTypes.LedgerEncryptionDescription? = nil,
         name: Swift.String? = nil,
@@ -495,7 +498,7 @@ public struct DescribeLedgerOutput {
 
 enum DescribeLedgerOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -594,10 +597,10 @@ extension ExportJournalToS3Input {
 public struct ExportJournalToS3Input {
     /// The exclusive end date and time for the range of journal contents to export. The ExclusiveEndTime must be in ISO 8601 date and time format and in Universal Coordinated Time (UTC). For example: 2019-06-13T21:36:34Z. The ExclusiveEndTime must be less than or equal to the current UTC date and time.
     /// This member is required.
-    public var exclusiveEndTime: ClientRuntime.Date?
+    public var exclusiveEndTime: Foundation.Date?
     /// The inclusive start date and time for the range of journal contents to export. The InclusiveStartTime must be in ISO 8601 date and time format and in Universal Coordinated Time (UTC). For example: 2019-06-13T21:36:34Z. The InclusiveStartTime must be before ExclusiveEndTime. If you provide an InclusiveStartTime that is before the ledger's CreationDateTime, Amazon QLDB defaults it to the ledger's CreationDateTime.
     /// This member is required.
-    public var inclusiveStartTime: ClientRuntime.Date?
+    public var inclusiveStartTime: Foundation.Date?
     /// The name of the ledger.
     /// This member is required.
     public var name: Swift.String?
@@ -618,8 +621,8 @@ public struct ExportJournalToS3Input {
     public var s3ExportConfiguration: QLDBClientTypes.S3ExportConfiguration?
 
     public init(
-        exclusiveEndTime: ClientRuntime.Date? = nil,
-        inclusiveStartTime: ClientRuntime.Date? = nil,
+        exclusiveEndTime: Foundation.Date? = nil,
+        inclusiveStartTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
         outputFormat: QLDBClientTypes.OutputFormat? = nil,
         roleArn: Swift.String? = nil,
@@ -637,7 +640,7 @@ public struct ExportJournalToS3Input {
 
 extension ExportJournalToS3Output {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ExportJournalToS3Output {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ExportJournalToS3Output {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -662,7 +665,7 @@ public struct ExportJournalToS3Output {
 
 enum ExportJournalToS3OutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -760,7 +763,7 @@ extension GetBlockOutput: Swift.CustomDebugStringConvertible {
 
 extension GetBlockOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBlockOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetBlockOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -790,7 +793,7 @@ public struct GetBlockOutput {
 
 enum GetBlockOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -834,7 +837,7 @@ extension GetDigestOutput: Swift.CustomDebugStringConvertible {
 
 extension GetDigestOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetDigestOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetDigestOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -848,13 +851,13 @@ extension GetDigestOutput {
 public struct GetDigestOutput {
     /// The 256-bit hash value representing the digest returned by a GetDigest request.
     /// This member is required.
-    public var digest: ClientRuntime.Data?
+    public var digest: Foundation.Data?
     /// The latest block location covered by the digest that you requested. An address is an Amazon Ion structure that has two fields: strandId and sequenceNo.
     /// This member is required.
     public var digestTipAddress: QLDBClientTypes.ValueHolder?
 
     public init(
-        digest: ClientRuntime.Data? = nil,
+        digest: Foundation.Data? = nil,
         digestTipAddress: QLDBClientTypes.ValueHolder? = nil
     )
     {
@@ -865,7 +868,7 @@ public struct GetDigestOutput {
 
 enum GetDigestOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -938,7 +941,7 @@ extension GetRevisionOutput: Swift.CustomDebugStringConvertible {
 
 extension GetRevisionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetRevisionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetRevisionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -968,7 +971,7 @@ public struct GetRevisionOutput {
 
 enum GetRevisionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1050,13 +1053,13 @@ extension QLDBClientTypes {
         /// The Amazon Resource Name (ARN) of the QLDB journal stream.
         public var arn: Swift.String?
         /// The date and time, in epoch time format, when the QLDB journal stream was created. (Epoch time format is the number of seconds elapsed since 12:00:00 AM January 1, 1970 UTC.)
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The error message that describes the reason that a stream has a status of IMPAIRED or FAILED. This is not applicable to streams that have other status values.
         public var errorCause: QLDBClientTypes.ErrorCause?
         /// The exclusive date and time that specifies when the stream ends. If this parameter is undefined, the stream runs indefinitely until you cancel it.
-        public var exclusiveEndTime: ClientRuntime.Date?
+        public var exclusiveEndTime: Foundation.Date?
         /// The inclusive start date and time from which to start streaming journal data.
-        public var inclusiveStartTime: ClientRuntime.Date?
+        public var inclusiveStartTime: Foundation.Date?
         /// The configuration settings of the Amazon Kinesis Data Streams destination for a QLDB journal stream.
         /// This member is required.
         public var kinesisConfiguration: QLDBClientTypes.KinesisConfiguration?
@@ -1078,10 +1081,10 @@ extension QLDBClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             errorCause: QLDBClientTypes.ErrorCause? = nil,
-            exclusiveEndTime: ClientRuntime.Date? = nil,
-            inclusiveStartTime: ClientRuntime.Date? = nil,
+            exclusiveEndTime: Foundation.Date? = nil,
+            inclusiveStartTime: Foundation.Date? = nil,
             kinesisConfiguration: QLDBClientTypes.KinesisConfiguration? = nil,
             ledgerName: Swift.String? = nil,
             roleArn: Swift.String? = nil,
@@ -1129,16 +1132,16 @@ extension QLDBClientTypes {
     public struct JournalS3ExportDescription {
         /// The exclusive end date and time for the range of journal contents that was specified in the original export request.
         /// This member is required.
-        public var exclusiveEndTime: ClientRuntime.Date?
+        public var exclusiveEndTime: Foundation.Date?
         /// The date and time, in epoch time format, when the export job was created. (Epoch time format is the number of seconds elapsed since 12:00:00 AM January 1, 1970 UTC.)
         /// This member is required.
-        public var exportCreationTime: ClientRuntime.Date?
+        public var exportCreationTime: Foundation.Date?
         /// The UUID (represented in Base62-encoded text) of the journal export job.
         /// This member is required.
         public var exportId: Swift.String?
         /// The inclusive start date and time for the range of journal contents that was specified in the original export request.
         /// This member is required.
-        public var inclusiveStartTime: ClientRuntime.Date?
+        public var inclusiveStartTime: Foundation.Date?
         /// The name of the ledger.
         /// This member is required.
         public var ledgerName: Swift.String?
@@ -1159,10 +1162,10 @@ extension QLDBClientTypes {
         public var status: QLDBClientTypes.ExportStatus?
 
         public init(
-            exclusiveEndTime: ClientRuntime.Date? = nil,
-            exportCreationTime: ClientRuntime.Date? = nil,
+            exclusiveEndTime: Foundation.Date? = nil,
+            exportCreationTime: Foundation.Date? = nil,
             exportId: Swift.String? = nil,
-            inclusiveStartTime: ClientRuntime.Date? = nil,
+            inclusiveStartTime: Foundation.Date? = nil,
             ledgerName: Swift.String? = nil,
             outputFormat: QLDBClientTypes.OutputFormat? = nil,
             roleArn: Swift.String? = nil,
@@ -1247,14 +1250,14 @@ extension QLDBClientTypes {
         /// This member is required.
         public var encryptionStatus: QLDBClientTypes.EncryptionStatus?
         /// The date and time, in epoch time format, when the KMS key first became inaccessible, in the case of an error. (Epoch time format is the number of seconds that have elapsed since 12:00:00 AM January 1, 1970 UTC.) This parameter is undefined if the KMS key is accessible.
-        public var inaccessibleKmsKeyDateTime: ClientRuntime.Date?
+        public var inaccessibleKmsKeyDateTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the customer managed KMS key that the ledger uses for encryption at rest. If this parameter is undefined, the ledger uses an Amazon Web Services owned KMS key for encryption. It will display AWS_OWNED_KMS_KEY when updating the ledger's encryption configuration to the Amazon Web Services owned KMS key.
         /// This member is required.
         public var kmsKeyArn: Swift.String?
 
         public init(
             encryptionStatus: QLDBClientTypes.EncryptionStatus? = nil,
-            inaccessibleKmsKeyDateTime: ClientRuntime.Date? = nil,
+            inaccessibleKmsKeyDateTime: Foundation.Date? = nil,
             kmsKeyArn: Swift.String? = nil
         )
         {
@@ -1317,14 +1320,14 @@ extension QLDBClientTypes {
     /// Information about a ledger, including its name, state, and when it was created.
     public struct LedgerSummary {
         /// The date and time, in epoch time format, when the ledger was created. (Epoch time format is the number of seconds elapsed since 12:00:00 AM January 1, 1970 UTC.)
-        public var creationDateTime: ClientRuntime.Date?
+        public var creationDateTime: Foundation.Date?
         /// The name of the ledger.
         public var name: Swift.String?
         /// The current status of the ledger.
         public var state: QLDBClientTypes.LedgerState?
 
         public init(
-            creationDateTime: ClientRuntime.Date? = nil,
+            creationDateTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             state: QLDBClientTypes.LedgerState? = nil
         )
@@ -1381,14 +1384,14 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
 extension ListJournalKinesisStreamsForLedgerInput {
 
-    static func queryItemProvider(_ value: ListJournalKinesisStreamsForLedgerInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListJournalKinesisStreamsForLedgerInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next_token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next_token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -1428,7 +1431,7 @@ public struct ListJournalKinesisStreamsForLedgerInput {
 
 extension ListJournalKinesisStreamsForLedgerOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListJournalKinesisStreamsForLedgerOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListJournalKinesisStreamsForLedgerOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1459,7 +1462,7 @@ public struct ListJournalKinesisStreamsForLedgerOutput {
 
 enum ListJournalKinesisStreamsForLedgerOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1475,14 +1478,14 @@ enum ListJournalKinesisStreamsForLedgerOutputError {
 
 extension ListJournalS3ExportsForLedgerInput {
 
-    static func queryItemProvider(_ value: ListJournalS3ExportsForLedgerInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListJournalS3ExportsForLedgerInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next_token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next_token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -1522,7 +1525,7 @@ public struct ListJournalS3ExportsForLedgerInput {
 
 extension ListJournalS3ExportsForLedgerOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListJournalS3ExportsForLedgerOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListJournalS3ExportsForLedgerOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1553,7 +1556,7 @@ public struct ListJournalS3ExportsForLedgerOutput {
 
 enum ListJournalS3ExportsForLedgerOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1566,14 +1569,14 @@ enum ListJournalS3ExportsForLedgerOutputError {
 
 extension ListJournalS3ExportsInput {
 
-    static func queryItemProvider(_ value: ListJournalS3ExportsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListJournalS3ExportsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next_token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next_token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -1605,7 +1608,7 @@ public struct ListJournalS3ExportsInput {
 
 extension ListJournalS3ExportsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListJournalS3ExportsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListJournalS3ExportsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1636,7 +1639,7 @@ public struct ListJournalS3ExportsOutput {
 
 enum ListJournalS3ExportsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1649,14 +1652,14 @@ enum ListJournalS3ExportsOutputError {
 
 extension ListLedgersInput {
 
-    static func queryItemProvider(_ value: ListLedgersInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListLedgersInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next_token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next_token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -1688,7 +1691,7 @@ public struct ListLedgersInput {
 
 extension ListLedgersOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListLedgersOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListLedgersOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1721,7 +1724,7 @@ public struct ListLedgersOutput {
 
 enum ListLedgersOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1757,7 +1760,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1781,7 +1784,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2192,10 +2195,10 @@ extension StreamJournalToKinesisInput {
 
 public struct StreamJournalToKinesisInput {
     /// The exclusive date and time that specifies when the stream ends. If you don't define this parameter, the stream runs indefinitely until you cancel it. The ExclusiveEndTime must be in ISO 8601 date and time format and in Universal Coordinated Time (UTC). For example: 2019-06-13T21:36:34Z.
-    public var exclusiveEndTime: ClientRuntime.Date?
+    public var exclusiveEndTime: Foundation.Date?
     /// The inclusive start date and time from which to start streaming journal data. This parameter must be in ISO 8601 date and time format and in Universal Coordinated Time (UTC). For example: 2019-06-13T21:36:34Z. The InclusiveStartTime cannot be in the future and must be before ExclusiveEndTime. If you provide an InclusiveStartTime that is before the ledger's CreationDateTime, QLDB effectively defaults it to the ledger's CreationDateTime.
     /// This member is required.
-    public var inclusiveStartTime: ClientRuntime.Date?
+    public var inclusiveStartTime: Foundation.Date?
     /// The configuration settings of the Kinesis Data Streams destination for your stream request.
     /// This member is required.
     public var kinesisConfiguration: QLDBClientTypes.KinesisConfiguration?
@@ -2212,8 +2215,8 @@ public struct StreamJournalToKinesisInput {
     public var tags: [Swift.String:Swift.String?]?
 
     public init(
-        exclusiveEndTime: ClientRuntime.Date? = nil,
-        inclusiveStartTime: ClientRuntime.Date? = nil,
+        exclusiveEndTime: Foundation.Date? = nil,
+        inclusiveStartTime: Foundation.Date? = nil,
         kinesisConfiguration: QLDBClientTypes.KinesisConfiguration? = nil,
         ledgerName: Swift.String? = nil,
         roleArn: Swift.String? = nil,
@@ -2233,7 +2236,7 @@ public struct StreamJournalToKinesisInput {
 
 extension StreamJournalToKinesisOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StreamJournalToKinesisOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StreamJournalToKinesisOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2257,7 +2260,7 @@ public struct StreamJournalToKinesisOutput {
 
 enum StreamJournalToKinesisOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2347,7 +2350,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -2359,7 +2362,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2374,14 +2377,14 @@ enum TagResourceOutputError {
 
 extension UntagResourceInput {
 
-    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let tagKeys = value.tagKeys else {
             let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
         tagKeys.forEach { queryItemValue in
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
             items.append(queryItem)
         }
         return items
@@ -2418,7 +2421,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -2430,7 +2433,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2505,7 +2508,7 @@ public struct UpdateLedgerInput {
 
 extension UpdateLedgerOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateLedgerOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateLedgerOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2524,7 +2527,7 @@ public struct UpdateLedgerOutput {
     /// The Amazon Resource Name (ARN) for the ledger.
     public var arn: Swift.String?
     /// The date and time, in epoch time format, when the ledger was created. (Epoch time format is the number of seconds elapsed since 12:00:00 AM January 1, 1970 UTC.)
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// Specifies whether the ledger is protected from being deleted by any user. If not defined during ledger creation, this feature is enabled (true) by default. If deletion protection is enabled, you must first disable it before you can delete the ledger. You can disable it by calling the UpdateLedger operation to set this parameter to false.
     public var deletionProtection: Swift.Bool?
     /// Information about the encryption of data at rest in the ledger. This includes the current status, the KMS key, and when the key became inaccessible (in the case of an error).
@@ -2536,7 +2539,7 @@ public struct UpdateLedgerOutput {
 
     public init(
         arn: Swift.String? = nil,
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         deletionProtection: Swift.Bool? = nil,
         encryptionDescription: QLDBClientTypes.LedgerEncryptionDescription? = nil,
         name: Swift.String? = nil,
@@ -2554,7 +2557,7 @@ public struct UpdateLedgerOutput {
 
 enum UpdateLedgerOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2612,7 +2615,7 @@ public struct UpdateLedgerPermissionsModeInput {
 
 extension UpdateLedgerPermissionsModeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateLedgerPermissionsModeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateLedgerPermissionsModeOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2646,7 +2649,7 @@ public struct UpdateLedgerPermissionsModeOutput {
 
 enum UpdateLedgerPermissionsModeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

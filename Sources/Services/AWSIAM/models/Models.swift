@@ -2,7 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
 import SmithyFormURL
+import SmithyHTTPAPI
 import SmithyReadWrite
 import SmithyXML
 
@@ -56,7 +58,7 @@ extension IAMClientTypes {
         /// The path of the Organizations entity (root, organizational unit, or account) from which an authenticated principal last attempted to access the service. Amazon Web Services does not report unauthenticated requests. This field is null if no principals (IAM users, IAM roles, or root user) in the reported Organizations entity attempted to access the service within the [tracking period](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period).
         public var entityPath: Swift.String?
         /// The date and time, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601), when an authenticated principal most recently attempted to access the service. Amazon Web Services does not report unauthenticated requests. This field is null if no principals in the reported Organizations entity attempted to access the service within the [tracking period](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period).
-        public var lastAuthenticatedTime: ClientRuntime.Date?
+        public var lastAuthenticatedTime: Foundation.Date?
         /// The Region where the last service access attempt occurred. This field is null if no principals in the reported Organizations entity attempted to access the service within the [tracking period](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period).
         public var region: Swift.String?
         /// The name of the service in which access was attempted.
@@ -70,7 +72,7 @@ extension IAMClientTypes {
 
         public init(
             entityPath: Swift.String? = nil,
-            lastAuthenticatedTime: ClientRuntime.Date? = nil,
+            lastAuthenticatedTime: Foundation.Date? = nil,
             region: Swift.String? = nil,
             serviceName: Swift.String? = nil,
             serviceNamespace: Swift.String? = nil,
@@ -114,7 +116,7 @@ extension IAMClientTypes {
         /// This member is required.
         public var accessKeyId: Swift.String?
         /// The date when the access key was created.
-        public var createDate: ClientRuntime.Date?
+        public var createDate: Foundation.Date?
         /// The secret key used to sign requests.
         /// This member is required.
         public var secretAccessKey: Swift.String?
@@ -127,7 +129,7 @@ extension IAMClientTypes {
 
         public init(
             accessKeyId: Swift.String? = nil,
-            createDate: ClientRuntime.Date? = nil,
+            createDate: Foundation.Date? = nil,
             secretAccessKey: Swift.String? = nil,
             status: IAMClientTypes.StatusType? = nil,
             userName: Swift.String? = nil
@@ -166,7 +168,7 @@ extension IAMClientTypes {
         ///
         /// * There is no sign-in data associated with the user.
         /// This member is required.
-        public var lastUsedDate: ClientRuntime.Date?
+        public var lastUsedDate: Foundation.Date?
         /// The Amazon Web Services Region where this access key was most recently used. The value for this field is "N/A" in the following situations:
         ///
         /// * The user does not have an access key.
@@ -190,7 +192,7 @@ extension IAMClientTypes {
         public var serviceName: Swift.String?
 
         public init(
-            lastUsedDate: ClientRuntime.Date? = nil,
+            lastUsedDate: Foundation.Date? = nil,
             region: Swift.String? = nil,
             serviceName: Swift.String? = nil
         )
@@ -222,7 +224,7 @@ extension IAMClientTypes {
         /// The ID for this access key.
         public var accessKeyId: Swift.String?
         /// The date when the access key was created.
-        public var createDate: ClientRuntime.Date?
+        public var createDate: Foundation.Date?
         /// The status of the access key. Active means that the key is valid for API calls; Inactive means it is not.
         public var status: IAMClientTypes.StatusType?
         /// The name of the IAM user that the key is associated with.
@@ -230,7 +232,7 @@ extension IAMClientTypes {
 
         public init(
             accessKeyId: Swift.String? = nil,
-            createDate: ClientRuntime.Date? = nil,
+            createDate: Foundation.Date? = nil,
             status: IAMClientTypes.StatusType? = nil,
             userName: Swift.String? = nil
         )
@@ -282,7 +284,7 @@ public struct AddClientIDToOpenIDConnectProviderInput {
 
 extension AddClientIDToOpenIDConnectProviderOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AddClientIDToOpenIDConnectProviderOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AddClientIDToOpenIDConnectProviderOutput {
         return AddClientIDToOpenIDConnectProviderOutput()
     }
 }
@@ -294,7 +296,7 @@ public struct AddClientIDToOpenIDConnectProviderOutput {
 
 enum AddClientIDToOpenIDConnectProviderOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -347,7 +349,7 @@ public struct AddRoleToInstanceProfileInput {
 
 extension AddRoleToInstanceProfileOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AddRoleToInstanceProfileOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AddRoleToInstanceProfileOutput {
         return AddRoleToInstanceProfileOutput()
     }
 }
@@ -359,7 +361,7 @@ public struct AddRoleToInstanceProfileOutput {
 
 enum AddRoleToInstanceProfileOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -413,7 +415,7 @@ public struct AddUserToGroupInput {
 
 extension AddUserToGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AddUserToGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AddUserToGroupOutput {
         return AddUserToGroupOutput()
     }
 }
@@ -425,7 +427,7 @@ public struct AddUserToGroupOutput {
 
 enum AddUserToGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -509,7 +511,7 @@ public struct AttachGroupPolicyInput {
 
 extension AttachGroupPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AttachGroupPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AttachGroupPolicyOutput {
         return AttachGroupPolicyOutput()
     }
 }
@@ -521,7 +523,7 @@ public struct AttachGroupPolicyOutput {
 
 enum AttachGroupPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -575,7 +577,7 @@ public struct AttachRolePolicyInput {
 
 extension AttachRolePolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AttachRolePolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AttachRolePolicyOutput {
         return AttachRolePolicyOutput()
     }
 }
@@ -587,7 +589,7 @@ public struct AttachRolePolicyOutput {
 
 enum AttachRolePolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -642,7 +644,7 @@ public struct AttachUserPolicyInput {
 
 extension AttachUserPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AttachUserPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AttachUserPolicyOutput {
         return AttachUserPolicyOutput()
     }
 }
@@ -654,7 +656,7 @@ public struct AttachUserPolicyOutput {
 
 enum AttachUserPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -775,7 +777,7 @@ public struct ChangePasswordInput {
 
 extension ChangePasswordOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ChangePasswordOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ChangePasswordOutput {
         return ChangePasswordOutput()
     }
 }
@@ -787,7 +789,7 @@ public struct ChangePasswordOutput {
 
 enum ChangePasswordOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -965,7 +967,7 @@ public struct CreateAccessKeyInput {
 
 extension CreateAccessKeyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateAccessKeyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateAccessKeyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateAccessKeyResult"]
@@ -991,7 +993,7 @@ public struct CreateAccessKeyOutput {
 
 enum CreateAccessKeyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1037,7 +1039,7 @@ public struct CreateAccountAliasInput {
 
 extension CreateAccountAliasOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateAccountAliasOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateAccountAliasOutput {
         return CreateAccountAliasOutput()
     }
 }
@@ -1049,7 +1051,7 @@ public struct CreateAccountAliasOutput {
 
 enum CreateAccountAliasOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1101,7 +1103,7 @@ public struct CreateGroupInput {
 
 extension CreateGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateGroupResult"]
@@ -1127,7 +1129,7 @@ public struct CreateGroupOutput {
 
 enum CreateGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1184,7 +1186,7 @@ public struct CreateInstanceProfileInput {
 
 extension CreateInstanceProfileOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateInstanceProfileOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateInstanceProfileOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateInstanceProfileResult"]
@@ -1210,7 +1212,7 @@ public struct CreateInstanceProfileOutput {
 
 enum CreateInstanceProfileOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1274,7 +1276,7 @@ public struct CreateLoginProfileInput {
 
 extension CreateLoginProfileOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateLoginProfileOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateLoginProfileOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateLoginProfileResult"]
@@ -1300,7 +1302,7 @@ public struct CreateLoginProfileOutput {
 
 enum CreateLoginProfileOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1363,7 +1365,7 @@ public struct CreateOpenIDConnectProviderInput {
 
 extension CreateOpenIDConnectProviderOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateOpenIDConnectProviderOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateOpenIDConnectProviderOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateOpenIDConnectProviderResult"]
@@ -1393,7 +1395,7 @@ public struct CreateOpenIDConnectProviderOutput {
 
 enum CreateOpenIDConnectProviderOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1469,7 +1471,7 @@ public struct CreatePolicyInput {
 
 extension CreatePolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreatePolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreatePolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreatePolicyResult"]
@@ -1494,7 +1496,7 @@ public struct CreatePolicyOutput {
 
 enum CreatePolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1560,7 +1562,7 @@ public struct CreatePolicyVersionInput {
 
 extension CreatePolicyVersionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreatePolicyVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreatePolicyVersionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreatePolicyVersionResult"]
@@ -1585,7 +1587,7 @@ public struct CreatePolicyVersionOutput {
 
 enum CreatePolicyVersionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1673,7 +1675,7 @@ public struct CreateRoleInput {
 
 extension CreateRoleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateRoleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateRoleOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateRoleResult"]
@@ -1699,7 +1701,7 @@ public struct CreateRoleOutput {
 
 enum CreateRoleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1759,7 +1761,7 @@ public struct CreateSAMLProviderInput {
 
 extension CreateSAMLProviderOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateSAMLProviderOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateSAMLProviderOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateSAMLProviderResult"]
@@ -1789,7 +1791,7 @@ public struct CreateSAMLProviderOutput {
 
 enum CreateSAMLProviderOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1847,7 +1849,7 @@ public struct CreateServiceLinkedRoleInput {
 
 extension CreateServiceLinkedRoleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateServiceLinkedRoleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateServiceLinkedRoleOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateServiceLinkedRoleResult"]
@@ -1871,7 +1873,7 @@ public struct CreateServiceLinkedRoleOutput {
 
 enum CreateServiceLinkedRoleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1924,7 +1926,7 @@ public struct CreateServiceSpecificCredentialInput {
 
 extension CreateServiceSpecificCredentialOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateServiceSpecificCredentialOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateServiceSpecificCredentialOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateServiceSpecificCredentialResult"]
@@ -1948,7 +1950,7 @@ public struct CreateServiceSpecificCredentialOutput {
 
 enum CreateServiceSpecificCredentialOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2009,7 +2011,7 @@ public struct CreateUserInput {
 
 extension CreateUserOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateUserOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateUserOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateUserResult"]
@@ -2034,7 +2036,7 @@ public struct CreateUserOutput {
 
 enum CreateUserOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2093,7 +2095,7 @@ public struct CreateVirtualMFADeviceInput {
 
 extension CreateVirtualMFADeviceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateVirtualMFADeviceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateVirtualMFADeviceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateVirtualMFADeviceResult"]
@@ -2119,7 +2121,7 @@ public struct CreateVirtualMFADeviceOutput {
 
 enum CreateVirtualMFADeviceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2284,7 +2286,7 @@ public struct DeactivateMFADeviceInput {
 
 extension DeactivateMFADeviceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeactivateMFADeviceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeactivateMFADeviceOutput {
         return DeactivateMFADeviceOutput()
     }
 }
@@ -2296,7 +2298,7 @@ public struct DeactivateMFADeviceOutput {
 
 enum DeactivateMFADeviceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2349,7 +2351,7 @@ public struct DeleteAccessKeyInput {
 
 extension DeleteAccessKeyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteAccessKeyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteAccessKeyOutput {
         return DeleteAccessKeyOutput()
     }
 }
@@ -2361,7 +2363,7 @@ public struct DeleteAccessKeyOutput {
 
 enum DeleteAccessKeyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2407,7 +2409,7 @@ public struct DeleteAccountAliasInput {
 
 extension DeleteAccountAliasOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteAccountAliasOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteAccountAliasOutput {
         return DeleteAccountAliasOutput()
     }
 }
@@ -2419,7 +2421,7 @@ public struct DeleteAccountAliasOutput {
 
 enum DeleteAccountAliasOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2458,7 +2460,7 @@ public struct DeleteAccountPasswordPolicyInput {
 
 extension DeleteAccountPasswordPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteAccountPasswordPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteAccountPasswordPolicyOutput {
         return DeleteAccountPasswordPolicyOutput()
     }
 }
@@ -2470,7 +2472,7 @@ public struct DeleteAccountPasswordPolicyOutput {
 
 enum DeleteAccountPasswordPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2553,7 +2555,7 @@ public struct DeleteGroupInput {
 
 extension DeleteGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteGroupOutput {
         return DeleteGroupOutput()
     }
 }
@@ -2565,7 +2567,7 @@ public struct DeleteGroupOutput {
 
 enum DeleteGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2618,7 +2620,7 @@ public struct DeleteGroupPolicyInput {
 
 extension DeleteGroupPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteGroupPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteGroupPolicyOutput {
         return DeleteGroupPolicyOutput()
     }
 }
@@ -2630,7 +2632,7 @@ public struct DeleteGroupPolicyOutput {
 
 enum DeleteGroupPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2676,7 +2678,7 @@ public struct DeleteInstanceProfileInput {
 
 extension DeleteInstanceProfileOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteInstanceProfileOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteInstanceProfileOutput {
         return DeleteInstanceProfileOutput()
     }
 }
@@ -2688,7 +2690,7 @@ public struct DeleteInstanceProfileOutput {
 
 enum DeleteInstanceProfileOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2735,7 +2737,7 @@ public struct DeleteLoginProfileInput {
 
 extension DeleteLoginProfileOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteLoginProfileOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteLoginProfileOutput {
         return DeleteLoginProfileOutput()
     }
 }
@@ -2747,7 +2749,7 @@ public struct DeleteLoginProfileOutput {
 
 enum DeleteLoginProfileOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2794,7 +2796,7 @@ public struct DeleteOpenIDConnectProviderInput {
 
 extension DeleteOpenIDConnectProviderOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteOpenIDConnectProviderOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteOpenIDConnectProviderOutput {
         return DeleteOpenIDConnectProviderOutput()
     }
 }
@@ -2806,7 +2808,7 @@ public struct DeleteOpenIDConnectProviderOutput {
 
 enum DeleteOpenIDConnectProviderOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2852,7 +2854,7 @@ public struct DeletePolicyInput {
 
 extension DeletePolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeletePolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeletePolicyOutput {
         return DeletePolicyOutput()
     }
 }
@@ -2864,7 +2866,7 @@ public struct DeletePolicyOutput {
 
 enum DeletePolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2918,7 +2920,7 @@ public struct DeletePolicyVersionInput {
 
 extension DeletePolicyVersionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeletePolicyVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeletePolicyVersionOutput {
         return DeletePolicyVersionOutput()
     }
 }
@@ -2930,7 +2932,7 @@ public struct DeletePolicyVersionOutput {
 
 enum DeletePolicyVersionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2978,7 +2980,7 @@ public struct DeleteRoleInput {
 
 extension DeleteRoleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteRoleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteRoleOutput {
         return DeleteRoleOutput()
     }
 }
@@ -2990,7 +2992,7 @@ public struct DeleteRoleOutput {
 
 enum DeleteRoleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3039,7 +3041,7 @@ public struct DeleteRolePermissionsBoundaryInput {
 
 extension DeleteRolePermissionsBoundaryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteRolePermissionsBoundaryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteRolePermissionsBoundaryOutput {
         return DeleteRolePermissionsBoundaryOutput()
     }
 }
@@ -3051,7 +3053,7 @@ public struct DeleteRolePermissionsBoundaryOutput {
 
 enum DeleteRolePermissionsBoundaryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3103,7 +3105,7 @@ public struct DeleteRolePolicyInput {
 
 extension DeleteRolePolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteRolePolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteRolePolicyOutput {
         return DeleteRolePolicyOutput()
     }
 }
@@ -3115,7 +3117,7 @@ public struct DeleteRolePolicyOutput {
 
 enum DeleteRolePolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3162,7 +3164,7 @@ public struct DeleteSAMLProviderInput {
 
 extension DeleteSAMLProviderOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteSAMLProviderOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteSAMLProviderOutput {
         return DeleteSAMLProviderOutput()
     }
 }
@@ -3174,7 +3176,7 @@ public struct DeleteSAMLProviderOutput {
 
 enum DeleteSAMLProviderOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3227,7 +3229,7 @@ public struct DeleteSSHPublicKeyInput {
 
 extension DeleteSSHPublicKeyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteSSHPublicKeyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteSSHPublicKeyOutput {
         return DeleteSSHPublicKeyOutput()
     }
 }
@@ -3239,7 +3241,7 @@ public struct DeleteSSHPublicKeyOutput {
 
 enum DeleteSSHPublicKeyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3283,7 +3285,7 @@ public struct DeleteServerCertificateInput {
 
 extension DeleteServerCertificateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteServerCertificateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteServerCertificateOutput {
         return DeleteServerCertificateOutput()
     }
 }
@@ -3295,7 +3297,7 @@ public struct DeleteServerCertificateOutput {
 
 enum DeleteServerCertificateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3342,7 +3344,7 @@ public struct DeleteServiceLinkedRoleInput {
 
 extension DeleteServiceLinkedRoleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteServiceLinkedRoleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteServiceLinkedRoleOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DeleteServiceLinkedRoleResult"]
@@ -3367,7 +3369,7 @@ public struct DeleteServiceLinkedRoleOutput {
 
 enum DeleteServiceLinkedRoleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3418,7 +3420,7 @@ public struct DeleteServiceSpecificCredentialInput {
 
 extension DeleteServiceSpecificCredentialOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteServiceSpecificCredentialOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteServiceSpecificCredentialOutput {
         return DeleteServiceSpecificCredentialOutput()
     }
 }
@@ -3430,7 +3432,7 @@ public struct DeleteServiceSpecificCredentialOutput {
 
 enum DeleteServiceSpecificCredentialOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3479,7 +3481,7 @@ public struct DeleteSigningCertificateInput {
 
 extension DeleteSigningCertificateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteSigningCertificateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteSigningCertificateOutput {
         return DeleteSigningCertificateOutput()
     }
 }
@@ -3491,7 +3493,7 @@ public struct DeleteSigningCertificateOutput {
 
 enum DeleteSigningCertificateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3538,7 +3540,7 @@ public struct DeleteUserInput {
 
 extension DeleteUserOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteUserOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteUserOutput {
         return DeleteUserOutput()
     }
 }
@@ -3550,7 +3552,7 @@ public struct DeleteUserOutput {
 
 enum DeleteUserOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3598,7 +3600,7 @@ public struct DeleteUserPermissionsBoundaryInput {
 
 extension DeleteUserPermissionsBoundaryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteUserPermissionsBoundaryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteUserPermissionsBoundaryOutput {
         return DeleteUserPermissionsBoundaryOutput()
     }
 }
@@ -3610,7 +3612,7 @@ public struct DeleteUserPermissionsBoundaryOutput {
 
 enum DeleteUserPermissionsBoundaryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3661,7 +3663,7 @@ public struct DeleteUserPolicyInput {
 
 extension DeleteUserPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteUserPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteUserPolicyOutput {
         return DeleteUserPolicyOutput()
     }
 }
@@ -3673,7 +3675,7 @@ public struct DeleteUserPolicyOutput {
 
 enum DeleteUserPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3719,7 +3721,7 @@ public struct DeleteVirtualMFADeviceInput {
 
 extension DeleteVirtualMFADeviceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteVirtualMFADeviceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteVirtualMFADeviceOutput {
         return DeleteVirtualMFADeviceOutput()
     }
 }
@@ -3731,7 +3733,7 @@ public struct DeleteVirtualMFADeviceOutput {
 
 enum DeleteVirtualMFADeviceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3851,7 +3853,7 @@ public struct DetachGroupPolicyInput {
 
 extension DetachGroupPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DetachGroupPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DetachGroupPolicyOutput {
         return DetachGroupPolicyOutput()
     }
 }
@@ -3863,7 +3865,7 @@ public struct DetachGroupPolicyOutput {
 
 enum DetachGroupPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3916,7 +3918,7 @@ public struct DetachRolePolicyInput {
 
 extension DetachRolePolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DetachRolePolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DetachRolePolicyOutput {
         return DetachRolePolicyOutput()
     }
 }
@@ -3928,7 +3930,7 @@ public struct DetachRolePolicyOutput {
 
 enum DetachRolePolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3982,7 +3984,7 @@ public struct DetachUserPolicyInput {
 
 extension DetachUserPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DetachUserPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DetachUserPolicyOutput {
         return DetachUserPolicyOutput()
     }
 }
@@ -3994,7 +3996,7 @@ public struct DetachUserPolicyOutput {
 
 enum DetachUserPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4133,7 +4135,7 @@ public struct EnableMFADeviceInput {
 
 extension EnableMFADeviceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> EnableMFADeviceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> EnableMFADeviceOutput {
         return EnableMFADeviceOutput()
     }
 }
@@ -4145,7 +4147,7 @@ public struct EnableMFADeviceOutput {
 
 enum EnableMFADeviceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4247,11 +4249,11 @@ extension IAMClientTypes {
         /// This member is required.
         public var entityInfo: IAMClientTypes.EntityInfo?
         /// The date and time, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601), when the authenticated entity last attempted to access Amazon Web Services. Amazon Web Services does not report unauthenticated requests. This field is null if no IAM entities attempted to access the service within the [tracking period](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period).
-        public var lastAuthenticated: ClientRuntime.Date?
+        public var lastAuthenticated: Foundation.Date?
 
         public init(
             entityInfo: IAMClientTypes.EntityInfo? = nil,
-            lastAuthenticated: ClientRuntime.Date? = nil
+            lastAuthenticated: Foundation.Date? = nil
         )
         {
             self.entityInfo = entityInfo
@@ -4511,7 +4513,7 @@ public struct GenerateCredentialReportInput {
 
 extension GenerateCredentialReportOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GenerateCredentialReportOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GenerateCredentialReportOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GenerateCredentialReportResult"]
@@ -4541,7 +4543,7 @@ public struct GenerateCredentialReportOutput {
 
 enum GenerateCredentialReportOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4591,7 +4593,7 @@ public struct GenerateOrganizationsAccessReportInput {
 
 extension GenerateOrganizationsAccessReportOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GenerateOrganizationsAccessReportOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GenerateOrganizationsAccessReportOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GenerateOrganizationsAccessReportResult"]
@@ -4615,7 +4617,7 @@ public struct GenerateOrganizationsAccessReportOutput {
 
 enum GenerateOrganizationsAccessReportOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4664,7 +4666,7 @@ public struct GenerateServiceLastAccessedDetailsInput {
 
 extension GenerateServiceLastAccessedDetailsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GenerateServiceLastAccessedDetailsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GenerateServiceLastAccessedDetailsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GenerateServiceLastAccessedDetailsResult"]
@@ -4688,7 +4690,7 @@ public struct GenerateServiceLastAccessedDetailsOutput {
 
 enum GenerateServiceLastAccessedDetailsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4733,7 +4735,7 @@ public struct GetAccessKeyLastUsedInput {
 
 extension GetAccessKeyLastUsedOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetAccessKeyLastUsedOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetAccessKeyLastUsedOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GetAccessKeyLastUsedResult"]
@@ -4763,7 +4765,7 @@ public struct GetAccessKeyLastUsedOutput {
 
 enum GetAccessKeyLastUsedOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4815,7 +4817,7 @@ public struct GetAccountAuthorizationDetailsInput {
 
 extension GetAccountAuthorizationDetailsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetAccountAuthorizationDetailsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetAccountAuthorizationDetailsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GetAccountAuthorizationDetailsResult"]
@@ -4865,7 +4867,7 @@ public struct GetAccountAuthorizationDetailsOutput {
 
 enum GetAccountAuthorizationDetailsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4901,7 +4903,7 @@ public struct GetAccountPasswordPolicyInput {
 
 extension GetAccountPasswordPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetAccountPasswordPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetAccountPasswordPolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GetAccountPasswordPolicyResult"]
@@ -4927,7 +4929,7 @@ public struct GetAccountPasswordPolicyOutput {
 
 enum GetAccountPasswordPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4964,7 +4966,7 @@ public struct GetAccountSummaryInput {
 
 extension GetAccountSummaryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetAccountSummaryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetAccountSummaryOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GetAccountSummaryResult"]
@@ -4989,7 +4991,7 @@ public struct GetAccountSummaryOutput {
 
 enum GetAccountSummaryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5039,7 +5041,7 @@ public struct GetContextKeysForCustomPolicyInput {
 
 extension GetContextKeysForCustomPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetContextKeysForCustomPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetContextKeysForCustomPolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GetContextKeysForCustomPolicyResult"]
@@ -5064,7 +5066,7 @@ public struct GetContextKeysForCustomPolicyOutput {
 
 enum GetContextKeysForCustomPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5119,7 +5121,7 @@ public struct GetContextKeysForPrincipalPolicyInput {
 
 extension GetContextKeysForPrincipalPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetContextKeysForPrincipalPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetContextKeysForPrincipalPolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GetContextKeysForPrincipalPolicyResult"]
@@ -5144,7 +5146,7 @@ public struct GetContextKeysForPrincipalPolicyOutput {
 
 enum GetContextKeysForPrincipalPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5181,7 +5183,7 @@ public struct GetCredentialReportInput {
 
 extension GetCredentialReportOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetCredentialReportOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetCredentialReportOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GetCredentialReportResult"]
@@ -5196,15 +5198,15 @@ extension GetCredentialReportOutput {
 /// Contains the response to a successful [GetCredentialReport] request.
 public struct GetCredentialReportOutput {
     /// Contains the credential report. The report is Base64-encoded.
-    public var content: ClientRuntime.Data?
+    public var content: Foundation.Data?
     /// The date and time when the credential report was created, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601).
-    public var generatedTime: ClientRuntime.Date?
+    public var generatedTime: Foundation.Date?
     /// The format (MIME type) of the credential report.
     public var reportFormat: IAMClientTypes.ReportFormatType?
 
     public init(
-        content: ClientRuntime.Data? = nil,
-        generatedTime: ClientRuntime.Date? = nil,
+        content: Foundation.Data? = nil,
+        generatedTime: Foundation.Date? = nil,
         reportFormat: IAMClientTypes.ReportFormatType? = nil
     )
     {
@@ -5216,7 +5218,7 @@ public struct GetCredentialReportOutput {
 
 enum GetCredentialReportOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5273,7 +5275,7 @@ public struct GetGroupInput {
 
 extension GetGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GetGroupResult"]
@@ -5315,7 +5317,7 @@ public struct GetGroupOutput {
 
 enum GetGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5366,7 +5368,7 @@ public struct GetGroupPolicyInput {
 
 extension GetGroupPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetGroupPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetGroupPolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GetGroupPolicyResult"]
@@ -5404,7 +5406,7 @@ public struct GetGroupPolicyOutput {
 
 enum GetGroupPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5449,7 +5451,7 @@ public struct GetInstanceProfileInput {
 
 extension GetInstanceProfileOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetInstanceProfileOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetInstanceProfileOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GetInstanceProfileResult"]
@@ -5475,7 +5477,7 @@ public struct GetInstanceProfileOutput {
 
 enum GetInstanceProfileOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5520,7 +5522,7 @@ public struct GetLoginProfileInput {
 
 extension GetLoginProfileOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetLoginProfileOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetLoginProfileOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GetLoginProfileResult"]
@@ -5546,7 +5548,7 @@ public struct GetLoginProfileOutput {
 
 enum GetLoginProfileOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5596,7 +5598,7 @@ public struct GetMFADeviceInput {
 
 extension GetMFADeviceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetMFADeviceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetMFADeviceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GetMFADeviceResult"]
@@ -5613,7 +5615,7 @@ public struct GetMFADeviceOutput {
     /// The certifications of a specified user's MFA device. We currently provide FIPS-140-2, FIPS-140-3, and FIDO certification levels obtained from [ FIDO Alliance Metadata Service (MDS)](https://fidoalliance.org/metadata/).
     public var certifications: [Swift.String:Swift.String]?
     /// The date that a specified user's MFA device was first enabled.
-    public var enableDate: ClientRuntime.Date?
+    public var enableDate: Foundation.Date?
     /// Serial number that uniquely identifies the MFA device. For this API, we only accept FIDO security key [ARNs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html).
     /// This member is required.
     public var serialNumber: Swift.String?
@@ -5622,7 +5624,7 @@ public struct GetMFADeviceOutput {
 
     public init(
         certifications: [Swift.String:Swift.String]? = nil,
-        enableDate: ClientRuntime.Date? = nil,
+        enableDate: Foundation.Date? = nil,
         serialNumber: Swift.String? = nil,
         userName: Swift.String? = nil
     )
@@ -5636,7 +5638,7 @@ public struct GetMFADeviceOutput {
 
 enum GetMFADeviceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5681,7 +5683,7 @@ public struct GetOpenIDConnectProviderInput {
 
 extension GetOpenIDConnectProviderOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetOpenIDConnectProviderOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetOpenIDConnectProviderOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GetOpenIDConnectProviderResult"]
@@ -5700,7 +5702,7 @@ public struct GetOpenIDConnectProviderOutput {
     /// A list of client IDs (also known as audiences) that are associated with the specified IAM OIDC provider resource object. For more information, see [CreateOpenIDConnectProvider].
     public var clientIDList: [Swift.String]?
     /// The date and time when the IAM OIDC provider resource object was created in the Amazon Web Services account.
-    public var createDate: ClientRuntime.Date?
+    public var createDate: Foundation.Date?
     /// A list of tags that are attached to the specified IAM OIDC provider. The returned list of tags is sorted by tag key. For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide.
     public var tags: [IAMClientTypes.Tag]?
     /// A list of certificate thumbprints that are associated with the specified IAM OIDC provider resource object. For more information, see [CreateOpenIDConnectProvider].
@@ -5710,7 +5712,7 @@ public struct GetOpenIDConnectProviderOutput {
 
     public init(
         clientIDList: [Swift.String]? = nil,
-        createDate: ClientRuntime.Date? = nil,
+        createDate: Foundation.Date? = nil,
         tags: [IAMClientTypes.Tag]? = nil,
         thumbprintList: [Swift.String]? = nil,
         url: Swift.String? = nil
@@ -5726,7 +5728,7 @@ public struct GetOpenIDConnectProviderOutput {
 
 enum GetOpenIDConnectProviderOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5787,7 +5789,7 @@ public struct GetOrganizationsAccessReportInput {
 
 extension GetOrganizationsAccessReportOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetOrganizationsAccessReportOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetOrganizationsAccessReportOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GetOrganizationsAccessReportResult"]
@@ -5813,10 +5815,10 @@ public struct GetOrganizationsAccessReportOutput {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
     /// The date and time, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601), when the generated report job was completed or failed. This field is null if the job is still in progress, as indicated by a job status value of IN_PROGRESS.
-    public var jobCompletionDate: ClientRuntime.Date?
+    public var jobCompletionDate: Foundation.Date?
     /// The date and time, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601), when the report job was created.
     /// This member is required.
-    public var jobCreationDate: ClientRuntime.Date?
+    public var jobCreationDate: Foundation.Date?
     /// The status of the job.
     /// This member is required.
     public var jobStatus: IAMClientTypes.JobStatusType?
@@ -5831,8 +5833,8 @@ public struct GetOrganizationsAccessReportOutput {
         accessDetails: [IAMClientTypes.AccessDetail]? = nil,
         errorDetails: IAMClientTypes.ErrorDetails? = nil,
         isTruncated: Swift.Bool = false,
-        jobCompletionDate: ClientRuntime.Date? = nil,
-        jobCreationDate: ClientRuntime.Date? = nil,
+        jobCompletionDate: Foundation.Date? = nil,
+        jobCreationDate: Foundation.Date? = nil,
         jobStatus: IAMClientTypes.JobStatusType? = nil,
         marker: Swift.String? = nil,
         numberOfServicesAccessible: Swift.Int? = nil,
@@ -5853,7 +5855,7 @@ public struct GetOrganizationsAccessReportOutput {
 
 enum GetOrganizationsAccessReportOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5897,7 +5899,7 @@ public struct GetPolicyInput {
 
 extension GetPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetPolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GetPolicyResult"]
@@ -5922,7 +5924,7 @@ public struct GetPolicyOutput {
 
 enum GetPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5974,7 +5976,7 @@ public struct GetPolicyVersionInput {
 
 extension GetPolicyVersionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetPolicyVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetPolicyVersionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GetPolicyVersionResult"]
@@ -5999,7 +6001,7 @@ public struct GetPolicyVersionOutput {
 
 enum GetPolicyVersionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6045,7 +6047,7 @@ public struct GetRoleInput {
 
 extension GetRoleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetRoleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetRoleOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GetRoleResult"]
@@ -6071,7 +6073,7 @@ public struct GetRoleOutput {
 
 enum GetRoleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6122,7 +6124,7 @@ public struct GetRolePolicyInput {
 
 extension GetRolePolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetRolePolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetRolePolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GetRolePolicyResult"]
@@ -6160,7 +6162,7 @@ public struct GetRolePolicyOutput {
 
 enum GetRolePolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6205,7 +6207,7 @@ public struct GetSAMLProviderInput {
 
 extension GetSAMLProviderOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetSAMLProviderOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetSAMLProviderOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GetSAMLProviderResult"]
@@ -6221,19 +6223,19 @@ extension GetSAMLProviderOutput {
 /// Contains the response to a successful [GetSAMLProvider] request.
 public struct GetSAMLProviderOutput {
     /// The date and time when the SAML provider was created.
-    public var createDate: ClientRuntime.Date?
+    public var createDate: Foundation.Date?
     /// The XML metadata document that includes information about an identity provider.
     public var samlMetadataDocument: Swift.String?
     /// A list of tags that are attached to the specified IAM SAML provider. The returned list of tags is sorted by tag key. For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide.
     public var tags: [IAMClientTypes.Tag]?
     /// The expiration date and time for the SAML provider.
-    public var validUntil: ClientRuntime.Date?
+    public var validUntil: Foundation.Date?
 
     public init(
-        createDate: ClientRuntime.Date? = nil,
+        createDate: Foundation.Date? = nil,
         samlMetadataDocument: Swift.String? = nil,
         tags: [IAMClientTypes.Tag]? = nil,
-        validUntil: ClientRuntime.Date? = nil
+        validUntil: Foundation.Date? = nil
     )
     {
         self.createDate = createDate
@@ -6245,7 +6247,7 @@ public struct GetSAMLProviderOutput {
 
 enum GetSAMLProviderOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6303,7 +6305,7 @@ public struct GetSSHPublicKeyInput {
 
 extension GetSSHPublicKeyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetSSHPublicKeyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetSSHPublicKeyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GetSSHPublicKeyResult"]
@@ -6328,7 +6330,7 @@ public struct GetSSHPublicKeyOutput {
 
 enum GetSSHPublicKeyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6373,7 +6375,7 @@ public struct GetServerCertificateInput {
 
 extension GetServerCertificateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetServerCertificateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetServerCertificateOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GetServerCertificateResult"]
@@ -6399,7 +6401,7 @@ public struct GetServerCertificateOutput {
 
 enum GetServerCertificateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6454,7 +6456,7 @@ public struct GetServiceLastAccessedDetailsInput {
 
 extension GetServiceLastAccessedDetailsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetServiceLastAccessedDetailsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetServiceLastAccessedDetailsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GetServiceLastAccessedDetailsResult"]
@@ -6478,10 +6480,10 @@ public struct GetServiceLastAccessedDetailsOutput {
     public var isTruncated: Swift.Bool
     /// The date and time, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601), when the generated report job was completed or failed. This field is null if the job is still in progress, as indicated by a job status value of IN_PROGRESS.
     /// This member is required.
-    public var jobCompletionDate: ClientRuntime.Date?
+    public var jobCompletionDate: Foundation.Date?
     /// The date and time, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601), when the report job was created.
     /// This member is required.
-    public var jobCreationDate: ClientRuntime.Date?
+    public var jobCreationDate: Foundation.Date?
     /// The status of the job.
     /// This member is required.
     public var jobStatus: IAMClientTypes.JobStatusType?
@@ -6496,8 +6498,8 @@ public struct GetServiceLastAccessedDetailsOutput {
     public init(
         error: IAMClientTypes.ErrorDetails? = nil,
         isTruncated: Swift.Bool = false,
-        jobCompletionDate: ClientRuntime.Date? = nil,
-        jobCreationDate: ClientRuntime.Date? = nil,
+        jobCompletionDate: Foundation.Date? = nil,
+        jobCreationDate: Foundation.Date? = nil,
         jobStatus: IAMClientTypes.JobStatusType? = nil,
         jobType: IAMClientTypes.AccessAdvisorUsageGranularityType? = nil,
         marker: Swift.String? = nil,
@@ -6517,7 +6519,7 @@ public struct GetServiceLastAccessedDetailsOutput {
 
 enum GetServiceLastAccessedDetailsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6578,7 +6580,7 @@ public struct GetServiceLastAccessedDetailsWithEntitiesInput {
 
 extension GetServiceLastAccessedDetailsWithEntitiesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetServiceLastAccessedDetailsWithEntitiesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetServiceLastAccessedDetailsWithEntitiesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GetServiceLastAccessedDetailsWithEntitiesResult"]
@@ -6604,10 +6606,10 @@ public struct GetServiceLastAccessedDetailsWithEntitiesOutput {
     public var isTruncated: Swift.Bool
     /// The date and time, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601), when the generated report job was completed or failed. This field is null if the job is still in progress, as indicated by a job status value of IN_PROGRESS.
     /// This member is required.
-    public var jobCompletionDate: ClientRuntime.Date?
+    public var jobCompletionDate: Foundation.Date?
     /// The date and time, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601), when the report job was created.
     /// This member is required.
-    public var jobCreationDate: ClientRuntime.Date?
+    public var jobCreationDate: Foundation.Date?
     /// The status of the job.
     /// This member is required.
     public var jobStatus: IAMClientTypes.JobStatusType?
@@ -6618,8 +6620,8 @@ public struct GetServiceLastAccessedDetailsWithEntitiesOutput {
         entityDetailsList: [IAMClientTypes.EntityDetails]? = nil,
         error: IAMClientTypes.ErrorDetails? = nil,
         isTruncated: Swift.Bool = false,
-        jobCompletionDate: ClientRuntime.Date? = nil,
-        jobCreationDate: ClientRuntime.Date? = nil,
+        jobCompletionDate: Foundation.Date? = nil,
+        jobCreationDate: Foundation.Date? = nil,
         jobStatus: IAMClientTypes.JobStatusType? = nil,
         marker: Swift.String? = nil
     )
@@ -6636,7 +6638,7 @@ public struct GetServiceLastAccessedDetailsWithEntitiesOutput {
 
 enum GetServiceLastAccessedDetailsWithEntitiesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6681,7 +6683,7 @@ public struct GetServiceLinkedRoleDeletionStatusInput {
 
 extension GetServiceLinkedRoleDeletionStatusOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetServiceLinkedRoleDeletionStatusOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetServiceLinkedRoleDeletionStatusOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GetServiceLinkedRoleDeletionStatusResult"]
@@ -6711,7 +6713,7 @@ public struct GetServiceLinkedRoleDeletionStatusOutput {
 
 enum GetServiceLinkedRoleDeletionStatusOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6756,7 +6758,7 @@ public struct GetUserInput {
 
 extension GetUserOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetUserOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetUserOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GetUserResult"]
@@ -6782,7 +6784,7 @@ public struct GetUserOutput {
 
 enum GetUserOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6833,7 +6835,7 @@ public struct GetUserPolicyInput {
 
 extension GetUserPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetUserPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetUserPolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GetUserPolicyResult"]
@@ -6871,7 +6873,7 @@ public struct GetUserPolicyOutput {
 
 enum GetUserPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6941,7 +6943,7 @@ extension IAMClientTypes {
         public var arn: Swift.String?
         /// The date and time, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601), when the group was created.
         /// This member is required.
-        public var createDate: ClientRuntime.Date?
+        public var createDate: Foundation.Date?
         /// The stable and unique string identifying the group. For more information about IDs, see [IAM identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html) in the IAM User Guide.
         /// This member is required.
         public var groupId: Swift.String?
@@ -6954,7 +6956,7 @@ extension IAMClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            createDate: ClientRuntime.Date? = nil,
+            createDate: Foundation.Date? = nil,
             groupId: Swift.String? = nil,
             groupName: Swift.String? = nil,
             path: Swift.String? = nil
@@ -6994,7 +6996,7 @@ extension IAMClientTypes {
         /// A list of the managed policies attached to the group.
         public var attachedManagedPolicies: [IAMClientTypes.AttachedPolicy]?
         /// The date and time, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601), when the group was created.
-        public var createDate: ClientRuntime.Date?
+        public var createDate: Foundation.Date?
         /// The stable and unique string identifying the group. For more information about IDs, see [IAM identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html) in the IAM User Guide.
         public var groupId: Swift.String?
         /// The friendly name that identifies the group.
@@ -7007,7 +7009,7 @@ extension IAMClientTypes {
         public init(
             arn: Swift.String? = nil,
             attachedManagedPolicies: [IAMClientTypes.AttachedPolicy]? = nil,
-            createDate: ClientRuntime.Date? = nil,
+            createDate: Foundation.Date? = nil,
             groupId: Swift.String? = nil,
             groupName: Swift.String? = nil,
             groupPolicyList: [IAMClientTypes.PolicyDetail]? = nil,
@@ -7060,7 +7062,7 @@ extension IAMClientTypes {
         public var arn: Swift.String?
         /// The date when the instance profile was created.
         /// This member is required.
-        public var createDate: ClientRuntime.Date?
+        public var createDate: Foundation.Date?
         /// The stable and unique string identifying the instance profile. For more information about IDs, see [IAM identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html) in the IAM User Guide.
         /// This member is required.
         public var instanceProfileId: Swift.String?
@@ -7078,7 +7080,7 @@ extension IAMClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            createDate: ClientRuntime.Date? = nil,
+            createDate: Foundation.Date? = nil,
             instanceProfileId: Swift.String? = nil,
             instanceProfileName: Swift.String? = nil,
             path: Swift.String? = nil,
@@ -7430,7 +7432,7 @@ public struct ListAccessKeysInput {
 
 extension ListAccessKeysOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAccessKeysOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAccessKeysOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListAccessKeysResult"]
@@ -7466,7 +7468,7 @@ public struct ListAccessKeysOutput {
 
 enum ListAccessKeysOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7515,7 +7517,7 @@ public struct ListAccountAliasesInput {
 
 extension ListAccountAliasesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAccountAliasesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAccountAliasesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListAccountAliasesResult"]
@@ -7551,7 +7553,7 @@ public struct ListAccountAliasesOutput {
 
 enum ListAccountAliasesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7610,7 +7612,7 @@ public struct ListAttachedGroupPoliciesInput {
 
 extension ListAttachedGroupPoliciesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAttachedGroupPoliciesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAttachedGroupPoliciesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListAttachedGroupPoliciesResult"]
@@ -7645,7 +7647,7 @@ public struct ListAttachedGroupPoliciesOutput {
 
 enum ListAttachedGroupPoliciesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7706,7 +7708,7 @@ public struct ListAttachedRolePoliciesInput {
 
 extension ListAttachedRolePoliciesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAttachedRolePoliciesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAttachedRolePoliciesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListAttachedRolePoliciesResult"]
@@ -7741,7 +7743,7 @@ public struct ListAttachedRolePoliciesOutput {
 
 enum ListAttachedRolePoliciesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7802,7 +7804,7 @@ public struct ListAttachedUserPoliciesInput {
 
 extension ListAttachedUserPoliciesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAttachedUserPoliciesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAttachedUserPoliciesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListAttachedUserPoliciesResult"]
@@ -7837,7 +7839,7 @@ public struct ListAttachedUserPoliciesOutput {
 
 enum ListAttachedUserPoliciesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7908,7 +7910,7 @@ public struct ListEntitiesForPolicyInput {
 
 extension ListEntitiesForPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListEntitiesForPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListEntitiesForPolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListEntitiesForPolicyResult"]
@@ -7953,7 +7955,7 @@ public struct ListEntitiesForPolicyOutput {
 
 enum ListEntitiesForPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8009,7 +8011,7 @@ public struct ListGroupPoliciesInput {
 
 extension ListGroupPoliciesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListGroupPoliciesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListGroupPoliciesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListGroupPoliciesResult"]
@@ -8045,7 +8047,7 @@ public struct ListGroupPoliciesOutput {
 
 enum ListGroupPoliciesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8100,7 +8102,7 @@ public struct ListGroupsForUserInput {
 
 extension ListGroupsForUserOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListGroupsForUserOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListGroupsForUserOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListGroupsForUserResult"]
@@ -8136,7 +8138,7 @@ public struct ListGroupsForUserOutput {
 
 enum ListGroupsForUserOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8190,7 +8192,7 @@ public struct ListGroupsInput {
 
 extension ListGroupsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListGroupsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListGroupsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListGroupsResult"]
@@ -8226,7 +8228,7 @@ public struct ListGroupsOutput {
 
 enum ListGroupsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8280,7 +8282,7 @@ public struct ListInstanceProfileTagsInput {
 
 extension ListInstanceProfileTagsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListInstanceProfileTagsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListInstanceProfileTagsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListInstanceProfileTagsResult"]
@@ -8315,7 +8317,7 @@ public struct ListInstanceProfileTagsOutput {
 
 enum ListInstanceProfileTagsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8370,7 +8372,7 @@ public struct ListInstanceProfilesForRoleInput {
 
 extension ListInstanceProfilesForRoleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListInstanceProfilesForRoleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListInstanceProfilesForRoleOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListInstanceProfilesForRoleResult"]
@@ -8406,7 +8408,7 @@ public struct ListInstanceProfilesForRoleOutput {
 
 enum ListInstanceProfilesForRoleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8460,7 +8462,7 @@ public struct ListInstanceProfilesInput {
 
 extension ListInstanceProfilesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListInstanceProfilesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListInstanceProfilesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListInstanceProfilesResult"]
@@ -8496,7 +8498,7 @@ public struct ListInstanceProfilesOutput {
 
 enum ListInstanceProfilesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8550,7 +8552,7 @@ public struct ListMFADeviceTagsInput {
 
 extension ListMFADeviceTagsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListMFADeviceTagsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListMFADeviceTagsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListMFADeviceTagsResult"]
@@ -8585,7 +8587,7 @@ public struct ListMFADeviceTagsOutput {
 
 enum ListMFADeviceTagsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8640,7 +8642,7 @@ public struct ListMFADevicesInput {
 
 extension ListMFADevicesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListMFADevicesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListMFADevicesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListMFADevicesResult"]
@@ -8676,7 +8678,7 @@ public struct ListMFADevicesOutput {
 
 enum ListMFADevicesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8731,7 +8733,7 @@ public struct ListOpenIDConnectProviderTagsInput {
 
 extension ListOpenIDConnectProviderTagsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListOpenIDConnectProviderTagsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListOpenIDConnectProviderTagsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListOpenIDConnectProviderTagsResult"]
@@ -8766,7 +8768,7 @@ public struct ListOpenIDConnectProviderTagsOutput {
 
 enum ListOpenIDConnectProviderTagsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8804,7 +8806,7 @@ public struct ListOpenIDConnectProvidersInput {
 
 extension ListOpenIDConnectProvidersOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListOpenIDConnectProvidersOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListOpenIDConnectProvidersOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListOpenIDConnectProvidersResult"]
@@ -8829,7 +8831,7 @@ public struct ListOpenIDConnectProvidersOutput {
 
 enum ListOpenIDConnectProvidersOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8915,7 +8917,7 @@ public struct ListPoliciesGrantingServiceAccessInput {
 
 extension ListPoliciesGrantingServiceAccessOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPoliciesGrantingServiceAccessOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPoliciesGrantingServiceAccessOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListPoliciesGrantingServiceAccessResult"]
@@ -8950,7 +8952,7 @@ public struct ListPoliciesGrantingServiceAccessOutput {
 
 enum ListPoliciesGrantingServiceAccessOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9019,7 +9021,7 @@ public struct ListPoliciesInput {
 
 extension ListPoliciesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPoliciesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPoliciesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListPoliciesResult"]
@@ -9054,7 +9056,7 @@ public struct ListPoliciesOutput {
 
 enum ListPoliciesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9108,7 +9110,7 @@ public struct ListPolicyTagsInput {
 
 extension ListPolicyTagsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPolicyTagsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPolicyTagsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListPolicyTagsResult"]
@@ -9143,7 +9145,7 @@ public struct ListPolicyTagsOutput {
 
 enum ListPolicyTagsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9199,7 +9201,7 @@ public struct ListPolicyVersionsInput {
 
 extension ListPolicyVersionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPolicyVersionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPolicyVersionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListPolicyVersionsResult"]
@@ -9234,7 +9236,7 @@ public struct ListPolicyVersionsOutput {
 
 enum ListPolicyVersionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9290,7 +9292,7 @@ public struct ListRolePoliciesInput {
 
 extension ListRolePoliciesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListRolePoliciesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListRolePoliciesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListRolePoliciesResult"]
@@ -9326,7 +9328,7 @@ public struct ListRolePoliciesOutput {
 
 enum ListRolePoliciesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9381,7 +9383,7 @@ public struct ListRoleTagsInput {
 
 extension ListRoleTagsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListRoleTagsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListRoleTagsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListRoleTagsResult"]
@@ -9416,7 +9418,7 @@ public struct ListRoleTagsOutput {
 
 enum ListRoleTagsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9470,7 +9472,7 @@ public struct ListRolesInput {
 
 extension ListRolesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListRolesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListRolesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListRolesResult"]
@@ -9506,7 +9508,7 @@ public struct ListRolesOutput {
 
 enum ListRolesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9560,7 +9562,7 @@ public struct ListSAMLProviderTagsInput {
 
 extension ListSAMLProviderTagsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListSAMLProviderTagsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListSAMLProviderTagsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListSAMLProviderTagsResult"]
@@ -9595,7 +9597,7 @@ public struct ListSAMLProviderTagsOutput {
 
 enum ListSAMLProviderTagsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9633,7 +9635,7 @@ public struct ListSAMLProvidersInput {
 
 extension ListSAMLProvidersOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListSAMLProvidersOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListSAMLProvidersOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListSAMLProvidersResult"]
@@ -9658,7 +9660,7 @@ public struct ListSAMLProvidersOutput {
 
 enum ListSAMLProvidersOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9711,7 +9713,7 @@ public struct ListSSHPublicKeysInput {
 
 extension ListSSHPublicKeysOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListSSHPublicKeysOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListSSHPublicKeysOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListSSHPublicKeysResult"]
@@ -9746,7 +9748,7 @@ public struct ListSSHPublicKeysOutput {
 
 enum ListSSHPublicKeysOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9800,7 +9802,7 @@ public struct ListServerCertificateTagsInput {
 
 extension ListServerCertificateTagsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListServerCertificateTagsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListServerCertificateTagsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListServerCertificateTagsResult"]
@@ -9835,7 +9837,7 @@ public struct ListServerCertificateTagsOutput {
 
 enum ListServerCertificateTagsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9889,7 +9891,7 @@ public struct ListServerCertificatesInput {
 
 extension ListServerCertificatesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListServerCertificatesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListServerCertificatesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListServerCertificatesResult"]
@@ -9925,7 +9927,7 @@ public struct ListServerCertificatesOutput {
 
 enum ListServerCertificatesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9973,7 +9975,7 @@ public struct ListServiceSpecificCredentialsInput {
 
 extension ListServiceSpecificCredentialsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListServiceSpecificCredentialsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListServiceSpecificCredentialsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListServiceSpecificCredentialsResult"]
@@ -9997,7 +9999,7 @@ public struct ListServiceSpecificCredentialsOutput {
 
 enum ListServiceSpecificCredentialsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10051,7 +10053,7 @@ public struct ListSigningCertificatesInput {
 
 extension ListSigningCertificatesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListSigningCertificatesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListSigningCertificatesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListSigningCertificatesResult"]
@@ -10087,7 +10089,7 @@ public struct ListSigningCertificatesOutput {
 
 enum ListSigningCertificatesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10142,7 +10144,7 @@ public struct ListUserPoliciesInput {
 
 extension ListUserPoliciesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListUserPoliciesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListUserPoliciesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListUserPoliciesResult"]
@@ -10178,7 +10180,7 @@ public struct ListUserPoliciesOutput {
 
 enum ListUserPoliciesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10233,7 +10235,7 @@ public struct ListUserTagsInput {
 
 extension ListUserTagsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListUserTagsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListUserTagsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListUserTagsResult"]
@@ -10268,7 +10270,7 @@ public struct ListUserTagsOutput {
 
 enum ListUserTagsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10322,7 +10324,7 @@ public struct ListUsersInput {
 
 extension ListUsersOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListUsersOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListUsersOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListUsersResult"]
@@ -10358,7 +10360,7 @@ public struct ListUsersOutput {
 
 enum ListUsersOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10411,7 +10413,7 @@ public struct ListVirtualMFADevicesInput {
 
 extension ListVirtualMFADevicesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListVirtualMFADevicesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListVirtualMFADevicesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListVirtualMFADevicesResult"]
@@ -10447,7 +10449,7 @@ public struct ListVirtualMFADevicesOutput {
 
 enum ListVirtualMFADevicesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10475,7 +10477,7 @@ extension IAMClientTypes {
     public struct LoginProfile {
         /// The date when the password for the user was created.
         /// This member is required.
-        public var createDate: ClientRuntime.Date?
+        public var createDate: Foundation.Date?
         /// Specifies whether the user is required to set a new password on next sign-in.
         public var passwordResetRequired: Swift.Bool
         /// The name of the user, which can be used for signing in to the Amazon Web Services Management Console.
@@ -10483,7 +10485,7 @@ extension IAMClientTypes {
         public var userName: Swift.String?
 
         public init(
-            createDate: ClientRuntime.Date? = nil,
+            createDate: Foundation.Date? = nil,
             passwordResetRequired: Swift.Bool = false,
             userName: Swift.String? = nil
         )
@@ -10513,7 +10515,7 @@ extension IAMClientTypes {
     public struct MFADevice {
         /// The date when the MFA device was enabled for the user.
         /// This member is required.
-        public var enableDate: ClientRuntime.Date?
+        public var enableDate: Foundation.Date?
         /// The serial number that uniquely identifies the MFA device. For virtual MFA devices, the serial number is the device ARN.
         /// This member is required.
         public var serialNumber: Swift.String?
@@ -10522,7 +10524,7 @@ extension IAMClientTypes {
         public var userName: Swift.String?
 
         public init(
-            enableDate: ClientRuntime.Date? = nil,
+            enableDate: Foundation.Date? = nil,
             serialNumber: Swift.String? = nil,
             userName: Swift.String? = nil
         )
@@ -10638,7 +10640,7 @@ extension IAMClientTypes {
         /// The number of principal entities (users, groups, and roles) that the policy is attached to.
         public var attachmentCount: Swift.Int?
         /// The date and time, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601), when the policy was created.
-        public var createDate: ClientRuntime.Date?
+        public var createDate: Foundation.Date?
         /// The identifier for the version of the policy that is set as the default (operative) version. For more information about policy versions, see [Versioning for managed policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html) in the IAM User Guide.
         public var defaultVersionId: Swift.String?
         /// A friendly description of the policy.
@@ -10656,12 +10658,12 @@ extension IAMClientTypes {
         /// A list containing information about the versions of the policy.
         public var policyVersionList: [IAMClientTypes.PolicyVersion]?
         /// The date and time, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601), when the policy was last updated. When a policy has only one version, this field contains the date and time when the policy was created. When a policy has more than one version, this field contains the date and time when the most recent policy version was created.
-        public var updateDate: ClientRuntime.Date?
+        public var updateDate: Foundation.Date?
 
         public init(
             arn: Swift.String? = nil,
             attachmentCount: Swift.Int? = nil,
-            createDate: ClientRuntime.Date? = nil,
+            createDate: Foundation.Date? = nil,
             defaultVersionId: Swift.String? = nil,
             description: Swift.String? = nil,
             isAttachable: Swift.Bool = false,
@@ -10670,7 +10672,7 @@ extension IAMClientTypes {
             policyId: Swift.String? = nil,
             policyName: Swift.String? = nil,
             policyVersionList: [IAMClientTypes.PolicyVersion]? = nil,
-            updateDate: ClientRuntime.Date? = nil
+            updateDate: Foundation.Date? = nil
         )
         {
             self.arn = arn
@@ -11005,7 +11007,7 @@ extension IAMClientTypes {
         /// The number of entities (users, groups, and roles) that the policy is attached to.
         public var attachmentCount: Swift.Int?
         /// The date and time, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601), when the policy was created.
-        public var createDate: ClientRuntime.Date?
+        public var createDate: Foundation.Date?
         /// The identifier for the version of the policy that is set as the default version.
         public var defaultVersionId: Swift.String?
         /// A friendly description of the policy. This element is included in the response to the [GetPolicy] operation. It is not included in the response to the [ListPolicies] operation.
@@ -11023,12 +11025,12 @@ extension IAMClientTypes {
         /// A list of tags that are attached to the instance profile. For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide.
         public var tags: [IAMClientTypes.Tag]?
         /// The date and time, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601), when the policy was last updated. When a policy has only one version, this field contains the date and time when the policy was created. When a policy has more than one version, this field contains the date and time when the most recent policy version was created.
-        public var updateDate: ClientRuntime.Date?
+        public var updateDate: Foundation.Date?
 
         public init(
             arn: Swift.String? = nil,
             attachmentCount: Swift.Int? = nil,
-            createDate: ClientRuntime.Date? = nil,
+            createDate: Foundation.Date? = nil,
             defaultVersionId: Swift.String? = nil,
             description: Swift.String? = nil,
             isAttachable: Swift.Bool = false,
@@ -11037,7 +11039,7 @@ extension IAMClientTypes {
             policyId: Swift.String? = nil,
             policyName: Swift.String? = nil,
             tags: [IAMClientTypes.Tag]? = nil,
-            updateDate: ClientRuntime.Date? = nil
+            updateDate: Foundation.Date? = nil
         )
         {
             self.arn = arn
@@ -11519,7 +11521,7 @@ extension IAMClientTypes {
     /// Contains information about a version of a managed policy. This data type is used as a response element in the [CreatePolicyVersion], [GetPolicyVersion], [ListPolicyVersions], and [GetAccountAuthorizationDetails] operations. For more information about managed policies, refer to [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
     public struct PolicyVersion {
         /// The date and time, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601), when the policy version was created.
-        public var createDate: ClientRuntime.Date?
+        public var createDate: Foundation.Date?
         /// The policy document. The policy document is returned in the response to the [GetPolicyVersion] and [GetAccountAuthorizationDetails] operations. It is not returned in the response to the [CreatePolicyVersion] or [ListPolicyVersions] operations. The policy document returned in this structure is URL-encoded compliant with [RFC 3986](https://tools.ietf.org/html/rfc3986). You can use a URL decoding method to convert the policy back to plain JSON text. For example, if you use Java, you can use the decode method of the java.net.URLDecoder utility class in the Java SDK. Other languages and SDKs provide similar functionality.
         public var document: Swift.String?
         /// Specifies whether the policy version is set as the policy's default version.
@@ -11528,7 +11530,7 @@ extension IAMClientTypes {
         public var versionId: Swift.String?
 
         public init(
-            createDate: ClientRuntime.Date? = nil,
+            createDate: Foundation.Date? = nil,
             document: Swift.String? = nil,
             isDefaultVersion: Swift.Bool = false,
             versionId: Swift.String? = nil
@@ -11624,7 +11626,7 @@ public struct PutGroupPolicyInput {
 
 extension PutGroupPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutGroupPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutGroupPolicyOutput {
         return PutGroupPolicyOutput()
     }
 }
@@ -11636,7 +11638,7 @@ public struct PutGroupPolicyOutput {
 
 enum PutGroupPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11689,7 +11691,7 @@ public struct PutRolePermissionsBoundaryInput {
 
 extension PutRolePermissionsBoundaryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutRolePermissionsBoundaryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutRolePermissionsBoundaryOutput {
         return PutRolePermissionsBoundaryOutput()
     }
 }
@@ -11701,7 +11703,7 @@ public struct PutRolePermissionsBoundaryOutput {
 
 enum PutRolePermissionsBoundaryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11767,7 +11769,7 @@ public struct PutRolePolicyInput {
 
 extension PutRolePolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutRolePolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutRolePolicyOutput {
         return PutRolePolicyOutput()
     }
 }
@@ -11779,7 +11781,7 @@ public struct PutRolePolicyOutput {
 
 enum PutRolePolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11833,7 +11835,7 @@ public struct PutUserPermissionsBoundaryInput {
 
 extension PutUserPermissionsBoundaryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutUserPermissionsBoundaryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutUserPermissionsBoundaryOutput {
         return PutUserPermissionsBoundaryOutput()
     }
 }
@@ -11845,7 +11847,7 @@ public struct PutUserPermissionsBoundaryOutput {
 
 enum PutUserPermissionsBoundaryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11910,7 +11912,7 @@ public struct PutUserPolicyInput {
 
 extension PutUserPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutUserPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutUserPolicyOutput {
         return PutUserPolicyOutput()
     }
 }
@@ -11922,7 +11924,7 @@ public struct PutUserPolicyOutput {
 
 enum PutUserPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11975,7 +11977,7 @@ public struct RemoveClientIDFromOpenIDConnectProviderInput {
 
 extension RemoveClientIDFromOpenIDConnectProviderOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RemoveClientIDFromOpenIDConnectProviderOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RemoveClientIDFromOpenIDConnectProviderOutput {
         return RemoveClientIDFromOpenIDConnectProviderOutput()
     }
 }
@@ -11987,7 +11989,7 @@ public struct RemoveClientIDFromOpenIDConnectProviderOutput {
 
 enum RemoveClientIDFromOpenIDConnectProviderOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12039,7 +12041,7 @@ public struct RemoveRoleFromInstanceProfileInput {
 
 extension RemoveRoleFromInstanceProfileOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RemoveRoleFromInstanceProfileOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RemoveRoleFromInstanceProfileOutput {
         return RemoveRoleFromInstanceProfileOutput()
     }
 }
@@ -12051,7 +12053,7 @@ public struct RemoveRoleFromInstanceProfileOutput {
 
 enum RemoveRoleFromInstanceProfileOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12104,7 +12106,7 @@ public struct RemoveUserFromGroupInput {
 
 extension RemoveUserFromGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RemoveUserFromGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RemoveUserFromGroupOutput {
         return RemoveUserFromGroupOutput()
     }
 }
@@ -12116,7 +12118,7 @@ public struct RemoveUserFromGroupOutput {
 
 enum RemoveUserFromGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12262,7 +12264,7 @@ public struct ResetServiceSpecificCredentialInput {
 
 extension ResetServiceSpecificCredentialOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ResetServiceSpecificCredentialOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ResetServiceSpecificCredentialOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ResetServiceSpecificCredentialResult"]
@@ -12286,7 +12288,7 @@ public struct ResetServiceSpecificCredentialOutput {
 
 enum ResetServiceSpecificCredentialOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12401,7 +12403,7 @@ public struct ResyncMFADeviceInput {
 
 extension ResyncMFADeviceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ResyncMFADeviceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ResyncMFADeviceOutput {
         return ResyncMFADeviceOutput()
     }
 }
@@ -12413,7 +12415,7 @@ public struct ResyncMFADeviceOutput {
 
 enum ResyncMFADeviceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12459,7 +12461,7 @@ extension IAMClientTypes {
         public var assumeRolePolicyDocument: Swift.String?
         /// The date and time, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601), when the role was created.
         /// This member is required.
-        public var createDate: ClientRuntime.Date?
+        public var createDate: Foundation.Date?
         /// A description of the role that you provide.
         public var description: Swift.String?
         /// The maximum session duration (in seconds) for the specified role. Anyone who uses the CLI, or API to assume the role can specify the duration using the optional DurationSeconds API parameter or duration-seconds CLI parameter.
@@ -12483,7 +12485,7 @@ extension IAMClientTypes {
         public init(
             arn: Swift.String? = nil,
             assumeRolePolicyDocument: Swift.String? = nil,
-            createDate: ClientRuntime.Date? = nil,
+            createDate: Foundation.Date? = nil,
             description: Swift.String? = nil,
             maxSessionDuration: Swift.Int? = nil,
             path: Swift.String? = nil,
@@ -12541,7 +12543,7 @@ extension IAMClientTypes {
         /// A list of managed policies attached to the role. These policies are the role's access (permissions) policies.
         public var attachedManagedPolicies: [IAMClientTypes.AttachedPolicy]?
         /// The date and time, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601), when the role was created.
-        public var createDate: ClientRuntime.Date?
+        public var createDate: Foundation.Date?
         /// A list of instance profiles that contain this role.
         public var instanceProfileList: [IAMClientTypes.InstanceProfile]?
         /// The path to the role. For more information about paths, see [IAM identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html) in the IAM User Guide.
@@ -12563,7 +12565,7 @@ extension IAMClientTypes {
             arn: Swift.String? = nil,
             assumeRolePolicyDocument: Swift.String? = nil,
             attachedManagedPolicies: [IAMClientTypes.AttachedPolicy]? = nil,
-            createDate: ClientRuntime.Date? = nil,
+            createDate: Foundation.Date? = nil,
             instanceProfileList: [IAMClientTypes.InstanceProfile]? = nil,
             path: Swift.String? = nil,
             permissionsBoundary: IAMClientTypes.AttachedPermissionsBoundary? = nil,
@@ -12606,12 +12608,12 @@ extension IAMClientTypes {
     /// Contains information about the last time that an IAM role was used. This includes the date and time and the Region in which the role was last used. Activity is only reported for the trailing 400 days. This period can be shorter if your Region began supporting these features within the last year. The role might have been used more than 400 days ago. For more information, see [Regions where data is tracked](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#access-advisor_tracking-period) in the IAM user Guide. This data type is returned as a response element in the [GetRole] and [GetAccountAuthorizationDetails] operations.
     public struct RoleLastUsed {
         /// The date and time, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601) that the role was last used. This field is null if the role has not been used within the IAM tracking period. For more information about the tracking period, see [Regions where data is tracked](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#access-advisor_tracking-period) in the IAM User Guide.
-        public var lastUsedDate: ClientRuntime.Date?
+        public var lastUsedDate: Foundation.Date?
         /// The name of the Amazon Web Services Region in which the role was last used.
         public var region: Swift.String?
 
         public init(
-            lastUsedDate: ClientRuntime.Date? = nil,
+            lastUsedDate: Foundation.Date? = nil,
             region: Swift.String? = nil
         )
         {
@@ -12671,14 +12673,14 @@ extension IAMClientTypes {
         /// The Amazon Resource Name (ARN) of the SAML provider.
         public var arn: Swift.String?
         /// The date and time when the SAML provider was created.
-        public var createDate: ClientRuntime.Date?
+        public var createDate: Foundation.Date?
         /// The expiration date and time for the SAML provider.
-        public var validUntil: ClientRuntime.Date?
+        public var validUntil: Foundation.Date?
 
         public init(
             arn: Swift.String? = nil,
-            createDate: ClientRuntime.Date? = nil,
-            validUntil: ClientRuntime.Date? = nil
+            createDate: Foundation.Date? = nil,
+            validUntil: Foundation.Date? = nil
         )
         {
             self.arn = arn
@@ -12720,7 +12722,7 @@ extension IAMClientTypes {
         /// This member is required.
         public var status: IAMClientTypes.StatusType?
         /// The date and time, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601), when the SSH public key was uploaded.
-        public var uploadDate: ClientRuntime.Date?
+        public var uploadDate: Foundation.Date?
         /// The name of the IAM user associated with the SSH public key.
         /// This member is required.
         public var userName: Swift.String?
@@ -12730,7 +12732,7 @@ extension IAMClientTypes {
             sshPublicKeyBody: Swift.String? = nil,
             sshPublicKeyId: Swift.String? = nil,
             status: IAMClientTypes.StatusType? = nil,
-            uploadDate: ClientRuntime.Date? = nil,
+            uploadDate: Foundation.Date? = nil,
             userName: Swift.String? = nil
         )
         {
@@ -12769,7 +12771,7 @@ extension IAMClientTypes {
         public var status: IAMClientTypes.StatusType?
         /// The date and time, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601), when the SSH public key was uploaded.
         /// This member is required.
-        public var uploadDate: ClientRuntime.Date?
+        public var uploadDate: Foundation.Date?
         /// The name of the IAM user associated with the SSH public key.
         /// This member is required.
         public var userName: Swift.String?
@@ -12777,7 +12779,7 @@ extension IAMClientTypes {
         public init(
             sshPublicKeyId: Swift.String? = nil,
             status: IAMClientTypes.StatusType? = nil,
-            uploadDate: ClientRuntime.Date? = nil,
+            uploadDate: Foundation.Date? = nil,
             userName: Swift.String? = nil
         )
         {
@@ -12855,7 +12857,7 @@ extension IAMClientTypes {
         /// This member is required.
         public var arn: Swift.String?
         /// The date on which the certificate is set to expire.
-        public var expiration: ClientRuntime.Date?
+        public var expiration: Foundation.Date?
         /// The path to the server certificate. For more information about paths, see [IAM identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html) in the IAM User Guide.
         /// This member is required.
         public var path: Swift.String?
@@ -12866,15 +12868,15 @@ extension IAMClientTypes {
         /// This member is required.
         public var serverCertificateName: Swift.String?
         /// The date when the server certificate was uploaded.
-        public var uploadDate: ClientRuntime.Date?
+        public var uploadDate: Foundation.Date?
 
         public init(
             arn: Swift.String? = nil,
-            expiration: ClientRuntime.Date? = nil,
+            expiration: Foundation.Date? = nil,
             path: Swift.String? = nil,
             serverCertificateId: Swift.String? = nil,
             serverCertificateName: Swift.String? = nil,
-            uploadDate: ClientRuntime.Date? = nil
+            uploadDate: Foundation.Date? = nil
         )
         {
             self.arn = arn
@@ -12945,7 +12947,7 @@ extension IAMClientTypes {
     /// Contains details about the most recent attempt to access the service. This data type is used as a response element in the [GetServiceLastAccessedDetails] operation.
     public struct ServiceLastAccessed {
         /// The date and time, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601), when an authenticated entity most recently attempted to access the service. Amazon Web Services does not report unauthenticated requests. This field is null if no IAM entities attempted to access the service within the [tracking period](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period).
-        public var lastAuthenticated: ClientRuntime.Date?
+        public var lastAuthenticated: Foundation.Date?
         /// The ARN of the authenticated entity (user or role) that last attempted to access the service. Amazon Web Services does not report unauthenticated requests. This field is null if no IAM entities attempted to access the service within the [tracking period](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period).
         public var lastAuthenticatedEntity: Swift.String?
         /// The Region from which the authenticated entity (user or role) last attempted to access the service. Amazon Web Services does not report unauthenticated requests. This field is null if no IAM entities attempted to access the service within the [tracking period](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period).
@@ -12962,7 +12964,7 @@ extension IAMClientTypes {
         public var trackedActionsLastAccessed: [IAMClientTypes.TrackedActionLastAccessed]?
 
         public init(
-            lastAuthenticated: ClientRuntime.Date? = nil,
+            lastAuthenticated: Foundation.Date? = nil,
             lastAuthenticatedEntity: Swift.String? = nil,
             lastAuthenticatedRegion: Swift.String? = nil,
             serviceName: Swift.String? = nil,
@@ -13046,7 +13048,7 @@ extension IAMClientTypes {
     public struct ServiceSpecificCredential {
         /// The date and time, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601), when the service-specific credential were created.
         /// This member is required.
-        public var createDate: ClientRuntime.Date?
+        public var createDate: Foundation.Date?
         /// The name of the service associated with the service-specific credential.
         /// This member is required.
         public var serviceName: Swift.String?
@@ -13067,7 +13069,7 @@ extension IAMClientTypes {
         public var userName: Swift.String?
 
         public init(
-            createDate: ClientRuntime.Date? = nil,
+            createDate: Foundation.Date? = nil,
             serviceName: Swift.String? = nil,
             servicePassword: Swift.String? = nil,
             serviceSpecificCredentialId: Swift.String? = nil,
@@ -13108,7 +13110,7 @@ extension IAMClientTypes {
     public struct ServiceSpecificCredentialMetadata {
         /// The date and time, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601), when the service-specific credential were created.
         /// This member is required.
-        public var createDate: ClientRuntime.Date?
+        public var createDate: Foundation.Date?
         /// The name of the service associated with the service-specific credential.
         /// This member is required.
         public var serviceName: Swift.String?
@@ -13126,7 +13128,7 @@ extension IAMClientTypes {
         public var userName: Swift.String?
 
         public init(
-            createDate: ClientRuntime.Date? = nil,
+            createDate: Foundation.Date? = nil,
             serviceName: Swift.String? = nil,
             serviceSpecificCredentialId: Swift.String? = nil,
             serviceUserName: Swift.String? = nil,
@@ -13183,7 +13185,7 @@ public struct SetDefaultPolicyVersionInput {
 
 extension SetDefaultPolicyVersionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SetDefaultPolicyVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SetDefaultPolicyVersionOutput {
         return SetDefaultPolicyVersionOutput()
     }
 }
@@ -13195,7 +13197,7 @@ public struct SetDefaultPolicyVersionOutput {
 
 enum SetDefaultPolicyVersionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -13242,7 +13244,7 @@ public struct SetSecurityTokenServicePreferencesInput {
 
 extension SetSecurityTokenServicePreferencesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SetSecurityTokenServicePreferencesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SetSecurityTokenServicePreferencesOutput {
         return SetSecurityTokenServicePreferencesOutput()
     }
 }
@@ -13254,7 +13256,7 @@ public struct SetSecurityTokenServicePreferencesOutput {
 
 enum SetSecurityTokenServicePreferencesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -13293,7 +13295,7 @@ extension IAMClientTypes {
         /// This member is required.
         public var status: IAMClientTypes.StatusType?
         /// The date when the signing certificate was uploaded.
-        public var uploadDate: ClientRuntime.Date?
+        public var uploadDate: Foundation.Date?
         /// The name of the user the signing certificate is associated with.
         /// This member is required.
         public var userName: Swift.String?
@@ -13302,7 +13304,7 @@ extension IAMClientTypes {
             certificateBody: Swift.String? = nil,
             certificateId: Swift.String? = nil,
             status: IAMClientTypes.StatusType? = nil,
-            uploadDate: ClientRuntime.Date? = nil,
+            uploadDate: Foundation.Date? = nil,
             userName: Swift.String? = nil
         )
         {
@@ -13428,7 +13430,7 @@ public struct SimulateCustomPolicyInput {
 
 extension SimulateCustomPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SimulateCustomPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SimulateCustomPolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["SimulateCustomPolicyResult"]
@@ -13463,7 +13465,7 @@ public struct SimulateCustomPolicyOutput {
 
 enum SimulateCustomPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -13593,7 +13595,7 @@ public struct SimulatePrincipalPolicyInput {
 
 extension SimulatePrincipalPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SimulatePrincipalPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SimulatePrincipalPolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["SimulatePrincipalPolicyResult"]
@@ -13628,7 +13630,7 @@ public struct SimulatePrincipalPolicyOutput {
 
 enum SimulatePrincipalPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -13925,7 +13927,7 @@ public struct TagInstanceProfileInput {
 
 extension TagInstanceProfileOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagInstanceProfileOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagInstanceProfileOutput {
         return TagInstanceProfileOutput()
     }
 }
@@ -13937,7 +13939,7 @@ public struct TagInstanceProfileOutput {
 
 enum TagInstanceProfileOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -13991,7 +13993,7 @@ public struct TagMFADeviceInput {
 
 extension TagMFADeviceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagMFADeviceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagMFADeviceOutput {
         return TagMFADeviceOutput()
     }
 }
@@ -14003,7 +14005,7 @@ public struct TagMFADeviceOutput {
 
 enum TagMFADeviceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -14057,7 +14059,7 @@ public struct TagOpenIDConnectProviderInput {
 
 extension TagOpenIDConnectProviderOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagOpenIDConnectProviderOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagOpenIDConnectProviderOutput {
         return TagOpenIDConnectProviderOutput()
     }
 }
@@ -14069,7 +14071,7 @@ public struct TagOpenIDConnectProviderOutput {
 
 enum TagOpenIDConnectProviderOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -14123,7 +14125,7 @@ public struct TagPolicyInput {
 
 extension TagPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagPolicyOutput {
         return TagPolicyOutput()
     }
 }
@@ -14135,7 +14137,7 @@ public struct TagPolicyOutput {
 
 enum TagPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -14189,7 +14191,7 @@ public struct TagRoleInput {
 
 extension TagRoleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagRoleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagRoleOutput {
         return TagRoleOutput()
     }
 }
@@ -14201,7 +14203,7 @@ public struct TagRoleOutput {
 
 enum TagRoleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -14255,7 +14257,7 @@ public struct TagSAMLProviderInput {
 
 extension TagSAMLProviderOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagSAMLProviderOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagSAMLProviderOutput {
         return TagSAMLProviderOutput()
     }
 }
@@ -14267,7 +14269,7 @@ public struct TagSAMLProviderOutput {
 
 enum TagSAMLProviderOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -14321,7 +14323,7 @@ public struct TagServerCertificateInput {
 
 extension TagServerCertificateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagServerCertificateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagServerCertificateOutput {
         return TagServerCertificateOutput()
     }
 }
@@ -14333,7 +14335,7 @@ public struct TagServerCertificateOutput {
 
 enum TagServerCertificateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -14387,7 +14389,7 @@ public struct TagUserInput {
 
 extension TagUserOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagUserOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagUserOutput {
         return TagUserOutput()
     }
 }
@@ -14399,7 +14401,7 @@ public struct TagUserOutput {
 
 enum TagUserOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -14438,13 +14440,13 @@ extension IAMClientTypes {
         /// The Region from which the authenticated entity (user or role) last attempted to access the tracked action. Amazon Web Services does not report unauthenticated requests. This field is null if no IAM entities attempted to access the service within the [tracking period](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period).
         public var lastAccessedRegion: Swift.String?
         /// The date and time, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601), when an authenticated entity most recently attempted to access the tracked service. Amazon Web Services does not report unauthenticated requests. This field is null if no IAM entities attempted to access the service within the [tracking period](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period).
-        public var lastAccessedTime: ClientRuntime.Date?
+        public var lastAccessedTime: Foundation.Date?
 
         public init(
             actionName: Swift.String? = nil,
             lastAccessedEntity: Swift.String? = nil,
             lastAccessedRegion: Swift.String? = nil,
-            lastAccessedTime: ClientRuntime.Date? = nil
+            lastAccessedTime: Foundation.Date? = nil
         )
         {
             self.actionName = actionName
@@ -14568,7 +14570,7 @@ public struct UntagInstanceProfileInput {
 
 extension UntagInstanceProfileOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagInstanceProfileOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagInstanceProfileOutput {
         return UntagInstanceProfileOutput()
     }
 }
@@ -14580,7 +14582,7 @@ public struct UntagInstanceProfileOutput {
 
 enum UntagInstanceProfileOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -14633,7 +14635,7 @@ public struct UntagMFADeviceInput {
 
 extension UntagMFADeviceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagMFADeviceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagMFADeviceOutput {
         return UntagMFADeviceOutput()
     }
 }
@@ -14645,7 +14647,7 @@ public struct UntagMFADeviceOutput {
 
 enum UntagMFADeviceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -14698,7 +14700,7 @@ public struct UntagOpenIDConnectProviderInput {
 
 extension UntagOpenIDConnectProviderOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagOpenIDConnectProviderOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagOpenIDConnectProviderOutput {
         return UntagOpenIDConnectProviderOutput()
     }
 }
@@ -14710,7 +14712,7 @@ public struct UntagOpenIDConnectProviderOutput {
 
 enum UntagOpenIDConnectProviderOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -14763,7 +14765,7 @@ public struct UntagPolicyInput {
 
 extension UntagPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagPolicyOutput {
         return UntagPolicyOutput()
     }
 }
@@ -14775,7 +14777,7 @@ public struct UntagPolicyOutput {
 
 enum UntagPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -14828,7 +14830,7 @@ public struct UntagRoleInput {
 
 extension UntagRoleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagRoleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagRoleOutput {
         return UntagRoleOutput()
     }
 }
@@ -14840,7 +14842,7 @@ public struct UntagRoleOutput {
 
 enum UntagRoleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -14892,7 +14894,7 @@ public struct UntagSAMLProviderInput {
 
 extension UntagSAMLProviderOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagSAMLProviderOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagSAMLProviderOutput {
         return UntagSAMLProviderOutput()
     }
 }
@@ -14904,7 +14906,7 @@ public struct UntagSAMLProviderOutput {
 
 enum UntagSAMLProviderOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -14957,7 +14959,7 @@ public struct UntagServerCertificateInput {
 
 extension UntagServerCertificateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagServerCertificateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagServerCertificateOutput {
         return UntagServerCertificateOutput()
     }
 }
@@ -14969,7 +14971,7 @@ public struct UntagServerCertificateOutput {
 
 enum UntagServerCertificateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -15022,7 +15024,7 @@ public struct UntagUserInput {
 
 extension UntagUserOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagUserOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagUserOutput {
         return UntagUserOutput()
     }
 }
@@ -15034,7 +15036,7 @@ public struct UntagUserOutput {
 
 enum UntagUserOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -15091,7 +15093,7 @@ public struct UpdateAccessKeyInput {
 
 extension UpdateAccessKeyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateAccessKeyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateAccessKeyOutput {
         return UpdateAccessKeyOutput()
     }
 }
@@ -15103,7 +15105,7 @@ public struct UpdateAccessKeyOutput {
 
 enum UpdateAccessKeyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -15188,7 +15190,7 @@ public struct UpdateAccountPasswordPolicyInput {
 
 extension UpdateAccountPasswordPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateAccountPasswordPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateAccountPasswordPolicyOutput {
         return UpdateAccountPasswordPolicyOutput()
     }
 }
@@ -15200,7 +15202,7 @@ public struct UpdateAccountPasswordPolicyOutput {
 
 enum UpdateAccountPasswordPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -15259,7 +15261,7 @@ public struct UpdateAssumeRolePolicyInput {
 
 extension UpdateAssumeRolePolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateAssumeRolePolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateAssumeRolePolicyOutput {
         return UpdateAssumeRolePolicyOutput()
     }
 }
@@ -15271,7 +15273,7 @@ public struct UpdateAssumeRolePolicyOutput {
 
 enum UpdateAssumeRolePolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -15329,7 +15331,7 @@ public struct UpdateGroupInput {
 
 extension UpdateGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateGroupOutput {
         return UpdateGroupOutput()
     }
 }
@@ -15341,7 +15343,7 @@ public struct UpdateGroupOutput {
 
 enum UpdateGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -15412,7 +15414,7 @@ public struct UpdateLoginProfileInput {
 
 extension UpdateLoginProfileOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateLoginProfileOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateLoginProfileOutput {
         return UpdateLoginProfileOutput()
     }
 }
@@ -15424,7 +15426,7 @@ public struct UpdateLoginProfileOutput {
 
 enum UpdateLoginProfileOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -15478,7 +15480,7 @@ public struct UpdateOpenIDConnectProviderThumbprintInput {
 
 extension UpdateOpenIDConnectProviderThumbprintOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateOpenIDConnectProviderThumbprintOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateOpenIDConnectProviderThumbprintOutput {
         return UpdateOpenIDConnectProviderThumbprintOutput()
     }
 }
@@ -15490,7 +15492,7 @@ public struct UpdateOpenIDConnectProviderThumbprintOutput {
 
 enum UpdateOpenIDConnectProviderThumbprintOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -15542,7 +15544,7 @@ public struct UpdateRoleDescriptionInput {
 
 extension UpdateRoleDescriptionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateRoleDescriptionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateRoleDescriptionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["UpdateRoleDescriptionResult"]
@@ -15566,7 +15568,7 @@ public struct UpdateRoleDescriptionOutput {
 
 enum UpdateRoleDescriptionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -15622,7 +15624,7 @@ public struct UpdateRoleInput {
 
 extension UpdateRoleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateRoleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateRoleOutput {
         return UpdateRoleOutput()
     }
 }
@@ -15634,7 +15636,7 @@ public struct UpdateRoleOutput {
 
 enum UpdateRoleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -15686,7 +15688,7 @@ public struct UpdateSAMLProviderInput {
 
 extension UpdateSAMLProviderOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateSAMLProviderOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateSAMLProviderOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["UpdateSAMLProviderResult"]
@@ -15711,7 +15713,7 @@ public struct UpdateSAMLProviderOutput {
 
 enum UpdateSAMLProviderOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -15770,7 +15772,7 @@ public struct UpdateSSHPublicKeyInput {
 
 extension UpdateSSHPublicKeyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateSSHPublicKeyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateSSHPublicKeyOutput {
         return UpdateSSHPublicKeyOutput()
     }
 }
@@ -15782,7 +15784,7 @@ public struct UpdateSSHPublicKeyOutput {
 
 enum UpdateSSHPublicKeyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -15836,7 +15838,7 @@ public struct UpdateServerCertificateInput {
 
 extension UpdateServerCertificateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateServerCertificateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateServerCertificateOutput {
         return UpdateServerCertificateOutput()
     }
 }
@@ -15848,7 +15850,7 @@ public struct UpdateServerCertificateOutput {
 
 enum UpdateServerCertificateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -15906,7 +15908,7 @@ public struct UpdateServiceSpecificCredentialInput {
 
 extension UpdateServiceSpecificCredentialOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateServiceSpecificCredentialOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateServiceSpecificCredentialOutput {
         return UpdateServiceSpecificCredentialOutput()
     }
 }
@@ -15918,7 +15920,7 @@ public struct UpdateServiceSpecificCredentialOutput {
 
 enum UpdateServiceSpecificCredentialOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -15973,7 +15975,7 @@ public struct UpdateSigningCertificateInput {
 
 extension UpdateSigningCertificateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateSigningCertificateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateSigningCertificateOutput {
         return UpdateSigningCertificateOutput()
     }
 }
@@ -15985,7 +15987,7 @@ public struct UpdateSigningCertificateOutput {
 
 enum UpdateSigningCertificateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -16041,7 +16043,7 @@ public struct UpdateUserInput {
 
 extension UpdateUserOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateUserOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateUserOutput {
         return UpdateUserOutput()
     }
 }
@@ -16053,7 +16055,7 @@ public struct UpdateUserOutput {
 
 enum UpdateUserOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -16114,7 +16116,7 @@ public struct UploadSSHPublicKeyInput {
 
 extension UploadSSHPublicKeyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UploadSSHPublicKeyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UploadSSHPublicKeyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["UploadSSHPublicKeyResult"]
@@ -16139,7 +16141,7 @@ public struct UploadSSHPublicKeyOutput {
 
 enum UploadSSHPublicKeyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -16237,7 +16239,7 @@ public struct UploadServerCertificateInput {
 
 extension UploadServerCertificateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UploadServerCertificateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UploadServerCertificateOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["UploadServerCertificateResult"]
@@ -16267,7 +16269,7 @@ public struct UploadServerCertificateOutput {
 
 enum UploadServerCertificateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -16328,7 +16330,7 @@ public struct UploadSigningCertificateInput {
 
 extension UploadSigningCertificateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UploadSigningCertificateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UploadSigningCertificateOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["UploadSigningCertificateResult"]
@@ -16354,7 +16356,7 @@ public struct UploadSigningCertificateOutput {
 
 enum UploadSigningCertificateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -16404,7 +16406,7 @@ extension IAMClientTypes {
         public var arn: Swift.String?
         /// The date and time, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601), when the user was created.
         /// This member is required.
-        public var createDate: ClientRuntime.Date?
+        public var createDate: Foundation.Date?
         /// The date and time, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601), when the user's password was last used to sign in to an Amazon Web Services website. For a list of Amazon Web Services websites that capture a user's last sign-in time, see the [Credential reports](https://docs.aws.amazon.com/IAM/latest/UserGuide/credential-reports.html) topic in the IAM User Guide. If a password is used more than once in a five-minute span, only the first use is returned in this field. If the field is null (no value), then it indicates that they never signed in with a password. This can be because:
         ///
         /// * The user never had a password.
@@ -16413,7 +16415,7 @@ extension IAMClientTypes {
         ///
         ///
         /// A null value does not mean that the user never had a password. Also, if the user does not currently have a password but had one in the past, then this field contains the date and time the most recent password was used. This value is returned only in the [GetUser] and [ListUsers] operations.
-        public var passwordLastUsed: ClientRuntime.Date?
+        public var passwordLastUsed: Foundation.Date?
         /// The path to the user. For more information about paths, see [IAM identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html) in the IAM User Guide. The ARN of the policy used to set the permissions boundary for the user.
         /// This member is required.
         public var path: Swift.String?
@@ -16430,8 +16432,8 @@ extension IAMClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            createDate: ClientRuntime.Date? = nil,
-            passwordLastUsed: ClientRuntime.Date? = nil,
+            createDate: Foundation.Date? = nil,
+            passwordLastUsed: Foundation.Date? = nil,
             path: Swift.String? = nil,
             permissionsBoundary: IAMClientTypes.AttachedPermissionsBoundary? = nil,
             tags: [IAMClientTypes.Tag]? = nil,
@@ -16479,7 +16481,7 @@ extension IAMClientTypes {
         /// A list of the managed policies attached to the user.
         public var attachedManagedPolicies: [IAMClientTypes.AttachedPolicy]?
         /// The date and time, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601), when the user was created.
-        public var createDate: ClientRuntime.Date?
+        public var createDate: Foundation.Date?
         /// A list of IAM groups that the user is in.
         public var groupList: [Swift.String]?
         /// The path to the user. For more information about paths, see [IAM identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html) in the IAM User Guide.
@@ -16498,7 +16500,7 @@ extension IAMClientTypes {
         public init(
             arn: Swift.String? = nil,
             attachedManagedPolicies: [IAMClientTypes.AttachedPolicy]? = nil,
-            createDate: ClientRuntime.Date? = nil,
+            createDate: Foundation.Date? = nil,
             groupList: [Swift.String]? = nil,
             path: Swift.String? = nil,
             permissionsBoundary: IAMClientTypes.AttachedPermissionsBoundary? = nil,
@@ -16547,11 +16549,11 @@ extension IAMClientTypes {
     /// Contains information about a virtual MFA device.
     public struct VirtualMFADevice {
         /// The base32 seed defined as specified in [RFC3548](https://tools.ietf.org/html/rfc3548.txt). The Base32StringSeed is base32-encoded.
-        public var base32StringSeed: ClientRuntime.Data?
+        public var base32StringSeed: Foundation.Data?
         /// The date and time on which the virtual MFA device was enabled.
-        public var enableDate: ClientRuntime.Date?
+        public var enableDate: Foundation.Date?
         /// A QR code PNG image that encodes otpauth://totp/$virtualMFADeviceName@$AccountName?secret=$Base32String where $virtualMFADeviceName is one of the create call arguments. AccountName is the user name if set (otherwise, the account ID otherwise), and Base32String is the seed in base32 format. The Base32String value is base64-encoded.
-        public var qrCodePNG: ClientRuntime.Data?
+        public var qrCodePNG: Foundation.Data?
         /// The serial number associated with VirtualMFADevice.
         /// This member is required.
         public var serialNumber: Swift.String?
@@ -16561,9 +16563,9 @@ extension IAMClientTypes {
         public var user: IAMClientTypes.User?
 
         public init(
-            base32StringSeed: ClientRuntime.Data? = nil,
-            enableDate: ClientRuntime.Date? = nil,
-            qrCodePNG: ClientRuntime.Data? = nil,
+            base32StringSeed: Foundation.Data? = nil,
+            enableDate: Foundation.Date? = nil,
+            qrCodePNG: Foundation.Data? = nil,
             serialNumber: Swift.String? = nil,
             tags: [IAMClientTypes.Tag]? = nil,
             user: IAMClientTypes.User? = nil

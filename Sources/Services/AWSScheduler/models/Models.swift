@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -231,7 +234,7 @@ public struct CreateScheduleGroupInput {
 
 extension CreateScheduleGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateScheduleGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateScheduleGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -256,7 +259,7 @@ public struct CreateScheduleGroupOutput {
 
 enum CreateScheduleGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -309,7 +312,7 @@ public struct CreateScheduleInput {
     /// The description you specify for the schedule.
     public var description: Swift.String?
     /// The date, in UTC, before which the schedule can invoke its target. Depending on the schedule's recurrence expression, invocations might stop on, or before, the EndDate you specify. EventBridge Scheduler ignores EndDate for one-time schedules.
-    public var endDate: ClientRuntime.Date?
+    public var endDate: Foundation.Date?
     /// Allows you to configure a time window during which EventBridge Scheduler invokes the schedule.
     /// This member is required.
     public var flexibleTimeWindow: SchedulerClientTypes.FlexibleTimeWindow?
@@ -335,7 +338,7 @@ public struct CreateScheduleInput {
     /// The timezone in which the scheduling expression is evaluated.
     public var scheduleExpressionTimezone: Swift.String?
     /// The date, in UTC, after which the schedule can begin invoking its target. Depending on the schedule's recurrence expression, invocations might occur on, or after, the StartDate you specify. EventBridge Scheduler ignores StartDate for one-time schedules.
-    public var startDate: ClientRuntime.Date?
+    public var startDate: Foundation.Date?
     /// Specifies whether the schedule is enabled or disabled.
     public var state: SchedulerClientTypes.ScheduleState?
     /// The schedule's target.
@@ -346,14 +349,14 @@ public struct CreateScheduleInput {
         actionAfterCompletion: SchedulerClientTypes.ActionAfterCompletion? = nil,
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
-        endDate: ClientRuntime.Date? = nil,
+        endDate: Foundation.Date? = nil,
         flexibleTimeWindow: SchedulerClientTypes.FlexibleTimeWindow? = nil,
         groupName: Swift.String? = nil,
         kmsKeyArn: Swift.String? = nil,
         name: Swift.String? = nil,
         scheduleExpression: Swift.String? = nil,
         scheduleExpressionTimezone: Swift.String? = nil,
-        startDate: ClientRuntime.Date? = nil,
+        startDate: Foundation.Date? = nil,
         state: SchedulerClientTypes.ScheduleState? = nil,
         target: SchedulerClientTypes.Target? = nil
     )
@@ -376,7 +379,7 @@ public struct CreateScheduleInput {
 
 extension CreateScheduleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateScheduleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateScheduleOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -401,7 +404,7 @@ public struct CreateScheduleOutput {
 
 enum CreateScheduleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -451,10 +454,10 @@ extension SchedulerClientTypes {
 
 extension DeleteScheduleGroupInput {
 
-    static func queryItemProvider(_ value: DeleteScheduleGroupInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteScheduleGroupInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let clientToken = value.clientToken {
-            let clientTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
             items.append(clientTokenQueryItem)
         }
         return items
@@ -490,7 +493,7 @@ public struct DeleteScheduleGroupInput {
 
 extension DeleteScheduleGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteScheduleGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteScheduleGroupOutput {
         return DeleteScheduleGroupOutput()
     }
 }
@@ -502,7 +505,7 @@ public struct DeleteScheduleGroupOutput {
 
 enum DeleteScheduleGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -520,14 +523,14 @@ enum DeleteScheduleGroupOutputError {
 
 extension DeleteScheduleInput {
 
-    static func queryItemProvider(_ value: DeleteScheduleInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteScheduleInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let groupName = value.groupName {
-            let groupNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "groupName".urlPercentEncoding(), value: Swift.String(groupName).urlPercentEncoding())
+            let groupNameQueryItem = Smithy.URIQueryItem(name: "groupName".urlPercentEncoding(), value: Swift.String(groupName).urlPercentEncoding())
             items.append(groupNameQueryItem)
         }
         if let clientToken = value.clientToken {
-            let clientTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
             items.append(clientTokenQueryItem)
         }
         return items
@@ -567,7 +570,7 @@ public struct DeleteScheduleInput {
 
 extension DeleteScheduleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteScheduleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteScheduleOutput {
         return DeleteScheduleOutput()
     }
 }
@@ -579,7 +582,7 @@ public struct DeleteScheduleOutput {
 
 enum DeleteScheduleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -836,7 +839,7 @@ public struct GetScheduleGroupInput {
 
 extension GetScheduleGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetScheduleGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetScheduleGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -854,9 +857,9 @@ public struct GetScheduleGroupOutput {
     /// The Amazon Resource Name (ARN) of the schedule group.
     public var arn: Swift.String?
     /// The time at which the schedule group was created.
-    public var creationDate: ClientRuntime.Date?
+    public var creationDate: Foundation.Date?
     /// The time at which the schedule group was last modified.
-    public var lastModificationDate: ClientRuntime.Date?
+    public var lastModificationDate: Foundation.Date?
     /// The name of the schedule group.
     public var name: Swift.String?
     /// Specifies the state of the schedule group.
@@ -864,8 +867,8 @@ public struct GetScheduleGroupOutput {
 
     public init(
         arn: Swift.String? = nil,
-        creationDate: ClientRuntime.Date? = nil,
-        lastModificationDate: ClientRuntime.Date? = nil,
+        creationDate: Foundation.Date? = nil,
+        lastModificationDate: Foundation.Date? = nil,
         name: Swift.String? = nil,
         state: SchedulerClientTypes.ScheduleGroupState? = nil
     )
@@ -880,7 +883,7 @@ public struct GetScheduleGroupOutput {
 
 enum GetScheduleGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -897,10 +900,10 @@ enum GetScheduleGroupOutputError {
 
 extension GetScheduleInput {
 
-    static func queryItemProvider(_ value: GetScheduleInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetScheduleInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let groupName = value.groupName {
-            let groupNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "groupName".urlPercentEncoding(), value: Swift.String(groupName).urlPercentEncoding())
+            let groupNameQueryItem = Smithy.URIQueryItem(name: "groupName".urlPercentEncoding(), value: Swift.String(groupName).urlPercentEncoding())
             items.append(groupNameQueryItem)
         }
         return items
@@ -936,7 +939,7 @@ public struct GetScheduleInput {
 
 extension GetScheduleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetScheduleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetScheduleOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -966,11 +969,11 @@ public struct GetScheduleOutput {
     /// The Amazon Resource Name (ARN) of the schedule.
     public var arn: Swift.String?
     /// The time at which the schedule was created.
-    public var creationDate: ClientRuntime.Date?
+    public var creationDate: Foundation.Date?
     /// The description of the schedule.
     public var description: Swift.String?
     /// The date, in UTC, before which the schedule can invoke its target. Depending on the schedule's recurrence expression, invocations might stop on, or before, the EndDate you specify. EventBridge Scheduler ignores EndDate for one-time schedules.
-    public var endDate: ClientRuntime.Date?
+    public var endDate: Foundation.Date?
     /// Allows you to configure a time window during which EventBridge Scheduler invokes the schedule.
     public var flexibleTimeWindow: SchedulerClientTypes.FlexibleTimeWindow?
     /// The name of the schedule group associated with this schedule.
@@ -978,7 +981,7 @@ public struct GetScheduleOutput {
     /// The ARN for a customer managed KMS Key that is be used to encrypt and decrypt your data.
     public var kmsKeyArn: Swift.String?
     /// The time at which the schedule was last modified.
-    public var lastModificationDate: ClientRuntime.Date?
+    public var lastModificationDate: Foundation.Date?
     /// The name of the schedule.
     public var name: Swift.String?
     /// The expression that defines when the schedule runs. The following formats are supported.
@@ -995,7 +998,7 @@ public struct GetScheduleOutput {
     /// The timezone in which the scheduling expression is evaluated.
     public var scheduleExpressionTimezone: Swift.String?
     /// The date, in UTC, after which the schedule can begin invoking its target. Depending on the schedule's recurrence expression, invocations might occur on, or after, the StartDate you specify. EventBridge Scheduler ignores StartDate for one-time schedules.
-    public var startDate: ClientRuntime.Date?
+    public var startDate: Foundation.Date?
     /// Specifies whether the schedule is enabled or disabled.
     public var state: SchedulerClientTypes.ScheduleState?
     /// The schedule target.
@@ -1004,17 +1007,17 @@ public struct GetScheduleOutput {
     public init(
         actionAfterCompletion: SchedulerClientTypes.ActionAfterCompletion? = nil,
         arn: Swift.String? = nil,
-        creationDate: ClientRuntime.Date? = nil,
+        creationDate: Foundation.Date? = nil,
         description: Swift.String? = nil,
-        endDate: ClientRuntime.Date? = nil,
+        endDate: Foundation.Date? = nil,
         flexibleTimeWindow: SchedulerClientTypes.FlexibleTimeWindow? = nil,
         groupName: Swift.String? = nil,
         kmsKeyArn: Swift.String? = nil,
-        lastModificationDate: ClientRuntime.Date? = nil,
+        lastModificationDate: Foundation.Date? = nil,
         name: Swift.String? = nil,
         scheduleExpression: Swift.String? = nil,
         scheduleExpressionTimezone: Swift.String? = nil,
-        startDate: ClientRuntime.Date? = nil,
+        startDate: Foundation.Date? = nil,
         state: SchedulerClientTypes.ScheduleState? = nil,
         target: SchedulerClientTypes.Target? = nil
     )
@@ -1039,7 +1042,7 @@ public struct GetScheduleOutput {
 
 enum GetScheduleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1158,18 +1161,18 @@ extension SchedulerClientTypes {
 
 extension ListScheduleGroupsInput {
 
-    static func queryItemProvider(_ value: ListScheduleGroupsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListScheduleGroupsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let namePrefix = value.namePrefix {
-            let namePrefixQueryItem = ClientRuntime.SDKURLQueryItem(name: "NamePrefix".urlPercentEncoding(), value: Swift.String(namePrefix).urlPercentEncoding())
+            let namePrefixQueryItem = Smithy.URIQueryItem(name: "NamePrefix".urlPercentEncoding(), value: Swift.String(namePrefix).urlPercentEncoding())
             items.append(namePrefixQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -1205,7 +1208,7 @@ public struct ListScheduleGroupsInput {
 
 extension ListScheduleGroupsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListScheduleGroupsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListScheduleGroupsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1235,7 +1238,7 @@ public struct ListScheduleGroupsOutput {
 
 enum ListScheduleGroupsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1251,26 +1254,26 @@ enum ListScheduleGroupsOutputError {
 
 extension ListSchedulesInput {
 
-    static func queryItemProvider(_ value: ListSchedulesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListSchedulesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let groupName = value.groupName {
-            let groupNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "ScheduleGroup".urlPercentEncoding(), value: Swift.String(groupName).urlPercentEncoding())
+            let groupNameQueryItem = Smithy.URIQueryItem(name: "ScheduleGroup".urlPercentEncoding(), value: Swift.String(groupName).urlPercentEncoding())
             items.append(groupNameQueryItem)
         }
         if let namePrefix = value.namePrefix {
-            let namePrefixQueryItem = ClientRuntime.SDKURLQueryItem(name: "NamePrefix".urlPercentEncoding(), value: Swift.String(namePrefix).urlPercentEncoding())
+            let namePrefixQueryItem = Smithy.URIQueryItem(name: "NamePrefix".urlPercentEncoding(), value: Swift.String(namePrefix).urlPercentEncoding())
             items.append(namePrefixQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let state = value.state {
-            let stateQueryItem = ClientRuntime.SDKURLQueryItem(name: "State".urlPercentEncoding(), value: Swift.String(state.rawValue).urlPercentEncoding())
+            let stateQueryItem = Smithy.URIQueryItem(name: "State".urlPercentEncoding(), value: Swift.String(state.rawValue).urlPercentEncoding())
             items.append(stateQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -1314,7 +1317,7 @@ public struct ListSchedulesInput {
 
 extension ListSchedulesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListSchedulesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListSchedulesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1344,7 +1347,7 @@ public struct ListSchedulesOutput {
 
 enum ListSchedulesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1384,7 +1387,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1408,7 +1411,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1809,9 +1812,9 @@ extension SchedulerClientTypes {
         /// The Amazon Resource Name (ARN) of the schedule group.
         public var arn: Swift.String?
         /// The time at which the schedule group was created.
-        public var creationDate: ClientRuntime.Date?
+        public var creationDate: Foundation.Date?
         /// The time at which the schedule group was last modified.
-        public var lastModificationDate: ClientRuntime.Date?
+        public var lastModificationDate: Foundation.Date?
         /// The name of the schedule group.
         public var name: Swift.String?
         /// Specifies the state of the schedule group.
@@ -1819,8 +1822,8 @@ extension SchedulerClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            creationDate: ClientRuntime.Date? = nil,
-            lastModificationDate: ClientRuntime.Date? = nil,
+            creationDate: Foundation.Date? = nil,
+            lastModificationDate: Foundation.Date? = nil,
             name: Swift.String? = nil,
             state: SchedulerClientTypes.ScheduleGroupState? = nil
         )
@@ -1886,11 +1889,11 @@ extension SchedulerClientTypes {
         /// The Amazon Resource Name (ARN) of the schedule.
         public var arn: Swift.String?
         /// The time at which the schedule was created.
-        public var creationDate: ClientRuntime.Date?
+        public var creationDate: Foundation.Date?
         /// The name of the schedule group associated with this schedule.
         public var groupName: Swift.String?
         /// The time at which the schedule was last modified.
-        public var lastModificationDate: ClientRuntime.Date?
+        public var lastModificationDate: Foundation.Date?
         /// The name of the schedule.
         public var name: Swift.String?
         /// Specifies whether the schedule is enabled or disabled.
@@ -1900,9 +1903,9 @@ extension SchedulerClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            creationDate: ClientRuntime.Date? = nil,
+            creationDate: Foundation.Date? = nil,
             groupName: Swift.String? = nil,
-            lastModificationDate: ClientRuntime.Date? = nil,
+            lastModificationDate: Foundation.Date? = nil,
             name: Swift.String? = nil,
             state: SchedulerClientTypes.ScheduleState? = nil,
             target: SchedulerClientTypes.TargetSummary? = nil
@@ -2068,7 +2071,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -2080,7 +2083,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2250,14 +2253,14 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension UntagResourceInput {
 
-    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let tagKeys = value.tagKeys else {
             let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
         tagKeys.forEach { queryItemValue in
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "TagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "TagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
             items.append(queryItem)
         }
         return items
@@ -2294,7 +2297,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -2306,7 +2309,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2359,7 +2362,7 @@ public struct UpdateScheduleInput {
     /// The description you specify for the schedule.
     public var description: Swift.String?
     /// The date, in UTC, before which the schedule can invoke its target. Depending on the schedule's recurrence expression, invocations might stop on, or before, the EndDate you specify. EventBridge Scheduler ignores EndDate for one-time schedules.
-    public var endDate: ClientRuntime.Date?
+    public var endDate: Foundation.Date?
     /// Allows you to configure a time window during which EventBridge Scheduler invokes the schedule.
     /// This member is required.
     public var flexibleTimeWindow: SchedulerClientTypes.FlexibleTimeWindow?
@@ -2385,7 +2388,7 @@ public struct UpdateScheduleInput {
     /// The timezone in which the scheduling expression is evaluated.
     public var scheduleExpressionTimezone: Swift.String?
     /// The date, in UTC, after which the schedule can begin invoking its target. Depending on the schedule's recurrence expression, invocations might occur on, or after, the StartDate you specify. EventBridge Scheduler ignores StartDate for one-time schedules.
-    public var startDate: ClientRuntime.Date?
+    public var startDate: Foundation.Date?
     /// Specifies whether the schedule is enabled or disabled.
     public var state: SchedulerClientTypes.ScheduleState?
     /// The schedule target. You can use this operation to change the target that your schedule invokes.
@@ -2396,14 +2399,14 @@ public struct UpdateScheduleInput {
         actionAfterCompletion: SchedulerClientTypes.ActionAfterCompletion? = nil,
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
-        endDate: ClientRuntime.Date? = nil,
+        endDate: Foundation.Date? = nil,
         flexibleTimeWindow: SchedulerClientTypes.FlexibleTimeWindow? = nil,
         groupName: Swift.String? = nil,
         kmsKeyArn: Swift.String? = nil,
         name: Swift.String? = nil,
         scheduleExpression: Swift.String? = nil,
         scheduleExpressionTimezone: Swift.String? = nil,
-        startDate: ClientRuntime.Date? = nil,
+        startDate: Foundation.Date? = nil,
         state: SchedulerClientTypes.ScheduleState? = nil,
         target: SchedulerClientTypes.Target? = nil
     )
@@ -2426,7 +2429,7 @@ public struct UpdateScheduleInput {
 
 extension UpdateScheduleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateScheduleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateScheduleOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2451,7 +2454,7 @@ public struct UpdateScheduleOutput {
 
 enum UpdateScheduleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

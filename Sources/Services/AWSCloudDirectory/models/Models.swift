@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -44,8 +46,8 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension AddFacetToObjectInput {
 
-    static func headerProvider(_ value: AddFacetToObjectInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: AddFacetToObjectInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
@@ -99,7 +101,7 @@ public struct AddFacetToObjectInput {
 
 extension AddFacetToObjectOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AddFacetToObjectOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AddFacetToObjectOutput {
         return AddFacetToObjectOutput()
     }
 }
@@ -111,7 +113,7 @@ public struct AddFacetToObjectOutput {
 
 enum AddFacetToObjectOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -133,8 +135,8 @@ enum AddFacetToObjectOutputError {
 
 extension ApplySchemaInput {
 
-    static func headerProvider(_ value: ApplySchemaInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: ApplySchemaInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
@@ -177,7 +179,7 @@ public struct ApplySchemaInput {
 
 extension ApplySchemaOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ApplySchemaOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ApplySchemaOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -206,7 +208,7 @@ public struct ApplySchemaOutput {
 
 enum ApplySchemaOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -228,8 +230,8 @@ enum ApplySchemaOutputError {
 
 extension AttachObjectInput {
 
-    static func headerProvider(_ value: AttachObjectInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: AttachObjectInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
@@ -284,7 +286,7 @@ public struct AttachObjectInput {
 
 extension AttachObjectOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AttachObjectOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AttachObjectOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -308,7 +310,7 @@ public struct AttachObjectOutput {
 
 enum AttachObjectOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -332,8 +334,8 @@ enum AttachObjectOutputError {
 
 extension AttachPolicyInput {
 
-    static func headerProvider(_ value: AttachPolicyInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: AttachPolicyInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
@@ -382,7 +384,7 @@ public struct AttachPolicyInput {
 
 extension AttachPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AttachPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AttachPolicyOutput {
         return AttachPolicyOutput()
     }
 }
@@ -394,7 +396,7 @@ public struct AttachPolicyOutput {
 
 enum AttachPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -416,8 +418,8 @@ enum AttachPolicyOutputError {
 
 extension AttachToIndexInput {
 
-    static func headerProvider(_ value: AttachToIndexInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: AttachToIndexInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
@@ -466,7 +468,7 @@ public struct AttachToIndexInput {
 
 extension AttachToIndexOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AttachToIndexOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AttachToIndexOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -490,7 +492,7 @@ public struct AttachToIndexOutput {
 
 enum AttachToIndexOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -515,8 +517,8 @@ enum AttachToIndexOutputError {
 
 extension AttachTypedLinkInput {
 
-    static func headerProvider(_ value: AttachTypedLinkInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: AttachTypedLinkInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
@@ -577,7 +579,7 @@ public struct AttachTypedLinkInput {
 
 extension AttachTypedLinkOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AttachTypedLinkOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AttachTypedLinkOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -601,7 +603,7 @@ public struct AttachTypedLinkOutput {
 
 enum AttachTypedLinkOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2459,8 +2461,8 @@ extension CloudDirectoryClientTypes {
 
 extension BatchReadInput {
 
-    static func headerProvider(_ value: BatchReadInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: BatchReadInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let consistencyLevel = value.consistencyLevel {
             items.add(Header(name: "x-amz-consistency-level", value: Swift.String(consistencyLevel.rawValue)))
         }
@@ -2630,7 +2632,7 @@ extension CloudDirectoryClientTypes {
 
 extension BatchReadOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> BatchReadOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BatchReadOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2654,7 +2656,7 @@ public struct BatchReadOutput {
 
 enum BatchReadOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3040,8 +3042,8 @@ extension CloudDirectoryClientTypes {
 
 extension BatchWriteInput {
 
-    static func headerProvider(_ value: BatchWriteInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: BatchWriteInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
@@ -3274,7 +3276,7 @@ extension CloudDirectoryClientTypes {
 
 extension BatchWriteOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> BatchWriteOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BatchWriteOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3298,7 +3300,7 @@ public struct BatchWriteOutput {
 
 enum BatchWriteOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3387,8 +3389,8 @@ extension CloudDirectoryClientTypes {
 
 extension CreateDirectoryInput {
 
-    static func headerProvider(_ value: CreateDirectoryInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: CreateDirectoryInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let schemaArn = value.schemaArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(schemaArn)))
         }
@@ -3431,7 +3433,7 @@ public struct CreateDirectoryInput {
 
 extension CreateDirectoryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateDirectoryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateDirectoryOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3474,7 +3476,7 @@ public struct CreateDirectoryOutput {
 
 enum CreateDirectoryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3495,8 +3497,8 @@ enum CreateDirectoryOutputError {
 
 extension CreateFacetInput {
 
-    static func headerProvider(_ value: CreateFacetInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: CreateFacetInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let schemaArn = value.schemaArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(schemaArn)))
         }
@@ -3571,7 +3573,7 @@ public struct CreateFacetInput {
 
 extension CreateFacetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateFacetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateFacetOutput {
         return CreateFacetOutput()
     }
 }
@@ -3583,7 +3585,7 @@ public struct CreateFacetOutput {
 
 enum CreateFacetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3606,8 +3608,8 @@ enum CreateFacetOutputError {
 
 extension CreateIndexInput {
 
-    static func headerProvider(_ value: CreateIndexInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: CreateIndexInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
@@ -3666,7 +3668,7 @@ public struct CreateIndexInput {
 
 extension CreateIndexOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateIndexOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateIndexOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3690,7 +3692,7 @@ public struct CreateIndexOutput {
 
 enum CreateIndexOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3714,8 +3716,8 @@ enum CreateIndexOutputError {
 
 extension CreateObjectInput {
 
-    static func headerProvider(_ value: CreateObjectInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: CreateObjectInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
@@ -3773,7 +3775,7 @@ public struct CreateObjectInput {
 
 extension CreateObjectOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateObjectOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateObjectOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3797,7 +3799,7 @@ public struct CreateObjectOutput {
 
 enum CreateObjectOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3849,7 +3851,7 @@ public struct CreateSchemaInput {
 
 extension CreateSchemaOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateSchemaOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateSchemaOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3873,7 +3875,7 @@ public struct CreateSchemaOutput {
 
 enum CreateSchemaOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3893,8 +3895,8 @@ enum CreateSchemaOutputError {
 
 extension CreateTypedLinkFacetInput {
 
-    static func headerProvider(_ value: CreateTypedLinkFacetInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: CreateTypedLinkFacetInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let schemaArn = value.schemaArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(schemaArn)))
         }
@@ -3937,7 +3939,7 @@ public struct CreateTypedLinkFacetInput {
 
 extension CreateTypedLinkFacetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateTypedLinkFacetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateTypedLinkFacetOutput {
         return CreateTypedLinkFacetOutput()
     }
 }
@@ -3949,7 +3951,7 @@ public struct CreateTypedLinkFacetOutput {
 
 enum CreateTypedLinkFacetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3972,8 +3974,8 @@ enum CreateTypedLinkFacetOutputError {
 
 extension DeleteDirectoryInput {
 
-    static func headerProvider(_ value: DeleteDirectoryInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteDirectoryInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
@@ -4003,7 +4005,7 @@ public struct DeleteDirectoryInput {
 
 extension DeleteDirectoryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteDirectoryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteDirectoryOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4028,7 +4030,7 @@ public struct DeleteDirectoryOutput {
 
 enum DeleteDirectoryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4050,8 +4052,8 @@ enum DeleteDirectoryOutputError {
 
 extension DeleteFacetInput {
 
-    static func headerProvider(_ value: DeleteFacetInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteFacetInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let schemaArn = value.schemaArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(schemaArn)))
         }
@@ -4094,7 +4096,7 @@ public struct DeleteFacetInput {
 
 extension DeleteFacetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteFacetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteFacetOutput {
         return DeleteFacetOutput()
     }
 }
@@ -4106,7 +4108,7 @@ public struct DeleteFacetOutput {
 
 enum DeleteFacetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4128,8 +4130,8 @@ enum DeleteFacetOutputError {
 
 extension DeleteObjectInput {
 
-    static func headerProvider(_ value: DeleteObjectInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteObjectInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
@@ -4172,7 +4174,7 @@ public struct DeleteObjectInput {
 
 extension DeleteObjectOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteObjectOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteObjectOutput {
         return DeleteObjectOutput()
     }
 }
@@ -4184,7 +4186,7 @@ public struct DeleteObjectOutput {
 
 enum DeleteObjectOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4206,8 +4208,8 @@ enum DeleteObjectOutputError {
 
 extension DeleteSchemaInput {
 
-    static func headerProvider(_ value: DeleteSchemaInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteSchemaInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let schemaArn = value.schemaArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(schemaArn)))
         }
@@ -4237,7 +4239,7 @@ public struct DeleteSchemaInput {
 
 extension DeleteSchemaOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteSchemaOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteSchemaOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4261,7 +4263,7 @@ public struct DeleteSchemaOutput {
 
 enum DeleteSchemaOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4282,8 +4284,8 @@ enum DeleteSchemaOutputError {
 
 extension DeleteTypedLinkFacetInput {
 
-    static func headerProvider(_ value: DeleteTypedLinkFacetInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteTypedLinkFacetInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let schemaArn = value.schemaArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(schemaArn)))
         }
@@ -4326,7 +4328,7 @@ public struct DeleteTypedLinkFacetInput {
 
 extension DeleteTypedLinkFacetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteTypedLinkFacetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteTypedLinkFacetOutput {
         return DeleteTypedLinkFacetOutput()
     }
 }
@@ -4338,7 +4340,7 @@ public struct DeleteTypedLinkFacetOutput {
 
 enum DeleteTypedLinkFacetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4359,8 +4361,8 @@ enum DeleteTypedLinkFacetOutputError {
 
 extension DetachFromIndexInput {
 
-    static func headerProvider(_ value: DetachFromIndexInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DetachFromIndexInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
@@ -4409,7 +4411,7 @@ public struct DetachFromIndexInput {
 
 extension DetachFromIndexOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DetachFromIndexOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DetachFromIndexOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4433,7 +4435,7 @@ public struct DetachFromIndexOutput {
 
 enum DetachFromIndexOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4456,8 +4458,8 @@ enum DetachFromIndexOutputError {
 
 extension DetachObjectInput {
 
-    static func headerProvider(_ value: DetachObjectInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DetachObjectInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
@@ -4506,7 +4508,7 @@ public struct DetachObjectInput {
 
 extension DetachObjectOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DetachObjectOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DetachObjectOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4530,7 +4532,7 @@ public struct DetachObjectOutput {
 
 enum DetachObjectOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4552,8 +4554,8 @@ enum DetachObjectOutputError {
 
 extension DetachPolicyInput {
 
-    static func headerProvider(_ value: DetachPolicyInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DetachPolicyInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
@@ -4602,7 +4604,7 @@ public struct DetachPolicyInput {
 
 extension DetachPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DetachPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DetachPolicyOutput {
         return DetachPolicyOutput()
     }
 }
@@ -4614,7 +4616,7 @@ public struct DetachPolicyOutput {
 
 enum DetachPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4636,8 +4638,8 @@ enum DetachPolicyOutputError {
 
 extension DetachTypedLinkInput {
 
-    static func headerProvider(_ value: DetachTypedLinkInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DetachTypedLinkInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
@@ -4680,7 +4682,7 @@ public struct DetachTypedLinkInput {
 
 extension DetachTypedLinkOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DetachTypedLinkOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DetachTypedLinkOutput {
         return DetachTypedLinkOutput()
     }
 }
@@ -4692,7 +4694,7 @@ public struct DetachTypedLinkOutput {
 
 enum DetachTypedLinkOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4729,7 +4731,7 @@ extension CloudDirectoryClientTypes {
     /// Directory structure that includes the directory name and directory ARN.
     public struct Directory {
         /// The date and time when the directory was created.
-        public var creationDateTime: ClientRuntime.Date?
+        public var creationDateTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) that is associated with the directory. For more information, see [arns].
         public var directoryArn: Swift.String?
         /// The name of the directory.
@@ -4738,7 +4740,7 @@ extension CloudDirectoryClientTypes {
         public var state: CloudDirectoryClientTypes.DirectoryState?
 
         public init(
-            creationDateTime: ClientRuntime.Date? = nil,
+            creationDateTime: Foundation.Date? = nil,
             directoryArn: Swift.String? = nil,
             name: Swift.String? = nil,
             state: CloudDirectoryClientTypes.DirectoryState? = nil
@@ -4935,8 +4937,8 @@ extension CloudDirectoryClientTypes {
 
 extension DisableDirectoryInput {
 
-    static func headerProvider(_ value: DisableDirectoryInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DisableDirectoryInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
@@ -4966,7 +4968,7 @@ public struct DisableDirectoryInput {
 
 extension DisableDirectoryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DisableDirectoryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DisableDirectoryOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4991,7 +4993,7 @@ public struct DisableDirectoryOutput {
 
 enum DisableDirectoryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5012,8 +5014,8 @@ enum DisableDirectoryOutputError {
 
 extension EnableDirectoryInput {
 
-    static func headerProvider(_ value: EnableDirectoryInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: EnableDirectoryInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
@@ -5043,7 +5045,7 @@ public struct EnableDirectoryInput {
 
 extension EnableDirectoryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> EnableDirectoryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> EnableDirectoryOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5068,7 +5070,7 @@ public struct EnableDirectoryOutput {
 
 enum EnableDirectoryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5539,7 +5541,7 @@ public struct GetAppliedSchemaVersionInput {
 
 extension GetAppliedSchemaVersionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetAppliedSchemaVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetAppliedSchemaVersionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5563,7 +5565,7 @@ public struct GetAppliedSchemaVersionOutput {
 
 enum GetAppliedSchemaVersionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5583,8 +5585,8 @@ enum GetAppliedSchemaVersionOutputError {
 
 extension GetDirectoryInput {
 
-    static func headerProvider(_ value: GetDirectoryInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetDirectoryInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
@@ -5614,7 +5616,7 @@ public struct GetDirectoryInput {
 
 extension GetDirectoryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetDirectoryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetDirectoryOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5639,7 +5641,7 @@ public struct GetDirectoryOutput {
 
 enum GetDirectoryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5658,8 +5660,8 @@ enum GetDirectoryOutputError {
 
 extension GetFacetInput {
 
-    static func headerProvider(_ value: GetFacetInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetFacetInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let schemaArn = value.schemaArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(schemaArn)))
         }
@@ -5702,7 +5704,7 @@ public struct GetFacetInput {
 
 extension GetFacetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetFacetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetFacetOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5726,7 +5728,7 @@ public struct GetFacetOutput {
 
 enum GetFacetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5747,8 +5749,8 @@ enum GetFacetOutputError {
 
 extension GetLinkAttributesInput {
 
-    static func headerProvider(_ value: GetLinkAttributesInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetLinkAttributesInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
@@ -5802,7 +5804,7 @@ public struct GetLinkAttributesInput {
 
 extension GetLinkAttributesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetLinkAttributesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetLinkAttributesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5826,7 +5828,7 @@ public struct GetLinkAttributesOutput {
 
 enum GetLinkAttributesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5848,8 +5850,8 @@ enum GetLinkAttributesOutputError {
 
 extension GetObjectAttributesInput {
 
-    static func headerProvider(_ value: GetObjectAttributesInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetObjectAttributesInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let consistencyLevel = value.consistencyLevel {
             items.add(Header(name: "x-amz-consistency-level", value: Swift.String(consistencyLevel.rawValue)))
         }
@@ -5911,7 +5913,7 @@ public struct GetObjectAttributesInput {
 
 extension GetObjectAttributesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetObjectAttributesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetObjectAttributesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5935,7 +5937,7 @@ public struct GetObjectAttributesOutput {
 
 enum GetObjectAttributesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5957,8 +5959,8 @@ enum GetObjectAttributesOutputError {
 
 extension GetObjectInformationInput {
 
-    static func headerProvider(_ value: GetObjectInformationInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetObjectInformationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let consistencyLevel = value.consistencyLevel {
             items.add(Header(name: "x-amz-consistency-level", value: Swift.String(consistencyLevel.rawValue)))
         }
@@ -6008,7 +6010,7 @@ public struct GetObjectInformationInput {
 
 extension GetObjectInformationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetObjectInformationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetObjectInformationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6037,7 +6039,7 @@ public struct GetObjectInformationOutput {
 
 enum GetObjectInformationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6058,8 +6060,8 @@ enum GetObjectInformationOutputError {
 
 extension GetSchemaAsJsonInput {
 
-    static func headerProvider(_ value: GetSchemaAsJsonInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetSchemaAsJsonInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let schemaArn = value.schemaArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(schemaArn)))
         }
@@ -6089,7 +6091,7 @@ public struct GetSchemaAsJsonInput {
 
 extension GetSchemaAsJsonOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetSchemaAsJsonOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetSchemaAsJsonOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6118,7 +6120,7 @@ public struct GetSchemaAsJsonOutput {
 
 enum GetSchemaAsJsonOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6138,8 +6140,8 @@ enum GetSchemaAsJsonOutputError {
 
 extension GetTypedLinkFacetInformationInput {
 
-    static func headerProvider(_ value: GetTypedLinkFacetInformationInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetTypedLinkFacetInformationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let schemaArn = value.schemaArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(schemaArn)))
         }
@@ -6182,7 +6184,7 @@ public struct GetTypedLinkFacetInformationInput {
 
 extension GetTypedLinkFacetInformationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetTypedLinkFacetInformationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetTypedLinkFacetInformationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6206,7 +6208,7 @@ public struct GetTypedLinkFacetInformationOutput {
 
 enum GetTypedLinkFacetInformationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6804,7 +6806,7 @@ public struct ListAppliedSchemaArnsInput {
 
 extension ListAppliedSchemaArnsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAppliedSchemaArnsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAppliedSchemaArnsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6833,7 +6835,7 @@ public struct ListAppliedSchemaArnsOutput {
 
 enum ListAppliedSchemaArnsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6854,8 +6856,8 @@ enum ListAppliedSchemaArnsOutputError {
 
 extension ListAttachedIndicesInput {
 
-    static func headerProvider(_ value: ListAttachedIndicesInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: ListAttachedIndicesInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let consistencyLevel = value.consistencyLevel {
             items.add(Header(name: "x-amz-consistency-level", value: Swift.String(consistencyLevel.rawValue)))
         }
@@ -6915,7 +6917,7 @@ public struct ListAttachedIndicesInput {
 
 extension ListAttachedIndicesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAttachedIndicesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAttachedIndicesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6944,7 +6946,7 @@ public struct ListAttachedIndicesOutput {
 
 enum ListAttachedIndicesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6997,7 +6999,7 @@ public struct ListDevelopmentSchemaArnsInput {
 
 extension ListDevelopmentSchemaArnsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListDevelopmentSchemaArnsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListDevelopmentSchemaArnsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7026,7 +7028,7 @@ public struct ListDevelopmentSchemaArnsOutput {
 
 enum ListDevelopmentSchemaArnsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7084,7 +7086,7 @@ public struct ListDirectoriesInput {
 
 extension ListDirectoriesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListDirectoriesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListDirectoriesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7114,7 +7116,7 @@ public struct ListDirectoriesOutput {
 
 enum ListDirectoriesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7134,8 +7136,8 @@ enum ListDirectoriesOutputError {
 
 extension ListFacetAttributesInput {
 
-    static func headerProvider(_ value: ListFacetAttributesInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: ListFacetAttributesInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let schemaArn = value.schemaArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(schemaArn)))
         }
@@ -7188,7 +7190,7 @@ public struct ListFacetAttributesInput {
 
 extension ListFacetAttributesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListFacetAttributesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListFacetAttributesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7217,7 +7219,7 @@ public struct ListFacetAttributesOutput {
 
 enum ListFacetAttributesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7239,8 +7241,8 @@ enum ListFacetAttributesOutputError {
 
 extension ListFacetNamesInput {
 
-    static func headerProvider(_ value: ListFacetNamesInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: ListFacetNamesInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let schemaArn = value.schemaArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(schemaArn)))
         }
@@ -7287,7 +7289,7 @@ public struct ListFacetNamesInput {
 
 extension ListFacetNamesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListFacetNamesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListFacetNamesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7316,7 +7318,7 @@ public struct ListFacetNamesOutput {
 
 enum ListFacetNamesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7337,8 +7339,8 @@ enum ListFacetNamesOutputError {
 
 extension ListIncomingTypedLinksInput {
 
-    static func headerProvider(_ value: ListIncomingTypedLinksInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: ListIncomingTypedLinksInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
@@ -7406,7 +7408,7 @@ public struct ListIncomingTypedLinksInput {
 
 extension ListIncomingTypedLinksOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListIncomingTypedLinksOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListIncomingTypedLinksOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7435,7 +7437,7 @@ public struct ListIncomingTypedLinksOutput {
 
 enum ListIncomingTypedLinksOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7458,8 +7460,8 @@ enum ListIncomingTypedLinksOutputError {
 
 extension ListIndexInput {
 
-    static func headerProvider(_ value: ListIndexInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: ListIndexInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let consistencyLevel = value.consistencyLevel {
             items.add(Header(name: "x-amz-consistency-level", value: Swift.String(consistencyLevel.rawValue)))
         }
@@ -7524,7 +7526,7 @@ public struct ListIndexInput {
 
 extension ListIndexOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListIndexOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListIndexOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7553,7 +7555,7 @@ public struct ListIndexOutput {
 
 enum ListIndexOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7614,7 +7616,7 @@ public struct ListManagedSchemaArnsInput {
 
 extension ListManagedSchemaArnsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListManagedSchemaArnsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListManagedSchemaArnsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7643,7 +7645,7 @@ public struct ListManagedSchemaArnsOutput {
 
 enum ListManagedSchemaArnsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7662,8 +7664,8 @@ enum ListManagedSchemaArnsOutputError {
 
 extension ListObjectAttributesInput {
 
-    static func headerProvider(_ value: ListObjectAttributesInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: ListObjectAttributesInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let consistencyLevel = value.consistencyLevel {
             items.add(Header(name: "x-amz-consistency-level", value: Swift.String(consistencyLevel.rawValue)))
         }
@@ -7728,7 +7730,7 @@ public struct ListObjectAttributesInput {
 
 extension ListObjectAttributesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListObjectAttributesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListObjectAttributesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7757,7 +7759,7 @@ public struct ListObjectAttributesOutput {
 
 enum ListObjectAttributesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7780,8 +7782,8 @@ enum ListObjectAttributesOutputError {
 
 extension ListObjectChildrenInput {
 
-    static func headerProvider(_ value: ListObjectChildrenInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: ListObjectChildrenInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let consistencyLevel = value.consistencyLevel {
             items.add(Header(name: "x-amz-consistency-level", value: Swift.String(consistencyLevel.rawValue)))
         }
@@ -7841,7 +7843,7 @@ public struct ListObjectChildrenInput {
 
 extension ListObjectChildrenOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListObjectChildrenOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListObjectChildrenOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7870,7 +7872,7 @@ public struct ListObjectChildrenOutput {
 
 enum ListObjectChildrenOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7893,8 +7895,8 @@ enum ListObjectChildrenOutputError {
 
 extension ListObjectParentPathsInput {
 
-    static func headerProvider(_ value: ListObjectParentPathsInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: ListObjectParentPathsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
@@ -7947,7 +7949,7 @@ public struct ListObjectParentPathsInput {
 
 extension ListObjectParentPathsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListObjectParentPathsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListObjectParentPathsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7976,7 +7978,7 @@ public struct ListObjectParentPathsOutput {
 
 enum ListObjectParentPathsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7998,8 +8000,8 @@ enum ListObjectParentPathsOutputError {
 
 extension ListObjectParentsInput {
 
-    static func headerProvider(_ value: ListObjectParentsInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: ListObjectParentsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let consistencyLevel = value.consistencyLevel {
             items.add(Header(name: "x-amz-consistency-level", value: Swift.String(consistencyLevel.rawValue)))
         }
@@ -8064,7 +8066,7 @@ public struct ListObjectParentsInput {
 
 extension ListObjectParentsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListObjectParentsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListObjectParentsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8098,7 +8100,7 @@ public struct ListObjectParentsOutput {
 
 enum ListObjectParentsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8121,8 +8123,8 @@ enum ListObjectParentsOutputError {
 
 extension ListObjectPoliciesInput {
 
-    static func headerProvider(_ value: ListObjectPoliciesInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: ListObjectPoliciesInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let consistencyLevel = value.consistencyLevel {
             items.add(Header(name: "x-amz-consistency-level", value: Swift.String(consistencyLevel.rawValue)))
         }
@@ -8182,7 +8184,7 @@ public struct ListObjectPoliciesInput {
 
 extension ListObjectPoliciesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListObjectPoliciesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListObjectPoliciesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8211,7 +8213,7 @@ public struct ListObjectPoliciesOutput {
 
 enum ListObjectPoliciesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8233,8 +8235,8 @@ enum ListObjectPoliciesOutputError {
 
 extension ListOutgoingTypedLinksInput {
 
-    static func headerProvider(_ value: ListOutgoingTypedLinksInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: ListOutgoingTypedLinksInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
@@ -8302,7 +8304,7 @@ public struct ListOutgoingTypedLinksInput {
 
 extension ListOutgoingTypedLinksOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListOutgoingTypedLinksOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListOutgoingTypedLinksOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8331,7 +8333,7 @@ public struct ListOutgoingTypedLinksOutput {
 
 enum ListOutgoingTypedLinksOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8354,8 +8356,8 @@ enum ListOutgoingTypedLinksOutputError {
 
 extension ListPolicyAttachmentsInput {
 
-    static func headerProvider(_ value: ListPolicyAttachmentsInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: ListPolicyAttachmentsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let consistencyLevel = value.consistencyLevel {
             items.add(Header(name: "x-amz-consistency-level", value: Swift.String(consistencyLevel.rawValue)))
         }
@@ -8415,7 +8417,7 @@ public struct ListPolicyAttachmentsInput {
 
 extension ListPolicyAttachmentsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPolicyAttachmentsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPolicyAttachmentsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8444,7 +8446,7 @@ public struct ListPolicyAttachmentsOutput {
 
 enum ListPolicyAttachmentsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8504,7 +8506,7 @@ public struct ListPublishedSchemaArnsInput {
 
 extension ListPublishedSchemaArnsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPublishedSchemaArnsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPublishedSchemaArnsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8533,7 +8535,7 @@ public struct ListPublishedSchemaArnsOutput {
 
 enum ListPublishedSchemaArnsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8592,7 +8594,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8621,7 +8623,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8642,8 +8644,8 @@ enum ListTagsForResourceOutputError {
 
 extension ListTypedLinkFacetAttributesInput {
 
-    static func headerProvider(_ value: ListTypedLinkFacetAttributesInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: ListTypedLinkFacetAttributesInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let schemaArn = value.schemaArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(schemaArn)))
         }
@@ -8696,7 +8698,7 @@ public struct ListTypedLinkFacetAttributesInput {
 
 extension ListTypedLinkFacetAttributesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTypedLinkFacetAttributesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTypedLinkFacetAttributesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8725,7 +8727,7 @@ public struct ListTypedLinkFacetAttributesOutput {
 
 enum ListTypedLinkFacetAttributesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8747,8 +8749,8 @@ enum ListTypedLinkFacetAttributesOutputError {
 
 extension ListTypedLinkFacetNamesInput {
 
-    static func headerProvider(_ value: ListTypedLinkFacetNamesInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: ListTypedLinkFacetNamesInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let schemaArn = value.schemaArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(schemaArn)))
         }
@@ -8795,7 +8797,7 @@ public struct ListTypedLinkFacetNamesInput {
 
 extension ListTypedLinkFacetNamesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTypedLinkFacetNamesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTypedLinkFacetNamesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8824,7 +8826,7 @@ public struct ListTypedLinkFacetNamesOutput {
 
 enum ListTypedLinkFacetNamesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8845,8 +8847,8 @@ enum ListTypedLinkFacetNamesOutputError {
 
 extension LookupPolicyInput {
 
-    static func headerProvider(_ value: LookupPolicyInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: LookupPolicyInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
@@ -8899,7 +8901,7 @@ public struct LookupPolicyInput {
 
 extension LookupPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> LookupPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> LookupPolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8928,7 +8930,7 @@ public struct LookupPolicyOutput {
 
 enum LookupPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9423,8 +9425,8 @@ extension CloudDirectoryClientTypes {
 
 extension PublishSchemaInput {
 
-    static func headerProvider(_ value: PublishSchemaInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PublishSchemaInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let developmentSchemaArn = value.developmentSchemaArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(developmentSchemaArn)))
         }
@@ -9477,7 +9479,7 @@ public struct PublishSchemaInput {
 
 extension PublishSchemaOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PublishSchemaOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PublishSchemaOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -9501,7 +9503,7 @@ public struct PublishSchemaOutput {
 
 enum PublishSchemaOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9522,8 +9524,8 @@ enum PublishSchemaOutputError {
 
 extension PutSchemaFromJsonInput {
 
-    static func headerProvider(_ value: PutSchemaFromJsonInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PutSchemaFromJsonInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let schemaArn = value.schemaArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(schemaArn)))
         }
@@ -9566,7 +9568,7 @@ public struct PutSchemaFromJsonInput {
 
 extension PutSchemaFromJsonOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutSchemaFromJsonOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutSchemaFromJsonOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -9590,7 +9592,7 @@ public struct PutSchemaFromJsonOutput {
 
 enum PutSchemaFromJsonOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9649,8 +9651,8 @@ extension CloudDirectoryClientTypes {
 
 extension RemoveFacetFromObjectInput {
 
-    static func headerProvider(_ value: RemoveFacetFromObjectInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: RemoveFacetFromObjectInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
@@ -9699,7 +9701,7 @@ public struct RemoveFacetFromObjectInput {
 
 extension RemoveFacetFromObjectOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RemoveFacetFromObjectOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RemoveFacetFromObjectOutput {
         return RemoveFacetFromObjectOutput()
     }
 }
@@ -9711,7 +9713,7 @@ public struct RemoveFacetFromObjectOutput {
 
 enum RemoveFacetFromObjectOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10127,7 +10129,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -10139,7 +10141,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10204,13 +10206,13 @@ extension CloudDirectoryClientTypes {
         /// A string data value.
         case stringvalue(Swift.String)
         /// A binary data value.
-        case binaryvalue(ClientRuntime.Data)
+        case binaryvalue(Foundation.Data)
         /// A Boolean data value.
         case booleanvalue(Swift.Bool)
         /// A number data value.
         case numbervalue(Swift.String)
         /// A date and time value.
-        case datetimevalue(ClientRuntime.Date)
+        case datetimevalue(Foundation.Date)
         case sdkUnknown(Swift.String)
     }
 
@@ -10584,7 +10586,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -10596,7 +10598,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10646,8 +10648,8 @@ extension CloudDirectoryClientTypes {
 
 extension UpdateFacetInput {
 
-    static func headerProvider(_ value: UpdateFacetInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: UpdateFacetInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let schemaArn = value.schemaArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(schemaArn)))
         }
@@ -10700,7 +10702,7 @@ public struct UpdateFacetInput {
 
 extension UpdateFacetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateFacetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateFacetOutput {
         return UpdateFacetOutput()
     }
 }
@@ -10712,7 +10714,7 @@ public struct UpdateFacetOutput {
 
 enum UpdateFacetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10736,8 +10738,8 @@ enum UpdateFacetOutputError {
 
 extension UpdateLinkAttributesInput {
 
-    static func headerProvider(_ value: UpdateLinkAttributesInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: UpdateLinkAttributesInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
@@ -10786,7 +10788,7 @@ public struct UpdateLinkAttributesInput {
 
 extension UpdateLinkAttributesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateLinkAttributesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateLinkAttributesOutput {
         return UpdateLinkAttributesOutput()
     }
 }
@@ -10798,7 +10800,7 @@ public struct UpdateLinkAttributesOutput {
 
 enum UpdateLinkAttributesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10820,8 +10822,8 @@ enum UpdateLinkAttributesOutputError {
 
 extension UpdateObjectAttributesInput {
 
-    static func headerProvider(_ value: UpdateObjectAttributesInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: UpdateObjectAttributesInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let directoryArn = value.directoryArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(directoryArn)))
         }
@@ -10870,7 +10872,7 @@ public struct UpdateObjectAttributesInput {
 
 extension UpdateObjectAttributesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateObjectAttributesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateObjectAttributesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -10894,7 +10896,7 @@ public struct UpdateObjectAttributesOutput {
 
 enum UpdateObjectAttributesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10917,8 +10919,8 @@ enum UpdateObjectAttributesOutputError {
 
 extension UpdateSchemaInput {
 
-    static func headerProvider(_ value: UpdateSchemaInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: UpdateSchemaInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let schemaArn = value.schemaArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(schemaArn)))
         }
@@ -10961,7 +10963,7 @@ public struct UpdateSchemaInput {
 
 extension UpdateSchemaOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateSchemaOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateSchemaOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -10985,7 +10987,7 @@ public struct UpdateSchemaOutput {
 
 enum UpdateSchemaOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11005,8 +11007,8 @@ enum UpdateSchemaOutputError {
 
 extension UpdateTypedLinkFacetInput {
 
-    static func headerProvider(_ value: UpdateTypedLinkFacetInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: UpdateTypedLinkFacetInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let schemaArn = value.schemaArn {
             items.add(Header(name: "x-amz-data-partition", value: Swift.String(schemaArn)))
         }
@@ -11061,7 +11063,7 @@ public struct UpdateTypedLinkFacetInput {
 
 extension UpdateTypedLinkFacetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateTypedLinkFacetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateTypedLinkFacetOutput {
         return UpdateTypedLinkFacetOutput()
     }
 }
@@ -11073,7 +11075,7 @@ public struct UpdateTypedLinkFacetOutput {
 
 enum UpdateTypedLinkFacetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11136,7 +11138,7 @@ public struct UpgradeAppliedSchemaInput {
 
 extension UpgradeAppliedSchemaOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpgradeAppliedSchemaOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpgradeAppliedSchemaOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -11165,7 +11167,7 @@ public struct UpgradeAppliedSchemaOutput {
 
 enum UpgradeAppliedSchemaOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11232,7 +11234,7 @@ public struct UpgradePublishedSchemaInput {
 
 extension UpgradePublishedSchemaOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpgradePublishedSchemaOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpgradePublishedSchemaOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -11256,7 +11258,7 @@ public struct UpgradePublishedSchemaOutput {
 
 enum UpgradePublishedSchemaOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

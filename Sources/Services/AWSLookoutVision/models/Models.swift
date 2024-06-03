@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -126,8 +129,8 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
 extension CreateDatasetInput {
 
-    static func headerProvider(_ value: CreateDatasetInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: CreateDatasetInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let clientToken = value.clientToken {
             items.add(Header(name: "X-Amzn-Client-Token", value: Swift.String(clientToken)))
         }
@@ -182,7 +185,7 @@ public struct CreateDatasetInput {
 
 extension CreateDatasetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateDatasetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateDatasetOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -206,7 +209,7 @@ public struct CreateDatasetOutput {
 
 enum CreateDatasetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -226,8 +229,8 @@ enum CreateDatasetOutputError {
 
 extension CreateModelInput {
 
-    static func headerProvider(_ value: CreateModelInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: CreateModelInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let clientToken = value.clientToken {
             items.add(Header(name: "X-Amzn-Client-Token", value: Swift.String(clientToken)))
         }
@@ -292,7 +295,7 @@ public struct CreateModelInput {
 
 extension CreateModelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateModelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateModelOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -316,7 +319,7 @@ public struct CreateModelOutput {
 
 enum CreateModelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -336,8 +339,8 @@ enum CreateModelOutputError {
 
 extension CreateProjectInput {
 
-    static func headerProvider(_ value: CreateProjectInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: CreateProjectInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let clientToken = value.clientToken {
             items.add(Header(name: "X-Amzn-Client-Token", value: Swift.String(clientToken)))
         }
@@ -379,7 +382,7 @@ public struct CreateProjectInput {
 
 extension CreateProjectOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateProjectOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateProjectOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -403,7 +406,7 @@ public struct CreateProjectOutput {
 
 enum CreateProjectOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -441,13 +444,13 @@ extension LookoutVisionClientTypes {
     /// The description for a dataset. For more information, see [DescribeDataset].
     public struct DatasetDescription {
         /// The Unix timestamp for the time and date that the dataset was created.
-        public var creationTimestamp: ClientRuntime.Date?
+        public var creationTimestamp: Foundation.Date?
         /// The type of the dataset. The value train represents a training dataset or single dataset project. The value test represents a test dataset.
         public var datasetType: Swift.String?
         /// Statistics about the images in a dataset.
         public var imageStats: LookoutVisionClientTypes.DatasetImageStats?
         /// The Unix timestamp for the date and time that the dataset was last updated.
-        public var lastUpdatedTimestamp: ClientRuntime.Date?
+        public var lastUpdatedTimestamp: Foundation.Date?
         /// The name of the project that contains the dataset.
         public var projectName: Swift.String?
         /// The status of the dataset.
@@ -456,10 +459,10 @@ extension LookoutVisionClientTypes {
         public var statusMessage: Swift.String?
 
         public init(
-            creationTimestamp: ClientRuntime.Date? = nil,
+            creationTimestamp: Foundation.Date? = nil,
             datasetType: Swift.String? = nil,
             imageStats: LookoutVisionClientTypes.DatasetImageStats? = nil,
-            lastUpdatedTimestamp: ClientRuntime.Date? = nil,
+            lastUpdatedTimestamp: Foundation.Date? = nil,
             projectName: Swift.String? = nil,
             status: LookoutVisionClientTypes.DatasetStatus? = nil,
             statusMessage: Swift.String? = nil
@@ -559,7 +562,7 @@ extension LookoutVisionClientTypes {
     /// Summary information for an Amazon Lookout for Vision dataset. For more information, see [DescribeDataset] and [ProjectDescription].
     public struct DatasetMetadata {
         /// The Unix timestamp for the date and time that the dataset was created.
-        public var creationTimestamp: ClientRuntime.Date?
+        public var creationTimestamp: Foundation.Date?
         /// The type of the dataset.
         public var datasetType: Swift.String?
         /// The status for the dataset.
@@ -568,7 +571,7 @@ extension LookoutVisionClientTypes {
         public var statusMessage: Swift.String?
 
         public init(
-            creationTimestamp: ClientRuntime.Date? = nil,
+            creationTimestamp: Foundation.Date? = nil,
             datasetType: Swift.String? = nil,
             status: LookoutVisionClientTypes.DatasetStatus? = nil,
             statusMessage: Swift.String? = nil
@@ -662,8 +665,8 @@ extension LookoutVisionClientTypes {
 
 extension DeleteDatasetInput {
 
-    static func headerProvider(_ value: DeleteDatasetInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteDatasetInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let clientToken = value.clientToken {
             items.add(Header(name: "X-Amzn-Client-Token", value: Swift.String(clientToken)))
         }
@@ -708,7 +711,7 @@ public struct DeleteDatasetInput {
 
 extension DeleteDatasetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteDatasetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteDatasetOutput {
         return DeleteDatasetOutput()
     }
 }
@@ -720,7 +723,7 @@ public struct DeleteDatasetOutput {
 
 enum DeleteDatasetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -739,8 +742,8 @@ enum DeleteDatasetOutputError {
 
 extension DeleteModelInput {
 
-    static func headerProvider(_ value: DeleteModelInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteModelInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let clientToken = value.clientToken {
             items.add(Header(name: "X-Amzn-Client-Token", value: Swift.String(clientToken)))
         }
@@ -785,7 +788,7 @@ public struct DeleteModelInput {
 
 extension DeleteModelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteModelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteModelOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -809,7 +812,7 @@ public struct DeleteModelOutput {
 
 enum DeleteModelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -828,8 +831,8 @@ enum DeleteModelOutputError {
 
 extension DeleteProjectInput {
 
-    static func headerProvider(_ value: DeleteProjectInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteProjectInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let clientToken = value.clientToken {
             items.add(Header(name: "X-Amzn-Client-Token", value: Swift.String(clientToken)))
         }
@@ -866,7 +869,7 @@ public struct DeleteProjectInput {
 
 extension DeleteProjectOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteProjectOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteProjectOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -890,7 +893,7 @@ public struct DeleteProjectOutput {
 
 enum DeleteProjectOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -940,7 +943,7 @@ public struct DescribeDatasetInput {
 
 extension DescribeDatasetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeDatasetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeDatasetOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -964,7 +967,7 @@ public struct DescribeDatasetOutput {
 
 enum DescribeDatasetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1014,7 +1017,7 @@ public struct DescribeModelInput {
 
 extension DescribeModelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeModelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeModelOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1038,7 +1041,7 @@ public struct DescribeModelOutput {
 
 enum DescribeModelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1088,7 +1091,7 @@ public struct DescribeModelPackagingJobInput {
 
 extension DescribeModelPackagingJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeModelPackagingJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeModelPackagingJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1112,7 +1115,7 @@ public struct DescribeModelPackagingJobOutput {
 
 enum DescribeModelPackagingJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1153,7 +1156,7 @@ public struct DescribeProjectInput {
 
 extension DescribeProjectOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeProjectOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeProjectOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1177,7 +1180,7 @@ public struct DescribeProjectOutput {
 
 enum DescribeProjectOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1196,8 +1199,8 @@ enum DescribeProjectOutputError {
 
 extension DetectAnomaliesInput {
 
-    static func headerProvider(_ value: DetectAnomaliesInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DetectAnomaliesInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let contentType = value.contentType {
             items.add(Header(name: "Content-Type", value: Swift.String(contentType)))
         }
@@ -1229,7 +1232,7 @@ extension DetectAnomaliesInput {
 public struct DetectAnomaliesInput {
     /// The unencrypted image bytes that you want to analyze.
     /// This member is required.
-    public var body: ClientRuntime.ByteStream?
+    public var body: Smithy.ByteStream?
     /// The type of the image passed in Body. Valid values are image/png (PNG format images) and image/jpeg (JPG format images).
     /// This member is required.
     public var contentType: Swift.String?
@@ -1241,7 +1244,7 @@ public struct DetectAnomaliesInput {
     public var projectName: Swift.String?
 
     public init(
-        body: ClientRuntime.ByteStream? = nil,
+        body: Smithy.ByteStream? = nil,
         contentType: Swift.String? = nil,
         modelVersion: Swift.String? = nil,
         projectName: Swift.String? = nil
@@ -1256,7 +1259,7 @@ public struct DetectAnomaliesInput {
 
 extension DetectAnomaliesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DetectAnomaliesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DetectAnomaliesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1280,7 +1283,7 @@ public struct DetectAnomaliesOutput {
 
 enum DetectAnomaliesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1317,7 +1320,7 @@ extension LookoutVisionClientTypes {
         /// If the model is an image segmentation model, Anomalies contains a list of anomaly types found in the image. There is one entry for each type of anomaly found (even if multiple instances of an anomaly type exist on the image). The first element in the list is always an anomaly type representing the image background ('background') and shouldn't be considered an anomaly. Amazon Lookout for Vision automatically add the background anomaly type to the response, and you don't need to declare a background anomaly type in your dataset. If the list has one entry ('background'), no anomalies were found on the image. An image classification model doesn't return an Anomalies list.
         public var anomalies: [LookoutVisionClientTypes.Anomaly]?
         /// If the model is an image segmentation model, AnomalyMask contains pixel masks that covers all anomaly types found on the image. Each anomaly type has a different mask color. To map a color to an anomaly type, see the color field of the [PixelAnomaly] object. An image classification model doesn't return an Anomalies list.
-        public var anomalyMask: ClientRuntime.Data?
+        public var anomalyMask: Foundation.Data?
         /// The confidence that Lookout for Vision has in the accuracy of the classification in IsAnomalous.
         public var confidence: Swift.Float?
         /// True if Amazon Lookout for Vision classifies the image as containing an anomaly, otherwise false.
@@ -1327,7 +1330,7 @@ extension LookoutVisionClientTypes {
 
         public init(
             anomalies: [LookoutVisionClientTypes.Anomaly]? = nil,
-            anomalyMask: ClientRuntime.Data? = nil,
+            anomalyMask: Foundation.Data? = nil,
             confidence: Swift.Float? = nil,
             isAnomalous: Swift.Bool? = nil,
             source: LookoutVisionClientTypes.ImageSource? = nil
@@ -1564,34 +1567,34 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
 extension ListDatasetEntriesInput {
 
-    static func queryItemProvider(_ value: ListDatasetEntriesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListDatasetEntriesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let sourceRefContains = value.sourceRefContains {
-            let sourceRefContainsQueryItem = ClientRuntime.SDKURLQueryItem(name: "sourceRefContains".urlPercentEncoding(), value: Swift.String(sourceRefContains).urlPercentEncoding())
+            let sourceRefContainsQueryItem = Smithy.URIQueryItem(name: "sourceRefContains".urlPercentEncoding(), value: Swift.String(sourceRefContains).urlPercentEncoding())
             items.append(sourceRefContainsQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let labeled = value.labeled {
-            let labeledQueryItem = ClientRuntime.SDKURLQueryItem(name: "labeled".urlPercentEncoding(), value: Swift.String(labeled).urlPercentEncoding())
+            let labeledQueryItem = Smithy.URIQueryItem(name: "labeled".urlPercentEncoding(), value: Swift.String(labeled).urlPercentEncoding())
             items.append(labeledQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let beforeCreationDate = value.beforeCreationDate {
-            let beforeCreationDateQueryItem = ClientRuntime.SDKURLQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: beforeCreationDate)).urlPercentEncoding())
+            let beforeCreationDateQueryItem = Smithy.URIQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: beforeCreationDate)).urlPercentEncoding())
             items.append(beforeCreationDateQueryItem)
         }
         if let afterCreationDate = value.afterCreationDate {
-            let afterCreationDateQueryItem = ClientRuntime.SDKURLQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: afterCreationDate)).urlPercentEncoding())
+            let afterCreationDateQueryItem = Smithy.URIQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: afterCreationDate)).urlPercentEncoding())
             items.append(afterCreationDateQueryItem)
         }
         if let anomalyClass = value.anomalyClass {
-            let anomalyClassQueryItem = ClientRuntime.SDKURLQueryItem(name: "anomalyClass".urlPercentEncoding(), value: Swift.String(anomalyClass).urlPercentEncoding())
+            let anomalyClassQueryItem = Smithy.URIQueryItem(name: "anomalyClass".urlPercentEncoding(), value: Swift.String(anomalyClass).urlPercentEncoding())
             items.append(anomalyClassQueryItem)
         }
         return items
@@ -1613,11 +1616,11 @@ extension ListDatasetEntriesInput {
 
 public struct ListDatasetEntriesInput {
     /// Only includes entries after the specified date in the response. For example, 2020-06-23T00:00:00.
-    public var afterCreationDate: ClientRuntime.Date?
+    public var afterCreationDate: Foundation.Date?
     /// Specify normal to include only normal images. Specify anomaly to only include anomalous entries. If you don't specify a value, Amazon Lookout for Vision returns normal and anomalous images.
     public var anomalyClass: Swift.String?
     /// Only includes entries before the specified date in the response. For example, 2020-06-23T00:00:00.
-    public var beforeCreationDate: ClientRuntime.Date?
+    public var beforeCreationDate: Foundation.Date?
     /// The type of the dataset that you want to list. Specify train to list the training dataset. Specify test to list the test dataset. If you have a single dataset project, specify train.
     /// This member is required.
     public var datasetType: Swift.String?
@@ -1634,9 +1637,9 @@ public struct ListDatasetEntriesInput {
     public var sourceRefContains: Swift.String?
 
     public init(
-        afterCreationDate: ClientRuntime.Date? = nil,
+        afterCreationDate: Foundation.Date? = nil,
         anomalyClass: Swift.String? = nil,
-        beforeCreationDate: ClientRuntime.Date? = nil,
+        beforeCreationDate: Foundation.Date? = nil,
         datasetType: Swift.String? = nil,
         labeled: Swift.Bool? = nil,
         maxResults: Swift.Int? = nil,
@@ -1659,7 +1662,7 @@ public struct ListDatasetEntriesInput {
 
 extension ListDatasetEntriesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListDatasetEntriesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListDatasetEntriesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1688,7 +1691,7 @@ public struct ListDatasetEntriesOutput {
 
 enum ListDatasetEntriesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1707,14 +1710,14 @@ enum ListDatasetEntriesOutputError {
 
 extension ListModelPackagingJobsInput {
 
-    static func queryItemProvider(_ value: ListModelPackagingJobsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListModelPackagingJobsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -1754,7 +1757,7 @@ public struct ListModelPackagingJobsInput {
 
 extension ListModelPackagingJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListModelPackagingJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListModelPackagingJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1783,7 +1786,7 @@ public struct ListModelPackagingJobsOutput {
 
 enum ListModelPackagingJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1801,14 +1804,14 @@ enum ListModelPackagingJobsOutputError {
 
 extension ListModelsInput {
 
-    static func queryItemProvider(_ value: ListModelsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListModelsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -1848,7 +1851,7 @@ public struct ListModelsInput {
 
 extension ListModelsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListModelsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListModelsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1877,7 +1880,7 @@ public struct ListModelsOutput {
 
 enum ListModelsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1896,14 +1899,14 @@ enum ListModelsOutputError {
 
 extension ListProjectsInput {
 
-    static func queryItemProvider(_ value: ListProjectsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListProjectsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -1935,7 +1938,7 @@ public struct ListProjectsInput {
 
 extension ListProjectsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListProjectsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListProjectsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1964,7 +1967,7 @@ public struct ListProjectsOutput {
 
 enum ListProjectsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2006,7 +2009,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2030,7 +2033,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2076,11 +2079,11 @@ extension LookoutVisionClientTypes {
     /// Describes an Amazon Lookout for Vision model.
     public struct ModelDescription {
         /// The unix timestamp for the date and time that the model was created.
-        public var creationTimestamp: ClientRuntime.Date?
+        public var creationTimestamp: Foundation.Date?
         /// The description for the model.
         public var description: Swift.String?
         /// The unix timestamp for the date and time that the evaluation ended.
-        public var evaluationEndTimestamp: ClientRuntime.Date?
+        public var evaluationEndTimestamp: Foundation.Date?
         /// The S3 location where Amazon Lookout for Vision saves the manifest file that was used to test the trained model and generate the performance scores.
         public var evaluationManifest: LookoutVisionClientTypes.OutputS3Object?
         /// The S3 location where Amazon Lookout for Vision saves the performance metrics.
@@ -2105,9 +2108,9 @@ extension LookoutVisionClientTypes {
         public var statusMessage: Swift.String?
 
         public init(
-            creationTimestamp: ClientRuntime.Date? = nil,
+            creationTimestamp: Foundation.Date? = nil,
             description: Swift.String? = nil,
-            evaluationEndTimestamp: ClientRuntime.Date? = nil,
+            evaluationEndTimestamp: Foundation.Date? = nil,
             evaluationManifest: LookoutVisionClientTypes.OutputS3Object? = nil,
             evaluationResult: LookoutVisionClientTypes.OutputS3Object? = nil,
             kmsKeyId: Swift.String? = nil,
@@ -2198,7 +2201,7 @@ extension LookoutVisionClientTypes {
     /// Describes an Amazon Lookout for Vision model.
     public struct ModelMetadata {
         /// The unix timestamp for the date and time that the model was created.
-        public var creationTimestamp: ClientRuntime.Date?
+        public var creationTimestamp: Foundation.Date?
         /// The description for the model.
         public var description: Swift.String?
         /// The Amazon Resource Name (ARN) of the model.
@@ -2213,7 +2216,7 @@ extension LookoutVisionClientTypes {
         public var statusMessage: Swift.String?
 
         public init(
-            creationTimestamp: ClientRuntime.Date? = nil,
+            creationTimestamp: Foundation.Date? = nil,
             description: Swift.String? = nil,
             modelArn: Swift.String? = nil,
             modelVersion: Swift.String? = nil,
@@ -2290,11 +2293,11 @@ extension LookoutVisionClientTypes {
     /// Information about a model packaging job. For more information, see [DescribeModelPackagingJob].
     public struct ModelPackagingDescription {
         /// The Unix timestamp for the time and date that the model packaging job was created.
-        public var creationTimestamp: ClientRuntime.Date?
+        public var creationTimestamp: Foundation.Date?
         /// The name of the model packaging job.
         public var jobName: Swift.String?
         /// The Unix timestamp for the time and date that the model packaging job was last updated.
-        public var lastUpdatedTimestamp: ClientRuntime.Date?
+        public var lastUpdatedTimestamp: Foundation.Date?
         /// The configuration information used in the model packaging job.
         public var modelPackagingConfiguration: LookoutVisionClientTypes.ModelPackagingConfiguration?
         /// The description for the model packaging job.
@@ -2313,9 +2316,9 @@ extension LookoutVisionClientTypes {
         public var statusMessage: Swift.String?
 
         public init(
-            creationTimestamp: ClientRuntime.Date? = nil,
+            creationTimestamp: Foundation.Date? = nil,
             jobName: Swift.String? = nil,
-            lastUpdatedTimestamp: ClientRuntime.Date? = nil,
+            lastUpdatedTimestamp: Foundation.Date? = nil,
             modelPackagingConfiguration: LookoutVisionClientTypes.ModelPackagingConfiguration? = nil,
             modelPackagingJobDescription: Swift.String? = nil,
             modelPackagingMethod: Swift.String? = nil,
@@ -2364,11 +2367,11 @@ extension LookoutVisionClientTypes {
     /// Metadata for a model packaging job. For more information, see [ListModelPackagingJobs].
     public struct ModelPackagingJobMetadata {
         /// The Unix timestamp for the time and date that the model packaging job was created.
-        public var creationTimestamp: ClientRuntime.Date?
+        public var creationTimestamp: Foundation.Date?
         /// The name of the model packaging job.
         public var jobName: Swift.String?
         /// The Unix timestamp for the time and date that the model packaging job was last updated.
-        public var lastUpdatedTimestamp: ClientRuntime.Date?
+        public var lastUpdatedTimestamp: Foundation.Date?
         /// The description for the model packaging job.
         public var modelPackagingJobDescription: Swift.String?
         /// The AWS service used to package the job. Currently Lookout for Vision can package jobs with AWS IoT Greengrass.
@@ -2383,9 +2386,9 @@ extension LookoutVisionClientTypes {
         public var statusMessage: Swift.String?
 
         public init(
-            creationTimestamp: ClientRuntime.Date? = nil,
+            creationTimestamp: Foundation.Date? = nil,
             jobName: Swift.String? = nil,
-            lastUpdatedTimestamp: ClientRuntime.Date? = nil,
+            lastUpdatedTimestamp: Foundation.Date? = nil,
             modelPackagingJobDescription: Swift.String? = nil,
             modelPackagingMethod: Swift.String? = nil,
             modelVersion: Swift.String? = nil,
@@ -2668,7 +2671,7 @@ extension LookoutVisionClientTypes {
     /// Describe an Amazon Lookout for Vision project. For more information, see [DescribeProject].
     public struct ProjectDescription {
         /// The unix timestamp for the date and time that the project was created.
-        public var creationTimestamp: ClientRuntime.Date?
+        public var creationTimestamp: Foundation.Date?
         /// A list of datasets in the project.
         public var datasets: [LookoutVisionClientTypes.DatasetMetadata]?
         /// The Amazon Resource Name (ARN) of the project.
@@ -2677,7 +2680,7 @@ extension LookoutVisionClientTypes {
         public var projectName: Swift.String?
 
         public init(
-            creationTimestamp: ClientRuntime.Date? = nil,
+            creationTimestamp: Foundation.Date? = nil,
             datasets: [LookoutVisionClientTypes.DatasetMetadata]? = nil,
             projectArn: Swift.String? = nil,
             projectName: Swift.String? = nil
@@ -2708,14 +2711,14 @@ extension LookoutVisionClientTypes {
     /// Metadata about an Amazon Lookout for Vision project.
     public struct ProjectMetadata {
         /// The unix timestamp for the date and time that the project was created.
-        public var creationTimestamp: ClientRuntime.Date?
+        public var creationTimestamp: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the project.
         public var projectArn: Swift.String?
         /// The name of the project.
         public var projectName: Swift.String?
 
         public init(
-            creationTimestamp: ClientRuntime.Date? = nil,
+            creationTimestamp: Foundation.Date? = nil,
             projectArn: Swift.String? = nil,
             projectName: Swift.String? = nil
         )
@@ -2916,8 +2919,8 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
 extension StartModelInput {
 
-    static func headerProvider(_ value: StartModelInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: StartModelInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let clientToken = value.clientToken {
             items.add(Header(name: "X-Amzn-Client-Token", value: Swift.String(clientToken)))
         }
@@ -2980,7 +2983,7 @@ public struct StartModelInput {
 
 extension StartModelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartModelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartModelOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3004,7 +3007,7 @@ public struct StartModelOutput {
 
 enum StartModelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3024,8 +3027,8 @@ enum StartModelOutputError {
 
 extension StartModelPackagingJobInput {
 
-    static func headerProvider(_ value: StartModelPackagingJobInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: StartModelPackagingJobInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let clientToken = value.clientToken {
             items.add(Header(name: "X-Amzn-Client-Token", value: Swift.String(clientToken)))
         }
@@ -3091,7 +3094,7 @@ public struct StartModelPackagingJobInput {
 
 extension StartModelPackagingJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartModelPackagingJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartModelPackagingJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3115,7 +3118,7 @@ public struct StartModelPackagingJobOutput {
 
 enum StartModelPackagingJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3135,8 +3138,8 @@ enum StartModelPackagingJobOutputError {
 
 extension StopModelInput {
 
-    static func headerProvider(_ value: StopModelInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: StopModelInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let clientToken = value.clientToken {
             items.add(Header(name: "X-Amzn-Client-Token", value: Swift.String(clientToken)))
         }
@@ -3181,7 +3184,7 @@ public struct StopModelInput {
 
 extension StopModelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopModelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopModelOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3205,7 +3208,7 @@ public struct StopModelOutput {
 
 enum StopModelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3299,7 +3302,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -3311,7 +3314,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3543,14 +3546,14 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension UntagResourceInput {
 
-    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let tagKeys = value.tagKeys else {
             let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
         tagKeys.forEach { queryItemValue in
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
             items.append(queryItem)
         }
         return items
@@ -3587,7 +3590,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -3599,7 +3602,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3618,8 +3621,8 @@ enum UntagResourceOutputError {
 
 extension UpdateDatasetEntriesInput {
 
-    static func headerProvider(_ value: UpdateDatasetEntriesInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: UpdateDatasetEntriesInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let clientToken = value.clientToken {
             items.add(Header(name: "X-Amzn-Client-Token", value: Swift.String(clientToken)))
         }
@@ -3651,7 +3654,7 @@ extension UpdateDatasetEntriesInput {
 public struct UpdateDatasetEntriesInput {
     /// The entries to add to the dataset.
     /// This member is required.
-    public var changes: ClientRuntime.Data?
+    public var changes: Foundation.Data?
     /// ClientToken is an idempotency token that ensures a call to UpdateDatasetEntries completes only once. You choose the value to pass. For example, An issue might prevent you from getting a response from UpdateDatasetEntries. In this case, safely retry your call to UpdateDatasetEntries by using the same ClientToken parameter value. If you don't supply a value for ClientToken, the AWS SDK you are using inserts a value for you. This prevents retries after a network error from making multiple updates with the same dataset entries. You'll need to provide your own value for other use cases. An error occurs if the other input parameters are not the same as in the first request. Using a different value for ClientToken is considered a new call to UpdateDatasetEntries. An idempotency token is active for 8 hours.
     public var clientToken: Swift.String?
     /// The type of the dataset that you want to update. Specify train to update the training dataset. Specify test to update the test dataset. If you have a single dataset project, specify train.
@@ -3662,7 +3665,7 @@ public struct UpdateDatasetEntriesInput {
     public var projectName: Swift.String?
 
     public init(
-        changes: ClientRuntime.Data? = nil,
+        changes: Foundation.Data? = nil,
         clientToken: Swift.String? = nil,
         datasetType: Swift.String? = nil,
         projectName: Swift.String? = nil
@@ -3677,7 +3680,7 @@ public struct UpdateDatasetEntriesInput {
 
 extension UpdateDatasetEntriesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateDatasetEntriesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateDatasetEntriesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3701,7 +3704,7 @@ public struct UpdateDatasetEntriesOutput {
 
 enum UpdateDatasetEntriesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

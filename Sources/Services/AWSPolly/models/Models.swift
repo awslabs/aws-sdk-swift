@@ -2,9 +2,13 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 import SmithyRetries
+import struct Foundation.URL
 import typealias Foundation.TimeInterval
 
 extension DeleteLexiconInput {
@@ -32,7 +36,7 @@ public struct DeleteLexiconInput {
 
 extension DeleteLexiconOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteLexiconOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteLexiconOutput {
         return DeleteLexiconOutput()
     }
 }
@@ -44,7 +48,7 @@ public struct DeleteLexiconOutput {
 
 enum DeleteLexiconOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -59,22 +63,22 @@ enum DeleteLexiconOutputError {
 
 extension DescribeVoicesInput {
 
-    static func queryItemProvider(_ value: DescribeVoicesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DescribeVoicesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let languageCode = value.languageCode {
-            let languageCodeQueryItem = ClientRuntime.SDKURLQueryItem(name: "LanguageCode".urlPercentEncoding(), value: Swift.String(languageCode.rawValue).urlPercentEncoding())
+            let languageCodeQueryItem = Smithy.URIQueryItem(name: "LanguageCode".urlPercentEncoding(), value: Swift.String(languageCode.rawValue).urlPercentEncoding())
             items.append(languageCodeQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let engine = value.engine {
-            let engineQueryItem = ClientRuntime.SDKURLQueryItem(name: "Engine".urlPercentEncoding(), value: Swift.String(engine.rawValue).urlPercentEncoding())
+            let engineQueryItem = Smithy.URIQueryItem(name: "Engine".urlPercentEncoding(), value: Swift.String(engine.rawValue).urlPercentEncoding())
             items.append(engineQueryItem)
         }
         if let includeAdditionalLanguageCodes = value.includeAdditionalLanguageCodes {
-            let includeAdditionalLanguageCodesQueryItem = ClientRuntime.SDKURLQueryItem(name: "IncludeAdditionalLanguageCodes".urlPercentEncoding(), value: Swift.String(includeAdditionalLanguageCodes).urlPercentEncoding())
+            let includeAdditionalLanguageCodesQueryItem = Smithy.URIQueryItem(name: "IncludeAdditionalLanguageCodes".urlPercentEncoding(), value: Swift.String(includeAdditionalLanguageCodes).urlPercentEncoding())
             items.append(includeAdditionalLanguageCodesQueryItem)
         }
         return items
@@ -114,7 +118,7 @@ public struct DescribeVoicesInput {
 
 extension DescribeVoicesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeVoicesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeVoicesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -143,7 +147,7 @@ public struct DescribeVoicesOutput {
 
 enum DescribeVoicesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -282,7 +286,7 @@ public struct GetLexiconInput {
 
 extension GetLexiconOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetLexiconOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetLexiconOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -311,7 +315,7 @@ public struct GetLexiconOutput {
 
 enum GetLexiconOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -349,7 +353,7 @@ public struct GetSpeechSynthesisTaskInput {
 
 extension GetSpeechSynthesisTaskOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetSpeechSynthesisTaskOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetSpeechSynthesisTaskOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -373,7 +377,7 @@ public struct GetSpeechSynthesisTaskOutput {
 
 enum GetSpeechSynthesisTaskOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -919,7 +923,7 @@ extension PollyClientTypes {
         /// Language code that the lexicon applies to. A lexicon with a language code such as "en" would be applied to all English languages (en-GB, en-US, en-AUS, en-WLS, and so on.
         public var languageCode: PollyClientTypes.LanguageCode?
         /// Date lexicon was last modified (a timestamp value).
-        public var lastModified: ClientRuntime.Date?
+        public var lastModified: Foundation.Date?
         /// Number of lexemes in the lexicon.
         public var lexemesCount: Swift.Int
         /// Amazon Resource Name (ARN) of the lexicon.
@@ -930,7 +934,7 @@ extension PollyClientTypes {
         public init(
             alphabet: Swift.String? = nil,
             languageCode: PollyClientTypes.LanguageCode? = nil,
-            lastModified: ClientRuntime.Date? = nil,
+            lastModified: Foundation.Date? = nil,
             lexemesCount: Swift.Int = 0,
             lexiconArn: Swift.String? = nil,
             size: Swift.Int = 0
@@ -1054,10 +1058,10 @@ public struct LexiconSizeExceededException: ClientRuntime.ModeledError, AWSClien
 
 extension ListLexiconsInput {
 
-    static func queryItemProvider(_ value: ListLexiconsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListLexiconsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         return items
@@ -1085,7 +1089,7 @@ public struct ListLexiconsInput {
 
 extension ListLexiconsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListLexiconsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListLexiconsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1114,7 +1118,7 @@ public struct ListLexiconsOutput {
 
 enum ListLexiconsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1129,18 +1133,18 @@ enum ListLexiconsOutputError {
 
 extension ListSpeechSynthesisTasksInput {
 
-    static func queryItemProvider(_ value: ListSpeechSynthesisTasksInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListSpeechSynthesisTasksInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let status = value.status {
-            let statusQueryItem = ClientRuntime.SDKURLQueryItem(name: "Status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            let statusQueryItem = Smithy.URIQueryItem(name: "Status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
             items.append(statusQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -1176,7 +1180,7 @@ public struct ListSpeechSynthesisTasksInput {
 
 extension ListSpeechSynthesisTasksOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListSpeechSynthesisTasksOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListSpeechSynthesisTasksOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1205,7 +1209,7 @@ public struct ListSpeechSynthesisTasksOutput {
 
 enum ListSpeechSynthesisTasksOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1409,7 +1413,7 @@ public struct PutLexiconInput {
 
 extension PutLexiconOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutLexiconOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutLexiconOutput {
         return PutLexiconOutput()
     }
 }
@@ -1421,7 +1425,7 @@ public struct PutLexiconOutput {
 
 enum PutLexiconOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1636,7 +1640,7 @@ public struct StartSpeechSynthesisTaskInput {
 
 extension StartSpeechSynthesisTaskOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartSpeechSynthesisTaskOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartSpeechSynthesisTaskOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1660,7 +1664,7 @@ public struct StartSpeechSynthesisTaskOutput {
 
 enum StartSpeechSynthesisTaskOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1711,7 +1715,7 @@ extension PollyClientTypes {
     /// SynthesisTask object that provides information about a speech synthesis task.
     public struct SynthesisTask {
         /// Timestamp for the time the synthesis task was started.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// Specifies the engine (standard, neural, long-form or generative) for Amazon Polly to use when processing input text for speech synthesis. Using a voice that is not supported for the engine selected will result in an error.
         public var engine: PollyClientTypes.Engine?
         /// Optional language code for a synthesis task. This is only necessary if using a bilingual voice, such as Aditi, which can be used for either Indian English (en-IN) or Hindi (hi-IN). If a bilingual voice is used and no language code is specified, Amazon Polly uses the default language of the bilingual voice. The default language for any voice is the one returned by the [DescribeVoices](https://docs.aws.amazon.com/polly/latest/dg/API_DescribeVoices.html) operation for the LanguageCode parameter. For example, if no language code is specified, Aditi will use Indian English rather than Hindi.
@@ -1742,7 +1746,7 @@ extension PollyClientTypes {
         public var voiceId: PollyClientTypes.VoiceId?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             engine: PollyClientTypes.Engine? = nil,
             languageCode: PollyClientTypes.LanguageCode? = nil,
             lexiconNames: [Swift.String]? = nil,
@@ -1817,10 +1821,10 @@ public struct SynthesisTaskNotFoundException: ClientRuntime.ModeledError, AWSCli
 }
 
 extension SynthesizeSpeechInput {
-    public func presignURL(config: PollyClient.PollyClientConfiguration, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.URL? {
+    public func presignURL(config: PollyClient.PollyClientConfiguration, expiration: Foundation.TimeInterval) async throws -> Foundation.URL? {
         let serviceName = "Polly"
         let input = self
-        let context = ClientRuntime.HttpContextBuilder()
+        let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "synthesizeSpeech")
@@ -1859,10 +1863,10 @@ extension SynthesizeSpeechInput {
 }
 
 extension SynthesizeSpeechInput {
-    public func presign(config: PollyClient.PollyClientConfiguration, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.SdkHttpRequest? {
+    public func presign(config: PollyClient.PollyClientConfiguration, expiration: Foundation.TimeInterval) async throws -> SmithyHTTPAPI.SdkHttpRequest? {
         let serviceName = "Polly"
         let input = self
-        let context = ClientRuntime.HttpContextBuilder()
+        let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "synthesizeSpeech")
@@ -1908,13 +1912,12 @@ public struct SynthesizeSpeechInputGETQueryItemMiddleware: ClientRuntime.Middlew
 
     public init() {}
 
-    public func handle<H>(context: Context,
+    public func handle<H>(context: Smithy.Context,
                   input: ClientRuntime.SerializeStepInput<SynthesizeSpeechInput>,
                   next: H) async throws -> ClientRuntime.OperationOutput<SynthesizeSpeechOutput>
     where H: Handler,
     Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
+    Self.MOutput == H.Output
     {
         try self.apply(input: input.operationInput, builder: input.builder, attributes: context)
         return try await next.handle(context: context, input: input)
@@ -1922,52 +1925,50 @@ public struct SynthesizeSpeechInputGETQueryItemMiddleware: ClientRuntime.Middlew
 
     public typealias MInput = ClientRuntime.SerializeStepInput<SynthesizeSpeechInput>
     public typealias MOutput = ClientRuntime.OperationOutput<SynthesizeSpeechOutput>
-    public typealias Context = ClientRuntime.HttpContext
 }
-extension SynthesizeSpeechInputGETQueryItemMiddleware: ClientRuntime.RequestMessageSerializer {
+extension SynthesizeSpeechInputGETQueryItemMiddleware: Smithy.RequestMessageSerializer {
     public typealias InputType = SynthesizeSpeechInput
-    public typealias RequestType = ClientRuntime.SdkHttpRequest
-    public typealias AttributesType = ClientRuntime.HttpContext
+    public typealias RequestType = SmithyHTTPAPI.SdkHttpRequest
 
-    public func apply(input: InputType, builder: ClientRuntime.SdkHttpRequestBuilder, attributes: ClientRuntime.HttpContext) throws {
+    public func apply(input: InputType, builder: SmithyHTTPAPI.SdkHttpRequestBuilder, attributes: Smithy.Context) throws {
         if let engine = input.engine {
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "Engine".urlPercentEncoding(), value: Swift.String(engine.rawValue).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "engine.rawValue".urlPercentEncoding(), value: "Engine".urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let languageCode = input.languageCode {
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "LanguageCode".urlPercentEncoding(), value: Swift.String(languageCode.rawValue).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "languageCode.rawValue".urlPercentEncoding(), value: "LanguageCode".urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let lexiconNames = input.lexiconNames {
             lexiconNames.forEach { item in
-                let queryItem = ClientRuntime.SDKURLQueryItem(name: "LexiconNames".urlPercentEncoding(), value: Swift.String(item).urlPercentEncoding())
+                let queryItem = Smithy.URIQueryItem(name: "item".urlPercentEncoding(), value: "LexiconNames".urlPercentEncoding())
                 builder.withQueryItem(queryItem)
             }
         }
         if let outputFormat = input.outputFormat {
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "OutputFormat".urlPercentEncoding(), value: Swift.String(outputFormat.rawValue).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "outputFormat.rawValue".urlPercentEncoding(), value: "OutputFormat".urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let sampleRate = input.sampleRate {
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "SampleRate".urlPercentEncoding(), value: Swift.String(sampleRate).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "sampleRate".urlPercentEncoding(), value: "SampleRate".urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let speechMarkTypes = input.speechMarkTypes {
             speechMarkTypes.forEach { item in
-                let queryItem = ClientRuntime.SDKURLQueryItem(name: "SpeechMarkTypes".urlPercentEncoding(), value: Swift.String(item.rawValue).urlPercentEncoding())
+                let queryItem = Smithy.URIQueryItem(name: "item.rawValue".urlPercentEncoding(), value: "SpeechMarkTypes".urlPercentEncoding())
                 builder.withQueryItem(queryItem)
             }
         }
         if let text = input.text {
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "Text".urlPercentEncoding(), value: Swift.String(text).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "text".urlPercentEncoding(), value: "Text".urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let textType = input.textType {
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "TextType".urlPercentEncoding(), value: Swift.String(textType.rawValue).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "textType.rawValue".urlPercentEncoding(), value: "TextType".urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let voiceId = input.voiceId {
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "VoiceId".urlPercentEncoding(), value: Swift.String(voiceId.rawValue).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "voiceId.rawValue".urlPercentEncoding(), value: "VoiceId".urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
     }
@@ -2045,7 +2046,7 @@ public struct SynthesizeSpeechInput {
 
 extension SynthesizeSpeechOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SynthesizeSpeechOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SynthesizeSpeechOutput {
         var value = SynthesizeSpeechOutput()
         if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
             value.contentType = contentTypeHeaderValue
@@ -2067,7 +2068,7 @@ extension SynthesizeSpeechOutput {
 
 public struct SynthesizeSpeechOutput {
     /// Stream containing the synthesized speech.
-    public var audioStream: ClientRuntime.ByteStream?
+    public var audioStream: Smithy.ByteStream?
     /// Specifies the type audio stream. This should reflect the OutputFormat parameter in your request.
     ///
     /// * If you request mp3 as the OutputFormat, the ContentType returned is audio/mpeg.
@@ -2082,7 +2083,7 @@ public struct SynthesizeSpeechOutput {
     public var requestCharacters: Swift.Int
 
     public init(
-        audioStream: ClientRuntime.ByteStream? = nil,
+        audioStream: Smithy.ByteStream? = nil,
         contentType: Swift.String? = nil,
         requestCharacters: Swift.Int = 0
     )
@@ -2095,7 +2096,7 @@ public struct SynthesizeSpeechOutput {
 
 enum SynthesizeSpeechOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
