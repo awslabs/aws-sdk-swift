@@ -5,13 +5,14 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import protocol SmithyIdentityAPI.AWSCredentialIdentityResolver
+import protocol AWSSDKIdentity.AWSCredentialIdentityResolvedByCRT
 import AwsCommonRuntimeKit
-import ClientRuntime
 import Foundation
 
 ///  A credential identity resolver that caches the credentials sourced from the provided resolver.
 public struct CachedAWSCredentialIdentityResolver: AWSCredentialIdentityResolvedByCRT {
-    let crtAWSCredentialIdentityResolver: AwsCommonRuntimeKit.CredentialsProvider
+    public let crtAWSCredentialIdentityResolver: AwsCommonRuntimeKit.CredentialsProvider
 
     /// Credentials resolved through this resolver will be cached within it until their expiration time.
     /// When the cached credentials expire, new credentials will be fetched when next queried.

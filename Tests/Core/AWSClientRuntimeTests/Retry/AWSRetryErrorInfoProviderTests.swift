@@ -5,6 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import SmithyHTTPAPI
 import Foundation
 import XCTest
 import ClientRuntime
@@ -116,7 +117,7 @@ private struct TestServiceError: ServiceError, Error {
 }
 
 private struct TestHTTPError: HTTPError, Error {
-    var httpResponse: ClientRuntime.HttpResponse
+    var httpResponse: HttpResponse
 
     init(statusCode: Int, headers: [String: String] = [:]) throws {
         let status = try XCTUnwrap(HttpStatusCode(rawValue: statusCode))

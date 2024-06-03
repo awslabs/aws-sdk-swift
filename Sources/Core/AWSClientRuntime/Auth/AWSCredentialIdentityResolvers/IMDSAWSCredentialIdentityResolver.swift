@@ -5,13 +5,14 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import AWSSDKIdentity
 import AwsCommonRuntimeKit
 import ClientRuntime
 import Foundation
 
 /// A credentials provider that uses IMDSv2 to fetch credentials within an EC2 instance.
 public struct IMDSAWSCredentialIdentityResolver: AWSCredentialIdentityResolvedByCRT {
-    let crtAWSCredentialIdentityResolver: AwsCommonRuntimeKit.CredentialsProvider
+    public let crtAWSCredentialIdentityResolver: AwsCommonRuntimeKit.CredentialsProvider
     /// Creates a credentials provider that sources credentials from ec2 instance metadata.
     /// It will use IMDSv2 to fetch the credentials.
     public init() throws {

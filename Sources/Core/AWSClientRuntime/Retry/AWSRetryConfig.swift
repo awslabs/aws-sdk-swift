@@ -5,7 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import struct ClientRuntime.RetryStrategyOptions
+import struct SmithyRetriesAPI.RetryStrategyOptions
 
 public enum AWSRetryConfig {
 

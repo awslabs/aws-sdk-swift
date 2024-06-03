@@ -9,7 +9,6 @@
 import XCTest
 
 class ExecutionEnvMetadataTests: XCTestCase {
-
     func test_detectExecEnv_returnsNilWhenExecutionEnvIsUnset() {
         unsetenv("AWS_EXECUTION_ENV")
         XCTAssertNil(ExecutionEnvMetadata.detectExecEnv())

@@ -40,23 +40,21 @@ public struct EndpointResolverMiddleware<OperationStackOutput>: ClientRuntime.Mi
         self.authSchemeResolver = authSchemeResolver
     }
 
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SdkHttpRequestBuilder,
+    public func handle<H>(context: Smithy.Context,
+                  input: SmithyHTTPAPI.SdkHttpRequestBuilder,
                   next: H) async throws -> ClientRuntime.OperationOutput<OperationStackOutput>
     where H: Handler,
     Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
+    Self.MOutput == H.Output
     {
-        let selectedAuthScheme = context.getSelectedAuthScheme()
+        let selectedAuthScheme = context.selectedAuthScheme
         let request = input.build()
         let updatedRequest = try await apply(request: request, selectedAuthScheme: selectedAuthScheme, attributes: context)
         return try await next.handle(context: context, input: updatedRequest.toBuilder())
     }
 
-    public typealias MInput = ClientRuntime.SdkHttpRequestBuilder
+    public typealias MInput = SmithyHTTPAPI.SdkHttpRequestBuilder
     public typealias MOutput = ClientRuntime.OperationOutput<OperationStackOutput>
-    public typealias Context = ClientRuntime.HttpContext
 }
 """
         contents.shouldContainOnlyOnce(expected)

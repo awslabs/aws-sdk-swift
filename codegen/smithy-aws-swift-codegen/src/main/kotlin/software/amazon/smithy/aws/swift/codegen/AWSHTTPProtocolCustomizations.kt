@@ -7,6 +7,7 @@ package software.amazon.smithy.aws.swift.codegen
 
 import software.amazon.smithy.aws.swift.codegen.customization.RulesBasedAuthSchemeResolverGenerator
 import software.amazon.smithy.aws.swift.codegen.middleware.AWSEndpointResolverMiddleware
+import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTypes
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
@@ -42,6 +43,7 @@ abstract class AWSHTTPProtocolCustomizations : DefaultHTTPProtocolCustomizations
         op: OperationShape
     ) {
         if (op.isInputEventStream(ctx.model) && op.isOutputEventStream(ctx.model)) {
+            writer.addImport(AWSSwiftDependency.AWS_SDK_EVENT_STREAMS_AUTH.target)
             writer.write("try context.setupBidirectionalStreaming()")
         }
     }
@@ -67,8 +69,6 @@ abstract class AWSHTTPProtocolCustomizations : DefaultHTTPProtocolCustomizations
         writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target, false, "FileBasedConfig")
         return AWSHttpProtocolServiceClient(ctx, writer, serviceConfig)
     }
-
-    override val messageDecoderSymbol: Symbol = AWSClientRuntimeTypes.AWSEventStream.AWSMessageDecoder
 
     override val unknownServiceErrorSymbol: Symbol = AWSClientRuntimeTypes.Core.UnknownAWSHTTPServiceError
 }

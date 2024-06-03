@@ -5,14 +5,14 @@
 
 package software.amazon.smithy.aws.swift.codegen
 
-import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes.Core.AWSClientConfiguration
 import software.amazon.smithy.aws.swift.codegen.model.traits.Presignable
+import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTypes.Core.AWSClientConfiguration
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
-import software.amazon.smithy.swift.codegen.ClientRuntimeTypes.Http.SdkHttpRequest
-import software.amazon.smithy.swift.codegen.ClientRuntimeTypes.Middleware.NoopHandler
 import software.amazon.smithy.swift.codegen.FoundationTypes
+import software.amazon.smithy.swift.codegen.SwiftDeclaration
 import software.amazon.smithy.swift.codegen.SwiftDelegator
+import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.core.SwiftCodegenContext
 import software.amazon.smithy.swift.codegen.core.toProtocolGenerationContext
@@ -22,6 +22,9 @@ import software.amazon.smithy.swift.codegen.middleware.MiddlewareExecutionGenera
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareExecutionGenerator.Companion.ContextAttributeCodegenFlowType.PRESIGN_REQUEST
 import software.amazon.smithy.swift.codegen.model.expectShape
 import software.amazon.smithy.swift.codegen.model.toUpperCamelCase
+import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes.Middleware.NoopHandler
+import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAPITypes
+import software.amazon.smithy.swift.codegen.swiftmodules.SmithyTypes
 
 data class PresignableOperation(
     val serviceId: String,
@@ -79,23 +82,29 @@ class PresignerGenerator : SwiftIntegration {
         val operationMiddleware = protocolGenerator.operationMiddleware
 
         writer.addImport(AWSClientConfiguration)
-        writer.addImport(SdkHttpRequest)
-        writer.addIndividualTypeImport("typealias", "Foundation", "TimeInterval")
+        writer.addImport(SwiftDependency.SMITHY.target)
+        writer.addImport(SwiftDependency.SMITHY_HTTP_API.target)
+        writer.addIndividualTypeImport(SwiftDeclaration.TYPEALIAS, "Foundation", "TimeInterval")
 
         val httpBindingResolver = protocolGenerator.getProtocolHttpBindingResolver(protocolGeneratorContext, protocolGenerator.defaultContentType)
 
         writer.openBlock("extension $inputType {", "}") {
-            writer.openBlock("public func presign(config: \$L, expiration: \$N) async throws -> \$T {", "}", serviceConfig.typeName, FoundationTypes.TimeInterval, SdkHttpRequest) {
+            writer.openBlock("public func presign(config: \$L, expiration: \$N) async throws -> \$T {", "}", serviceConfig.typeName, FoundationTypes.TimeInterval, SmithyHTTPAPITypes.SdkHttpRequest) {
                 writer.write("let serviceName = \$S", ctx.settings.sdkId)
                 writer.write("let input = self")
                 if (protocolGeneratorContext.settings.useInterceptors) {
-                    writer.write(
-                        """
-                        let client: (SdkHttpRequest, HttpContext) async throws -> HttpResponse = { (_, _) in
-                            throw ClientRuntime.ClientError.unknownError("No HTTP client configured for presigned request")
-                        }
-                        """.trimIndent()
-                    )
+                    writer.openBlock(
+                        "let client: (\$N, \$N) async throws -> \$N = { (_, _) in",
+                        "}",
+                        SmithyHTTPAPITypes.SdkHttpRequest,
+                        SmithyTypes.Context,
+                        SmithyHTTPAPITypes.HttpResponse,
+                    ) {
+                        writer.write(
+                            "throw \$N.unknownError(\"No HTTP client configured for presigned request\")",
+                            SmithyTypes.ClientError
+                        )
+                    }
                 }
                 val operationStackName = "operation"
                 val generator = MiddlewareExecutionGenerator(
