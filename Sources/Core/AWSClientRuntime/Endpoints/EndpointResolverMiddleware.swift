@@ -53,7 +53,8 @@ public struct EndpointResolverMiddleware<OperationStackOutput, Params: Endpoints
               Self.MOutput == H.Output {
         let selectedAuthScheme = context.selectedAuthScheme
         let request = input.build()
-        let updatedRequest = try await apply(request: request, selectedAuthScheme: selectedAuthScheme, attributes: context)
+        let updatedRequest =
+            try await apply(request: request, selectedAuthScheme: selectedAuthScheme, attributes: context)
         return try await next.handle(context: context, input: updatedRequest.toBuilder())
     }
 }
@@ -69,9 +70,9 @@ extension EndpointResolverMiddleware: ApplyEndpoint {
 
         let endpoint = try endpointResolverBlock(endpointParams)
 
-        var signingName: String? = nil
-        var signingAlgorithm: String? = nil
-        var signingRegion: String? = nil
+        var signingName: String?
+        var signingAlgorithm: String?
+        var signingRegion: String?
         if let authSchemes = endpoint.authSchemes() {
             let schemes = try authSchemes.map { try EndpointsAuthScheme(from: $0) }
             let authScheme = try authSchemeResolver.resolve(authSchemes: schemes)
