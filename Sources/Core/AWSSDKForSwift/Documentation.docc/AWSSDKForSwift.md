@@ -451,6 +451,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSMacie2](../../../../../swift/api/awsmacie2/latest)
 
+[AWSMailManager](../../../../../swift/api/awsmailmanager/latest)
+
 [AWSManagedBlockchain](../../../../../swift/api/awsmanagedblockchain/latest)
 
 [AWSManagedBlockchainQuery](../../../../../swift/api/awsmanagedblockchainquery/latest)
@@ -718,6 +720,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSSupportApp](../../../../../swift/api/awssupportapp/latest)
 
 [AWSSynthetics](../../../../../swift/api/awssynthetics/latest)
+
+[AWSTaxSettings](../../../../../swift/api/awstaxsettings/latest)
 
 [AWSTextract](../../../../../swift/api/awstextract/latest)
 

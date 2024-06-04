@@ -466,6 +466,8 @@ extension CloudTrailClientTypes {
         ///
         /// * AWS::PCAConnectorAD::Connector
         ///
+        /// * AWS::QApps:QApp
+        ///
         /// * AWS::QBusiness::Application
         ///
         /// * AWS::QBusiness::DataSource
@@ -498,11 +500,13 @@ extension CloudTrailClientTypes {
         ///
         /// * AWS::SNS::Topic
         ///
-        /// * AWS::SWF::Domain
-        ///
         /// * AWS::SQS::Queue
         ///
+        /// * AWS::SSM::ManagedNode
+        ///
         /// * AWS::SSMMessages::ControlChannel
+        ///
+        /// * AWS::SWF::Domain
         ///
         /// * AWS::ThinClient::Device
         ///
@@ -514,10 +518,12 @@ extension CloudTrailClientTypes {
         ///
         /// * AWS::VerifiedPermissions::PolicyStore
         ///
+        /// * AWS::XRay::Trace
+        ///
         ///
         /// You can have only one resources.type ﬁeld per selector. To log data events on more than one resource type, add another selector.
         ///
-        /// * resources.ARN - You can use any operator with resources.ARN, but if you use Equals or NotEquals, the value must exactly match the ARN of a valid resource of the type you've speciﬁed in the template as the value of resources.type. For example, if resources.type equals AWS::S3::Object, the ARN must be in one of the following formats. To log all data events for all objects in a specific S3 bucket, use the StartsWith operator, and include only the bucket ARN as the matching value. The trailing slash is intentional; do not exclude it. Replace the text between less than and greater than symbols (<>) with resource-specific information.
+        /// * resources.ARN - You can use any operator with resources.ARN, but if you use Equals or NotEquals, the value must exactly match the ARN of a valid resource of the type you've speciﬁed in the template as the value of resources.type. You can't use the resources.ARN field to filter resource types that do not have ARNs. The resources.ARN field can be set one of the following. If resources.type equals AWS::S3::Object, the ARN must be in one of the following formats. To log all data events for all objects in a specific S3 bucket, use the StartsWith operator, and include only the bucket ARN as the matching value. The trailing slash is intentional; do not exclude it. Replace the text between less than and greater than symbols (<>) with resource-specific information.
         ///
         /// * arn::s3:::/
         ///
@@ -689,6 +695,11 @@ extension CloudTrailClientTypes {
         /// * arn::pca-connector-ad:::connector/
         ///
         ///
+        /// When resources.type equals AWS::QApps:QApp, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::qapps:::application//qapp/
+        ///
+        ///
         /// When resources.type equals AWS::QBusiness::Application, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
         ///
         /// * arn::qbusiness:::application/
@@ -771,19 +782,26 @@ extension CloudTrailClientTypes {
         /// * arn::sns:::
         ///
         ///
-        /// When resources.type equals AWS::SWF::Domain, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
-        ///
-        /// * arn::swf:::domain/
-        ///
-        ///
         /// When resources.type equals AWS::SQS::Queue, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
         ///
         /// * arn::sqs:::
         ///
         ///
+        /// When resources.type equals AWS::SSM::ManagedNode, and the operator is set to Equals or NotEquals, the ARN must be in one of the following formats:
+        ///
+        /// * arn::ssm:::managed-instance/
+        ///
+        /// * arn::ec2:::instance/
+        ///
+        ///
         /// When resources.type equals AWS::SSMMessages::ControlChannel, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
         ///
         /// * arn::ssmmessages:::control-channel/
+        ///
+        ///
+        /// When resources.type equals AWS::SWF::Domain, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::swf:::domain/
         ///
         ///
         /// When resources.type equals AWS::ThinClient::Device, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
@@ -1269,7 +1287,7 @@ extension CloudTrailAccessNotEnabledException {
     }
 }
 
-/// This exception is thrown when trusted access has not been enabled between CloudTrail and Organizations. For more information, see [Enabling Trusted Access with Other Amazon Web Services Services](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html) and [Prepare For Creating a Trail For Your Organization](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-an-organizational-trail-prepare.html).
+/// This exception is thrown when trusted access has not been enabled between CloudTrail and Organizations. For more information, see [How to enable or disable trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html#orgs_how-to-enable-disable-trusted-access) in the Organizations User Guide and [Prepare For Creating a Trail For Your Organization](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-an-organizational-trail-prepare.html) in the CloudTrail User Guide.
 public struct CloudTrailAccessNotEnabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -1587,7 +1605,7 @@ extension CreateEventDataStoreInput {
 }
 
 public struct CreateEventDataStoreInput {
-    /// The advanced event selectors to use to select the events for the data store. You can configure up to five advanced event selectors for each event data store. For more information about how to use advanced event selectors to log CloudTrail events, see [Log events by using advanced event selectors](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html#creating-data-event-selectors-advanced) in the CloudTrail User Guide. For more information about how to use advanced event selectors to include Config configuration items in your event data store, see [Create an event data store for Config configuration items](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-lake-cli.html#lake-cli-create-eds-config) in the CloudTrail User Guide. For more information about how to use advanced event selectors to include non-Amazon Web Services events in your event data store, see [Create an integration to log events from outside Amazon Web Services](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-lake-cli.html#lake-cli-create-integration) in the CloudTrail User Guide.
+    /// The advanced event selectors to use to select the events for the data store. You can configure up to five advanced event selectors for each event data store. For more information about how to use advanced event selectors to log CloudTrail events, see [Log events by using advanced event selectors](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html#creating-data-event-selectors-advanced) in the CloudTrail User Guide. For more information about how to use advanced event selectors to include Config configuration items in your event data store, see [Create an event data store for Config configuration items](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/lake-eds-cli.html#lake-cli-create-eds-config) in the CloudTrail User Guide. For more information about how to use advanced event selectors to include events outside of Amazon Web Services events in your event data store, see [Create an integration to log events from outside Amazon Web Services](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/lake-integrations-cli.html#lake-cli-create-integration) in the CloudTrail User Guide.
     public var advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]?
     /// The billing mode for the event data store determines the cost for ingesting events and the default and maximum retention period for the event data store. The following are the possible values:
     ///
@@ -1828,10 +1846,10 @@ public struct CreateTrailInput {
     /// * Not be in IP address format (for example, 192.168.5.4)
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies the name of the Amazon S3 bucket designated for publishing log files. See [Amazon S3 Bucket Naming Requirements](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/create_trail_naming_policy.html).
+    /// Specifies the name of the Amazon S3 bucket designated for publishing log files. For information about bucket naming rules, see [Bucket naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html) in the Amazon Simple Storage Service User Guide.
     /// This member is required.
     public var s3BucketName: Swift.String?
-    /// Specifies the Amazon S3 key prefix that comes after the name of the bucket you have designated for log file delivery. For more information, see [Finding Your CloudTrail Log Files](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-find-log-files.html). The maximum length is 200 characters.
+    /// Specifies the Amazon S3 key prefix that comes after the name of the bucket you have designated for log file delivery. For more information, see [Finding Your CloudTrail Log Files](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/get-and-view-cloudtrail-log-files.html#cloudtrail-find-log-files). The maximum length is 200 characters.
     public var s3KeyPrefix: Swift.String?
     /// Specifies the name of the Amazon SNS topic defined for notification of log file delivery. The maximum length is 256 characters.
     public var snsTopicName: Swift.String?
@@ -1912,7 +1930,7 @@ public struct CreateTrailOutput {
     public var name: Swift.String?
     /// Specifies the name of the Amazon S3 bucket designated for publishing log files.
     public var s3BucketName: Swift.String?
-    /// Specifies the Amazon S3 key prefix that comes after the name of the bucket you have designated for log file delivery. For more information, see [Finding Your CloudTrail Log Files](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-find-log-files.html).
+    /// Specifies the Amazon S3 key prefix that comes after the name of the bucket you have designated for log file delivery. For more information, see [Finding Your CloudTrail Log Files](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/get-and-view-cloudtrail-log-files.html#cloudtrail-find-log-files).
     public var s3KeyPrefix: Swift.String?
     /// Specifies the ARN of the Amazon SNS topic that CloudTrail uses to send notifications when log files are delivered. The format of a topic ARN is: arn:aws:sns:us-east-2:123456789012:MyTopic
     public var snsTopicARN: Swift.String?
@@ -2018,7 +2036,16 @@ extension CloudTrailClientTypes.DataResource {
 }
 
 extension CloudTrailClientTypes {
-    /// The Amazon S3 buckets, Lambda functions, or Amazon DynamoDB tables that you specify in your event selectors for your trail to log data events. Data events provide information about the resource operations performed on or within a resource itself. These are also known as data plane operations. You can specify up to 250 data resources for a trail. The total number of allowed data resources is 250. This number can be distributed between 1 and 5 event selectors, but the total cannot exceed 250 across all selectors for the trail. If you are using advanced event selectors, the maximum total number of values for all conditions, across all advanced event selectors for the trail, is 500. The following example demonstrates how logging works when you configure logging of all data events for an S3 bucket named bucket-1. In this example, the CloudTrail user specified an empty prefix, and the option to log both Read and Write data events.
+    /// Data events provide information about the resource operations performed on or within a resource itself. These are also known as data plane operations. You can specify up to 250 data resources for a trail. Configure the DataResource to specify the resource type and resource ARNs for which you want to log data events. You can specify the following resource types in your event selectors for your trail:
+    ///
+    /// * AWS::DynamoDB::Table
+    ///
+    /// * AWS::Lambda::Function
+    ///
+    /// * AWS::S3::Object
+    ///
+    ///
+    /// The total number of allowed data resources is 250. This number can be distributed between 1 and 5 event selectors, but the total cannot exceed 250 across all selectors for the trail. If you are using advanced event selectors, the maximum total number of values for all conditions, across all advanced event selectors for the trail, is 500. The following example demonstrates how logging works when you configure logging of all data events for an S3 bucket named bucket-1. In this example, the CloudTrail user specified an empty prefix, and the option to log both Read and Write data events.
     ///
     /// * A user uploads an image file to bucket-1.
     ///
@@ -2048,7 +2075,7 @@ extension CloudTrailClientTypes {
         ///
         /// Additional resource types are available through advanced event selectors. For more information about these additional resource types, see [AdvancedFieldSelector](https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_AdvancedFieldSelector.html).
         public var type: Swift.String?
-        /// An array of Amazon Resource Name (ARN) strings or partial ARN strings for the specified objects.
+        /// An array of Amazon Resource Name (ARN) strings or partial ARN strings for the specified resource type.
         ///
         /// * To log data events for all objects in all S3 buckets in your Amazon Web Services account, specify the prefix as arn:aws:s3. This also enables logging of data event activity performed by any user or role in your Amazon Web Services account, even if that activity is performed on a bucket that belongs to another Amazon Web Services account.
         ///
@@ -3034,7 +3061,7 @@ extension CloudTrailClientTypes.EventDataStore {
 }
 
 extension CloudTrailClientTypes {
-    /// A storage lake of event data against which you can run complex SQL-based queries. An event data store can include events that you have logged on your account. To select events for an event data store, use [advanced event selectors](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html#creating-data-event-selectors-advanced).
+    /// A storage lake of event data against which you can run complex SQL-based queries. An event data store can include events that you have logged on your account. To select events for an event data store, use [advanced event selectors](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-lake-concepts.html#adv-event-selectors).
     public struct EventDataStore {
         /// The advanced event selectors that were used to select events for the data store.
         @available(*, deprecated, message: "AdvancedEventSelectors is no longer returned by ListEventDataStores")
@@ -3623,6 +3650,7 @@ extension GetEventDataStoreOutput {
         value.multiRegionEnabled = try reader["MultiRegionEnabled"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
         value.organizationEnabled = try reader["OrganizationEnabled"].readIfPresent()
+        value.partitionKeys = try reader["PartitionKeys"].readListIfPresent(memberReadingClosure: CloudTrailClientTypes.PartitionKey.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.retentionPeriod = try reader["RetentionPeriod"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
         value.terminationProtectionEnabled = try reader["TerminationProtectionEnabled"].readIfPresent()
@@ -3652,6 +3680,8 @@ public struct GetEventDataStoreOutput {
     public var name: Swift.String?
     /// Indicates whether an event data store is collecting logged events for an organization in Organizations.
     public var organizationEnabled: Swift.Bool?
+    /// The partition keys for the event data store. To improve query performance and efficiency, CloudTrail Lake organizes event data into partitions based on values derived from partition keys.
+    public var partitionKeys: [CloudTrailClientTypes.PartitionKey]?
     /// The retention period of the event data store, in days.
     public var retentionPeriod: Swift.Int?
     /// The status of an event data store.
@@ -3672,6 +3702,7 @@ public struct GetEventDataStoreOutput {
         multiRegionEnabled: Swift.Bool? = nil,
         name: Swift.String? = nil,
         organizationEnabled: Swift.Bool? = nil,
+        partitionKeys: [CloudTrailClientTypes.PartitionKey]? = nil,
         retentionPeriod: Swift.Int? = nil,
         status: CloudTrailClientTypes.EventDataStoreStatus? = nil,
         terminationProtectionEnabled: Swift.Bool? = nil,
@@ -3688,6 +3719,7 @@ public struct GetEventDataStoreOutput {
         self.multiRegionEnabled = multiRegionEnabled
         self.name = name
         self.organizationEnabled = organizationEnabled
+        self.partitionKeys = partitionKeys
         self.retentionPeriod = retentionPeriod
         self.status = status
         self.terminationProtectionEnabled = terminationProtectionEnabled
@@ -4351,11 +4383,11 @@ public struct GetTrailStatusOutput {
     public var latestDeliveryAttemptSucceeded: Swift.String?
     /// This field is no longer in use.
     public var latestDeliveryAttemptTime: Swift.String?
-    /// Displays any Amazon S3 error that CloudTrail encountered when attempting to deliver log files to the designated bucket. For more information, see [Error Responses](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html) in the Amazon S3 API Reference. This error occurs only when there is a problem with the destination S3 bucket, and does not occur for requests that time out. To resolve the issue, create a new bucket, and then call UpdateTrail to specify the new bucket; or fix the existing objects so that CloudTrail can again write to the bucket.
+    /// Displays any Amazon S3 error that CloudTrail encountered when attempting to deliver log files to the designated bucket. For more information, see [Error Responses](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html) in the Amazon S3 API Reference. This error occurs only when there is a problem with the destination S3 bucket, and does not occur for requests that time out. To resolve the issue, fix the [bucket policy](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/create-s3-bucket-policy-for-cloudtrail.html) so that CloudTrail can write to the bucket; or create a new bucket and call UpdateTrail to specify the new bucket.
     public var latestDeliveryError: Swift.String?
     /// Specifies the date and time that CloudTrail last delivered log files to an account's Amazon S3 bucket.
     public var latestDeliveryTime: Foundation.Date?
-    /// Displays any Amazon S3 error that CloudTrail encountered when attempting to deliver a digest file to the designated bucket. For more information, see [Error Responses](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html) in the Amazon S3 API Reference. This error occurs only when there is a problem with the destination S3 bucket, and does not occur for requests that time out. To resolve the issue, create a new bucket, and then call UpdateTrail to specify the new bucket; or fix the existing objects so that CloudTrail can again write to the bucket.
+    /// Displays any Amazon S3 error that CloudTrail encountered when attempting to deliver a digest file to the designated bucket. For more information, see [Error Responses](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html) in the Amazon S3 API Reference. This error occurs only when there is a problem with the destination S3 bucket, and does not occur for requests that time out. To resolve the issue, fix the [bucket policy](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/create-s3-bucket-policy-for-cloudtrail.html) so that CloudTrail can write to the bucket; or create a new bucket and call UpdateTrail to specify the new bucket.
     public var latestDigestDeliveryError: Swift.String?
     /// Specifies the date and time that CloudTrail last delivered a digest file to an account's Amazon S3 bucket.
     public var latestDigestDeliveryTime: Foundation.Date?
@@ -7405,7 +7437,7 @@ extension NotOrganizationMasterAccountException {
     }
 }
 
-/// This exception is thrown when the Amazon Web Services account making the request to create or update an organization trail or event data store is not the management account for an organization in Organizations. For more information, see [Prepare For Creating a Trail For Your Organization](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-an-organizational-trail-prepare.html) or [Create an event data store](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-event-data-store.html).
+/// This exception is thrown when the Amazon Web Services account making the request to create or update an organization trail or event data store is not the management account for an organization in Organizations. For more information, see [Prepare For Creating a Trail For Your Organization](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-an-organizational-trail-prepare.html) or [Organization event data stores](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-lake-organizations.html).
 public struct NotOrganizationMasterAccountException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -7542,6 +7574,39 @@ public struct OrganizationsNotInUseException: ClientRuntime.ModeledError, AWSCli
     {
         self.properties.message = message
     }
+}
+
+extension CloudTrailClientTypes.PartitionKey {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.PartitionKey {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudTrailClientTypes.PartitionKey()
+        value.name = try reader["Name"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudTrailClientTypes {
+    /// Contains information about a partition key for an event data store.
+    public struct PartitionKey {
+        /// The name of the partition key.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The data type of the partition key. For example, bigint or string.
+        /// This member is required.
+        public var type: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            type: Swift.String? = nil
+        )
+        {
+            self.name = name
+            self.type = type
+        }
+    }
+
 }
 
 extension CloudTrailClientTypes.PublicKey {
@@ -9527,9 +9592,9 @@ extension CloudTrailClientTypes {
         public var logFileValidationEnabled: Swift.Bool?
         /// Name of the trail set by calling [CreateTrail]. The maximum length is 128 characters.
         public var name: Swift.String?
-        /// Name of the Amazon S3 bucket into which CloudTrail delivers your trail files. See [Amazon S3 Bucket Naming Requirements](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/create_trail_naming_policy.html).
+        /// Name of the Amazon S3 bucket into which CloudTrail delivers your trail files. See [Amazon S3 Bucket naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html).
         public var s3BucketName: Swift.String?
-        /// Specifies the Amazon S3 key prefix that comes after the name of the bucket you have designated for log file delivery. For more information, see [Finding Your CloudTrail Log Files](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-find-log-files.html). The maximum length is 200 characters.
+        /// Specifies the Amazon S3 key prefix that comes after the name of the bucket you have designated for log file delivery. For more information, see [Finding Your CloudTrail Log Files](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/get-and-view-cloudtrail-log-files.html#cloudtrail-find-log-files). The maximum length is 200 characters.
         public var s3KeyPrefix: Swift.String?
         /// Specifies the ARN of the Amazon SNS topic that CloudTrail uses to send notifications when log files are delivered. The following is the format of a topic ARN. arn:aws:sns:us-east-2:123456789012:MyTopic
         public var snsTopicARN: Swift.String?
@@ -10137,9 +10202,9 @@ public struct UpdateTrailInput {
     /// If Name is a trail ARN, it must be in the following format. arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies the name of the Amazon S3 bucket designated for publishing log files. See [Amazon S3 Bucket Naming Requirements](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/create_trail_naming_policy.html).
+    /// Specifies the name of the Amazon S3 bucket designated for publishing log files. See [Amazon S3 Bucket naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html).
     public var s3BucketName: Swift.String?
-    /// Specifies the Amazon S3 key prefix that comes after the name of the bucket you have designated for log file delivery. For more information, see [Finding Your CloudTrail Log Files](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-find-log-files.html). The maximum length is 200 characters.
+    /// Specifies the Amazon S3 key prefix that comes after the name of the bucket you have designated for log file delivery. For more information, see [Finding Your CloudTrail Log Files](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/get-and-view-cloudtrail-log-files.html#cloudtrail-find-log-files). The maximum length is 200 characters.
     public var s3KeyPrefix: Swift.String?
     /// Specifies the name of the Amazon SNS topic defined for notification of log file delivery. The maximum length is 256 characters.
     public var snsTopicName: Swift.String?
@@ -10216,7 +10281,7 @@ public struct UpdateTrailOutput {
     public var name: Swift.String?
     /// Specifies the name of the Amazon S3 bucket designated for publishing log files.
     public var s3BucketName: Swift.String?
-    /// Specifies the Amazon S3 key prefix that comes after the name of the bucket you have designated for log file delivery. For more information, see [Finding Your IAM Log Files](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-find-log-files.html).
+    /// Specifies the Amazon S3 key prefix that comes after the name of the bucket you have designated for log file delivery. For more information, see [Finding Your IAM Log Files](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/get-and-view-cloudtrail-log-files.html#cloudtrail-find-log-files).
     public var s3KeyPrefix: Swift.String?
     /// Specifies the ARN of the Amazon SNS topic that CloudTrail uses to send notifications when log files are delivered. The following is the format of a topic ARN. arn:aws:sns:us-east-2:123456789012:MyTopic
     public var snsTopicARN: Swift.String?

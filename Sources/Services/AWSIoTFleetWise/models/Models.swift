@@ -1025,7 +1025,7 @@ public struct CreateCampaignInput {
     public var postTriggerCollectionDuration: Swift.Int?
     /// (Optional) A number indicating the priority of one campaign over another campaign for a certain vehicle or fleet. A campaign with the lowest value is deployed to vehicles before any other campaigns. If it's not specified, 0 is used. Default: 0
     public var priority: Swift.Int?
-    /// (Optional) The Amazon Resource Name (ARN) of the signal catalog to associate with the campaign.
+    /// The Amazon Resource Name (ARN) of the signal catalog to associate with the campaign.
     /// This member is required.
     public var signalCatalogArn: Swift.String?
     /// (Optional) A list of information about signals to collect.
@@ -5392,6 +5392,10 @@ extension ListVehiclesInput {
 }
 
 public struct ListVehiclesInput {
+    /// The fully qualified names of the attributes. For example, the fully qualified name of an attribute might be Vehicle.Body.Engine.Type.
+    public var attributeNames: [Swift.String]?
+    /// Static information about a vehicle attribute value in string format. For example: "1.3 L R2"
+    public var attributeValues: [Swift.String]?
     /// The maximum number of items to return, between 1 and 100, inclusive.
     public var maxResults: Swift.Int?
     /// The Amazon Resource Name (ARN) of a vehicle model (model manifest). You can use this optional parameter to list only the vehicles created from a certain vehicle model.
@@ -5400,11 +5404,15 @@ public struct ListVehiclesInput {
     public var nextToken: Swift.String?
 
     public init(
+        attributeNames: [Swift.String]? = nil,
+        attributeValues: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         modelManifestArn: Swift.String? = nil,
         nextToken: Swift.String? = nil
     )
     {
+        self.attributeNames = attributeNames
+        self.attributeValues = attributeValues
         self.maxResults = maxResults
         self.modelManifestArn = modelManifestArn
         self.nextToken = nextToken

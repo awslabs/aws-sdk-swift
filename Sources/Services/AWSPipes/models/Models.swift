@@ -947,6 +947,78 @@ enum DescribePipeOutputError {
     }
 }
 
+extension PipesClientTypes.DimensionMapping {
+
+    static func write(value: PipesClientTypes.DimensionMapping?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DimensionName"].write(value.dimensionName)
+        try writer["DimensionValue"].write(value.dimensionValue)
+        try writer["DimensionValueType"].write(value.dimensionValueType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PipesClientTypes.DimensionMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PipesClientTypes.DimensionMapping()
+        value.dimensionValue = try reader["DimensionValue"].readIfPresent()
+        value.dimensionValueType = try reader["DimensionValueType"].readIfPresent()
+        value.dimensionName = try reader["DimensionName"].readIfPresent()
+        return value
+    }
+}
+
+extension PipesClientTypes {
+    /// Maps source data to a dimension in the target Timestream for LiveAnalytics table. For more information, see [Amazon Timestream for LiveAnalytics concepts](https://docs.aws.amazon.com/timestream/latest/developerguide/concepts.html)
+    public struct DimensionMapping {
+        /// The metadata attributes of the time series. For example, the name and Availability Zone of an Amazon EC2 instance or the name of the manufacturer of a wind turbine are dimensions.
+        /// This member is required.
+        public var dimensionName: Swift.String?
+        /// Dynamic path to the dimension value in the source event.
+        /// This member is required.
+        public var dimensionValue: Swift.String?
+        /// The data type of the dimension for the time-series data.
+        /// This member is required.
+        public var dimensionValueType: PipesClientTypes.DimensionValueType?
+
+        public init(
+            dimensionName: Swift.String? = nil,
+            dimensionValue: Swift.String? = nil,
+            dimensionValueType: PipesClientTypes.DimensionValueType? = nil
+        )
+        {
+            self.dimensionName = dimensionName
+            self.dimensionValue = dimensionValue
+            self.dimensionValueType = dimensionValueType
+        }
+    }
+
+}
+
+extension PipesClientTypes {
+
+    public enum DimensionValueType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case varchar
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DimensionValueType] {
+            return [
+                .varchar
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .varchar: return "VARCHAR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 extension PipesClientTypes {
 
     public enum DynamoDBStreamStartPosition: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -1363,6 +1435,41 @@ extension PipesClientTypes {
 
 }
 
+extension PipesClientTypes {
+
+    public enum EpochTimeUnit: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case microseconds
+        case milliseconds
+        case nanoseconds
+        case seconds
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EpochTimeUnit] {
+            return [
+                .microseconds,
+                .milliseconds,
+                .nanoseconds,
+                .seconds
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .microseconds: return "MICROSECONDS"
+            case .milliseconds: return "MILLISECONDS"
+            case .nanoseconds: return "NANOSECONDS"
+            case .seconds: return "SECONDS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 extension PipesClientTypes.Filter: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "Filter(pattern: \"CONTENT_REDACTED\")"}
@@ -1441,9 +1548,9 @@ extension PipesClientTypes.FirehoseLogDestination {
 }
 
 extension PipesClientTypes {
-    /// The Amazon Kinesis Data Firehose logging configuration settings for the pipe.
+    /// The Amazon Data Firehose logging configuration settings for the pipe.
     public struct FirehoseLogDestination {
-        /// The Amazon Resource Name (ARN) of the Kinesis Data Firehose delivery stream to which EventBridge delivers the pipe log records.
+        /// The Amazon Resource Name (ARN) of the Firehose delivery stream to which EventBridge delivers the pipe log records.
         public var deliveryStreamArn: Swift.String?
 
         public init(
@@ -1465,9 +1572,9 @@ extension PipesClientTypes.FirehoseLogDestinationParameters {
 }
 
 extension PipesClientTypes {
-    /// The Amazon Kinesis Data Firehose logging configuration settings for the pipe.
+    /// The Amazon Data Firehose logging configuration settings for the pipe.
     public struct FirehoseLogDestinationParameters {
-        /// Specifies the Amazon Resource Name (ARN) of the Kinesis Data Firehose delivery stream to which EventBridge delivers the pipe log records.
+        /// Specifies the Amazon Resource Name (ARN) of the Firehose delivery stream to which EventBridge delivers the pipe log records.
         /// This member is required.
         public var deliveryStreamArn: Swift.String?
 
@@ -1952,6 +2059,129 @@ extension PipesClientTypes {
     }
 }
 
+extension PipesClientTypes {
+
+    public enum MeasureValueType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case bigint
+        case boolean
+        case double
+        case timestamp
+        case varchar
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MeasureValueType] {
+            return [
+                .bigint,
+                .boolean,
+                .double,
+                .timestamp,
+                .varchar
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .bigint: return "BIGINT"
+            case .boolean: return "BOOLEAN"
+            case .double: return "DOUBLE"
+            case .timestamp: return "TIMESTAMP"
+            case .varchar: return "VARCHAR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PipesClientTypes.MultiMeasureAttributeMapping {
+
+    static func write(value: PipesClientTypes.MultiMeasureAttributeMapping?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MeasureValue"].write(value.measureValue)
+        try writer["MeasureValueType"].write(value.measureValueType)
+        try writer["MultiMeasureAttributeName"].write(value.multiMeasureAttributeName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PipesClientTypes.MultiMeasureAttributeMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PipesClientTypes.MultiMeasureAttributeMapping()
+        value.measureValue = try reader["MeasureValue"].readIfPresent()
+        value.measureValueType = try reader["MeasureValueType"].readIfPresent()
+        value.multiMeasureAttributeName = try reader["MultiMeasureAttributeName"].readIfPresent()
+        return value
+    }
+}
+
+extension PipesClientTypes {
+    /// A mapping of a source event data field to a measure in a Timestream for LiveAnalytics record.
+    public struct MultiMeasureAttributeMapping {
+        /// Dynamic path to the measurement attribute in the source event.
+        /// This member is required.
+        public var measureValue: Swift.String?
+        /// Data type of the measurement attribute in the source event.
+        /// This member is required.
+        public var measureValueType: PipesClientTypes.MeasureValueType?
+        /// Target measure name to be used.
+        /// This member is required.
+        public var multiMeasureAttributeName: Swift.String?
+
+        public init(
+            measureValue: Swift.String? = nil,
+            measureValueType: PipesClientTypes.MeasureValueType? = nil,
+            multiMeasureAttributeName: Swift.String? = nil
+        )
+        {
+            self.measureValue = measureValue
+            self.measureValueType = measureValueType
+            self.multiMeasureAttributeName = multiMeasureAttributeName
+        }
+    }
+
+}
+
+extension PipesClientTypes.MultiMeasureMapping {
+
+    static func write(value: PipesClientTypes.MultiMeasureMapping?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MultiMeasureAttributeMappings"].writeList(value.multiMeasureAttributeMappings, memberWritingClosure: PipesClientTypes.MultiMeasureAttributeMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MultiMeasureName"].write(value.multiMeasureName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PipesClientTypes.MultiMeasureMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PipesClientTypes.MultiMeasureMapping()
+        value.multiMeasureName = try reader["MultiMeasureName"].readIfPresent()
+        value.multiMeasureAttributeMappings = try reader["MultiMeasureAttributeMappings"].readListIfPresent(memberReadingClosure: PipesClientTypes.MultiMeasureAttributeMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension PipesClientTypes {
+    /// Maps multiple measures from the source event to the same Timestream for LiveAnalytics record. For more information, see [Amazon Timestream for LiveAnalytics concepts](https://docs.aws.amazon.com/timestream/latest/developerguide/concepts.html)
+    public struct MultiMeasureMapping {
+        /// Mappings that represent multiple source event fields mapped to measures in the same Timestream for LiveAnalytics record.
+        /// This member is required.
+        public var multiMeasureAttributeMappings: [PipesClientTypes.MultiMeasureAttributeMapping]?
+        /// The name of the multiple measurements per record (multi-measure).
+        /// This member is required.
+        public var multiMeasureName: Swift.String?
+
+        public init(
+            multiMeasureAttributeMappings: [PipesClientTypes.MultiMeasureAttributeMapping]? = nil,
+            multiMeasureName: Swift.String? = nil
+        )
+        {
+            self.multiMeasureAttributeMappings = multiMeasureAttributeMappings
+            self.multiMeasureName = multiMeasureName
+        }
+    }
+
+}
+
 extension PipesClientTypes.NetworkConfiguration {
 
     static func write(value: PipesClientTypes.NetworkConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -2221,7 +2451,7 @@ extension PipesClientTypes {
     public struct PipeLogConfiguration {
         /// The Amazon CloudWatch Logs logging configuration settings for the pipe.
         public var cloudwatchLogsLogDestination: PipesClientTypes.CloudwatchLogsLogDestination?
-        /// The Amazon Kinesis Data Firehose logging configuration settings for the pipe.
+        /// The Amazon Data Firehose logging configuration settings for the pipe.
         public var firehoseLogDestination: PipesClientTypes.FirehoseLogDestination?
         /// Whether the execution data (specifically, the payload, awsRequest, and awsResponse fields) is included in the log messages for this pipe. This applies to all log destinations for the pipe. For more information, see [Including execution data in logs](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes-logs.html#eb-pipes-logs-execution-data) in the Amazon EventBridge User Guide.
         public var includeExecutionData: [PipesClientTypes.IncludeExecutionDataOption]?
@@ -2261,13 +2491,13 @@ extension PipesClientTypes.PipeLogConfigurationParameters {
 }
 
 extension PipesClientTypes {
-    /// Specifies the logging configuration settings for the pipe. When you call UpdatePipe, EventBridge updates the fields in the PipeLogConfigurationParameters object atomically as one and overrides existing values. This is by design. If you don't specify an optional field in any of the Amazon Web Services service parameters objects (CloudwatchLogsLogDestinationParameters, FirehoseLogDestinationParameters, or S3LogDestinationParameters), EventBridge sets that field to its system-default value during the update. For example, suppose when you created the pipe you specified a Kinesis Data Firehose stream log destination. You then update the pipe to add an Amazon S3 log destination. In addition to specifying the S3LogDestinationParameters for the new log destination, you must also specify the fields in the FirehoseLogDestinationParameters object in order to retain the Kinesis Data Firehose stream log destination. For more information on generating pipe log records, see [Log EventBridge Pipes] in the Amazon EventBridge User Guide.
+    /// Specifies the logging configuration settings for the pipe. When you call UpdatePipe, EventBridge updates the fields in the PipeLogConfigurationParameters object atomically as one and overrides existing values. This is by design. If you don't specify an optional field in any of the Amazon Web Services service parameters objects (CloudwatchLogsLogDestinationParameters, FirehoseLogDestinationParameters, or S3LogDestinationParameters), EventBridge sets that field to its system-default value during the update. For example, suppose when you created the pipe you specified a Firehose stream log destination. You then update the pipe to add an Amazon S3 log destination. In addition to specifying the S3LogDestinationParameters for the new log destination, you must also specify the fields in the FirehoseLogDestinationParameters object in order to retain the Firehose stream log destination. For more information on generating pipe log records, see [Log EventBridge Pipes] in the Amazon EventBridge User Guide.
     public struct PipeLogConfigurationParameters {
         /// The Amazon CloudWatch Logs logging configuration settings for the pipe.
         public var cloudwatchLogsLogDestination: PipesClientTypes.CloudwatchLogsLogDestinationParameters?
-        /// The Amazon Kinesis Data Firehose logging configuration settings for the pipe.
+        /// The Amazon Data Firehose logging configuration settings for the pipe.
         public var firehoseLogDestination: PipesClientTypes.FirehoseLogDestinationParameters?
-        /// Specify ON to include the execution data (specifically, the payload and awsRequest fields) in the log messages for this pipe. This applies to all log destinations for the pipe. For more information, see [Including execution data in logs](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes-logs.html#eb-pipes-logs-execution-data) in the Amazon EventBridge User Guide. The default is OFF.
+        /// Specify ALL to include the execution data (specifically, the payload, awsRequest, and awsResponse fields) in the log messages for this pipe. This applies to all log destinations for the pipe. For more information, see [Including execution data in logs](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes-logs.html#eb-pipes-logs-execution-data) in the Amazon EventBridge User Guide. By default, execution data is not included.
         public var includeExecutionData: [PipesClientTypes.IncludeExecutionDataOption]?
         /// The level of logging detail to include. This applies to all log destinations for the pipe. For more information, see [Specifying EventBridge Pipes log level](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes-logs.html#eb-pipes-logs-level) in the Amazon EventBridge User Guide.
         /// This member is required.
@@ -2614,7 +2844,7 @@ extension PipesClientTypes {
         public var managedStreamingKafkaParameters: PipesClientTypes.PipeSourceManagedStreamingKafkaParameters?
         /// The parameters for using a Rabbit MQ broker as a source.
         public var rabbitMQBrokerParameters: PipesClientTypes.PipeSourceRabbitMQBrokerParameters?
-        /// The parameters for using a self-managed Apache Kafka stream as a source.
+        /// The parameters for using a self-managed Apache Kafka stream as a source. A self managed cluster refers to any Apache Kafka cluster not hosted by Amazon Web Services. This includes both clusters you manage yourself, as well as those hosted by a third-party provider, such as [Confluent Cloud](https://www.confluent.io/), [CloudKarafka](https://www.cloudkarafka.com/), or [Redpanda](https://redpanda.com/). For more information, see [Apache Kafka streams as a source](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes-kafka.html) in the Amazon EventBridge User Guide.
         public var selfManagedKafkaParameters: PipesClientTypes.PipeSourceSelfManagedKafkaParameters?
         /// The parameters for using a Amazon SQS stream as a source.
         public var sqsQueueParameters: PipesClientTypes.PipeSourceSqsQueueParameters?
@@ -2742,7 +2972,7 @@ extension PipesClientTypes.PipeSourceSelfManagedKafkaParameters {
 }
 
 extension PipesClientTypes {
-    /// The parameters for using a self-managed Apache Kafka stream as a source.
+    /// The parameters for using a self-managed Apache Kafka stream as a source. A self managed cluster refers to any Apache Kafka cluster not hosted by Amazon Web Services. This includes both clusters you manage yourself, as well as those hosted by a third-party provider, such as [Confluent Cloud](https://www.confluent.io/), [CloudKarafka](https://www.cloudkarafka.com/), or [Redpanda](https://redpanda.com/). For more information, see [Apache Kafka streams as a source](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes-kafka.html) in the Amazon EventBridge User Guide.
     public struct PipeSourceSelfManagedKafkaParameters {
         /// An array of server URLs.
         public var additionalBootstrapServers: [Swift.String]?
@@ -3331,7 +3561,7 @@ extension PipesClientTypes {
 
 extension PipesClientTypes.PipeTargetParameters: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "PipeTargetParameters(batchJobParameters: \(Swift.String(describing: batchJobParameters)), cloudWatchLogsParameters: \(Swift.String(describing: cloudWatchLogsParameters)), ecsTaskParameters: \(Swift.String(describing: ecsTaskParameters)), eventBridgeEventBusParameters: \(Swift.String(describing: eventBridgeEventBusParameters)), httpParameters: \(Swift.String(describing: httpParameters)), kinesisStreamParameters: \(Swift.String(describing: kinesisStreamParameters)), lambdaFunctionParameters: \(Swift.String(describing: lambdaFunctionParameters)), redshiftDataParameters: \(Swift.String(describing: redshiftDataParameters)), sageMakerPipelineParameters: \(Swift.String(describing: sageMakerPipelineParameters)), sqsQueueParameters: \(Swift.String(describing: sqsQueueParameters)), stepFunctionStateMachineParameters: \(Swift.String(describing: stepFunctionStateMachineParameters)), inputTemplate: \"CONTENT_REDACTED\")"}
+        "PipeTargetParameters(batchJobParameters: \(Swift.String(describing: batchJobParameters)), cloudWatchLogsParameters: \(Swift.String(describing: cloudWatchLogsParameters)), ecsTaskParameters: \(Swift.String(describing: ecsTaskParameters)), eventBridgeEventBusParameters: \(Swift.String(describing: eventBridgeEventBusParameters)), httpParameters: \(Swift.String(describing: httpParameters)), kinesisStreamParameters: \(Swift.String(describing: kinesisStreamParameters)), lambdaFunctionParameters: \(Swift.String(describing: lambdaFunctionParameters)), redshiftDataParameters: \(Swift.String(describing: redshiftDataParameters)), sageMakerPipelineParameters: \(Swift.String(describing: sageMakerPipelineParameters)), sqsQueueParameters: \(Swift.String(describing: sqsQueueParameters)), stepFunctionStateMachineParameters: \(Swift.String(describing: stepFunctionStateMachineParameters)), timestreamParameters: \(Swift.String(describing: timestreamParameters)), inputTemplate: \"CONTENT_REDACTED\")"}
 }
 
 extension PipesClientTypes.PipeTargetParameters {
@@ -3350,6 +3580,7 @@ extension PipesClientTypes.PipeTargetParameters {
         try writer["SageMakerPipelineParameters"].write(value.sageMakerPipelineParameters, with: PipesClientTypes.PipeTargetSageMakerPipelineParameters.write(value:to:))
         try writer["SqsQueueParameters"].write(value.sqsQueueParameters, with: PipesClientTypes.PipeTargetSqsQueueParameters.write(value:to:))
         try writer["StepFunctionStateMachineParameters"].write(value.stepFunctionStateMachineParameters, with: PipesClientTypes.PipeTargetStateMachineParameters.write(value:to:))
+        try writer["TimestreamParameters"].write(value.timestreamParameters, with: PipesClientTypes.PipeTargetTimestreamParameters.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> PipesClientTypes.PipeTargetParameters {
@@ -3367,6 +3598,7 @@ extension PipesClientTypes.PipeTargetParameters {
         value.sageMakerPipelineParameters = try reader["SageMakerPipelineParameters"].readIfPresent(with: PipesClientTypes.PipeTargetSageMakerPipelineParameters.read(from:))
         value.eventBridgeEventBusParameters = try reader["EventBridgeEventBusParameters"].readIfPresent(with: PipesClientTypes.PipeTargetEventBridgeEventBusParameters.read(from:))
         value.cloudWatchLogsParameters = try reader["CloudWatchLogsParameters"].readIfPresent(with: PipesClientTypes.PipeTargetCloudWatchLogsParameters.read(from:))
+        value.timestreamParameters = try reader["TimestreamParameters"].readIfPresent(with: PipesClientTypes.PipeTargetTimestreamParameters.read(from:))
         return value
     }
 }
@@ -3398,6 +3630,8 @@ extension PipesClientTypes {
         public var sqsQueueParameters: PipesClientTypes.PipeTargetSqsQueueParameters?
         /// The parameters for using a Step Functions state machine as a target.
         public var stepFunctionStateMachineParameters: PipesClientTypes.PipeTargetStateMachineParameters?
+        /// The parameters for using a Timestream for LiveAnalytics table as a target.
+        public var timestreamParameters: PipesClientTypes.PipeTargetTimestreamParameters?
 
         public init(
             batchJobParameters: PipesClientTypes.PipeTargetBatchJobParameters? = nil,
@@ -3411,7 +3645,8 @@ extension PipesClientTypes {
             redshiftDataParameters: PipesClientTypes.PipeTargetRedshiftDataParameters? = nil,
             sageMakerPipelineParameters: PipesClientTypes.PipeTargetSageMakerPipelineParameters? = nil,
             sqsQueueParameters: PipesClientTypes.PipeTargetSqsQueueParameters? = nil,
-            stepFunctionStateMachineParameters: PipesClientTypes.PipeTargetStateMachineParameters? = nil
+            stepFunctionStateMachineParameters: PipesClientTypes.PipeTargetStateMachineParameters? = nil,
+            timestreamParameters: PipesClientTypes.PipeTargetTimestreamParameters? = nil
         )
         {
             self.batchJobParameters = batchJobParameters
@@ -3426,6 +3661,7 @@ extension PipesClientTypes {
             self.sageMakerPipelineParameters = sageMakerPipelineParameters
             self.sqsQueueParameters = sqsQueueParameters
             self.stepFunctionStateMachineParameters = stepFunctionStateMachineParameters
+            self.timestreamParameters = timestreamParameters
         }
     }
 
@@ -3605,6 +3841,82 @@ extension PipesClientTypes {
         )
         {
             self.invocationType = invocationType
+        }
+    }
+
+}
+
+extension PipesClientTypes.PipeTargetTimestreamParameters {
+
+    static func write(value: PipesClientTypes.PipeTargetTimestreamParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DimensionMappings"].writeList(value.dimensionMappings, memberWritingClosure: PipesClientTypes.DimensionMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["EpochTimeUnit"].write(value.epochTimeUnit)
+        try writer["MultiMeasureMappings"].writeList(value.multiMeasureMappings, memberWritingClosure: PipesClientTypes.MultiMeasureMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SingleMeasureMappings"].writeList(value.singleMeasureMappings, memberWritingClosure: PipesClientTypes.SingleMeasureMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TimeFieldType"].write(value.timeFieldType)
+        try writer["TimeValue"].write(value.timeValue)
+        try writer["TimestampFormat"].write(value.timestampFormat)
+        try writer["VersionValue"].write(value.versionValue)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PipesClientTypes.PipeTargetTimestreamParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PipesClientTypes.PipeTargetTimestreamParameters()
+        value.timeValue = try reader["TimeValue"].readIfPresent()
+        value.epochTimeUnit = try reader["EpochTimeUnit"].readIfPresent()
+        value.timeFieldType = try reader["TimeFieldType"].readIfPresent()
+        value.timestampFormat = try reader["TimestampFormat"].readIfPresent()
+        value.versionValue = try reader["VersionValue"].readIfPresent()
+        value.dimensionMappings = try reader["DimensionMappings"].readListIfPresent(memberReadingClosure: PipesClientTypes.DimensionMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.singleMeasureMappings = try reader["SingleMeasureMappings"].readListIfPresent(memberReadingClosure: PipesClientTypes.SingleMeasureMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.multiMeasureMappings = try reader["MultiMeasureMappings"].readListIfPresent(memberReadingClosure: PipesClientTypes.MultiMeasureMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension PipesClientTypes {
+    /// The parameters for using a Timestream for LiveAnalytics table as a target.
+    public struct PipeTargetTimestreamParameters {
+        /// Map source data to dimensions in the target Timestream for LiveAnalytics table. For more information, see [Amazon Timestream for LiveAnalytics concepts](https://docs.aws.amazon.com/timestream/latest/developerguide/concepts.html)
+        /// This member is required.
+        public var dimensionMappings: [PipesClientTypes.DimensionMapping]?
+        /// The granularity of the time units used. Default is MILLISECONDS. Required if TimeFieldType is specified as EPOCH.
+        public var epochTimeUnit: PipesClientTypes.EpochTimeUnit?
+        /// Maps multiple measures from the source event to the same record in the specified Timestream for LiveAnalytics table.
+        public var multiMeasureMappings: [PipesClientTypes.MultiMeasureMapping]?
+        /// Mappings of single source data fields to individual records in the specified Timestream for LiveAnalytics table.
+        public var singleMeasureMappings: [PipesClientTypes.SingleMeasureMapping]?
+        /// The type of time value used. The default is EPOCH.
+        public var timeFieldType: PipesClientTypes.TimeFieldType?
+        /// Dynamic path to the source data field that represents the time value for your data.
+        /// This member is required.
+        public var timeValue: Swift.String?
+        /// How to format the timestamps. For example, YYYY-MM-DDThh:mm:ss.sssTZD. Required if TimeFieldType is specified as TIMESTAMP_FORMAT.
+        public var timestampFormat: Swift.String?
+        /// 64 bit version value or source data field that represents the version value for your data. Write requests with a higher version number will update the existing measure values of the record and version. In cases where the measure value is the same, the version will still be updated. Default value is 1. Timestream for LiveAnalytics does not support updating partial measure values in a record. Write requests for duplicate data with a higher version number will update the existing measure value and version. In cases where the measure value is the same, Version will still be updated. Default value is 1. Version must be 1 or greater, or you will receive a ValidationException error.
+        /// This member is required.
+        public var versionValue: Swift.String?
+
+        public init(
+            dimensionMappings: [PipesClientTypes.DimensionMapping]? = nil,
+            epochTimeUnit: PipesClientTypes.EpochTimeUnit? = nil,
+            multiMeasureMappings: [PipesClientTypes.MultiMeasureMapping]? = nil,
+            singleMeasureMappings: [PipesClientTypes.SingleMeasureMapping]? = nil,
+            timeFieldType: PipesClientTypes.TimeFieldType? = nil,
+            timeValue: Swift.String? = nil,
+            timestampFormat: Swift.String? = nil,
+            versionValue: Swift.String? = nil
+        )
+        {
+            self.dimensionMappings = dimensionMappings
+            self.epochTimeUnit = epochTimeUnit
+            self.multiMeasureMappings = multiMeasureMappings
+            self.singleMeasureMappings = singleMeasureMappings
+            self.timeFieldType = timeFieldType
+            self.timeValue = timeValue
+            self.timestampFormat = timestampFormat
+            self.versionValue = versionValue
         }
     }
 
@@ -4194,6 +4506,52 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
+extension PipesClientTypes.SingleMeasureMapping {
+
+    static func write(value: PipesClientTypes.SingleMeasureMapping?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MeasureName"].write(value.measureName)
+        try writer["MeasureValue"].write(value.measureValue)
+        try writer["MeasureValueType"].write(value.measureValueType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PipesClientTypes.SingleMeasureMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PipesClientTypes.SingleMeasureMapping()
+        value.measureValue = try reader["MeasureValue"].readIfPresent()
+        value.measureValueType = try reader["MeasureValueType"].readIfPresent()
+        value.measureName = try reader["MeasureName"].readIfPresent()
+        return value
+    }
+}
+
+extension PipesClientTypes {
+    /// Maps a single source data field to a single record in the specified Timestream for LiveAnalytics table. For more information, see [Amazon Timestream for LiveAnalytics concepts](https://docs.aws.amazon.com/timestream/latest/developerguide/concepts.html)
+    public struct SingleMeasureMapping {
+        /// Target measure name for the measurement attribute in the Timestream table.
+        /// This member is required.
+        public var measureName: Swift.String?
+        /// Dynamic path of the source field to map to the measure in the record.
+        /// This member is required.
+        public var measureValue: Swift.String?
+        /// Data type of the source field.
+        /// This member is required.
+        public var measureValueType: PipesClientTypes.MeasureValueType?
+
+        public init(
+            measureName: Swift.String? = nil,
+            measureValue: Swift.String? = nil,
+            measureValueType: PipesClientTypes.MeasureValueType? = nil
+        )
+        {
+            self.measureName = measureName
+            self.measureValue = measureValue
+            self.measureValueType = measureValueType
+        }
+    }
+
+}
+
 extension StartPipeInput {
 
     static func urlPathProvider(_ value: StartPipeInput) -> Swift.String? {
@@ -4535,6 +4893,35 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         self.properties.quotaCode = quotaCode
         self.properties.retryAfterSeconds = retryAfterSeconds
         self.properties.serviceCode = serviceCode
+    }
+}
+
+extension PipesClientTypes {
+
+    public enum TimeFieldType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case epoch
+        case timestampFormat
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TimeFieldType] {
+            return [
+                .epoch,
+                .timestampFormat
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .epoch: return "EPOCH"
+            case .timestampFormat: return "TIMESTAMP_FORMAT"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -4965,7 +5352,7 @@ extension PipesClientTypes {
         public var managedStreamingKafkaParameters: PipesClientTypes.UpdatePipeSourceManagedStreamingKafkaParameters?
         /// The parameters for using a Rabbit MQ broker as a source.
         public var rabbitMQBrokerParameters: PipesClientTypes.UpdatePipeSourceRabbitMQBrokerParameters?
-        /// The parameters for using a self-managed Apache Kafka stream as a source.
+        /// The parameters for using a self-managed Apache Kafka stream as a source. A self managed cluster refers to any Apache Kafka cluster not hosted by Amazon Web Services. This includes both clusters you manage yourself, as well as those hosted by a third-party provider, such as [Confluent Cloud](https://www.confluent.io/), [CloudKarafka](https://www.cloudkarafka.com/), or [Redpanda](https://redpanda.com/). For more information, see [Apache Kafka streams as a source](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes-kafka.html) in the Amazon EventBridge User Guide.
         public var selfManagedKafkaParameters: PipesClientTypes.UpdatePipeSourceSelfManagedKafkaParameters?
         /// The parameters for using a Amazon SQS stream as a source.
         public var sqsQueueParameters: PipesClientTypes.UpdatePipeSourceSqsQueueParameters?
@@ -5042,7 +5429,7 @@ extension PipesClientTypes.UpdatePipeSourceSelfManagedKafkaParameters {
 }
 
 extension PipesClientTypes {
-    /// The parameters for using a self-managed Apache Kafka stream as a source.
+    /// The parameters for using a self-managed Apache Kafka stream as a source. A self managed cluster refers to any Apache Kafka cluster not hosted by Amazon Web Services. This includes both clusters you manage yourself, as well as those hosted by a third-party provider, such as [Confluent Cloud](https://www.confluent.io/), [CloudKarafka](https://www.cloudkarafka.com/), or [Redpanda](https://redpanda.com/). For more information, see [Apache Kafka streams as a source](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes-kafka.html) in the Amazon EventBridge User Guide.
     public struct UpdatePipeSourceSelfManagedKafkaParameters {
         /// The maximum number of records to include in each batch.
         public var batchSize: Swift.Int?

@@ -3189,7 +3189,7 @@ public struct CreateDBClusterInput {
     public var characterSetName: Swift.String?
     /// Specifies whether to copy all tags from the DB cluster to snapshots of the DB cluster. The default is not to copy them. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var copyTagsToSnapshot: Swift.Bool?
-    /// The name for your database of up to 64 alphanumeric characters. If you don't provide a name, Amazon RDS doesn't create a database in the DB cluster you are creating. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
+    /// The name for your database of up to 64 alphanumeric characters. A database named postgres is always created. If this parameter is specified, an additional database with this name is created. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var databaseName: Swift.String?
     /// The identifier for this DB cluster. This parameter is stored as a lowercase string. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints:
     ///
@@ -4041,7 +4041,7 @@ public struct CreateDBInstanceInput {
     /// * Can't be a word reserved by the database engine.
     ///
     ///
-    /// Amazon Aurora PostgreSQL The name of the database to create when the primary DB instance of the Aurora PostgreSQL DB cluster is created. If this parameter isn't specified for an Aurora PostgreSQL DB cluster, a database named postgres is created in the DB cluster. Constraints:
+    /// Amazon Aurora PostgreSQL The name of the database to create when the primary DB instance of the Aurora PostgreSQL DB cluster is created. A database named postgres is always created. If this parameter is specified, an additional database with this name is created. Constraints:
     ///
     /// * It must contain 1 to 63 alphanumeric characters.
     ///
@@ -4091,7 +4091,7 @@ public struct CreateDBInstanceInput {
     /// * Can't be longer than 8 characters.
     ///
     ///
-    /// RDS for PostgreSQL The name of the database to create when the DB instance is created. If this parameter isn't specified, a database named postgres is created in the DB instance. Constraints:
+    /// RDS for PostgreSQL The name of the database to create when the DB instance is created. A database named postgres is always created. If this parameter is specified, an additional database with this name is created. Constraints:
     ///
     /// * Must contain 1 to 63 letters, numbers, or underscores.
     ///
@@ -4254,9 +4254,9 @@ public struct CreateDBInstanceInput {
     public var iops: Swift.Int?
     /// The Amazon Web Services KMS key identifier for an encrypted DB instance. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. This setting doesn't apply to Amazon Aurora DB instances. The Amazon Web Services KMS key identifier is managed by the DB cluster. For more information, see CreateDBCluster. If StorageEncrypted is enabled, and you do not specify a value for the KmsKeyId parameter, then Amazon RDS uses your default KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region. For Amazon RDS Custom, a KMS key is required for DB instances. For most RDS engines, if you leave this parameter empty while enabling StorageEncrypted, the engine uses the default KMS key. However, RDS Custom doesn't use the default key when this parameter is empty. You must explicitly specify a key.
     public var kmsKeyId: Swift.String?
-    /// The license model information for this DB instance. This setting doesn't apply to Amazon Aurora or RDS Custom DB instances. Valid Values:
+    /// The license model information for this DB instance. License models for RDS for Db2 require additional configuration. The Bring Your Own License (BYOL) model requires a custom parameter group. The Db2 license through Amazon Web Services Marketplace model requires an Amazon Web Services Marketplace subscription. For more information, see [RDS for Db2 licensing options](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-licensing.html) in the Amazon RDS User Guide. The default for RDS for Db2 is bring-your-own-license. This setting doesn't apply to Amazon Aurora or RDS Custom DB instances. Valid Values:
     ///
-    /// * RDS for Db2 - bring-your-own-license
+    /// * RDS for Db2 - bring-your-own-license | marketplace-license
     ///
     /// * RDS for MariaDB - general-public-license
     ///
@@ -8752,7 +8752,7 @@ extension RDSClientTypes {
         public var kmsKeyId: Swift.String?
         /// The latest time to which a database in this DB instance can be restored with point-in-time restore.
         public var latestRestorableTime: Foundation.Date?
-        /// The license model information for this DB instance. This setting doesn't apply to RDS Custom DB instances.
+        /// The license model information for this DB instance. This setting doesn't apply to Amazon Aurora or RDS Custom DB instances.
         public var licenseModel: Swift.String?
         /// The listener connection endpoint for SQL Server Always On.
         public var listenerEndpoint: RDSClientTypes.Endpoint?
@@ -30015,7 +30015,22 @@ public struct RestoreDBInstanceFromDBSnapshotInput {
     public var engineLifecycleSupport: Swift.String?
     /// Specifies the amount of provisioned IOPS for the DB instance, expressed in I/O operations per second. If this parameter isn't specified, the IOPS value is taken from the backup. If this parameter is set to 0, the new instance is converted to a non-PIOPS instance. The conversion takes additional time, though your DB instance is available for connections before the conversion starts. The provisioned IOPS value must follow the requirements for your database engine. For more information, see [Amazon RDS Provisioned IOPS storage](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Storage.html#USER_PIOPS) in the Amazon RDS User Guide. Constraints: Must be an integer greater than 1000.
     public var iops: Swift.Int?
-    /// License model information for the restored DB instance. This setting doesn't apply to RDS Custom. Default: Same as source. Valid Values: license-included | bring-your-own-license | general-public-license
+    /// License model information for the restored DB instance. License models for RDS for Db2 require additional configuration. The Bring Your Own License (BYOL) model requires a custom parameter group. The Db2 license through Amazon Web Services Marketplace model requires an Amazon Web Services Marketplace subscription. For more information, see [RDS for Db2 licensing options](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-licensing.html) in the Amazon RDS User Guide. This setting doesn't apply to Amazon Aurora or RDS Custom DB instances. Valid Values:
+    ///
+    /// * RDS for Db2 - bring-your-own-license | marketplace-license
+    ///
+    /// * RDS for MariaDB - general-public-license
+    ///
+    /// * RDS for Microsoft SQL Server - license-included
+    ///
+    /// * RDS for MySQL - general-public-license
+    ///
+    /// * RDS for Oracle - bring-your-own-license | license-included
+    ///
+    /// * RDS for PostgreSQL - postgresql-license
+    ///
+    ///
+    /// Default: Same as the source.
     public var licenseModel: Swift.String?
     /// Specifies whether the DB instance is a Multi-AZ deployment. This setting doesn't apply to RDS Custom. Constraint: You can't specify the AvailabilityZone parameter if the DB instance is a Multi-AZ deployment.
     public var multiAZ: Swift.Bool?
@@ -30437,7 +30452,7 @@ public struct RestoreDBInstanceFromS3Input {
     /// The name of your Amazon S3 bucket that contains your database backup file.
     /// This member is required.
     public var s3BucketName: Swift.String?
-    /// An Amazon Web Services Identity and Access Management (IAM) role to allow Amazon RDS to access your Amazon S3 bucket.
+    /// An Amazon Web Services Identity and Access Management (IAM) role with a trust policy and a permissions policy that allows Amazon RDS to access your Amazon S3 bucket. For information about this role, see [ Creating an IAM role manually](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/MySQL.Procedural.Importing.html#MySQL.Procedural.Importing.Enabling.IAM) in the Amazon RDS User Guide.
     /// This member is required.
     public var s3IngestionRoleArn: Swift.String?
     /// The prefix of your Amazon S3 bucket.
@@ -30836,7 +30851,22 @@ public struct RestoreDBInstanceToPointInTimeInput {
     ///
     /// * Must be an integer greater than 1000.
     public var iops: Swift.Int?
-    /// The license model information for the restored DB instance. This setting doesn't apply to RDS Custom. Valid Values: license-included | bring-your-own-license | general-public-license Default: Same as the source.
+    /// The license model information for the restored DB instance. License models for RDS for Db2 require additional configuration. The Bring Your Own License (BYOL) model requires a custom parameter group. The Db2 license through Amazon Web Services Marketplace model requires an Amazon Web Services Marketplace subscription. For more information, see [RDS for Db2 licensing options](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-licensing.html) in the Amazon RDS User Guide. This setting doesn't apply to Amazon Aurora or RDS Custom DB instances. Valid Values:
+    ///
+    /// * RDS for Db2 - bring-your-own-license | marketplace-license
+    ///
+    /// * RDS for MariaDB - general-public-license
+    ///
+    /// * RDS for Microsoft SQL Server - license-included
+    ///
+    /// * RDS for MySQL - general-public-license
+    ///
+    /// * RDS for Oracle - bring-your-own-license | license-included
+    ///
+    /// * RDS for PostgreSQL - postgresql-license
+    ///
+    ///
+    /// Default: Same as the source.
     public var licenseModel: Swift.String?
     /// The upper limit in gibibytes (GiB) to which Amazon RDS can automatically scale the storage of the DB instance. For more information about this setting, including limitations that apply to it, see [ Managing capacity automatically with Amazon RDS storage autoscaling](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PIOPS.StorageTypes.html#USER_PIOPS.Autoscaling) in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom.
     public var maxAllocatedStorage: Swift.Int?
@@ -33266,7 +33296,7 @@ extension RDSClientTypes.Tag {
 }
 
 extension RDSClientTypes {
-    /// Metadata assigned to an Amazon RDS resource consisting of a key-value pair. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
+    /// Metadata assigned to an Amazon RDS resource consisting of a key-value pair. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
     public struct Tag {
         /// A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with aws: or rds:. The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$").
         public var key: Swift.String?

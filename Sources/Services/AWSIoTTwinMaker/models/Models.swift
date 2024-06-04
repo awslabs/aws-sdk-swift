@@ -6190,6 +6190,7 @@ extension IoTTwinMakerClientTypes {
     public enum PropertyUpdateType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case create
         case delete
+        case resetValue
         case update
         case sdkUnknown(Swift.String)
 
@@ -6197,6 +6198,7 @@ extension IoTTwinMakerClientTypes {
             return [
                 .create,
                 .delete,
+                .resetValue,
                 .update
             ]
         }
@@ -6210,6 +6212,7 @@ extension IoTTwinMakerClientTypes {
             switch self {
             case .create: return "CREATE"
             case .delete: return "DELETE"
+            case .resetValue: return "RESET_VALUE"
             case .update: return "UPDATE"
             case let .sdkUnknown(s): return s
             }

@@ -3996,6 +3996,135 @@ extension BatchClientTypes {
 
 }
 
+extension BatchClientTypes.FrontOfQueueDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.FrontOfQueueDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.FrontOfQueueDetail()
+        value.jobs = try reader["jobs"].readListIfPresent(memberReadingClosure: BatchClientTypes.FrontOfQueueJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes {
+    /// Contains a list of the first 100 RUNNABLE jobs associated to a single job queue.
+    public struct FrontOfQueueDetail {
+        /// The Amazon Resource Names (ARNs) of the first 100 RUNNABLE jobs in a named job queue. For first-in-first-out (FIFO) job queues, jobs are ordered based on their submission time. For fair share scheduling (FSS) job queues, jobs are ordered based on their job priority and share usage.
+        public var jobs: [BatchClientTypes.FrontOfQueueJobSummary]?
+        /// The Unix timestamp (in milliseconds) for when each of the first 100 RUNNABLE jobs were last updated.
+        public var lastUpdatedAt: Swift.Int?
+
+        public init(
+            jobs: [BatchClientTypes.FrontOfQueueJobSummary]? = nil,
+            lastUpdatedAt: Swift.Int? = nil
+        )
+        {
+            self.jobs = jobs
+            self.lastUpdatedAt = lastUpdatedAt
+        }
+    }
+
+}
+
+extension BatchClientTypes.FrontOfQueueJobSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.FrontOfQueueJobSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.FrontOfQueueJobSummary()
+        value.jobArn = try reader["jobArn"].readIfPresent()
+        value.earliestTimeAtPosition = try reader["earliestTimeAtPosition"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes {
+    /// An object that represents summary details for the first 100 RUNNABLE jobs in a job queue.
+    public struct FrontOfQueueJobSummary {
+        /// The Unix timestamp (in milliseconds) for when the job transitioned to its current position in the job queue.
+        public var earliestTimeAtPosition: Swift.Int?
+        /// The ARN for a job in a named job queue.
+        public var jobArn: Swift.String?
+
+        public init(
+            earliestTimeAtPosition: Swift.Int? = nil,
+            jobArn: Swift.String? = nil
+        )
+        {
+            self.earliestTimeAtPosition = earliestTimeAtPosition
+            self.jobArn = jobArn
+        }
+    }
+
+}
+
+extension GetJobQueueSnapshotInput {
+
+    static func urlPathProvider(_ value: GetJobQueueSnapshotInput) -> Swift.String? {
+        return "/v1/getjobqueuesnapshot"
+    }
+}
+
+extension GetJobQueueSnapshotInput {
+
+    static func write(value: GetJobQueueSnapshotInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["jobQueue"].write(value.jobQueue)
+    }
+}
+
+public struct GetJobQueueSnapshotInput {
+    /// The job queue’s name or full queue Amazon Resource Name (ARN).
+    /// This member is required.
+    public var jobQueue: Swift.String?
+
+    public init(
+        jobQueue: Swift.String? = nil
+    )
+    {
+        self.jobQueue = jobQueue
+    }
+}
+
+extension GetJobQueueSnapshotOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetJobQueueSnapshotOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetJobQueueSnapshotOutput()
+        value.frontOfQueue = try reader["frontOfQueue"].readIfPresent(with: BatchClientTypes.FrontOfQueueDetail.read(from:))
+        return value
+    }
+}
+
+public struct GetJobQueueSnapshotOutput {
+    /// The list of the first 100 RUNNABLE jobs in each job queue. For first-in-first-out (FIFO) job queues, jobs are ordered based on their submission time. For fair share scheduling (FSS) job queues, jobs are ordered based on their job priority and share usage.
+    public var frontOfQueue: BatchClientTypes.FrontOfQueueDetail?
+
+    public init(
+        frontOfQueue: BatchClientTypes.FrontOfQueueDetail? = nil
+    )
+    {
+        self.frontOfQueue = frontOfQueue
+    }
+}
+
+enum GetJobQueueSnapshotOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 extension BatchClientTypes.Host {
 
     static func write(value: BatchClientTypes.Host?, to writer: SmithyJSON.Writer) throws {
@@ -5034,7 +5163,15 @@ public struct ListJobsInput {
     public var jobQueue: Swift.String?
     /// The job status used to filter jobs in the specified queue. If the filters parameter is specified, the jobStatus parameter is ignored and jobs with any status are returned. If you don't specify a status, only RUNNING jobs are returned.
     public var jobStatus: BatchClientTypes.JobStatus?
-    /// The maximum number of results returned by ListJobs in paginated output. When this parameter is used, ListJobs only returns maxResults results in a single page and a nextToken response element. The remaining results of the initial request can be seen by sending another ListJobs request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListJobs returns up to 100 results and a nextToken value if applicable.
+    /// The maximum number of results returned by ListJobs in a paginated output. When this parameter is used, ListJobs returns up to maxResults results in a single page and a nextToken response element, if applicable. The remaining results of the initial request can be seen by sending another ListJobs request with the returned nextToken value. The following outlines key parameters and limitations:
+    ///
+    /// * The minimum value is 1.
+    ///
+    /// * When --job-status is used, Batch returns up to 1000 values.
+    ///
+    /// * When --filters is used, Batch returns up to 100 values.
+    ///
+    /// * If neither parameter is used, then ListJobs returns up to 1000 results (jobs that are in the RUNNING status) and a nextToken value, if applicable.
     public var maxResults: Swift.Int?
     /// The job ID for a multi-node parallel job. Specifying a multi-node parallel job ID with this parameter lists all nodes that are associated with the specified job.
     public var multiNodeJobId: Swift.String?

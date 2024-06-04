@@ -3132,26 +3132,38 @@ extension SageMakerClientTypes {
 extension SageMakerClientTypes {
 
     public enum AutoMLAlgorithm: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case arima
         case catboost
+        case cnnQr
+        case deepar
+        case ets
         case extraTrees
         case fastai
         case lightgbm
         case linearLearner
         case mlp
         case nnTorch
+        case npts
+        case prophet
         case randomforest
         case xgboost
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AutoMLAlgorithm] {
             return [
+                .arima,
                 .catboost,
+                .cnnQr,
+                .deepar,
+                .ets,
                 .extraTrees,
                 .fastai,
                 .lightgbm,
                 .linearLearner,
                 .mlp,
                 .nnTorch,
+                .npts,
+                .prophet,
                 .randomforest,
                 .xgboost
             ]
@@ -3164,13 +3176,19 @@ extension SageMakerClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .arima: return "arima"
             case .catboost: return "catboost"
+            case .cnnQr: return "cnn-qr"
+            case .deepar: return "deepar"
+            case .ets: return "ets"
             case .extraTrees: return "extra-trees"
             case .fastai: return "fastai"
             case .lightgbm: return "lightgbm"
             case .linearLearner: return "linear-learner"
             case .mlp: return "mlp"
             case .nnTorch: return "nn-torch"
+            case .npts: return "npts"
+            case .prophet: return "prophet"
             case .randomforest: return "randomforest"
             case .xgboost: return "xgboost"
             case let .sdkUnknown(s): return s
@@ -3195,9 +3213,11 @@ extension SageMakerClientTypes.AutoMLAlgorithmConfig {
 }
 
 extension SageMakerClientTypes {
-    /// The collection of algorithms run on a dataset for training the model candidates of an Autopilot job.
+    /// The selection of algorithms trained on your dataset to generate the model candidates for an Autopilot job.
     public struct AutoMLAlgorithmConfig {
-        /// The selection of algorithms run on a dataset to train the model candidates of an Autopilot job. Selected algorithms must belong to the list corresponding to the training mode set in [AutoMLJobConfig.Mode](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AutoMLJobConfig.html#sagemaker-Type-AutoMLJobConfig-Mode) (ENSEMBLING or HYPERPARAMETER_TUNING). Choose a minimum of 1 algorithm.
+        /// The selection of algorithms trained on your dataset to generate the model candidates for an Autopilot job.
+        ///
+        /// * For the tabular problem type TabularJobConfig: Selected algorithms must belong to the list corresponding to the training mode set in [AutoMLJobConfig.Mode](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AutoMLJobConfig.html#sagemaker-Type-AutoMLJobConfig-Mode) (ENSEMBLING or HYPERPARAMETER_TUNING). Choose a minimum of 1 algorithm.
         ///
         /// * In ENSEMBLING mode:
         ///
@@ -3227,6 +3247,28 @@ extension SageMakerClientTypes {
         /// * "mlp"
         ///
         /// * "xgboost"
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        /// * For the time-series forecasting problem type TimeSeriesForecastingJobConfig:
+        ///
+        /// * Choose your algorithms from this list.
+        ///
+        /// * "cnn-qr"
+        ///
+        /// * "deepar"
+        ///
+        /// * "prophet"
+        ///
+        /// * "arima"
+        ///
+        /// * "npts"
+        ///
+        /// * "ets"
         /// This member is required.
         public var autoMLAlgorithms: [SageMakerClientTypes.AutoMLAlgorithm]?
 
@@ -3347,16 +3389,16 @@ extension SageMakerClientTypes.AutoMLCandidateGenerationConfig {
 extension SageMakerClientTypes {
     /// Stores the configuration information for how a candidate is generated (optional).
     public struct AutoMLCandidateGenerationConfig {
-        /// Stores the configuration information for the selection of algorithms used to train the model candidates. The list of available algorithms to choose from depends on the training mode set in [AutoMLJobConfig.Mode](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AutoMLJobConfig.html).
+        /// Stores the configuration information for the selection of algorithms trained on tabular data. The list of available algorithms to choose from depends on the training mode set in [TabularJobConfig.Mode](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_TabularJobConfig.html).
         ///
-        /// * AlgorithmsConfig should not be set in AUTO training mode.
+        /// * AlgorithmsConfig should not be set if the training mode is set on AUTO.
         ///
-        /// * When AlgorithmsConfig is provided, one AutoMLAlgorithms attribute must be set and one only. If the list of algorithms provided as values for AutoMLAlgorithms is empty, AutoMLCandidateGenerationConfig uses the full set of algorithms for the given training mode.
+        /// * When AlgorithmsConfig is provided, one AutoMLAlgorithms attribute must be set and one only. If the list of algorithms provided as values for AutoMLAlgorithms is empty, CandidateGenerationConfig uses the full set of algorithms for the given training mode.
         ///
-        /// * When AlgorithmsConfig is not provided, AutoMLCandidateGenerationConfig uses the full set of algorithms for the given training mode.
+        /// * When AlgorithmsConfig is not provided, CandidateGenerationConfig uses the full set of algorithms for the given training mode.
         ///
         ///
-        /// For the list of all algorithms per training mode, see [ AutoMLAlgorithmConfig](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AutoMLAlgorithmConfig.html). For more information on each algorithm, see the [Algorithm support](https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-model-support-validation.html#autopilot-algorithm-support) section in Autopilot developer guide.
+        /// For the list of all algorithms per problem type and training mode, see [ AutoMLAlgorithmConfig](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AutoMLAlgorithmConfig.html). For more information on each algorithm, see the [Algorithm support](https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-model-support-validation.html#autopilot-algorithm-support) section in Autopilot developer guide.
         public var algorithmsConfig: [SageMakerClientTypes.AutoMLAlgorithmConfig]?
         /// A URL to the Amazon S3 data source containing selected features from the input data source to run an Autopilot job. You can input FeatureAttributeNames (optional) in JSON format as shown below: { "FeatureAttributeNames":["col1", "col2", ...] }. You can also specify the data type of the feature (optional) in the format shown below: { "FeatureDataTypes":{"col1":"numeric", "col2":"categorical" ... } } These column keys may not include the target column. In ensembling mode, Autopilot only supports the following data types: numeric, categorical, text, and datetime. In HPO mode, Autopilot can support numeric, categorical, text, datetime, and sequence. If only FeatureDataTypes is provided, the column keys (col1, col2,..) should be a subset of the column names in the input data. If both FeatureDataTypes and FeatureAttributeNames are provided, then the column keys should be a subset of the column names provided in FeatureAttributeNames. The key name FeatureAttributeNames is fixed. The values listed in ["col1", "col2", ...] are case sensitive and should be a list of strings containing unique values that are a subset of the column names in the input data. The list of columns provided must not include the target column.
         public var featureSpecificationS3Uri: Swift.String?
@@ -5540,16 +5582,24 @@ extension SageMakerClientTypes.CandidateGenerationConfig {
 extension SageMakerClientTypes {
     /// Stores the configuration information for how model candidates are generated using an AutoML job V2.
     public struct CandidateGenerationConfig {
-        /// Stores the configuration information for the selection of algorithms used to train model candidates on tabular data. The list of available algorithms to choose from depends on the training mode set in [TabularJobConfig.Mode](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_TabularJobConfig.html).
+        /// Your Autopilot job trains a default set of algorithms on your dataset. For tabular and time-series data, you can customize the algorithm list by selecting a subset of algorithms for your problem type. AlgorithmsConfig stores the customized selection of algorithms to train on your data.
         ///
-        /// * AlgorithmsConfig should not be set in AUTO training mode.
+        /// * For the tabular problem type TabularJobConfig, the list of available algorithms to choose from depends on the training mode set in [AutoMLJobConfig.Mode](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AutoMLJobConfig.html).
+        ///
+        /// * AlgorithmsConfig should not be set when the training mode AutoMLJobConfig.Mode is set to AUTO.
         ///
         /// * When AlgorithmsConfig is provided, one AutoMLAlgorithms attribute must be set and one only. If the list of algorithms provided as values for AutoMLAlgorithms is empty, CandidateGenerationConfig uses the full set of algorithms for the given training mode.
         ///
         /// * When AlgorithmsConfig is not provided, CandidateGenerationConfig uses the full set of algorithms for the given training mode.
         ///
         ///
-        /// For the list of all algorithms per problem type and training mode, see [ AutoMLAlgorithmConfig](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AutoMLAlgorithmConfig.html). For more information on each algorithm, see the [Algorithm support](https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-model-support-validation.html#autopilot-algorithm-support) section in Autopilot developer guide.
+        /// For the list of all algorithms per training mode, see [ AlgorithmConfig](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AutoMLAlgorithmConfig.html). For more information on each algorithm, see the [Algorithm support](https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-model-support-validation.html#autopilot-algorithm-support) section in the Autopilot developer guide.
+        ///
+        /// * For the time-series forecasting problem type TimeSeriesForecastingJobConfig, choose your algorithms from the list provided in [ AlgorithmConfig](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AutoMLAlgorithmConfig.html). For more information on each algorithm, see the [Algorithms support for time-series forecasting](https://docs.aws.amazon.com/sagemaker/latest/dg/timeseries-forecasting-algorithms.html) section in the Autopilot developer guide.
+        ///
+        /// * When AlgorithmsConfig is provided, one AutoMLAlgorithms attribute must be set and one only. If the list of algorithms provided as values for AutoMLAlgorithms is empty, CandidateGenerationConfig uses the full set of algorithms for time-series forecasting.
+        ///
+        /// * When AlgorithmsConfig is not provided, CandidateGenerationConfig uses the full set of algorithms for time-series forecasting.
         public var algorithmsConfig: [SageMakerClientTypes.AutoMLAlgorithmConfig]?
 
         public init(
@@ -6960,6 +7010,37 @@ extension SageMakerClientTypes {
 
 }
 
+extension SageMakerClientTypes.ClusterInstancePlacement {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ClusterInstancePlacement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.ClusterInstancePlacement()
+        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
+        value.availabilityZoneId = try reader["AvailabilityZoneId"].readIfPresent()
+        return value
+    }
+}
+
+extension SageMakerClientTypes {
+    /// Specifies the placement details for the node in the SageMaker HyperPod cluster, including the Availability Zone and the unique identifier (ID) of the Availability Zone.
+    public struct ClusterInstancePlacement {
+        /// The Availability Zone where the node in the SageMaker HyperPod cluster is launched.
+        public var availabilityZone: Swift.String?
+        /// The unique identifier (ID) of the Availability Zone where the node in the SageMaker HyperPod cluster is launched.
+        public var availabilityZoneId: Swift.String?
+
+        public init(
+            availabilityZone: Swift.String? = nil,
+            availabilityZoneId: Swift.String? = nil
+        )
+        {
+            self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
+        }
+    }
+
+}
+
 extension SageMakerClientTypes {
 
     public enum ClusterInstanceStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -7218,6 +7299,9 @@ extension SageMakerClientTypes.ClusterNodeDetails {
         value.launchTime = try reader["LaunchTime"].readTimestampIfPresent(format: .epochSeconds)
         value.lifeCycleConfig = try reader["LifeCycleConfig"].readIfPresent(with: SageMakerClientTypes.ClusterLifeCycleConfig.read(from:))
         value.threadsPerCore = try reader["ThreadsPerCore"].readIfPresent()
+        value.privatePrimaryIp = try reader["PrivatePrimaryIp"].readIfPresent()
+        value.privateDnsHostname = try reader["PrivateDnsHostname"].readIfPresent()
+        value.placement = try reader["Placement"].readIfPresent(with: SageMakerClientTypes.ClusterInstancePlacement.read(from:))
         return value
     }
 }
@@ -7237,6 +7321,12 @@ extension SageMakerClientTypes {
         public var launchTime: Foundation.Date?
         /// The LifeCycle configuration applied to the instance.
         public var lifeCycleConfig: SageMakerClientTypes.ClusterLifeCycleConfig?
+        /// The placement details of the SageMaker HyperPod cluster node.
+        public var placement: SageMakerClientTypes.ClusterInstancePlacement?
+        /// The private DNS hostname of the SageMaker HyperPod cluster node.
+        public var privateDnsHostname: Swift.String?
+        /// The private primary IP address of the SageMaker HyperPod cluster node.
+        public var privatePrimaryIp: Swift.String?
         /// The number of threads per CPU core you specified under CreateCluster.
         public var threadsPerCore: Swift.Int?
 
@@ -7247,6 +7337,9 @@ extension SageMakerClientTypes {
             instanceType: SageMakerClientTypes.ClusterInstanceType? = nil,
             launchTime: Foundation.Date? = nil,
             lifeCycleConfig: SageMakerClientTypes.ClusterLifeCycleConfig? = nil,
+            placement: SageMakerClientTypes.ClusterInstancePlacement? = nil,
+            privateDnsHostname: Swift.String? = nil,
+            privatePrimaryIp: Swift.String? = nil,
             threadsPerCore: Swift.Int? = nil
         )
         {
@@ -7256,6 +7349,9 @@ extension SageMakerClientTypes {
             self.instanceType = instanceType
             self.launchTime = launchTime
             self.lifeCycleConfig = lifeCycleConfig
+            self.placement = placement
+            self.privateDnsHostname = privateDnsHostname
+            self.privatePrimaryIp = privatePrimaryIp
             self.threadsPerCore = threadsPerCore
         }
     }
@@ -12380,11 +12476,13 @@ extension CreateModelPackageInput {
         try writer["InferenceSpecification"].write(value.inferenceSpecification, with: SageMakerClientTypes.InferenceSpecification.write(value:to:))
         try writer["MetadataProperties"].write(value.metadataProperties, with: SageMakerClientTypes.MetadataProperties.write(value:to:))
         try writer["ModelApprovalStatus"].write(value.modelApprovalStatus)
+        try writer["ModelCard"].write(value.modelCard, with: SageMakerClientTypes.ModelPackageModelCard.write(value:to:))
         try writer["ModelMetrics"].write(value.modelMetrics, with: SageMakerClientTypes.ModelMetrics.write(value:to:))
         try writer["ModelPackageDescription"].write(value.modelPackageDescription)
         try writer["ModelPackageGroupName"].write(value.modelPackageGroupName)
         try writer["ModelPackageName"].write(value.modelPackageName)
         try writer["SamplePayloadUrl"].write(value.samplePayloadUrl)
+        try writer["SecurityConfig"].write(value.securityConfig, with: SageMakerClientTypes.ModelPackageSecurityConfig.write(value:to:))
         try writer["SkipModelValidation"].write(value.skipModelValidation)
         try writer["SourceAlgorithmSpecification"].write(value.sourceAlgorithmSpecification, with: SageMakerClientTypes.SourceAlgorithmSpecification.write(value:to:))
         try writer["SourceUri"].write(value.sourceUri)
@@ -12419,6 +12517,8 @@ public struct CreateModelPackageInput {
     public var metadataProperties: SageMakerClientTypes.MetadataProperties?
     /// Whether the model is approved for deployment. This parameter is optional for versioned models, and does not apply to unversioned models. For versioned models, the value of this parameter must be set to Approved to deploy the model.
     public var modelApprovalStatus: SageMakerClientTypes.ModelApprovalStatus?
+    /// The model card associated with the model package. Since ModelPackageModelCard is tied to a model package, it is a specific usage of a model card and its schema is simplified compared to the schema of ModelCard. The ModelPackageModelCard schema does not include model_package_details, and model_overview is composed of the model_creator and model_artifact properties. For more information about the model card associated with the model package, see [View the Details of a Model Version](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html).
+    public var modelCard: SageMakerClientTypes.ModelPackageModelCard?
     /// A structure that contains model metrics reports.
     public var modelMetrics: SageMakerClientTypes.ModelMetrics?
     /// A description of the model package.
@@ -12429,6 +12529,8 @@ public struct CreateModelPackageInput {
     public var modelPackageName: Swift.String?
     /// The Amazon Simple Storage Service (Amazon S3) path where the sample payload is stored. This path must point to a single gzip compressed tar archive (.tar.gz suffix). This archive can hold multiple files that are all equally used in the load test. Each file in the archive must satisfy the size constraints of the [InvokeEndpoint](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_runtime_InvokeEndpoint.html#API_runtime_InvokeEndpoint_RequestSyntax) call.
     public var samplePayloadUrl: Swift.String?
+    /// The KMS Key ID (KMSKeyId) used for encryption of model package information.
+    public var securityConfig: SageMakerClientTypes.ModelPackageSecurityConfig?
     /// Indicates if you want to skip model validation.
     public var skipModelValidation: SageMakerClientTypes.SkipModelValidation?
     /// Details about the algorithm that was used to create the model package.
@@ -12452,11 +12554,13 @@ public struct CreateModelPackageInput {
         inferenceSpecification: SageMakerClientTypes.InferenceSpecification? = nil,
         metadataProperties: SageMakerClientTypes.MetadataProperties? = nil,
         modelApprovalStatus: SageMakerClientTypes.ModelApprovalStatus? = nil,
+        modelCard: SageMakerClientTypes.ModelPackageModelCard? = nil,
         modelMetrics: SageMakerClientTypes.ModelMetrics? = nil,
         modelPackageDescription: Swift.String? = nil,
         modelPackageGroupName: Swift.String? = nil,
         modelPackageName: Swift.String? = nil,
         samplePayloadUrl: Swift.String? = nil,
+        securityConfig: SageMakerClientTypes.ModelPackageSecurityConfig? = nil,
         skipModelValidation: SageMakerClientTypes.SkipModelValidation? = nil,
         sourceAlgorithmSpecification: SageMakerClientTypes.SourceAlgorithmSpecification? = nil,
         sourceUri: Swift.String? = nil,
@@ -12474,11 +12578,13 @@ public struct CreateModelPackageInput {
         self.inferenceSpecification = inferenceSpecification
         self.metadataProperties = metadataProperties
         self.modelApprovalStatus = modelApprovalStatus
+        self.modelCard = modelCard
         self.modelMetrics = modelMetrics
         self.modelPackageDescription = modelPackageDescription
         self.modelPackageGroupName = modelPackageGroupName
         self.modelPackageName = modelPackageName
         self.samplePayloadUrl = samplePayloadUrl
+        self.securityConfig = securityConfig
         self.skipModelValidation = skipModelValidation
         self.sourceAlgorithmSpecification = sourceAlgorithmSpecification
         self.sourceUri = sourceUri
@@ -19650,10 +19756,10 @@ extension DescribeClusterNodeInput {
 }
 
 public struct DescribeClusterNodeInput {
-    /// The string name or the Amazon Resource Name (ARN) of the SageMaker HyperPod cluster in which the instance is.
+    /// The string name or the Amazon Resource Name (ARN) of the SageMaker HyperPod cluster in which the node is.
     /// This member is required.
     public var clusterName: Swift.String?
-    /// The ID of the instance.
+    /// The ID of the SageMaker HyperPod cluster node.
     /// This member is required.
     public var nodeId: Swift.String?
 
@@ -19680,7 +19786,7 @@ extension DescribeClusterNodeOutput {
 }
 
 public struct DescribeClusterNodeOutput {
-    /// The details of the instance.
+    /// The details of the SageMaker HyperPod cluster node.
     /// This member is required.
     public var nodeDetails: SageMakerClientTypes.ClusterNodeDetails?
 
@@ -24062,6 +24168,7 @@ extension DescribeModelPackageOutput {
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: .epochSeconds)
         value.metadataProperties = try reader["MetadataProperties"].readIfPresent(with: SageMakerClientTypes.MetadataProperties.read(from:))
         value.modelApprovalStatus = try reader["ModelApprovalStatus"].readIfPresent()
+        value.modelCard = try reader["ModelCard"].readIfPresent(with: SageMakerClientTypes.ModelPackageModelCard.read(from:))
         value.modelMetrics = try reader["ModelMetrics"].readIfPresent(with: SageMakerClientTypes.ModelMetrics.read(from:))
         value.modelPackageArn = try reader["ModelPackageArn"].readIfPresent()
         value.modelPackageDescription = try reader["ModelPackageDescription"].readIfPresent()
@@ -24071,6 +24178,7 @@ extension DescribeModelPackageOutput {
         value.modelPackageStatusDetails = try reader["ModelPackageStatusDetails"].readIfPresent(with: SageMakerClientTypes.ModelPackageStatusDetails.read(from:))
         value.modelPackageVersion = try reader["ModelPackageVersion"].readIfPresent()
         value.samplePayloadUrl = try reader["SamplePayloadUrl"].readIfPresent()
+        value.securityConfig = try reader["SecurityConfig"].readIfPresent(with: SageMakerClientTypes.ModelPackageSecurityConfig.read(from:))
         value.skipModelValidation = try reader["SkipModelValidation"].readIfPresent()
         value.sourceAlgorithmSpecification = try reader["SourceAlgorithmSpecification"].readIfPresent(with: SageMakerClientTypes.SourceAlgorithmSpecification.read(from:))
         value.sourceUri = try reader["SourceUri"].readIfPresent()
@@ -24108,6 +24216,8 @@ public struct DescribeModelPackageOutput {
     public var metadataProperties: SageMakerClientTypes.MetadataProperties?
     /// The approval status of the model package.
     public var modelApprovalStatus: SageMakerClientTypes.ModelApprovalStatus?
+    /// The model card associated with the model package. Since ModelPackageModelCard is tied to a model package, it is a specific usage of a model card and its schema is simplified compared to the schema of ModelCard. The ModelPackageModelCard schema does not include model_package_details, and model_overview is composed of the model_creator and model_artifact properties. For more information about the model card associated with the model package, see [View the Details of a Model Version](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html).
+    public var modelCard: SageMakerClientTypes.ModelPackageModelCard?
     /// Metrics for the model.
     public var modelMetrics: SageMakerClientTypes.ModelMetrics?
     /// The Amazon Resource Name (ARN) of the model package.
@@ -24130,6 +24240,8 @@ public struct DescribeModelPackageOutput {
     public var modelPackageVersion: Swift.Int?
     /// The Amazon Simple Storage Service (Amazon S3) path where the sample payload are stored. This path points to a single gzip compressed tar archive (.tar.gz suffix).
     public var samplePayloadUrl: Swift.String?
+    /// The KMS Key ID (KMSKeyId) used for encryption of model package information.
+    public var securityConfig: SageMakerClientTypes.ModelPackageSecurityConfig?
     /// Indicates if you want to skip model validation.
     public var skipModelValidation: SageMakerClientTypes.SkipModelValidation?
     /// Details about the algorithm that was used to create the model package.
@@ -24155,6 +24267,7 @@ public struct DescribeModelPackageOutput {
         lastModifiedTime: Foundation.Date? = nil,
         metadataProperties: SageMakerClientTypes.MetadataProperties? = nil,
         modelApprovalStatus: SageMakerClientTypes.ModelApprovalStatus? = nil,
+        modelCard: SageMakerClientTypes.ModelPackageModelCard? = nil,
         modelMetrics: SageMakerClientTypes.ModelMetrics? = nil,
         modelPackageArn: Swift.String? = nil,
         modelPackageDescription: Swift.String? = nil,
@@ -24164,6 +24277,7 @@ public struct DescribeModelPackageOutput {
         modelPackageStatusDetails: SageMakerClientTypes.ModelPackageStatusDetails? = nil,
         modelPackageVersion: Swift.Int? = nil,
         samplePayloadUrl: Swift.String? = nil,
+        securityConfig: SageMakerClientTypes.ModelPackageSecurityConfig? = nil,
         skipModelValidation: SageMakerClientTypes.SkipModelValidation? = nil,
         sourceAlgorithmSpecification: SageMakerClientTypes.SourceAlgorithmSpecification? = nil,
         sourceUri: Swift.String? = nil,
@@ -24184,6 +24298,7 @@ public struct DescribeModelPackageOutput {
         self.lastModifiedTime = lastModifiedTime
         self.metadataProperties = metadataProperties
         self.modelApprovalStatus = modelApprovalStatus
+        self.modelCard = modelCard
         self.modelMetrics = modelMetrics
         self.modelPackageArn = modelPackageArn
         self.modelPackageDescription = modelPackageDescription
@@ -24193,6 +24308,7 @@ public struct DescribeModelPackageOutput {
         self.modelPackageStatusDetails = modelPackageStatusDetails
         self.modelPackageVersion = modelPackageVersion
         self.samplePayloadUrl = samplePayloadUrl
+        self.securityConfig = securityConfig
         self.skipModelValidation = skipModelValidation
         self.sourceAlgorithmSpecification = sourceAlgorithmSpecification
         self.sourceUri = sourceUri
@@ -38424,7 +38540,7 @@ extension ListAppsInput {
 public struct ListAppsInput {
     /// A parameter to search for the domain ID.
     public var domainIdEquals: Swift.String?
-    /// This parameter defines the maximum number of results that can be returned in a single response. The MaxResults parameter is an upper bound, not a target. If there are more results available than the value specified, a NextToken is provided in the response. The NextToken indicates that the user should get the next set of results by providing this token as a part of a subsequent call. The default value for MaxResults is 10.
+    /// This parameter defines the maximum number of results that can be return in a single response. The MaxResults parameter is an upper bound, not a target. If there are more results available than the value specified, a NextToken is provided in the response. The NextToken indicates that the user should get the next set of results by providing this token as a part of a subsequent call. The default value for MaxResults is 10.
     public var maxResults: Swift.Int?
     /// If the previous response was truncated, you will receive this token. Use it in your next request to receive the next set of results.
     public var nextToken: Swift.String?
@@ -39898,7 +40014,7 @@ extension ListDomainsInput {
 }
 
 public struct ListDomainsInput {
-    /// This parameter defines the maximum number of results that can be returned in a single response. The MaxResults parameter is an upper bound, not a target. If there are more results available than the value specified, a NextToken is provided in the response. The NextToken indicates that the user should get the next set of results by providing this token as a part of a subsequent call. The default value for MaxResults is 10.
+    /// This parameter defines the maximum number of results that can be return in a single response. The MaxResults parameter is an upper bound, not a target. If there are more results available than the value specified, a NextToken is provided in the response. The NextToken indicates that the user should get the next set of results by providing this token as a part of a subsequent call. The default value for MaxResults is 10.
     public var maxResults: Swift.Int?
     /// If the previous response was truncated, you will receive this token. Use it in your next request to receive the next set of results.
     public var nextToken: Swift.String?
@@ -44828,7 +44944,7 @@ extension ListSpacesInput {
 public struct ListSpacesInput {
     /// A parameter to search for the domain ID.
     public var domainIdEquals: Swift.String?
-    /// This parameter defines the maximum number of results that can be returned in a single response. The MaxResults parameter is an upper bound, not a target. If there are more results available than the value specified, a NextToken is provided in the response. The NextToken indicates that the user should get the next set of results by providing this token as a part of a subsequent call. The default value for MaxResults is 10.
+    /// This parameter defines the maximum number of results that can be return in a single response. The MaxResults parameter is an upper bound, not a target. If there are more results available than the value specified, a NextToken is provided in the response. The NextToken indicates that the user should get the next set of results by providing this token as a part of a subsequent call. The default value for MaxResults is 10.
     public var maxResults: Swift.Int?
     /// If the previous response was truncated, you will receive this token. Use it in your next request to receive the next set of results.
     public var nextToken: Swift.String?
@@ -45836,7 +45952,7 @@ extension ListUserProfilesInput {
 public struct ListUserProfilesInput {
     /// A parameter by which to filter the results.
     public var domainIdEquals: Swift.String?
-    /// This parameter defines the maximum number of results that can be returned in a single response. The MaxResults parameter is an upper bound, not a target. If there are more results available than the value specified, a NextToken is provided in the response. The NextToken indicates that the user should get the next set of results by providing this token as a part of a subsequent call. The default value for MaxResults is 10.
+    /// This parameter defines the maximum number of results that can be return in a single response. The MaxResults parameter is an upper bound, not a target. If there are more results available than the value specified, a NextToken is provided in the response. The NextToken indicates that the user should get the next set of results by providing this token as a part of a subsequent call. The default value for MaxResults is 10.
     public var maxResults: Swift.Int?
     /// If the previous response was truncated, you will receive this token. Use it in your next request to receive the next set of results.
     public var nextToken: Swift.String?
@@ -48458,6 +48574,8 @@ extension SageMakerClientTypes.ModelPackage {
         value.samplePayloadUrl = try reader["SamplePayloadUrl"].readIfPresent()
         value.additionalInferenceSpecifications = try reader["AdditionalInferenceSpecifications"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.AdditionalInferenceSpecificationDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.sourceUri = try reader["SourceUri"].readIfPresent()
+        value.securityConfig = try reader["SecurityConfig"].readIfPresent(with: SageMakerClientTypes.ModelPackageSecurityConfig.read(from:))
+        value.modelCard = try reader["ModelCard"].readIfPresent(with: SageMakerClientTypes.ModelPackageModelCard.read(from:))
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.customerMetadataProperties = try reader["CustomerMetadataProperties"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.driftCheckBaselines = try reader["DriftCheckBaselines"].readIfPresent(with: SageMakerClientTypes.DriftCheckBaselines.read(from:))
@@ -48501,6 +48619,8 @@ extension SageMakerClientTypes {
         ///
         /// * PENDING_MANUAL_APPROVAL - The model is waiting for manual approval.
         public var modelApprovalStatus: SageMakerClientTypes.ModelApprovalStatus?
+        /// The model card associated with the model package. Since ModelPackageModelCard is tied to a model package, it is a specific usage of a model card and its schema is simplified compared to the schema of ModelCard. The ModelPackageModelCard schema does not include model_package_details, and model_overview is composed of the model_creator and model_artifact properties. For more information about the model card associated with the model package, see [View the Details of a Model Version](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html).
+        public var modelCard: SageMakerClientTypes.ModelPackageModelCard?
         /// Metrics for the model.
         public var modelMetrics: SageMakerClientTypes.ModelMetrics?
         /// The Amazon Resource Name (ARN) of the model package.
@@ -48529,6 +48649,8 @@ extension SageMakerClientTypes {
         public var modelPackageVersion: Swift.Int?
         /// The Amazon Simple Storage Service path where the sample payload are stored. This path must point to a single gzip compressed tar archive (.tar.gz suffix).
         public var samplePayloadUrl: Swift.String?
+        /// An optional Key Management Service key to encrypt, decrypt, and re-encrypt model package information for regulated workloads with highly sensitive data.
+        public var securityConfig: SageMakerClientTypes.ModelPackageSecurityConfig?
         /// Indicates if you want to skip model validation.
         public var skipModelValidation: SageMakerClientTypes.SkipModelValidation?
         /// A list of algorithms that were used to create a model package.
@@ -48556,6 +48678,7 @@ extension SageMakerClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             metadataProperties: SageMakerClientTypes.MetadataProperties? = nil,
             modelApprovalStatus: SageMakerClientTypes.ModelApprovalStatus? = nil,
+            modelCard: SageMakerClientTypes.ModelPackageModelCard? = nil,
             modelMetrics: SageMakerClientTypes.ModelMetrics? = nil,
             modelPackageArn: Swift.String? = nil,
             modelPackageDescription: Swift.String? = nil,
@@ -48565,6 +48688,7 @@ extension SageMakerClientTypes {
             modelPackageStatusDetails: SageMakerClientTypes.ModelPackageStatusDetails? = nil,
             modelPackageVersion: Swift.Int? = nil,
             samplePayloadUrl: Swift.String? = nil,
+            securityConfig: SageMakerClientTypes.ModelPackageSecurityConfig? = nil,
             skipModelValidation: SageMakerClientTypes.SkipModelValidation? = nil,
             sourceAlgorithmSpecification: SageMakerClientTypes.SourceAlgorithmSpecification? = nil,
             sourceUri: Swift.String? = nil,
@@ -48586,6 +48710,7 @@ extension SageMakerClientTypes {
             self.lastModifiedTime = lastModifiedTime
             self.metadataProperties = metadataProperties
             self.modelApprovalStatus = modelApprovalStatus
+            self.modelCard = modelCard
             self.modelMetrics = modelMetrics
             self.modelPackageArn = modelPackageArn
             self.modelPackageDescription = modelPackageDescription
@@ -48595,6 +48720,7 @@ extension SageMakerClientTypes {
             self.modelPackageStatusDetails = modelPackageStatusDetails
             self.modelPackageVersion = modelPackageVersion
             self.samplePayloadUrl = samplePayloadUrl
+            self.securityConfig = securityConfig
             self.skipModelValidation = skipModelValidation
             self.sourceAlgorithmSpecification = sourceAlgorithmSpecification
             self.sourceUri = sourceUri
@@ -48887,6 +49013,88 @@ extension SageMakerClientTypes {
             self.modelPackageGroupDescription = modelPackageGroupDescription
             self.modelPackageGroupName = modelPackageGroupName
             self.modelPackageGroupStatus = modelPackageGroupStatus
+        }
+    }
+
+}
+
+extension SageMakerClientTypes.ModelPackageModelCard: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ModelPackageModelCard(modelCardStatus: \(Swift.String(describing: modelCardStatus)), modelCardContent: \"CONTENT_REDACTED\")"}
+}
+
+extension SageMakerClientTypes.ModelPackageModelCard {
+
+    static func write(value: SageMakerClientTypes.ModelPackageModelCard?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ModelCardContent"].write(value.modelCardContent)
+        try writer["ModelCardStatus"].write(value.modelCardStatus)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelPackageModelCard {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.ModelPackageModelCard()
+        value.modelCardContent = try reader["ModelCardContent"].readIfPresent()
+        value.modelCardStatus = try reader["ModelCardStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension SageMakerClientTypes {
+    /// The model card associated with the model package. Since ModelPackageModelCard is tied to a model package, it is a specific usage of a model card and its schema is simplified compared to the schema of ModelCard. The ModelPackageModelCard schema does not include model_package_details, and model_overview is composed of the model_creator and model_artifact properties. For more information about the model card associated with the model package, see [View the Details of a Model Version](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html).
+    public struct ModelPackageModelCard {
+        /// The content of the model card.
+        public var modelCardContent: Swift.String?
+        /// The approval status of the model card within your organization. Different organizations might have different criteria for model card review and approval.
+        ///
+        /// * Draft: The model card is a work in progress.
+        ///
+        /// * PendingReview: The model card is pending review.
+        ///
+        /// * Approved: The model card is approved.
+        ///
+        /// * Archived: The model card is archived. No more updates can be made to the model card content. If you try to update the model card content, you will receive the message Model Card is in Archived state.
+        public var modelCardStatus: SageMakerClientTypes.ModelCardStatus?
+
+        public init(
+            modelCardContent: Swift.String? = nil,
+            modelCardStatus: SageMakerClientTypes.ModelCardStatus? = nil
+        )
+        {
+            self.modelCardContent = modelCardContent
+            self.modelCardStatus = modelCardStatus
+        }
+    }
+
+}
+
+extension SageMakerClientTypes.ModelPackageSecurityConfig {
+
+    static func write(value: SageMakerClientTypes.ModelPackageSecurityConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KmsKeyId"].write(value.kmsKeyId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelPackageSecurityConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.ModelPackageSecurityConfig()
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        return value
+    }
+}
+
+extension SageMakerClientTypes {
+    /// An optional Key Management Service key to encrypt, decrypt, and re-encrypt model package information for regulated workloads with highly sensitive data.
+    public struct ModelPackageSecurityConfig {
+        /// The KMS Key ID (KMSKeyId) used for encryption of model package information.
+        /// This member is required.
+        public var kmsKeyId: Swift.String?
+
+        public init(
+            kmsKeyId: Swift.String? = nil
+        )
+        {
+            self.kmsKeyId = kmsKeyId
         }
     }
 
@@ -64174,6 +64382,7 @@ extension SageMakerClientTypes.TimeSeriesForecastingJobConfig {
 
     static func write(value: SageMakerClientTypes.TimeSeriesForecastingJobConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["CandidateGenerationConfig"].write(value.candidateGenerationConfig, with: SageMakerClientTypes.CandidateGenerationConfig.write(value:to:))
         try writer["CompletionCriteria"].write(value.completionCriteria, with: SageMakerClientTypes.AutoMLJobCompletionCriteria.write(value:to:))
         try writer["FeatureSpecificationS3Uri"].write(value.featureSpecificationS3Uri)
         try writer["ForecastFrequency"].write(value.forecastFrequency)
@@ -64195,6 +64404,7 @@ extension SageMakerClientTypes.TimeSeriesForecastingJobConfig {
         value.transformations = try reader["Transformations"].readIfPresent(with: SageMakerClientTypes.TimeSeriesTransformations.read(from:))
         value.timeSeriesConfig = try reader["TimeSeriesConfig"].readIfPresent(with: SageMakerClientTypes.TimeSeriesConfig.read(from:))
         value.holidayConfig = try reader["HolidayConfig"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.HolidayConfigAttributes.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.candidateGenerationConfig = try reader["CandidateGenerationConfig"].readIfPresent(with: SageMakerClientTypes.CandidateGenerationConfig.read(from:))
         return value
     }
 }
@@ -64202,6 +64412,8 @@ extension SageMakerClientTypes.TimeSeriesForecastingJobConfig {
 extension SageMakerClientTypes {
     /// The collection of settings used by an AutoML job V2 for the time-series forecasting problem type.
     public struct TimeSeriesForecastingJobConfig {
+        /// Stores the configuration information for how model candidates are generated using an AutoML job V2.
+        public var candidateGenerationConfig: SageMakerClientTypes.CandidateGenerationConfig?
         /// How long a job is allowed to run, or how many candidates a job is allowed to generate.
         public var completionCriteria: SageMakerClientTypes.AutoMLJobCompletionCriteria?
         /// A URL to the Amazon S3 data source containing additional selected features that complement the target, itemID, timestamp, and grouped columns set in TimeSeriesConfig. When not provided, the AutoML job V2 includes all the columns from the original dataset that are not already declared in TimeSeriesConfig. If provided, the AutoML job V2 only considers these additional columns as a complement to the ones declared in TimeSeriesConfig. You can input FeatureAttributeNames (optional) in JSON format as shown below: { "FeatureAttributeNames":["col1", "col2", ...] }. You can also specify the data type of the feature (optional) in the format shown below: { "FeatureDataTypes":{"col1":"numeric", "col2":"categorical" ... } } Autopilot supports the following data types: numeric, categorical, text, and datetime. These column keys must not include any column set in TimeSeriesConfig.
@@ -64235,6 +64447,7 @@ extension SageMakerClientTypes {
         public var transformations: SageMakerClientTypes.TimeSeriesTransformations?
 
         public init(
+            candidateGenerationConfig: SageMakerClientTypes.CandidateGenerationConfig? = nil,
             completionCriteria: SageMakerClientTypes.AutoMLJobCompletionCriteria? = nil,
             featureSpecificationS3Uri: Swift.String? = nil,
             forecastFrequency: Swift.String? = nil,
@@ -64245,6 +64458,7 @@ extension SageMakerClientTypes {
             transformations: SageMakerClientTypes.TimeSeriesTransformations? = nil
         )
         {
+            self.candidateGenerationConfig = candidateGenerationConfig
             self.completionCriteria = completionCriteria
             self.featureSpecificationS3Uri = featureSpecificationS3Uri
             self.forecastFrequency = forecastFrequency
@@ -69269,6 +69483,7 @@ extension UpdateModelPackageInput {
         try writer["CustomerMetadataPropertiesToRemove"].writeList(value.customerMetadataPropertiesToRemove, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["InferenceSpecification"].write(value.inferenceSpecification, with: SageMakerClientTypes.InferenceSpecification.write(value:to:))
         try writer["ModelApprovalStatus"].write(value.modelApprovalStatus)
+        try writer["ModelCard"].write(value.modelCard, with: SageMakerClientTypes.ModelPackageModelCard.write(value:to:))
         try writer["ModelPackageArn"].write(value.modelPackageArn)
         try writer["SourceUri"].write(value.sourceUri)
     }
@@ -69293,6 +69508,8 @@ public struct UpdateModelPackageInput {
     public var inferenceSpecification: SageMakerClientTypes.InferenceSpecification?
     /// The approval status of the model.
     public var modelApprovalStatus: SageMakerClientTypes.ModelApprovalStatus?
+    /// The model card associated with the model package. Since ModelPackageModelCard is tied to a model package, it is a specific usage of a model card and its schema is simplified compared to the schema of ModelCard. The ModelPackageModelCard schema does not include model_package_details, and model_overview is composed of the model_creator and model_artifact properties. For more information about the model card associated with the model package, see [View the Details of a Model Version](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html).
+    public var modelCard: SageMakerClientTypes.ModelPackageModelCard?
     /// The Amazon Resource Name (ARN) of the model package.
     /// This member is required.
     public var modelPackageArn: Swift.String?
@@ -69306,6 +69523,7 @@ public struct UpdateModelPackageInput {
         customerMetadataPropertiesToRemove: [Swift.String]? = nil,
         inferenceSpecification: SageMakerClientTypes.InferenceSpecification? = nil,
         modelApprovalStatus: SageMakerClientTypes.ModelApprovalStatus? = nil,
+        modelCard: SageMakerClientTypes.ModelPackageModelCard? = nil,
         modelPackageArn: Swift.String? = nil,
         sourceUri: Swift.String? = nil
     )
@@ -69316,6 +69534,7 @@ public struct UpdateModelPackageInput {
         self.customerMetadataPropertiesToRemove = customerMetadataPropertiesToRemove
         self.inferenceSpecification = inferenceSpecification
         self.modelApprovalStatus = modelApprovalStatus
+        self.modelCard = modelCard
         self.modelPackageArn = modelPackageArn
         self.sourceUri = sourceUri
     }

@@ -1692,6 +1692,32 @@ extension KafkaClientTypes {
 
 }
 
+extension KafkaClientTypes.ControllerNodeInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ControllerNodeInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.ControllerNodeInfo()
+        value.endpoints = try reader["endpoints"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension KafkaClientTypes {
+    /// Controller node information.
+    public struct ControllerNodeInfo {
+        /// Endpoints for accessing the Controller.
+        public var endpoints: [Swift.String]?
+
+        public init(
+            endpoints: [Swift.String]? = nil
+        )
+        {
+            self.endpoints = endpoints
+        }
+    }
+
+}
+
 extension CreateClusterInput {
 
     static func urlPathProvider(_ value: CreateClusterInput) -> Swift.String? {
@@ -5596,6 +5622,7 @@ extension KafkaClientTypes.NodeInfo {
         var value = KafkaClientTypes.NodeInfo()
         value.addedToClusterTime = try reader["addedToClusterTime"].readIfPresent()
         value.brokerNodeInfo = try reader["brokerNodeInfo"].readIfPresent(with: KafkaClientTypes.BrokerNodeInfo.read(from:))
+        value.controllerNodeInfo = try reader["controllerNodeInfo"].readIfPresent(with: KafkaClientTypes.ControllerNodeInfo.read(from:))
         value.instanceType = try reader["instanceType"].readIfPresent()
         value.nodeARN = try reader["nodeARN"].readIfPresent()
         value.nodeType = try reader["nodeType"].readIfPresent()
@@ -5611,6 +5638,8 @@ extension KafkaClientTypes {
         public var addedToClusterTime: Swift.String?
         /// The broker node info.
         public var brokerNodeInfo: KafkaClientTypes.BrokerNodeInfo?
+        /// The ControllerNodeInfo.
+        public var controllerNodeInfo: KafkaClientTypes.ControllerNodeInfo?
         /// The instance type.
         public var instanceType: Swift.String?
         /// The Amazon Resource Name (ARN) of the node.
@@ -5623,6 +5652,7 @@ extension KafkaClientTypes {
         public init(
             addedToClusterTime: Swift.String? = nil,
             brokerNodeInfo: KafkaClientTypes.BrokerNodeInfo? = nil,
+            controllerNodeInfo: KafkaClientTypes.ControllerNodeInfo? = nil,
             instanceType: Swift.String? = nil,
             nodeARN: Swift.String? = nil,
             nodeType: KafkaClientTypes.NodeType? = nil,
@@ -5631,6 +5661,7 @@ extension KafkaClientTypes {
         {
             self.addedToClusterTime = addedToClusterTime
             self.brokerNodeInfo = brokerNodeInfo
+            self.controllerNodeInfo = controllerNodeInfo
             self.instanceType = instanceType
             self.nodeARN = nodeARN
             self.nodeType = nodeType

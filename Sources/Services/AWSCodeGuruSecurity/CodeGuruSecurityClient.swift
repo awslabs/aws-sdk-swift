@@ -147,7 +147,7 @@ public struct CodeGuruSecurityClientLogHandlerFactory: ClientRuntime.SDKLogHandl
 extension CodeGuruSecurityClient {
     /// Performs the `BatchGetFindings` operation on the `AwsCodeGuruSecurity` service.
     ///
-    /// Returns a list of all requested findings.
+    /// Returns a list of requested findings from standard scans.
     ///
     /// - Parameter BatchGetFindingsInput : [no documentation found]
     ///
@@ -198,7 +198,7 @@ extension CodeGuruSecurityClient {
 
     /// Performs the `CreateScan` operation on the `AwsCodeGuruSecurity` service.
     ///
-    /// Use to create a scan using code uploaded to an S3 bucket.
+    /// Use to create a scan using code uploaded to an Amazon S3 bucket.
     ///
     /// - Parameter CreateScanInput : [no documentation found]
     ///
@@ -252,7 +252,7 @@ extension CodeGuruSecurityClient {
 
     /// Performs the `CreateUploadUrl` operation on the `AwsCodeGuruSecurity` service.
     ///
-    /// Generates a pre-signed URL and request headers used to upload a code resource. You can upload your code resource to the URL and add the request headers using any HTTP client.
+    /// Generates a pre-signed URL, request headers used to upload a code resource, and code artifact identifier for the uploaded resource. You can upload your code resource to the URL with the request headers using any HTTP client.
     ///
     /// - Parameter CreateUploadUrlInput : [no documentation found]
     ///
@@ -303,7 +303,7 @@ extension CodeGuruSecurityClient {
 
     /// Performs the `GetAccountConfiguration` operation on the `AwsCodeGuruSecurity` service.
     ///
-    /// Use to get account level configuration.
+    /// Use to get the encryption configuration for an account.
     ///
     /// - Parameter GetAccountConfigurationInput : [no documentation found]
     ///
@@ -402,7 +402,7 @@ extension CodeGuruSecurityClient {
 
     /// Performs the `GetMetricsSummary` operation on the `AwsCodeGuruSecurity` service.
     ///
-    /// Returns top level metrics about an account from a specified date, including number of open findings, the categories with most findings, the scans with most open findings, and scans with most open critical findings.
+    /// Returns a summary of metrics for an account from a specified date, including number of open findings, the categories with most findings, the scans with most open findings, and scans with most open critical findings.
     ///
     /// - Parameter GetMetricsSummaryInput : [no documentation found]
     ///
@@ -464,6 +464,7 @@ extension CodeGuruSecurityClient {
     /// - `InternalServerException` : The server encountered an internal error and is unable to complete the request.
     /// - `ResourceNotFoundException` : The resource specified in the request was not found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
     public func getScan(input: GetScanInput) async throws -> GetScanOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -549,7 +550,7 @@ extension CodeGuruSecurityClient {
 
     /// Performs the `ListScans` operation on the `AwsCodeGuruSecurity` service.
     ///
-    /// Returns a list of all the standard scans in an account. Does not return express scans.
+    /// Returns a list of all scans in an account. Does not return EXPRESS scans.
     ///
     /// - Parameter ListScansInput : [no documentation found]
     ///
@@ -752,7 +753,7 @@ extension CodeGuruSecurityClient {
 
     /// Performs the `UpdateAccountConfiguration` operation on the `AwsCodeGuruSecurity` service.
     ///
-    /// Use to update account-level configuration with an encryption key.
+    /// Use to update the encryption configuration for an account.
     ///
     /// - Parameter UpdateAccountConfigurationInput : [no documentation found]
     ///

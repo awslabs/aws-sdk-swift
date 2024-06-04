@@ -1479,7 +1479,7 @@ extension LightsailClientTypes {
     public struct Blueprint {
         /// Virtual computer blueprints that are supported by Lightsail for Research. This parameter only applies to Lightsail for Research resources.
         public var appCategory: LightsailClientTypes.AppCategory?
-        /// The ID for the virtual private server image (app_wordpress_4_4 or app_lamp_7_0).
+        /// The ID for the virtual private server image (app_wordpress_x_x or app_lamp_x_x).
         public var blueprintId: Swift.String?
         /// The description of the blueprint.
         public var description: Swift.String?
@@ -1858,13 +1858,13 @@ extension LightsailClientTypes.Bundle {
 extension LightsailClientTypes {
     /// Describes a bundle, which is a set of specs describing your virtual private server (or instance).
     public struct Bundle {
-        /// The bundle ID (micro_1_0).
+        /// The bundle ID (micro_x_x).
         public var bundleId: Swift.String?
         /// The number of vCPUs included in the bundle (2).
         public var cpuCount: Swift.Int?
         /// The size of the SSD (30).
         public var diskSizeInGb: Swift.Int?
-        /// The Amazon EC2 instance type (t2.micro).
+        /// The instance type (micro).
         public var instanceType: Swift.String?
         /// A Boolean value indicating whether the bundle is active.
         public var isActive: Swift.Bool?
@@ -5280,7 +5280,7 @@ public struct CreateInstancesFromSnapshotInput {
     /// The Availability Zone where you want to create your instances. Use the following formatting: us-east-2a (case sensitive). You can get a list of Availability Zones by using the [get regions](http://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetRegions.html) operation. Be sure to add the include Availability Zones parameter to your request.
     /// This member is required.
     public var availabilityZone: Swift.String?
-    /// The bundle of specification information for your virtual private server (or instance), including the pricing plan (micro_1_0).
+    /// The bundle of specification information for your virtual private server (or instance), including the pricing plan (micro_x_x).
     /// This member is required.
     public var bundleId: Swift.String?
     /// The names for your new instances.
@@ -5290,7 +5290,7 @@ public struct CreateInstancesFromSnapshotInput {
     ///
     /// * This parameter cannot be defined together with the source instance name parameter. The instance snapshot name and source instance name parameters are mutually exclusive.
     public var instanceSnapshotName: Swift.String?
-    /// The IP address type for the instance. The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6. The default value is dualstack.
+    /// The IP address type for the instance. The possible values are ipv4 for IPv4 only, ipv6 for IPv6 only, and dualstack for IPv4 and IPv6. The default value is dualstack.
     public var ipAddressType: LightsailClientTypes.IpAddressType?
     /// The name for your key pair.
     public var keyPairName: Swift.String?
@@ -5425,10 +5425,10 @@ public struct CreateInstancesInput {
     /// The Availability Zone in which to create your instance. Use the following format: us-east-2a (case sensitive). You can get a list of Availability Zones by using the [get regions](http://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetRegions.html) operation. Be sure to add the include Availability Zones parameter to your request.
     /// This member is required.
     public var availabilityZone: Swift.String?
-    /// The ID for a virtual private server image (app_wordpress_4_4 or app_lamp_7_0). Use the get blueprints operation to return a list of available images (or blueprints). Use active blueprints when creating new instances. Inactive blueprints are listed to support customers with existing instances and are not necessarily available to create new instances. Blueprints are marked inactive when they become outdated due to operating system updates or new application releases.
+    /// The ID for a virtual private server image (app_wordpress_x_x or app_lamp_x_x). Use the get blueprints operation to return a list of available images (or blueprints). Use active blueprints when creating new instances. Inactive blueprints are listed to support customers with existing instances and are not necessarily available to create new instances. Blueprints are marked inactive when they become outdated due to operating system updates or new application releases.
     /// This member is required.
     public var blueprintId: Swift.String?
-    /// The bundle of specification information for your virtual private server (or instance), including the pricing plan (micro_1_0).
+    /// The bundle of specification information for your virtual private server (or instance), including the pricing plan (medium_x_x).
     /// This member is required.
     public var bundleId: Swift.String?
     /// (Discontinued) The name for your custom image. In releases prior to June 12, 2017, this parameter was ignored by the API. It is now discontinued.
@@ -5437,7 +5437,7 @@ public struct CreateInstancesInput {
     /// The names to use for your new Lightsail instances. Separate multiple values using quotation marks and commas, for example: ["MyFirstInstance","MySecondInstance"]
     /// This member is required.
     public var instanceNames: [Swift.String]?
-    /// The IP address type for the instance. The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6. The default value is dualstack.
+    /// The IP address type for the instance. The possible values are ipv4 for IPv4 only, ipv6 for IPv6 only, and dualstack for IPv4 and IPv6. The default value is dualstack.
     public var ipAddressType: LightsailClientTypes.IpAddressType?
     /// The name of your key pair.
     public var keyPairName: Swift.String?
@@ -5643,7 +5643,7 @@ public struct CreateLoadBalancerInput {
     /// The instance port where you're creating your load balancer.
     /// This member is required.
     public var instancePort: Swift.Int?
-    /// The IP address type for the load balancer. The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6. The default value is dualstack.
+    /// The IP address type for the load balancer. The possible values are ipv4 for IPv4 only, ipv6 for IPv6 only, and dualstack for IPv4 and IPv6. The default value is dualstack.
     public var ipAddressType: LightsailClientTypes.IpAddressType?
     /// The name of your load balancer.
     /// This member is required.
@@ -15217,17 +15217,17 @@ extension LightsailClientTypes {
         public var addOns: [LightsailClientTypes.AddOn]?
         /// The Amazon Resource Name (ARN) of the instance (arn:aws:lightsail:us-east-2:123456789101:Instance/244ad76f-8aad-4741-809f-12345EXAMPLE).
         public var arn: Swift.String?
-        /// The blueprint ID (os_amlinux_2016_03).
+        /// The blueprint ID (amazon_linux_2023).
         public var blueprintId: Swift.String?
-        /// The friendly name of the blueprint (Amazon Linux).
+        /// The friendly name of the blueprint (Amazon Linux 2023).
         public var blueprintName: Swift.String?
-        /// The bundle for the instance (micro_1_0).
+        /// The bundle for the instance (micro_x_x).
         public var bundleId: Swift.String?
         /// The timestamp when the instance was created (1479734909.17) in Unix time format.
         public var createdAt: Foundation.Date?
         /// The size of the vCPU and the amount of RAM for the instance.
         public var hardware: LightsailClientTypes.InstanceHardware?
-        /// The IP address type of the instance. The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6.
+        /// The IP address type of the instance. The possible values are ipv4 for IPv4 only, ipv6 for IPv6 only, and dualstack for IPv4 and IPv6.
         public var ipAddressType: LightsailClientTypes.IpAddressType?
         /// The IPv6 addresses of the instance.
         public var ipv6Addresses: [Swift.String]?
@@ -15237,7 +15237,7 @@ extension LightsailClientTypes {
         public var location: LightsailClientTypes.ResourceLocation?
         /// The metadata options for the Amazon Lightsail instance.
         public var metadataOptions: LightsailClientTypes.InstanceMetadataOptions?
-        /// The name the user gave the instance (Amazon_Linux-1GB-Ohio-1).
+        /// The name the user gave the instance (Amazon_Linux_2023-1).
         public var name: Swift.String?
         /// Information about the public ports and monthly data transfer rates for the instance.
         public var networking: LightsailClientTypes.InstanceNetworking?
@@ -15916,6 +15916,8 @@ extension LightsailClientTypes {
         /// * udp - With User Datagram Protocol (UDP), computer applications can send messages (or datagrams) to other hosts on an Internet Protocol (IP) network. Prior communications are not required to set up transmission channels or data paths. Applications that don't require reliable data stream service can use UDP, which provides a connectionless datagram service that emphasizes reduced latency over reliability. If you do require reliable data stream service, use TCP instead.
         ///
         /// * icmp - Internet Control Message Protocol (ICMP) is used to send error messages and operational information indicating success or failure when communicating with an instance. For example, an error is indicated when an instance could not be reached. When you specify icmp as the protocol, you must specify the ICMP type using the fromPort parameter, and ICMP code using the toPort parameter.
+        ///
+        /// * icmp6 - Internet Control Message Protocol (ICMP) for IPv6. When you specify icmp6 as the protocol, you must specify the ICMP type using the fromPort parameter, and ICMP code using the toPort parameter.
         public var `protocol`: LightsailClientTypes.NetworkProtocol?
         /// The last port in a range of open ports on an instance. Allowed ports:
         ///
@@ -15996,6 +15998,8 @@ extension LightsailClientTypes {
         /// * udp - With User Datagram Protocol (UDP), computer applications can send messages (or datagrams) to other hosts on an Internet Protocol (IP) network. Prior communications are not required to set up transmission channels or data paths. Applications that don't require reliable data stream service can use UDP, which provides a connectionless datagram service that emphasizes reduced latency over reliability. If you do require reliable data stream service, use TCP instead.
         ///
         /// * icmp - Internet Control Message Protocol (ICMP) is used to send error messages and operational information indicating success or failure when communicating with an instance. For example, an error is indicated when an instance could not be reached. When you specify icmp as the protocol, you must specify the ICMP type using the fromPort parameter, and ICMP code using the toPort parameter.
+        ///
+        /// * icmp6 - Internet Control Message Protocol (ICMP) for IPv6. When you specify icmp6 as the protocol, you must specify the ICMP type using the fromPort parameter, and ICMP code using the toPort parameter.
         public var `protocol`: LightsailClientTypes.NetworkProtocol?
         /// Specifies whether the instance port is open or closed. The port state for Lightsail instances is always open.
         public var state: LightsailClientTypes.PortState?
@@ -16064,9 +16068,9 @@ extension LightsailClientTypes {
         public var createdAt: Foundation.Date?
         /// An array of disk objects containing information about all block storage disks.
         public var fromAttachedDisks: [LightsailClientTypes.Disk]?
-        /// The blueprint ID from which you created the snapshot (os_debian_8_3). A blueprint is a virtual private server (or instance) image used to create instances quickly.
+        /// The blueprint ID from which you created the snapshot (amazon_linux_2023). A blueprint is a virtual private server (or instance) image used to create instances quickly.
         public var fromBlueprintId: Swift.String?
-        /// The bundle ID from which you created the snapshot (micro_1_0).
+        /// The bundle ID from which you created the snapshot (micro_x_x).
         public var fromBundleId: Swift.String?
         /// The Amazon Resource Name (ARN) of the instance from which the snapshot was created (arn:aws:lightsail:us-east-2:123456789101:Instance/64b8404c-ccb1-430b-8daf-12345EXAMPLE).
         public var fromInstanceArn: Swift.String?
@@ -16146,9 +16150,9 @@ extension LightsailClientTypes.InstanceSnapshotInfo {
 extension LightsailClientTypes {
     /// Describes an instance snapshot.
     public struct InstanceSnapshotInfo {
-        /// The blueprint ID from which the source instance (os_debian_8_3).
+        /// The blueprint ID from which the source instance (amazon_linux_2023).
         public var fromBlueprintId: Swift.String?
-        /// The bundle ID from which the source instance was created (micro_1_0).
+        /// The bundle ID from which the source instance was created (micro_x_x).
         public var fromBundleId: Swift.String?
         /// A list of objects describing the disks that were attached to the source instance.
         public var fromDiskInfo: [LightsailClientTypes.DiskInfo]?
@@ -16284,12 +16288,14 @@ extension LightsailClientTypes {
     public enum IpAddressType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case dualstack
         case ipv4
+        case ipv6
         case sdkUnknown(Swift.String)
 
         public static var allCases: [IpAddressType] {
             return [
                 .dualstack,
-                .ipv4
+                .ipv4,
+                .ipv6
             ]
         }
 
@@ -16302,6 +16308,7 @@ extension LightsailClientTypes {
             switch self {
             case .dualstack: return "dualstack"
             case .ipv4: return "ipv4"
+            case .ipv6: return "ipv6"
             case let .sdkUnknown(s): return s
             }
         }
@@ -16608,7 +16615,7 @@ extension LightsailClientTypes {
         public var instanceHealthSummary: [LightsailClientTypes.InstanceHealthSummary]?
         /// The port where the load balancer will direct traffic to your Lightsail instances. For HTTP traffic, it's port 80. For HTTPS traffic, it's port 443.
         public var instancePort: Swift.Int?
-        /// The IP address type of the load balancer. The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6.
+        /// The IP address type of the load balancer. The possible values are ipv4 for IPv4 only, ipv6 for IPv6 only, and dualstack for IPv4 and IPv6.
         public var ipAddressType: LightsailClientTypes.IpAddressType?
         /// The AWS Region where your load balancer was created (us-east-2a). Lightsail automatically creates your load balancer across Availability Zones.
         public var location: LightsailClientTypes.ResourceLocation?
@@ -17965,6 +17972,7 @@ extension LightsailClientTypes {
     public enum NetworkProtocol: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case all
         case icmp
+        case icmpv6
         case tcp
         case udp
         case sdkUnknown(Swift.String)
@@ -17973,6 +17981,7 @@ extension LightsailClientTypes {
             return [
                 .all,
                 .icmp,
+                .icmpv6,
                 .tcp,
                 .udp
             ]
@@ -17987,6 +17996,7 @@ extension LightsailClientTypes {
             switch self {
             case .all: return "all"
             case .icmp: return "icmp"
+            case .icmpv6: return "icmpv6"
             case .tcp: return "tcp"
             case .udp: return "udp"
             case let .sdkUnknown(s): return s
@@ -18879,6 +18889,8 @@ extension LightsailClientTypes {
         /// * udp - With User Datagram Protocol (UDP), computer applications can send messages (or datagrams) to other hosts on an Internet Protocol (IP) network. Prior communications are not required to set up transmission channels or data paths. Applications that don't require reliable data stream service can use UDP, which provides a connectionless datagram service that emphasizes reduced latency over reliability. If you do require reliable data stream service, use TCP instead.
         ///
         /// * icmp - Internet Control Message Protocol (ICMP) is used to send error messages and operational information indicating success or failure when communicating with an instance. For example, an error is indicated when an instance could not be reached. When you specify icmp as the protocol, you must specify the ICMP type using the fromPort parameter, and ICMP code using the toPort parameter.
+        ///
+        /// * icmp6 - Internet Control Message Protocol (ICMP) for IPv6. When you specify icmp6 as the protocol, you must specify the ICMP type using the fromPort parameter, and ICMP code using the toPort parameter.
         public var `protocol`: LightsailClientTypes.NetworkProtocol?
         /// The last port in a range of open ports on an instance. Allowed ports:
         ///
@@ -21141,6 +21153,7 @@ extension SetIpAddressTypeInput {
 
     static func write(value: SetIpAddressTypeInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["acceptBundleUpdate"].write(value.acceptBundleUpdate)
         try writer["ipAddressType"].write(value.ipAddressType)
         try writer["resourceName"].write(value.resourceName)
         try writer["resourceType"].write(value.resourceType)
@@ -21148,7 +21161,9 @@ extension SetIpAddressTypeInput {
 }
 
 public struct SetIpAddressTypeInput {
-    /// The IP address type to set for the specified resource. The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6.
+    /// Required parameter to accept the instance bundle update when changing to, and from, IPv6-only. An instance bundle will change when switching from dual-stack or ipv4, to ipv6. It also changes when switching from ipv6, to dual-stack or ipv4. You must include this parameter in the command to update the bundle. For example, if you switch from dual-stack to ipv6, the bundle will be updated, and billing for the IPv6-only instance bundle begins immediately.
+    public var acceptBundleUpdate: Swift.Bool?
+    /// The IP address type to set for the specified resource. The possible values are ipv4 for IPv4 only, ipv6 for IPv6 only, and dualstack for IPv4 and IPv6.
     /// This member is required.
     public var ipAddressType: LightsailClientTypes.IpAddressType?
     /// The name of the resource for which to set the IP address type.
@@ -21159,11 +21174,13 @@ public struct SetIpAddressTypeInput {
     public var resourceType: LightsailClientTypes.ResourceType?
 
     public init(
+        acceptBundleUpdate: Swift.Bool? = nil,
         ipAddressType: LightsailClientTypes.IpAddressType? = nil,
         resourceName: Swift.String? = nil,
         resourceType: LightsailClientTypes.ResourceType? = nil
     )
     {
+        self.acceptBundleUpdate = acceptBundleUpdate
         self.ipAddressType = ipAddressType
         self.resourceName = resourceName
         self.resourceType = resourceType

@@ -1991,7 +1991,7 @@ public struct CreateFleetInput {
     /// For more information, see [Build environment compute types](https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html) in the CodeBuild user guide.
     /// This member is required.
     public var environmentType: CodeBuildClientTypes.EnvironmentType?
-    /// The service role associated with the compute fleet.
+    /// The service role associated with the compute fleet. For more information, see [ Allow a user to add a permission policy for a fleet service role](https://docs.aws.amazon.com/codebuild/latest/userguide/auth-and-access-control-iam-identity-based-access-control.html#customer-managed-policies-example-permission-policy-fleet-service-role.html) in the CodeBuild User Guide.
     public var fleetServiceRole: Swift.String?
     /// The name of the compute fleet.
     /// This member is required.
@@ -2357,6 +2357,7 @@ extension CreateWebhookInput {
         try writer["branchFilter"].write(value.branchFilter)
         try writer["buildType"].write(value.buildType)
         try writer["filterGroups"].writeList(value.filterGroups, memberWritingClosure: listWritingClosure(memberWritingClosure: CodeBuildClientTypes.WebhookFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        try writer["manualCreation"].write(value.manualCreation)
         try writer["projectName"].write(value.projectName)
     }
 }
@@ -2368,6 +2369,8 @@ public struct CreateWebhookInput {
     public var buildType: CodeBuildClientTypes.WebhookBuildType?
     /// An array of arrays of WebhookFilter objects used to determine which webhooks are triggered. At least one WebhookFilter in the array must specify EVENT as its type. For a build to be triggered, at least one filter group in the filterGroups array must pass. For a filter group to pass, each of its filters must pass.
     public var filterGroups: [[CodeBuildClientTypes.WebhookFilter]]?
+    /// If manualCreation is true, CodeBuild doesn't create a webhook in GitHub and instead returns payloadUrl and secret values for the webhook. The payloadUrl and secret values in the output can be used to manually create a webhook within GitHub. manualCreation is only available for GitHub webhooks.
+    public var manualCreation: Swift.Bool?
     /// The name of the CodeBuild project.
     /// This member is required.
     public var projectName: Swift.String?
@@ -2376,12 +2379,14 @@ public struct CreateWebhookInput {
         branchFilter: Swift.String? = nil,
         buildType: CodeBuildClientTypes.WebhookBuildType? = nil,
         filterGroups: [[CodeBuildClientTypes.WebhookFilter]]? = nil,
+        manualCreation: Swift.Bool? = nil,
         projectName: Swift.String? = nil
     )
     {
         self.branchFilter = branchFilter
         self.buildType = buildType
         self.filterGroups = filterGroups
+        self.manualCreation = manualCreation
         self.projectName = projectName
     }
 }
@@ -3508,7 +3513,7 @@ extension CodeBuildClientTypes {
         ///
         /// For more information, see [Build environment compute types](https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html) in the CodeBuild user guide.
         public var environmentType: CodeBuildClientTypes.EnvironmentType?
-        /// The service role associated with the compute fleet.
+        /// The service role associated with the compute fleet. For more information, see [ Allow a user to add a permission policy for a fleet service role](https://docs.aws.amazon.com/codebuild/latest/userguide/auth-and-access-control-iam-identity-based-access-control.html#customer-managed-policies-example-permission-policy-fleet-service-role.html) in the CodeBuild User Guide.
         public var fleetServiceRole: Swift.String?
         /// The ID of the compute fleet.
         public var id: Swift.String?
@@ -8926,7 +8931,7 @@ public struct UpdateFleetInput {
     ///
     /// For more information, see [Build environment compute types](https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html) in the CodeBuild user guide.
     public var environmentType: CodeBuildClientTypes.EnvironmentType?
-    /// The service role associated with the compute fleet.
+    /// The service role associated with the compute fleet. For more information, see [ Allow a user to add a permission policy for a fleet service role](https://docs.aws.amazon.com/codebuild/latest/userguide/auth-and-access-control-iam-identity-based-access-control.html#customer-managed-policies-example-permission-policy-fleet-service-role.html) in the CodeBuild User Guide.
     public var fleetServiceRole: Swift.String?
     /// The compute fleet overflow behavior.
     ///
@@ -9496,6 +9501,7 @@ extension CodeBuildClientTypes.Webhook {
         value.branchFilter = try reader["branchFilter"].readIfPresent()
         value.filterGroups = try reader["filterGroups"].readListIfPresent(memberReadingClosure: listReadingClosure(memberReadingClosure: CodeBuildClientTypes.WebhookFilter.read(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
         value.buildType = try reader["buildType"].readIfPresent()
+        value.manualCreation = try reader["manualCreation"].readIfPresent()
         value.lastModifiedSecret = try reader["lastModifiedSecret"].readTimestampIfPresent(format: .epochSeconds)
         return value
     }
@@ -9512,6 +9518,8 @@ extension CodeBuildClientTypes {
         public var filterGroups: [[CodeBuildClientTypes.WebhookFilter]]?
         /// A timestamp that indicates the last time a repository's secret token was modified.
         public var lastModifiedSecret: Foundation.Date?
+        /// If manualCreation is true, CodeBuild doesn't create a webhook in GitHub and instead returns payloadUrl and secret values for the webhook. The payloadUrl and secret values in the output can be used to manually create a webhook within GitHub. manualCreation is only available for GitHub webhooks.
+        public var manualCreation: Swift.Bool?
         /// The CodeBuild endpoint where webhook events are sent.
         public var payloadUrl: Swift.String?
         /// The secret token of the associated repository. A Bitbucket webhook does not support secret.
@@ -9524,6 +9532,7 @@ extension CodeBuildClientTypes {
             buildType: CodeBuildClientTypes.WebhookBuildType? = nil,
             filterGroups: [[CodeBuildClientTypes.WebhookFilter]]? = nil,
             lastModifiedSecret: Foundation.Date? = nil,
+            manualCreation: Swift.Bool? = nil,
             payloadUrl: Swift.String? = nil,
             secret: Swift.String? = nil,
             url: Swift.String? = nil
@@ -9533,6 +9542,7 @@ extension CodeBuildClientTypes {
             self.buildType = buildType
             self.filterGroups = filterGroups
             self.lastModifiedSecret = lastModifiedSecret
+            self.manualCreation = manualCreation
             self.payloadUrl = payloadUrl
             self.secret = secret
             self.url = url
@@ -9601,7 +9611,7 @@ extension CodeBuildClientTypes {
         ///
         /// * EVENT
         ///
-        /// * A webhook event triggers a build when the provided pattern matches one of nine event types: PUSH, PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED, PULL_REQUEST_CLOSED, PULL_REQUEST_REOPENED, PULL_REQUEST_MERGED, RELEASED, PRERELEASED, and WORKFLOW_JOB_QUEUED. The EVENT patterns are specified as a comma-separated string. For example, PUSH, PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED filters all push, pull request created, and pull request updated events. The PULL_REQUEST_REOPENED works with GitHub and GitHub Enterprise only. The RELEASED, PRERELEASED, and WORKFLOW_JOB_QUEUED work with GitHub only.
+        /// * A webhook event triggers a build when the provided pattern matches one of nine event types: PUSH, PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED, PULL_REQUEST_CLOSED, PULL_REQUEST_REOPENED, PULL_REQUEST_MERGED, RELEASED, PRERELEASED, and WORKFLOW_JOB_QUEUED. The EVENT patterns are specified as a comma-separated string. For example, PUSH, PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED filters all push, pull request created, and pull request updated events. Types PULL_REQUEST_REOPENED and WORKFLOW_JOB_QUEUED work with GitHub and GitHub Enterprise only. Types RELEASED and PRERELEASED work with GitHub only.
         ///
         ///
         ///
