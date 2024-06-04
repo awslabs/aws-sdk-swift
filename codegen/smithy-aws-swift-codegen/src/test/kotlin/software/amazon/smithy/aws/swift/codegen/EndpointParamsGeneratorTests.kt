@@ -45,8 +45,8 @@ class EndpointParamsGeneratorTests {
     """.toRuleset()
 
         val writer = SwiftWriter("testName")
-        val endpointParamsGenerator = EndpointParamsGenerator(ruleset)
-        endpointParamsGenerator.render(writer)
+        val endpointParamsGenerator = EndpointParamsGenerator(context)
+        endpointParamsGenerator.render()
         val contents = writer.toString()
         val expected = """
             public struct EndpointParams {
