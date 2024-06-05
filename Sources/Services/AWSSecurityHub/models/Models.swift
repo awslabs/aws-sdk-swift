@@ -43020,12 +43020,14 @@ extension SecurityHubClientTypes {
     public enum TargetType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case account
         case organizationalUnit
+        case root
         case sdkUnknown(Swift.String)
 
         public static var allCases: [TargetType] {
             return [
                 .account,
-                .organizationalUnit
+                .organizationalUnit,
+                .root
             ]
         }
 
@@ -43038,6 +43040,7 @@ extension SecurityHubClientTypes {
             switch self {
             case .account: return "ACCOUNT"
             case .organizationalUnit: return "ORGANIZATIONAL_UNIT"
+            case .root: return "ROOT"
             case let .sdkUnknown(s): return s
             }
         }

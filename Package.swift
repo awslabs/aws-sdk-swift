@@ -326,7 +326,7 @@ func addResolvedTargets() {
 // MARK: - Generated
 
 addDependencies(
-    clientRuntimeVersion: "0.49.0",
+    clientRuntimeVersion: "0.50.0",
     crtVersion: "0.30.0"
 )
 
@@ -554,6 +554,7 @@ let serviceTargets: [String] = [
     "AWSMWAA",
     "AWSMachineLearning",
     "AWSMacie2",
+    "AWSMailManager",
     "AWSManagedBlockchain",
     "AWSManagedBlockchainQuery",
     "AWSMarketplaceAgreement",
@@ -688,6 +689,7 @@ let serviceTargets: [String] = [
     "AWSSupport",
     "AWSSupportApp",
     "AWSSynthetics",
+    "AWSTaxSettings",
     "AWSTextract",
     "AWSTimestreamInfluxDB",
     "AWSTimestreamQuery",

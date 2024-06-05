@@ -7073,7 +7073,7 @@ extension DescribeUserGroupsOutput {
 }
 
 public struct DescribeUserGroupsOutput {
-    /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. >
+    /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.>
     public var marker: Swift.String?
     /// Returns a list of user groups.
     public var userGroups: [ElastiCacheClientTypes.UserGroup]?
@@ -9392,9 +9392,11 @@ public struct ModifyCacheClusterInput {
     public var authToken: Swift.String?
     /// Specifies the strategy to use to update the AUTH token. This parameter must be specified with the auth-token parameter. Possible values:
     ///
-    /// * Rotate
+    /// * ROTATE - default, if no update strategy is provided
     ///
-    /// * Set
+    /// * SET - allowed only after ROTATE
+    ///
+    /// * DELETE - allowed only when transitioning to RBAC
     ///
     ///
     /// For more information, see [Authenticating Users with Redis AUTH](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/auth.html)
@@ -9936,9 +9938,11 @@ public struct ModifyReplicationGroupInput {
     public var authToken: Swift.String?
     /// Specifies the strategy to use to update the AUTH token. This parameter must be specified with the auth-token parameter. Possible values:
     ///
-    /// * Rotate
+    /// * ROTATE - default, if no update strategy is provided
     ///
-    /// * Set
+    /// * SET - allowed only after ROTATE
+    ///
+    /// * DELETE - allowed only when transitioning to RBAC
     ///
     ///
     /// For more information, see [Authenticating Users with Redis AUTH](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/auth.html)
@@ -14510,7 +14514,7 @@ extension TestFailoverInput {
 }
 
 public struct TestFailoverInput {
-    /// The name of the node group (called shard in the console) in this replication group on which automatic failover is to be tested. You may test automatic failover on up to 5 node groups in any rolling 24-hour period.
+    /// The name of the node group (called shard in the console) in this replication group on which automatic failover is to be tested. You may test automatic failover on up to 15 node groups in any rolling 24-hour period.
     /// This member is required.
     public var nodeGroupId: Swift.String?
     /// The name of the replication group (console: cluster) whose automatic failover is being tested by this operation.

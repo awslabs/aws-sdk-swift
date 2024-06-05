@@ -321,11 +321,20 @@ public struct CreateAccessorInput {
     /// This is a unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than once. This identifier is required only if you make a service request directly using an HTTP client. It is generated automatically if you use an Amazon Web Services SDK or the Amazon Web Services CLI.
     /// This member is required.
     public var clientRequestToken: Swift.String?
-    /// The blockchain network that the Accessor token is created for. We recommend using the appropriate networkType value for the blockchain network that you are creating the Accessor token for. You cannnot use the value ETHEREUM_MAINNET_AND_GOERLI to specify a networkType for your Accessor token. The default value of ETHEREUM_MAINNET_AND_GOERLI is only applied:
+    /// The blockchain network that the Accessor token is created for.
     ///
-    /// * when the CreateAccessor action does not set a networkType.
+    /// * Use the actual networkType value for the blockchain network that you are creating the Accessor token for.
     ///
-    /// * to all existing Accessor tokens that were created before the networkType property was introduced.
+    /// * With the shut down of the Ethereum Goerli and Polygon Mumbai Testnet networks the following networkType values are no longer available for selection and use.
+    ///
+    /// * ETHEREUM_MAINNET_AND_GOERLI
+    ///
+    /// * ETHEREUM_GOERLI
+    ///
+    /// * POLYGON_MUMBAI
+    ///
+    ///
+    /// However, your existing Accessor tokens with these networkType values will remain unchanged.
     public var networkType: ManagedBlockchainClientTypes.AccessorNetworkType?
     /// Tags to assign to the Accessor. Each tag consists of a key and an optional value. You can specify multiple key-value pairs in a single request with an overall maximum of 50 tags allowed per resource. For more information about tags, see [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html) in the Amazon Managed Blockchain Ethereum Developer Guide, or [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html) in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
     public var tags: [Swift.String:Swift.String]?
@@ -644,8 +653,6 @@ public struct CreateNodeInput {
     /// The unique identifier of the network for the node. Ethereum public networks have the following NetworkIds:
     ///
     /// * n-ethereum-mainnet
-    ///
-    /// * n-ethereum-goerli
     /// This member is required.
     public var networkId: Swift.String?
     /// The properties of a node configuration.
@@ -964,8 +971,6 @@ public struct DeleteNodeInput {
     /// The unique identifier of the network that the node is on. Ethereum public networks have the following NetworkIds:
     ///
     /// * n-ethereum-mainnet
-    ///
-    /// * n-ethereum-goerli
     /// This member is required.
     public var networkId: Swift.String?
     /// The unique identifier of the node.
@@ -3040,8 +3045,6 @@ extension ManagedBlockchainClientTypes {
         /// The Ethereum CHAIN_ID associated with the Ethereum network. Chain IDs are as follows:
         ///
         /// * mainnet = 1
-        ///
-        /// * goerli = 5
         public var chainId: Swift.String?
 
         public init(

@@ -50,6 +50,7 @@ extension ChatbotClientTypes.ChimeWebhookConfiguration {
         value.snsTopicArns = try reader["SnsTopicArns"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.configurationName = try reader["ConfigurationName"].readIfPresent()
         value.loggingLevel = try reader["LoggingLevel"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: ChatbotClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -70,6 +71,8 @@ extension ChatbotClientTypes {
         /// The ARNs of the SNS topics that deliver notifications to AWS Chatbot.
         /// This member is required.
         public var snsTopicArns: [Swift.String]?
+        /// A list of tags applied to the configuration.
+        public var tags: [ChatbotClientTypes.Tag]?
         /// Description of the webhook. Recommend using the convention RoomName/WebhookName. See Chime setup tutorial for more details: https://docs.aws.amazon.com/chatbot/latest/adminguide/chime-setup.html.
         /// This member is required.
         public var webhookDescription: Swift.String?
@@ -80,6 +83,7 @@ extension ChatbotClientTypes {
             iamRoleArn: Swift.String? = nil,
             loggingLevel: Swift.String? = nil,
             snsTopicArns: [Swift.String]? = nil,
+            tags: [ChatbotClientTypes.Tag]? = nil,
             webhookDescription: Swift.String? = nil
         )
         {
@@ -88,6 +92,7 @@ extension ChatbotClientTypes {
             self.iamRoleArn = iamRoleArn
             self.loggingLevel = loggingLevel
             self.snsTopicArns = snsTopicArns
+            self.tags = tags
             self.webhookDescription = webhookDescription
         }
     }
@@ -221,6 +226,7 @@ extension CreateChimeWebhookConfigurationInput {
         try writer["IamRoleArn"].write(value.iamRoleArn)
         try writer["LoggingLevel"].write(value.loggingLevel)
         try writer["SnsTopicArns"].writeList(value.snsTopicArns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: ChatbotClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["WebhookDescription"].write(value.webhookDescription)
         try writer["WebhookUrl"].write(value.webhookUrl)
     }
@@ -238,6 +244,8 @@ public struct CreateChimeWebhookConfigurationInput {
     /// The ARNs of the SNS topics that deliver notifications to AWS Chatbot.
     /// This member is required.
     public var snsTopicArns: [Swift.String]?
+    /// A list of tags to apply to the configuration.
+    public var tags: [ChatbotClientTypes.Tag]?
     /// Description of the webhook. Recommend using the convention RoomName/WebhookName. See Chime setup tutorial for more details: https://docs.aws.amazon.com/chatbot/latest/adminguide/chime-setup.html.
     /// This member is required.
     public var webhookDescription: Swift.String?
@@ -250,6 +258,7 @@ public struct CreateChimeWebhookConfigurationInput {
         iamRoleArn: Swift.String? = nil,
         loggingLevel: Swift.String? = nil,
         snsTopicArns: [Swift.String]? = nil,
+        tags: [ChatbotClientTypes.Tag]? = nil,
         webhookDescription: Swift.String? = nil,
         webhookUrl: Swift.String? = nil
     )
@@ -258,6 +267,7 @@ public struct CreateChimeWebhookConfigurationInput {
         self.iamRoleArn = iamRoleArn
         self.loggingLevel = loggingLevel
         self.snsTopicArns = snsTopicArns
+        self.tags = tags
         self.webhookDescription = webhookDescription
         self.webhookUrl = webhookUrl
     }
@@ -323,6 +333,7 @@ extension CreateMicrosoftTeamsChannelConfigurationInput {
         try writer["IamRoleArn"].write(value.iamRoleArn)
         try writer["LoggingLevel"].write(value.loggingLevel)
         try writer["SnsTopicArns"].writeList(value.snsTopicArns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: ChatbotClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TeamId"].write(value.teamId)
         try writer["TeamName"].write(value.teamName)
         try writer["TenantId"].write(value.tenantId)
@@ -348,6 +359,8 @@ public struct CreateMicrosoftTeamsChannelConfigurationInput {
     public var loggingLevel: Swift.String?
     /// The ARNs of the SNS topics that deliver notifications to AWS Chatbot.
     public var snsTopicArns: [Swift.String]?
+    /// A list of tags to apply to the configuration.
+    public var tags: [ChatbotClientTypes.Tag]?
     /// The ID of the Microsoft Team authorized with AWS Chatbot. To get the team ID, you must perform the initial authorization flow with Microsoft Teams in the AWS Chatbot console. Then you can copy and paste the team ID from the console. For more details, see steps 1-4 in Get started with Microsoft Teams in the AWS Chatbot Administrator Guide.
     /// This member is required.
     public var teamId: Swift.String?
@@ -367,6 +380,7 @@ public struct CreateMicrosoftTeamsChannelConfigurationInput {
         iamRoleArn: Swift.String? = nil,
         loggingLevel: Swift.String? = nil,
         snsTopicArns: [Swift.String]? = nil,
+        tags: [ChatbotClientTypes.Tag]? = nil,
         teamId: Swift.String? = nil,
         teamName: Swift.String? = nil,
         tenantId: Swift.String? = nil,
@@ -380,6 +394,7 @@ public struct CreateMicrosoftTeamsChannelConfigurationInput {
         self.iamRoleArn = iamRoleArn
         self.loggingLevel = loggingLevel
         self.snsTopicArns = snsTopicArns
+        self.tags = tags
         self.teamId = teamId
         self.teamName = teamName
         self.tenantId = tenantId
@@ -485,6 +500,7 @@ extension CreateSlackChannelConfigurationInput {
         try writer["SlackChannelName"].write(value.slackChannelName)
         try writer["SlackTeamId"].write(value.slackTeamId)
         try writer["SnsTopicArns"].writeList(value.snsTopicArns, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: ChatbotClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["UserAuthorizationRequired"].write(value.userAuthorizationRequired)
     }
 }
@@ -510,6 +526,8 @@ public struct CreateSlackChannelConfigurationInput {
     public var slackTeamId: Swift.String?
     /// The ARNs of the SNS topics that deliver notifications to AWS Chatbot.
     public var snsTopicArns: [Swift.String]?
+    /// A list of tags to apply to the configuration.
+    public var tags: [ChatbotClientTypes.Tag]?
     /// Enables use of a user role requirement in your chat configuration.
     public var userAuthorizationRequired: Swift.Bool?
 
@@ -522,6 +540,7 @@ public struct CreateSlackChannelConfigurationInput {
         slackChannelName: Swift.String? = nil,
         slackTeamId: Swift.String? = nil,
         snsTopicArns: [Swift.String]? = nil,
+        tags: [ChatbotClientTypes.Tag]? = nil,
         userAuthorizationRequired: Swift.Bool? = nil
     )
     {
@@ -533,6 +552,7 @@ public struct CreateSlackChannelConfigurationInput {
         self.slackChannelName = slackChannelName
         self.slackTeamId = slackTeamId
         self.snsTopicArns = snsTopicArns
+        self.tags = tags
         self.userAuthorizationRequired = userAuthorizationRequired
     }
 }
@@ -1950,6 +1970,43 @@ public struct GetTeamsChannelConfigurationException: ClientRuntime.ModeledError,
     }
 }
 
+extension InternalServiceError {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServiceError {
+        let reader = baseError.errorBodyReader
+        var value = InternalServiceError()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+/// Customer/consumer-facing internal service exception. https://w.amazon.com/index.php/AWS/API_Standards/Exceptions#InternalServiceError
+public struct InternalServiceError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalServiceError" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
 extension InvalidParameterException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidParameterException {
@@ -2376,6 +2433,74 @@ enum ListMicrosoftTeamsUserIdentitiesOutputError {
     }
 }
 
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        return "/list-tags-for-resource"
+    }
+}
+
+extension ListTagsForResourceInput {
+
+    static func write(value: ListTagsForResourceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceARN"].write(value.resourceARN)
+    }
+}
+
+public struct ListTagsForResourceInput {
+    /// The ARN of the configuration.
+    /// This member is required.
+    public var resourceARN: Swift.String?
+
+    public init(
+        resourceARN: Swift.String? = nil
+    )
+    {
+        self.resourceARN = resourceARN
+    }
+}
+
+extension ListTagsForResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListTagsForResourceOutput()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: ChatbotClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+public struct ListTagsForResourceOutput {
+    /// A list of tags applied to the configuration.
+    public var tags: [ChatbotClientTypes.Tag]?
+
+    public init(
+        tags: [ChatbotClientTypes.Tag]? = nil
+    )
+    {
+        self.tags = tags
+    }
+}
+
+enum ListTagsForResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 extension ListTeamsChannelConfigurationsException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ListTeamsChannelConfigurationsException {
@@ -2450,6 +2575,43 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
+extension ServiceUnavailableException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceUnavailableException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+/// We can’t process your request right now because of a server issue. Try again later.
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceUnavailableException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
 extension ChatbotClientTypes.SlackChannelConfiguration {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ChatbotClientTypes.SlackChannelConfiguration {
@@ -2466,6 +2628,7 @@ extension ChatbotClientTypes.SlackChannelConfiguration {
         value.loggingLevel = try reader["LoggingLevel"].readIfPresent()
         value.guardrailPolicyArns = try reader["GuardrailPolicyArns"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.userAuthorizationRequired = try reader["UserAuthorizationRequired"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: ChatbotClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -2500,6 +2663,8 @@ extension ChatbotClientTypes {
         /// The ARNs of the SNS topics that deliver notifications to AWS Chatbot.
         /// This member is required.
         public var snsTopicArns: [Swift.String]?
+        /// A list of tags applied to the configuration.
+        public var tags: [ChatbotClientTypes.Tag]?
         /// Enables use of a user role requirement in your chat configuration.
         public var userAuthorizationRequired: Swift.Bool?
 
@@ -2514,6 +2679,7 @@ extension ChatbotClientTypes {
             slackTeamId: Swift.String? = nil,
             slackTeamName: Swift.String? = nil,
             snsTopicArns: [Swift.String]? = nil,
+            tags: [ChatbotClientTypes.Tag]? = nil,
             userAuthorizationRequired: Swift.Bool? = nil
         )
         {
@@ -2527,6 +2693,7 @@ extension ChatbotClientTypes {
             self.slackTeamId = slackTeamId
             self.slackTeamName = slackTeamName
             self.snsTopicArns = snsTopicArns
+            self.tags = tags
             self.userAuthorizationRequired = userAuthorizationRequired
         }
     }
@@ -2616,6 +2783,108 @@ extension ChatbotClientTypes {
 
 }
 
+extension ChatbotClientTypes.Tag {
+
+    static func write(value: ChatbotClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TagKey"].write(value.tagKey)
+        try writer["TagValue"].write(value.tagValue)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChatbotClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChatbotClientTypes.Tag()
+        value.tagKey = try reader["TagKey"].readIfPresent()
+        value.tagValue = try reader["TagValue"].readIfPresent()
+        return value
+    }
+}
+
+extension ChatbotClientTypes {
+    /// A tag applied to the configuration.
+    public struct Tag {
+        /// The tag key.
+        /// This member is required.
+        public var tagKey: Swift.String?
+        /// The tag value.
+        /// This member is required.
+        public var tagValue: Swift.String?
+
+        public init(
+            tagKey: Swift.String? = nil,
+            tagValue: Swift.String? = nil
+        )
+        {
+            self.tagKey = tagKey
+            self.tagValue = tagValue
+        }
+    }
+
+}
+
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        return "/tag-resource"
+    }
+}
+
+extension TagResourceInput {
+
+    static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceARN"].write(value.resourceARN)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: ChatbotClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+public struct TagResourceInput {
+    /// The ARN of the configuration.
+    /// This member is required.
+    public var resourceARN: Swift.String?
+    /// A list of tags to apply to the configuration.
+    /// This member is required.
+    public var tags: [ChatbotClientTypes.Tag]?
+
+    public init(
+        resourceARN: Swift.String? = nil,
+        tags: [ChatbotClientTypes.Tag]? = nil
+    )
+    {
+        self.resourceARN = resourceARN
+        self.tags = tags
+    }
+}
+
+extension TagResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
+        return TagResourceOutput()
+    }
+}
+
+public struct TagResourceOutput {
+
+    public init() { }
+}
+
+enum TagResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyTagsException": return try TooManyTagsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 extension ChatbotClientTypes.TeamsChannelConfiguration {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ChatbotClientTypes.TeamsChannelConfiguration {
@@ -2633,6 +2902,7 @@ extension ChatbotClientTypes.TeamsChannelConfiguration {
         value.loggingLevel = try reader["LoggingLevel"].readIfPresent()
         value.guardrailPolicyArns = try reader["GuardrailPolicyArns"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.userAuthorizationRequired = try reader["UserAuthorizationRequired"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: ChatbotClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -2660,6 +2930,8 @@ extension ChatbotClientTypes {
         /// The ARNs of the SNS topics that deliver notifications to AWS Chatbot.
         /// This member is required.
         public var snsTopicArns: [Swift.String]?
+        /// A list of tags applied to the configuration.
+        public var tags: [ChatbotClientTypes.Tag]?
         /// The ID of the Microsoft Team authorized with AWS Chatbot. To get the team ID, you must perform the initial authorization flow with Microsoft Teams in the AWS Chatbot console. Then you can copy and paste the team ID from the console. For more details, see steps 1-4 in Get started with Microsoft Teams in the AWS Chatbot Administrator Guide.
         /// This member is required.
         public var teamId: Swift.String?
@@ -2680,6 +2952,7 @@ extension ChatbotClientTypes {
             iamRoleArn: Swift.String? = nil,
             loggingLevel: Swift.String? = nil,
             snsTopicArns: [Swift.String]? = nil,
+            tags: [ChatbotClientTypes.Tag]? = nil,
             teamId: Swift.String? = nil,
             teamName: Swift.String? = nil,
             tenantId: Swift.String? = nil,
@@ -2694,6 +2967,7 @@ extension ChatbotClientTypes {
             self.iamRoleArn = iamRoleArn
             self.loggingLevel = loggingLevel
             self.snsTopicArns = snsTopicArns
+            self.tags = tags
             self.teamId = teamId
             self.teamName = teamName
             self.tenantId = tenantId
@@ -2760,6 +3034,105 @@ extension ChatbotClientTypes {
         }
     }
 
+}
+
+extension TooManyTagsException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyTagsException {
+        let reader = baseError.errorBodyReader
+        var value = TooManyTagsException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+/// The supplied list of tags contains too many tags.
+public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TooManyTagsException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        return "/untag-resource"
+    }
+}
+
+extension UntagResourceInput {
+
+    static func write(value: UntagResourceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceARN"].write(value.resourceARN)
+        try writer["TagKeys"].writeList(value.tagKeys, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+public struct UntagResourceInput {
+    /// The ARN of the configuration.
+    /// This member is required.
+    public var resourceARN: Swift.String?
+    /// A list of tag keys to remove from the configuration.
+    /// This member is required.
+    public var tagKeys: [Swift.String]?
+
+    public init(
+        resourceARN: Swift.String? = nil,
+        tagKeys: [Swift.String]? = nil
+    )
+    {
+        self.resourceARN = resourceARN
+        self.tagKeys = tagKeys
+    }
+}
+
+extension UntagResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
+        return UntagResourceOutput()
+    }
+}
+
+public struct UntagResourceOutput {
+
+    public init() { }
+}
+
+enum UntagResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
 }
 
 extension UpdateAccountPreferencesException {

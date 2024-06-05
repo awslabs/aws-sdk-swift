@@ -5973,7 +5973,7 @@ extension SageMakerClient {
 
     /// Performs the `DescribeClusterNode` operation on the `SageMaker` service.
     ///
-    /// Retrieves information of an instance (also called a node interchangeably) of a SageMaker HyperPod cluster.
+    /// Retrieves information of a node (also called a instance interchangeably) of a SageMaker HyperPod cluster.
     ///
     /// - Parameter DescribeClusterNodeInput : [no documentation found]
     ///
@@ -7516,7 +7516,7 @@ extension SageMakerClient {
 
     /// Performs the `DescribeModelPackage` operation on the `SageMaker` service.
     ///
-    /// Returns a description of the specified model package, which is used to create SageMaker models or list them on Amazon Web Services Marketplace. To create models in SageMaker, buyers can subscribe to model packages listed on Amazon Web Services Marketplace.
+    /// Returns a description of the specified model package, which is used to create SageMaker models or list them on Amazon Web Services Marketplace. If you provided a KMS Key ID when you created your model package, you will see the [KMS Decrypt](https://docs.aws.amazon.com/kms/latest/APIReference/API_Decrypt.html) API call in your CloudTrail logs when you use this API. To create models in SageMaker, buyers can subscribe to model packages listed on Amazon Web Services Marketplace.
     ///
     /// - Parameter DescribeModelPackageInput : [no documentation found]
     ///

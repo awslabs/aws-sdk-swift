@@ -78,17 +78,17 @@ extension CodeGuruSecurityClientTypes.AccountFindingsMetric {
 }
 
 extension CodeGuruSecurityClientTypes {
-    /// A summary of findings metrics in an account.
+    /// A summary of findings metrics for an account on a specified date.
     public struct AccountFindingsMetric {
-        /// The number of closed findings of each severity in an account on the specified date.
+        /// The number of closed findings of each severity on the specified date.
         public var closedFindings: CodeGuruSecurityClientTypes.FindingMetricsValuePerSeverity?
-        /// The date from which the finding metrics were retrieved.
+        /// The date from which the findings metrics were retrieved.
         public var date: Foundation.Date?
-        /// The average time it takes to close findings of each severity in days.
+        /// The average time in days it takes to close findings of each severity as of a specified date.
         public var meanTimeToClose: CodeGuruSecurityClientTypes.FindingMetricsValuePerSeverity?
-        /// The number of new findings of each severity in account on the specified date.
+        /// The number of new findings of each severity on the specified date.
         public var newFindings: CodeGuruSecurityClientTypes.FindingMetricsValuePerSeverity?
-        /// The number of open findings of each severity in an account as of the specified date.
+        /// The number of open findings of each severity as of the specified date.
         public var openFindings: CodeGuruSecurityClientTypes.FindingMetricsValuePerSeverity?
 
         public init(
@@ -228,7 +228,7 @@ public struct BatchGetFindingsOutput {
     /// A list of errors for individual findings which were not fetched. Each BatchGetFindingsError contains the scanName, findingId, errorCode and error message.
     /// This member is required.
     public var failedFindings: [CodeGuruSecurityClientTypes.BatchGetFindingsError]?
-    /// A list of all requested findings.
+    /// A list of all findings which were successfully fetched.
     /// This member is required.
     public var findings: [CodeGuruSecurityClientTypes.Finding]?
 
@@ -405,10 +405,10 @@ public struct CreateScanInput {
     public var analysisType: CodeGuruSecurityClientTypes.AnalysisType?
     /// The idempotency token for the request. Amazon CodeGuru Security uses this value to prevent the accidental creation of duplicate scans if there are failures and retries.
     public var clientToken: Swift.String?
-    /// The identifier for an input resource used to create a scan.
+    /// The identifier for the resource object to be scanned.
     /// This member is required.
     public var resourceId: CodeGuruSecurityClientTypes.ResourceId?
-    /// The unique name that CodeGuru Security uses to track revisions across multiple scans of the same resource. Only allowed for a STANDARD scan type. If not specified, it will be auto generated.
+    /// The unique name that CodeGuru Security uses to track revisions across multiple scans of the same resource. Only allowed for a STANDARD scan type.
     /// This member is required.
     public var scanName: Swift.String?
     /// The type of scan, either Standard or Express. Defaults to Standard type if missing. Express scans run on limited resources and use a limited set of detectors to analyze your code in near-real time. Standard scans have standard resource limits and use the full set of detectors to analyze your code.
@@ -553,13 +553,13 @@ extension CreateUploadUrlOutput {
 }
 
 public struct CreateUploadUrlOutput {
-    /// The identifier for the uploaded code resource.
+    /// The identifier for the uploaded code resource. Pass this to CreateScan to use the uploaded resources.
     /// This member is required.
     public var codeArtifactId: Swift.String?
     /// A set of key-value pairs that contain the required headers when uploading your resource.
     /// This member is required.
     public var requestHeaders: [Swift.String:Swift.String]?
-    /// A pre-signed S3 URL. You can upload the code file you want to scan and add the required requestHeaders using any HTTP client.
+    /// A pre-signed S3 URL. You can upload the code file you want to scan with the required requestHeaders using any HTTP client.
     /// This member is required.
     public var s3Url: Swift.String?
 
@@ -608,9 +608,9 @@ extension CodeGuruSecurityClientTypes.EncryptionConfig {
 }
 
 extension CodeGuruSecurityClientTypes {
-    /// Information about account-level configuration.
+    /// Information about the encryption configuration for an account. Required to call UpdateAccountConfiguration.
     public struct EncryptionConfig {
-        /// The KMS key ARN to use for encryption. This must be provided as a header when uploading your code resource.
+        /// The KMS key ARN that is used for encryption. If an AWS-managed key is used for encryption, returns empty.
         public var kmsKeyArn: Swift.String?
 
         public init(
@@ -745,7 +745,7 @@ extension CodeGuruSecurityClientTypes {
         public var detectorName: Swift.String?
         /// One or more tags or categorizations that are associated with a detector. These tags are defined by type, programming language, or other classification such as maintainability or consistency.
         public var detectorTags: [Swift.String]?
-        /// The identifier for the component that generated a finding such as AWSCodeGuruSecurity or AWSInspector.
+        /// The identifier for the component that generated a finding such as AmazonCodeGuruSecurity.
         public var generatorId: Swift.String?
         /// The identifier for a finding.
         public var id: Swift.String?
@@ -755,7 +755,7 @@ extension CodeGuruSecurityClientTypes {
         public var resource: CodeGuruSecurityClientTypes.Resource?
         /// The identifier for the rule that generated the finding.
         public var ruleId: Swift.String?
-        /// The severity of the finding.
+        /// The severity of the finding. Severity can be critical, high, medium, low, or informational. For information on severity levels, see [Finding severity](https://docs.aws.amazon.com/codeguru/latest/security-ug/findings-overview.html#severity-distribution) in the Amazon CodeGuru Security User Guide.
         public var severity: CodeGuruSecurityClientTypes.Severity?
         /// The status of the finding. A finding status can be open or closed.
         public var status: CodeGuruSecurityClientTypes.Status?
@@ -854,17 +854,17 @@ extension CodeGuruSecurityClientTypes.FindingMetricsValuePerSeverity {
 }
 
 extension CodeGuruSecurityClientTypes {
-    /// The severity of the issue in the code that generated a finding.
+    /// A numeric value corresponding to the severity of a finding, such as the number of open findings or the average time it takes to close findings of a given severity.
     public struct FindingMetricsValuePerSeverity {
-        /// The severity of the finding is critical and should be addressed immediately.
+        /// A numeric value corresponding to a critical finding.
         public var critical: Swift.Double?
-        /// The severity of the finding is high and should be addressed as a near-term priority.
+        /// A numeric value corresponding to a high severity finding.
         public var high: Swift.Double?
-        /// The finding is related to quality or readability improvements and not considered actionable.
+        /// A numeric value corresponding to an informational finding.
         public var info: Swift.Double?
-        /// The severity of the finding is low and does require action on its own.
+        /// A numeric value corresponding to a low severity finding.
         public var low: Swift.Double?
-        /// The severity of the finding is medium and should be addressed as a mid-term priority.
+        /// A numeric value corresponding to a medium severity finding.
         public var medium: Swift.Double?
 
         public init(
@@ -910,7 +910,7 @@ extension GetAccountConfigurationOutput {
 }
 
 public struct GetAccountConfigurationOutput {
-    /// An EncryptionConfig object that contains the KMS key ARN to use for encryption. By default, CodeGuru Security uses an AWS-managed key for encryption. To specify your own key, call UpdateAccountConfiguration.
+    /// An EncryptionConfig object that contains the KMS key ARN that is used for encryption. By default, CodeGuru Security uses an AWS-managed key for encryption. To specify your own key, call UpdateAccountConfiguration. If you do not specify a customer-managed key, returns empty.
     /// This member is required.
     public var encryptionConfig: CodeGuruSecurityClientTypes.EncryptionConfig?
 
@@ -970,7 +970,7 @@ extension GetFindingsInput {
 }
 
 public struct GetFindingsInput {
-    /// The maximum number of results to return in the response. Use this parameter when paginating results. If additional results exist beyond the number you specify, the nextToken element is returned in the response. Use nextToken in a subsequent request to retrieve additional results.
+    /// The maximum number of results to return in the response. Use this parameter when paginating results. If additional results exist beyond the number you specify, the nextToken element is returned in the response. Use nextToken in a subsequent request to retrieve additional results. If not specified, returns 1000 results.
     public var maxResults: Swift.Int?
     /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request. For subsequent calls, use the nextToken value returned from the previous request to continue listing results after the first page.
     public var nextToken: Swift.String?
@@ -1064,7 +1064,7 @@ extension GetMetricsSummaryInput {
 }
 
 public struct GetMetricsSummaryInput {
-    /// The date you want to retrieve summary metrics from, rounded to the nearest day. The date must be within the past two years since metrics data is only stored for two years. If a date outside of this range is passed, the response will be empty.
+    /// The date you want to retrieve summary metrics from, rounded to the nearest day. The date must be within the past two years.
     /// This member is required.
     public var date: Foundation.Date?
 
@@ -1165,6 +1165,7 @@ extension GetScanOutput {
         var value = GetScanOutput()
         value.analysisType = try reader["analysisType"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: .epochSeconds)
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
         value.numberOfRevisions = try reader["numberOfRevisions"].readIfPresent()
         value.runId = try reader["runId"].readIfPresent()
         value.scanName = try reader["scanName"].readIfPresent()
@@ -1182,6 +1183,8 @@ public struct GetScanOutput {
     /// The time the scan was created.
     /// This member is required.
     public var createdAt: Foundation.Date?
+    /// Details about the error that causes a scan to fail to be retrieved.
+    public var errorMessage: Swift.String?
     /// The number of times a scan has been re-run on a revised resource.
     public var numberOfRevisions: Swift.Int?
     /// UUID that identifies the individual scan run.
@@ -1192,7 +1195,7 @@ public struct GetScanOutput {
     public var scanName: Swift.String?
     /// The ARN for the scan name.
     public var scanNameArn: Swift.String?
-    /// The current state of the scan. Pass either InProgress, Successful, or Failed.
+    /// The current state of the scan. Returns either InProgress, Successful, or Failed.
     /// This member is required.
     public var scanState: CodeGuruSecurityClientTypes.ScanState?
     /// The time when the scan was last updated. Only available for STANDARD scan types.
@@ -1201,6 +1204,7 @@ public struct GetScanOutput {
     public init(
         analysisType: CodeGuruSecurityClientTypes.AnalysisType? = nil,
         createdAt: Foundation.Date? = nil,
+        errorMessage: Swift.String? = nil,
         numberOfRevisions: Swift.Int? = nil,
         runId: Swift.String? = nil,
         scanName: Swift.String? = nil,
@@ -1211,6 +1215,7 @@ public struct GetScanOutput {
     {
         self.analysisType = analysisType
         self.createdAt = createdAt
+        self.errorMessage = errorMessage
         self.numberOfRevisions = numberOfRevisions
         self.runId = runId
         self.scanName = scanName
@@ -1232,6 +1237,7 @@ enum GetScanOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -1316,14 +1322,14 @@ extension ListFindingsMetricsInput {
 }
 
 public struct ListFindingsMetricsInput {
-    /// The end date of the interval which you want to retrieve metrics from.
+    /// The end date of the interval which you want to retrieve metrics from. Round to the nearest day.
     /// This member is required.
     public var endDate: Foundation.Date?
-    /// The maximum number of results to return in the response. Use this parameter when paginating results. If additional results exist beyond the number you specify, the nextToken element is returned in the response. Use nextToken in a subsequent request to retrieve additional results.
+    /// The maximum number of results to return in the response. Use this parameter when paginating results. If additional results exist beyond the number you specify, the nextToken element is returned in the response. Use nextToken in a subsequent request to retrieve additional results. If not specified, returns 1000 results.
     public var maxResults: Swift.Int?
     /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request. For subsequent calls, use the nextToken value returned from the previous request to continue listing results after the first page.
     public var nextToken: Swift.String?
-    /// The start date of the interval which you want to retrieve metrics from.
+    /// The start date of the interval which you want to retrieve metrics from. Rounds to the nearest day.
     /// This member is required.
     public var startDate: Foundation.Date?
 
@@ -1411,7 +1417,7 @@ extension ListScansInput {
 }
 
 public struct ListScansInput {
-    /// The maximum number of results to return in the response. Use this parameter when paginating results. If additional results exist beyond the number you specify, the nextToken element is returned in the response. Use nextToken in a subsequent request to retrieve additional results.
+    /// The maximum number of results to return in the response. Use this parameter when paginating results. If additional results exist beyond the number you specify, the nextToken element is returned in the response. Use nextToken in a subsequent request to retrieve additional results. If not specified, returns 100 results.
     public var maxResults: Swift.Int?
     /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request. For subsequent calls, use the nextToken value returned from the previous request to continue listing results after the first page.
     public var nextToken: Swift.String?
@@ -1483,7 +1489,7 @@ extension ListTagsForResourceInput {
 }
 
 public struct ListTagsForResourceInput {
-    /// The ARN of the ScanName object. You can retrieve this ARN by calling ListScans or GetScan.
+    /// The ARN of the ScanName object. You can retrieve this ARN by calling CreateScan, ListScans, or GetScan.
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -1557,17 +1563,17 @@ extension CodeGuruSecurityClientTypes.MetricsSummary {
 }
 
 extension CodeGuruSecurityClientTypes {
-    /// Information about summary metrics in an account.
+    /// A summary of metrics for an account as of a specified date.
     public struct MetricsSummary {
-        /// A list of CategoryWithFindingNum objects for the top 5 finding categories with the most open findings in an account.
+        /// A list of CategoryWithFindingNum objects for the top 5 finding categories with the most findings.
         public var categoriesWithMostFindings: [CodeGuruSecurityClientTypes.CategoryWithFindingNum]?
         /// The date from which the metrics summary information was retrieved.
         public var date: Foundation.Date?
-        /// The number of open findings of each severity in an account.
+        /// The number of open findings of each severity.
         public var openFindings: CodeGuruSecurityClientTypes.FindingMetricsValuePerSeverity?
-        /// A list of ScanNameWithFindingNum objects for the top 3 scans with the most number of open findings in an account.
+        /// A list of ScanNameWithFindingNum objects for the top 3 scans with the most number of open critical findings.
         public var scansWithMostOpenCriticalFindings: [CodeGuruSecurityClientTypes.ScanNameWithFindingNum]?
-        /// A list of ScanNameWithFindingNum objects for the top 3 scans with the most number of open critical findings in an account.
+        /// A list of ScanNameWithFindingNum objects for the top 3 scans with the most number of open findings.
         public var scansWithMostOpenFindings: [CodeGuruSecurityClientTypes.ScanNameWithFindingNum]?
 
         public init(
@@ -1662,11 +1668,11 @@ extension CodeGuruSecurityClientTypes.Resource {
 }
 
 extension CodeGuruSecurityClientTypes {
-    /// Information about a resource, such as an Amazon S3 bucket or AWS Lambda function, that contains a finding.
+    /// Information about a resource that contains a finding.
     public struct Resource {
-        /// The identifier for the resource.
+        /// The scanName of the scan that was run on the resource.
         public var id: Swift.String?
-        /// The identifier for a section of the resource, such as an AWS Lambda layer.
+        /// The identifier for a section of the resource.
         public var subResourceId: Swift.String?
 
         public init(
@@ -1706,9 +1712,9 @@ extension CodeGuruSecurityClientTypes.ResourceId {
 }
 
 extension CodeGuruSecurityClientTypes {
-    /// The identifier for a resource object that contains resources where a finding was detected.
+    /// The identifier for a resource object that contains resources to scan. Specifying a codeArtifactId is required to create a scan.
     public enum ResourceId {
-        /// The identifier for the code file uploaded to the resource where a finding was detected.
+        /// The identifier for the code file uploaded to the resource object. Returned by CreateUploadUrl when you upload resources to be scanned.
         case codeartifactid(Swift.String)
         case sdkUnknown(Swift.String)
     }
@@ -1784,9 +1790,9 @@ extension CodeGuruSecurityClientTypes.ScanNameWithFindingNum {
 }
 
 extension CodeGuruSecurityClientTypes {
-    /// Information about a scan with open findings.
+    /// Information about the number of findings generated by a scan.
     public struct ScanNameWithFindingNum {
-        /// The number of open findings generated by a scan.
+        /// The number of findings generated by a scan.
         public var findingNumber: Swift.Int?
         /// The name of the scan.
         public var scanName: Swift.String?
@@ -2003,7 +2009,7 @@ extension CodeGuruSecurityClientTypes.SuggestedFix {
 extension CodeGuruSecurityClientTypes {
     /// Information about the suggested code fix to remediate a finding.
     public struct SuggestedFix {
-        /// The suggested code to add to your file.
+        /// The suggested code fix. If applicable, includes code patch to replace your source code.
         public var code: Swift.String?
         /// A description of the suggested code fix and why it is being suggested.
         public var description: Swift.String?
@@ -2039,7 +2045,7 @@ extension TagResourceInput {
 }
 
 public struct TagResourceInput {
-    /// The ARN of the ScanName object. You can retrieve this ARN by calling ListScans or GetScan.
+    /// The ARN of the ScanName object. You can retrieve this ARN by calling CreateScan, ListScans, or GetScan.
     /// This member is required.
     public var resourceArn: Swift.String?
     /// An array of key-value pairs used to tag an existing scan. A tag is a custom attribute label with two parts:
@@ -2173,7 +2179,7 @@ extension UntagResourceInput {
 }
 
 public struct UntagResourceInput {
-    /// The ARN of the ScanName object. You can retrieve this ARN by calling ListScans or GetScan.
+    /// The ARN of the ScanName object. You can retrieve this ARN by calling CreateScan, ListScans, or GetScan.
     /// This member is required.
     public var resourceArn: Swift.String?
     /// A list of keys for each tag you want to remove from a scan.
@@ -2237,7 +2243,7 @@ extension UpdateAccountConfigurationInput {
 }
 
 public struct UpdateAccountConfigurationInput {
-    /// The KMS key ARN you want to use for encryption. Defaults to service-side encryption if missing.
+    /// The customer-managed KMS key ARN you want to use for encryption. If not specified, CodeGuru Security will use an AWS-managed key for encryption. If you previously specified a customer-managed KMS key and want CodeGuru Security to use an AWS-managed key for encryption instead, pass nothing.
     /// This member is required.
     public var encryptionConfig: CodeGuruSecurityClientTypes.EncryptionConfig?
 
@@ -2262,7 +2268,7 @@ extension UpdateAccountConfigurationOutput {
 }
 
 public struct UpdateAccountConfigurationOutput {
-    /// An EncryptionConfig object that contains the KMS key ARN to use for encryption.
+    /// An EncryptionConfig object that contains the KMS key ARN that is used for encryption. If you did not specify a customer-managed KMS key in the request, returns empty.
     /// This member is required.
     public var encryptionConfig: CodeGuruSecurityClientTypes.EncryptionConfig?
 
@@ -2441,6 +2447,7 @@ extension CodeGuruSecurityClientTypes {
         /// The identifier for the vulnerability.
         public var id: Swift.String?
         /// The number of times the vulnerability appears in your code.
+        @available(*, deprecated, message: "This shape is not used.")
         public var itemCount: Swift.Int?
         /// One or more URL addresses that contain details about a vulnerability.
         public var referenceUrls: [Swift.String]?

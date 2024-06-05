@@ -3,13 +3,14 @@
 import AWSClientRuntime
 import ClientRuntime
 import Foundation
+import Smithy
 import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
 extension CreateDeploymentInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateDeploymentInput(deploymentPatternName: \(Swift.String(describing: deploymentPatternName)), dryRun: \(Swift.String(describing: dryRun)), name: \(Swift.String(describing: name)), workloadName: \(Swift.String(describing: workloadName)), specifications: \"CONTENT_REDACTED\")"}
+        "CreateDeploymentInput(deploymentPatternName: \(Swift.String(describing: deploymentPatternName)), dryRun: \(Swift.String(describing: dryRun)), name: \(Swift.String(describing: name)), tags: \(Swift.String(describing: tags)), workloadName: \(Swift.String(describing: workloadName)), specifications: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateDeploymentInput {
@@ -27,6 +28,7 @@ extension CreateDeploymentInput {
         try writer["dryRun"].write(value.dryRun)
         try writer["name"].write(value.name)
         try writer["specifications"].writeMap(value.specifications, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["workloadName"].write(value.workloadName)
     }
 }
@@ -40,10 +42,12 @@ public struct CreateDeploymentInput {
     /// The name of the deployment.
     /// This member is required.
     public var name: Swift.String?
-    /// The settings specified for the deployment. For more information on the specifications required for creating a deployment, see [Workload specifications](https://docs.aws.amazon.com/launchwizard/latest/APIReference/launch-wizard-specifications.html).
+    /// The settings specified for the deployment. These settings define how to deploy and configure your resources created by the deployment. For more information about the specifications required for creating a deployment for a SAP workload, see [SAP deployment specifications](https://docs.aws.amazon.com/launchwizard/latest/APIReference/launch-wizard-specifications-sap.html). To retrieve the specifications required to create a deployment for other workloads, use the [GetWorkloadDeploymentPattern](https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_GetWorkloadDeploymentPattern.html) operation.
     /// This member is required.
     public var specifications: [Swift.String:Swift.String]?
-    /// The name of the workload. You can use the [ListWorkloadDeploymentPatterns](https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_ListWorkloadDeploymentPatterns.html) operation to discover supported values for this parameter.
+    /// The tags to add to the deployment.
+    public var tags: [Swift.String:Swift.String]?
+    /// The name of the workload. You can use the [ListWorkloads](https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_ListWorkloads.html) operation to discover supported values for this parameter.
     /// This member is required.
     public var workloadName: Swift.String?
 
@@ -52,6 +56,7 @@ public struct CreateDeploymentInput {
         dryRun: Swift.Bool? = nil,
         name: Swift.String? = nil,
         specifications: [Swift.String:Swift.String]? = nil,
+        tags: [Swift.String:Swift.String]? = nil,
         workloadName: Swift.String? = nil
     )
     {
@@ -59,6 +64,7 @@ public struct CreateDeploymentInput {
         self.dryRun = dryRun
         self.name = name
         self.specifications = specifications
+        self.tags = tags
         self.workloadName = workloadName
     }
 }
@@ -170,6 +176,7 @@ enum DeleteDeploymentOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceLimitException": return try ResourceLimitException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -177,9 +184,45 @@ enum DeleteDeploymentOutputError {
     }
 }
 
+extension LaunchWizardClientTypes.DeploymentConditionalField {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LaunchWizardClientTypes.DeploymentConditionalField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LaunchWizardClientTypes.DeploymentConditionalField()
+        value.name = try reader["name"].readIfPresent()
+        value.value = try reader["value"].readIfPresent()
+        value.comparator = try reader["comparator"].readIfPresent()
+        return value
+    }
+}
+
+extension LaunchWizardClientTypes {
+    /// A field that details a condition of the specifications for a deployment.
+    public struct DeploymentConditionalField {
+        /// The comparator of the condition. Valid values: Equal | NotEqual
+        public var comparator: Swift.String?
+        /// The name of the deployment condition.
+        public var name: Swift.String?
+        /// The value of the condition.
+        public var value: Swift.String?
+
+        public init(
+            comparator: Swift.String? = nil,
+            name: Swift.String? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.comparator = comparator
+            self.name = name
+            self.value = value
+        }
+    }
+
+}
+
 extension LaunchWizardClientTypes.DeploymentData: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DeploymentData(createdAt: \(Swift.String(describing: createdAt)), deletedAt: \(Swift.String(describing: deletedAt)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), patternName: \(Swift.String(describing: patternName)), resourceGroup: \(Swift.String(describing: resourceGroup)), status: \(Swift.String(describing: status)), workloadName: \(Swift.String(describing: workloadName)), specifications: \"CONTENT_REDACTED\")"}
+        "DeploymentData(createdAt: \(Swift.String(describing: createdAt)), deletedAt: \(Swift.String(describing: deletedAt)), deploymentArn: \(Swift.String(describing: deploymentArn)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), patternName: \(Swift.String(describing: patternName)), resourceGroup: \(Swift.String(describing: resourceGroup)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), workloadName: \(Swift.String(describing: workloadName)), specifications: \"CONTENT_REDACTED\")"}
 }
 
 extension LaunchWizardClientTypes.DeploymentData {
@@ -196,6 +239,8 @@ extension LaunchWizardClientTypes.DeploymentData {
         value.specifications = try reader["specifications"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.resourceGroup = try reader["resourceGroup"].readIfPresent()
         value.deletedAt = try reader["deletedAt"].readTimestampIfPresent(format: .epochSeconds)
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.deploymentArn = try reader["deploymentArn"].readIfPresent()
         return value
     }
 }
@@ -207,6 +252,8 @@ extension LaunchWizardClientTypes {
         public var createdAt: Foundation.Date?
         /// The time the deployment was deleted.
         public var deletedAt: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the deployment.
+        public var deploymentArn: Swift.String?
         /// The ID of the deployment.
         public var id: Swift.String?
         /// The name of the deployment.
@@ -215,33 +262,39 @@ extension LaunchWizardClientTypes {
         public var patternName: Swift.String?
         /// The resource group of the deployment.
         public var resourceGroup: Swift.String?
-        /// The specifications of the deployment. For more information on specifications for each deployment, see [Workload specifications](https://docs.aws.amazon.com/launchwizard/latest/APIReference/launch-wizard-specifications.html).
+        /// The settings specified for the deployment. These settings define how to deploy and configure your resources created by the deployment. For more information about the specifications required for creating a deployment for a SAP workload, see [SAP deployment specifications](https://docs.aws.amazon.com/launchwizard/latest/APIReference/launch-wizard-specifications-sap.html). To retrieve the specifications required to create a deployment for other workloads, use the [GetWorkloadDeploymentPattern](https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_GetWorkloadDeploymentPattern.html) operation.
         public var specifications: [Swift.String:Swift.String]?
         /// The status of the deployment.
         public var status: LaunchWizardClientTypes.DeploymentStatus?
+        /// Information about the tags attached to a deployment.
+        public var tags: [Swift.String:Swift.String]?
         /// The name of the workload.
         public var workloadName: Swift.String?
 
         public init(
             createdAt: Foundation.Date? = nil,
             deletedAt: Foundation.Date? = nil,
+            deploymentArn: Swift.String? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             patternName: Swift.String? = nil,
             resourceGroup: Swift.String? = nil,
             specifications: [Swift.String:Swift.String]? = nil,
             status: LaunchWizardClientTypes.DeploymentStatus? = nil,
+            tags: [Swift.String:Swift.String]? = nil,
             workloadName: Swift.String? = nil
         )
         {
             self.createdAt = createdAt
             self.deletedAt = deletedAt
+            self.deploymentArn = deploymentArn
             self.id = id
             self.name = name
             self.patternName = patternName
             self.resourceGroup = resourceGroup
             self.specifications = specifications
             self.status = status
+            self.tags = tags
             self.workloadName = workloadName
         }
     }
@@ -403,6 +456,52 @@ extension LaunchWizardClientTypes {
     }
 }
 
+extension LaunchWizardClientTypes.DeploymentSpecificationsField {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LaunchWizardClientTypes.DeploymentSpecificationsField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LaunchWizardClientTypes.DeploymentSpecificationsField()
+        value.name = try reader["name"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.allowedValues = try reader["allowedValues"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.`required` = try reader["required"].readIfPresent()
+        value.conditionals = try reader["conditionals"].readListIfPresent(memberReadingClosure: LaunchWizardClientTypes.DeploymentConditionalField.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension LaunchWizardClientTypes {
+    /// A field that details a specification of a deployment pattern.
+    public struct DeploymentSpecificationsField {
+        /// The allowed values of the deployment specification.
+        public var allowedValues: [Swift.String]?
+        /// The conditionals used for the deployment specification.
+        public var conditionals: [LaunchWizardClientTypes.DeploymentConditionalField]?
+        /// The description of the deployment specification.
+        public var description: Swift.String?
+        /// The name of the deployment specification.
+        public var name: Swift.String?
+        /// Indicates if the deployment specification is required.
+        public var `required`: Swift.String?
+
+        public init(
+            allowedValues: [Swift.String]? = nil,
+            conditionals: [LaunchWizardClientTypes.DeploymentConditionalField]? = nil,
+            description: Swift.String? = nil,
+            name: Swift.String? = nil,
+            `required`: Swift.String? = nil
+        )
+        {
+            self.allowedValues = allowedValues
+            self.conditionals = conditionals
+            self.description = description
+            self.name = name
+            self.`required` = `required`
+        }
+    }
+
+}
+
 extension LaunchWizardClientTypes {
 
     public enum DeploymentStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -553,6 +652,80 @@ public struct GetDeploymentOutput {
 }
 
 enum GetDeploymentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+extension GetWorkloadDeploymentPatternInput {
+
+    static func urlPathProvider(_ value: GetWorkloadDeploymentPatternInput) -> Swift.String? {
+        return "/getWorkloadDeploymentPattern"
+    }
+}
+
+extension GetWorkloadDeploymentPatternInput {
+
+    static func write(value: GetWorkloadDeploymentPatternInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["deploymentPatternName"].write(value.deploymentPatternName)
+        try writer["workloadName"].write(value.workloadName)
+    }
+}
+
+public struct GetWorkloadDeploymentPatternInput {
+    /// The name of the deployment pattern.
+    /// This member is required.
+    public var deploymentPatternName: Swift.String?
+    /// The name of the workload.
+    /// This member is required.
+    public var workloadName: Swift.String?
+
+    public init(
+        deploymentPatternName: Swift.String? = nil,
+        workloadName: Swift.String? = nil
+    )
+    {
+        self.deploymentPatternName = deploymentPatternName
+        self.workloadName = workloadName
+    }
+}
+
+extension GetWorkloadDeploymentPatternOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetWorkloadDeploymentPatternOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetWorkloadDeploymentPatternOutput()
+        value.workloadDeploymentPattern = try reader["workloadDeploymentPattern"].readIfPresent(with: LaunchWizardClientTypes.WorkloadDeploymentPatternData.read(from:))
+        return value
+    }
+}
+
+public struct GetWorkloadDeploymentPatternOutput {
+    /// Details about the workload deployment pattern.
+    public var workloadDeploymentPattern: LaunchWizardClientTypes.WorkloadDeploymentPatternData?
+
+    public init(
+        workloadDeploymentPattern: LaunchWizardClientTypes.WorkloadDeploymentPatternData? = nil
+    )
+    {
+        self.workloadDeploymentPattern = workloadDeploymentPattern
+    }
+}
+
+enum GetWorkloadDeploymentPatternOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -778,9 +951,9 @@ extension ListDeploymentsInput {
 public struct ListDeploymentsInput {
     /// Filters to scope the results. The following filters are supported:
     ///
-    /// * WORKLOAD_NAME
+    /// * WORKLOAD_NAME - The name used in deployments.
     ///
-    /// * DEPLOYMENT_STATUS
+    /// * DEPLOYMENT_STATUS - COMPLETED | CREATING | DELETE_IN_PROGRESS | DELETE_INITIATING | DELETE_FAILED | DELETED | FAILED | IN_PROGRESS | VALIDATING
     public var filters: [LaunchWizardClientTypes.DeploymentFilter]?
     /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
     public var maxResults: Swift.Int?
@@ -837,6 +1010,69 @@ enum ListDeploymentsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
+            return nil
+        }
+        return "/tags/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
+public struct ListTagsForResourceInput {
+    /// The Amazon Resource Name (ARN) of the resource.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+    }
+}
+
+extension ListTagsForResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListTagsForResourceOutput()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+public struct ListTagsForResourceOutput {
+    /// Information about the tags.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.tags = tags
+    }
+}
+
+enum ListTagsForResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -1076,6 +1312,142 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
+            return nil
+        }
+        return "/tags/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
+extension TagResourceInput {
+
+    static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+public struct TagResourceInput {
+    /// The Amazon Resource Name (ARN) of the resource.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// One or more tags to attach to the resource.
+    /// This member is required.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+        self.tags = tags
+    }
+}
+
+extension TagResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
+        return TagResourceOutput()
+    }
+}
+
+public struct TagResourceOutput {
+
+    public init() { }
+}
+
+enum TagResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = Smithy.URIQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
+    }
+}
+
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
+            return nil
+        }
+        return "/tags/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
+public struct UntagResourceInput {
+    /// The Amazon Resource Name (ARN) of the resource.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// Keys identifying the tags to remove.
+    /// This member is required.
+    public var tagKeys: [Swift.String]?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        tagKeys: [Swift.String]? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+        self.tagKeys = tagKeys
+    }
+}
+
+extension UntagResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
+        return UntagResourceOutput()
+    }
+}
+
+public struct UntagResourceOutput {
+
+    public init() { }
+}
+
+enum UntagResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 extension ValidationException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
@@ -1195,6 +1567,67 @@ extension LaunchWizardClientTypes {
         {
             self.displayName = displayName
             self.workloadName = workloadName
+        }
+    }
+
+}
+
+extension LaunchWizardClientTypes.WorkloadDeploymentPatternData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LaunchWizardClientTypes.WorkloadDeploymentPatternData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LaunchWizardClientTypes.WorkloadDeploymentPatternData()
+        value.workloadName = try reader["workloadName"].readIfPresent()
+        value.deploymentPatternName = try reader["deploymentPatternName"].readIfPresent()
+        value.workloadVersionName = try reader["workloadVersionName"].readIfPresent()
+        value.displayName = try reader["displayName"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.statusMessage = try reader["statusMessage"].readIfPresent()
+        value.specifications = try reader["specifications"].readListIfPresent(memberReadingClosure: LaunchWizardClientTypes.DeploymentSpecificationsField.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension LaunchWizardClientTypes {
+    /// The data that details a workload deployment pattern.
+    public struct WorkloadDeploymentPatternData {
+        /// The name of the deployment pattern.
+        public var deploymentPatternName: Swift.String?
+        /// The description of the deployment pattern.
+        public var description: Swift.String?
+        /// The display name of the deployment pattern.
+        public var displayName: Swift.String?
+        /// The settings specified for the deployment. These settings define how to deploy and configure your resources created by the deployment. For more information about the specifications required for creating a deployment for a SAP workload, see [SAP deployment specifications](https://docs.aws.amazon.com/launchwizard/latest/APIReference/launch-wizard-specifications-sap.html). To retrieve the specifications required to create a deployment for other workloads, use the [GetWorkloadDeploymentPattern](https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_GetWorkloadDeploymentPattern.html) operation.
+        public var specifications: [LaunchWizardClientTypes.DeploymentSpecificationsField]?
+        /// The status of the deployment pattern.
+        public var status: LaunchWizardClientTypes.WorkloadDeploymentPatternStatus?
+        /// The status message of the deployment pattern.
+        public var statusMessage: Swift.String?
+        /// The workload name of the deployment pattern.
+        public var workloadName: Swift.String?
+        /// The workload version name of the deployment pattern.
+        public var workloadVersionName: Swift.String?
+
+        public init(
+            deploymentPatternName: Swift.String? = nil,
+            description: Swift.String? = nil,
+            displayName: Swift.String? = nil,
+            specifications: [LaunchWizardClientTypes.DeploymentSpecificationsField]? = nil,
+            status: LaunchWizardClientTypes.WorkloadDeploymentPatternStatus? = nil,
+            statusMessage: Swift.String? = nil,
+            workloadName: Swift.String? = nil,
+            workloadVersionName: Swift.String? = nil
+        )
+        {
+            self.deploymentPatternName = deploymentPatternName
+            self.description = description
+            self.displayName = displayName
+            self.specifications = specifications
+            self.status = status
+            self.statusMessage = statusMessage
+            self.workloadName = workloadName
+            self.workloadVersionName = workloadVersionName
         }
     }
 

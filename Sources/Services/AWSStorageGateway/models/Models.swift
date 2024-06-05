@@ -54,10 +54,10 @@ public struct ActivateGatewayInput {
     /// A value that indicates the Amazon Web Services Region where you want to store your data. The gateway Amazon Web Services Region specified must be the same Amazon Web Services Region as the Amazon Web Services Region in your Host header in the request. For more information about available Amazon Web Services Regions and endpoints for Storage Gateway, see [ Storage Gateway endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/sg.html) in the Amazon Web Services General Reference. Valid Values: See [ Storage Gateway endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/sg.html) in the Amazon Web Services General Reference.
     /// This member is required.
     public var gatewayRegion: Swift.String?
-    /// A value that indicates the time zone you want to set for the gateway. The time zone is of the format "GMT-hr:mm" or "GMT+hr:mm". For example, GMT-4:00 indicates the time is 4 hours behind GMT. GMT+2:00 indicates the time is 2 hours ahead of GMT. The time zone is used, for example, for scheduling snapshots and your gateway's maintenance schedule.
+    /// A value that indicates the time zone you want to set for the gateway. The time zone is of the format "GMT", "GMT-hr:mm", or "GMT+hr:mm". For example, GMT indicates Greenwich Mean Time without any offset. GMT-4:00 indicates the time is 4 hours behind GMT. GMT+2:00 indicates the time is 2 hours ahead of GMT. The time zone is used, for example, for scheduling snapshots and your gateway's maintenance schedule.
     /// This member is required.
     public var gatewayTimezone: Swift.String?
-    /// A value that defines the type of gateway to activate. The type specified is critical to all later functions of the gateway and cannot be changed after activation. The default value is CACHED. Valid Values: STORED | CACHED | VTL | VTL_SNOW | FILE_S3 | FILE_FSX_SMB
+    /// A value that defines the type of gateway to activate. The type specified is critical to all later functions of the gateway and cannot be changed after activation. The default value is CACHED. Valid Values: STORED | CACHED | VTL | FILE_S3 | FILE_FSX_SMB
     public var gatewayType: Swift.String?
     /// The value that indicates the type of medium changer to use for tape gateway. This field is optional. Valid Values: STK-L700 | AWS-Gateway-VTL | IBM-03584L32-0402
     public var mediumChangerType: Swift.String?
@@ -3771,7 +3771,7 @@ public struct DescribeGatewayInformationOutput {
     public var gatewayTimezone: Swift.String?
     /// The type of the gateway.
     public var gatewayType: Swift.String?
-    /// The type of hardware or software platform on which the gateway is running.
+    /// The type of hardware or software platform on which the gateway is running. Tape Gateway is no longer available on Snow Family devices.
     public var hostEnvironment: StorageGatewayClientTypes.HostEnvironment?
     /// A unique identifier for the specific instance of the host platform running the gateway. This value is only available for certain host environments, and its format depends on the host environment type.
     public var hostEnvironmentId: Swift.String?
@@ -4172,11 +4172,13 @@ public struct DescribeSMBSettingsOutput {
     public var smbLocalGroups: StorageGatewayClientTypes.SMBLocalGroups?
     /// The type of security strategy that was specified for file gateway.
     ///
-    /// * ClientSpecified: If you use this option, requests are established based on what is negotiated by the client. This option is recommended when you want to maximize compatibility across different clients in your environment. Only supported for S3 File Gateways.
+    /// * ClientSpecified: If you choose this option, requests are established based on what is negotiated by the client. This option is recommended when you want to maximize compatibility across different clients in your environment. Supported only for S3 File Gateway.
     ///
-    /// * MandatorySigning: If you use this option, file gateway only allows connections from SMBv2 or SMBv3 clients that have signing enabled. This option works with SMB clients on Microsoft Windows Vista, Windows Server 2008 or newer.
+    /// * MandatorySigning: If you use this option, File Gateway only allows connections from SMBv2 or SMBv3 clients that have signing turned on. This option works with SMB clients on Microsoft Windows Vista, Windows Server 2008, or later.
     ///
-    /// * MandatoryEncryption: If you use this option, file gateway only allows connections from SMBv3 clients that have encryption enabled. This option is highly recommended for environments that handle sensitive data. This option works with SMB clients on Microsoft Windows 8, Windows Server 2012 or newer.
+    /// * MandatoryEncryption: If you use this option, File Gateway only allows connections from SMBv3 clients that have encryption turned on. Both 256-bit and 128-bit algorithms are allowed. This option is recommended for environments that handle sensitive data. It works with SMB clients on Microsoft Windows 8, Windows Server 2012, or later.
+    ///
+    /// * EnforceEncryption: If you use this option, File Gateway only allows connections from SMBv3 clients that use 256-bit AES encryption algorithms. 128-bit algorithms are not allowed. This option is recommended for environments that handle sensitive data. It works with SMB clients on Microsoft Windows 8, Windows Server 2012, or later.
     public var smbSecurityStrategy: StorageGatewayClientTypes.SMBSecurityStrategy?
 
     public init(
@@ -5765,7 +5767,7 @@ extension StorageGatewayClientTypes {
         public var gatewayOperationalState: Swift.String?
         /// The type of the gateway.
         public var gatewayType: Swift.String?
-        /// The type of hardware or software platform on which the gateway is running.
+        /// The type of hardware or software platform on which the gateway is running. Tape Gateway is no longer available on Snow Family devices.
         public var hostEnvironment: StorageGatewayClientTypes.HostEnvironment?
         /// A unique identifier for the specific instance of the host platform running the gateway. This value is only available for certain host environments, and its format depends on the host environment type.
         public var hostEnvironmentId: Swift.String?
@@ -7408,7 +7410,7 @@ public struct RefreshCacheInput {
     /// The Amazon Resource Name (ARN) of the file share you want to refresh.
     /// This member is required.
     public var fileShareARN: Swift.String?
-    /// A comma-separated list of the paths of folders to refresh in the cache. The default is ["/"]. The default refreshes objects and folders at the root of the Amazon S3 bucket. If Recursive is set to true, the entire S3 bucket that the file share has access to is refreshed.
+    /// A comma-separated list of the paths of folders to refresh in the cache. The default is ["/"]. The default refreshes objects and folders at the root of the Amazon S3 bucket. If Recursive is set to true, the entire S3 bucket that the file share has access to is refreshed. Do not include / when specifying folder names. For example, you would specify samplefolder rather than samplefolder/.
     public var folderList: [Swift.String]?
     /// A value that specifies whether to recursively refresh folders in the cache. The refresh includes folders that were in the cache the last time the gateway listed the folder's contents. If this value set to true, each folder that is listed in FolderList is recursively updated. Otherwise, subfolders listed in FolderList are not refreshed. Only objects that are in folders listed directly under FolderList are found and used for the update. The default is true. Valid Values: true | false
     public var recursive: Swift.Bool?
@@ -7996,6 +7998,7 @@ extension StorageGatewayClientTypes {
     public enum SMBSecurityStrategy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case clientspecified
         case mandatoryencryption
+        case mandatoryencryptionnoaes128
         case mandatorysigning
         case sdkUnknown(Swift.String)
 
@@ -8003,6 +8006,7 @@ extension StorageGatewayClientTypes {
             return [
                 .clientspecified,
                 .mandatoryencryption,
+                .mandatoryencryptionnoaes128,
                 .mandatorysigning
             ]
         }
@@ -8016,6 +8020,7 @@ extension StorageGatewayClientTypes {
             switch self {
             case .clientspecified: return "ClientSpecified"
             case .mandatoryencryption: return "MandatoryEncryption"
+            case .mandatoryencryptionnoaes128: return "MandatoryEncryptionNoAes128"
             case .mandatorysigning: return "MandatorySigning"
             case let .sdkUnknown(s): return s
             }
