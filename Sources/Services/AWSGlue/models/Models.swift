@@ -7718,7 +7718,7 @@ extension GlueClientTypes {
 
 extension CreateJobInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateJobInput(allocatedCapacity: \(Swift.String(describing: allocatedCapacity)), command: \(Swift.String(describing: command)), connections: \(Swift.String(describing: connections)), defaultArguments: \(Swift.String(describing: defaultArguments)), description: \(Swift.String(describing: description)), executionClass: \(Swift.String(describing: executionClass)), executionProperty: \(Swift.String(describing: executionProperty)), glueVersion: \(Swift.String(describing: glueVersion)), logUri: \(Swift.String(describing: logUri)), maxCapacity: \(Swift.String(describing: maxCapacity)), maxRetries: \(Swift.String(describing: maxRetries)), name: \(Swift.String(describing: name)), nonOverridableArguments: \(Swift.String(describing: nonOverridableArguments)), notificationProperty: \(Swift.String(describing: notificationProperty)), numberOfWorkers: \(Swift.String(describing: numberOfWorkers)), role: \(Swift.String(describing: role)), securityConfiguration: \(Swift.String(describing: securityConfiguration)), sourceControlDetails: \(Swift.String(describing: sourceControlDetails)), tags: \(Swift.String(describing: tags)), timeout: \(Swift.String(describing: timeout)), workerType: \(Swift.String(describing: workerType)), codeGenConfigurationNodes: \"CONTENT_REDACTED\")"}
+        "CreateJobInput(allocatedCapacity: \(Swift.String(describing: allocatedCapacity)), command: \(Swift.String(describing: command)), connections: \(Swift.String(describing: connections)), defaultArguments: \(Swift.String(describing: defaultArguments)), description: \(Swift.String(describing: description)), executionClass: \(Swift.String(describing: executionClass)), executionProperty: \(Swift.String(describing: executionProperty)), glueVersion: \(Swift.String(describing: glueVersion)), jobMode: \(Swift.String(describing: jobMode)), logUri: \(Swift.String(describing: logUri)), maintenanceWindow: \(Swift.String(describing: maintenanceWindow)), maxCapacity: \(Swift.String(describing: maxCapacity)), maxRetries: \(Swift.String(describing: maxRetries)), name: \(Swift.String(describing: name)), nonOverridableArguments: \(Swift.String(describing: nonOverridableArguments)), notificationProperty: \(Swift.String(describing: notificationProperty)), numberOfWorkers: \(Swift.String(describing: numberOfWorkers)), role: \(Swift.String(describing: role)), securityConfiguration: \(Swift.String(describing: securityConfiguration)), sourceControlDetails: \(Swift.String(describing: sourceControlDetails)), tags: \(Swift.String(describing: tags)), timeout: \(Swift.String(describing: timeout)), workerType: \(Swift.String(describing: workerType)), codeGenConfigurationNodes: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateJobInput {
@@ -7741,7 +7741,9 @@ extension CreateJobInput {
         try writer["ExecutionClass"].write(value.executionClass)
         try writer["ExecutionProperty"].write(value.executionProperty, with: GlueClientTypes.ExecutionProperty.write(value:to:))
         try writer["GlueVersion"].write(value.glueVersion)
+        try writer["JobMode"].write(value.jobMode)
         try writer["LogUri"].write(value.logUri)
+        try writer["MaintenanceWindow"].write(value.maintenanceWindow)
         try writer["MaxCapacity"].write(value.maxCapacity)
         try writer["MaxRetries"].write(value.maxRetries)
         try writer["Name"].write(value.name)
@@ -7778,8 +7780,21 @@ public struct CreateJobInput {
     public var executionProperty: GlueClientTypes.ExecutionProperty?
     /// In Spark jobs, GlueVersion determines the versions of Apache Spark and Python that Glue available in a job. The Python version indicates the version supported for jobs of type Spark. Ray jobs should set GlueVersion to 4.0 or greater. However, the versions of Ray, Python and additional libraries available in your Ray job are determined by the Runtime parameter of the Job command. For more information about the available Glue versions and corresponding Spark and Python versions, see [Glue version](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide. Jobs that are created without specifying a Glue version default to Glue 0.9.
     public var glueVersion: Swift.String?
+    /// A mode that describes how a job was created. Valid values are:
+    ///
+    /// * SCRIPT - The job was created using the Glue Studio script editor.
+    ///
+    /// * VISUAL - The job was created using the Glue Studio visual editor.
+    ///
+    /// * NOTEBOOK - The job was created using an interactive sessions notebook.
+    ///
+    ///
+    /// When the JobMode field is missing or null, SCRIPT is assigned as the default value.
+    public var jobMode: GlueClientTypes.JobMode?
     /// This field is reserved for future use.
     public var logUri: Swift.String?
+    /// This field specifies a day of the week and hour for a maintenance window for streaming jobs. Glue periodically performs maintenance activities. During these maintenance windows, Glue will need to restart your streaming jobs. Glue will restart the job within 3 hours of the specified maintenance window. For instance, if you set up the maintenance window for Monday at 10:00AM GMT, your jobs will be restarted between 10:00AM GMT to 1:00PM GMT.
+    public var maintenanceWindow: Swift.String?
     /// For Glue version 1.0 or earlier jobs, using the standard worker type, the number of Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the [ Glue pricing page](https://aws.amazon.com/glue/pricing/). For Glue version 2.0+ jobs, you cannot specify a Maximum capacity. Instead, you should specify a Worker type and the Number of workers. Do not set MaxCapacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job, an Apache Spark ETL job, or an Apache Spark streaming ETL job:
     ///
     /// * When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.
@@ -7833,7 +7848,9 @@ public struct CreateJobInput {
         executionClass: GlueClientTypes.ExecutionClass? = nil,
         executionProperty: GlueClientTypes.ExecutionProperty? = nil,
         glueVersion: Swift.String? = nil,
+        jobMode: GlueClientTypes.JobMode? = nil,
         logUri: Swift.String? = nil,
+        maintenanceWindow: Swift.String? = nil,
         maxCapacity: Swift.Double? = nil,
         maxRetries: Swift.Int? = nil,
         name: Swift.String? = nil,
@@ -7857,7 +7874,9 @@ public struct CreateJobInput {
         self.executionClass = executionClass
         self.executionProperty = executionProperty
         self.glueVersion = glueVersion
+        self.jobMode = jobMode
         self.logUri = logUri
+        self.maintenanceWindow = maintenanceWindow
         self.maxCapacity = maxCapacity
         self.maxRetries = maxRetries
         self.name = name
@@ -22632,7 +22651,7 @@ extension GlueClientTypes {
 
 extension GlueClientTypes.Job: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Job(allocatedCapacity: \(Swift.String(describing: allocatedCapacity)), command: \(Swift.String(describing: command)), connections: \(Swift.String(describing: connections)), createdOn: \(Swift.String(describing: createdOn)), defaultArguments: \(Swift.String(describing: defaultArguments)), description: \(Swift.String(describing: description)), executionClass: \(Swift.String(describing: executionClass)), executionProperty: \(Swift.String(describing: executionProperty)), glueVersion: \(Swift.String(describing: glueVersion)), lastModifiedOn: \(Swift.String(describing: lastModifiedOn)), logUri: \(Swift.String(describing: logUri)), maxCapacity: \(Swift.String(describing: maxCapacity)), maxRetries: \(Swift.String(describing: maxRetries)), name: \(Swift.String(describing: name)), nonOverridableArguments: \(Swift.String(describing: nonOverridableArguments)), notificationProperty: \(Swift.String(describing: notificationProperty)), numberOfWorkers: \(Swift.String(describing: numberOfWorkers)), role: \(Swift.String(describing: role)), securityConfiguration: \(Swift.String(describing: securityConfiguration)), sourceControlDetails: \(Swift.String(describing: sourceControlDetails)), timeout: \(Swift.String(describing: timeout)), workerType: \(Swift.String(describing: workerType)), codeGenConfigurationNodes: \"CONTENT_REDACTED\")"}
+        "Job(allocatedCapacity: \(Swift.String(describing: allocatedCapacity)), command: \(Swift.String(describing: command)), connections: \(Swift.String(describing: connections)), createdOn: \(Swift.String(describing: createdOn)), defaultArguments: \(Swift.String(describing: defaultArguments)), description: \(Swift.String(describing: description)), executionClass: \(Swift.String(describing: executionClass)), executionProperty: \(Swift.String(describing: executionProperty)), glueVersion: \(Swift.String(describing: glueVersion)), jobMode: \(Swift.String(describing: jobMode)), lastModifiedOn: \(Swift.String(describing: lastModifiedOn)), logUri: \(Swift.String(describing: logUri)), maintenanceWindow: \(Swift.String(describing: maintenanceWindow)), maxCapacity: \(Swift.String(describing: maxCapacity)), maxRetries: \(Swift.String(describing: maxRetries)), name: \(Swift.String(describing: name)), nonOverridableArguments: \(Swift.String(describing: nonOverridableArguments)), notificationProperty: \(Swift.String(describing: notificationProperty)), numberOfWorkers: \(Swift.String(describing: numberOfWorkers)), role: \(Swift.String(describing: role)), securityConfiguration: \(Swift.String(describing: securityConfiguration)), sourceControlDetails: \(Swift.String(describing: sourceControlDetails)), timeout: \(Swift.String(describing: timeout)), workerType: \(Swift.String(describing: workerType)), codeGenConfigurationNodes: \"CONTENT_REDACTED\")"}
 }
 
 extension GlueClientTypes.Job {
@@ -22641,6 +22660,7 @@ extension GlueClientTypes.Job {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.Job()
         value.name = try reader["Name"].readIfPresent()
+        value.jobMode = try reader["JobMode"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
         value.logUri = try reader["LogUri"].readIfPresent()
         value.role = try reader["Role"].readIfPresent()
@@ -22663,6 +22683,7 @@ extension GlueClientTypes.Job {
         value.codeGenConfigurationNodes = try reader["CodeGenConfigurationNodes"].readMapIfPresent(valueReadingClosure: GlueClientTypes.CodeGenConfigurationNode.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.executionClass = try reader["ExecutionClass"].readIfPresent()
         value.sourceControlDetails = try reader["SourceControlDetails"].readIfPresent(with: GlueClientTypes.SourceControlDetails.read(from:))
+        value.maintenanceWindow = try reader["MaintenanceWindow"].readIfPresent()
         return value
     }
 }
@@ -22691,10 +22712,23 @@ extension GlueClientTypes {
         public var executionProperty: GlueClientTypes.ExecutionProperty?
         /// In Spark jobs, GlueVersion determines the versions of Apache Spark and Python that Glue available in a job. The Python version indicates the version supported for jobs of type Spark. Ray jobs should set GlueVersion to 4.0 or greater. However, the versions of Ray, Python and additional libraries available in your Ray job are determined by the Runtime parameter of the Job command. For more information about the available Glue versions and corresponding Spark and Python versions, see [Glue version](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide. Jobs that are created without specifying a Glue version default to Glue 0.9.
         public var glueVersion: Swift.String?
+        /// A mode that describes how a job was created. Valid values are:
+        ///
+        /// * SCRIPT - The job was created using the Glue Studio script editor.
+        ///
+        /// * VISUAL - The job was created using the Glue Studio visual editor.
+        ///
+        /// * NOTEBOOK - The job was created using an interactive sessions notebook.
+        ///
+        ///
+        /// When the JobMode field is missing or null, SCRIPT is assigned as the default value.
+        public var jobMode: GlueClientTypes.JobMode?
         /// The last point in time when this job definition was modified.
         public var lastModifiedOn: Foundation.Date?
         /// This field is reserved for future use.
         public var logUri: Swift.String?
+        /// This field specifies a day of the week and hour for a maintenance window for streaming jobs. Glue periodically performs maintenance activities. During these maintenance windows, Glue will need to restart your streaming jobs. Glue will restart the job within 3 hours of the specified maintenance window. For instance, if you set up the maintenance window for Monday at 10:00AM GMT, your jobs will be restarted between 10:00AM GMT to 1:00PM GMT.
+        public var maintenanceWindow: Swift.String?
         /// For Glue version 1.0 or earlier jobs, using the standard worker type, the number of Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the [ Glue pricing page](https://aws.amazon.com/glue/pricing/). For Glue version 2.0 or later jobs, you cannot specify a Maximum capacity. Instead, you should specify a Worker type and the Number of workers. Do not set MaxCapacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job, an Apache Spark ETL job, or an Apache Spark streaming ETL job:
         ///
         /// * When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.
@@ -22745,8 +22779,10 @@ extension GlueClientTypes {
             executionClass: GlueClientTypes.ExecutionClass? = nil,
             executionProperty: GlueClientTypes.ExecutionProperty? = nil,
             glueVersion: Swift.String? = nil,
+            jobMode: GlueClientTypes.JobMode? = nil,
             lastModifiedOn: Foundation.Date? = nil,
             logUri: Swift.String? = nil,
+            maintenanceWindow: Swift.String? = nil,
             maxCapacity: Swift.Double? = nil,
             maxRetries: Swift.Int = 0,
             name: Swift.String? = nil,
@@ -22770,8 +22806,10 @@ extension GlueClientTypes {
             self.executionClass = executionClass
             self.executionProperty = executionProperty
             self.glueVersion = glueVersion
+            self.jobMode = jobMode
             self.lastModifiedOn = lastModifiedOn
             self.logUri = logUri
+            self.maintenanceWindow = maintenanceWindow
             self.maxCapacity = maxCapacity
             self.maxRetries = maxRetries
             self.name = name
@@ -22959,6 +22997,38 @@ extension GlueClientTypes {
 
 }
 
+extension GlueClientTypes {
+
+    public enum JobMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case notebook
+        case script
+        case visual
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JobMode] {
+            return [
+                .notebook,
+                .script,
+                .visual
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .notebook: return "NOTEBOOK"
+            case .script: return "SCRIPT"
+            case .visual: return "VISUAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 extension GlueClientTypes.JobNodeDetails {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.JobNodeDetails {
@@ -22995,6 +23065,7 @@ extension GlueClientTypes.JobRun {
         value.previousRunId = try reader["PreviousRunId"].readIfPresent()
         value.triggerName = try reader["TriggerName"].readIfPresent()
         value.jobName = try reader["JobName"].readIfPresent()
+        value.jobMode = try reader["JobMode"].readIfPresent()
         value.startedOn = try reader["StartedOn"].readTimestampIfPresent(format: .epochSeconds)
         value.lastModifiedOn = try reader["LastModifiedOn"].readTimestampIfPresent(format: .epochSeconds)
         value.completedOn = try reader["CompletedOn"].readTimestampIfPresent(format: .epochSeconds)
@@ -23014,6 +23085,7 @@ extension GlueClientTypes.JobRun {
         value.glueVersion = try reader["GlueVersion"].readIfPresent()
         value.dpuSeconds = try reader["DPUSeconds"].readIfPresent()
         value.executionClass = try reader["ExecutionClass"].readIfPresent()
+        value.maintenanceWindow = try reader["MaintenanceWindow"].readIfPresent()
         return value
     }
 }
@@ -23030,7 +23102,7 @@ extension GlueClientTypes {
         public var attempt: Swift.Int
         /// The date and time that this job run completed.
         public var completedOn: Foundation.Date?
-        /// This field populates only for Auto Scaling job runs, and represents the total time each executor ran during the lifecycle of a job run in seconds, multiplied by a DPU factor (1 for G.1X, 2 for G.2X, or 0.25 for G.025X workers). This value may be different than the executionEngineRuntime * MaxCapacity as in the case of Auto Scaling jobs, as the number of executors running at a given time may be less than the MaxCapacity. Therefore, it is possible that the value of DPUSeconds is less than executionEngineRuntime * MaxCapacity.
+        /// This field can be set for either job runs with execution class FLEX or when Auto Scaling is enabled, and represents the total time each executor ran during the lifecycle of a job run in seconds, multiplied by a DPU factor (1 for G.1X, 2 for G.2X, or 0.25 for G.025X workers). This value may be different than the executionEngineRuntime * MaxCapacity as in the case of Auto Scaling jobs, as the number of executors running at a given time may be less than the MaxCapacity. Therefore, it is possible that the value of DPUSeconds is less than executionEngineRuntime * MaxCapacity.
         public var dpuSeconds: Swift.Double?
         /// An error message associated with this job run.
         public var errorMessage: Swift.String?
@@ -23042,6 +23114,17 @@ extension GlueClientTypes {
         public var glueVersion: Swift.String?
         /// The ID of this job run.
         public var id: Swift.String?
+        /// A mode that describes how a job was created. Valid values are:
+        ///
+        /// * SCRIPT - The job was created using the Glue Studio script editor.
+        ///
+        /// * VISUAL - The job was created using the Glue Studio visual editor.
+        ///
+        /// * NOTEBOOK - The job was created using an interactive sessions notebook.
+        ///
+        ///
+        /// When the JobMode field is missing or null, SCRIPT is assigned as the default value.
+        public var jobMode: GlueClientTypes.JobMode?
         /// The name of the job definition being used in this run.
         public var jobName: Swift.String?
         /// The current state of the job run. For more information about the statuses of jobs that have terminated abnormally, see [Glue Job Run Statuses](https://docs.aws.amazon.com/glue/latest/dg/job-run-statuses.html).
@@ -23050,6 +23133,8 @@ extension GlueClientTypes {
         public var lastModifiedOn: Foundation.Date?
         /// The name of the log group for secure logging that can be server-side encrypted in Amazon CloudWatch using KMS. This name can be /aws-glue/jobs/, in which case the default encryption is NONE. If you add a role name and SecurityConfiguration name (in other words, /aws-glue/jobs-yourRoleName-yourSecurityConfigurationName/), then that security configuration is used to encrypt the log group.
         public var logGroupName: Swift.String?
+        /// This field specifies a day of the week and hour for a maintenance window for streaming jobs. Glue periodically performs maintenance activities. During these maintenance windows, Glue will need to restart your streaming jobs. Glue will restart the job within 3 hours of the specified maintenance window. For instance, if you set up the maintenance window for Monday at 10:00AM GMT, your jobs will be restarted between 10:00AM GMT to 1:00PM GMT.
+        public var maintenanceWindow: Swift.String?
         /// For Glue version 1.0 or earlier jobs, using the standard worker type, the number of Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the [ Glue pricing page](https://aws.amazon.com/glue/pricing/). For Glue version 2.0+ jobs, you cannot specify a Maximum capacity. Instead, you should specify a Worker type and the Number of workers. Do not set MaxCapacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job, an Apache Spark ETL job, or an Apache Spark streaming ETL job:
         ///
         /// * When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.
@@ -23068,7 +23153,7 @@ extension GlueClientTypes {
         public var securityConfiguration: Swift.String?
         /// The date and time at which this job run was started.
         public var startedOn: Foundation.Date?
-        /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. This value overrides the timeout value set in the parent job. Streaming jobs do not have a timeout. The default for non-streaming jobs is 2,880 minutes (48 hours).
+        /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. This value overrides the timeout value set in the parent job. The maximum value for timeout for batch jobs is 7 days or 10080 minutes. The default is 2880 minutes (48 hours) for batch jobs. Any existing Glue jobs that have a greater timeout value are defaulted to 7 days. For instance you have specified a timeout of 20 days for a batch job, it will be stopped on the 7th day. Streaming jobs must have timeout values less than 7 days or 10080 minutes. When the value is left blank, the job will be restarted after 7 days based if you have not setup a maintenance window. If you have setup maintenance window, it will be restarted during the maintenance window after 7 days.
         public var timeout: Swift.Int?
         /// The name of the trigger that started this job run.
         public var triggerName: Swift.String?
@@ -23098,10 +23183,12 @@ extension GlueClientTypes {
             executionTime: Swift.Int = 0,
             glueVersion: Swift.String? = nil,
             id: Swift.String? = nil,
+            jobMode: GlueClientTypes.JobMode? = nil,
             jobName: Swift.String? = nil,
             jobRunState: GlueClientTypes.JobRunState? = nil,
             lastModifiedOn: Foundation.Date? = nil,
             logGroupName: Swift.String? = nil,
+            maintenanceWindow: Swift.String? = nil,
             maxCapacity: Swift.Double? = nil,
             notificationProperty: GlueClientTypes.NotificationProperty? = nil,
             numberOfWorkers: Swift.Int? = nil,
@@ -23124,10 +23211,12 @@ extension GlueClientTypes {
             self.executionTime = executionTime
             self.glueVersion = glueVersion
             self.id = id
+            self.jobMode = jobMode
             self.jobName = jobName
             self.jobRunState = jobRunState
             self.lastModifiedOn = lastModifiedOn
             self.logGroupName = logGroupName
+            self.maintenanceWindow = maintenanceWindow
             self.maxCapacity = maxCapacity
             self.notificationProperty = notificationProperty
             self.numberOfWorkers = numberOfWorkers
@@ -23147,6 +23236,7 @@ extension GlueClientTypes {
 
     public enum JobRunState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case error
+        case expired
         case failed
         case running
         case starting
@@ -23160,6 +23250,7 @@ extension GlueClientTypes {
         public static var allCases: [JobRunState] {
             return [
                 .error,
+                .expired,
                 .failed,
                 .running,
                 .starting,
@@ -23179,6 +23270,7 @@ extension GlueClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .error: return "ERROR"
+            case .expired: return "EXPIRED"
             case .failed: return "FAILED"
             case .running: return "RUNNING"
             case .starting: return "STARTING"
@@ -23195,7 +23287,7 @@ extension GlueClientTypes {
 
 extension GlueClientTypes.JobUpdate: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "JobUpdate(allocatedCapacity: \(Swift.String(describing: allocatedCapacity)), command: \(Swift.String(describing: command)), connections: \(Swift.String(describing: connections)), defaultArguments: \(Swift.String(describing: defaultArguments)), description: \(Swift.String(describing: description)), executionClass: \(Swift.String(describing: executionClass)), executionProperty: \(Swift.String(describing: executionProperty)), glueVersion: \(Swift.String(describing: glueVersion)), logUri: \(Swift.String(describing: logUri)), maxCapacity: \(Swift.String(describing: maxCapacity)), maxRetries: \(Swift.String(describing: maxRetries)), nonOverridableArguments: \(Swift.String(describing: nonOverridableArguments)), notificationProperty: \(Swift.String(describing: notificationProperty)), numberOfWorkers: \(Swift.String(describing: numberOfWorkers)), role: \(Swift.String(describing: role)), securityConfiguration: \(Swift.String(describing: securityConfiguration)), sourceControlDetails: \(Swift.String(describing: sourceControlDetails)), timeout: \(Swift.String(describing: timeout)), workerType: \(Swift.String(describing: workerType)), codeGenConfigurationNodes: \"CONTENT_REDACTED\")"}
+        "JobUpdate(allocatedCapacity: \(Swift.String(describing: allocatedCapacity)), command: \(Swift.String(describing: command)), connections: \(Swift.String(describing: connections)), defaultArguments: \(Swift.String(describing: defaultArguments)), description: \(Swift.String(describing: description)), executionClass: \(Swift.String(describing: executionClass)), executionProperty: \(Swift.String(describing: executionProperty)), glueVersion: \(Swift.String(describing: glueVersion)), jobMode: \(Swift.String(describing: jobMode)), logUri: \(Swift.String(describing: logUri)), maintenanceWindow: \(Swift.String(describing: maintenanceWindow)), maxCapacity: \(Swift.String(describing: maxCapacity)), maxRetries: \(Swift.String(describing: maxRetries)), nonOverridableArguments: \(Swift.String(describing: nonOverridableArguments)), notificationProperty: \(Swift.String(describing: notificationProperty)), numberOfWorkers: \(Swift.String(describing: numberOfWorkers)), role: \(Swift.String(describing: role)), securityConfiguration: \(Swift.String(describing: securityConfiguration)), sourceControlDetails: \(Swift.String(describing: sourceControlDetails)), timeout: \(Swift.String(describing: timeout)), workerType: \(Swift.String(describing: workerType)), codeGenConfigurationNodes: \"CONTENT_REDACTED\")"}
 }
 
 extension GlueClientTypes.JobUpdate {
@@ -23211,7 +23303,9 @@ extension GlueClientTypes.JobUpdate {
         try writer["ExecutionClass"].write(value.executionClass)
         try writer["ExecutionProperty"].write(value.executionProperty, with: GlueClientTypes.ExecutionProperty.write(value:to:))
         try writer["GlueVersion"].write(value.glueVersion)
+        try writer["JobMode"].write(value.jobMode)
         try writer["LogUri"].write(value.logUri)
+        try writer["MaintenanceWindow"].write(value.maintenanceWindow)
         try writer["MaxCapacity"].write(value.maxCapacity)
         try writer["MaxRetries"].write(value.maxRetries)
         try writer["NonOverridableArguments"].writeMap(value.nonOverridableArguments, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -23247,8 +23341,21 @@ extension GlueClientTypes {
         public var executionProperty: GlueClientTypes.ExecutionProperty?
         /// In Spark jobs, GlueVersion determines the versions of Apache Spark and Python that Glue available in a job. The Python version indicates the version supported for jobs of type Spark. Ray jobs should set GlueVersion to 4.0 or greater. However, the versions of Ray, Python and additional libraries available in your Ray job are determined by the Runtime parameter of the Job command. For more information about the available Glue versions and corresponding Spark and Python versions, see [Glue version](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide. Jobs that are created without specifying a Glue version default to Glue 0.9.
         public var glueVersion: Swift.String?
+        /// A mode that describes how a job was created. Valid values are:
+        ///
+        /// * SCRIPT - The job was created using the Glue Studio script editor.
+        ///
+        /// * VISUAL - The job was created using the Glue Studio visual editor.
+        ///
+        /// * NOTEBOOK - The job was created using an interactive sessions notebook.
+        ///
+        ///
+        /// When the JobMode field is missing or null, SCRIPT is assigned as the default value.
+        public var jobMode: GlueClientTypes.JobMode?
         /// This field is reserved for future use.
         public var logUri: Swift.String?
+        /// This field specifies a day of the week and hour for a maintenance window for streaming jobs. Glue periodically performs maintenance activities. During these maintenance windows, Glue will need to restart your streaming jobs. Glue will restart the job within 3 hours of the specified maintenance window. For instance, if you set up the maintenance window for Monday at 10:00AM GMT, your jobs will be restarted between 10:00AM GMT to 1:00PM GMT.
+        public var maintenanceWindow: Swift.String?
         /// For Glue version 1.0 or earlier jobs, using the standard worker type, the number of Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the [ Glue pricing page](https://aws.amazon.com/glue/pricing/). For Glue version 2.0+ jobs, you cannot specify a Maximum capacity. Instead, you should specify a Worker type and the Number of workers. Do not set MaxCapacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job, an Apache Spark ETL job, or an Apache Spark streaming ETL job:
         ///
         /// * When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.
@@ -23296,7 +23403,9 @@ extension GlueClientTypes {
             executionClass: GlueClientTypes.ExecutionClass? = nil,
             executionProperty: GlueClientTypes.ExecutionProperty? = nil,
             glueVersion: Swift.String? = nil,
+            jobMode: GlueClientTypes.JobMode? = nil,
             logUri: Swift.String? = nil,
+            maintenanceWindow: Swift.String? = nil,
             maxCapacity: Swift.Double? = nil,
             maxRetries: Swift.Int = 0,
             nonOverridableArguments: [Swift.String:Swift.String]? = nil,
@@ -23318,7 +23427,9 @@ extension GlueClientTypes {
             self.executionClass = executionClass
             self.executionProperty = executionProperty
             self.glueVersion = glueVersion
+            self.jobMode = jobMode
             self.logUri = logUri
+            self.maintenanceWindow = maintenanceWindow
             self.maxCapacity = maxCapacity
             self.maxRetries = maxRetries
             self.nonOverridableArguments = nonOverridableArguments

@@ -307,7 +307,7 @@ extension AmplifyClientTypes.Backend {
 }
 
 extension AmplifyClientTypes {
-    /// Describes the backend properties associated with an Amplify Branch.
+    /// Describes the backend associated with an Amplify Branch. This property is available to Amplify Gen 2 apps only. When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code.
     public struct Backend {
         /// The Amazon Resource Name (ARN) for the CloudFormation stack.
         public var stackArn: Swift.String?
@@ -338,7 +338,7 @@ extension AmplifyClientTypes.BackendEnvironment {
 }
 
 extension AmplifyClientTypes {
-    /// Describes the backend environment for an Amplify app.
+    /// Describes the backend environment associated with a Branch of a Gen 1 Amplify app. Amplify Gen 1 applications are created using Amplify Studio or the Amplify command line interface (CLI).
     public struct BackendEnvironment {
         /// The Amazon Resource Name (ARN) for a backend environment that is part of an Amplify app.
         /// This member is required.
@@ -464,9 +464,9 @@ extension AmplifyClientTypes {
         public var activeJobId: Swift.String?
         /// A list of custom resources that are linked to this branch.
         public var associatedResources: [Swift.String]?
-        /// Describes the backend properties associated with an Amplify Branch.
+        /// Describes the backend associated with an Amplify Branch. This property is available to Amplify Gen 2 apps only. When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code.
         public var backend: AmplifyClientTypes.Backend?
-        /// The Amazon Resource Name (ARN) for a backend environment that is part of an Amplify app.
+        /// The Amazon Resource Name (ARN) for a backend environment that is part of an Amplify app. This property is available to Amplify Gen 1 apps only. When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code.
         public var backendEnvironmentArn: Swift.String?
         /// The basic authorization credentials for a branch of an Amplify app. You must base64-encode the authorization credentials and provide them in the format user:password.
         public var basicAuthCredentials: Swift.String?
@@ -996,9 +996,9 @@ public struct CreateBranchInput {
     /// The unique ID for an Amplify app.
     /// This member is required.
     public var appId: Swift.String?
-    /// The backend for a Branch of an Amplify app. Use for a backend created from an CloudFormation stack.
+    /// The backend for a Branch of an Amplify app. Use for a backend created from an CloudFormation stack. This field is available to Amplify Gen 2 apps only. When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code.
     public var backend: AmplifyClientTypes.Backend?
-    /// The Amazon Resource Name (ARN) for a backend environment that is part of an Amplify app.
+    /// The Amazon Resource Name (ARN) for a backend environment that is part of a Gen 1 Amplify app. This field is available to Amplify Gen 1 apps only where the backend is created using Amplify Studio or the Amplify command line interface (CLI).
     public var backendEnvironmentArn: Swift.String?
     /// The basic authorization credentials for the branch. You must base64-encode the authorization credentials and provide them in the format user:password.
     public var basicAuthCredentials: Swift.String?
@@ -4771,9 +4771,9 @@ public struct UpdateBranchInput {
     /// The unique ID for an Amplify app.
     /// This member is required.
     public var appId: Swift.String?
-    /// The backend for a Branch of an Amplify app. Use for a backend created from an CloudFormation stack.
+    /// The backend for a Branch of an Amplify app. Use for a backend created from an CloudFormation stack. This field is available to Amplify Gen 2 apps only. When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code.
     public var backend: AmplifyClientTypes.Backend?
-    /// The Amazon Resource Name (ARN) for a backend environment that is part of an Amplify app.
+    /// The Amazon Resource Name (ARN) for a backend environment that is part of a Gen 1 Amplify app. This field is available to Amplify Gen 1 apps only where the backend is created using Amplify Studio or the Amplify command line interface (CLI).
     public var backendEnvironmentArn: Swift.String?
     /// The basic authorization credentials for the branch. You must base64-encode the authorization credentials and provide them in the format user:password.
     public var basicAuthCredentials: Swift.String?

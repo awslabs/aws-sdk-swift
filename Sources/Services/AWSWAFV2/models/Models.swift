@@ -708,7 +708,7 @@ extension WAFV2ClientTypes {
         ///
         /// * UriPath: The value that you want WAF to search for in the URI path, for example, /images/daily-ad.jpg.
         ///
-        /// * JA3Fingerprint: Match against the request's JA3 fingerprint. The JA3 fingerprint is a 32-character hash derived from the TLS Client Hello of an incoming request. This fingerprint serves as a unique identifier for the client's TLS configuration. You can use this choice only with a string match ByteMatchStatement with the PositionalConstraint set to EXACTLY. You can obtain the JA3 fingerprint for client requests from the web ACL logs. If WAF is able to calculate the fingerprint, it includes it in the logs. For information about the logging fields, see [Log fields](https://docs.aws.amazon.com/waf/latest/developerguide/logging-fields.html) in the WAF Developer Guide.
+        /// * JA3Fingerprint: Available for use with Amazon CloudFront distributions and Application Load Balancers. Match against the request's JA3 fingerprint. The JA3 fingerprint is a 32-character hash derived from the TLS Client Hello of an incoming request. This fingerprint serves as a unique identifier for the client's TLS configuration. You can use this choice only with a string match ByteMatchStatement with the PositionalConstraint set to EXACTLY. You can obtain the JA3 fingerprint for client requests from the web ACL logs. If WAF is able to calculate the fingerprint, it includes it in the logs. For information about the logging fields, see [Log fields](https://docs.aws.amazon.com/waf/latest/developerguide/logging-fields.html) in the WAF Developer Guide.
         ///
         /// * HeaderOrder: The list of header names to match for. WAF creates a string that contains the ordered list of header names, from the headers in the web request, and then matches against that string.
         ///
@@ -3015,19 +3015,29 @@ extension DeleteLoggingConfigurationInput {
 
     static func write(value: DeleteLoggingConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["LogScope"].write(value.logScope)
+        try writer["LogType"].write(value.logType)
         try writer["ResourceArn"].write(value.resourceArn)
     }
 }
 
 public struct DeleteLoggingConfigurationInput {
+    /// The owner of the logging configuration, which must be set to CUSTOMER for the configurations that you manage. The log scope SECURITY_LAKE indicates a configuration that is managed through Amazon Security Lake. You can use Security Lake to collect log and event data from various sources for normalization, analysis, and management. For information, see [Collecting data from Amazon Web Services services](https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html) in the Amazon Security Lake user guide. Default: CUSTOMER
+    public var logScope: WAFV2ClientTypes.LogScope?
+    /// Used to distinguish between various logging options. Currently, there is one option. Default: WAF_LOGS
+    public var logType: WAFV2ClientTypes.LogType?
     /// The Amazon Resource Name (ARN) of the web ACL from which you want to delete the [LoggingConfiguration].
     /// This member is required.
     public var resourceArn: Swift.String?
 
     public init(
+        logScope: WAFV2ClientTypes.LogScope? = nil,
+        logType: WAFV2ClientTypes.LogType? = nil,
         resourceArn: Swift.String? = nil
     )
     {
+        self.logScope = logScope
+        self.logType = logType
         self.resourceArn = resourceArn
     }
 }
@@ -3891,6 +3901,8 @@ extension WAFV2ClientTypes {
     /// * Even though all FieldToMatch settings are available, the only valid settings for field redaction are UriPath, QueryString, SingleHeader, and Method.
     ///
     /// * In this documentation, the descriptions of the individual fields talk about specifying the web request component to inspect, but for field redaction, you are specifying the component type to redact from the logs.
+    ///
+    /// * If you have request sampling enabled, the redacted fields configuration for logging has no impact on sampling. The only way to exclude fields from request sampling is by disabling sampling in the web ACL visibility configuration.
     public struct FieldToMatch {
         /// Inspect all query arguments.
         public var allQueryArguments: WAFV2ClientTypes.AllQueryArguments?
@@ -3909,7 +3921,7 @@ extension WAFV2ClientTypes {
         public var headerOrder: WAFV2ClientTypes.HeaderOrder?
         /// Inspect the request headers. You must configure scope and pattern matching filters in the Headers object, to define the set of headers to and the parts of the headers that WAF inspects. Only the first 8 KB (8192 bytes) of a request's headers and only the first 200 headers are forwarded to WAF for inspection by the underlying host service. You must configure how to handle any oversize header content in the Headers object. WAF applies the pattern matching filters to the headers that it receives from the underlying host service.
         public var headers: WAFV2ClientTypes.Headers?
-        /// Match against the request's JA3 fingerprint. The JA3 fingerprint is a 32-character hash derived from the TLS Client Hello of an incoming request. This fingerprint serves as a unique identifier for the client's TLS configuration. WAF calculates and logs this fingerprint for each request that has enough TLS Client Hello information for the calculation. Almost all web requests include this information. You can use this choice only with a string match ByteMatchStatement with the PositionalConstraint set to EXACTLY. You can obtain the JA3 fingerprint for client requests from the web ACL logs. If WAF is able to calculate the fingerprint, it includes it in the logs. For information about the logging fields, see [Log fields](https://docs.aws.amazon.com/waf/latest/developerguide/logging-fields.html) in the WAF Developer Guide. Provide the JA3 fingerprint string from the logs in your string match statement specification, to match with any future requests that have the same TLS configuration.
+        /// Available for use with Amazon CloudFront distributions and Application Load Balancers. Match against the request's JA3 fingerprint. The JA3 fingerprint is a 32-character hash derived from the TLS Client Hello of an incoming request. This fingerprint serves as a unique identifier for the client's TLS configuration. WAF calculates and logs this fingerprint for each request that has enough TLS Client Hello information for the calculation. Almost all web requests include this information. You can use this choice only with a string match ByteMatchStatement with the PositionalConstraint set to EXACTLY. You can obtain the JA3 fingerprint for client requests from the web ACL logs. If WAF is able to calculate the fingerprint, it includes it in the logs. For information about the logging fields, see [Log fields](https://docs.aws.amazon.com/waf/latest/developerguide/logging-fields.html) in the WAF Developer Guide. Provide the JA3 fingerprint string from the logs in your string match statement specification, to match with any future requests that have the same TLS configuration.
         public var ja3Fingerprint: WAFV2ClientTypes.JA3Fingerprint?
         /// Inspect the request body as JSON. The request body immediately follows the request headers. This is the part of a request that contains any additional data that you want to send to your web server as the HTTP request body, such as data from a form. WAF does not support inspecting the entire contents of the web request body if the body exceeds the limit for the resource type. When a web request body is larger than the limit, the underlying host service only forwards the contents that are within the limit to WAF for inspection.
         ///
@@ -4529,19 +4541,29 @@ extension GetLoggingConfigurationInput {
 
     static func write(value: GetLoggingConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["LogScope"].write(value.logScope)
+        try writer["LogType"].write(value.logType)
         try writer["ResourceArn"].write(value.resourceArn)
     }
 }
 
 public struct GetLoggingConfigurationInput {
+    /// The owner of the logging configuration, which must be set to CUSTOMER for the configurations that you manage. The log scope SECURITY_LAKE indicates a configuration that is managed through Amazon Security Lake. You can use Security Lake to collect log and event data from various sources for normalization, analysis, and management. For information, see [Collecting data from Amazon Web Services services](https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html) in the Amazon Security Lake user guide. Default: CUSTOMER
+    public var logScope: WAFV2ClientTypes.LogScope?
+    /// Used to distinguish between various logging options. Currently, there is one option. Default: WAF_LOGS
+    public var logType: WAFV2ClientTypes.LogType?
     /// The Amazon Resource Name (ARN) of the web ACL for which you want to get the [LoggingConfiguration].
     /// This member is required.
     public var resourceArn: Swift.String?
 
     public init(
+        logScope: WAFV2ClientTypes.LogScope? = nil,
+        logType: WAFV2ClientTypes.LogType? = nil,
         resourceArn: Swift.String? = nil
     )
     {
+        self.logScope = logScope
+        self.logType = logType
         self.resourceArn = resourceArn
     }
 }
@@ -5927,7 +5949,7 @@ extension WAFV2ClientTypes.JA3Fingerprint {
 }
 
 extension WAFV2ClientTypes {
-    /// Match against the request's JA3 fingerprint. The JA3 fingerprint is a 32-character hash derived from the TLS Client Hello of an incoming request. This fingerprint serves as a unique identifier for the client's TLS configuration. WAF calculates and logs this fingerprint for each request that has enough TLS Client Hello information for the calculation. Almost all web requests include this information. You can use this choice only with a string match ByteMatchStatement with the PositionalConstraint set to EXACTLY. You can obtain the JA3 fingerprint for client requests from the web ACL logs. If WAF is able to calculate the fingerprint, it includes it in the logs. For information about the logging fields, see [Log fields](https://docs.aws.amazon.com/waf/latest/developerguide/logging-fields.html) in the WAF Developer Guide. Provide the JA3 fingerprint string from the logs in your string match statement specification, to match with any future requests that have the same TLS configuration.
+    /// Available for use with Amazon CloudFront distributions and Application Load Balancers. Match against the request's JA3 fingerprint. The JA3 fingerprint is a 32-character hash derived from the TLS Client Hello of an incoming request. This fingerprint serves as a unique identifier for the client's TLS configuration. WAF calculates and logs this fingerprint for each request that has enough TLS Client Hello information for the calculation. Almost all web requests include this information. You can use this choice only with a string match ByteMatchStatement with the PositionalConstraint set to EXACTLY. You can obtain the JA3 fingerprint for client requests from the web ACL logs. If WAF is able to calculate the fingerprint, it includes it in the logs. For information about the logging fields, see [Log fields](https://docs.aws.amazon.com/waf/latest/developerguide/logging-fields.html) in the WAF Developer Guide. Provide the JA3 fingerprint string from the logs in your string match statement specification, to match with any future requests that have the same TLS configuration.
     public struct JA3Fingerprint {
         /// The match status to assign to the web request if the request doesn't have a JA3 fingerprint. You can specify the following fallback behaviors:
         ///
@@ -6651,6 +6673,7 @@ extension ListLoggingConfigurationsInput {
     static func write(value: ListLoggingConfigurationsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Limit"].write(value.limit)
+        try writer["LogScope"].write(value.logScope)
         try writer["NextMarker"].write(value.nextMarker)
         try writer["Scope"].write(value.scope)
     }
@@ -6659,6 +6682,8 @@ extension ListLoggingConfigurationsInput {
 public struct ListLoggingConfigurationsInput {
     /// The maximum number of objects that you want WAF to return for this request. If more objects are available, in the response, WAF provides a NextMarker value that you can use in a subsequent call to get the next batch of objects.
     public var limit: Swift.Int?
+    /// The owner of the logging configuration, which must be set to CUSTOMER for the configurations that you manage. The log scope SECURITY_LAKE indicates a configuration that is managed through Amazon Security Lake. You can use Security Lake to collect log and event data from various sources for normalization, analysis, and management. For information, see [Collecting data from Amazon Web Services services](https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html) in the Amazon Security Lake user guide. Default: CUSTOMER
+    public var logScope: WAFV2ClientTypes.LogScope?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
     /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
@@ -6671,11 +6696,13 @@ public struct ListLoggingConfigurationsInput {
 
     public init(
         limit: Swift.Int? = nil,
+        logScope: WAFV2ClientTypes.LogScope? = nil,
         nextMarker: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
     )
     {
         self.limit = limit
+        self.logScope = logScope
         self.nextMarker = nextMarker
         self.scope = scope
     }
@@ -7317,11 +7344,68 @@ enum ListWebACLsOutputError {
     }
 }
 
+extension WAFV2ClientTypes {
+
+    public enum LogScope: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case customer
+        case securityLake
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LogScope] {
+            return [
+                .customer,
+                .securityLake
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .customer: return "CUSTOMER"
+            case .securityLake: return "SECURITY_LAKE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    public enum LogType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case wafLogs
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LogType] {
+            return [
+                .wafLogs
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .wafLogs: return "WAF_LOGS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 extension WAFV2ClientTypes.LoggingConfiguration {
 
     static func write(value: WAFV2ClientTypes.LoggingConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["LogDestinationConfigs"].writeList(value.logDestinationConfigs, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["LogScope"].write(value.logScope)
+        try writer["LogType"].write(value.logType)
         try writer["LoggingFilter"].write(value.loggingFilter, with: WAFV2ClientTypes.LoggingFilter.write(value:to:))
         try writer["ManagedByFirewallManager"].write(value.managedByFirewallManager)
         try writer["RedactedFields"].writeList(value.redactedFields, memberWritingClosure: WAFV2ClientTypes.FieldToMatch.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -7336,6 +7420,8 @@ extension WAFV2ClientTypes.LoggingConfiguration {
         value.redactedFields = try reader["RedactedFields"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.FieldToMatch.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.managedByFirewallManager = try reader["ManagedByFirewallManager"].readIfPresent() ?? false
         value.loggingFilter = try reader["LoggingFilter"].readIfPresent(with: WAFV2ClientTypes.LoggingFilter.read(from:))
+        value.logType = try reader["LogType"].readIfPresent()
+        value.logScope = try reader["LogScope"].readIfPresent()
         return value
     }
 }
@@ -7353,11 +7439,15 @@ extension WAFV2ClientTypes {
         /// The logging destination configuration that you want to associate with the web ACL. You can associate one logging destination to a web ACL.
         /// This member is required.
         public var logDestinationConfigs: [Swift.String]?
+        /// The owner of the logging configuration, which must be set to CUSTOMER for the configurations that you manage. The log scope SECURITY_LAKE indicates a configuration that is managed through Amazon Security Lake. You can use Security Lake to collect log and event data from various sources for normalization, analysis, and management. For information, see [Collecting data from Amazon Web Services services](https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html) in the Amazon Security Lake user guide. Default: CUSTOMER
+        public var logScope: WAFV2ClientTypes.LogScope?
+        /// Used to distinguish between various logging options. Currently, there is one option. Default: WAF_LOGS
+        public var logType: WAFV2ClientTypes.LogType?
         /// Filtering that specifies which web requests are kept in the logs and which are dropped. You can filter on the rule action and on the web request labels that were applied by matching rules during web ACL evaluation.
         public var loggingFilter: WAFV2ClientTypes.LoggingFilter?
         /// Indicates whether the logging configuration was created by Firewall Manager, as part of an WAF policy configuration. If true, only Firewall Manager can modify or delete the configuration.
         public var managedByFirewallManager: Swift.Bool
-        /// The parts of the request that you want to keep out of the logs. For example, if you redact the SingleHeader field, the HEADER field in the logs will be REDACTED for all rules that use the SingleHeaderFieldToMatch setting. Redaction applies only to the component that's specified in the rule's FieldToMatch setting, so the SingleHeader redaction doesn't apply to rules that use the HeadersFieldToMatch. You can specify only the following fields for redaction: UriPath, QueryString, SingleHeader, and Method.
+        /// The parts of the request that you want to keep out of the logs. For example, if you redact the SingleHeader field, the HEADER field in the logs will be REDACTED for all rules that use the SingleHeaderFieldToMatch setting. Redaction applies only to the component that's specified in the rule's FieldToMatch setting, so the SingleHeader redaction doesn't apply to rules that use the HeadersFieldToMatch. You can specify only the following fields for redaction: UriPath, QueryString, SingleHeader, and Method. This setting has no impact on request sampling. With request sampling, the only way to exclude fields is by disabling sampling in the web ACL visibility configuration.
         public var redactedFields: [WAFV2ClientTypes.FieldToMatch]?
         /// The Amazon Resource Name (ARN) of the web ACL that you want to associate with LogDestinationConfigs.
         /// This member is required.
@@ -7365,6 +7455,8 @@ extension WAFV2ClientTypes {
 
         public init(
             logDestinationConfigs: [Swift.String]? = nil,
+            logScope: WAFV2ClientTypes.LogScope? = nil,
+            logType: WAFV2ClientTypes.LogType? = nil,
             loggingFilter: WAFV2ClientTypes.LoggingFilter? = nil,
             managedByFirewallManager: Swift.Bool = false,
             redactedFields: [WAFV2ClientTypes.FieldToMatch]? = nil,
@@ -7372,6 +7464,8 @@ extension WAFV2ClientTypes {
         )
         {
             self.logDestinationConfigs = logDestinationConfigs
+            self.logScope = logScope
+            self.logType = logType
             self.loggingFilter = loggingFilter
             self.managedByFirewallManager = managedByFirewallManager
             self.redactedFields = redactedFields
@@ -12037,7 +12131,7 @@ extension WAFV2ClientTypes {
         /// A name of the Amazon CloudWatch metric dimension. The name can contain only the characters: A-Z, a-z, 0-9, - (hyphen), and _ (underscore). The name can be from one to 128 characters long. It can't contain whitespace or metric names that are reserved for WAF, for example All and Default_Action.
         /// This member is required.
         public var metricName: Swift.String?
-        /// Indicates whether WAF should store a sampling of the web requests that match the rules. You can view the sampled requests through the WAF console.
+        /// Indicates whether WAF should store a sampling of the web requests that match the rules. You can view the sampled requests through the WAF console. Request sampling doesn't provide a field redaction option, and any field redaction that you specify in your logging configuration doesn't affect sampling. The only way to exclude fields from request sampling is by disabling sampling in the web ACL visibility configuration.
         /// This member is required.
         public var sampledRequestsEnabled: Swift.Bool
 

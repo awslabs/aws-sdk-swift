@@ -2171,6 +2171,130 @@ public struct DefaultUndefinedFault: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
+extension DeleteActivityTypeInput {
+
+    static func urlPathProvider(_ value: DeleteActivityTypeInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteActivityTypeInput {
+
+    static func write(value: DeleteActivityTypeInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["activityType"].write(value.activityType, with: SWFClientTypes.ActivityType.write(value:to:))
+        try writer["domain"].write(value.domain)
+    }
+}
+
+public struct DeleteActivityTypeInput {
+    /// The activity type to delete.
+    /// This member is required.
+    public var activityType: SWFClientTypes.ActivityType?
+    /// The name of the domain in which the activity type is registered.
+    /// This member is required.
+    public var domain: Swift.String?
+
+    public init(
+        activityType: SWFClientTypes.ActivityType? = nil,
+        domain: Swift.String? = nil
+    )
+    {
+        self.activityType = activityType
+        self.domain = domain
+    }
+}
+
+extension DeleteActivityTypeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteActivityTypeOutput {
+        return DeleteActivityTypeOutput()
+    }
+}
+
+public struct DeleteActivityTypeOutput {
+
+    public init() { }
+}
+
+enum DeleteActivityTypeOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "OperationNotPermittedFault": return try OperationNotPermittedFault.makeError(baseError: baseError)
+            case "TypeNotDeprecatedFault": return try TypeNotDeprecatedFault.makeError(baseError: baseError)
+            case "UnknownResourceFault": return try UnknownResourceFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+extension DeleteWorkflowTypeInput {
+
+    static func urlPathProvider(_ value: DeleteWorkflowTypeInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteWorkflowTypeInput {
+
+    static func write(value: DeleteWorkflowTypeInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["domain"].write(value.domain)
+        try writer["workflowType"].write(value.workflowType, with: SWFClientTypes.WorkflowType.write(value:to:))
+    }
+}
+
+public struct DeleteWorkflowTypeInput {
+    /// The name of the domain in which the workflow type is registered.
+    /// This member is required.
+    public var domain: Swift.String?
+    /// The workflow type to delete.
+    /// This member is required.
+    public var workflowType: SWFClientTypes.WorkflowType?
+
+    public init(
+        domain: Swift.String? = nil,
+        workflowType: SWFClientTypes.WorkflowType? = nil
+    )
+    {
+        self.domain = domain
+        self.workflowType = workflowType
+    }
+}
+
+extension DeleteWorkflowTypeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteWorkflowTypeOutput {
+        return DeleteWorkflowTypeOutput()
+    }
+}
+
+public struct DeleteWorkflowTypeOutput {
+
+    public init() { }
+}
+
+enum DeleteWorkflowTypeOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "OperationNotPermittedFault": return try OperationNotPermittedFault.makeError(baseError: baseError)
+            case "TypeNotDeprecatedFault": return try TypeNotDeprecatedFault.makeError(baseError: baseError)
+            case "UnknownResourceFault": return try UnknownResourceFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 extension DeprecateActivityTypeInput {
 
     static func urlPathProvider(_ value: DeprecateActivityTypeInput) -> Swift.String? {
@@ -7696,6 +7820,43 @@ public struct TypeDeprecatedFault: ClientRuntime.ModeledError, AWSClientRuntime.
 
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "TypeDeprecatedFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+extension TypeNotDeprecatedFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TypeNotDeprecatedFault {
+        let reader = baseError.errorBodyReader
+        var value = TypeNotDeprecatedFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+/// Returned when the resource type has not been deprecated.
+public struct TypeNotDeprecatedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TypeNotDeprecatedFault" }
     public static var fault: ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
