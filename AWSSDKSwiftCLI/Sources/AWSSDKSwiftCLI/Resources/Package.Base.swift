@@ -18,6 +18,8 @@ import PackageDescription
 extension Target.Dependency {
     static var awsClientRuntime: Self { "AWSClientRuntime" }
     static var awsSDKCommon: Self { "AWSSDKCommon" }
+    static var awsSDKHTTPAuth: Self { "AWSSDKHTTPAuth" }
+    static var awsSDKIdentity: Self { "AWSSDKIdentity" }
     static var clientRuntime: Self { .product(name: "ClientRuntime", package: "smithy-swift") }
     static var crt: Self { .product(name: "AwsCommonRuntimeKit", package: "aws-crt-swift") }
     static var smithy: Self { .product(name: "Smithy", package: "smithy-swift") }
@@ -67,8 +69,8 @@ let package = Package(
                 .smithyEventStreamsAPI,
                 .smithyEventStreamsAuthAPI,
                 .awsSDKCommon,
-                "AWSSDKIdentity",
-                "AWSSDKHTTPAuth"
+                .awsSDKHTTPAuth,
+                .awsSDKIdentity
             ],
             path: "./Sources/Core/AWSClientRuntime",
             resources: [
