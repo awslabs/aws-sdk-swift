@@ -173,6 +173,7 @@ let serviceTargetDependencies: [Target.Dependency] = [
     .smithyRetriesAPI,
     .smithyRetries,
     .smithy,
+    .smithyIdentity,
     .smithyIdentityAPI,
     .smithyEventStreamsAPI,
     .smithyEventStreamsAuthAPI,
