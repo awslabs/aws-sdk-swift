@@ -26,9 +26,6 @@ rm -rf Tests/Services/*
 # Move generated Swift code into place in the Sources/ dir
 ./gradlew -p codegen/sdk-codegen stageSdks
 
-# Merge the newly built models
-./scripts/mergeModels.sh Sources/Services
-
 # Regenerate the package manifest and doc index, with args passed into this script
 cd AWSSDKSwiftCLI
 swift run AWSSDKSwiftCLI generate-package-manifest "$@" ..

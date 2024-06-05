@@ -117,7 +117,8 @@ fun generateSmithyBuild(services: List<AwsService>): String {
                       "build": {
                           "rootProject": $buildStandaloneSdk
                       },
-                      "useInterceptors": ${interceptorsServices.contains(service.packageName)}
+                      "useInterceptors": ${interceptorsServices.contains(service.packageName)},
+                      "mergeModels": true
                     }
                 }
             }

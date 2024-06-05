@@ -11,9 +11,6 @@ rm -rf Tests/Services/*
 ./gradlew -p codegen/sdk-codegen stageSdks
 ./gradlew --stop
 
-# Merge model files
-./scripts/mergeModels.sh Sources/Services
-
 # Regenerate the SDK Package.swift with all services
 cd AWSSDKSwiftCLI
 swift run AWSSDKSwiftCLI generate-package-manifest ..
