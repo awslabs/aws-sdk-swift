@@ -1235,6 +1235,37 @@ enum AssociateAgentKnowledgeBaseOutputError {
 
 public enum BedrockAgentClientTypes {}
 
+extension BedrockAgentClientTypes.BedrockEmbeddingModelConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.BedrockEmbeddingModelConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dimensions"].write(value.dimensions)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.BedrockEmbeddingModelConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.BedrockEmbeddingModelConfiguration()
+        value.dimensions = try reader["dimensions"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes {
+    /// The vector configuration details for the Bedrock embeddings model.
+    public struct BedrockEmbeddingModelConfiguration {
+        /// The dimensions details for the vector configuration used on the Bedrock embeddings model.
+        public var dimensions: Swift.Int?
+
+        public init(
+            dimensions: Swift.Int? = nil
+        )
+        {
+            self.dimensions = dimensions
+        }
+    }
+
+}
+
 extension BedrockAgentClientTypes.ChunkingConfiguration {
 
     static func write(value: BedrockAgentClientTypes.ChunkingConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -2832,6 +2863,37 @@ enum DisassociateAgentKnowledgeBaseOutputError {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
+}
+
+extension BedrockAgentClientTypes.EmbeddingModelConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.EmbeddingModelConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bedrockEmbeddingModelConfiguration"].write(value.bedrockEmbeddingModelConfiguration, with: BedrockAgentClientTypes.BedrockEmbeddingModelConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.EmbeddingModelConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.EmbeddingModelConfiguration()
+        value.bedrockEmbeddingModelConfiguration = try reader["bedrockEmbeddingModelConfiguration"].readIfPresent(with: BedrockAgentClientTypes.BedrockEmbeddingModelConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes {
+    /// The configuration details for the embeddings model.
+    public struct EmbeddingModelConfiguration {
+        /// The vector configuration details on the Bedrock embeddings model.
+        public var bedrockEmbeddingModelConfiguration: BedrockAgentClientTypes.BedrockEmbeddingModelConfiguration?
+
+        public init(
+            bedrockEmbeddingModelConfiguration: BedrockAgentClientTypes.BedrockEmbeddingModelConfiguration? = nil
+        )
+        {
+            self.bedrockEmbeddingModelConfiguration = bedrockEmbeddingModelConfiguration
+        }
+    }
+
 }
 
 extension BedrockAgentClientTypes.FixedSizeChunkingConfiguration {
@@ -7386,12 +7448,14 @@ extension BedrockAgentClientTypes.VectorKnowledgeBaseConfiguration {
     static func write(value: BedrockAgentClientTypes.VectorKnowledgeBaseConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["embeddingModelArn"].write(value.embeddingModelArn)
+        try writer["embeddingModelConfiguration"].write(value.embeddingModelConfiguration, with: BedrockAgentClientTypes.EmbeddingModelConfiguration.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.VectorKnowledgeBaseConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.VectorKnowledgeBaseConfiguration()
         value.embeddingModelArn = try reader["embeddingModelArn"].readIfPresent()
+        value.embeddingModelConfiguration = try reader["embeddingModelConfiguration"].readIfPresent(with: BedrockAgentClientTypes.EmbeddingModelConfiguration.read(from:))
         return value
     }
 }
@@ -7402,12 +7466,16 @@ extension BedrockAgentClientTypes {
         /// The Amazon Resource Name (ARN) of the model used to create vector embeddings for the knowledge base.
         /// This member is required.
         public var embeddingModelArn: Swift.String?
+        /// The embeddings model configuration details for the vector model used in Knowledge Base.
+        public var embeddingModelConfiguration: BedrockAgentClientTypes.EmbeddingModelConfiguration?
 
         public init(
-            embeddingModelArn: Swift.String? = nil
+            embeddingModelArn: Swift.String? = nil,
+            embeddingModelConfiguration: BedrockAgentClientTypes.EmbeddingModelConfiguration? = nil
         )
         {
             self.embeddingModelArn = embeddingModelArn
+            self.embeddingModelConfiguration = embeddingModelConfiguration
         }
     }
 

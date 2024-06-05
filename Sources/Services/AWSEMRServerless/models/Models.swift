@@ -33,6 +33,7 @@ extension EMRServerlessClientTypes.Application {
         value.workerTypeSpecifications = try reader["workerTypeSpecifications"].readMapIfPresent(valueReadingClosure: EMRServerlessClientTypes.WorkerTypeSpecification.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.runtimeConfiguration = try reader["runtimeConfiguration"].readListIfPresent(memberReadingClosure: EMRServerlessClientTypes.Configuration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.monitoringConfiguration = try reader["monitoringConfiguration"].readIfPresent(with: EMRServerlessClientTypes.MonitoringConfiguration.read(from:))
+        value.interactiveConfiguration = try reader["interactiveConfiguration"].readIfPresent(with: EMRServerlessClientTypes.InteractiveConfiguration.read(from:))
         return value
     }
 }
@@ -59,6 +60,8 @@ extension EMRServerlessClientTypes {
         public var imageConfiguration: EMRServerlessClientTypes.ImageConfiguration?
         /// The initial capacity of the application.
         public var initialCapacity: [Swift.String:EMRServerlessClientTypes.InitialCapacityConfig]?
+        /// The interactive configuration object that enables the interactive use cases for an application.
+        public var interactiveConfiguration: EMRServerlessClientTypes.InteractiveConfiguration?
         /// The maximum capacity of the application. This is cumulative across all workers at any given point in time during the lifespan of the application is created. No new resources will be created once any one of the defined limits is hit.
         public var maximumCapacity: EMRServerlessClientTypes.MaximumAllowedResources?
         /// The configuration setting for monitoring.
@@ -97,6 +100,7 @@ extension EMRServerlessClientTypes {
             createdAt: Foundation.Date? = nil,
             imageConfiguration: EMRServerlessClientTypes.ImageConfiguration? = nil,
             initialCapacity: [Swift.String:EMRServerlessClientTypes.InitialCapacityConfig]? = nil,
+            interactiveConfiguration: EMRServerlessClientTypes.InteractiveConfiguration? = nil,
             maximumCapacity: EMRServerlessClientTypes.MaximumAllowedResources? = nil,
             monitoringConfiguration: EMRServerlessClientTypes.MonitoringConfiguration? = nil,
             name: Swift.String? = nil,
@@ -119,6 +123,7 @@ extension EMRServerlessClientTypes {
             self.createdAt = createdAt
             self.imageConfiguration = imageConfiguration
             self.initialCapacity = initialCapacity
+            self.interactiveConfiguration = interactiveConfiguration
             self.maximumCapacity = maximumCapacity
             self.monitoringConfiguration = monitoringConfiguration
             self.name = name
@@ -634,6 +639,7 @@ extension CreateApplicationInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["imageConfiguration"].write(value.imageConfiguration, with: EMRServerlessClientTypes.ImageConfigurationInput.write(value:to:))
         try writer["initialCapacity"].writeMap(value.initialCapacity, valueWritingClosure: EMRServerlessClientTypes.InitialCapacityConfig.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["interactiveConfiguration"].write(value.interactiveConfiguration, with: EMRServerlessClientTypes.InteractiveConfiguration.write(value:to:))
         try writer["maximumCapacity"].write(value.maximumCapacity, with: EMRServerlessClientTypes.MaximumAllowedResources.write(value:to:))
         try writer["monitoringConfiguration"].write(value.monitoringConfiguration, with: EMRServerlessClientTypes.MonitoringConfiguration.write(value:to:))
         try writer["name"].write(value.name)
@@ -660,6 +666,8 @@ public struct CreateApplicationInput {
     public var imageConfiguration: EMRServerlessClientTypes.ImageConfigurationInput?
     /// The capacity to initialize when the application is created.
     public var initialCapacity: [Swift.String:EMRServerlessClientTypes.InitialCapacityConfig]?
+    /// The interactive configuration object that enables the interactive use cases to use when running an application.
+    public var interactiveConfiguration: EMRServerlessClientTypes.InteractiveConfiguration?
     /// The maximum capacity to allocate when the application is created. This is cumulative across all workers at any given point in time, not just when an application is created. No new resources will be created once any one of the defined limits is hit.
     public var maximumCapacity: EMRServerlessClientTypes.MaximumAllowedResources?
     /// The configuration setting for monitoring.
@@ -688,6 +696,7 @@ public struct CreateApplicationInput {
         clientToken: Swift.String? = nil,
         imageConfiguration: EMRServerlessClientTypes.ImageConfigurationInput? = nil,
         initialCapacity: [Swift.String:EMRServerlessClientTypes.InitialCapacityConfig]? = nil,
+        interactiveConfiguration: EMRServerlessClientTypes.InteractiveConfiguration? = nil,
         maximumCapacity: EMRServerlessClientTypes.MaximumAllowedResources? = nil,
         monitoringConfiguration: EMRServerlessClientTypes.MonitoringConfiguration? = nil,
         name: Swift.String? = nil,
@@ -705,6 +714,7 @@ public struct CreateApplicationInput {
         self.clientToken = clientToken
         self.imageConfiguration = imageConfiguration
         self.initialCapacity = initialCapacity
+        self.interactiveConfiguration = interactiveConfiguration
         self.maximumCapacity = maximumCapacity
         self.monitoringConfiguration = monitoringConfiguration
         self.name = name
@@ -889,6 +899,18 @@ enum GetApplicationOutputError {
 
 extension GetDashboardForJobRunInput {
 
+    static func queryItemProvider(_ value: GetDashboardForJobRunInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let attempt = value.attempt {
+            let attemptQueryItem = Smithy.URIQueryItem(name: "attempt".urlPercentEncoding(), value: Swift.String(attempt).urlPercentEncoding())
+            items.append(attemptQueryItem)
+        }
+        return items
+    }
+}
+
+extension GetDashboardForJobRunInput {
+
     static func urlPathProvider(_ value: GetDashboardForJobRunInput) -> Swift.String? {
         guard let applicationId = value.applicationId else {
             return nil
@@ -904,16 +926,20 @@ public struct GetDashboardForJobRunInput {
     /// The ID of the application.
     /// This member is required.
     public var applicationId: Swift.String?
+    /// An optimal parameter that indicates the amount of attempts for the job. If not specified, this value defaults to the attempt of the latest job.
+    public var attempt: Swift.Int?
     /// The ID of the job run.
     /// This member is required.
     public var jobRunId: Swift.String?
 
     public init(
         applicationId: Swift.String? = nil,
+        attempt: Swift.Int? = nil,
         jobRunId: Swift.String? = nil
     )
     {
         self.applicationId = applicationId
+        self.attempt = attempt
         self.jobRunId = jobRunId
     }
 }
@@ -960,6 +986,18 @@ enum GetDashboardForJobRunOutputError {
 
 extension GetJobRunInput {
 
+    static func queryItemProvider(_ value: GetJobRunInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let attempt = value.attempt {
+            let attemptQueryItem = Smithy.URIQueryItem(name: "attempt".urlPercentEncoding(), value: Swift.String(attempt).urlPercentEncoding())
+            items.append(attemptQueryItem)
+        }
+        return items
+    }
+}
+
+extension GetJobRunInput {
+
     static func urlPathProvider(_ value: GetJobRunInput) -> Swift.String? {
         guard let applicationId = value.applicationId else {
             return nil
@@ -975,16 +1013,20 @@ public struct GetJobRunInput {
     /// The ID of the application on which the job run is submitted.
     /// This member is required.
     public var applicationId: Swift.String?
+    /// An optimal parameter that indicates the amount of attempts for the job. If not specified, this value defaults to the attempt of the latest job.
+    public var attempt: Swift.Int?
     /// The ID of the job run.
     /// This member is required.
     public var jobRunId: Swift.String?
 
     public init(
         applicationId: Swift.String? = nil,
+        attempt: Swift.Int? = nil,
         jobRunId: Swift.String? = nil
     )
     {
         self.applicationId = applicationId
+        self.attempt = attempt
         self.jobRunId = jobRunId
     }
 }
@@ -1173,6 +1215,43 @@ extension EMRServerlessClientTypes {
 
 }
 
+extension EMRServerlessClientTypes.InteractiveConfiguration {
+
+    static func write(value: EMRServerlessClientTypes.InteractiveConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["livyEndpointEnabled"].write(value.livyEndpointEnabled)
+        try writer["studioEnabled"].write(value.studioEnabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.InteractiveConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRServerlessClientTypes.InteractiveConfiguration()
+        value.studioEnabled = try reader["studioEnabled"].readIfPresent()
+        value.livyEndpointEnabled = try reader["livyEndpointEnabled"].readIfPresent()
+        return value
+    }
+}
+
+extension EMRServerlessClientTypes {
+    /// The configuration to use to enable the different types of interactive use cases in an application.
+    public struct InteractiveConfiguration {
+        /// Enables an Apache Livy endpoint that you can connect to and run interactive jobs.
+        public var livyEndpointEnabled: Swift.Bool?
+        /// Enables you to connect an application to Amazon EMR Studio to run interactive workloads in a notebook.
+        public var studioEnabled: Swift.Bool?
+
+        public init(
+            livyEndpointEnabled: Swift.Bool? = nil,
+            studioEnabled: Swift.Bool? = nil
+        )
+        {
+            self.livyEndpointEnabled = livyEndpointEnabled
+            self.studioEnabled = studioEnabled
+        }
+    }
+
+}
+
 extension InternalServerException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
@@ -1275,6 +1354,11 @@ extension EMRServerlessClientTypes.JobRun {
         value.totalExecutionDurationSeconds = try reader["totalExecutionDurationSeconds"].readIfPresent()
         value.executionTimeoutMinutes = try reader["executionTimeoutMinutes"].readIfPresent()
         value.billedResourceUtilization = try reader["billedResourceUtilization"].readIfPresent(with: EMRServerlessClientTypes.ResourceUtilization.read(from:))
+        value.mode = try reader["mode"].readIfPresent()
+        value.retryPolicy = try reader["retryPolicy"].readIfPresent(with: EMRServerlessClientTypes.RetryPolicy.read(from:))
+        value.attempt = try reader["attempt"].readIfPresent()
+        value.attemptCreatedAt = try reader["attemptCreatedAt"].readTimestampIfPresent(format: .epochSeconds)
+        value.attemptUpdatedAt = try reader["attemptUpdatedAt"].readTimestampIfPresent(format: .epochSeconds)
         return value
     }
 }
@@ -1288,6 +1372,12 @@ extension EMRServerlessClientTypes {
         /// The execution role ARN of the job run.
         /// This member is required.
         public var arn: Swift.String?
+        /// The attempt of the job run.
+        public var attempt: Swift.Int?
+        /// The date and time of when the job run attempt was created.
+        public var attemptCreatedAt: Foundation.Date?
+        /// The date and time of when the job run attempt was last updated.
+        public var attemptUpdatedAt: Foundation.Date?
         /// The aggregate vCPU, memory, and storage that Amazon Web Services has billed for the job run. The billed resources include a 1-minute minimum usage for workers, plus additional storage over 20 GB per worker. Note that billed resources do not include usage for idle pre-initialized workers.
         public var billedResourceUtilization: EMRServerlessClientTypes.ResourceUtilization?
         /// The configuration settings that are used to override default configuration.
@@ -1309,6 +1399,8 @@ extension EMRServerlessClientTypes {
         /// The ID of the job run.
         /// This member is required.
         public var jobRunId: Swift.String?
+        /// The mode of the job run.
+        public var mode: EMRServerlessClientTypes.JobRunMode?
         /// The optional job run name. This doesn't have to be unique.
         public var name: Swift.String?
         /// The network configuration for customer VPC connectivity.
@@ -1316,6 +1408,8 @@ extension EMRServerlessClientTypes {
         /// The Amazon EMR release associated with the application your job is running on.
         /// This member is required.
         public var releaseLabel: Swift.String?
+        /// The retry policy of the job run.
+        public var retryPolicy: EMRServerlessClientTypes.RetryPolicy?
         /// The state of the job run.
         /// This member is required.
         public var state: EMRServerlessClientTypes.JobRunState?
@@ -1335,6 +1429,9 @@ extension EMRServerlessClientTypes {
         public init(
             applicationId: Swift.String? = nil,
             arn: Swift.String? = nil,
+            attempt: Swift.Int? = nil,
+            attemptCreatedAt: Foundation.Date? = nil,
+            attemptUpdatedAt: Foundation.Date? = nil,
             billedResourceUtilization: EMRServerlessClientTypes.ResourceUtilization? = nil,
             configurationOverrides: EMRServerlessClientTypes.ConfigurationOverrides? = nil,
             createdAt: Foundation.Date? = nil,
@@ -1343,9 +1440,11 @@ extension EMRServerlessClientTypes {
             executionTimeoutMinutes: Swift.Int? = nil,
             jobDriver: EMRServerlessClientTypes.JobDriver? = nil,
             jobRunId: Swift.String? = nil,
+            mode: EMRServerlessClientTypes.JobRunMode? = nil,
             name: Swift.String? = nil,
             networkConfiguration: EMRServerlessClientTypes.NetworkConfiguration? = nil,
             releaseLabel: Swift.String? = nil,
+            retryPolicy: EMRServerlessClientTypes.RetryPolicy? = nil,
             state: EMRServerlessClientTypes.JobRunState? = nil,
             stateDetails: Swift.String? = nil,
             tags: [Swift.String:Swift.String]? = nil,
@@ -1356,6 +1455,9 @@ extension EMRServerlessClientTypes {
         {
             self.applicationId = applicationId
             self.arn = arn
+            self.attempt = attempt
+            self.attemptCreatedAt = attemptCreatedAt
+            self.attemptUpdatedAt = attemptUpdatedAt
             self.billedResourceUtilization = billedResourceUtilization
             self.configurationOverrides = configurationOverrides
             self.createdAt = createdAt
@@ -1364,9 +1466,11 @@ extension EMRServerlessClientTypes {
             self.executionTimeoutMinutes = executionTimeoutMinutes
             self.jobDriver = jobDriver
             self.jobRunId = jobRunId
+            self.mode = mode
             self.name = name
             self.networkConfiguration = networkConfiguration
             self.releaseLabel = releaseLabel
+            self.retryPolicy = retryPolicy
             self.state = state
             self.stateDetails = stateDetails
             self.tags = tags
@@ -1376,6 +1480,142 @@ extension EMRServerlessClientTypes {
         }
     }
 
+}
+
+extension EMRServerlessClientTypes.JobRunAttemptSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.JobRunAttemptSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRServerlessClientTypes.JobRunAttemptSummary()
+        value.applicationId = try reader["applicationId"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.mode = try reader["mode"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.jobCreatedAt = try reader["jobCreatedAt"].readTimestampIfPresent(format: .epochSeconds)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: .epochSeconds)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: .epochSeconds)
+        value.executionRole = try reader["executionRole"].readIfPresent()
+        value.state = try reader["state"].readIfPresent()
+        value.stateDetails = try reader["stateDetails"].readIfPresent()
+        value.releaseLabel = try reader["releaseLabel"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        value.attempt = try reader["attempt"].readIfPresent()
+        return value
+    }
+}
+
+extension EMRServerlessClientTypes {
+    /// The summary of attributes associated with a job run attempt.
+    public struct JobRunAttemptSummary {
+        /// The ID of the application the job is running on.
+        /// This member is required.
+        public var applicationId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the job run.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The attempt number of the job run execution.
+        public var attempt: Swift.Int?
+        /// The date and time when the job run attempt was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The user who created the job run.
+        /// This member is required.
+        public var createdBy: Swift.String?
+        /// The Amazon Resource Name (ARN) of the execution role of the job run..
+        /// This member is required.
+        public var executionRole: Swift.String?
+        /// The ID of the job run attempt.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The date and time of when the job run was created.
+        /// This member is required.
+        public var jobCreatedAt: Foundation.Date?
+        /// The mode of the job run attempt.
+        public var mode: EMRServerlessClientTypes.JobRunMode?
+        /// The name of the job run attempt.
+        public var name: Swift.String?
+        /// The Amazon EMR release label of the job run attempt.
+        /// This member is required.
+        public var releaseLabel: Swift.String?
+        /// The state of the job run attempt.
+        /// This member is required.
+        public var state: EMRServerlessClientTypes.JobRunState?
+        /// The state details of the job run attempt.
+        /// This member is required.
+        public var stateDetails: Swift.String?
+        /// The type of the job run, such as Spark or Hive.
+        public var type: Swift.String?
+        /// The date and time of when the job run attempt was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            applicationId: Swift.String? = nil,
+            arn: Swift.String? = nil,
+            attempt: Swift.Int? = nil,
+            createdAt: Foundation.Date? = nil,
+            createdBy: Swift.String? = nil,
+            executionRole: Swift.String? = nil,
+            id: Swift.String? = nil,
+            jobCreatedAt: Foundation.Date? = nil,
+            mode: EMRServerlessClientTypes.JobRunMode? = nil,
+            name: Swift.String? = nil,
+            releaseLabel: Swift.String? = nil,
+            state: EMRServerlessClientTypes.JobRunState? = nil,
+            stateDetails: Swift.String? = nil,
+            type: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        )
+        {
+            self.applicationId = applicationId
+            self.arn = arn
+            self.attempt = attempt
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.executionRole = executionRole
+            self.id = id
+            self.jobCreatedAt = jobCreatedAt
+            self.mode = mode
+            self.name = name
+            self.releaseLabel = releaseLabel
+            self.state = state
+            self.stateDetails = stateDetails
+            self.type = type
+            self.updatedAt = updatedAt
+        }
+    }
+
+}
+
+extension EMRServerlessClientTypes {
+
+    public enum JobRunMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case batch
+        case streaming
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JobRunMode] {
+            return [
+                .batch,
+                .streaming
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .batch: return "BATCH"
+            case .streaming: return "STREAMING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
 }
 
 extension EMRServerlessClientTypes {
@@ -1433,6 +1673,7 @@ extension EMRServerlessClientTypes.JobRunSummary {
         value.applicationId = try reader["applicationId"].readIfPresent()
         value.id = try reader["id"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
+        value.mode = try reader["mode"].readIfPresent()
         value.arn = try reader["arn"].readIfPresent()
         value.createdBy = try reader["createdBy"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: .epochSeconds)
@@ -1442,6 +1683,9 @@ extension EMRServerlessClientTypes.JobRunSummary {
         value.stateDetails = try reader["stateDetails"].readIfPresent()
         value.releaseLabel = try reader["releaseLabel"].readIfPresent()
         value.type = try reader["type"].readIfPresent()
+        value.attempt = try reader["attempt"].readIfPresent()
+        value.attemptCreatedAt = try reader["attemptCreatedAt"].readTimestampIfPresent(format: .epochSeconds)
+        value.attemptUpdatedAt = try reader["attemptUpdatedAt"].readTimestampIfPresent(format: .epochSeconds)
         return value
     }
 }
@@ -1455,6 +1699,12 @@ extension EMRServerlessClientTypes {
         /// The ARN of the job run.
         /// This member is required.
         public var arn: Swift.String?
+        /// The attempt number of the job run execution.
+        public var attempt: Swift.Int?
+        /// The date and time of when the job run attempt was created.
+        public var attemptCreatedAt: Foundation.Date?
+        /// The date and time of when the job run attempt was last updated.
+        public var attemptUpdatedAt: Foundation.Date?
         /// The date and time when the job run was created.
         /// This member is required.
         public var createdAt: Foundation.Date?
@@ -1467,6 +1717,8 @@ extension EMRServerlessClientTypes {
         /// The ID of the job run.
         /// This member is required.
         public var id: Swift.String?
+        /// The mode of the job run.
+        public var mode: EMRServerlessClientTypes.JobRunMode?
         /// The optional job run name. This doesn't have to be unique.
         public var name: Swift.String?
         /// The Amazon EMR release associated with the application your job is running on.
@@ -1487,10 +1739,14 @@ extension EMRServerlessClientTypes {
         public init(
             applicationId: Swift.String? = nil,
             arn: Swift.String? = nil,
+            attempt: Swift.Int? = nil,
+            attemptCreatedAt: Foundation.Date? = nil,
+            attemptUpdatedAt: Foundation.Date? = nil,
             createdAt: Foundation.Date? = nil,
             createdBy: Swift.String? = nil,
             executionRole: Swift.String? = nil,
             id: Swift.String? = nil,
+            mode: EMRServerlessClientTypes.JobRunMode? = nil,
             name: Swift.String? = nil,
             releaseLabel: Swift.String? = nil,
             state: EMRServerlessClientTypes.JobRunState? = nil,
@@ -1501,10 +1757,14 @@ extension EMRServerlessClientTypes {
         {
             self.applicationId = applicationId
             self.arn = arn
+            self.attempt = attempt
+            self.attemptCreatedAt = attemptCreatedAt
+            self.attemptUpdatedAt = attemptUpdatedAt
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.executionRole = executionRole
             self.id = id
+            self.mode = mode
             self.name = name
             self.releaseLabel = releaseLabel
             self.state = state
@@ -1610,10 +1870,115 @@ enum ListApplicationsOutputError {
     }
 }
 
+extension ListJobRunAttemptsInput {
+
+    static func queryItemProvider(_ value: ListJobRunAttemptsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListJobRunAttemptsInput {
+
+    static func urlPathProvider(_ value: ListJobRunAttemptsInput) -> Swift.String? {
+        guard let applicationId = value.applicationId else {
+            return nil
+        }
+        guard let jobRunId = value.jobRunId else {
+            return nil
+        }
+        return "/applications/\(applicationId.urlPercentEncoding())/jobruns/\(jobRunId.urlPercentEncoding())/attempts"
+    }
+}
+
+public struct ListJobRunAttemptsInput {
+    /// The ID of the application for which to list job runs.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// The ID of the job run to list.
+    /// This member is required.
+    public var jobRunId: Swift.String?
+    /// The maximum number of job run attempts to list.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of job run attempt results.
+    public var nextToken: Swift.String?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        jobRunId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.applicationId = applicationId
+        self.jobRunId = jobRunId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension ListJobRunAttemptsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListJobRunAttemptsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListJobRunAttemptsOutput()
+        value.jobRunAttempts = try reader["jobRunAttempts"].readListIfPresent(memberReadingClosure: EMRServerlessClientTypes.JobRunAttemptSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+public struct ListJobRunAttemptsOutput {
+    /// The array of the listed job run attempt objects.
+    /// This member is required.
+    public var jobRunAttempts: [EMRServerlessClientTypes.JobRunAttemptSummary]?
+    /// The output displays the token for the next set of application results. This is required for pagination and is available as a response of the previous request.
+    public var nextToken: Swift.String?
+
+    public init(
+        jobRunAttempts: [EMRServerlessClientTypes.JobRunAttemptSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.jobRunAttempts = jobRunAttempts
+        self.nextToken = nextToken
+    }
+}
+
+enum ListJobRunAttemptsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 extension ListJobRunsInput {
 
     static func queryItemProvider(_ value: ListJobRunsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
+        if let mode = value.mode {
+            let modeQueryItem = Smithy.URIQueryItem(name: "mode".urlPercentEncoding(), value: Swift.String(mode.rawValue).urlPercentEncoding())
+            items.append(modeQueryItem)
+        }
         if let createdAtAfter = value.createdAtAfter {
             let createdAtAfterQueryItem = Smithy.URIQueryItem(name: "createdAtAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: createdAtAfter)).urlPercentEncoding())
             items.append(createdAtAfterQueryItem)
@@ -1660,6 +2025,8 @@ public struct ListJobRunsInput {
     public var createdAtBefore: Foundation.Date?
     /// The maximum number of job runs that can be listed.
     public var maxResults: Swift.Int?
+    /// The mode of the job runs to list.
+    public var mode: EMRServerlessClientTypes.JobRunMode?
     /// The token for the next set of job run results.
     public var nextToken: Swift.String?
     /// An optional filter for job run states. Note that if this filter contains multiple states, the resulting list will be grouped by the state.
@@ -1670,6 +2037,7 @@ public struct ListJobRunsInput {
         createdAtAfter: Foundation.Date? = nil,
         createdAtBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
+        mode: EMRServerlessClientTypes.JobRunMode? = nil,
         nextToken: Swift.String? = nil,
         states: [EMRServerlessClientTypes.JobRunState]? = nil
     )
@@ -1678,6 +2046,7 @@ public struct ListJobRunsInput {
         self.createdAtAfter = createdAtAfter
         self.createdAtBefore = createdAtBefore
         self.maxResults = maxResults
+        self.mode = mode
         self.nextToken = nextToken
         self.states = states
     }
@@ -2064,6 +2433,43 @@ extension EMRServerlessClientTypes {
 
 }
 
+extension EMRServerlessClientTypes.RetryPolicy {
+
+    static func write(value: EMRServerlessClientTypes.RetryPolicy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxAttempts"].write(value.maxAttempts)
+        try writer["maxFailedAttemptsPerHour"].write(value.maxFailedAttemptsPerHour)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.RetryPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRServerlessClientTypes.RetryPolicy()
+        value.maxAttempts = try reader["maxAttempts"].readIfPresent()
+        value.maxFailedAttemptsPerHour = try reader["maxFailedAttemptsPerHour"].readIfPresent()
+        return value
+    }
+}
+
+extension EMRServerlessClientTypes {
+    /// The retry policy to use for a job run.
+    public struct RetryPolicy {
+        /// Maximum number of attempts for the job run. This parameter is only applicable for BATCH mode.
+        public var maxAttempts: Swift.Int?
+        /// Maximum number of failed attempts per hour. This [arameter is only applicable for STREAMING mode.
+        public var maxFailedAttemptsPerHour: Swift.Int?
+
+        public init(
+            maxAttempts: Swift.Int? = nil,
+            maxFailedAttemptsPerHour: Swift.Int? = nil
+        )
+        {
+            self.maxAttempts = maxAttempts
+            self.maxFailedAttemptsPerHour = maxFailedAttemptsPerHour
+        }
+    }
+
+}
+
 extension EMRServerlessClientTypes.S3MonitoringConfiguration {
 
     static func write(value: EMRServerlessClientTypes.S3MonitoringConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -2259,7 +2665,9 @@ extension StartJobRunInput {
         try writer["executionRoleArn"].write(value.executionRoleArn)
         try writer["executionTimeoutMinutes"].write(value.executionTimeoutMinutes)
         try writer["jobDriver"].write(value.jobDriver, with: EMRServerlessClientTypes.JobDriver.write(value:to:))
+        try writer["mode"].write(value.mode)
         try writer["name"].write(value.name)
+        try writer["retryPolicy"].write(value.retryPolicy, with: EMRServerlessClientTypes.RetryPolicy.write(value:to:))
         try writer["tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -2280,8 +2688,12 @@ public struct StartJobRunInput {
     public var executionTimeoutMinutes: Swift.Int?
     /// The job driver for the job run.
     public var jobDriver: EMRServerlessClientTypes.JobDriver?
+    /// The mode of the job run when it starts.
+    public var mode: EMRServerlessClientTypes.JobRunMode?
     /// The optional job run name. This doesn't have to be unique.
     public var name: Swift.String?
+    /// The retry policy when job run starts.
+    public var retryPolicy: EMRServerlessClientTypes.RetryPolicy?
     /// The tags assigned to the job run.
     public var tags: [Swift.String:Swift.String]?
 
@@ -2292,7 +2704,9 @@ public struct StartJobRunInput {
         executionRoleArn: Swift.String? = nil,
         executionTimeoutMinutes: Swift.Int? = nil,
         jobDriver: EMRServerlessClientTypes.JobDriver? = nil,
+        mode: EMRServerlessClientTypes.JobRunMode? = nil,
         name: Swift.String? = nil,
+        retryPolicy: EMRServerlessClientTypes.RetryPolicy? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
     {
@@ -2302,7 +2716,9 @@ public struct StartJobRunInput {
         self.executionRoleArn = executionRoleArn
         self.executionTimeoutMinutes = executionTimeoutMinutes
         self.jobDriver = jobDriver
+        self.mode = mode
         self.name = name
+        self.retryPolicy = retryPolicy
         self.tags = tags
     }
 }
@@ -2604,6 +3020,7 @@ extension UpdateApplicationInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["imageConfiguration"].write(value.imageConfiguration, with: EMRServerlessClientTypes.ImageConfigurationInput.write(value:to:))
         try writer["initialCapacity"].writeMap(value.initialCapacity, valueWritingClosure: EMRServerlessClientTypes.InitialCapacityConfig.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["interactiveConfiguration"].write(value.interactiveConfiguration, with: EMRServerlessClientTypes.InteractiveConfiguration.write(value:to:))
         try writer["maximumCapacity"].write(value.maximumCapacity, with: EMRServerlessClientTypes.MaximumAllowedResources.write(value:to:))
         try writer["monitoringConfiguration"].write(value.monitoringConfiguration, with: EMRServerlessClientTypes.MonitoringConfiguration.write(value:to:))
         try writer["networkConfiguration"].write(value.networkConfiguration, with: EMRServerlessClientTypes.NetworkConfiguration.write(value:to:))
@@ -2630,6 +3047,8 @@ public struct UpdateApplicationInput {
     public var imageConfiguration: EMRServerlessClientTypes.ImageConfigurationInput?
     /// The capacity to initialize when the application is updated.
     public var initialCapacity: [Swift.String:EMRServerlessClientTypes.InitialCapacityConfig]?
+    /// The interactive configuration object that contains new interactive use cases when the application is updated.
+    public var interactiveConfiguration: EMRServerlessClientTypes.InteractiveConfiguration?
     /// The maximum capacity to allocate when the application is updated. This is cumulative across all workers at any given point in time during the lifespan of the application. No new resources will be created once any one of the defined limits is hit.
     public var maximumCapacity: EMRServerlessClientTypes.MaximumAllowedResources?
     /// The configuration setting for monitoring.
@@ -2651,6 +3070,7 @@ public struct UpdateApplicationInput {
         clientToken: Swift.String? = nil,
         imageConfiguration: EMRServerlessClientTypes.ImageConfigurationInput? = nil,
         initialCapacity: [Swift.String:EMRServerlessClientTypes.InitialCapacityConfig]? = nil,
+        interactiveConfiguration: EMRServerlessClientTypes.InteractiveConfiguration? = nil,
         maximumCapacity: EMRServerlessClientTypes.MaximumAllowedResources? = nil,
         monitoringConfiguration: EMRServerlessClientTypes.MonitoringConfiguration? = nil,
         networkConfiguration: EMRServerlessClientTypes.NetworkConfiguration? = nil,
@@ -2666,6 +3086,7 @@ public struct UpdateApplicationInput {
         self.clientToken = clientToken
         self.imageConfiguration = imageConfiguration
         self.initialCapacity = initialCapacity
+        self.interactiveConfiguration = interactiveConfiguration
         self.maximumCapacity = maximumCapacity
         self.monitoringConfiguration = monitoringConfiguration
         self.networkConfiguration = networkConfiguration

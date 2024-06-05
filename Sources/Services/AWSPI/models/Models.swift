@@ -1032,6 +1032,38 @@ extension PIClientTypes {
     }
 }
 
+extension PIClientTypes {
+
+    public enum FineGrainedAction: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case describeDimensionKeys
+        case getDimensionKeyDetails
+        case getResourceMetrics
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FineGrainedAction] {
+            return [
+                .describeDimensionKeys,
+                .getDimensionKeyDetails,
+                .getResourceMetrics
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .describeDimensionKeys: return "DescribeDimensionKeys"
+            case .getDimensionKeyDetails: return "GetDimensionKeyDetails"
+            case .getResourceMetrics: return "GetResourceMetrics"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 extension GetDimensionKeyDetailsInput {
 
     static func urlPathProvider(_ value: GetDimensionKeyDetailsInput) -> Swift.String? {
@@ -1620,6 +1652,7 @@ extension ListAvailableResourceDimensionsInput {
 
     static func write(value: ListAvailableResourceDimensionsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AuthorizedActions"].writeList(value.authorizedActions, memberWritingClosure: PIClientTypes.FineGrainedAction.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Identifier"].write(value.identifier)
         try writer["MaxResults"].write(value.maxResults)
         try writer["Metrics"].writeList(value.metrics, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -1629,6 +1662,8 @@ extension ListAvailableResourceDimensionsInput {
 }
 
 public struct ListAvailableResourceDimensionsInput {
+    /// The actions to discover the dimensions you are authorized to access. If you specify multiple actions, then the response will contain the dimensions common for all the actions. When you don't specify this request parameter or provide an empty list, the response contains all the available dimensions for the target database engine whether or not you are authorized to access them.
+    public var authorizedActions: [PIClientTypes.FineGrainedAction]?
     /// An immutable identifier for a data source that is unique within an Amazon Web Services Region. Performance Insights gathers metrics from this data source. To use an Amazon RDS DB instance as a data source, specify its DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VWZ.
     /// This member is required.
     public var identifier: Swift.String?
@@ -1644,6 +1679,7 @@ public struct ListAvailableResourceDimensionsInput {
     public var serviceType: PIClientTypes.ServiceType?
 
     public init(
+        authorizedActions: [PIClientTypes.FineGrainedAction]? = nil,
         identifier: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         metrics: [Swift.String]? = nil,
@@ -1651,6 +1687,7 @@ public struct ListAvailableResourceDimensionsInput {
         serviceType: PIClientTypes.ServiceType? = nil
     )
     {
+        self.authorizedActions = authorizedActions
         self.identifier = identifier
         self.maxResults = maxResults
         self.metrics = metrics

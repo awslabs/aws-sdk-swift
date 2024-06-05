@@ -2642,6 +2642,7 @@ extension OpenSearchClientTypes.DataSourceDetails {
         value.dataSourceType = try reader["DataSourceType"].readIfPresent(with: OpenSearchClientTypes.DataSourceType.read(from:))
         value.name = try reader["Name"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
         return value
     }
 }
@@ -2655,19 +2656,52 @@ extension OpenSearchClientTypes {
         public var description: Swift.String?
         /// The name of the data source.
         public var name: Swift.String?
+        /// The status of the data source.
+        public var status: OpenSearchClientTypes.DataSourceStatus?
 
         public init(
             dataSourceType: OpenSearchClientTypes.DataSourceType? = nil,
             description: Swift.String? = nil,
-            name: Swift.String? = nil
+            name: Swift.String? = nil,
+            status: OpenSearchClientTypes.DataSourceStatus? = nil
         )
         {
             self.dataSourceType = dataSourceType
             self.description = description
             self.name = name
+            self.status = status
         }
     }
 
+}
+
+extension OpenSearchClientTypes {
+
+    public enum DataSourceStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case disabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataSourceStatus] {
+            return [
+                .active,
+                .disabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .disabled: return "DISABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
 }
 
 extension OpenSearchClientTypes.DataSourceType {
@@ -5336,7 +5370,7 @@ extension OpenSearchClientTypes {
         public var deleted: Swift.Bool?
         /// Additional options for the domain endpoint, such as whether to require HTTPS for all traffic.
         public var domainEndpointOptions: OpenSearchClientTypes.DomainEndpointOptions?
-        /// The DualStack Hosted Zone Id for the domain.
+        /// The dual stack hosted zone ID for the domain.
         public var domainEndpointV2HostedZoneId: Swift.String?
         /// Unique identifier for the domain.
         /// This member is required.
@@ -6002,6 +6036,7 @@ extension GetDataSourceOutput {
         value.dataSourceType = try reader["DataSourceType"].readIfPresent(with: OpenSearchClientTypes.DataSourceType.read(from:))
         value.description = try reader["Description"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
         return value
     }
 }
@@ -6014,16 +6049,20 @@ public struct GetDataSourceOutput {
     public var description: Swift.String?
     /// The name of the data source.
     public var name: Swift.String?
+    /// The status of the data source response.
+    public var status: OpenSearchClientTypes.DataSourceStatus?
 
     public init(
         dataSourceType: OpenSearchClientTypes.DataSourceType? = nil,
         description: Swift.String? = nil,
-        name: Swift.String? = nil
+        name: Swift.String? = nil,
+        status: OpenSearchClientTypes.DataSourceStatus? = nil
     )
     {
         self.dataSourceType = dataSourceType
         self.description = description
         self.name = name
+        self.status = status
     }
 }
 
@@ -11183,6 +11222,7 @@ extension UpdateDataSourceInput {
         guard let value else { return }
         try writer["DataSourceType"].write(value.dataSourceType, with: OpenSearchClientTypes.DataSourceType.write(value:to:))
         try writer["Description"].write(value.description)
+        try writer["Status"].write(value.status)
     }
 }
 
@@ -11199,18 +11239,22 @@ public struct UpdateDataSourceInput {
     /// The name of the data source to modify.
     /// This member is required.
     public var name: Swift.String?
+    /// The status of the data source update request.
+    public var status: OpenSearchClientTypes.DataSourceStatus?
 
     public init(
         dataSourceType: OpenSearchClientTypes.DataSourceType? = nil,
         description: Swift.String? = nil,
         domainName: Swift.String? = nil,
-        name: Swift.String? = nil
+        name: Swift.String? = nil,
+        status: OpenSearchClientTypes.DataSourceStatus? = nil
     )
     {
         self.dataSourceType = dataSourceType
         self.description = description
         self.domainName = domainName
         self.name = name
+        self.status = status
     }
 }
 

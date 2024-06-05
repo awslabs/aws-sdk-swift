@@ -335,6 +335,32 @@ extension ConnectClientTypes {
 
 }
 
+extension ConnectClientTypes.AgentHierarchyGroup {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.AgentHierarchyGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.AgentHierarchyGroup()
+        value.arn = try reader["Arn"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes {
+    /// Information about an agent hierarchy group.
+    public struct AgentHierarchyGroup {
+        /// The Amazon Resource Name (ARN) of the group.
+        public var arn: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+        }
+    }
+
+}
+
 extension ConnectClientTypes.AgentHierarchyGroups {
 
     static func write(value: ConnectClientTypes.AgentHierarchyGroups?, to writer: SmithyJSON.Writer) throws {
@@ -387,6 +413,9 @@ extension ConnectClientTypes.AgentInfo {
         value.id = try reader["Id"].readIfPresent()
         value.connectedToAgentTimestamp = try reader["ConnectedToAgentTimestamp"].readTimestampIfPresent(format: .epochSeconds)
         value.agentPauseDurationInSeconds = try reader["AgentPauseDurationInSeconds"].readIfPresent()
+        value.hierarchyGroups = try reader["HierarchyGroups"].readIfPresent(with: ConnectClientTypes.HierarchyGroups.read(from:))
+        value.deviceInfo = try reader["DeviceInfo"].readIfPresent(with: ConnectClientTypes.DeviceInfo.read(from:))
+        value.capabilities = try reader["Capabilities"].readIfPresent(with: ConnectClientTypes.ParticipantCapabilities.read(from:))
         return value
     }
 }
@@ -396,20 +425,58 @@ extension ConnectClientTypes {
     public struct AgentInfo {
         /// Agent pause duration for a contact in seconds.
         public var agentPauseDurationInSeconds: Swift.Int?
+        /// The configuration for the allowed capabilities for participants present over the call.
+        public var capabilities: ConnectClientTypes.ParticipantCapabilities?
         /// The timestamp when the contact was connected to the agent.
         public var connectedToAgentTimestamp: Foundation.Date?
+        /// Information regarding Agent’s device.
+        public var deviceInfo: ConnectClientTypes.DeviceInfo?
+        /// The agent hierarchy groups for the agent.
+        public var hierarchyGroups: ConnectClientTypes.HierarchyGroups?
         /// The identifier of the agent who accepted the contact.
         public var id: Swift.String?
 
         public init(
             agentPauseDurationInSeconds: Swift.Int? = nil,
+            capabilities: ConnectClientTypes.ParticipantCapabilities? = nil,
             connectedToAgentTimestamp: Foundation.Date? = nil,
+            deviceInfo: ConnectClientTypes.DeviceInfo? = nil,
+            hierarchyGroups: ConnectClientTypes.HierarchyGroups? = nil,
             id: Swift.String? = nil
         )
         {
             self.agentPauseDurationInSeconds = agentPauseDurationInSeconds
+            self.capabilities = capabilities
             self.connectedToAgentTimestamp = connectedToAgentTimestamp
+            self.deviceInfo = deviceInfo
+            self.hierarchyGroups = hierarchyGroups
             self.id = id
+        }
+    }
+
+}
+
+extension ConnectClientTypes.AgentQualityMetrics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.AgentQualityMetrics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.AgentQualityMetrics()
+        value.audio = try reader["Audio"].readIfPresent(with: ConnectClientTypes.AudioQualityMetricsInfo.read(from:))
+        return value
+    }
+}
+
+extension ConnectClientTypes {
+    /// Information about the quality of the Agent's media connection
+    public struct AgentQualityMetrics {
+        /// Information about the audio quality of the Agent
+        public var audio: ConnectClientTypes.AudioQualityMetricsInfo?
+
+        public init(
+            audio: ConnectClientTypes.AudioQualityMetricsInfo? = nil
+        )
+        {
+            self.audio = audio
         }
     }
 
@@ -731,6 +798,71 @@ extension ConnectClientTypes {
         }
     }
 
+}
+
+extension ConnectClientTypes {
+
+    public enum AnsweringMachineDetectionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case amdError
+        case amdNotApplicable
+        case amdUnanswered
+        case amdUnresolved
+        case answered
+        case error
+        case faxMachineDetected
+        case humanAnswered
+        case sitToneBusy
+        case sitToneDetected
+        case sitToneInvalidNumber
+        case undetected
+        case voicemailBeep
+        case voicemailNoBeep
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnsweringMachineDetectionStatus] {
+            return [
+                .amdError,
+                .amdNotApplicable,
+                .amdUnanswered,
+                .amdUnresolved,
+                .answered,
+                .error,
+                .faxMachineDetected,
+                .humanAnswered,
+                .sitToneBusy,
+                .sitToneDetected,
+                .sitToneInvalidNumber,
+                .undetected,
+                .voicemailBeep,
+                .voicemailNoBeep
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .amdError: return "AMD_ERROR"
+            case .amdNotApplicable: return "AMD_NOT_APPLICABLE"
+            case .amdUnanswered: return "AMD_UNANSWERED"
+            case .amdUnresolved: return "AMD_UNRESOLVED"
+            case .answered: return "ANSWERED"
+            case .error: return "ERROR"
+            case .faxMachineDetected: return "FAX_MACHINE_DETECTED"
+            case .humanAnswered: return "HUMAN_ANSWERED"
+            case .sitToneBusy: return "SIT_TONE_BUSY"
+            case .sitToneDetected: return "SIT_TONE_DETECTED"
+            case .sitToneInvalidNumber: return "SIT_TONE_INVALID_NUMBER"
+            case .undetected: return "UNDETECTED"
+            case .voicemailBeep: return "VOICEMAIL_BEEP"
+            case .voicemailNoBeep: return "VOICEMAIL_NO_BEEP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
 }
 
 extension ConnectClientTypes.Application {
@@ -2167,6 +2299,47 @@ extension ConnectClientTypes {
 
 }
 
+extension ConnectClientTypes.AttributeCondition {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.AttributeCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.AttributeCondition()
+        value.name = try reader["Name"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        value.proficiencyLevel = try reader["ProficiencyLevel"].readIfPresent()
+        value.comparisonOperator = try reader["ComparisonOperator"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes {
+    /// An object to specify the predefined attribute condition.
+    public struct AttributeCondition {
+        /// The operator of the condition.
+        public var comparisonOperator: Swift.String?
+        /// The name of predefined attribute.
+        public var name: Swift.String?
+        /// The proficiency level of the condition.
+        public var proficiencyLevel: Swift.Float?
+        /// The value of predefined attribute.
+        public var value: Swift.String?
+
+        public init(
+            comparisonOperator: Swift.String? = nil,
+            name: Swift.String? = nil,
+            proficiencyLevel: Swift.Float? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.comparisonOperator = comparisonOperator
+            self.name = name
+            self.proficiencyLevel = proficiencyLevel
+            self.value = value
+        }
+    }
+
+}
+
 extension ConnectClientTypes.AudioFeatures {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.AudioFeatures {
@@ -2188,6 +2361,37 @@ extension ConnectClientTypes {
         )
         {
             self.echoReduction = echoReduction
+        }
+    }
+
+}
+
+extension ConnectClientTypes.AudioQualityMetricsInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.AudioQualityMetricsInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.AudioQualityMetricsInfo()
+        value.qualityScore = try reader["QualityScore"].readIfPresent() ?? 0
+        value.potentialQualityIssues = try reader["PotentialQualityIssues"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ConnectClientTypes {
+    /// Contains information for score and potential quality issues for Audio
+    public struct AudioQualityMetricsInfo {
+        /// List of potential issues causing degradation of quality on a media connection. If the service did not detect any potential quality issues the list is empty. Valid values: HighPacketLoss | HighRoundTripTime | HighJitterBuffer
+        public var potentialQualityIssues: [Swift.String]?
+        /// Number measuring the estimated quality of the media connection.
+        public var qualityScore: Swift.Float
+
+        public init(
+            potentialQualityIssues: [Swift.String]? = nil,
+            qualityScore: Swift.Float = 0.0
+        )
+        {
+            self.potentialQualityIssues = potentialQualityIssues
+            self.qualityScore = qualityScore
         }
     }
 
@@ -2714,6 +2918,13 @@ extension ConnectClientTypes.Campaign {
     static func write(value: ConnectClientTypes.Campaign?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CampaignId"].write(value.campaignId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.Campaign {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.Campaign()
+        value.campaignId = try reader["CampaignId"].readIfPresent()
+        return value
     }
 }
 
@@ -3299,7 +3510,7 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes.Contact: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Contact(agentInfo: \(Swift.String(describing: agentInfo)), arn: \(Swift.String(describing: arn)), channel: \(Swift.String(describing: channel)), disconnectTimestamp: \(Swift.String(describing: disconnectTimestamp)), id: \(Swift.String(describing: id)), initialContactId: \(Swift.String(describing: initialContactId)), initiationMethod: \(Swift.String(describing: initiationMethod)), initiationTimestamp: \(Swift.String(describing: initiationTimestamp)), lastPausedTimestamp: \(Swift.String(describing: lastPausedTimestamp)), lastResumedTimestamp: \(Swift.String(describing: lastResumedTimestamp)), lastUpdateTimestamp: \(Swift.String(describing: lastUpdateTimestamp)), previousContactId: \(Swift.String(describing: previousContactId)), queueInfo: \(Swift.String(describing: queueInfo)), queuePriority: \(Swift.String(describing: queuePriority)), queueTimeAdjustmentSeconds: \(Swift.String(describing: queueTimeAdjustmentSeconds)), relatedContactId: \(Swift.String(describing: relatedContactId)), scheduledTimestamp: \(Swift.String(describing: scheduledTimestamp)), tags: \(Swift.String(describing: tags)), totalPauseCount: \(Swift.String(describing: totalPauseCount)), totalPauseDurationInSeconds: \(Swift.String(describing: totalPauseDurationInSeconds)), wisdomInfo: \(Swift.String(describing: wisdomInfo)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "Contact(agentInfo: \(Swift.String(describing: agentInfo)), answeringMachineDetectionStatus: \(Swift.String(describing: answeringMachineDetectionStatus)), arn: \(Swift.String(describing: arn)), campaign: \(Swift.String(describing: campaign)), channel: \(Swift.String(describing: channel)), connectedToSystemTimestamp: \(Swift.String(describing: connectedToSystemTimestamp)), customer: \(Swift.String(describing: customer)), customerVoiceActivity: \(Swift.String(describing: customerVoiceActivity)), disconnectDetails: \(Swift.String(describing: disconnectDetails)), disconnectTimestamp: \(Swift.String(describing: disconnectTimestamp)), id: \(Swift.String(describing: id)), initialContactId: \(Swift.String(describing: initialContactId)), initiationMethod: \(Swift.String(describing: initiationMethod)), initiationTimestamp: \(Swift.String(describing: initiationTimestamp)), lastPausedTimestamp: \(Swift.String(describing: lastPausedTimestamp)), lastResumedTimestamp: \(Swift.String(describing: lastResumedTimestamp)), lastUpdateTimestamp: \(Swift.String(describing: lastUpdateTimestamp)), previousContactId: \(Swift.String(describing: previousContactId)), qualityMetrics: \(Swift.String(describing: qualityMetrics)), queueInfo: \(Swift.String(describing: queueInfo)), queuePriority: \(Swift.String(describing: queuePriority)), queueTimeAdjustmentSeconds: \(Swift.String(describing: queueTimeAdjustmentSeconds)), relatedContactId: \(Swift.String(describing: relatedContactId)), routingCriteria: \(Swift.String(describing: routingCriteria)), scheduledTimestamp: \(Swift.String(describing: scheduledTimestamp)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), tags: \(Swift.String(describing: tags)), totalPauseCount: \(Swift.String(describing: totalPauseCount)), totalPauseDurationInSeconds: \(Swift.String(describing: totalPauseDurationInSeconds)), wisdomInfo: \(Swift.String(describing: wisdomInfo)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension ConnectClientTypes.Contact {
@@ -3330,6 +3541,15 @@ extension ConnectClientTypes.Contact {
         value.queueTimeAdjustmentSeconds = try reader["QueueTimeAdjustmentSeconds"].readIfPresent()
         value.queuePriority = try reader["QueuePriority"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.connectedToSystemTimestamp = try reader["ConnectedToSystemTimestamp"].readTimestampIfPresent(format: .epochSeconds)
+        value.routingCriteria = try reader["RoutingCriteria"].readIfPresent(with: ConnectClientTypes.RoutingCriteria.read(from:))
+        value.customer = try reader["Customer"].readIfPresent(with: ConnectClientTypes.Customer.read(from:))
+        value.campaign = try reader["Campaign"].readIfPresent(with: ConnectClientTypes.Campaign.read(from:))
+        value.answeringMachineDetectionStatus = try reader["AnsweringMachineDetectionStatus"].readIfPresent()
+        value.customerVoiceActivity = try reader["CustomerVoiceActivity"].readIfPresent(with: ConnectClientTypes.CustomerVoiceActivity.read(from:))
+        value.qualityMetrics = try reader["QualityMetrics"].readIfPresent(with: ConnectClientTypes.QualityMetrics.read(from:))
+        value.disconnectDetails = try reader["DisconnectDetails"].readIfPresent(with: ConnectClientTypes.DisconnectDetails.read(from:))
+        value.segmentAttributes = try reader["SegmentAttributes"].readMapIfPresent(valueReadingClosure: ConnectClientTypes.SegmentAttributeValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -3339,12 +3559,24 @@ extension ConnectClientTypes {
     public struct Contact {
         /// Information about the agent who accepted the contact.
         public var agentInfo: ConnectClientTypes.AgentInfo?
+        /// Indicates how an [outbound campaign](https://docs.aws.amazon.com/connect/latest/adminguide/how-to-create-campaigns.html) call is actually disposed if the contact is connected to Amazon Connect.
+        public var answeringMachineDetectionStatus: ConnectClientTypes.AnsweringMachineDetectionStatus?
         /// The Amazon Resource Name (ARN) for the contact.
         public var arn: Swift.String?
+        /// Information associated with a campaign.
+        public var campaign: ConnectClientTypes.Campaign?
         /// How the contact reached your contact center.
         public var channel: ConnectClientTypes.Channel?
+        /// The timestamp when customer endpoint connected to Amazon Connect.
+        public var connectedToSystemTimestamp: Foundation.Date?
+        /// Information about the Customer on the contact.
+        public var customer: ConnectClientTypes.Customer?
+        /// Information about customer’s voice activity.
+        public var customerVoiceActivity: ConnectClientTypes.CustomerVoiceActivity?
         /// The description of the contact.
         public var description: Swift.String?
+        /// Information about the call disconnect experience.
+        public var disconnectDetails: ConnectClientTypes.DisconnectDetails?
         /// The timestamp when the customer endpoint disconnected from Amazon Connect.
         public var disconnectTimestamp: Foundation.Date?
         /// The identifier for the contact.
@@ -3365,6 +3597,8 @@ extension ConnectClientTypes {
         public var name: Swift.String?
         /// If this contact is not the first contact, this is the ID of the previous contact.
         public var previousContactId: Swift.String?
+        /// Information about the quality of the participant's media connection.
+        public var qualityMetrics: ConnectClientTypes.QualityMetrics?
         /// If this contact was queued, this contains information about the queue.
         public var queueInfo: ConnectClientTypes.QueueInfo?
         /// An integer that represents the queue priority to be applied to the contact (lower priorities are routed preferentially). Cannot be specified if the QueueTimeAdjustmentSeconds is specified. Must be statically defined, must be larger than zero, and a valid integer value. Default Value is 5.
@@ -3373,8 +3607,12 @@ extension ConnectClientTypes {
         public var queueTimeAdjustmentSeconds: Swift.Int?
         /// The contactId that is [related](https://docs.aws.amazon.com/connect/latest/adminguide/chat-persistence.html#relatedcontactid) to this contact.
         public var relatedContactId: Swift.String?
+        /// Latest routing criteria on the contact.
+        public var routingCriteria: ConnectClientTypes.RoutingCriteria?
         /// The timestamp, in Unix epoch time format, at which to start running the inbound flow.
         public var scheduledTimestamp: Foundation.Date?
+        /// A set of system defined key-value pairs stored on individual contact segments using an attribute map. The attributes are standard Amazon Connect attributes and can be accessed in flows. Attribute keys can include only alphanumeric, -, and _ characters. This field can be used to show channel subtype. For example, connect:Guide or connect:SMS.
+        public var segmentAttributes: [Swift.String:ConnectClientTypes.SegmentAttributeValue]?
         /// Tags associated with the contact. This contains both Amazon Web Services generated and user-defined tags.
         public var tags: [Swift.String:Swift.String]?
         /// Total pause count for a contact.
@@ -3386,9 +3624,15 @@ extension ConnectClientTypes {
 
         public init(
             agentInfo: ConnectClientTypes.AgentInfo? = nil,
+            answeringMachineDetectionStatus: ConnectClientTypes.AnsweringMachineDetectionStatus? = nil,
             arn: Swift.String? = nil,
+            campaign: ConnectClientTypes.Campaign? = nil,
             channel: ConnectClientTypes.Channel? = nil,
+            connectedToSystemTimestamp: Foundation.Date? = nil,
+            customer: ConnectClientTypes.Customer? = nil,
+            customerVoiceActivity: ConnectClientTypes.CustomerVoiceActivity? = nil,
             description: Swift.String? = nil,
+            disconnectDetails: ConnectClientTypes.DisconnectDetails? = nil,
             disconnectTimestamp: Foundation.Date? = nil,
             id: Swift.String? = nil,
             initialContactId: Swift.String? = nil,
@@ -3399,11 +3643,14 @@ extension ConnectClientTypes {
             lastUpdateTimestamp: Foundation.Date? = nil,
             name: Swift.String? = nil,
             previousContactId: Swift.String? = nil,
+            qualityMetrics: ConnectClientTypes.QualityMetrics? = nil,
             queueInfo: ConnectClientTypes.QueueInfo? = nil,
             queuePriority: Swift.Int? = nil,
             queueTimeAdjustmentSeconds: Swift.Int? = nil,
             relatedContactId: Swift.String? = nil,
+            routingCriteria: ConnectClientTypes.RoutingCriteria? = nil,
             scheduledTimestamp: Foundation.Date? = nil,
+            segmentAttributes: [Swift.String:ConnectClientTypes.SegmentAttributeValue]? = nil,
             tags: [Swift.String:Swift.String]? = nil,
             totalPauseCount: Swift.Int? = nil,
             totalPauseDurationInSeconds: Swift.Int? = nil,
@@ -3411,9 +3658,15 @@ extension ConnectClientTypes {
         )
         {
             self.agentInfo = agentInfo
+            self.answeringMachineDetectionStatus = answeringMachineDetectionStatus
             self.arn = arn
+            self.campaign = campaign
             self.channel = channel
+            self.connectedToSystemTimestamp = connectedToSystemTimestamp
+            self.customer = customer
+            self.customerVoiceActivity = customerVoiceActivity
             self.description = description
+            self.disconnectDetails = disconnectDetails
             self.disconnectTimestamp = disconnectTimestamp
             self.id = id
             self.initialContactId = initialContactId
@@ -3424,11 +3677,14 @@ extension ConnectClientTypes {
             self.lastUpdateTimestamp = lastUpdateTimestamp
             self.name = name
             self.previousContactId = previousContactId
+            self.qualityMetrics = qualityMetrics
             self.queueInfo = queueInfo
             self.queuePriority = queuePriority
             self.queueTimeAdjustmentSeconds = queueTimeAdjustmentSeconds
             self.relatedContactId = relatedContactId
+            self.routingCriteria = routingCriteria
             self.scheduledTimestamp = scheduledTimestamp
+            self.segmentAttributes = segmentAttributes
             self.tags = tags
             self.totalPauseCount = totalPauseCount
             self.totalPauseDurationInSeconds = totalPauseDurationInSeconds
@@ -7424,6 +7680,94 @@ extension ConnectClientTypes {
 
 }
 
+extension ConnectClientTypes.Customer {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.Customer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.Customer()
+        value.deviceInfo = try reader["DeviceInfo"].readIfPresent(with: ConnectClientTypes.DeviceInfo.read(from:))
+        value.capabilities = try reader["Capabilities"].readIfPresent(with: ConnectClientTypes.ParticipantCapabilities.read(from:))
+        return value
+    }
+}
+
+extension ConnectClientTypes {
+    /// Information about the Customer on the contact.
+    public struct Customer {
+        /// The configuration for the allowed capabilities for participants present over the call.
+        public var capabilities: ConnectClientTypes.ParticipantCapabilities?
+        /// Information regarding Customer’s device.
+        public var deviceInfo: ConnectClientTypes.DeviceInfo?
+
+        public init(
+            capabilities: ConnectClientTypes.ParticipantCapabilities? = nil,
+            deviceInfo: ConnectClientTypes.DeviceInfo? = nil
+        )
+        {
+            self.capabilities = capabilities
+            self.deviceInfo = deviceInfo
+        }
+    }
+
+}
+
+extension ConnectClientTypes.CustomerQualityMetrics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.CustomerQualityMetrics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.CustomerQualityMetrics()
+        value.audio = try reader["Audio"].readIfPresent(with: ConnectClientTypes.AudioQualityMetricsInfo.read(from:))
+        return value
+    }
+}
+
+extension ConnectClientTypes {
+    /// Information about the quality of the Customer's media connection
+    public struct CustomerQualityMetrics {
+        /// Information about the audio quality of the Customer
+        public var audio: ConnectClientTypes.AudioQualityMetricsInfo?
+
+        public init(
+            audio: ConnectClientTypes.AudioQualityMetricsInfo? = nil
+        )
+        {
+            self.audio = audio
+        }
+    }
+
+}
+
+extension ConnectClientTypes.CustomerVoiceActivity {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.CustomerVoiceActivity {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.CustomerVoiceActivity()
+        value.greetingStartTimestamp = try reader["GreetingStartTimestamp"].readTimestampIfPresent(format: .epochSeconds)
+        value.greetingEndTimestamp = try reader["GreetingEndTimestamp"].readTimestampIfPresent(format: .epochSeconds)
+        return value
+    }
+}
+
+extension ConnectClientTypes {
+    /// Information about customer’s voice activity.
+    public struct CustomerVoiceActivity {
+        /// Timestamp that measures the end of the customer greeting from an outbound voice call.
+        public var greetingEndTimestamp: Foundation.Date?
+        /// Timestamp that measures the beginning of the customer greeting from an outbound voice call.
+        public var greetingStartTimestamp: Foundation.Date?
+
+        public init(
+            greetingEndTimestamp: Foundation.Date? = nil,
+            greetingStartTimestamp: Foundation.Date? = nil
+        )
+        {
+            self.greetingEndTimestamp = greetingEndTimestamp
+            self.greetingStartTimestamp = greetingStartTimestamp
+        }
+    }
+
+}
+
 extension ConnectClientTypes.DateReference {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.DateReference {
@@ -10875,6 +11219,42 @@ public struct DestinationNotAllowedException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
+extension ConnectClientTypes.DeviceInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.DeviceInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.DeviceInfo()
+        value.platformName = try reader["PlatformName"].readIfPresent()
+        value.platformVersion = try reader["PlatformVersion"].readIfPresent()
+        value.operatingSystem = try reader["OperatingSystem"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes {
+    /// Information regarding the device.
+    public struct DeviceInfo {
+        /// Operating system that the participant used for the call.
+        public var operatingSystem: Swift.String?
+        /// Name of the platform that the participant used for the call.
+        public var platformName: Swift.String?
+        /// Version of the platform that the participant used for the call.
+        public var platformVersion: Swift.String?
+
+        public init(
+            operatingSystem: Swift.String? = nil,
+            platformName: Swift.String? = nil,
+            platformVersion: Swift.String? = nil
+        )
+        {
+            self.operatingSystem = operatingSystem
+            self.platformName = platformName
+            self.platformVersion = platformVersion
+        }
+    }
+
+}
+
 extension ConnectClientTypes.Dimensions {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.Dimensions {
@@ -11902,6 +12282,32 @@ enum DisassociateUserProficienciesOutputError {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
+}
+
+extension ConnectClientTypes.DisconnectDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.DisconnectDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.DisconnectDetails()
+        value.potentialDisconnectIssue = try reader["PotentialDisconnectIssue"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes {
+    /// Information about the call disconnect experience.
+    public struct DisconnectDetails {
+        /// Indicates the potential disconnection issues for a call. This field is not populated if the service does not detect potential issues.
+        public var potentialDisconnectIssue: Swift.String?
+
+        public init(
+            potentialDisconnectIssue: Swift.String? = nil
+        )
+        {
+            self.potentialDisconnectIssue = potentialDisconnectIssue
+        }
+    }
+
 }
 
 extension ConnectClientTypes.DisconnectReason {
@@ -13843,6 +14249,73 @@ extension ConnectClientTypes {
     }
 }
 
+extension ConnectClientTypes.Expiry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.Expiry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.Expiry()
+        value.durationInSeconds = try reader["DurationInSeconds"].readIfPresent()
+        value.expiryTimestamp = try reader["ExpiryTimestamp"].readTimestampIfPresent(format: .epochSeconds)
+        return value
+    }
+}
+
+extension ConnectClientTypes {
+    /// An object to specify the expiration of a routing step.
+    public struct Expiry {
+        /// The number of seconds to wait before expiring the routing step.
+        public var durationInSeconds: Swift.Int?
+        /// The timestamp indicating when the routing step expires.
+        public var expiryTimestamp: Foundation.Date?
+
+        public init(
+            durationInSeconds: Swift.Int? = nil,
+            expiryTimestamp: Foundation.Date? = nil
+        )
+        {
+            self.durationInSeconds = durationInSeconds
+            self.expiryTimestamp = expiryTimestamp
+        }
+    }
+
+}
+
+extension ConnectClientTypes.Expression {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.Expression {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.Expression()
+        value.attributeCondition = try reader["AttributeCondition"].readIfPresent(with: ConnectClientTypes.AttributeCondition.read(from:))
+        value.andExpression = try reader["AndExpression"].readListIfPresent(memberReadingClosure: ConnectClientTypes.Expression.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.orExpression = try reader["OrExpression"].readListIfPresent(memberReadingClosure: ConnectClientTypes.Expression.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ConnectClientTypes {
+    /// A tagged union to specify expression for a routing step.
+    public struct Expression {
+        /// List of routing expressions which will be AND-ed together.
+        public var andExpression: [ConnectClientTypes.Expression]?
+        /// An object to specify the predefined attribute condition.
+        public var attributeCondition: ConnectClientTypes.AttributeCondition?
+        /// List of routing expressions which will be OR-ed together.
+        public var orExpression: [ConnectClientTypes.Expression]?
+
+        public init(
+            andExpression: [ConnectClientTypes.Expression]? = nil,
+            attributeCondition: ConnectClientTypes.AttributeCondition? = nil,
+            orExpression: [ConnectClientTypes.Expression]? = nil
+        )
+        {
+            self.andExpression = andExpression
+            self.attributeCondition = attributeCondition
+            self.orExpression = orExpression
+        }
+    }
+
+}
+
 extension ConnectClientTypes.FailedRequest {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.FailedRequest {
@@ -15697,6 +16170,52 @@ extension ConnectClientTypes {
         {
             self.arn = arn
             self.id = id
+        }
+    }
+
+}
+
+extension ConnectClientTypes.HierarchyGroups {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.HierarchyGroups {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.HierarchyGroups()
+        value.level1 = try reader["Level1"].readIfPresent(with: ConnectClientTypes.AgentHierarchyGroup.read(from:))
+        value.level2 = try reader["Level2"].readIfPresent(with: ConnectClientTypes.AgentHierarchyGroup.read(from:))
+        value.level3 = try reader["Level3"].readIfPresent(with: ConnectClientTypes.AgentHierarchyGroup.read(from:))
+        value.level4 = try reader["Level4"].readIfPresent(with: ConnectClientTypes.AgentHierarchyGroup.read(from:))
+        value.level5 = try reader["Level5"].readIfPresent(with: ConnectClientTypes.AgentHierarchyGroup.read(from:))
+        return value
+    }
+}
+
+extension ConnectClientTypes {
+    /// Information about the agent hierarchy. Hierarchies can be configured with up to five levels.
+    public struct HierarchyGroups {
+        /// The group at level one of the agent hierarchy.
+        public var level1: ConnectClientTypes.AgentHierarchyGroup?
+        /// The group at level two of the agent hierarchy.
+        public var level2: ConnectClientTypes.AgentHierarchyGroup?
+        /// The group at level three of the agent hierarchy.
+        public var level3: ConnectClientTypes.AgentHierarchyGroup?
+        /// The group at level four of the agent hierarchy.
+        public var level4: ConnectClientTypes.AgentHierarchyGroup?
+        /// The group at level five of the agent hierarchy.
+        public var level5: ConnectClientTypes.AgentHierarchyGroup?
+
+        public init(
+            level1: ConnectClientTypes.AgentHierarchyGroup? = nil,
+            level2: ConnectClientTypes.AgentHierarchyGroup? = nil,
+            level3: ConnectClientTypes.AgentHierarchyGroup? = nil,
+            level4: ConnectClientTypes.AgentHierarchyGroup? = nil,
+            level5: ConnectClientTypes.AgentHierarchyGroup? = nil
+        )
+        {
+            self.level1 = level1
+            self.level2 = level2
+            self.level3 = level3
+            self.level4 = level4
+            self.level5 = level5
         }
     }
 
@@ -23147,6 +23666,13 @@ extension ConnectClientTypes.ParticipantCapabilities {
         guard let value else { return }
         try writer["Video"].write(value.video)
     }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.ParticipantCapabilities {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.ParticipantCapabilities()
+        value.video = try reader["Video"].readIfPresent()
+        return value
+    }
 }
 
 extension ConnectClientTypes {
@@ -24999,6 +25525,37 @@ enum PutUserStatusOutputError {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
+}
+
+extension ConnectClientTypes.QualityMetrics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.QualityMetrics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.QualityMetrics()
+        value.agent = try reader["Agent"].readIfPresent(with: ConnectClientTypes.AgentQualityMetrics.read(from:))
+        value.customer = try reader["Customer"].readIfPresent(with: ConnectClientTypes.CustomerQualityMetrics.read(from:))
+        return value
+    }
+}
+
+extension ConnectClientTypes {
+    /// Information about the quality of the participant's media connection.
+    public struct QualityMetrics {
+        /// Information about the quality of Agent media connection.
+        public var agent: ConnectClientTypes.AgentQualityMetrics?
+        /// Information about the quality of Customer media connection.
+        public var customer: ConnectClientTypes.CustomerQualityMetrics?
+
+        public init(
+            agent: ConnectClientTypes.AgentQualityMetrics? = nil,
+            customer: ConnectClientTypes.CustomerQualityMetrics? = nil
+        )
+        {
+            self.agent = agent
+            self.customer = customer
+        }
+    }
+
 }
 
 extension ConnectClientTypes.Queue {
@@ -27106,6 +27663,77 @@ enum ResumeContactRecordingOutputError {
     }
 }
 
+extension ConnectClientTypes.RoutingCriteria {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.RoutingCriteria {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.RoutingCriteria()
+        value.steps = try reader["Steps"].readListIfPresent(memberReadingClosure: ConnectClientTypes.Step.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.activationTimestamp = try reader["ActivationTimestamp"].readTimestampIfPresent(format: .epochSeconds)
+        value.index = try reader["Index"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes {
+    /// Latest routing criteria on the contact.
+    public struct RoutingCriteria {
+        /// The timestamp indicating when the routing criteria is set to active. A routing criteria is activated when contact is transferred to a queue. ActivationTimestamp will be set on routing criteria for contacts in agent queue even though Routing criteria is never activated for contacts in agent queue.
+        public var activationTimestamp: Foundation.Date?
+        /// Information about the index of the routing criteria.
+        public var index: Swift.Int?
+        /// List of routing steps. When Amazon Connect does not find an available agent meeting the requirements in a step for a given step duration, the routing criteria will move on to the next step sequentially until a join is completed with an agent. When all steps are exhausted, the contact will be offered to any agent in the queue.
+        public var steps: [ConnectClientTypes.Step]?
+
+        public init(
+            activationTimestamp: Foundation.Date? = nil,
+            index: Swift.Int? = nil,
+            steps: [ConnectClientTypes.Step]? = nil
+        )
+        {
+            self.activationTimestamp = activationTimestamp
+            self.index = index
+            self.steps = steps
+        }
+    }
+
+}
+
+extension ConnectClientTypes {
+
+    public enum RoutingCriteriaStepStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case expired
+        case inactive
+        case joined
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RoutingCriteriaStepStatus] {
+            return [
+                .active,
+                .expired,
+                .inactive,
+                .joined
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .expired: return "EXPIRED"
+            case .inactive: return "INACTIVE"
+            case .joined: return "JOINED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 extension ConnectClientTypes.RoutingProfile {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.RoutingProfile {
@@ -27125,6 +27753,7 @@ extension ConnectClientTypes.RoutingProfile {
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: .epochSeconds)
         value.lastModifiedRegion = try reader["LastModifiedRegion"].readIfPresent()
         value.isDefault = try reader["IsDefault"].readIfPresent() ?? false
+        value.associatedQueueIds = try reader["AssociatedQueueIds"].readListIfPresent(memberReadingClosure: Swift.String.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -27134,6 +27763,8 @@ extension ConnectClientTypes {
     public struct RoutingProfile {
         /// Whether agents with this routing profile will have their routing order calculated based on time since their last inbound contact or longest idle time.
         public var agentAvailabilityTimer: ConnectClientTypes.AgentAvailabilityTimer?
+        /// The IDs of the associated queue.
+        public var associatedQueueIds: [Swift.String]?
         /// The identifier of the default outbound queue for this routing profile.
         public var defaultOutboundQueueId: Swift.String?
         /// The description of the routing profile.
@@ -27163,6 +27794,7 @@ extension ConnectClientTypes {
 
         public init(
             agentAvailabilityTimer: ConnectClientTypes.AgentAvailabilityTimer? = nil,
+            associatedQueueIds: [Swift.String]? = nil,
             defaultOutboundQueueId: Swift.String? = nil,
             description: Swift.String? = nil,
             instanceId: Swift.String? = nil,
@@ -27179,6 +27811,7 @@ extension ConnectClientTypes {
         )
         {
             self.agentAvailabilityTimer = agentAvailabilityTimer
+            self.associatedQueueIds = associatedQueueIds
             self.defaultOutboundQueueId = defaultOutboundQueueId
             self.description = description
             self.instanceId = instanceId
@@ -27370,7 +28003,7 @@ extension ConnectClientTypes {
         public var andConditions: [ConnectClientTypes.RoutingProfileSearchCriteria]?
         /// A list of conditions which would be applied together with an OR condition.
         public var orConditions: [ConnectClientTypes.RoutingProfileSearchCriteria]?
-        /// A leaf node condition which can be used to specify a string condition. The currently supported values for FieldName are name, description, and resourceID.
+        /// A leaf node condition which can be used to specify a string condition. The currently supported values for FieldName are associatedQueueIds, name, description, and resourceID.
         public var stringCondition: ConnectClientTypes.StringCondition?
 
         public init(
@@ -29741,6 +30374,13 @@ extension ConnectClientTypes.SegmentAttributeValue {
         guard let value else { return }
         try writer["ValueString"].write(value.valueString)
     }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.SegmentAttributeValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.SegmentAttributeValue()
+        value.valueString = try reader["ValueString"].readIfPresent()
+        return value
+    }
 }
 
 extension ConnectClientTypes {
@@ -31223,6 +31863,42 @@ extension ConnectClientTypes {
             }
         }
     }
+}
+
+extension ConnectClientTypes.Step {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.Step {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.Step()
+        value.expiry = try reader["Expiry"].readIfPresent(with: ConnectClientTypes.Expiry.read(from:))
+        value.expression = try reader["Expression"].readIfPresent(with: ConnectClientTypes.Expression.read(from:))
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes {
+    /// Step signifies the criteria to be used for routing to an agent
+    public struct Step {
+        /// An object to specify the expiration of a routing step.
+        public var expiry: ConnectClientTypes.Expiry?
+        /// A tagged union to specify expression for a routing step.
+        public var expression: ConnectClientTypes.Expression?
+        /// Represents status of the Routing step.
+        public var status: ConnectClientTypes.RoutingCriteriaStepStatus?
+
+        public init(
+            expiry: ConnectClientTypes.Expiry? = nil,
+            expression: ConnectClientTypes.Expression? = nil,
+            status: ConnectClientTypes.RoutingCriteriaStepStatus? = nil
+        )
+        {
+            self.expiry = expiry
+            self.expression = expression
+            self.status = status
+        }
+    }
+
 }
 
 extension StopContactInput {
