@@ -58,7 +58,7 @@ public struct SigV4AuthScheme: AuthScheme {
         updatedSigningProperties.set(key: SigningPropertyKeys.omitSessionToken, value: false)
 
         // Copy checksum from middleware context to signing properties
-        updatedSigningProperties.set(key: SigningPropertyKeys.checksum, value: context.checksum)
+        updatedSigningProperties.set(key: SigningPropertyKeys.checksum, value: context.checksumString)
 
         // Copy chunked streaming eligiblity from middleware context to signing properties
         updatedSigningProperties.set(

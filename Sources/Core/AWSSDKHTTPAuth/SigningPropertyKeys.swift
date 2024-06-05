@@ -7,7 +7,6 @@
 
 import Smithy
 import SmithyHTTPAuthAPI
-import SmithyChecksumsAPI
 import struct Foundation.TimeInterval
 
 public extension SigningPropertyKeys {
@@ -21,6 +20,6 @@ public extension SigningPropertyKeys {
     static let signatureType = AttributeKey<AWSSignatureType>(name: "SignatureType")
     static let bidirectionalStreaming = AttributeKey<Bool>(name: "BidirectionalStreaming")
     static let expiration = AttributeKey<TimeInterval>(name: "Expiration")
-    static let checksum = AttributeKey<ChecksumAlgorithm>(name: "checksum")
+    static let checksum = AttributeKey<String>(name: "checksum")
     static let isChunkedEligibleStream = AttributeKey<Bool>(name: "isChunkedEligibleStream")
 }
