@@ -5,9 +5,12 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import Smithy
-import enum AWSSDKIdentity.FlowType
-import SmithyHTTPAuthAPI
+import class Smithy.Context
+import enum SmithyHTTPAuthAPI.AWSSignedBodyHeader
+import enum SmithyHTTPAuthAPI.SigningPropertyKeys
+import protocol SmithyHTTPAuthAPI.AuthScheme
+import protocol SmithyHTTPAuthAPI.Signer
+import struct Smithy.Attributes
 
 public struct SigV4AuthScheme: AuthScheme {
     public let schemeID: String = "aws.auth#sigv4"

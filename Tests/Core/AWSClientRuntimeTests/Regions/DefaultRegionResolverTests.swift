@@ -9,6 +9,7 @@ import ClientRuntime
 import SmithyTestUtil
 import XCTest
 @_spi(FileBasedConfig) @testable import AWSClientRuntime
+@_spi(FileBasedConfig) import AWSSDKCommon
 
 class DefaultRegionResolverTests: XCTestCase {
     

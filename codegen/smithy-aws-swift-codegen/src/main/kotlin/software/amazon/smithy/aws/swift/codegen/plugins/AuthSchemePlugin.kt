@@ -12,7 +12,7 @@ import software.amazon.smithy.swift.codegen.model.buildSymbol
 import software.amazon.smithy.swift.codegen.model.toGeneric
 import software.amazon.smithy.swift.codegen.model.toOptional
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAuthAPITypes
-import software.amazon.smithy.swift.codegen.swiftmodules.SmithyIdentityAPITypes
+import software.amazon.smithy.swift.codegen.swiftmodules.SmithyIdentityTypes
 import software.amazon.smithy.swift.codegen.utils.toUpperCamelCase
 
 class AuthSchemePlugin(private val serviceConfig: ServiceConfig) : Plugin {
@@ -32,13 +32,13 @@ class AuthSchemePlugin(private val serviceConfig: ServiceConfig) : Plugin {
         writer.openBlock("public class $pluginName: Plugin {", "}") {
             writer.write("private var authSchemes: \$N", SmithyHTTPAuthAPITypes.AuthSchemes.toOptional())
             writer.write("private var authSchemeResolver: \$N", SmithyHTTPAuthAPITypes.AuthSchemeResolver.toOptional())
-            writer.write("private var awsCredentialIdentityResolver: \$N", SmithyIdentityAPITypes.AWSCredentialIdentityResolver.toGeneric().toOptional())
+            writer.write("private var awsCredentialIdentityResolver: \$N", SmithyIdentityTypes.AWSCredentialIdentityResolver.toGeneric().toOptional())
 
             writer.openBlock(
                 "public init(authSchemes: \$N = nil, authSchemeResolver: \$N = nil, awsCredentialIdentityResolver: \$N = nil) {", "}",
                 SmithyHTTPAuthAPITypes.AuthSchemes.toOptional(),
                 AuthSchemeResolverGenerator.getServiceSpecificAuthSchemeResolverName(ctx).toOptional(),
-                SmithyIdentityAPITypes.AWSCredentialIdentityResolver.toGeneric().toOptional()
+                SmithyIdentityTypes.AWSCredentialIdentityResolver.toGeneric().toOptional()
             ) {
                 writer.write("self.authSchemeResolver = authSchemeResolver")
                 writer.write("self.authSchemes = authSchemes")
