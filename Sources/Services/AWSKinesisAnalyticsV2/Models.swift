@@ -6,6 +6,7 @@ import Foundation
 import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
+import class SmithyHTTPAPI.HttpResponse
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 
 /// Exception thrown as a result of concurrent modifications to an application. This error can be the result of attempting to modify an application without using the current application ID.

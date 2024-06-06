@@ -6,6 +6,7 @@ import Foundation
 import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
+import class SmithyHTTPAPI.HttpResponse
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 
 /// The limit for the number of attachment sets created in a short period of time has been exceeded.

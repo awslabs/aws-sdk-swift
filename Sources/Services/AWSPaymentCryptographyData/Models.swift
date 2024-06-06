@@ -5,6 +5,7 @@ import ClientRuntime
 import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
+import class SmithyHTTPAPI.HttpResponse
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 
 /// You do not have sufficient access to perform this action.

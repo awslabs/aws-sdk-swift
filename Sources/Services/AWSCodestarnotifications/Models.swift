@@ -7,6 +7,7 @@ import Smithy
 import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
+import class SmithyHTTPAPI.HttpResponse
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 
 /// CodeStar Notifications can't create the notification rule because you do not have sufficient permissions.

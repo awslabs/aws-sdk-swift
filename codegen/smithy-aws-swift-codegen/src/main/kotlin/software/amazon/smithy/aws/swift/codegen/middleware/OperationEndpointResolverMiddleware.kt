@@ -20,7 +20,6 @@ import software.amazon.smithy.rulesengine.traits.StaticContextParamDefinition
 import software.amazon.smithy.rulesengine.traits.StaticContextParamsTrait
 import software.amazon.smithy.swift.codegen.AuthSchemeResolverGenerator
 import software.amazon.smithy.swift.codegen.SwiftWriter
-import software.amazon.smithy.swift.codegen.endpoints.EndpointTypes
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.middlewares.handlers.MiddlewareShapeUtils
 import software.amazon.smithy.swift.codegen.middleware.MiddlewarePosition
@@ -35,6 +34,7 @@ import software.amazon.smithy.swift.codegen.utils.toLowerCamelCase
  */
 class OperationEndpointResolverMiddleware(
     val ctx: ProtocolGenerator.GenerationContext,
+    val endpointResolverMiddlewareSymbol: Symbol,
 ) : MiddlewareRenderable {
 
     override val name = "EndpointResolverMiddleware"
@@ -61,8 +61,8 @@ class OperationEndpointResolverMiddleware(
     ) {
         val output = MiddlewareShapeUtils.outputSymbol(ctx.symbolProvider, ctx.model, op)
         writer.write(
-            "\$N<\$N>(endpointResolver: config.endpointResolver, endpointParams: endpointParams)",
-            EndpointTypes.EndpointResolverMiddleware,
+            "\$N<\$N, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: \$\$0) }, endpointParams: endpointParams)",
+            endpointResolverMiddlewareSymbol,
             output
         )
     }

@@ -6,6 +6,7 @@ import Foundation
 import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
+import class SmithyHTTPAPI.HttpResponse
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 
 /// Exception that indicates the specified AttackId does not exist, or the requester does not have the appropriate permissions to access the AttackId.

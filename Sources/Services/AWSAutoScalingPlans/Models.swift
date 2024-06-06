@@ -6,6 +6,7 @@ import Foundation
 import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
+import class SmithyHTTPAPI.HttpResponse
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 
 /// Concurrent updates caused an exception, for example, if you request an update to a scaling plan that already has a pending update.

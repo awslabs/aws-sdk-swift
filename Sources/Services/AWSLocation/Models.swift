@@ -7,6 +7,7 @@ import Smithy
 import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
+import class SmithyHTTPAPI.HttpResponse
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 
 /// The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.

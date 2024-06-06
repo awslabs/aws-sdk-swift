@@ -5,6 +5,7 @@ import ClientRuntime
 import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
+import class SmithyHTTPAPI.HttpResponse
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 
 /// Either your AWS credentials are not valid or you do not have access to the EC2 instance.

@@ -15,11 +15,15 @@ import SmithyReadWrite
 import SmithyRetries
 import SmithyRetriesAPI
 import Swift
+import class SmithyHTTPAPI.HttpResponse
+import class SmithyHTTPAPI.SdkHttpRequest
 import enum ClientRuntime.ClientLogMode
 import enum ClientRuntime.SDKLogLevel
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import protocol ClientRuntime.SDKLogHandlerFactory
 import protocol ClientRuntime.TelemetryProvider
+import protocol SmithyHTTPAPI.HTTPClient
+import struct AWSClientRuntime.EndpointResolverMiddleware
 
 public class TranscribeStreamingClient: Client {
     public static let clientName = "TranscribeStreamingClient"
@@ -194,7 +198,7 @@ extension TranscribeStreamingClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartCallAnalyticsStreamTranscriptionInput, StartCallAnalyticsStreamTranscriptionOutput>(StartCallAnalyticsStreamTranscriptionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartCallAnalyticsStreamTranscriptionInput, StartCallAnalyticsStreamTranscriptionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(EndpointResolverMiddleware<StartCallAnalyticsStreamTranscriptionOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<StartCallAnalyticsStreamTranscriptionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartCallAnalyticsStreamTranscriptionInput, StartCallAnalyticsStreamTranscriptionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartCallAnalyticsStreamTranscriptionOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<StartCallAnalyticsStreamTranscriptionInput, StartCallAnalyticsStreamTranscriptionOutput>(StartCallAnalyticsStreamTranscriptionInput.headerProvider(_:)))
@@ -260,7 +264,7 @@ extension TranscribeStreamingClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartMedicalStreamTranscriptionInput, StartMedicalStreamTranscriptionOutput>(StartMedicalStreamTranscriptionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartMedicalStreamTranscriptionInput, StartMedicalStreamTranscriptionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(EndpointResolverMiddleware<StartMedicalStreamTranscriptionOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<StartMedicalStreamTranscriptionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartMedicalStreamTranscriptionInput, StartMedicalStreamTranscriptionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartMedicalStreamTranscriptionOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<StartMedicalStreamTranscriptionInput, StartMedicalStreamTranscriptionOutput>(StartMedicalStreamTranscriptionInput.headerProvider(_:)))
@@ -326,7 +330,7 @@ extension TranscribeStreamingClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartStreamTranscriptionInput, StartStreamTranscriptionOutput>(StartStreamTranscriptionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartStreamTranscriptionInput, StartStreamTranscriptionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        builder.applyEndpoint(EndpointResolverMiddleware<StartStreamTranscriptionOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<StartStreamTranscriptionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartStreamTranscriptionInput, StartStreamTranscriptionOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartStreamTranscriptionOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<StartStreamTranscriptionInput, StartStreamTranscriptionOutput>(StartStreamTranscriptionInput.headerProvider(_:)))

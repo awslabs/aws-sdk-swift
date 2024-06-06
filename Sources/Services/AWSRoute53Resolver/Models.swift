@@ -5,6 +5,7 @@ import ClientRuntime
 import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
+import class SmithyHTTPAPI.HttpResponse
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 
 /// The current account doesn't have the IAM permissions required to perform the specified Resolver operation. This error can also be thrown when a customer has reached the 5120 character limit for a resource policy for CloudWatch Logs.

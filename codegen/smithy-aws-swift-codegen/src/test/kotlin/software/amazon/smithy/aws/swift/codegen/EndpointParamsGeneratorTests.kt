@@ -8,77 +8,22 @@ package software.amazon.smithy.aws.swift.codegen
 import io.kotest.matchers.string.shouldContainOnlyOnce
 import org.intellij.lang.annotations.Language
 import org.junit.jupiter.api.Test
+import software.amazon.smithy.aws.swift.codegen.protocols.restjson.AWSRestJson1ProtocolGenerator
+import software.amazon.smithy.aws.traits.protocols.RestJson1Trait
 import software.amazon.smithy.model.node.Node
 import software.amazon.smithy.rulesengine.language.EndpointRuleSet
-import software.amazon.smithy.rulesengine.traits.EndpointRuleSetTrait
-import software.amazon.smithy.swift.codegen.SwiftWriter
+import software.amazon.smithy.swift.codegen.core.GenerationContext
 import software.amazon.smithy.swift.codegen.endpoints.EndpointParamsGenerator
-import software.amazon.smithy.swift.codegen.model.getTrait
+import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 
 class EndpointParamsGeneratorTests {
-    @Test
-    fun `test endpoint param from Smithy JSON`() {
-        val ruleset = """ 
-        {
-          "version": "1.1",
-          "serviceId": "minimal",
-          "parameters": {
-            "Region": {
-              "type": "string",
-              "builtIn": "AWS::Region",
-              "required": true,
-              "documentation": "The AWS region to send this request to"
-            },
-            "DisableHttp": {
-              "type": "Boolean",
-              "documentation": "Disallow requests from being sent over HTTP"
-            },
-            "DefaultTrue": {
-              "type": "Boolean",
-              "builtIn": "AWS::DefaultTrue",
-              "required": true,
-              "default": true
-            }
-          },
-          "rules": []
-        }
-    """.toRuleset()
-
-        val writer = SwiftWriter("testName")
-        val endpointParamsGenerator = EndpointParamsGenerator(ruleset)
-        endpointParamsGenerator.render(writer)
-        val contents = writer.toString()
-        val expected = """
-            public struct EndpointParams {
-                public let defaultTrue: Swift.Bool
-                /// Disallow requests from being sent over HTTP
-                public let disableHttp: Swift.Bool?
-                /// The AWS region to send this request to
-                public let region: Swift.String
-            
-                public init(
-                    defaultTrue: Swift.Bool = true,
-                    disableHttp: Swift.Bool? = nil,
-                    region: Swift.String
-                )
-                {
-                    self.defaultTrue = defaultTrue
-                    self.disableHttp = disableHttp
-                    self.region = region
-                }
-            }
-        """.trimIndent()
-        contents.shouldContainOnlyOnce(expected)
-    }
 
     @Test
-    fun `test endpoint params from Smithy IDL`() {
-        val writer = SwiftWriter("testName")
-        val context = setupGenerationContext("endpoints.smithy", "smithy.example#ExampleService")
-        var ruleSetNode = context.service.getTrait<EndpointRuleSetTrait>()!!.ruleSet
-        val endpointParamsGenerator = EndpointParamsGenerator(EndpointRuleSet.fromNode(ruleSetNode))
-        endpointParamsGenerator.render(writer)
-        val contents = writer.toString()
+    fun `test endpoint params init`() {
+        val context = setupTests("endpoints.smithy", "smithy.example#ExampleService")
+        val endpointParamsGenerator = EndpointParamsGenerator(context.ctx)
+        endpointParamsGenerator.render()
+        val contents = TestUtils.getFileContents(context.manifest, "/Example/Endpoints.swift")
         val expected = """
 public struct EndpointParams {
     public let boolBar: Swift.Bool?
@@ -117,9 +62,50 @@ public struct EndpointParams {
 """
         contents.shouldContainOnlyOnce(expected)
     }
+
+    @Test
+    fun `test endpoint params extension`() {
+        val context = setupTests("endpoints.smithy", "smithy.example#ExampleService")
+        val endpointParamsGenerator = EndpointParamsGenerator(context.ctx)
+        endpointParamsGenerator.render()
+        val contents = TestUtils.getFileContents(context.manifest, "/Example/Endpoints.swift")
+        val expected = """
+extension EndpointParams: ClientRuntime.EndpointsRequestContextProviding {
+
+    public var context: ClientRuntime.EndpointsRequestContext {
+        get throws {
+            let context = try ClientRuntime.EndpointsRequestContext()
+            try context.add(name: "boolBar", value: self.boolBar)
+            try context.add(name: "boolBaz", value: self.boolBaz)
+            try context.add(name: "boolFoo", value: self.boolFoo)
+            try context.add(name: "endpoint", value: self.endpoint)
+            try context.add(name: "region", value: self.region)
+            try context.add(name: "stringArrayBar", value: self.stringArrayBar)
+            try context.add(name: "stringBar", value: self.stringBar)
+            try context.add(name: "stringBaz", value: self.stringBaz)
+            try context.add(name: "stringFoo", value: self.stringFoo)
+            return context
+        }
+    }
+}
+"""
+        contents.shouldContainOnlyOnce(expected)
+    }
 }
 
 @Language("JSON")
 fun String.toRuleset(): EndpointRuleSet {
     return EndpointRuleSet.fromNode(Node.parse(this))
+}
+
+private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
+    val context = TestUtils.executeDirectedCodegen(smithyFile, serviceShapeId, RestJson1Trait.ID)
+    val presigner = PresignerGenerator()
+    val generator = AWSRestJson1ProtocolGenerator()
+    val codegenContext = GenerationContext(context.ctx.model, context.ctx.symbolProvider, context.ctx.settings, context.manifest, generator)
+    val protocolGenerationContext = ProtocolGenerator.GenerationContext(context.ctx.settings, context.ctx.model, context.ctx.service, context.ctx.symbolProvider, listOf(), RestJson1Trait.ID, context.ctx.delegator)
+    codegenContext.protocolGenerator?.initializeMiddleware(context.ctx)
+    presigner.writeAdditionalFiles(codegenContext, protocolGenerationContext, context.ctx.delegator)
+    context.ctx.delegator.flushWriters()
+    return context
 }

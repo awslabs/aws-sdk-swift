@@ -9,7 +9,9 @@ import SmithyEventStreamsAPI
 import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
+import class SmithyHTTPAPI.HttpResponse
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+import struct SmithyHTTPAPI.Headers
 
 /// Your request caused an exception with an internal dependency. Contact customer support.
 public struct InternalDependencyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {

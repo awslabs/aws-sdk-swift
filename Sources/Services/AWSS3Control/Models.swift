@@ -7,7 +7,9 @@ import Smithy
 import SmithyHTTPAPI
 import SmithyReadWrite
 import SmithyXML
+import class SmithyHTTPAPI.HttpResponse
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+import struct SmithyHTTPAPI.Headers
 
 public struct AssociateAccessGrantsIdentityCenterOutput {
 
