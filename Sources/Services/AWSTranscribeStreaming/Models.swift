@@ -9,8 +9,10 @@ import SmithyEventStreamsAPI
 import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
+import class SmithyHTTPAPI.HttpResponse
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct Foundation.Data
+import struct SmithyHTTPAPI.Headers
 
 extension TranscribeStreamingClientTypes {
     /// Contains entities identified as personally identifiable information (PII) in your transcription output, along with various associated attributes. Examples include category, confidence score, type, stability score, and start and end times.

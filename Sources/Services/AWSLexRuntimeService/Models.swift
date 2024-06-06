@@ -6,7 +6,9 @@ import Smithy
 import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
+import class SmithyHTTPAPI.HttpResponse
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+import struct SmithyHTTPAPI.Headers
 
 extension LexRuntimeClientTypes {
     /// The length of time or number of turns that a context remains active.

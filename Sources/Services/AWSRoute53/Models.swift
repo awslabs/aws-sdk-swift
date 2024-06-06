@@ -7,6 +7,7 @@ import Smithy
 import SmithyHTTPAPI
 import SmithyReadWrite
 import SmithyXML
+import class SmithyHTTPAPI.HttpResponse
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 
 extension Route53ClientTypes {

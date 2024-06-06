@@ -5,6 +5,7 @@ import ClientRuntime
 import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
+import class SmithyHTTPAPI.HttpResponse
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 
 /// Your request was throttled because you have exceeded the limit of allowed client calls. Try making the call later.
