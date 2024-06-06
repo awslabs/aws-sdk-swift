@@ -114,7 +114,8 @@ fun generateSmithyBuild(tests: List<ProtocolTest>): String {
                   "author": "Amazon Web Services",
                   "homepage": "https://docs.amplify.aws/",
                   "swiftVersion": "5.7.0",
-                  "useInterceptors": true
+                  "useInterceptors": true,
+                  "mergeModels": false
                 }
               }
             }"""

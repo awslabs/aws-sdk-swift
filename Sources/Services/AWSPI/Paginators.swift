@@ -80,6 +80,7 @@ extension PIClient {
 extension ListAvailableResourceDimensionsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListAvailableResourceDimensionsInput {
         return ListAvailableResourceDimensionsInput(
+            authorizedActions: self.authorizedActions,
             identifier: self.identifier,
             maxResults: self.maxResults,
             metrics: self.metrics,

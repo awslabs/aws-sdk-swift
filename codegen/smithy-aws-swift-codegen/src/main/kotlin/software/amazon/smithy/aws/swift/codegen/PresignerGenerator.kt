@@ -25,6 +25,7 @@ import software.amazon.smithy.swift.codegen.model.toUpperCamelCase
 import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes.Middleware.NoopHandler
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAPITypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyTypes
+import software.amazon.smithy.swift.codegen.utils.ModelFileUtils
 
 data class PresignableOperation(
     val serviceId: String,
@@ -47,7 +48,8 @@ class PresignerGenerator : SwiftIntegration {
             val op = ctx.model.expectShape<OperationShape>(presignableOperation.operationId)
             val inputType = op.input.get().getName()
             val outputType = op.output.get().getName()
-            delegator.useFileWriter("${ctx.settings.moduleName}/models/$inputType+Presigner.swift") { writer ->
+            val filename = ModelFileUtils.filename(ctx.settings, "$inputType+Presigner")
+            delegator.useFileWriter("${ctx.settings.moduleName}/$filename") { writer ->
                 var serviceConfig = AWSServiceConfig(writer, protoCtx)
                 renderPresigner(writer, ctx, delegator, op, inputType, outputType, serviceConfig)
             }
