@@ -65,7 +65,8 @@ fun generateSmithyBuild(tests: List<CodegenTest>): String {
                       "swiftVersion": "5.7.0",
                       "build": {
                         "rootProject": true
-                      }
+                      },
+                      "mergeModels": false
                       ${it.extraConfig ?: ""}
                  }
                }

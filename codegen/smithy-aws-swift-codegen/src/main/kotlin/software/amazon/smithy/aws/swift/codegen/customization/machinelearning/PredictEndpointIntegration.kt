@@ -17,6 +17,7 @@ import software.amazon.smithy.swift.codegen.integration.middlewares.handlers.Mid
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 import software.amazon.smithy.swift.codegen.middleware.OperationMiddleware
 import software.amazon.smithy.swift.codegen.model.expectShape
+import software.amazon.smithy.swift.codegen.utils.ModelFileUtils
 
 internal val ENABLED_OPERATIONS: Map<String, Set<String>> = mapOf(
     "com.amazonaws.machinelearning#AmazonML_20141212" to setOf(
@@ -43,7 +44,8 @@ class PredictEndpointIntegration(private val enabledOperations: Map<String, Set<
             val outputErrorSymbol = MiddlewareShapeUtils.outputErrorSymbol(op)
 
             val inputType = op.input.get()
-            delegator.useFileWriter("${ctx.settings.moduleName}/models/$inputType+EndpointURLHostMiddleware.swift") { writer ->
+            val filename = ModelFileUtils.filename(ctx.settings, "$inputType+EndpointURLHostMiddleware")
+            delegator.useFileWriter("${ctx.settings.moduleName}/$filename") { writer ->
                 writer.addImport(SwiftDependency.CLIENT_RUNTIME.target)
                 val predictMiddleware = PredictInputEndpointURLHostMiddlewareHandler(writer, protocolGeneratorContext, inputSymbol, outputSymbol, outputErrorSymbol)
                 MiddlewareGenerator(writer, predictMiddleware).generate()

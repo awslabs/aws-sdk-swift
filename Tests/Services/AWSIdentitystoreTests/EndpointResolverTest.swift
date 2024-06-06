@@ -7,6 +7,7 @@ import ClientRuntime
 import SmithyHTTPAPI
 import SmithyTestUtil
 import XCTest
+import struct SmithyHTTPAPI.Headers
 
 class EndpointResolverTest: XCTestCase {
 

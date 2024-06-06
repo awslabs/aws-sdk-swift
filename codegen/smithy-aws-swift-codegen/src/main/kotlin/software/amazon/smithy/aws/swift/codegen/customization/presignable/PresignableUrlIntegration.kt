@@ -32,6 +32,7 @@ import software.amazon.smithy.swift.codegen.middleware.OperationMiddleware
 import software.amazon.smithy.swift.codegen.model.expectShape
 import software.amazon.smithy.swift.codegen.model.toUpperCamelCase
 import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes
+import software.amazon.smithy.swift.codegen.utils.ModelFileUtils
 
 internal val PRESIGNABLE_URL_OPERATIONS: Map<String, Set<String>> = mapOf(
     "com.amazonaws.polly#Parrot_v1" to setOf(
@@ -68,7 +69,8 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
             val op = ctx.model.expectShape<OperationShape>(presignableOperation.operationId)
             val inputType = op.input.get().getName()
             val outputType = op.output.get().getName()
-            delegator.useFileWriter("${ctx.settings.moduleName}/models/$inputType+Presigner.swift") { writer ->
+            val filename = ModelFileUtils.filename(ctx.settings, "$inputType+Presigner")
+            delegator.useFileWriter("${ctx.settings.moduleName}/$filename") { writer ->
                 val serviceConfig = AWSServiceConfig(writer, protocolGenerationContext)
                 renderPresigner(writer, ctx, delegator, op, inputType, outputType, serviceConfig)
             }
@@ -238,8 +240,9 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
         val outputErrorSymbol = Symbol.builder().name(operationErrorName).build()
 
         val rootNamespace = ctx.settings.moduleName
+        val filename = ModelFileUtils.filename(ctx.settings, "${inputSymbol.name}+QueryItemMiddlewareForPresignUrl")
         val headerMiddlewareSymbol = Symbol.builder()
-            .definitionFile("./$rootNamespace/models/${inputSymbol.name}+QueryItemMiddlewareForPresignUrl.swift")
+            .definitionFile("./$rootNamespace/$filename")
             .name(inputSymbol.name)
             .build()
         delegator.useShapeWriter(headerMiddlewareSymbol) { writer ->
@@ -270,8 +273,9 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
         val outputErrorSymbol = Symbol.builder().name(operationErrorName).build()
 
         val rootNamespace = ctx.settings.moduleName
+        val filename = ModelFileUtils.filename(ctx.settings, "${inputSymbol.name}+QueryItemMiddlewareForPresignUrl")
         val headerMiddlewareSymbol = Symbol.builder()
-            .definitionFile("./$rootNamespace/models/${inputSymbol.name}+QueryItemMiddlewareForPresignUrl.swift")
+            .definitionFile("./$rootNamespace/$filename")
             .name(inputSymbol.name)
             .build()
         delegator.useShapeWriter(headerMiddlewareSymbol) { writer ->
