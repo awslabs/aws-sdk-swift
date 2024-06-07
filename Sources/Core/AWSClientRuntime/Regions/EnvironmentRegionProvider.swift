@@ -5,6 +5,8 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 import class Foundation.ProcessInfo
+import struct AWSSDKCommon.ProcessEnvironment
+
 
 public struct EnvironmentRegionProvider: RegionProvider {
     private let AWS_ENVIRON_REGION = "AWS_REGION"
@@ -16,13 +18,5 @@ public struct EnvironmentRegionProvider: RegionProvider {
 
     public func getRegion() throws -> String? {
         return env.environmentVariable(key: AWS_ENVIRON_REGION)
-    }
-}
-
-public struct ProcessEnvironment: Environment {
-    public init() {}
-
-    public func environmentVariable(key: String) -> String? {
-        return ProcessInfo.processInfo.environment[key]
     }
 }

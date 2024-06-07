@@ -7,7 +7,7 @@
 
 import class AwsCommonRuntimeKit.CredentialsProvider
 import class ClientRuntime.SDKDefaultIO
-import class Foundation.ProcessInfo
+import struct AWSSDKCommon.ProcessEnvironment
 import enum Smithy.ClientError
 import enum SmithyHTTPAPI.HTTPClientError
 import protocol SmithyIdentity.AWSCredentialIdentityResolvedByCRT
@@ -88,12 +88,4 @@ private func isValidAbsoluteURI(_ uri: String?) -> Bool {
         return false
     }
     return true
-}
-
-private struct ProcessEnvironment {
-    public init() {}
-
-    public func environmentVariable(key: String) -> String? {
-        return ProcessInfo.processInfo.environment[key]
-    }
 }
