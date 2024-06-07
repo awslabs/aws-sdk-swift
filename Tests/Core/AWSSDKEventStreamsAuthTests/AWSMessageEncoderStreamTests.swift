@@ -7,6 +7,7 @@
 
 import Smithy
 import SmithyIdentityAPI
+import SmithyIdentity
 import SmithyEventStreamsAPI
 import SmithyEventStreams
 import AWSSDKHTTPAuth
