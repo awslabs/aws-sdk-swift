@@ -7,6 +7,7 @@
 
 @testable @_spi(FileBasedConfig) import AWSClientRuntime
 import XCTest
+@_spi(FileBasedConfig) import AWSSDKCommon
 
 class AppIDConfigTests: XCTestCase {
     let configAppID = "passed-app-id"

@@ -8,6 +8,7 @@
 import Foundation
 import XCTest
 @testable @_spi(FileBasedConfig) import AWSClientRuntime
+@_spi(FileBasedConfig) import AWSSDKCommon
 
 class AWSRetryConfigTests: XCTestCase {
     var fileBasedConfig: FileBasedConfiguration = try! CRTFileBasedConfiguration(

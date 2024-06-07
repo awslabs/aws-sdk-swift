@@ -6,6 +6,7 @@
 //
 
 import class Foundation.ProcessInfo
+@_spi(FileBasedConfig) import AWSSDKCommon
 
 /// Resolves a configuration field for an AWS SDK feature.
 struct FieldResolver<T> {

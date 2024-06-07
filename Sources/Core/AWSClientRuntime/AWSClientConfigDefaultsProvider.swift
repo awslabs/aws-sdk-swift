@@ -16,6 +16,7 @@ import enum ClientRuntime.ClientLogMode
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetries.ExponentialBackoffStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
+@_spi(FileBasedConfig) import AWSSDKCommon
 
 typealias RuntimeConfigType = DefaultSDKRuntimeConfiguration<DefaultRetryStrategy, DefaultRetryErrorInfoProvider>
 

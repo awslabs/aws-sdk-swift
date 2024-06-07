@@ -9,6 +9,7 @@ import AWSSDKIdentity
 import AwsCommonRuntimeKit
 import ClientRuntime
 import Foundation
+@_spi(FileBasedConfig) import AWSSDKCommon
 
 /// A credential identity resolver that resolves credentials from a profile in `~/.aws/config` or the shared credentials file `~/.aws/credentials`.
 /// The profile name and the  locations of these files are configurable via the initializer and environment variables

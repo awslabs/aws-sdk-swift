@@ -9,6 +9,7 @@ import AWSSDKIdentity
 import AwsCommonRuntimeKit
 import ClientRuntime
 import Foundation
+@_spi(FileBasedConfig) import AWSSDKCommon
 
 // swiftlint:disable type_name
 // ^ Required to mute swiftlint warning about type name being too long.

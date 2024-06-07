@@ -8,6 +8,7 @@
 import AWSSDKIdentity
 import AwsCommonRuntimeKit
 import ClientRuntime
+@_spi(FileBasedConfig) import AWSSDKCommon
 
 /// A credential identity resolver that resolves credentials using GetRoleCredentialsRequest to the AWS Single Sign-On Service to maintain short-lived sessions.
 /// [Details link](https://docs.aws.amazon.com/sdkref/latest/guide/feature-sso-credentials.html)

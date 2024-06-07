@@ -7,6 +7,7 @@
 
 import Foundation
 import XCTest
+@_spi(FileBasedConfig) import AWSSDKCommon
 
 @_spi(FileBasedConfig) @testable import AWSClientRuntime
 

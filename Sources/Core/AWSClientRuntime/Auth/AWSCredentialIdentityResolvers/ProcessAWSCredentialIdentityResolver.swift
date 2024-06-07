@@ -9,6 +9,7 @@ import AWSSDKIdentity
 import AwsCommonRuntimeKit
 import ClientRuntime
 import Foundation
+@_spi(FileBasedConfig) import AWSSDKCommon
 
 /// The process credential identity resolver resolves credentials from running a command or process.
 /// The command to run is sourced from a profile in the AWS config file, using the standard
