@@ -65,6 +65,8 @@ abstract class AWSHTTPProtocolCustomizations : DefaultHTTPProtocolCustomizations
         serviceConfig: ServiceConfig
     ): HttpProtocolServiceClient {
         writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target, false, "FileBasedConfig")
+        writer.addImport(AWSSwiftDependency.AWS_SDK_COMMON.target, false, "FileBasedConfig")
+        writer.addImport(AWSSwiftDependency.AWS_SDK_IDENTITY.target, false, "FileBasedConfig")
         return AWSHttpProtocolServiceClient(ctx, writer, serviceConfig)
     }
 
