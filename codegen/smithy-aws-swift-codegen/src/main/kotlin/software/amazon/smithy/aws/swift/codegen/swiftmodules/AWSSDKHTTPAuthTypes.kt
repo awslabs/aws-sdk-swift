@@ -6,7 +6,7 @@ import software.amazon.smithy.swift.codegen.SwiftDeclaration
 import software.amazon.smithy.swift.codegen.swiftmodules.SwiftSymbol
 
 object AWSSDKHTTPAuthTypes {
-    var SigningPropertyKeys = runtimeSymbol("SigningPropertyKeys")
+    // TBD
 }
 
 private fun runtimeSymbol(name: String, declaration: SwiftDeclaration? = null): Symbol = SwiftSymbol.make(

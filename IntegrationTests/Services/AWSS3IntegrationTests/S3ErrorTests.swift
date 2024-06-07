@@ -10,6 +10,7 @@ import Foundation
 import XCTest
 import AWSS3
 import AWSClientRuntime
+import SmithyIdentity
 
 class S3ErrorTests: S3XCTestCase {
 

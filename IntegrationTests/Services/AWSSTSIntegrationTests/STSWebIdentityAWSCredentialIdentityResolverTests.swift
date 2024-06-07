@@ -12,6 +12,7 @@ import AWSCognitoIdentity
 import ClientRuntime
 import AWSClientRuntime
 import Foundation
+import AWSSDKIdentity
 
 /// Tests STS web identity credentials provider using STS::getCallerIdentity.
 class STSWebIdentityAWSCredentialIdentityResolverTests: XCTestCase {

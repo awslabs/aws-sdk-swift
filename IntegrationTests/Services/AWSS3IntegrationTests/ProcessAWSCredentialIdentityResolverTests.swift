@@ -9,6 +9,7 @@ import Foundation
 import XCTest
 import AWSS3
 import AWSClientRuntime
+import AWSSDKIdentity
 
 // Please provide your-access-key and your-secret-key in Resources/credenitals
 class ProcessAWSCredentialIdentityResolverTests: XCTestCase {

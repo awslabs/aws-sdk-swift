@@ -5,7 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import struct AWSSDKHTTPAuth.AWSSigningConfig
+import struct SmithyHTTPAuth.AWSSigningConfig
 import protocol SmithyEventStreamsAPI.MessageEncoder
 import struct SmithyEventStreamsAPI.Message
 import protocol SmithyEventStreamsAuthAPI.MessageSigner

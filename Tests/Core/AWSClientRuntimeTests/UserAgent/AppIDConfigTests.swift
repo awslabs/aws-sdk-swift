@@ -6,6 +6,7 @@
 //
 
 @testable @_spi(FileBasedConfig) import AWSClientRuntime
+@_spi(FileBasedConfig) @testable import AWSSDKCommon
 import XCTest
 
 class AppIDConfigTests: XCTestCase {

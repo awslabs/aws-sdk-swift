@@ -5,34 +5,53 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import Smithy
-import SmithyIdentityAPI
-import SmithyHTTPAPI
-import SmithyHTTPAuthAPI
-import SmithyChecksumsAPI
-import AwsCommonRuntimeKit
-import ClientRuntime
-import Foundation
+import class AwsCommonRuntimeKit.HTTPRequestBase
+import class AwsCommonRuntimeKit.Signer
+import class SmithyHTTPAPI.SdkHttpRequest
+import class SmithyHTTPAPI.SdkHttpRequestBuilder
+import enum AwsCommonRuntimeKit.CommonRunTimeError
+import enum Smithy.ClientError
+import enum SmithyChecksumsAPI.ChecksumAlgorithm
+import enum SmithyHTTPAuthAPI.AWSSignedBodyHeader
+import enum SmithyHTTPAuthAPI.AWSSignedBodyValue
+import enum SmithyHTTPAuthAPI.AWSSignatureType
+import enum SmithyHTTPAuthAPI.SigningAlgorithm
+import enum SmithyHTTPAuthAPI.SigningPropertyKeys
+import protocol SmithyIdentity.AWSCredentialIdentityResolver
+import protocol SmithyIdentityAPI.Identity
+import protocol SmithyHTTPAuthAPI.Signer
+import struct AwsCommonRuntimeKit.SigningConfig
+import struct ClientRuntime.Date
+import struct Smithy.AttributeKey
+import struct Smithy.Attributes
+import struct Smithy.SwiftLogger
+import struct SmithyIdentity.AWSCredentialIdentity
+import struct SmithyHTTPAuth.AWSSigningConfig
+import struct SmithyHTTPAuthAPI.SigningFlags
+import struct Foundation.Date
+import struct Foundation.TimeInterval
+import struct Foundation.URL
+
 
 public class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer {
 
     public init() {}
 
-    public func signRequest<IdentityT: Identity>(
-        requestBuilder: SdkHttpRequestBuilder,
+    public func signRequest<IdentityT: SmithyIdentityAPI.Identity>(
+        requestBuilder: SmithyHTTPAPI.SdkHttpRequestBuilder,
         identity: IdentityT,
-        signingProperties: Attributes
-    ) async throws -> SdkHttpRequestBuilder {
+        signingProperties: Smithy.Attributes
+    ) async throws -> SmithyHTTPAPI.SdkHttpRequestBuilder {
         guard let isBidirectionalStreamingEnabled = signingProperties.get(
             key: SigningPropertyKeys.bidirectionalStreaming
         ) else {
-            throw ClientError.authError(
+            throw Smithy.ClientError.authError(
                 "Signing properties passed to the AWSSigV4Signer must contain T/F flag for bidirectional streaming."
             )
         }
 
         guard let identity = identity as? AWSCredentialIdentity else {
-            throw ClientError.authError(
+            throw Smithy.ClientError.authError(
                 "Identity passed to the AWSSigV4Signer must be of type Credentials."
             )
         }
@@ -60,7 +79,7 @@ public class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer {
 
         if crtSigningConfig.useAwsChunkedEncoding {
             guard let requestSignature = crtSignedRequest.signature else {
-                throw ClientError.dataNotFound("Could not get request signature!")
+                throw Smithy.ClientError.dataNotFound("Could not get request signature!")
             }
 
             // Set streaming body to an AwsChunked wrapped type
@@ -78,25 +97,25 @@ public class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer {
 
     private func constructSigningConfig(
         identity: AWSCredentialIdentity,
-        signingProperties: Attributes
+        signingProperties: Smithy.Attributes
     ) throws -> AWSSigningConfig {
         guard let unsignedBody = signingProperties.get(key: SigningPropertyKeys.unsignedBody) else {
-            throw ClientError.authError(
+            throw Smithy.ClientError.authError(
                 "Signing properties passed to the AWSSigV4Signer must contain T/F flag for unsigned body."
             )
         }
         guard let signingName = signingProperties.get(key: SigningPropertyKeys.signingName) else {
-            throw ClientError.authError(
+            throw Smithy.ClientError.authError(
                 "Signing properties passed to the AWSSigV4Signer must contain signing name."
             )
         }
         guard let signingRegion = signingProperties.get(key: SigningPropertyKeys.signingRegion) else {
-            throw ClientError.authError(
+            throw Smithy.ClientError.authError(
                 "Signing properties passed to the AWSSigV4Signer must contain signing region."
             )
         }
         guard let signingAlgorithm = signingProperties.get(key: SigningPropertyKeys.signingAlgorithm) else {
-            throw ClientError.authError(
+            throw Smithy.ClientError.authError(
                 "Signing properties passed to the AWSSigV4Signer must contain signing algorithm."
             )
         }
@@ -135,10 +154,10 @@ public class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer {
         )
     }
 
-    static let logger: SwiftLogger = SwiftLogger(label: "AWSSigV4Signer")
+    static let logger: Smithy.SwiftLogger = SwiftLogger(label: "AWSSigV4Signer")
 
     public static func sigV4SignedURL(
-        requestBuilder: SdkHttpRequestBuilder,
+        requestBuilder: SmithyHTTPAPI.SdkHttpRequestBuilder,
         awsCredentialIdentityResolver: any AWSCredentialIdentityResolver,
         signingName: Swift.String,
         signingRegion: Swift.String,
@@ -180,9 +199,9 @@ public class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer {
     }
 
     public static func sigV4SignedRequest(
-        requestBuilder: SdkHttpRequestBuilder,
+        requestBuilder: SmithyHTTPAPI.SdkHttpRequestBuilder,
         signingConfig: AWSSigningConfig
-    ) async -> SdkHttpRequest? {
+    ) async -> SmithyHTTPAPI.SdkHttpRequest? {
         let originalRequest = requestBuilder.build()
         do {
             let crtUnsignedRequest = try originalRequest.toHttpRequest()
@@ -218,7 +237,7 @@ public class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer {
     }
 
     private func determineSignedBodyValue(
-        checksum: ChecksumAlgorithm?,
+        checksum: SmithyChecksumsAPI.ChecksumAlgorithm?,
         isChunkedEligbleStream: Bool,
         isUnsignedBody: Bool
     ) -> AWSSignedBodyValue {

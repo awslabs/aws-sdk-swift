@@ -6,6 +6,7 @@
 //
 
 import Smithy
+import SmithyHTTPAuth
 import SmithyHTTPAuthAPI
 import AWSSDKHTTPAuth
 import XCTest
@@ -14,7 +15,7 @@ import ClientRuntime
 @testable import AWSClientRuntime
 
 class CustomSigningPropertiesSetterTests: XCTestCase {
-    private var customSetter: CustomSigningPropertiesSetter!
+    private var customSetter: AWSSDKHTTPAuth.CustomSigningPropertiesSetter!
     private var context: ContextBuilder!
     private var signingProperties: Attributes!
 
