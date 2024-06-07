@@ -6,7 +6,7 @@
 //
 
 import XCTest
-import protocol AWSClientRuntime.Environment
+import protocol AWSSDKCommon.Environment
 import struct AWSSDKIdentity.ECSAWSCredentialIdentityResolver
 
 class ECSAWSCredentialIdentityResolverTests: XCTestCase {

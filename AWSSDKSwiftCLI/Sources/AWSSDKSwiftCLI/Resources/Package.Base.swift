@@ -115,7 +115,7 @@ let package = Package(
         ),
         .testTarget(
             name: "AWSSDKIdentityTests",
-            dependencies: [.smithy, .smithyIdentity, "AWSSDKIdentity", .awsClientRuntime],
+            dependencies: [.smithy, .smithyIdentity, "AWSSDKIdentity", .awsClientRuntime, .awsSDKCommon],
             path: "./Tests/Core/AWSSDKIdentityTests",
             resources: [.process("Resources")]
         )
