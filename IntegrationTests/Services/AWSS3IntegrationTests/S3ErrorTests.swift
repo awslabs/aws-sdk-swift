@@ -6,6 +6,7 @@
 //
 
 import SmithyIdentityAPI
+import SmithyIdentity
 import Foundation
 import XCTest
 import AWSS3
