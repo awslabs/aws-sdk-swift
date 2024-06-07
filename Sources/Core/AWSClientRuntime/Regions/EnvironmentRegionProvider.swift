@@ -6,6 +6,7 @@
 //
 import class Foundation.ProcessInfo
 import struct AWSSDKCommon.ProcessEnvironment
+import protocol AWSSDKCommon.Environment
 
 
 public struct EnvironmentRegionProvider: RegionProvider {
