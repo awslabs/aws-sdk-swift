@@ -16,6 +16,7 @@ import class AwsCommonRuntimeKit.FileBasedConfiguration
 @_spi(FileBasedConfig) public typealias CRTFileBasedConfigurationProperty =
     AwsCommonRuntimeKit.FileBasedConfiguration.Section.Property
 
+@_spi(FileBasedConfig)
 extension CRTFileBasedConfigurationSectionType {
     init(_ type: FileBasedConfigurationSectionType) {
         switch type {
