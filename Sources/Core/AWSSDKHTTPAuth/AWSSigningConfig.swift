@@ -7,6 +7,7 @@
 
 import AWSSDKIdentity
 import SmithyIdentityAPI
+import SmithyIdentity
 import SmithyHTTPAuthAPI
 import AwsCommonRuntimeKit
 import Foundation

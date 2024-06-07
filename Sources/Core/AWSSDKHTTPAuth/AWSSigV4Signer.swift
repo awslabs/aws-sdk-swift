@@ -7,6 +7,7 @@
 
 import Smithy
 import SmithyIdentityAPI
+import SmithyIdentity
 import SmithyHTTPAPI
 import SmithyHTTPAuthAPI
 import SmithyChecksumsAPI
