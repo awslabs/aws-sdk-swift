@@ -174,7 +174,7 @@ fun discoverServices(): List<AwsService> {
                 modelFile = file,
                 projectionName = name + "." + version.toLowerCase(),
                 sdkId = serviceApi.sdkId,
-                gitRepo = "https://github.com/aws-amplify/aws-sdk-swift.git")
+                gitRepo = "https://github.com/awslabs/aws-sdk-swift")
         }
 }
 val discoveredServices: List<AwsService> by lazy { discoverServices() }
@@ -184,7 +184,7 @@ val AwsService.outputDir: String
 
 val AwsService.sourcesDir: String
     get(){
-        return rootProject.file("Sources/Services").absolutePath
+        return rootProject.file("Sources/Services/$packageName").absolutePath
     }
 
 val AwsService.testsDir: String
@@ -207,15 +207,15 @@ task("stageSdks") {
             copy {
                 from("${it.outputDir}")
                 into("${it.sourcesDir}")
-                exclude("Package.swift")
-                exclude("*Tests")
+//                exclude("Package.swift")
+//                exclude("*Tests")
             }
-            logger.info("copying ${it.outputDir} tests to ${it.testsDir}")
-            copy {
-                from("${it.outputDir}")
-                into("${it.testsDir}")
-                include("*Tests/**")
-            }
+//            logger.info("copying ${it.outputDir} tests to ${it.testsDir}")
+//            copy {
+//                from("${it.outputDir}")
+//                into("${it.testsDir}")
+//                include("*Tests/**")
+//            }
         }
     }
 }
