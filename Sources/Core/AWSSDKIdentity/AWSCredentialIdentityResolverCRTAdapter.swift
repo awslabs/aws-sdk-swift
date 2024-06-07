@@ -6,7 +6,7 @@
 //
 
 import struct Smithy.Attributes
-import protocol SmithyIdentityAPI.AWSCredentialIdentityResolver
+import SmithyIdentity
 import AwsCommonRuntimeKit
 
 /// The adapter used to return CRTAWSCredentialIdentity from AWSCredentialIdentityResolver.

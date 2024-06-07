@@ -6,6 +6,7 @@
 //
 
 import SmithyIdentityAPI
+import SmithyIdentity
 
 public protocol AWSDefaultClientConfiguration {
     /// The AWS credential identity resolver to be used for AWS credentials.

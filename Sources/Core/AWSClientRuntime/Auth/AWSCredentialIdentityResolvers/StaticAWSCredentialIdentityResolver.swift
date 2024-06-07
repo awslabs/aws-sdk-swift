@@ -6,6 +6,7 @@
 //
 
 import SmithyIdentityAPI
+import SmithyIdentity
 import AWSSDKIdentity
 import AwsCommonRuntimeKit
 import ClientRuntime

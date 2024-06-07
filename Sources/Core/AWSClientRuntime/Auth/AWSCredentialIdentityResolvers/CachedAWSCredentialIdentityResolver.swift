@@ -5,8 +5,8 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import protocol SmithyIdentityAPI.AWSCredentialIdentityResolver
-import protocol AWSSDKIdentity.AWSCredentialIdentityResolvedByCRT
+import SmithyIdentity
+import AWSSDKIdentity
 import AwsCommonRuntimeKit
 import Foundation
 

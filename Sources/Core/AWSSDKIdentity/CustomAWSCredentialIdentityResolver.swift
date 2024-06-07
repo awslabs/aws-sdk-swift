@@ -5,7 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import SmithyIdentityAPI
+import SmithyIdentity
 import AwsCommonRuntimeKit
 
 /// A credential identity resolver that uses the input identity resolver to resolve the credentials.

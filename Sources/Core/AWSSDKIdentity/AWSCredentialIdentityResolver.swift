@@ -6,7 +6,7 @@
 //
 
 import Smithy
-import SmithyIdentityAPI
+import SmithyIdentity
 import class AwsCommonRuntimeKit.CredentialsProvider
 
 public extension AWSCredentialIdentityResolver {

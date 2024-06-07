@@ -6,7 +6,7 @@
 //
 
 import enum Smithy.ClientError
-import SmithyIdentityAPI
+import SmithyIdentity
 import AwsCommonRuntimeKit
 
 public extension AWSCredentialIdentity {

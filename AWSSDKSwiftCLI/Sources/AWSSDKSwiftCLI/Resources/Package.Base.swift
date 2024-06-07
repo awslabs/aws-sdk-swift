@@ -22,6 +22,7 @@ extension Target.Dependency {
     static var smithyRetriesAPI: Self { .product(name: "SmithyRetriesAPI", package: "smithy-swift") }
     static var smithyRetries: Self { .product(name: "SmithyRetries", package: "smithy-swift") }
     static var smithy: Self { .product(name: "Smithy", package: "smithy-swift") }
+    static var smithyIdentity: Self { .product(name: "SmithyIdentity", package: "smithy-swift") }
     static var smithyIdentityAPI: Self { .product(name: "SmithyIdentityAPI", package: "smithy-swift") }
     static var smithyEventStreamsAPI: Self { .product(name: "SmithyEventStreamsAPI", package: "smithy-swift") }
     static var smithyEventStreamsAuthAPI: Self { .product(name: "SmithyEventStreamsAuthAPI", package: "smithy-swift") }
@@ -70,7 +71,7 @@ let package = Package(
         ),
         .target(
             name: "AWSSDKIdentity",
-            dependencies: [.crt, .smithyIdentityAPI],
+            dependencies: [.crt, .smithyIdentity, .smithyIdentityAPI],
             path: "./Sources/Core/AWSSDKIdentity"
         ),
         .target(
@@ -85,7 +86,7 @@ let package = Package(
         ),
         .testTarget(
             name: "AWSClientRuntimeTests",
-            dependencies: [.awsClientRuntime, .clientRuntime, .smithyTestUtils],
+            dependencies: [.awsClientRuntime, .clientRuntime, .smithyTestUtils, .smithyIdentity],
             path: "./Tests/Core/AWSClientRuntimeTests",
             resources: [.process("Resources")]
         ),

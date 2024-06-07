@@ -6,6 +6,7 @@
 //
 
 import SmithyIdentityAPI
+import SmithyIdentity
 import struct ClientRuntime.DefaultSDKRuntimeConfiguration
 import enum ClientRuntime.DefaultRetryErrorInfoProvider
 import protocol SmithyHTTPAPI.HTTPClient

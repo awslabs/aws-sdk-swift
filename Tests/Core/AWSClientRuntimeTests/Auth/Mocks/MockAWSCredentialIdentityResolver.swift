@@ -7,6 +7,7 @@
 
 import Smithy
 import SmithyIdentityAPI
+import SmithyIdentity
 import ClientRuntime
 import Foundation
 import XCTest
