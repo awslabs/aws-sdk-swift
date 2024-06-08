@@ -78,7 +78,7 @@ let package = Package(
         ),
         .target(
             name: "AWSSDKIdentity",
-            dependencies: [.crt, .smithyIdentity, .smithyIdentityAPI],
+            dependencies: [.crt, .smithyIdentity, .smithyIdentityAPI, .awsSDKCommon],
             path: "./Sources/Core/AWSSDKIdentity"
         ),
         .target(
