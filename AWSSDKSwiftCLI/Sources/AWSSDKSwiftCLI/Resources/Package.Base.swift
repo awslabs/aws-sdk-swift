@@ -93,7 +93,7 @@ let package = Package(
         ),
         .testTarget(
             name: "AWSClientRuntimeTests",
-            dependencies: [.awsClientRuntime, .clientRuntime, .smithyTestUtils, .smithyIdentity],
+            dependencies: [.awsClientRuntime, .clientRuntime, .smithyTestUtils, .smithyIdentity, "AWSSDKIdentity"],
             path: "./Tests/Core/AWSClientRuntimeTests",
             resources: [.process("Resources")]
         ),

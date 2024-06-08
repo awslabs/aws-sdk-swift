@@ -8,6 +8,7 @@
 import ClientRuntime
 import Foundation
 import XCTest
+import AWSSDKIdentity
 
 @_spi(FileBasedConfig) @testable import AWSClientRuntime
 

@@ -17,6 +17,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetries.ExponentialBackoffStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 @_spi(FileBasedConfig) import AWSSDKCommon
+@_spi(FileBasedConfig) import AWSSDKIdentity
 
 typealias RuntimeConfigType = DefaultSDKRuntimeConfiguration<DefaultRetryStrategy, DefaultRetryErrorInfoProvider>
 
