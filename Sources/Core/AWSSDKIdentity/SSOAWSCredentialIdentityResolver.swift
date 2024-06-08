@@ -6,7 +6,7 @@
 //
 
 import class AwsCommonRuntimeKit.CredentialsProvider
-import class ClientRuntime.SDKDefaultIO
+import ClientRuntime
 import protocol SmithyIdentity.AWSCredentialIdentityResolvedByCRT
 @_spi(FileBasedConfig) import AWSSDKCommon
 

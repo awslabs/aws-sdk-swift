@@ -6,7 +6,7 @@
 //
 
 import class AwsCommonRuntimeKit.CredentialsProvider
-import class ClientRuntime.SDKDefaultIO
+import ClientRuntime
 import protocol SmithyIdentity.AWSCredentialIdentityResolvedByCRT
 
 /// A credentials provider that uses IMDSv2 to fetch credentials within an EC2 instance.

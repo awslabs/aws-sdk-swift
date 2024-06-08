@@ -6,7 +6,7 @@
 //
 
 import class AwsCommonRuntimeKit.CredentialsProvider
-import class ClientRuntime.SDKDefaultIO
+import ClientRuntime
 import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.AWSCredentialIdentityResolvedByCRT
 import struct Foundation.TimeInterval

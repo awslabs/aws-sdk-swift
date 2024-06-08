@@ -6,7 +6,7 @@
 //
 
 import class AwsCommonRuntimeKit.CredentialsProvider
-import class ClientRuntime.SDKDefaultIO
+import ClientRuntime
 import class Foundation.ProcessInfo
 import enum Smithy.ClientError
 import enum SmithyHTTPAPI.HTTPClientError

@@ -5,7 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import class AwsCommonRuntimeKit.FileBasedConfiguration
+import AwsCommonRuntimeKit
 
 @_spi(FileBasedConfig) public typealias CRTFileBasedConfiguration =
     AwsCommonRuntimeKit.FileBasedConfiguration
