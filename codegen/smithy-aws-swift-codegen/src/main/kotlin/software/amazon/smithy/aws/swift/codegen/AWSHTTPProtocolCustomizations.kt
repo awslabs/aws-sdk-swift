@@ -64,9 +64,9 @@ abstract class AWSHTTPProtocolCustomizations : DefaultHTTPProtocolCustomizations
         writer: SwiftWriter,
         serviceConfig: ServiceConfig
     ): HttpProtocolServiceClient {
-        writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target, false, "FileBasedConfig")
+        writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target, false, "DefaultRegionResolver")
         writer.addImport(AWSSwiftDependency.AWS_SDK_COMMON.target, false, "FileBasedConfig")
-        writer.addImport(AWSSwiftDependency.AWS_SDK_IDENTITY.target, false, "FileBasedConfig")
+        writer.addImport(AWSSwiftDependency.AWS_SDK_IDENTITY.target, false, "DefaultAWSCredentialIdentityResolverChain")
         return AWSHttpProtocolServiceClient(ctx, writer, serviceConfig)
     }
 

@@ -33,7 +33,7 @@ public struct DefaultAWSCredentialIdentityResolverChain: AWSCredentialIdentityRe
         try self.init(fileBasedConfig: fileBasedConfig)
     }
 
-    @_spi(FileBasedConfig)
+    @_spi(DefaultAWSCredentialIdentityResolverChain)
     public init(fileBasedConfig: CRTFileBasedConfiguration) throws {
         self.crtAWSCredentialIdentityResolver = try AwsCommonRuntimeKit.CredentialsProvider(source: .defaultChain(
             bootstrap: SDKDefaultIO.shared.clientBootstrap,
