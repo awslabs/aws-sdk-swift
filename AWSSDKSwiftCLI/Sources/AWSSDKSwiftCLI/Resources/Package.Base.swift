@@ -271,7 +271,12 @@ func addIntegrationTests() {
 }
 
 func excludeRuntimeUnitTests() {
-    package.targets.removeAll { $0.name == "AWSClientRuntimeTests" }
+    package.targets.removeAll {
+        $0.name == "AWSClientRuntimeTests" ||
+        $0.name == "AWSSDKHTTPAuthTests" ||
+        $0.name == "AWSSDKEventStreamsAuthTests" ||
+        $0.name == "AWSSDKIdentityTests"
+    }
 }
 
 func addProtocolTests() {
