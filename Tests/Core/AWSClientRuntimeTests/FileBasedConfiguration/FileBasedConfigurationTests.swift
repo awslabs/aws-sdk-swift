@@ -8,7 +8,6 @@
 import Foundation
 import XCTest
 
-@_spi(FileBasedConfig) @testable import AWSClientRuntime
 @_spi(FileBasedConfig) @testable import AWSSDKCommon
 
 class FileBasedConfigurationTests: XCTestCase {
