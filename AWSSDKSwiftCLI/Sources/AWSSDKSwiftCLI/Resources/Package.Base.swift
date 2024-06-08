@@ -185,6 +185,7 @@ let serviceTargetDependencies: [Target.Dependency] = [
     .smithyEventStreamsAuthAPI,
     .smithyEventStreams,
     .smithyChecksumsAPI,
+    .awsSDKCommon,
     .awsSDKIdentity,
     .awsSDKHTTPAuth,
     .awsSDKEventStreamsAuth,
