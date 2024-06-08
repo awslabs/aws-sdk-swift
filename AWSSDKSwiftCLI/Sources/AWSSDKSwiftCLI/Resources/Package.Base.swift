@@ -56,8 +56,8 @@ let package = Package(
         .library(name: "AWSClientRuntime", targets: ["AWSClientRuntime"]),
         .library(name: "AWSSDKCommon", targets: ["AWSSDKCommon"]),
         .library(name: "AWSSDKEventStreamsAuth", targets: ["AWSSDKEventStreamsAuth"]),
-        .library(name: "AWSSDKIdentity", targets: ["AWSSDKIdentity"]),
         .library(name: "AWSSDKHTTPAuth", targets: ["AWSSDKHTTPAuth"]),
+        .library(name: "AWSSDKIdentity", targets: ["AWSSDKIdentity"]),
     ],
     targets: [
         .target(
@@ -89,9 +89,9 @@ let package = Package(
             path: "./Sources/Core/AWSSDKCommon"
         ),
         .target(
-            name: "AWSSDKIdentity",
-            dependencies: [.crt, .smithy, .clientRuntime, .smithyIdentity, .smithyIdentityAPI, .smithyHTTPAPI, .awsSDKCommon],
-            path: "./Sources/Core/AWSSDKIdentity"
+            name: "AWSSDKEventStreamsAuth",
+            dependencies: [.smithyEventStreamsAPI, .smithyEventStreamsAuthAPI, .smithyEventStreams, .crt, .clientRuntime, "AWSSDKHTTPAuth"],
+            path: "./Sources/Core/AWSSDKEventStreamsAuth"
         ),
         .target(
             name: "AWSSDKHTTPAuth",
@@ -99,9 +99,9 @@ let package = Package(
             path: "./Sources/Core/AWSSDKHTTPAuth"
         ),
         .target(
-            name: "AWSSDKEventStreamsAuth",
-            dependencies: [.smithyEventStreamsAPI, .smithyEventStreamsAuthAPI, .smithyEventStreams, .crt, .clientRuntime, "AWSSDKHTTPAuth"],
-            path: "./Sources/Core/AWSSDKEventStreamsAuth"
+            name: "AWSSDKIdentity",
+            dependencies: [.crt, .smithy, .clientRuntime, .smithyIdentity, .smithyIdentityAPI, .smithyHTTPAPI, .awsSDKCommon],
+            path: "./Sources/Core/AWSSDKIdentity"
         ),
         .testTarget(
             name: "AWSClientRuntimeTests",
@@ -110,14 +110,14 @@ let package = Package(
             resources: [.process("Resources")]
         ),
         .testTarget(
-            name: "AWSSDKHTTPAuthTests",
-            dependencies: ["AWSSDKHTTPAuth", "AWSClientRuntime", "AWSSDKEventStreamsAuth", .crt, .clientRuntime, .smithyTestUtils],
-            path: "./Tests/Core/AWSSDKHTTPAuthTests"
-        ),
-        .testTarget(
             name: "AWSSDKEventStreamsAuthTests",
             dependencies: ["AWSClientRuntime", "AWSSDKEventStreamsAuth"],
             path: "./Tests/Core/AWSSDKEventStreamsAuthTests"
+        ),
+        .testTarget(
+            name: "AWSSDKHTTPAuthTests",
+            dependencies: ["AWSSDKHTTPAuth", "AWSClientRuntime", "AWSSDKEventStreamsAuth", .crt, .clientRuntime, .smithyTestUtils],
+            path: "./Tests/Core/AWSSDKHTTPAuthTests"
         ),
         .testTarget(
             name: "AWSSDKIdentityTests",
@@ -256,7 +256,6 @@ func addIntegrationTestTarget(_ name: String) {
 }
 
 var enabledServices = Set<String>()
-
 var enabledServiceUnitTests = Set<String>()
 
 func addAllServices() {
@@ -280,7 +279,6 @@ func excludeRuntimeUnitTests() {
 }
 
 func addProtocolTests() {
-
     struct ProtocolTest {
         let name: String
         let sourcePath: String
