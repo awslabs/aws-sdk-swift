@@ -20,12 +20,12 @@ jobs:
           - macos-13-xlarge
           - macos-14-xlarge
         xcode:
-          - Xcode_14.1
+          - Xcode_15.1
           - Xcode_15.4
         destination:
-          - 'platform=iOS Simulator,OS=16.1,name=iPhone 14'
+          - 'platform=iOS Simulator,OS=17.2,name=iPhone 15'
           - 'platform=iOS Simulator,OS=17.5,name=iPhone 15'
-          - 'platform=tvOS Simulator,OS=16.1,name=Apple TV 4K (3rd generation) (at 1080p)'
+          - 'platform=tvOS Simulator,OS=17.2,name=Apple TV 4K (3rd generation) (at 1080p)'
           - 'platform=tvOS Simulator,OS=17.5,name=Apple TV 4K (3rd generation) (at 1080p)'
           - 'platform=visionOS Simulator,OS=1.0,name=Apple Vision Pro'
           - 'platform=visionOS Simulator,OS=1.2,name=Apple Vision Pro'
@@ -36,21 +36,21 @@ jobs:
             xcode: Xcode_15.4
           # Don't run new macOS with old Xcode
           - runner: macos-14-xlarge
-            xcode: Xcode_14.1
+            xcode: Xcode_15.1
           # Don't run old simulators with new Xcode
-          - destination: 'platform=tvOS Simulator,OS=16.1,name=Apple TV 4K (3rd generation) (at 1080p)'
+          - destination: 'platform=tvOS Simulator,OS=17.2,name=Apple TV 4K (3rd generation) (at 1080p)'
             xcode: Xcode_15.4
-          - destination: 'platform=iOS Simulator,OS=16.1,name=iPhone 14'
+          - destination: 'platform=iOS Simulator,OS=17.2,name=iPhone 15'
             xcode: Xcode_15.4
           # Don't run new simulators with old Xcode
           - destination: 'platform=tvOS Simulator,OS=17.5,name=Apple TV 4K (3rd generation) (at 1080p)'
-            xcode: Xcode_14.1
+            xcode: Xcode_15.1
           - destination: 'platform=iOS Simulator,OS=17.5,name=iPhone 15'
-            xcode: Xcode_14.1
+            xcode: Xcode_15.1
           - destination: 'platform=visionOS Simulator,OS=1.0,name=Apple Vision Pro'
-            xcode: Xcode_14.1
+            xcode: Xcode_15.1
           - destination: 'platform=visionOS Simulator,OS=1.2,name=Apple Vision Pro'
-            xcode: Xcode_14.1
+            xcode: Xcode_15.1
     steps:
       - name: Checkout aws-sdk-swift
         uses: actions/checkout@v4
@@ -116,7 +116,7 @@ jobs:
           - jammy
           - amazonlinux2
         version:
-          - "5.7"
+          - "5.9"
           - "5.10"
     steps:
       - name: Checkout aws-sdk-swift
