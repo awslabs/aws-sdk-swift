@@ -95,7 +95,7 @@ let package = Package(
         ),
         .target(
             name: "AWSSDKHTTPAuth",
-            dependencies: [.crt, .smithy, .clientRuntime, .smithyChecksumsAPI, .smithyHTTPAuth, "AWSSDKIdentity"],
+            dependencies: [.crt, .smithy, .clientRuntime, .smithyHTTPAuth, "AWSSDKIdentity"],
             path: "./Sources/Core/AWSSDKHTTPAuth"
         ),
         .target(
