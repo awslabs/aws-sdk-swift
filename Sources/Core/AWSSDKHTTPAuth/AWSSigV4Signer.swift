@@ -11,7 +11,6 @@ import class SmithyHTTPAPI.SdkHttpRequest
 import class SmithyHTTPAPI.SdkHttpRequestBuilder
 import enum AwsCommonRuntimeKit.CommonRunTimeError
 import enum Smithy.ClientError
-import enum SmithyChecksumsAPI.ChecksumAlgorithm
 import enum SmithyHTTPAuthAPI.AWSSignedBodyHeader
 import enum SmithyHTTPAuthAPI.AWSSignedBodyValue
 import enum SmithyHTTPAuthAPI.AWSSignatureType
