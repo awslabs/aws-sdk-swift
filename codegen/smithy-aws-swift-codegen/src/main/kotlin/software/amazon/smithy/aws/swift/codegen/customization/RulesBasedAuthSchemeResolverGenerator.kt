@@ -17,11 +17,7 @@ import software.amazon.smithy.swift.codegen.utils.toLowerCamelCase
 class RulesBasedAuthSchemeResolverGenerator {
     private val AUTH_SCHEME_RESOLVER = "AuthSchemeResolver"
     fun render(ctx: ProtocolGenerator.GenerationContext) {
-        val rootNamespace = ctx.settings.moduleName
-
-        ctx.delegator.useFileWriter("./$rootNamespace/$AUTH_SCHEME_RESOLVER.swift") {
-            it.addImport(SwiftDependency.CLIENT_RUNTIME.target)
-            it.addImport(SwiftDependency.SMITHY_HTTP_AUTH_API.target)
+        ctx.delegator.useFileWriter("Sources/${ctx.settings.moduleName}/$AUTH_SCHEME_RESOLVER.swift") {
             renderServiceSpecificDefaultResolver(ctx, it)
             it.write("")
         }
@@ -56,12 +52,13 @@ class RulesBasedAuthSchemeResolverGenerator {
 
         writer.apply {
             openBlock(
-                "public func resolveAuthScheme(params: \$L) throws -> [AuthOption] {",
+                "public func resolveAuthScheme(params: \$N) throws -> [\$N] {",
                 "}",
-                SmithyHTTPAuthAPITypes.AuthSchemeResolverParams
+                SmithyHTTPAuthAPITypes.AuthSchemeResolverParams,
+                SmithyHTTPAuthAPITypes.AuthOption,
             ) {
                 // Return value of array of auth options
-                write("var validAuthOptions = [AuthOption]()")
+                write("var validAuthOptions = [\$N]()", SmithyHTTPAuthAPITypes.AuthOption)
 
                 // Cast params to service specific params object
                 openBlock(
@@ -69,7 +66,10 @@ class RulesBasedAuthSchemeResolverGenerator {
                     "}",
                     serviceParamsName
                 ) {
-                    write("throw ClientError.authError(\"Service specific auth scheme parameters type must be passed to auth scheme resolver.\")")
+                    write(
+                        "throw \$N.authError(\"Service specific auth scheme parameters type must be passed to auth scheme resolver.\")",
+                        SmithyTypes.ClientError,
+                    )
                 }
 
                 // Construct endpoint params from auth params
@@ -92,23 +92,23 @@ class RulesBasedAuthSchemeResolverGenerator {
                         // SigV4 case
                         write("case .sigV4(let param):")
                         indent()
-                        write("var sigV4Option = AuthOption(schemeID: \$S)", SigV4Trait.ID)
-                        write("sigV4Option.signingProperties.set(key: SigningPropertyKeys.signingName, value: param.signingName)")
-                        write("sigV4Option.signingProperties.set(key: SigningPropertyKeys.signingRegion, value: param.signingRegion)")
+                        write("var sigV4Option = \$N(schemeID: \$S)", SmithyHTTPAuthAPITypes.AuthOption, SigV4Trait.ID)
+                        write("sigV4Option.signingProperties.set(key: \$N.signingName, value: param.signingName)", SmithyHTTPAuthAPITypes.SigningPropertyKeys)
+                        write("sigV4Option.signingProperties.set(key: \$N.signingRegion, value: param.signingRegion)", SmithyHTTPAuthAPITypes.SigningPropertyKeys)
                         write("validAuthOptions.append(sigV4Option)")
                         dedent()
                         // SigV4A case
                         write("case .sigV4A(let param):")
                         indent()
-                        write("var sigV4Option = AuthOption(schemeID: \$S)", SigV4ATrait.ID)
-                        write("sigV4Option.signingProperties.set(key: SigningPropertyKeys.signingName, value: param.signingName)")
-                        write("sigV4Option.signingProperties.set(key: SigningPropertyKeys.signingRegion, value: param.signingRegionSet?[0])")
+                        write("var sigV4Option = \$N(schemeID: \$S)", SmithyHTTPAuthAPITypes.AuthOption, SigV4ATrait.ID)
+                        write("sigV4Option.signingProperties.set(key: \$N.signingName, value: param.signingName)", SmithyHTTPAuthAPITypes.SigningPropertyKeys)
+                        write("sigV4Option.signingProperties.set(key: \$N.signingRegion, value: param.signingRegionSet?[0])", SmithyHTTPAuthAPITypes.SigningPropertyKeys)
                         write("validAuthOptions.append(sigV4Option)")
                         dedent()
                         // Default case: throw error if returned auth scheme is neither SigV4 nor SigV4A
                         write("default:")
                         indent()
-                        write("throw ClientError.authError(\"Unknown auth scheme name: \\(scheme.name)\")")
+                        write("throw \$N.authError(\"Unknown auth scheme name: \\(scheme.name)\")", SmithyTypes.ClientError)
                         dedent()
                     }
                 }
@@ -127,12 +127,12 @@ class RulesBasedAuthSchemeResolverGenerator {
                 SmithyHTTPAuthAPITypes.AuthSchemeResolverParams
             ) {
                 openBlock("guard let opName = context.getOperation() else {", "}") {
-                    write("throw ClientError.dataNotFound(\"Operation name not configured in middleware context for auth scheme resolver params construction.\")")
+                    write("throw \$N.dataNotFound(\"Operation name not configured in middleware context for auth scheme resolver params construction.\")", SmithyTypes.ClientError)
                 }
 
                 // Get endpoint param from middleware context
-                openBlock("guard let endpointParam = context.attributes.get(key: AttributeKey<EndpointParams>(name: \"EndpointParams\")) else {", "}") {
-                    write("throw ClientError.dataNotFound(\"Endpoint param not configured in middleware context for rules-based auth scheme resolver params construction.\")")
+                openBlock("guard let endpointParam = context.attributes.get(key: \$N<EndpointParams>(name: \"EndpointParams\")) else {", "}", SmithyTypes.AttributeKey) {
+                    write("throw \$N.dataNotFound(\"Endpoint param not configured in middleware context for rules-based auth scheme resolver params construction.\")", SmithyTypes.ClientError)
                 }
 
                 // Copy over endpoint param fields to auth param fields

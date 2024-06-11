@@ -42,7 +42,6 @@ abstract class AWSHTTPProtocolCustomizations : DefaultHTTPProtocolCustomizations
         op: OperationShape
     ) {
         if (op.isInputEventStream(ctx.model) && op.isOutputEventStream(ctx.model)) {
-            writer.addImport(AWSSwiftDependency.AWS_SDK_EVENT_STREAMS_AUTH.target)
             writer.write("try context.setupBidirectionalStreaming()")
         }
     }
@@ -64,7 +63,6 @@ abstract class AWSHTTPProtocolCustomizations : DefaultHTTPProtocolCustomizations
         writer: SwiftWriter,
         serviceConfig: ServiceConfig
     ): HttpProtocolServiceClient {
-        writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target, false, "FileBasedConfig")
         return AWSHttpProtocolServiceClient(ctx, writer, serviceConfig)
     }
 

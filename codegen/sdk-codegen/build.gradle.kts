@@ -10,7 +10,6 @@ import software.amazon.smithy.gradle.tasks.SmithyBuild
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.shapes.ServiceShape
 import java.util.Properties
-import kotlin.streams.toList
 
 plugins {
     id("software.amazon.smithy") version "0.5.3"
@@ -97,9 +96,6 @@ fun generateSmithyBuild(services: List<AwsService>): String {
         // escape windows paths for valid json
         val absModelPath = service.modelFile.absolutePath.replace("\\", "\\\\")
         val importPaths = mutableListOf(absModelPath)
-        if (file(service.modelExtrasDir).exists()) {
-            importPaths.add(service.modelExtrasDir.replace("\\", "\\\\"))
-        }
         val imports = importPaths.joinToString { "\"$it\"" }
         """
             "${service.projectionName}": {
@@ -187,17 +183,6 @@ val AwsService.sourcesDir: String
         return rootProject.file("Sources/Services/$packageName").absolutePath
     }
 
-val AwsService.testsDir: String
-    get(){
-        return rootProject.file("Tests/Services").absolutePath
-    }
-
-val AwsService.modelExtrasDir: String
-    get() {
-        val sanitizedName = projectionName.split(".")[0]
-        return rootProject.file("codegen/sdk-codegen/aws-models-test/${sanitizedName}").absolutePath
-    }
-
 task("stageSdks") {
     group = "codegen"
     description = "relocate generated SDK(s) from build directory to Sources and Tests directories"
@@ -207,15 +192,8 @@ task("stageSdks") {
             copy {
                 from("${it.outputDir}")
                 into("${it.sourcesDir}")
-//                exclude("Package.swift")
-//                exclude("*Tests")
+                exclude("Package.swift")
             }
-//            logger.info("copying ${it.outputDir} tests to ${it.testsDir}")
-//            copy {
-//                from("${it.outputDir}")
-//                into("${it.testsDir}")
-//                include("*Tests/**")
-//            }
         }
     }
 }

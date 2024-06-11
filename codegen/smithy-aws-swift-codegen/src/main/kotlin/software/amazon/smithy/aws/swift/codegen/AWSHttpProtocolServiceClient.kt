@@ -28,7 +28,6 @@ class AWSHttpProtocolServiceClient(
     private val serviceConfig: ServiceConfig
 ) : HttpProtocolServiceClient(ctx, writer, serviceConfig) {
     override fun renderConvenienceInitFunctions(serviceSymbol: Symbol) {
-        writer.addImport(AWSSwiftDependency.AWS_SDK_HTTP_AUTH.target)
         writer.openBlock("public convenience init(region: Swift.String) throws {", "}") {
             writer.write("let config = try ${serviceConfig.typeName}(region: region)")
             writer.write("self.init(config: config)")
@@ -50,20 +49,39 @@ class AWSHttpProtocolServiceClient(
                     ConfigProperty("authSchemes", SmithyHTTPAuthAPITypes.AuthSchemes.toOptional(), authSchemesDefaultProvider)
                 }
                 "retryStrategyOptions" -> {
-                    writer.addImport(SwiftDependency.SMITHY_RETRIES_API.target)
-                    ConfigProperty("retryStrategyOptions", SmithyRetriesAPITypes.RetryStrategyOptions, "AWSClientConfigDefaultsProvider.retryStrategyOptions()", true)
+                    ConfigProperty(
+                        "retryStrategyOptions",
+                        SmithyRetriesAPITypes.RetryStrategyOptions,
+                        { it.format("AWSClientConfigDefaultsProvider.retryStrategyOptions()") },
+                        true)
                 }
                 "clientLogMode" -> {
-                    ConfigProperty("clientLogMode", ClientRuntimeTypes.Core.ClientLogMode, "AWSClientConfigDefaultsProvider.clientLogMode")
+                    ConfigProperty(
+                        "clientLogMode",
+                        ClientRuntimeTypes.Core.ClientLogMode,
+                        { it.format("AWSClientConfigDefaultsProvider.clientLogMode") },
+                    )
                 }
                 "idempotencyTokenGenerator" -> {
-                    ConfigProperty("idempotencyTokenGenerator", ClientRuntimeTypes.Core.IdempotencyTokenGenerator, "AWSClientConfigDefaultsProvider.idempotencyTokenGenerator")
+                    ConfigProperty(
+                        "idempotencyTokenGenerator",
+                        ClientRuntimeTypes.Core.IdempotencyTokenGenerator,
+                        { it.format("AWSClientConfigDefaultsProvider.idempotencyTokenGenerator") },
+                    )
                 }
                 "httpClientEngine" -> {
-                    ConfigProperty("httpClientEngine", SmithyHTTPAPITypes.HttpClient, "AWSClientConfigDefaultsProvider.httpClientEngine")
+                    ConfigProperty(
+                        "httpClientEngine",
+                        SmithyHTTPAPITypes.HttpClient,
+                        { it.format("AWSClientConfigDefaultsProvider.httpClientEngine") },
+                    )
                 }
                 "httpClientConfiguration" -> {
-                    ConfigProperty("httpClientConfiguration", ClientRuntimeTypes.Http.HttpClientConfiguration, "AWSClientConfigDefaultsProvider.httpClientConfiguration")
+                    ConfigProperty(
+                        "httpClientConfiguration",
+                        ClientRuntimeTypes.Http.HttpClientConfiguration,
+                        { it.format("AWSClientConfigDefaultsProvider.httpClientConfiguration") },
+                    )
                 }
                 else -> it
             }
@@ -90,7 +108,7 @@ class AWSHttpProtocolServiceClient(
                             "try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver()"
                         }
                         else -> {
-                            it.default?.render() ?: "nil"
+                            it.default?.render(writer) ?: "nil"
                         }
                     }
                 }
@@ -113,13 +131,13 @@ class AWSHttpProtocolServiceClient(
     }
 
     private val authSchemesDefaultProvider = DefaultProvider(
-        getModeledAuthSchemesSupportedBySDK(ctx),
+        { getModeledAuthSchemesSupportedBySDK(ctx, it) },
         isThrowable = false,
         isAsync = false
     )
 
     private val authSchemeResolverDefaultProvider = DefaultProvider(
-        "Default${AuthSchemeResolverGenerator.getSdkId(ctx)}AuthSchemeResolver()",
+        { "Default${AuthSchemeResolverGenerator.getSdkId(ctx)}AuthSchemeResolver()" },
         false,
         false
     )

@@ -1,9 +1,8 @@
 package software.amazon.smithy.aws.swift.codegen.middleware.handlers
 
 import software.amazon.smithy.codegen.core.Symbol
-import software.amazon.smithy.swift.codegen.FoundationTypes
+import software.amazon.smithy.swift.codegen.swiftmodules.FoundationTypes
 import software.amazon.smithy.swift.codegen.Middleware
-import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.steps.OperationInitializeStep
@@ -23,8 +22,6 @@ class PredictInputEndpointURLHostMiddlewareHandler(
     }
 
     override fun generateMiddlewareClosure() {
-        writer.addImport(SwiftDependency.SMITHY.target)
-        writer.addImport(SwiftDependency.SMITHY_HTTP_API.target)
         writer.openBlock("if let endpoint = input.predictEndpoint, let url = \$N(string: endpoint), let host = url.host {", "}", FoundationTypes.URL) {
             writer.write("context.host = host")
             writer.write("return try await next.handle(context: context, input: input)")
@@ -32,7 +29,6 @@ class PredictInputEndpointURLHostMiddlewareHandler(
     }
 
     override fun renderExtensions() {
-        writer.addImport("Foundation")
         writer.write(
             """
             extension $typeName: HttpInterceptor {

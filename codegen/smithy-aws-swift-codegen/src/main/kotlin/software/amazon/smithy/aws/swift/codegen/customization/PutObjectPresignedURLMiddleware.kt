@@ -24,8 +24,6 @@ class PutObjectPresignedURLMiddleware(
     }
 
     override fun renderExtensions() {
-        writer.addImport(SwiftDependency.SMITHY.target)
-        writer.addImport(SwiftDependency.SMITHY_HTTP_API.target)
         writer.write(
             """
             extension $typeName: Smithy.RequestMessageSerializer {

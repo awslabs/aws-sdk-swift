@@ -45,8 +45,7 @@ class PredictEndpointIntegration(private val enabledOperations: Map<String, Set<
 
             val inputType = op.input.get()
             val filename = ModelFileUtils.filename(ctx.settings, "$inputType+EndpointURLHostMiddleware")
-            delegator.useFileWriter("${ctx.settings.moduleName}/$filename") { writer ->
-                writer.addImport(SwiftDependency.CLIENT_RUNTIME.target)
+            delegator.useFileWriter(filename) { writer ->
                 val predictMiddleware = PredictInputEndpointURLHostMiddlewareHandler(writer, protocolGeneratorContext, inputSymbol, outputSymbol, outputErrorSymbol)
                 MiddlewareGenerator(writer, predictMiddleware).generate()
             }
