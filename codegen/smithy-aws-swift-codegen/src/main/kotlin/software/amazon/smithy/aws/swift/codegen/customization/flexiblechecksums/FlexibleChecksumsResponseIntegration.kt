@@ -62,6 +62,12 @@ private object FlexibleChecksumResponseMiddleware : MiddlewareRenderable {
 
         // Will pass the validation mode to validation middleware
         val validationMode: Boolean = requestValidationModeEnumShape.members().map { it.memberName }.first().equals("ENABLED")
-        writer.write("${ClientRuntimeTypes.Middleware.FlexibleChecksumsResponseMiddleware}<$inputShapeName, $outputShapeName>(validationMode: $validationMode)")
+        writer.write(
+            "\$N<\$L, \$L>(validationMode: \$L)",
+            ClientRuntimeTypes.Middleware.FlexibleChecksumsResponseMiddleware,
+            inputShapeName,
+            outputShapeName,
+            validationMode,
+        )
     }
 }
