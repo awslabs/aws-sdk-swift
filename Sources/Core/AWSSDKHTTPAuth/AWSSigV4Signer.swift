@@ -9,7 +9,6 @@ import Smithy
 import SmithyIdentityAPI
 import SmithyHTTPAPI
 import SmithyHTTPAuthAPI
-import SmithyChecksumsAPI
 import AwsCommonRuntimeKit
 import ClientRuntime
 import Foundation
@@ -68,7 +67,7 @@ public class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer {
                 signingConfig: crtSigningConfig,
                 signature: requestSignature,
                 trailingHeaders: unsignedRequest.trailingHeaders,
-                checksumAlgorithm: signingProperties.get(key: SigningPropertyKeys.checksum)
+                checksumString: signingProperties.get(key: SigningPropertyKeys.checksum)
             )
         }
 
@@ -105,11 +104,11 @@ public class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer {
         let signedBodyHeader: AWSSignedBodyHeader = signingProperties.get(key: SigningPropertyKeys.signedBodyHeader) ?? .none
 
         // Determine signed body value
-        let checksum = signingProperties.get(key: SigningPropertyKeys.checksum)
+        let checksumIsPresent = signingProperties.get(key: SigningPropertyKeys.checksum) != nil
         let isChunkedEligibleStream = signingProperties.get(key: SigningPropertyKeys.isChunkedEligibleStream) ?? false
 
         let signedBodyValue: AWSSignedBodyValue = determineSignedBodyValue(
-            checksum: checksum,
+            checksumIsPresent: checksumIsPresent,
             isChunkedEligbleStream: isChunkedEligibleStream,
             isUnsignedBody: unsignedBody
         )
@@ -218,7 +217,7 @@ public class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer {
     }
 
     private func determineSignedBodyValue(
-        checksum: ChecksumAlgorithm?,
+        checksumIsPresent: Bool,
         isChunkedEligbleStream: Bool,
         isUnsignedBody: Bool
     ) -> AWSSignedBodyValue {
@@ -228,7 +227,7 @@ public class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer {
         }
 
         // streaming + eligible for chunked transfer
-        if checksum == nil {
+        if !checksumIsPresent {
             return isUnsignedBody ? .unsignedPayload : .streamingSha256Payload
         } else {
             // checksum is present
