@@ -5,7 +5,10 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+@_spi(FileBasedConfig) import AWSSDKCommon
+import SmithyIdentity
 import SmithyIdentityAPI
+@_spi(DefaultAWSCredentialIdentityResolverChain) import AWSSDKIdentity
 import struct ClientRuntime.DefaultSDKRuntimeConfiguration
 import enum ClientRuntime.DefaultRetryErrorInfoProvider
 import protocol SmithyHTTPAPI.HTTPClient

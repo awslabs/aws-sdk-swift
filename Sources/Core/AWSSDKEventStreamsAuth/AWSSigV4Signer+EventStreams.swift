@@ -12,6 +12,7 @@ import SmithyEventStreamsAuthAPI
 import AWSSDKHTTPAuth
 import struct Foundation.Data
 import AwsCommonRuntimeKit
+import SmithyHTTPAuth
 
 extension AWSSigV4Signer: MessageDataSigner {
 

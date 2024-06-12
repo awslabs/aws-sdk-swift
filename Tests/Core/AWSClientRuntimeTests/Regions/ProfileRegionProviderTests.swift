@@ -8,7 +8,8 @@
 import ClientRuntime
 import SmithyTestUtil
 import XCTest
-@_spi(FileBasedConfig) @testable import AWSClientRuntime
+@_spi(DefaultRegionResolver) @testable import AWSClientRuntime
+@_spi(FileBasedConfig) @testable import AWSSDKCommon
 
 class ProfileRegionProviderTests: XCTestCase {
     
