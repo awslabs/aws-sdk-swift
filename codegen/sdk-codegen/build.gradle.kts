@@ -152,7 +152,7 @@ fun discoverServices(): List<AwsService> {
     return filteredModels
         .map { file ->
         val model = Model.assembler().addImport(file.absolutePath).assemble().result.get()
-        val services: List<ServiceShape> = model.shapes(ServiceShape::class.java).toList().sorted()
+        val services: List<ServiceShape> = model.shapes(ServiceShape::class.java).sorted().toList()
         require(services.size == 1) { "Expected one service per aws model, but found ${services.size} in ${file.absolutePath}: ${services.map { it.id }}" }
         val service = services.first()
         file to service
