@@ -10,6 +10,7 @@ import software.amazon.smithy.gradle.tasks.SmithyBuild
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.shapes.ServiceShape
 import java.util.Properties
+import kotlin.streams.toList
 
 plugins {
     id("software.amazon.smithy") version "0.5.3"
