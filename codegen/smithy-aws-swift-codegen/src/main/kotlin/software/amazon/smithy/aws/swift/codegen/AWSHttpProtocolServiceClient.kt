@@ -54,16 +54,16 @@ class AWSHttpProtocolServiceClient(
                     ConfigProperty("retryStrategyOptions", SmithyRetriesAPITypes.RetryStrategyOptions, "AWSClientConfigDefaultsProvider.retryStrategyOptions()", true)
                 }
                 "clientLogMode" -> {
-                    ConfigProperty("clientLogMode", ClientRuntimeTypes.Core.ClientLogMode, "AWSClientConfigDefaultsProvider.clientLogMode")
+                    ConfigProperty("clientLogMode", ClientRuntimeTypes.Core.ClientLogMode, "AWSClientConfigDefaultsProvider.clientLogMode()")
                 }
                 "idempotencyTokenGenerator" -> {
-                    ConfigProperty("idempotencyTokenGenerator", ClientRuntimeTypes.Core.IdempotencyTokenGenerator, "AWSClientConfigDefaultsProvider.idempotencyTokenGenerator")
+                    ConfigProperty("idempotencyTokenGenerator", ClientRuntimeTypes.Core.IdempotencyTokenGenerator, "AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()")
                 }
                 "httpClientEngine" -> {
-                    ConfigProperty("httpClientEngine", SmithyHTTPAPITypes.HttpClient, "AWSClientConfigDefaultsProvider.httpClientEngine")
+                    ConfigProperty("httpClientEngine", SmithyHTTPAPITypes.HttpClient, "AWSClientConfigDefaultsProvider.httpClientEngine()")
                 }
                 "httpClientConfiguration" -> {
-                    ConfigProperty("httpClientConfiguration", ClientRuntimeTypes.Http.HttpClientConfiguration, "AWSClientConfigDefaultsProvider.httpClientConfiguration")
+                    ConfigProperty("httpClientConfiguration", ClientRuntimeTypes.Http.HttpClientConfiguration, "AWSClientConfigDefaultsProvider.httpClientConfiguration()")
                 }
                 else -> it
             }

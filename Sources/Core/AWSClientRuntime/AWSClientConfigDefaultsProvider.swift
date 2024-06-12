@@ -23,16 +23,23 @@ typealias RuntimeConfigType = DefaultSDKRuntimeConfiguration<DefaultRetryStrateg
 
 /// Provides default configuration properties for AWS services.
 public class AWSClientConfigDefaultsProvider {
-    public static let httpClientEngine: HTTPClient = RuntimeConfigType.makeClient(
-        httpClientConfiguration: RuntimeConfigType.defaultHttpClientConfiguration)
+    public static func httpClientEngine() -> HTTPClient {
+        return RuntimeConfigType.makeClient(
+            httpClientConfiguration: RuntimeConfigType.defaultHttpClientConfiguration
+        )
+    }
 
-    public static let httpClientConfiguration: HttpClientConfiguration
-        = RuntimeConfigType.defaultHttpClientConfiguration
+    public static func httpClientConfiguration() -> HttpClientConfiguration {
+        return RuntimeConfigType.defaultHttpClientConfiguration
+    }
 
-    public static let idempotencyTokenGenerator: IdempotencyTokenGenerator
-        = RuntimeConfigType.defaultIdempotencyTokenGenerator
+    public static func idempotencyTokenGenerator() -> IdempotencyTokenGenerator {
+        return RuntimeConfigType.defaultIdempotencyTokenGenerator
+    }
 
-    public static let clientLogMode: ClientLogMode = RuntimeConfigType.defaultClientLogMode
+    public static func clientLogMode() -> ClientLogMode {
+        return RuntimeConfigType.defaultClientLogMode
+    }
 
     public static func awsCredentialIdentityResolver(
         _ awsCredentialIdentityResolver: (any AWSCredentialIdentityResolver)? = nil

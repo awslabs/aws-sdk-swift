@@ -152,9 +152,9 @@ public class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer {
         )
     }
 
-    static let logger: Smithy.SwiftLogger = SwiftLogger(label: "AWSSigV4Signer")
+    let logger: Smithy.SwiftLogger = SwiftLogger(label: "AWSSigV4Signer")
 
-    public static func sigV4SignedURL(
+    public func sigV4SignedURL(
         requestBuilder: SmithyHTTPAPI.SdkHttpRequestBuilder,
         awsCredentialIdentityResolver: any AWSCredentialIdentityResolver,
         signingName: Swift.String,
@@ -196,7 +196,7 @@ public class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer {
         }
     }
 
-    public static func sigV4SignedRequest(
+    public func sigV4SignedRequest(
         requestBuilder: SmithyHTTPAPI.SdkHttpRequestBuilder,
         signingConfig: AWSSigningConfig
     ) async -> SmithyHTTPAPI.SdkHttpRequest? {
