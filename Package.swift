@@ -16,22 +16,14 @@ import PackageDescription
 // MARK: - Target Dependencies
 
 extension Target.Dependency {
-    // AWS modules
     static var awsClientRuntime: Self { "AWSClientRuntime" }
     static var awsSDKCommon: Self { "AWSSDKCommon" }
-    static var awsSDKEventStreamsAuth: Self { "AWSSDKEventStreamsAuth" }
     static var awsSDKHTTPAuth: Self { "AWSSDKHTTPAuth" }
     static var awsSDKIdentity: Self { "AWSSDKIdentity" }
-    static var awsSDKChecksums: Self { "AWSSDKChecksums" }
-
-    // CRT module
-    static var crt: Self { .product(name: "AwsCommonRuntimeKit", package: "aws-crt-swift") }
-
-    // Smithy modules
     static var clientRuntime: Self { .product(name: "ClientRuntime", package: "smithy-swift") }
+    static var crt: Self { .product(name: "AwsCommonRuntimeKit", package: "aws-crt-swift") }
     static var smithy: Self { .product(name: "Smithy", package: "smithy-swift") }
     static var smithyChecksumsAPI: Self { .product(name: "SmithyChecksumsAPI", package: "smithy-swift") }
-    static var smithyChecksums: Self { .product(name: "SmithyChecksums", package: "smithy-swift") }
     static var smithyEventStreams: Self { .product(name: "SmithyEventStreams", package: "smithy-swift") }
     static var smithyEventStreamsAPI: Self { .product(name: "SmithyEventStreamsAPI", package: "smithy-swift") }
     static var smithyEventStreamsAuthAPI: Self { .product(name: "SmithyEventStreamsAuthAPI", package: "smithy-swift") }
@@ -55,12 +47,11 @@ let package = Package(
         .watchOS(.v6)
     ],
     products: [
-        .library(name: "AWSClientRuntime", targets: ["AWSClientRuntime"]),
         .library(name: "AWSSDKCommon", targets: ["AWSSDKCommon"]),
+        .library(name: "AWSClientRuntime", targets: ["AWSClientRuntime"]),
         .library(name: "AWSSDKEventStreamsAuth", targets: ["AWSSDKEventStreamsAuth"]),
-        .library(name: "AWSSDKHTTPAuth", targets: ["AWSSDKHTTPAuth"]),
         .library(name: "AWSSDKIdentity", targets: ["AWSSDKIdentity"]),
-        .library(name: "AWSSDKChecksums", targets: ["AWSSDKChecksums"]),
+        .library(name: "AWSSDKHTTPAuth", targets: ["AWSSDKHTTPAuth"]),
     ],
     targets: [
         .target(
@@ -92,9 +83,9 @@ let package = Package(
             path: "./Sources/Core/AWSSDKCommon"
         ),
         .target(
-            name: "AWSSDKEventStreamsAuth",
-            dependencies: [.smithyEventStreamsAPI, .smithyEventStreamsAuthAPI, .smithyEventStreams, .crt, .clientRuntime, "AWSSDKHTTPAuth"],
-            path: "./Sources/Core/AWSSDKEventStreamsAuth"
+            name: "AWSSDKIdentity",
+            dependencies: [.crt, .smithy, .clientRuntime, .smithyIdentity, .smithyIdentityAPI, .smithyHTTPAPI, .awsSDKCommon],
+            path: "./Sources/Core/AWSSDKIdentity"
         ),
         .target(
             name: "AWSSDKHTTPAuth",
@@ -102,14 +93,9 @@ let package = Package(
             path: "./Sources/Core/AWSSDKHTTPAuth"
         ),
         .target(
-            name: "AWSSDKIdentity",
-            dependencies: [.crt, .smithy, .clientRuntime, .smithyIdentity, .smithyIdentityAPI, .smithyHTTPAPI, .awsSDKCommon],
-            path: "./Sources/Core/AWSSDKIdentity"
-        ),
-        .target(
-            name: "AWSSDKChecksums",
-            dependencies: [.crt, .smithy, .clientRuntime, .awsSDKCommon, .smithyChecksums, .smithyChecksumsAPI],
-            path: "./Sources/Core/AWSSDKChecksums"
+            name: "AWSSDKEventStreamsAuth",
+            dependencies: [.smithyEventStreamsAPI, .smithyEventStreamsAuthAPI, .smithyEventStreams, .crt, .clientRuntime, "AWSSDKHTTPAuth"],
+            path: "./Sources/Core/AWSSDKEventStreamsAuth"
         ),
         .testTarget(
             name: "AWSClientRuntimeTests",
@@ -118,14 +104,14 @@ let package = Package(
             resources: [.process("Resources")]
         ),
         .testTarget(
-            name: "AWSSDKEventStreamsAuthTests",
-            dependencies: ["AWSClientRuntime", "AWSSDKEventStreamsAuth"],
-            path: "./Tests/Core/AWSSDKEventStreamsAuthTests"
-        ),
-        .testTarget(
             name: "AWSSDKHTTPAuthTests",
             dependencies: ["AWSSDKHTTPAuth", "AWSClientRuntime", "AWSSDKEventStreamsAuth", .crt, .clientRuntime, .smithyTestUtils],
             path: "./Tests/Core/AWSSDKHTTPAuthTests"
+        ),
+        .testTarget(
+            name: "AWSSDKEventStreamsAuthTests",
+            dependencies: ["AWSClientRuntime", "AWSSDKEventStreamsAuth"],
+            path: "./Tests/Core/AWSSDKEventStreamsAuthTests"
         ),
         .testTarget(
             name: "AWSSDKIdentityTests",
@@ -193,12 +179,9 @@ let serviceTargetDependencies: [Target.Dependency] = [
     .smithyEventStreamsAuthAPI,
     .smithyEventStreams,
     .smithyChecksumsAPI,
-    .smithyChecksums,
-    .awsSDKCommon,
-    .awsSDKIdentity,
-    .awsSDKHTTPAuth,
-    .awsSDKEventStreamsAuth,
-    .awsSDKChecksums,
+    "AWSSDKIdentity",
+    "AWSSDKHTTPAuth",
+    "AWSSDKEventStreamsAuth",
 ]
 
 func addServiceTarget(_ name: String) {
@@ -257,7 +240,7 @@ func addIntegrationTestTarget(_ name: String) {
     package.targets += [
         .testTarget(
             name: integrationTestName,
-            dependencies: [.crt, .clientRuntime, .awsClientRuntime, .byName(name: name), .smithyTestUtils, .awsSDKIdentity, .smithyIdentity, .awsSDKCommon] + additionalDependencies.map { Target.Dependency.target(name: $0, condition: nil) },
+            dependencies: [.crt, .clientRuntime, .awsClientRuntime, .byName(name: name), .smithyTestUtils, .awsSDKIdentity, .smithyIdentity] + additionalDependencies.map { Target.Dependency.target(name: $0, condition: nil) },
             path: "./IntegrationTests/Services/\(integrationTestName)",
             exclude: exclusions,
             resources: [.process("Resources")]
@@ -281,15 +264,11 @@ func addIntegrationTests() {
 }
 
 func excludeRuntimeUnitTests() {
-    package.targets.removeAll {
-        $0.name == "AWSClientRuntimeTests" ||
-        $0.name == "AWSSDKHTTPAuthTests" ||
-        $0.name == "AWSSDKEventStreamsAuthTests" ||
-        $0.name == "AWSSDKIdentityTests"
-    }
+    package.targets.removeAll { $0.name == "AWSClientRuntimeTests" }
 }
 
 func addProtocolTests() {
+
     struct ProtocolTest {
         let name: String
         let sourcePath: String
