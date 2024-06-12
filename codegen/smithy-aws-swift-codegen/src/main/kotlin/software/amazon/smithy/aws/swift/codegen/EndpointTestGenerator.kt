@@ -18,12 +18,12 @@ import software.amazon.smithy.rulesengine.language.evaluation.value.Value
 import software.amazon.smithy.rulesengine.traits.EndpointTestsTrait
 import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftWriter
-import software.amazon.smithy.swift.codegen.swiftmodules.XCTestTypes
 import software.amazon.smithy.swift.codegen.endpoints.EndpointTypes
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.swiftmodules.CRT
 import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAPITypes
+import software.amazon.smithy.swift.codegen.swiftmodules.XCTestTypes
 import software.amazon.smithy.swift.codegen.utils.toLowerCamelCase
 
 /**

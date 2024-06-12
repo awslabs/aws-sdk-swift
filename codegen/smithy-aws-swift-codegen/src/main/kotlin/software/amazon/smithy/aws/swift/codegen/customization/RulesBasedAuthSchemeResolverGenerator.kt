@@ -5,7 +5,6 @@ import software.amazon.smithy.aws.traits.auth.SigV4Trait
 import software.amazon.smithy.rulesengine.language.EndpointRuleSet
 import software.amazon.smithy.rulesengine.traits.EndpointRuleSetTrait
 import software.amazon.smithy.swift.codegen.AuthSchemeResolverGenerator
-import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.model.getTrait
@@ -35,6 +34,7 @@ class RulesBasedAuthSchemeResolverGenerator {
                 serviceSpecificDefaultResolverName,
                 serviceSpecificAuthResolverProtocol
             ) {
+                write("")
                 renderResolveAuthSchemeMethod(ctx, writer)
                 write("")
                 renderConstructParametersMethod(

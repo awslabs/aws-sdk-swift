@@ -17,7 +17,7 @@ class AWSJsonHttpInitialRequestTests {
         )
         val contents = TestUtils.getFileContents(
             context.manifest,
-            "/Example/models/TestStream+MessageMarshallable.swift"
+            "Sources/Example/models/TestStream+MessageMarshallable.swift"
         )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
@@ -50,7 +50,7 @@ extension InitialRequestTestClientTypes.TestStream {
         )
         val contents = TestUtils.getFileContents(
             context.manifest,
-            "/Example/InitialRequestTestClient.swift"
+            "Sources/Example/InitialRequestTestClient.swift"
         )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
@@ -67,7 +67,7 @@ extension InitialRequestTestClientTypes.TestStream {
         )
         val contents = TestUtils.getFileContents(
             context.manifest,
-            "/Example/models/EventStreamOpInput+Write.swift"
+            "Sources/Example/models/EventStreamOpInput+Write.swift"
         )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
@@ -91,7 +91,7 @@ extension EventStreamOpInput {
         )
         val contents = TestUtils.getFileContents(
             context.manifest,
-            "/Example/models/EventStreamOpInput+MakeInitialRequestMessage.swift"
+            "Sources/Example/models/EventStreamOpInput+MakeInitialRequestMessage.swift"
         )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """

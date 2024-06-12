@@ -7,11 +7,11 @@ package software.amazon.smithy.aws.swift.codegen.config
 
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTypes
 import software.amazon.smithy.codegen.core.Symbol
-import software.amazon.smithy.swift.codegen.swiftmodules.SwiftTypes
 import software.amazon.smithy.swift.codegen.config.ClientConfiguration
 import software.amazon.smithy.swift.codegen.config.ConfigProperty
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.model.toOptional
+import software.amazon.smithy.swift.codegen.swiftmodules.SwiftTypes
 
 class AWSRegionClientConfiguration : ClientConfiguration {
     override val swiftProtocolName: Symbol = AWSClientRuntimeTypes.Core.AWSRegionClientConfiguration

@@ -12,7 +12,7 @@ class AWSDeprecatedShapeRemoverTests {
     @Test
     fun `Shape deprecated before the cutoff date based on deprecated trait's since field gets removed`() {
         val context = setupTests("deprecated-shape-removal-test.smithy", "com.test#Example")
-        val contents = TestUtils.getModelFileContents("Example", "OperationWithDeprecatedInputMembersInput.swift", context.manifest)
+        val contents = TestUtils.getModelFileContents("Sources/Example", "OperationWithDeprecatedInputMembersInput.swift", context.manifest)
         contents.shouldSyntacticSanityCheck()
         val removedContent = """
     @available(*, deprecated, message: "API deprecated since 2024-09-01")
@@ -24,7 +24,7 @@ class AWSDeprecatedShapeRemoverTests {
     @Test
     fun `Shape deprecated after the cutoff date remains unremoved`() {
         val context = setupTests("deprecated-shape-removal-test.smithy", "com.test#Example")
-        val contents = TestUtils.getModelFileContents("Example", "OperationWithDeprecatedInputMembersInput.swift", context.manifest)
+        val contents = TestUtils.getModelFileContents("Sources/Example", "OperationWithDeprecatedInputMembersInput.swift", context.manifest)
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
     @available(*, deprecated, message: "API deprecated since 2024-10-01")
@@ -36,7 +36,7 @@ class AWSDeprecatedShapeRemoverTests {
     @Test
     fun `Shape with deprecated trait that has malformed since field remains unremoved`() {
         val context = setupTests("deprecated-shape-removal-test.smithy", "com.test#Example")
-        val contents = TestUtils.getModelFileContents("Example", "OperationWithDeprecatedInputMembersInput.swift", context.manifest)
+        val contents = TestUtils.getModelFileContents("Sources/Example", "OperationWithDeprecatedInputMembersInput.swift", context.manifest)
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
     @available(*, deprecated, message: "API deprecated since 4.2.0")
@@ -48,7 +48,7 @@ class AWSDeprecatedShapeRemoverTests {
     @Test
     fun `Shape with deprecated trait missing since field remains unremoved`() {
         val context = setupTests("deprecated-shape-removal-test.smithy", "com.test#Example")
-        val contents = TestUtils.getModelFileContents("Example", "OperationWithDeprecatedInputMembersInput.swift", context.manifest)
+        val contents = TestUtils.getModelFileContents("Sources/Example", "OperationWithDeprecatedInputMembersInput.swift", context.manifest)
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
     @available(*, deprecated)

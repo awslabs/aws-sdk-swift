@@ -23,7 +23,7 @@ class Route53InvalidBatchErrorIntegrationTests {
     @Test
     fun `002 test ChangeResourceRecordSetsOutputError+HttpResponseErrorBinding is customized`() {
         val context = setupTests("route53-invalidbatch.smithy", "com.amazonaws.route53#Route53")
-        val contents = TestUtils.getFileContents(context.manifest, "/Example/models/ChangeResourceRecordSetsOutputError+HttpResponseErrorBinding.swift")
+        val contents = TestUtils.getFileContents(context.manifest, "Sources/Example/models/ChangeResourceRecordSetsOutputError+HttpResponseErrorBinding.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 enum ChangeResourceRecordSetsOutputError {

@@ -8,8 +8,6 @@ package software.amazon.smithy.aws.swift.codegen
 import software.amazon.smithy.aws.swift.codegen.model.traits.Presignable
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
-import software.amazon.smithy.swift.codegen.swiftmodules.FoundationTypes
-import software.amazon.smithy.swift.codegen.SwiftDeclaration
 import software.amazon.smithy.swift.codegen.SwiftDelegator
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.core.SwiftCodegenContext
@@ -21,6 +19,7 @@ import software.amazon.smithy.swift.codegen.middleware.MiddlewareExecutionGenera
 import software.amazon.smithy.swift.codegen.model.expectShape
 import software.amazon.smithy.swift.codegen.model.toUpperCamelCase
 import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes.Middleware.NoopHandler
+import software.amazon.smithy.swift.codegen.swiftmodules.FoundationTypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAPITypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyTypes
 import software.amazon.smithy.swift.codegen.utils.ModelFileUtils
