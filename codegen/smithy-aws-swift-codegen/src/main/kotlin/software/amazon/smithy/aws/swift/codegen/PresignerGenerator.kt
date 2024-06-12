@@ -57,14 +57,14 @@ class PresignerGenerator : SwiftIntegration {
                 renderPresignAPIInServiceClient(writer, symbol.name, op, inputType)
             }
         }
-        // Import FoundationeNetworking statement with preprocessor commands
-        if (presignOperations.isNotEmpty()) {
-            val symbol = protoCtx.symbolProvider.toSymbol(protoCtx.service)
-            protoCtx.delegator.useFileWriter("Sources/${ctx.settings.moduleName}/${symbol.name}.swift") { writer ->
-                // In Linux, Foundation.URLRequest is moved to FoundationNetworking.
-                writer.addImport(packageName = "FoundationNetworking", importOnlyIfCanImport = true)
-            }
-        }
+//        // Import FoundationNetworking statement with preprocessor commands
+//        if (presignOperations.isNotEmpty()) {
+//            val symbol = protoCtx.symbolProvider.toSymbol(protoCtx.service)
+//            protoCtx.delegator.useFileWriter("Sources/${ctx.settings.moduleName}/${symbol.name}.swift") { writer ->
+//                // In Linux, Foundation.URLRequest is moved to FoundationNetworking.
+//                writer.addImport(packageName = "FoundationNetworking", importOnlyIfCanImport = true)
+//            }
+//        }
     }
 
     private fun renderPresigner(
@@ -143,6 +143,7 @@ class PresignerGenerator : SwiftIntegration {
             openBlock("extension $clientName {", "}") {
                 val params = listOf("input: $inputType", format("expiration: \$N", FoundationTypes.TimeInterval))
                 renderDocForPresignAPI(this, op, inputType)
+                writer.addImport(packageName = "FoundationNetworking", importOnlyIfCanImport = true)
                 openBlock(
                     "public func presignedRequestFor${op.toUpperCamelCase()}(${params.joinToString()}) async throws -> \$N {",
                     "}",
