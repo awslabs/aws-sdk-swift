@@ -6,6 +6,7 @@
 //
 
 import struct SmithyRetriesAPI.RetryStrategyOptions
+@_spi(FileBasedConfig) import AWSSDKCommon
 
 public enum AWSRetryConfig {
 

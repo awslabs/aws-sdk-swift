@@ -6,6 +6,7 @@
 //
 
 import Smithy
+import SmithyIdentity
 import SmithyIdentityAPI
 import SmithyHTTPAPI
 import SmithyHTTPAuthAPI
@@ -14,6 +15,7 @@ import ClientRuntime
 import AWSSDKHTTPAuth
 import struct Foundation.Date
 import struct Foundation.TimeInterval
+import SmithyHTTPAuth
 
 extension Context {
 

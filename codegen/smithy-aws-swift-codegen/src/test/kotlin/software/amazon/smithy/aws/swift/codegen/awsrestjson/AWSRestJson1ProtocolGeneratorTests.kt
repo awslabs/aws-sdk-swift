@@ -89,7 +89,7 @@ extension ExampleClient {
 
         public var appID: Swift.String?
 
-        public var awsCredentialIdentityResolver: any SmithyIdentityAPI.AWSCredentialIdentityResolver
+        public var awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver
 
         public var awsRetryMode: AWSClientRuntime.AWSRetryMode
 

@@ -14,6 +14,7 @@ import software.amazon.smithy.swift.codegen.model.toGeneric
 import software.amazon.smithy.swift.codegen.model.toOptional
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyIdentityAPITypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SwiftTypes
+import software.amazon.smithy.swift.codegen.swiftmodules.SmithyIdentityTypes
 
 class AWSDefaultClientConfiguration : ClientConfiguration {
     override val swiftProtocolName: Symbol = AWSClientRuntimeTypes.Core.AWSDefaultClientConfiguration
@@ -29,7 +30,7 @@ class AWSDefaultClientConfiguration : ClientConfiguration {
         ),
         ConfigProperty(
             "awsCredentialIdentityResolver",
-            SmithyIdentityAPITypes.AWSCredentialIdentityResolver.toGeneric(),
+            SmithyIdentityTypes.AWSCredentialIdentityResolver.toGeneric(),
             { it.format("\$N.awsCredentialIdentityResolver(awsCredentialIdentityResolver)", AWSClientRuntimeTypes.Core.AWSClientConfigDefaultsProvider) },
             true
         ),

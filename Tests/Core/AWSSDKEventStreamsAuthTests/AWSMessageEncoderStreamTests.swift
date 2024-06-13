@@ -6,9 +6,11 @@
 //
 
 import Smithy
+import SmithyIdentity
 import SmithyIdentityAPI
 import SmithyEventStreamsAPI
 import SmithyEventStreams
+import SmithyHTTPAuth
 import AWSSDKHTTPAuth
 import AWSSDKEventStreamsAuth
 import XCTest

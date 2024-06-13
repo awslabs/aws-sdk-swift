@@ -5,11 +5,12 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import enum AWSSDKIdentity.FlowType
-import enum SmithyHTTPAuthAPI.SigningPropertyKeys
 import class Smithy.Context
-import struct Smithy.Attributes
 import enum Smithy.ClientError
+import enum SmithyIdentityAPI.FlowType
+import enum SmithyHTTPAuthAPI.AWSSignedBodyHeader
+import enum SmithyHTTPAuthAPI.SigningPropertyKeys
+import struct Smithy.Attributes
 
 // Service-specific signing properties customization setter.
 public class CustomSigningPropertiesSetter {
