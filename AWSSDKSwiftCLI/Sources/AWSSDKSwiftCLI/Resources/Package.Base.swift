@@ -108,7 +108,7 @@ let package = Package(
         ),
         .target(
             name: "AWSSDKChecksums",
-            dependencies: [.crt, .smithy, .clientRuntime, .awsSDKCommon, .smithyChecksums, .smithyChecksumsAPI],
+            dependencies: [.crt, .smithy, .smithyChecksumsAPI],
             path: "./Sources/Core/AWSSDKChecksums"
         ),
         .testTarget(
