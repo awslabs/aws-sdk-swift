@@ -19,7 +19,7 @@ class QueryIdempotencyTokenAutoFillGeneratorTests {
     @Test
     fun `001 hardcodes action and version into input type`() {
         val context = setupTests("awsquery/query-idempotency-token.smithy", "aws.protocoltests.query#AwsQuery")
-        val contents = getFileContents(context.manifest, "/Example/models/QueryIdempotencyTokenAutoFillInput+Write.swift")
+        val contents = getFileContents(context.manifest, "Sources/Example/models/QueryIdempotencyTokenAutoFillInput+Write.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 extension QueryIdempotencyTokenAutoFillInput {

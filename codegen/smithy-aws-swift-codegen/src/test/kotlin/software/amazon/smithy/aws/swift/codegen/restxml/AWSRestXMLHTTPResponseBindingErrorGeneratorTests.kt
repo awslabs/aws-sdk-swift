@@ -19,7 +19,7 @@ class AWSRestXMLHTTPResponseBindingErrorGeneratorTests {
     @Test
     fun `002 GreetingWithErrorsOutputError+HttpResponseBinding`() {
         val context = setupTests("restxml/xml-errors.smithy", "aws.protocoltests.restxml#RestXml")
-        val contents = getFileContents(context.manifest, "/Example/models/GreetingWithErrorsOutputError+HttpResponseErrorBinding.swift")
+        val contents = getFileContents(context.manifest, "Sources/Example/models/GreetingWithErrorsOutputError+HttpResponseErrorBinding.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 enum GreetingWithErrorsOutputError {
@@ -43,7 +43,7 @@ enum GreetingWithErrorsOutputError {
     @Test
     fun `003 ComplexXMLError+Init`() {
         val context = setupTests("restxml/xml-errors.smithy", "aws.protocoltests.restxml#RestXml")
-        val contents = getFileContents(context.manifest, "/Example/models/ComplexXMLError+Init.swift")
+        val contents = getFileContents(context.manifest, "Sources/Example/models/ComplexXMLError+Init.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 extension ComplexXMLError {
@@ -69,45 +69,44 @@ extension ComplexXMLError {
     @Test
     fun `004 ComplexXMLError extends from AWSHttpServiceError`() {
         val context = setupTests("restxml/xml-errors.smithy", "aws.protocoltests.restxml#RestXml")
-        val contents = getFileContents(context.manifest, "/Example/models/ComplexXMLError.swift")
+        val contents = getFileContents(context.manifest, "/Sources/Example/models/ComplexXMLError.swift")
         contents.shouldSyntacticSanityCheck()
-        val expectedContents =
-            """            
-            public struct ComplexXMLError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-            
-                public struct Properties {
-                    public internal(set) var header: Swift.String? = nil
-                    public internal(set) var nested: RestXmlerrorsClientTypes.ComplexXMLNestedErrorData? = nil
-                    public internal(set) var topLevel: Swift.String? = nil
-                }
-            
-                public internal(set) var properties = Properties()
-                public static var typeName: Swift.String { "ComplexXMLError" }
-                public static var fault: ErrorFault { .client }
-                public static var isRetryable: Swift.Bool { false }
-                public static var isThrottling: Swift.Bool { false }
-                public internal(set) var httpResponse = HttpResponse()
-                public internal(set) var message: Swift.String?
-                public internal(set) var requestID: Swift.String?
-            
-                public init(
-                    header: Swift.String? = nil,
-                    nested: RestXmlerrorsClientTypes.ComplexXMLNestedErrorData? = nil,
-                    topLevel: Swift.String? = nil
-                )
-                {
-                    self.properties.header = header
-                    self.properties.nested = nested
-                    self.properties.topLevel = topLevel
-                }
-            }
-            """.trimIndent()
+        val expectedContents = """
+public struct ComplexXMLError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var header: Swift.String? = nil
+        public internal(set) var nested: RestXmlerrorsClientTypes.ComplexXMLNestedErrorData? = nil
+        public internal(set) var topLevel: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ComplexXMLError" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        header: Swift.String? = nil,
+        nested: RestXmlerrorsClientTypes.ComplexXMLNestedErrorData? = nil,
+        topLevel: Swift.String? = nil
+    )
+    {
+        self.properties.header = header
+        self.properties.nested = nested
+        self.properties.topLevel = topLevel
+    }
+}
+"""
         contents.shouldContainOnlyOnce(expectedContents)
     }
     @Test
     fun `005 ComplexXMLErrorNoErrorWrapping Init renders without container`() {
         val context = setupTests("restxml/xml-errors-noerrorwrapping.smithy", "aws.protocoltests.restxml#RestXml")
-        val contents = getFileContents(context.manifest, "/Example/models/ComplexXMLErrorNoErrorWrapping+Init.swift")
+        val contents = getFileContents(context.manifest, "Sources/Example/models/ComplexXMLErrorNoErrorWrapping+Init.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 extension ComplexXMLErrorNoErrorWrapping {
@@ -134,7 +133,7 @@ extension ComplexXMLErrorNoErrorWrapping {
     @Test
     fun `006 RestXml+ServiceErrorHelperMethod AWSHttpServiceError`() {
         val context = setupTests("restxml/xml-errors.smithy", "aws.protocoltests.restxml#RestXml")
-        val contents = getFileContents(context.manifest, "/Example/models/RestXml+HTTPServiceError.swift")
+        val contents = getFileContents(context.manifest, "Sources/Example/models/RestXml+HTTPServiceError.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 func httpServiceError(baseError: AWSClientRuntime.RestXMLError) throws -> Swift.Error? {

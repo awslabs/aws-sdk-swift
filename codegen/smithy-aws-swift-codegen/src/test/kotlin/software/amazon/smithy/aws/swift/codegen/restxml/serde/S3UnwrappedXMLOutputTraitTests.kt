@@ -12,7 +12,7 @@ class S3UnwrappedXMLOutputTraitTests {
     @Test
     fun `001 S3UnwrappedXmlOutputTrait`() {
         val context = setupTests("restxml/serde/s3unwrappedxmloutput.smithy", "aws.protocoltests.restxml#RestXml")
-        val contents = getFileContents(context.manifest, "/Example/models/GetBucketLocationOutput+HttpResponseBinding.swift")
+        val contents = getFileContents(context.manifest, "Sources/Example/models/GetBucketLocationOutput+HttpResponseBinding.swift")
 
         val expectedContents = """
 extension GetBucketLocationOutput {
