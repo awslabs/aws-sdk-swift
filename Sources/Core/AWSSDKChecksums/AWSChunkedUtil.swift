@@ -12,19 +12,8 @@ import enum Smithy.ClientError
 import struct SmithyHTTPAPI.Headers
 import class SmithyHTTPAPI.SdkHttpRequestBuilder
 import enum SmithyChecksumsAPI.ChecksumAlgorithm
-
+import class SmithyChecksums.ChunkedStream
 import AwsCommonRuntimeKit
-
-extension SigningConfig {
-    public var useAwsChunkedEncoding: Bool {
-        switch self.signedBodyValue {
-        case .streamingSha256Payload, .streamingSha256PayloadTrailer, .streamingUnSignedPayloadTrailer:
-            return true
-        default:
-            return false
-        }
-    }
-}
 
 extension SdkHttpRequestBuilder {
     public func setAwsChunkedHeaders() throws {
@@ -43,7 +32,7 @@ extension SdkHttpRequestBuilder {
         }
     }
 
-    public func setAwsChunkedBody(
+    public func setChunkedBody(
         signingConfig: SigningConfig,
         signature: String,
         trailingHeaders: Headers,
@@ -52,7 +41,7 @@ extension SdkHttpRequestBuilder {
         switch self.body {
         case .stream(let stream):
 
-            let chunkedStream = try AWSChunkedStream(
+            let chunkedStream = try ChunkedStream(
                 inputStream: stream,
                 signingConfig: signingConfig,
                 previousSignature: signature,
@@ -63,60 +52,5 @@ extension SdkHttpRequestBuilder {
         default:
             throw ClientError.dataNotFound("Cannot set a non-stream body as an aws-chunked body!")
         }
-    }
-}
-
-extension SigningConfig {
-
-    func toChunkSigningConfig() -> SigningConfig {
-        let modifiedSignatureType = SignatureType.requestChunk
-        let modifiedBodyType = SignedBodyValue.empty
-        return SigningConfig(
-            algorithm: self.algorithm,
-            signatureType: modifiedSignatureType,
-            service: self.service,
-            region: self.region,
-            date: self.date,
-            credentials: self.credentials,
-            credentialsProvider: self.credentialsProvider,
-            expiration: self.expiration,
-            signedBodyHeader: self.signedBodyHeader,
-            signedBodyValue: modifiedBodyType,
-            shouldSignHeader: self.shouldSignHeader,
-            useDoubleURIEncode: self.useDoubleURIEncode,
-            shouldNormalizeURIPath: self.shouldNormalizeURIPath,
-            omitSessionToken: self.omitSessionToken
-        )
-    }
-
-    func toTrailingHeadersSigningConfig() -> SigningConfig {
-        let modifiedSignatureType = SignatureType.requestTrailingHeaders
-        let modifiedBodyType = SignedBodyValue.empty
-        return SigningConfig(
-            algorithm: self.algorithm,
-            signatureType: modifiedSignatureType,
-            service: self.service,
-            region: self.region,
-            date: self.date,
-            credentials: self.credentials,
-            credentialsProvider: self.credentialsProvider,
-            expiration: self.expiration,
-            signedBodyHeader: self.signedBodyHeader,
-            signedBodyValue: modifiedBodyType,
-            shouldSignHeader: self.shouldSignHeader,
-            useDoubleURIEncode: self.useDoubleURIEncode,
-            shouldNormalizeURIPath: self.shouldNormalizeURIPath,
-            omitSessionToken: self.omitSessionToken
-        )
-    }
-
-    var isUnsigned: Bool {
-        return signedBodyValue == .streamingUnSignedPayloadTrailer
-    }
-}
-
-extension Int {
-    var hexString: String {
-        return String(self, radix: 16)
     }
 }
