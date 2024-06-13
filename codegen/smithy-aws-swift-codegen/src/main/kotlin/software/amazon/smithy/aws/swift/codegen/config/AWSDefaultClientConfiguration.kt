@@ -12,9 +12,8 @@ import software.amazon.smithy.swift.codegen.config.ConfigProperty
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.model.toGeneric
 import software.amazon.smithy.swift.codegen.model.toOptional
-import software.amazon.smithy.swift.codegen.swiftmodules.SmithyIdentityAPITypes
-import software.amazon.smithy.swift.codegen.swiftmodules.SwiftTypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyIdentityTypes
+import software.amazon.smithy.swift.codegen.swiftmodules.SwiftTypes
 
 class AWSDefaultClientConfiguration : ClientConfiguration {
     override val swiftProtocolName: Symbol = AWSClientRuntimeTypes.Core.AWSDefaultClientConfiguration

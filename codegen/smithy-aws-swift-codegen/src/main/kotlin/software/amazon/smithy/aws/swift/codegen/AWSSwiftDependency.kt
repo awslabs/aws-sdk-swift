@@ -6,13 +6,6 @@ package software.amazon.smithy.aws.swift.codegen
 import software.amazon.smithy.swift.codegen.SwiftDependency
 
 class AWSSwiftDependency {
-    override val target: String,
-    private val branch: String?,
-    private val version: String,
-    private val url: String,
-    private val localPath: String,
-    override var packageName: String
-) : Dependency {
 
     companion object {
         val AWS_SDK_IDENTITY = SwiftDependency(
