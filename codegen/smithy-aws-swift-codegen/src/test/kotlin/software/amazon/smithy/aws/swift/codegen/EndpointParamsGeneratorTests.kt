@@ -23,7 +23,7 @@ class EndpointParamsGeneratorTests {
         val context = setupTests("endpoints.smithy", "smithy.example#ExampleService")
         val endpointParamsGenerator = EndpointParamsGenerator(context.ctx)
         endpointParamsGenerator.render()
-        val contents = TestUtils.getFileContents(context.manifest, "/Example/Endpoints.swift")
+        val contents = TestUtils.getFileContents(context.manifest, "Sources/Example/Endpoints.swift")
         val expected = """
 public struct EndpointParams {
     public let boolBar: Swift.Bool?
@@ -68,7 +68,7 @@ public struct EndpointParams {
         val context = setupTests("endpoints.smithy", "smithy.example#ExampleService")
         val endpointParamsGenerator = EndpointParamsGenerator(context.ctx)
         endpointParamsGenerator.render()
-        val contents = TestUtils.getFileContents(context.manifest, "/Example/Endpoints.swift")
+        val contents = TestUtils.getFileContents(context.manifest, "Sources/Example/Endpoints.swift")
         val expected = """
 extension EndpointParams: ClientRuntime.EndpointsRequestContextProviding {
 

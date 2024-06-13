@@ -18,7 +18,7 @@ class ListEncodeFormURLGeneratorTests {
     @Test
     fun `001 encode different types of lists`() {
         val context = setupTests("awsquery/query-lists.smithy", "aws.protocoltests.query#AwsQuery")
-        val contents = getFileContents(context.manifest, "/Example/models/QueryListsInput+Write.swift")
+        val contents = getFileContents(context.manifest, "Sources/Example/models/QueryListsInput+Write.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 extension QueryListsInput {
@@ -26,12 +26,12 @@ extension QueryListsInput {
     static func write(value: QueryListsInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
         try writer["ComplexListArg"].writeList(value.complexListArg, memberWritingClosure: QueryProtocolClientTypes.GreetingStruct.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["FlattenedListArg"].writeList(value.flattenedListArg, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: true)
-        try writer["Hi"].writeList(value.flattenedListArgWithXmlName, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "item", isFlattened: true)
-        try writer["ListArg"].writeList(value.listArg, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ListArgWithXmlNameMember"].writeList(value.listArgWithXmlNameMember, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "item", isFlattened: false)
-        try writer["flatTsList"].writeList(value.flatTsList, memberWritingClosure: timestampWritingClosure(format: .epochSeconds), memberNodeInfo: "member", isFlattened: true)
-        try writer["tsList"].writeList(value.tsList, memberWritingClosure: timestampWritingClosure(format: .epochSeconds), memberNodeInfo: "member", isFlattened: false)
+        try writer["FlattenedListArg"].writeList(value.flattenedListArg, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: true)
+        try writer["Hi"].writeList(value.flattenedListArgWithXmlName, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "item", isFlattened: true)
+        try writer["ListArg"].writeList(value.listArg, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ListArgWithXmlNameMember"].writeList(value.listArgWithXmlNameMember, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "item", isFlattened: false)
+        try writer["flatTsList"].writeList(value.flatTsList, memberWritingClosure: SmithyReadWrite.timestampWritingClosure(format: .epochSeconds), memberNodeInfo: "member", isFlattened: true)
+        try writer["tsList"].writeList(value.tsList, memberWritingClosure: SmithyReadWrite.timestampWritingClosure(format: .epochSeconds), memberNodeInfo: "member", isFlattened: false)
         try writer["Action"].write("QueryLists")
         try writer["Version"].write("2020-01-08")
     }

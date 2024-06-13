@@ -16,7 +16,11 @@ if [ -x "$(command -v osascript)" ]; then
   osascript -e 'quit app "Xcode"'
 fi
 
-# Delete all staged, generated code
+# Delete all previous Smithy build products
+rm -rf codegen/sdk-codegen/build/smithyprojections/sdk-codegen/*
+
+# Delete all previous staged code
+rm -rf ServiceClients/*
 rm -rf Sources/Services/*
 rm -rf Tests/Services/*
 

@@ -2,7 +2,6 @@ package software.amazon.smithy.aws.swift.codegen.customization
 
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.swift.codegen.Middleware
-import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.steps.OperationSerializeStep
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyTypes
@@ -24,8 +23,6 @@ class PutObjectPresignedURLMiddleware(
     }
 
     override fun renderExtensions() {
-        writer.addImport(SwiftDependency.SMITHY.target)
-        writer.addImport(SwiftDependency.SMITHY_HTTP_API.target)
         writer.write(
             """
             extension $typeName: Smithy.RequestMessageSerializer {

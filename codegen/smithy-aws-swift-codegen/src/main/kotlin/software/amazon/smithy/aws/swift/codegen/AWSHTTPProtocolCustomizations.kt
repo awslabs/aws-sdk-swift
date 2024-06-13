@@ -7,6 +7,7 @@ package software.amazon.smithy.aws.swift.codegen
 
 import software.amazon.smithy.aws.swift.codegen.customization.RulesBasedAuthSchemeResolverGenerator
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTypes
+import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKEventStreamsAuthTypes
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
@@ -42,8 +43,7 @@ abstract class AWSHTTPProtocolCustomizations : DefaultHTTPProtocolCustomizations
         op: OperationShape
     ) {
         if (op.isInputEventStream(ctx.model) && op.isOutputEventStream(ctx.model)) {
-            writer.addImport(AWSSwiftDependency.AWS_SDK_EVENT_STREAMS_AUTH.target)
-            writer.write("try context.setupBidirectionalStreaming()")
+            writer.write("\$N(context: context)", AWSSDKEventStreamsAuthTypes.setupBidirectionalStreaming)
         }
     }
 
@@ -64,9 +64,6 @@ abstract class AWSHTTPProtocolCustomizations : DefaultHTTPProtocolCustomizations
         writer: SwiftWriter,
         serviceConfig: ServiceConfig
     ): HttpProtocolServiceClient {
-        writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target, false, "DefaultRegionResolver")
-        writer.addImport(AWSSwiftDependency.AWS_SDK_COMMON.target, false, "FileBasedConfig")
-        writer.addImport(AWSSwiftDependency.AWS_SDK_IDENTITY.target, false, "DefaultAWSCredentialIdentityResolverChain")
         return AWSHttpProtocolServiceClient(ctx, writer, serviceConfig)
     }
 

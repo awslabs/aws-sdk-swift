@@ -27,7 +27,14 @@ class AWSEndpointClientConfiguration(val ctx: ProtocolGenerator.GenerationContex
         clientContextParams?.parameters?.forEach {
             properties.add(ConfigProperty(it.key.toLowerCamelCase(), it.value.type.toSwiftType().toOptional()))
         }
-        properties.add(ConfigProperty(ENDPOINT_RESOLVER, EndpointTypes.EndpointResolver, "DefaultEndpointResolver()", true))
+        properties.add(
+            ConfigProperty(
+                ENDPOINT_RESOLVER,
+                EndpointTypes.EndpointResolver,
+                { it.format("DefaultEndpointResolver()") },
+                true
+            )
+        )
         return properties
     }
 }

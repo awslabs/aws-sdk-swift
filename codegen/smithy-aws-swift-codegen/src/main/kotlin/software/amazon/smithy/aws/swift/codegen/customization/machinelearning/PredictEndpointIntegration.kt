@@ -7,7 +7,6 @@ import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.swift.codegen.MiddlewareGenerator
 import software.amazon.smithy.swift.codegen.SwiftDelegator
-import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftSettings
 import software.amazon.smithy.swift.codegen.core.SwiftCodegenContext
 import software.amazon.smithy.swift.codegen.core.toProtocolGenerationContext
@@ -45,8 +44,7 @@ class PredictEndpointIntegration(private val enabledOperations: Map<String, Set<
 
             val inputType = op.input.get()
             val filename = ModelFileUtils.filename(ctx.settings, "$inputType+EndpointURLHostMiddleware")
-            delegator.useFileWriter("${ctx.settings.moduleName}/$filename") { writer ->
-                writer.addImport(SwiftDependency.CLIENT_RUNTIME.target)
+            delegator.useFileWriter(filename) { writer ->
                 val predictMiddleware = PredictInputEndpointURLHostMiddlewareHandler(writer, protocolGeneratorContext, inputSymbol, outputSymbol, outputErrorSymbol)
                 MiddlewareGenerator(writer, predictMiddleware).generate()
             }

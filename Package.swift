@@ -192,7 +192,7 @@ func addServiceTarget(_ name: String) {
         .target(
             name: name,
             dependencies: serviceTargetDependencies,
-            path: "./Sources/Services/\(name)"
+            path: "./Sources/Services/\(name)/Sources/\(name)"
         )
     ]
 }
@@ -203,7 +203,7 @@ func addServiceUnitTestTarget(_ name: String) {
         .testTarget(
             name: "\(testName)",
             dependencies: [.crt, .clientRuntime, .awsClientRuntime, .byName(name: name), .smithyTestUtils],
-            path: "./Tests/Services/\(testName)"
+            path: "./Sources/Services/\(name)/Tests/\(testName)"
         )
     ]
 }
@@ -309,12 +309,12 @@ func addProtocolTests() {
         let target = Target.target(
             name: protocolTest.name,
             dependencies: serviceTargetDependencies,
-            path: "\(protocolTest.sourcePath)/swift-codegen/\(protocolTest.name)"
+            path: "\(protocolTest.sourcePath)/swift-codegen/Sources/\(protocolTest.name)"
         )
         let testTarget = protocolTest.buildOnly ? nil : Target.testTarget(
             name: "\(protocolTest.name)Tests",
             dependencies: [.smithyTestUtils, .byNameItem(name: protocolTest.name, condition: nil)],
-            path: "\(protocolTest.testPath ?? protocolTest.sourcePath)/swift-codegen/\(protocolTest.name)Tests"
+            path: "\(protocolTest.testPath ?? protocolTest.sourcePath)/swift-codegen/Tests/\(protocolTest.name)Tests"
         )
         package.targets += [target, testTarget].compactMap { $0 }
     }

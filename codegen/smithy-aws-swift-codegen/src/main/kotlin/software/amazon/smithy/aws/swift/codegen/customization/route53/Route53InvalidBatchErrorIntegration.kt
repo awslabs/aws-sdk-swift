@@ -3,7 +3,6 @@ package software.amazon.smithy.aws.swift.codegen.customization.route53
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.swift.codegen.SmithyXMLTypes
 import software.amazon.smithy.swift.codegen.SwiftDelegator
-import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftSettings
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.core.SwiftCodegenContext
@@ -37,8 +36,7 @@ class Route53InvalidBatchErrorIntegration : SwiftIntegration {
 
     override fun writeAdditionalFiles(ctx: SwiftCodegenContext, protocolGenerationContext: ProtocolGenerator.GenerationContext, delegator: SwiftDelegator) {
         val filename = ModelFileUtils.filename(ctx.settings, "ChangeResourceRecordSetsOutputError+Customization")
-        delegator.useFileWriter("${ctx.settings.moduleName}/$filename") { writer ->
-            writer.addImport(SwiftDependency.CLIENT_RUNTIME.target)
+        delegator.useFileWriter(filename) { writer ->
             renderCustomInvalidBatchError(writer)
             renderInvalidChangeBatch(writer)
         }
