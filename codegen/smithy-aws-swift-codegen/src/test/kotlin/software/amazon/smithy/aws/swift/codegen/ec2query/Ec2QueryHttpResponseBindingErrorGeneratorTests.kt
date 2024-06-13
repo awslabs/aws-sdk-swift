@@ -18,7 +18,7 @@ class Ec2QueryHttpResponseBindingErrorGeneratorTests {
     @Test
     fun `002 GreetingWithErrorsOutputError+HttpResponseBinding has with correct cases`() {
         val context = setupTests("ec2query/query-error.smithy", "aws.protocoltests.ec2#AwsEc2")
-        val contents = TestUtils.getFileContents(context.manifest, "/Example/models/GreetingWithErrorsOutputError+HttpResponseErrorBinding.swift")
+        val contents = TestUtils.getFileContents(context.manifest, "Sources/Example/models/GreetingWithErrorsOutputError+HttpResponseErrorBinding.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 enum GreetingWithErrorsOutputError {
@@ -43,7 +43,7 @@ enum GreetingWithErrorsOutputError {
     @Test
     fun `003 ComplexError+Init`() {
         val context = setupTests("ec2query/query-error.smithy", "aws.protocoltests.ec2#AwsEc2")
-        val contents = TestUtils.getFileContents(context.manifest, "/Example/models/ComplexError+Init.swift")
+        val contents = TestUtils.getFileContents(context.manifest, "Sources/Example/models/ComplexError+Init.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 extension ComplexError {
@@ -66,43 +66,42 @@ extension ComplexError {
     @Test
     fun `004 ComplexError constructor conforms to AWSHttpServiceError`() {
         val context = setupTests("ec2query/query-error.smithy", "aws.protocoltests.ec2#AwsEc2")
-        val contents = TestUtils.getFileContents(context.manifest, "/Example/models/ComplexError.swift")
+        val contents = TestUtils.getFileContents(context.manifest, "Sources/Example/models/ComplexError.swift")
         contents.shouldSyntacticSanityCheck()
-        val expectedContents =
-            """
-            public struct ComplexError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-            
-                public struct Properties {
-                    public internal(set) var nested: EC2ProtocolClientTypes.ComplexNestedErrorData? = nil
-                    public internal(set) var topLevel: Swift.String? = nil
-                }
-            
-                public internal(set) var properties = Properties()
-                public static var typeName: Swift.String { "ComplexError" }
-                public static var fault: ErrorFault { .client }
-                public static var isRetryable: Swift.Bool { false }
-                public static var isThrottling: Swift.Bool { false }
-                public internal(set) var httpResponse = HttpResponse()
-                public internal(set) var message: Swift.String?
-                public internal(set) var requestID: Swift.String?
-            
-                public init(
-                    nested: EC2ProtocolClientTypes.ComplexNestedErrorData? = nil,
-                    topLevel: Swift.String? = nil
-                )
-                {
-                    self.properties.nested = nested
-                    self.properties.topLevel = topLevel
-                }
-            }
-            """.trimIndent()
+        val expectedContents = """
+public struct ComplexError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var nested: EC2ProtocolClientTypes.ComplexNestedErrorData? = nil
+        public internal(set) var topLevel: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ComplexError" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        nested: EC2ProtocolClientTypes.ComplexNestedErrorData? = nil,
+        topLevel: Swift.String? = nil
+    )
+    {
+        self.properties.nested = nested
+        self.properties.topLevel = topLevel
+    }
+}
+"""
         contents.shouldContainOnlyOnce(expectedContents)
     }
 
     @Test
     fun `005 AwsEc2+ServiceErrorHelperMethod AWSHttpServiceError`() {
         val context = setupTests("ec2query/query-error.smithy", "aws.protocoltests.ec2#AwsEc2")
-        val contents = TestUtils.getFileContents(context.manifest, "/Example/models/AwsEc2+HTTPServiceError.swift")
+        val contents = TestUtils.getFileContents(context.manifest, "Sources/Example/models/AwsEc2+HTTPServiceError.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 func httpServiceError(baseError: AWSClientRuntime.EC2QueryError) throws -> Swift.Error? {

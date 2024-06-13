@@ -18,7 +18,7 @@ class StructDecodeWrappedXMLGeneratorTests {
     @Test
     fun `wrapped map decodable`() {
         val context = setupTests("awsquery/flattened-map.smithy", "aws.protocoltests.query#AwsQuery")
-        val contents = getFileContents(context.manifest, "/Example/models/FlattenedXmlMapOutput+HttpResponseBinding.swift")
+        val contents = getFileContents(context.manifest, "Sources/Example/models/FlattenedXmlMapOutput+HttpResponseBinding.swift")
         val expectedContents = """
 extension FlattenedXmlMapOutput {
 
@@ -27,7 +27,7 @@ extension FlattenedXmlMapOutput {
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["FlattenedXmlMapResult"]
         var value = FlattenedXmlMapOutput()
-        value.myMap = try reader["myMap"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: true)
+        value.myMap = try reader["myMap"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: true)
         return value
     }
 }

@@ -1,12 +1,13 @@
 package software.amazon.smithy.aws.swift.codegen.middleware.handlers
 
 import software.amazon.smithy.codegen.core.Symbol
-import software.amazon.smithy.swift.codegen.FoundationTypes
 import software.amazon.smithy.swift.codegen.Middleware
-import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.steps.OperationInitializeStep
+import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes
+import software.amazon.smithy.swift.codegen.swiftmodules.FoundationTypes
+import software.amazon.smithy.swift.codegen.swiftmodules.SmithyTypes
 
 class PredictInputEndpointURLHostMiddlewareHandler(
     private val writer: SwiftWriter,
@@ -23,8 +24,6 @@ class PredictInputEndpointURLHostMiddlewareHandler(
     }
 
     override fun generateMiddlewareClosure() {
-        writer.addImport(SwiftDependency.SMITHY.target)
-        writer.addImport(SwiftDependency.SMITHY_HTTP_API.target)
         writer.openBlock("if let endpoint = input.predictEndpoint, let url = \$N(string: endpoint), let host = url.host {", "}", FoundationTypes.URL) {
             writer.write("context.host = host")
             writer.write("return try await next.handle(context: context, input: input)")
@@ -32,21 +31,29 @@ class PredictInputEndpointURLHostMiddlewareHandler(
     }
 
     override fun renderExtensions() {
-        writer.addImport("Foundation")
-        writer.write(
-            """
-            extension $typeName: HttpInterceptor {
-                public typealias InputType = PredictInput
-                public typealias OutputType = PredictOutput
-                
-                public func modifyBeforeSerialization(context: some MutableInput<Self.InputType, Smithy.Context>) async throws {
-                    if let endpoint = context.getInput().predictEndpoint, let url = ${'$'}N(string: endpoint), let host = url.host {
-                        context.getAttributes().host = host
-                    }
+        writer.openBlock(
+            "extension \$L: \$N {",
+            "}",
+            typeName,
+            ClientRuntimeTypes.Middleware.HttpInterceptor,
+        ) {
+            writer.write("public typealias InputType = PredictInput")
+            writer.write("public typealias OutputType = PredictOutput")
+            writer.write("")
+            writer.openBlock(
+                "public func modifyBeforeSerialization(context: some \$N<InputType, \$N>) async throws {",
+                "}",
+                ClientRuntimeTypes.Middleware.MutableInput,
+                SmithyTypes.Context,
+            ) {
+                writer.openBlock(
+                    "if let endpoint = context.getInput().predictEndpoint, let url = \$N(string: endpoint), let host = url.host {",
+                    "}",
+                    FoundationTypes.URL,
+                ) {
+                    writer.write("context.getAttributes().host = host")
                 }
             }
-            """.trimIndent(),
-            FoundationTypes.URL
-        )
+        }
     }
 }

@@ -19,7 +19,7 @@ class MapEncodeFormURLGeneratorTests {
     @Test
     fun `001 encode different types of maps`() {
         val context = setupTests("awsquery/query-maps.smithy", "aws.protocoltests.query#AwsQuery")
-        val contents = getFileContents(context.manifest, "/Example/models/QueryMapsInput+Write.swift")
+        val contents = getFileContents(context.manifest, "Sources/Example/models/QueryMapsInput+Write.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 extension QueryMapsInput {
@@ -27,12 +27,12 @@ extension QueryMapsInput {
     static func write(value: QueryMapsInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
         try writer["ComplexMapArg"].writeMap(value.complexMapArg, valueWritingClosure: QueryProtocolClientTypes.GreetingStruct.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["FlattenedMap"].writeMap(value.flattenedMap, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: true)
-        try writer["Hi"].writeMap(value.flattenedMapWithXmlName, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "K", valueNodeInfo: "V", isFlattened: true)
-        try writer["MapArg"].writeMap(value.mapArg, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["MapOfLists"].writeMap(value.mapOfLists, valueWritingClosure: listWritingClosure(memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["MapWithXmlMemberName"].writeMap(value.mapWithXmlMemberName, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "K", valueNodeInfo: "V", isFlattened: false)
-        try writer["Foo"].writeMap(value.renamedMapArg, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["FlattenedMap"].writeMap(value.flattenedMap, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: true)
+        try writer["Hi"].writeMap(value.flattenedMapWithXmlName, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "K", valueNodeInfo: "V", isFlattened: true)
+        try writer["MapArg"].writeMap(value.mapArg, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["MapOfLists"].writeMap(value.mapOfLists, valueWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["MapWithXmlMemberName"].writeMap(value.mapWithXmlMemberName, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "K", valueNodeInfo: "V", isFlattened: false)
+        try writer["Foo"].writeMap(value.renamedMapArg, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["Action"].write("QueryMaps")
         try writer["Version"].write("2020-01-08")
     }

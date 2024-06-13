@@ -5,6 +5,7 @@
 
 package software.amazon.smithy.aws.swift.codegen
 
+import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKHTTPAuthTypes
 import software.amazon.smithy.aws.traits.auth.SigV4ATrait
 import software.amazon.smithy.aws.traits.auth.SigV4Trait
 import software.amazon.smithy.model.Model
@@ -13,6 +14,7 @@ import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.model.traits.OptionalAuthTrait
 import software.amazon.smithy.swift.codegen.AuthSchemeResolverGenerator
+import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.model.expectTrait
 import software.amazon.smithy.swift.codegen.model.hasTrait
@@ -56,7 +58,10 @@ open class SigV4Utils() {
             return auth.containsKey(SigV4Trait.ID) && !operation.hasTrait<OptionalAuthTrait>()
         }
 
-        fun getModeledAuthSchemesSupportedBySDK(ctx: ProtocolGenerator.GenerationContext): String {
+        fun getModeledAuthSchemesSupportedBySDK(
+            ctx: ProtocolGenerator.GenerationContext,
+            writer: SwiftWriter,
+        ): String {
             val effectiveAuthSchemes = ServiceIndex(ctx.model).getEffectiveAuthSchemes(ctx.service)
             var authSchemeList = arrayOf<String>()
 
@@ -64,10 +69,10 @@ open class SigV4Utils() {
             val servicesUsingSigV4A = arrayOf("S3", "EventBridge", "CloudFrontKeyValueStore")
 
             if (effectiveAuthSchemes.contains(SigV4Trait.ID)) {
-                authSchemeList += "SigV4AuthScheme()"
+                authSchemeList += writer.format("\$N()", AWSSDKHTTPAuthTypes.SigV4AuthScheme)
             }
             if (effectiveAuthSchemes.contains(SigV4ATrait.ID) || servicesUsingSigV4A.contains(sdkId)) {
-                authSchemeList += "SigV4AAuthScheme()"
+                authSchemeList += writer.format("\$N()", AWSSDKHTTPAuthTypes.SigV4AAuthScheme)
             }
             return "[${authSchemeList.joinToString(", ")}]"
         }

@@ -19,7 +19,7 @@ class TimestampGeneratorTests {
     @Test
     fun `001 encode timestamps`() {
         val context = setupTests("awsquery/query-timestamp.smithy", "aws.protocoltests.query#AwsQuery")
-        val contents = getFileContents(context.manifest, "/Example/models/QueryTimestampsInput+Write.swift")
+        val contents = getFileContents(context.manifest, "Sources/Example/models/QueryTimestampsInput+Write.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 extension QueryTimestampsInput {

@@ -16,7 +16,7 @@ class PresignableUrlIntegrationTests {
     @Test
     fun `S3 PutObject operation stack contains the PutObjectPresignedURLMiddleware`() {
         val context = setupTests("presign-urls-s3.smithy", "com.amazonaws.s3#AmazonS3")
-        val contents = TestUtils.getFileContents(context.manifest, "/Example/models/PutObjectInput+Presigner.swift")
+        val contents = TestUtils.getFileContents(context.manifest, "Sources/Example/models/PutObjectInput+Presigner.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
         operation.serializeStep.intercept(position: .after, middleware: PutObjectPresignedURLMiddleware())
@@ -27,7 +27,7 @@ class PresignableUrlIntegrationTests {
     @Test
     fun `S3 PutObject's PutObjectPresignedURLMiddleware is rendered`() {
         val context = setupTests("presign-urls-s3.smithy", "com.amazonaws.s3#AmazonS3")
-        val contents = TestUtils.getFileContents(context.manifest, "/Example/models/PutObjectInput+QueryItemMiddlewareForPresignUrl.swift")
+        val contents = TestUtils.getFileContents(context.manifest, "Sources/Example/models/PutObjectInput+QueryItemMiddlewareForPresignUrl.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 public struct PutObjectPresignedURLMiddleware: ClientRuntime.Middleware {
@@ -38,7 +38,7 @@ public struct PutObjectPresignedURLMiddleware: ClientRuntime.Middleware {
     public func handle<H>(context: Smithy.Context,
                   input: ClientRuntime.SerializeStepInput<PutObjectInput>,
                   next: H) async throws -> ClientRuntime.OperationOutput<PutObjectOutput>
-    where H: Handler,
+    where H: ClientRuntime.Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output
     {

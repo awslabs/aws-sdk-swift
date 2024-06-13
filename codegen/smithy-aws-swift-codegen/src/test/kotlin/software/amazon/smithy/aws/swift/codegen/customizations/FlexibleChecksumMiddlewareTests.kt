@@ -13,7 +13,7 @@ class FlexibleChecksumMiddlewareTests {
     @Test
     fun `Test that FlexibleChecksumsRequestMiddleware is properly generated`() {
         val context = setupTests("flexible-checksums.smithy", "aws.flex.checks#ChecksumTests")
-        val contents = TestUtils.getFileContents(context.manifest, "/Example/ChecksumTestsClient.swift")
+        val contents = TestUtils.getFileContents(context.manifest, "Sources/Example/ChecksumTestsClient.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.FlexibleChecksumsRequestMiddleware<SomeOperationInput, SomeOperationOutput>(checksumAlgorithm: input.checksumAlgorithm?.rawValue))
@@ -24,7 +24,7 @@ class FlexibleChecksumMiddlewareTests {
     @Test
     fun `Test that FlexibleChecksumsResponseMiddleware is properly generated`() {
         val context = setupTests("flexible-checksums.smithy", "aws.flex.checks#ChecksumTests")
-        val contents = TestUtils.getFileContents(context.manifest, "/Example/ChecksumTestsClient.swift")
+        val contents = TestUtils.getFileContents(context.manifest, "Sources/Example/ChecksumTestsClient.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.FlexibleChecksumsResponseMiddleware<SomeOperationInput, SomeOperationOutput>(validationMode: true))

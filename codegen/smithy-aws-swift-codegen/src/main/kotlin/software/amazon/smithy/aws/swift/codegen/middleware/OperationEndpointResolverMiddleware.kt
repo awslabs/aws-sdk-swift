@@ -26,6 +26,7 @@ import software.amazon.smithy.swift.codegen.middleware.MiddlewarePosition
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderable
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 import software.amazon.smithy.swift.codegen.model.getTrait
+import software.amazon.smithy.swift.codegen.swiftmodules.SmithyTypes
 import software.amazon.smithy.swift.codegen.utils.toLowerCamelCase
 
 /**
@@ -48,7 +49,7 @@ class OperationEndpointResolverMiddleware(
 
         // Write code that saves endpoint params to middleware context for use in auth scheme middleware when using rules-based auth scheme resolvers
         if (AuthSchemeResolverGenerator.usesRulesBasedAuthResolver(ctx)) {
-            writer.write("context.attributes.set(key: AttributeKey<EndpointParams>(name: \"EndpointParams\"), value: endpointParams)")
+            writer.write("context.attributes.set(key: \$N<EndpointParams>(name: \"EndpointParams\"), value: endpointParams)", SmithyTypes.AttributeKey)
         }
 
         super.renderSpecific(ctx, writer, op, operationStackName, "applyEndpoint")
@@ -141,7 +142,7 @@ class OperationEndpointResolverMiddleware(
                             else -> {
                                 // if the parameter is required, we must unwrap the optional value
                                 writer.openBlock("guard let ${param.name.toString().toLowerCamelCase()} = config.${param.name.toString().toLowerCamelCase()} else {", "}") {
-                                    writer.write("throw SdkError<\$N>.client(ClientError.unknownError((\"Missing required parameter: \$L\")))", outputError, param.name.toString())
+                                    writer.write("throw \$N.unknownError(\"Missing required parameter: \$L\")", SmithyTypes.ClientError, param.name.toString())
                                 }
                                 param.name.toString().toLowerCamelCase()
                             }

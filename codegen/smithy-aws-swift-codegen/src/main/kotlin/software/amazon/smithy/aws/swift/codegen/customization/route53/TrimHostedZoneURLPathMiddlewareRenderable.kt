@@ -1,5 +1,6 @@
 package software.amazon.smithy.aws.swift.codegen.customization.route53
 
+import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTypes
 import software.amazon.smithy.codegen.core.SymbolProvider
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.shapes.OperationShape
@@ -32,7 +33,13 @@ class TrimHostedZoneURLPathMiddlewareRenderable(
         val hostedZoneIDMember = inputShape.members().first { it.hasTrait<TrimHostedZone>() }
         val hostedZoneIDKeyPath = ctx.symbolProvider.toMemberName(hostedZoneIDMember)
         val inputSymbol = MiddlewareShapeUtils.inputSymbol(ctx.symbolProvider, model, op)
-        val outputShape = MiddlewareShapeUtils.outputSymbol(ctx.symbolProvider, model, op)
-        writer.write("$name<\$N, \$N>(\\.\$L)", inputSymbol, outputShape, hostedZoneIDKeyPath)
+        val outputSymbol = MiddlewareShapeUtils.outputSymbol(ctx.symbolProvider, model, op)
+        writer.write(
+            "\$N<\$N, \$N>(\\.\$L)",
+            AWSClientRuntimeTypes.Core.Route53TrimHostedZoneMiddleware,
+            inputSymbol,
+            outputSymbol,
+            hostedZoneIDKeyPath
+        )
     }
 }
