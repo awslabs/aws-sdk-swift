@@ -24,7 +24,7 @@ public class CustomSigningPropertiesSetter {
     ]
 
     public init() {}
-    
+
     public func setServiceSpecificSigningProperties(
         signingProperties: inout Attributes,
         context: Context
@@ -42,7 +42,8 @@ public class CustomSigningPropertiesSetter {
             serviceName: serviceName,
             opName: operationName
         )
-        let unsignedBody = (signingProperties.get(key: SigningPropertyKeys.unsignedBody) ?? false) || shouldForceUnsignedBody
+        let unsignedBody =
+            (signingProperties.get(key: SigningPropertyKeys.unsignedBody) ?? false) || shouldForceUnsignedBody
         signingProperties.set(key: SigningPropertyKeys.unsignedBody, value: unsignedBody)
 
         // Set signedBodyHeader flag
