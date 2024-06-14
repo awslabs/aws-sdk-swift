@@ -7,7 +7,7 @@
 
 import XCTest
 @testable import Waiters
-@testable import ClientRuntime
+@testable import SmithyWaitersAPI
 
 class InputOutputMatcherTests: XCTestCase {
 
