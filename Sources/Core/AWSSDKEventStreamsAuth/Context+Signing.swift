@@ -5,14 +5,14 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import AWSSDKHTTPAuth
+import ClientRuntime
 import Smithy
-import SmithyIdentity
-import SmithyIdentityAPI
+import SmithyEventStreamsAPI
 import SmithyHTTPAPI
 import SmithyHTTPAuthAPI
-import SmithyEventStreamsAPI
-import ClientRuntime
-import AWSSDKHTTPAuth
+import SmithyIdentity
+import SmithyIdentityAPI
 import struct Foundation.Date
 import struct Foundation.TimeInterval
 import SmithyHTTPAuth

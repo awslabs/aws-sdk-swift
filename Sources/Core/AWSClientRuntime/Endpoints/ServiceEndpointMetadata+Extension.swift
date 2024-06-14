@@ -6,8 +6,8 @@
 //
 
 import enum Smithy.URIScheme
-import SmithyHTTPAPI
 import ClientRuntime
+import SmithyHTTPAPI
 
 extension ServiceEndpointMetadata {
     func resolve(region: String, defaults: ServiceEndpointMetadata) throws -> AWSEndpoint {

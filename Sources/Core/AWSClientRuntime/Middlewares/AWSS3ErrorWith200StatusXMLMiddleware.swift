@@ -6,8 +6,8 @@
 //
 
 import class Smithy.Context
-import SmithyHTTPAPI
 import ClientRuntime
+import SmithyHTTPAPI
 
 public struct AWSS3ErrorWith200StatusXMLMiddleware<OperationStackInput, OperationStackOutput>: Middleware {
     public let id: String = "AWSS3ErrorWith200StatusXMLMiddleware"

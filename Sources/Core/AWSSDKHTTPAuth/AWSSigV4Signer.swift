@@ -119,7 +119,8 @@ public class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer {
         }
 
         let expiration: TimeInterval = signingProperties.get(key: SigningPropertyKeys.expiration) ?? 0
-        let signedBodyHeader: AWSSignedBodyHeader = signingProperties.get(key: SigningPropertyKeys.signedBodyHeader) ?? .none
+        let signedBodyHeader: AWSSignedBodyHeader =
+            signingProperties.get(key: SigningPropertyKeys.signedBodyHeader) ?? .none
 
         // Determine signed body value
         let checksumIsPresent = signingProperties.get(key: SigningPropertyKeys.checksum) != nil
@@ -136,7 +137,8 @@ public class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer {
             shouldNormalizeURIPath: signingProperties.get(key: SigningPropertyKeys.shouldNormalizeURIPath) ?? true,
             omitSessionToken: signingProperties.get(key: SigningPropertyKeys.omitSessionToken) ?? false
         )
-        let signatureType: AWSSignatureType = signingProperties.get(key: SigningPropertyKeys.signatureType) ?? .requestHeaders
+        let signatureType: AWSSignatureType =
+            signingProperties.get(key: SigningPropertyKeys.signatureType) ?? .requestHeaders
 
         return AWSSigningConfig(
             credentials: identity,

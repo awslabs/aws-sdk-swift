@@ -5,8 +5,8 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import SmithyHTTPAPI
 import ClientRuntime
+import SmithyHTTPAPI
 
 /**
   A structure used by the service client to determine the endpoint.
