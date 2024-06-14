@@ -64,7 +64,7 @@ private object FlexibleChecksumResponseMiddleware : MiddlewareRenderable {
         val validationMode: Boolean = requestValidationModeEnumShape.members().map { it.memberName }.first().equals("ENABLED")
         writer.write(
             "\$N<\$L, \$L>(validationMode: \$L)",
-            AWSClientRuntimeTypes.Middleware.FlexibleChecksumsResponseMiddleware,
+            AWSClientRuntimeTypes.Core.FlexibleChecksumsResponseMiddleware,
             inputShapeName,
             outputShapeName,
             validationMode,

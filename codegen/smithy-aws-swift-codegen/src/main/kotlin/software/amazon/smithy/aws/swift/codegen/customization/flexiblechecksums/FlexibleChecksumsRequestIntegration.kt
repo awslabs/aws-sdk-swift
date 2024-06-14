@@ -62,7 +62,7 @@ private object FlexibleChecksumRequestMiddleware : MiddlewareRenderable {
 
         writer.write(
             "\$N<\$L, \$L>(checksumAlgorithm: input.\$L?.rawValue)",
-            AWSClientRuntimeTypes.Middleware.FlexibleChecksumsRequestMiddleware,
+            AWSClientRuntimeTypes.Core.FlexibleChecksumsRequestMiddleware,
             inputShapeName,
             outputShapeName,
             inputMemberName,
