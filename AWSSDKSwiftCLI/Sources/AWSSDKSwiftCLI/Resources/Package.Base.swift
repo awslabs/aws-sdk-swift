@@ -42,6 +42,7 @@ extension Target.Dependency {
     static var smithyRetries: Self { .product(name: "SmithyRetries", package: "smithy-swift") }
     static var smithyRetriesAPI: Self { .product(name: "SmithyRetriesAPI", package: "smithy-swift") }
     static var smithyTestUtils: Self { .product(name: "SmithyTestUtil", package: "smithy-swift") }
+    static var smithyStreams: Self { .product(name: "SmithyStreams", package: "smithy-swift") }
 }
 
 // MARK: - Base Package
@@ -119,7 +120,7 @@ let package = Package(
         ),
         .testTarget(
             name: "AWSSDKEventStreamsAuthTests",
-            dependencies: ["AWSClientRuntime", "AWSSDKEventStreamsAuth"],
+            dependencies: ["AWSClientRuntime", "AWSSDKEventStreamsAuth", .smithyStreams],
             path: "./Tests/Core/AWSSDKEventStreamsAuthTests"
         ),
         .testTarget(

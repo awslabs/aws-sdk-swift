@@ -10,7 +10,7 @@ import SmithyEventStreams
 import XCTest
 import ClientRuntime
 import AWSClientRuntime
-import SmithyStreams.BufferedStream
+import class SmithyStreams.BufferedStream
 
 final class AWSMessageDecoderStreamTests: XCTestCase {
     func testIterator() async throws {

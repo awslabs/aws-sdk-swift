@@ -12,6 +12,10 @@ import XCTest
 import AwsCommonRuntimeKit
 import SmithyTestUtil
 @testable import ClientRuntime
+import class SmithyStreams.BufferedStream
+import class SmithyChecksums.ChunkedStream
+import enum SmithyChecksums.ChecksumMismatchException
+import AWSClientRuntime
 
 class FlexibleChecksumsMiddlewareTests: XCTestCase {
     private var builtContext: Context!
@@ -401,5 +405,18 @@ class TestLogger: LogAgent {
 
     func log(level: LogAgentLevel = .info, message: String, metadata: [String : String]? = nil, source: String = "ChecksumUnitTests", file: String = #file, function: String = #function, line: UInt = #line) {
         messages.append((level: level, message: message))
+    }
+}
+
+/// An async version of `XCTAssertThrowsError`.
+func XCTAssertThrowsErrorAsync(
+    _ exp: @autoclosure () async throws -> Void,
+    _ block: (Error) -> Void
+) async {
+    do {
+        try await exp()
+        XCTFail("Should have thrown error")
+    } catch {
+        block(error)
     }
 }
