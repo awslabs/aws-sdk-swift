@@ -21649,71 +21649,71 @@ extension GetObjectInputGETQueryItemMiddleware: Smithy.RequestMessageSerializer 
 
     public func apply(input: InputType, builder: SmithyHTTPAPI.SdkHttpRequestBuilder, attributes: Smithy.Context) throws {
         if let bucket = input.bucket {
-            let queryItem = Smithy.URIQueryItem(name: "bucket".urlPercentEncoding(), value: "Bucket".urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "Bucket".urlPercentEncoding(), value: Swift.String(bucket).urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let ifMatch = input.ifMatch {
-            let queryItem = Smithy.URIQueryItem(name: "ifMatch".urlPercentEncoding(), value: "IfMatch".urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "IfMatch".urlPercentEncoding(), value: Swift.String(ifMatch).urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let ifNoneMatch = input.ifNoneMatch {
-            let queryItem = Smithy.URIQueryItem(name: "ifNoneMatch".urlPercentEncoding(), value: "IfNoneMatch".urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "IfNoneMatch".urlPercentEncoding(), value: Swift.String(ifNoneMatch).urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let key = input.key {
-            let queryItem = Smithy.URIQueryItem(name: "key".urlPercentEncoding(), value: "Key".urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "Key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let range = input.range {
-            let queryItem = Smithy.URIQueryItem(name: "range".urlPercentEncoding(), value: "Range".urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "Range".urlPercentEncoding(), value: Swift.String(range).urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let responseCacheControl = input.responseCacheControl {
-            let queryItem = Smithy.URIQueryItem(name: "responseCacheControl".urlPercentEncoding(), value: "ResponseCacheControl".urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "ResponseCacheControl".urlPercentEncoding(), value: Swift.String(responseCacheControl).urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let responseContentDisposition = input.responseContentDisposition {
-            let queryItem = Smithy.URIQueryItem(name: "responseContentDisposition".urlPercentEncoding(), value: "ResponseContentDisposition".urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "ResponseContentDisposition".urlPercentEncoding(), value: Swift.String(responseContentDisposition).urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let responseContentEncoding = input.responseContentEncoding {
-            let queryItem = Smithy.URIQueryItem(name: "responseContentEncoding".urlPercentEncoding(), value: "ResponseContentEncoding".urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "ResponseContentEncoding".urlPercentEncoding(), value: Swift.String(responseContentEncoding).urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let responseContentLanguage = input.responseContentLanguage {
-            let queryItem = Smithy.URIQueryItem(name: "responseContentLanguage".urlPercentEncoding(), value: "ResponseContentLanguage".urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "ResponseContentLanguage".urlPercentEncoding(), value: Swift.String(responseContentLanguage).urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let responseContentType = input.responseContentType {
-            let queryItem = Smithy.URIQueryItem(name: "responseContentType".urlPercentEncoding(), value: "ResponseContentType".urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "ResponseContentType".urlPercentEncoding(), value: Swift.String(responseContentType).urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let versionId = input.versionId {
-            let queryItem = Smithy.URIQueryItem(name: "versionId".urlPercentEncoding(), value: "VersionId".urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "VersionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let sseCustomerAlgorithm = input.sseCustomerAlgorithm {
-            let queryItem = Smithy.URIQueryItem(name: "sseCustomerAlgorithm".urlPercentEncoding(), value: "SSECustomerAlgorithm".urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "SSECustomerAlgorithm".urlPercentEncoding(), value: Swift.String(sseCustomerAlgorithm).urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let sseCustomerKey = input.sseCustomerKey {
-            let queryItem = Smithy.URIQueryItem(name: "sseCustomerKey".urlPercentEncoding(), value: "SSECustomerKey".urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "SSECustomerKey".urlPercentEncoding(), value: Swift.String(sseCustomerKey).urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let sseCustomerKeyMD5 = input.sseCustomerKeyMD5 {
-            let queryItem = Smithy.URIQueryItem(name: "sseCustomerKeyMD5".urlPercentEncoding(), value: "SSECustomerKeyMD5".urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "SSECustomerKeyMD5".urlPercentEncoding(), value: Swift.String(sseCustomerKeyMD5).urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let requestPayer = input.requestPayer {
-            let queryItem = Smithy.URIQueryItem(name: "requestPayer.rawValue".urlPercentEncoding(), value: "RequestPayer".urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "RequestPayer".urlPercentEncoding(), value: Swift.String(requestPayer.rawValue).urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let expectedBucketOwner = input.expectedBucketOwner {
-            let queryItem = Smithy.URIQueryItem(name: "expectedBucketOwner".urlPercentEncoding(), value: "ExpectedBucketOwner".urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "ExpectedBucketOwner".urlPercentEncoding(), value: Swift.String(expectedBucketOwner).urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let checksumMode = input.checksumMode {
-            let queryItem = Smithy.URIQueryItem(name: "checksumMode.rawValue".urlPercentEncoding(), value: "ChecksumMode".urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "ChecksumMode".urlPercentEncoding(), value: Swift.String(checksumMode.rawValue).urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
     }
