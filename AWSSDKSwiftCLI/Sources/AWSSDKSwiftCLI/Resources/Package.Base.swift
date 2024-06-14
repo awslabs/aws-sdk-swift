@@ -336,7 +336,7 @@ func addProtocolTests() {
         )
         let testTarget = protocolTest.buildOnly ? nil : Target.testTarget(
             name: "\(protocolTest.name)Tests",
-            dependencies: [.smithyTestUtils, .smithyWaitersAPI, .byNameItem(name: protocolTest.name, condition: nil)],
+            dependencies: [.smithyTestUtils, .smithyStreams, .smithyWaitersAPI, .byNameItem(name: protocolTest.name, condition: nil)],
             path: "\(protocolTest.testPath ?? protocolTest.sourcePath)/swift-codegen/Tests/\(protocolTest.name)Tests"
         )
         package.targets += [target, testTarget].compactMap { $0 }
