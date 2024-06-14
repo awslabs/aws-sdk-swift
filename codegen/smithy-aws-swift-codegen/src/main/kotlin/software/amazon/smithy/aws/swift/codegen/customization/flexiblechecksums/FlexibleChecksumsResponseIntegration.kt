@@ -15,7 +15,7 @@ import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 import software.amazon.smithy.swift.codegen.middleware.OperationMiddleware
 import software.amazon.smithy.swift.codegen.model.expectShape
 import software.amazon.smithy.swift.codegen.model.shapes
-import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes
+import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTypes
 
 class FlexibleChecksumsResponseIntegration : SwiftIntegration {
     override fun enabledForService(model: Model, settings: SwiftSettings): Boolean = model
