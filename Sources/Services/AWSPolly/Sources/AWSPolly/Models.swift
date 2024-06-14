@@ -2602,43 +2602,43 @@ extension SynthesizeSpeechInputGETQueryItemMiddleware: Smithy.RequestMessageSeri
 
     public func apply(input: InputType, builder: SmithyHTTPAPI.SdkHttpRequestBuilder, attributes: Smithy.Context) throws {
         if let engine = input.engine {
-            let queryItem = Smithy.URIQueryItem(name: "engine.rawValue".urlPercentEncoding(), value: "Engine".urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "Engine".urlPercentEncoding(), value: Swift.String(engine.rawValue).urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let languageCode = input.languageCode {
-            let queryItem = Smithy.URIQueryItem(name: "languageCode.rawValue".urlPercentEncoding(), value: "LanguageCode".urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "LanguageCode".urlPercentEncoding(), value: Swift.String(languageCode.rawValue).urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let lexiconNames = input.lexiconNames {
             lexiconNames.forEach { item in
-                let queryItem = Smithy.URIQueryItem(name: "item".urlPercentEncoding(), value: "LexiconNames".urlPercentEncoding())
+                let queryItem = Smithy.URIQueryItem(name: "LexiconNames".urlPercentEncoding(), value: Swift.String(item).urlPercentEncoding())
                 builder.withQueryItem(queryItem)
             }
         }
         if let outputFormat = input.outputFormat {
-            let queryItem = Smithy.URIQueryItem(name: "outputFormat.rawValue".urlPercentEncoding(), value: "OutputFormat".urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "OutputFormat".urlPercentEncoding(), value: Swift.String(outputFormat.rawValue).urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let sampleRate = input.sampleRate {
-            let queryItem = Smithy.URIQueryItem(name: "sampleRate".urlPercentEncoding(), value: "SampleRate".urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "SampleRate".urlPercentEncoding(), value: Swift.String(sampleRate).urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let speechMarkTypes = input.speechMarkTypes {
             speechMarkTypes.forEach { item in
-                let queryItem = Smithy.URIQueryItem(name: "item.rawValue".urlPercentEncoding(), value: "SpeechMarkTypes".urlPercentEncoding())
+                let queryItem = Smithy.URIQueryItem(name: "SpeechMarkTypes".urlPercentEncoding(), value: Swift.String(item.rawValue).urlPercentEncoding())
                 builder.withQueryItem(queryItem)
             }
         }
         if let text = input.text {
-            let queryItem = Smithy.URIQueryItem(name: "text".urlPercentEncoding(), value: "Text".urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "Text".urlPercentEncoding(), value: Swift.String(text).urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let textType = input.textType {
-            let queryItem = Smithy.URIQueryItem(name: "textType.rawValue".urlPercentEncoding(), value: "TextType".urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "TextType".urlPercentEncoding(), value: Swift.String(textType.rawValue).urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let voiceId = input.voiceId {
-            let queryItem = Smithy.URIQueryItem(name: "voiceId.rawValue".urlPercentEncoding(), value: "VoiceId".urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "VoiceId".urlPercentEncoding(), value: Swift.String(voiceId.rawValue).urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
     }
