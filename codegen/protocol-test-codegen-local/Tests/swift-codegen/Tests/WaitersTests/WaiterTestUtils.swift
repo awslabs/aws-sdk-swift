@@ -7,14 +7,15 @@
 
 import ClientRuntime
 import Waiters
+import SmithyWaitersAPI
 
 // Convenience test-helper methods for testing acceptor matches
 
 extension WaiterConfiguration.Acceptor.Match: Equatable where Input: Equatable, Output: Equatable {
 
     public static func == (
-        lhs: ClientRuntime.WaiterConfiguration<Input, Output>.Acceptor.Match,
-        rhs: ClientRuntime.WaiterConfiguration<Input, Output>.Acceptor.Match
+        lhs: WaiterConfiguration<Input, Output>.Acceptor.Match,
+        rhs: WaiterConfiguration<Input, Output>.Acceptor.Match
     ) -> Bool {
         switch (lhs, rhs) {
         case (.success(let left), .success(let right)):
