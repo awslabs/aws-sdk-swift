@@ -6,9 +6,9 @@
 //
 
 @_spi(FileBasedConfig) import AWSSDKCommon
+@_spi(DefaultAWSCredentialIdentityResolverChain) import AWSSDKIdentity
 import SmithyIdentity
 import SmithyIdentityAPI
-@_spi(DefaultAWSCredentialIdentityResolverChain) import AWSSDKIdentity
 import struct ClientRuntime.DefaultSDKRuntimeConfiguration
 import enum ClientRuntime.DefaultRetryErrorInfoProvider
 import protocol SmithyHTTPAPI.HTTPClient

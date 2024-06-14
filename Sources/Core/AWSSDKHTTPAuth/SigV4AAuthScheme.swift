@@ -17,7 +17,7 @@ public struct SigV4AAuthScheme: AuthScheme {
     public let signer: Signer = AWSSigV4Signer()
 
     public init() {}
-    
+
     public func customizeSigningProperties(signingProperties: Attributes, context: Context) throws -> Attributes {
         var updatedSigningProperties = signingProperties
 

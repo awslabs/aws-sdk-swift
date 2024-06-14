@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0.
 
 import class Smithy.Context
-import SmithyHTTPAPI
 import ClientRuntime
+import SmithyHTTPAPI
 
 public struct XAmzTargetMiddleware<OperationStackInput, OperationStackOutput>: Middleware {
     public let id: String = "XAmzTargetHeader"
