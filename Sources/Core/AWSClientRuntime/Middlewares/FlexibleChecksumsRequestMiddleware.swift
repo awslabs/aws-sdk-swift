@@ -10,9 +10,9 @@ import enum SmithyChecksums.ChecksumMismatchException
 import enum Smithy.ClientError
 import class Smithy.Context
 import AwsCommonRuntimeKit
-import SmithyHTTPAPI
-import ClientRuntime
 import AWSSDKChecksums
+import ClientRuntime
+import SmithyHTTPAPI
 
 public struct FlexibleChecksumsRequestMiddleware<OperationStackInput, OperationStackOutput>: Middleware {
 
