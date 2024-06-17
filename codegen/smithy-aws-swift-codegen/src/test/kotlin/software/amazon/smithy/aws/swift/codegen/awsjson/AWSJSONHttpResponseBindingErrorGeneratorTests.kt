@@ -17,7 +17,7 @@ class AWSJSONHttpResponseBindingErrorGeneratorTests {
         val context = setupTests("awsjson/json-error.smithy", "aws.protocoltests.json10#AwsJson10")
         val contents = TestUtils.getFileContents(
             context.manifest,
-            "/Example/models/GreetingWithErrorsOutputError+HttpResponseErrorBinding.swift"
+            "Sources/Example/models/GreetingWithErrorsOutputError+HttpResponseErrorBinding.swift"
         )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
@@ -45,7 +45,7 @@ enum GreetingWithErrorsOutputError {
         val context = setupTests("awsjson/json-error.smithy", "aws.protocoltests.json10#AwsJson10")
         val contents = TestUtils.getFileContents(
             context.manifest,
-            "/Example/models/AwsJson10+HTTPServiceError.swift"
+            "Sources/Example/models/AwsJson10+HTTPServiceError.swift"
         )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """

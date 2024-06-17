@@ -36,7 +36,6 @@ class AWSXAmzTargetMiddleware(
     ) {
         val inputShapeName = MiddlewareShapeUtils.inputSymbol(symbolProvider, model, op).name
         val outputShapeName = MiddlewareShapeUtils.outputSymbol(symbolProvider, model, op).name
-        writer.addImport(XAmzTargetMiddleware)
         writer.write("\$N<$inputShapeName, $outputShapeName>(${middlewareParamsString(op)})", XAmzTargetMiddleware)
     }
 

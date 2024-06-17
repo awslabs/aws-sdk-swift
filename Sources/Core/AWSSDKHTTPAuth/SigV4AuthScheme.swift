@@ -5,9 +5,12 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import Smithy
-import enum AWSSDKIdentity.FlowType
-import SmithyHTTPAuthAPI
+import class Smithy.Context
+import enum SmithyHTTPAuthAPI.AWSSignedBodyHeader
+import enum SmithyHTTPAuthAPI.SigningPropertyKeys
+import protocol SmithyHTTPAuthAPI.AuthScheme
+import protocol SmithyHTTPAuthAPI.Signer
+import struct Smithy.Attributes
 
 public struct SigV4AuthScheme: AuthScheme {
     public let schemeID: String = "aws.auth#sigv4"
@@ -58,7 +61,7 @@ public struct SigV4AuthScheme: AuthScheme {
         updatedSigningProperties.set(key: SigningPropertyKeys.omitSessionToken, value: false)
 
         // Copy checksum from middleware context to signing properties
-        updatedSigningProperties.set(key: SigningPropertyKeys.checksum, value: context.checksum)
+        updatedSigningProperties.set(key: SigningPropertyKeys.checksum, value: context.checksumString)
 
         // Copy chunked streaming eligiblity from middleware context to signing properties
         updatedSigningProperties.set(

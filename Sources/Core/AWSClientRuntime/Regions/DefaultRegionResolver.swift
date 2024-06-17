@@ -6,9 +6,10 @@
 //
 
 import struct Smithy.SwiftLogger
+@_spi(FileBasedConfig) import AWSSDKCommon
 import ClientRuntime
 
-@_spi(FileBasedConfig)
+@_spi(DefaultRegionResolver)
 public struct DefaultRegionResolver: RegionResolver {
     public let providers: [RegionProvider]
     let logger: SwiftLogger

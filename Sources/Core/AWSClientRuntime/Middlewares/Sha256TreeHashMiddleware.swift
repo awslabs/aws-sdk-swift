@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0.
 
 import class Smithy.Context
-import SmithyHTTPAPI
+import AwsCCal
 import AwsCommonRuntimeKit
 import ClientRuntime
-import AwsCCal
+import SmithyHTTPAPI
 import struct Foundation.Data
 
 public struct Sha256TreeHashMiddleware<OperationStackInput, OperationStackOutput>: Middleware {

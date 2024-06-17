@@ -6,30 +6,31 @@
 //
 
 import Smithy
-import SmithyHTTPAPI
-import SmithyEventStreamsAPI
 import SmithyEventStreams
+import SmithyEventStreamsAPI
 import SmithyEventStreamsAuthAPI
+import SmithyHTTPAPI
+
+/// Setups context with encoder, decoder and signer for bidirectional streaming
+/// and sets the bidirectional streaming flag
+/// - Parameter context: The context to be configured for bidirectional streaming
+public func setupBidirectionalStreaming(context: Context) {
+    // setup client to server
+    let messageEncoder = SmithyEventStreams.DefaultMessageEncoder()
+    let messageSigner = AWSMessageSigner(
+        encoder: messageEncoder,
+        signer: { try context.fetchMessageDataSigner },
+        signingConfig: { try await context.makeEventStreamSigningConfig() },
+        requestSignature: { context.requestSignature }
+    )
+    context.messageEncoder = messageEncoder
+    context.messageSigner = messageSigner
+
+    // enable the flag
+    context.isBidirectionalStreamingEnabled = true
+}
 
 extension Context {
-
-    /// Setups context with encoder, decoder and signer for bidirectional streaming
-    /// and sets the bidirectional streaming flag
-    public func setupBidirectionalStreaming() throws {
-        // setup client to server
-        let messageEncoder = SmithyEventStreams.DefaultMessageEncoder()
-        let messageSigner = AWSMessageSigner(
-            encoder: messageEncoder,
-            signer: { try self.fetchMessageDataSigner },
-            signingConfig: { try await self.makeEventStreamSigningConfig() },
-            requestSignature: { self.requestSignature }
-        )
-        self.messageEncoder = messageEncoder
-        self.messageSigner = messageSigner
-
-        // enable the flag
-        self.isBidirectionalStreamingEnabled = true
-    }
 
     public var fetchMessageDataSigner: MessageDataSigner {
         get throws {

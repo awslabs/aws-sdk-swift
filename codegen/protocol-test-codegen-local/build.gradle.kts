@@ -62,10 +62,11 @@ fun generateSmithyBuild(tests: List<CodegenTest>): String {
                       "gitRepo": "https://github.com/aws-amplify/smithy-swift.git",
                       "author": "Amazon Web Services",
                       "homepage": "https://docs.amplify.aws/",
-                      "swiftVersion": "5.7.0",
+                      "swiftVersion": "5.9.0",
                       "build": {
                         "rootProject": true
-                      }
+                      },
+                      "mergeModels": false
                       ${it.extraConfig ?: ""}
                  }
                }

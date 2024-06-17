@@ -8,7 +8,6 @@ package software.amazon.smithy.aws.swift.codegen
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.shapes.ShapeType
 import software.amazon.smithy.rulesengine.traits.ClientContextParamsTrait
-import software.amazon.smithy.swift.codegen.SwiftTypes
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.endpoints.EndpointTypes
 import software.amazon.smithy.swift.codegen.integration.ConfigField
@@ -16,6 +15,7 @@ import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.ServiceConfig
 import software.amazon.smithy.swift.codegen.model.buildSymbol
 import software.amazon.smithy.swift.codegen.model.getTrait
+import software.amazon.smithy.swift.codegen.swiftmodules.SwiftTypes
 import software.amazon.smithy.swift.codegen.utils.clientName
 import software.amazon.smithy.swift.codegen.utils.toLowerCamelCase
 

@@ -6,20 +6,19 @@
 //
 
 import Smithy
-import SmithyIdentityAPI
-import SmithyHTTPAPI
-import SmithyHTTPAuthAPI
-import SmithyEventStreamsAPI
-import SmithyEventStreams
-import SmithyEventStreamsAuthAPI
-import AWSSDKHTTPAuth
-import AWSSDKEventStreamsAuth
-import AwsCommonRuntimeKit
-import ClientRuntime
-import AWSClientRuntime
-import SmithyTimestamps
 import XCTest
+import SmithyHTTPAuthAPI
+import SmithyHTTPAuth
+import SmithyHTTPAPI
+import SmithyIdentity
 import SmithyTestUtil
+import AwsCommonRuntimeKit
+import SmithyTimestamps
+import SmithyEventStreams
+import SmithyEventStreamsAPI
+import AWSSDKIdentity
+import AWSSDKEventStreamsAuth
+import AWSSDKHTTPAuth
 
 //@testable import AWSClientRuntime
 

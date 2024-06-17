@@ -18,17 +18,17 @@ class BlobEncodeGeneratorTests {
     @Test
     fun `001 encode blobs`() {
         val context = setupTests("awsquery/query-blobs.smithy", "aws.protocoltests.query#AwsQuery")
-        val contents = getFileContents(context.manifest, "/Example/models/BlobInputParamsInput+Write.swift")
+        val contents = getFileContents(context.manifest, "Sources/Example/models/BlobInputParamsInput+Write.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 extension BlobInputParamsInput {
 
     static func write(value: BlobInputParamsInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
-        try writer["BlobList"].writeList(value.blobList, memberWritingClosure: Foundation.Data.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["BlobListFlattened"].writeList(value.blobListFlattened, memberWritingClosure: Foundation.Data.write(value:to:), memberNodeInfo: "member", isFlattened: true)
-        try writer["BlobMap"].writeMap(value.blobMap, valueWritingClosure: Foundation.Data.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["BlobMapFlattened"].writeMap(value.blobMapFlattened, valueWritingClosure: Foundation.Data.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: true)
+        try writer["BlobList"].writeList(value.blobList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeData(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["BlobListFlattened"].writeList(value.blobListFlattened, memberWritingClosure: SmithyReadWrite.WritingClosures.writeData(value:to:), memberNodeInfo: "member", isFlattened: true)
+        try writer["BlobMap"].writeMap(value.blobMap, valueWritingClosure: SmithyReadWrite.WritingClosures.writeData(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["BlobMapFlattened"].writeMap(value.blobMapFlattened, valueWritingClosure: SmithyReadWrite.WritingClosures.writeData(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: true)
         try writer["BlobMember"].write(value.blobMember)
         try writer["Action"].write("BlobInputParams")
         try writer["Version"].write("2020-01-08")

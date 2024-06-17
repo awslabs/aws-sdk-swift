@@ -5,11 +5,12 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import enum AWSSDKIdentity.FlowType
-import enum SmithyHTTPAuthAPI.SigningPropertyKeys
 import class Smithy.Context
-import struct Smithy.Attributes
 import enum Smithy.ClientError
+import enum SmithyIdentityAPI.FlowType
+import enum SmithyHTTPAuthAPI.AWSSignedBodyHeader
+import enum SmithyHTTPAuthAPI.SigningPropertyKeys
+import struct Smithy.Attributes
 
 // Service-specific signing properties customization setter.
 public class CustomSigningPropertiesSetter {
@@ -23,7 +24,7 @@ public class CustomSigningPropertiesSetter {
     ]
 
     public init() {}
-    
+
     public func setServiceSpecificSigningProperties(
         signingProperties: inout Attributes,
         context: Context
@@ -41,7 +42,8 @@ public class CustomSigningPropertiesSetter {
             serviceName: serviceName,
             opName: operationName
         )
-        let unsignedBody = (signingProperties.get(key: SigningPropertyKeys.unsignedBody) ?? false) || shouldForceUnsignedBody
+        let unsignedBody =
+            (signingProperties.get(key: SigningPropertyKeys.unsignedBody) ?? false) || shouldForceUnsignedBody
         signingProperties.set(key: SigningPropertyKeys.unsignedBody, value: unsignedBody)
 
         // Set signedBodyHeader flag

@@ -97,9 +97,6 @@ fun generateSmithyBuild(services: List<AwsService>): String {
         // escape windows paths for valid json
         val absModelPath = service.modelFile.absolutePath.replace("\\", "\\\\")
         val importPaths = mutableListOf(absModelPath)
-        if (file(service.modelExtrasDir).exists()) {
-            importPaths.add(service.modelExtrasDir.replace("\\", "\\\\"))
-        }
         val imports = importPaths.joinToString { "\"$it\"" }
         """
             "${service.projectionName}": {
@@ -113,11 +110,12 @@ fun generateSmithyBuild(services: List<AwsService>): String {
                       "sdkId": "${service.sdkId}",
                       "author": "Amazon Web Services",
                       "gitRepo": "${service.gitRepo}",
-                      "swiftVersion": "5.7.0",
+                      "swiftVersion": "5.9.0",
                       "build": {
                           "rootProject": $buildStandaloneSdk
                       },
-                      "useInterceptors": ${interceptorsServices.contains(service.packageName)}
+                      "useInterceptors": ${interceptorsServices.contains(service.packageName)},
+                      "mergeModels": true
                     }
                 }
             }
@@ -173,7 +171,7 @@ fun discoverServices(): List<AwsService> {
                 modelFile = file,
                 projectionName = name + "." + version.toLowerCase(),
                 sdkId = serviceApi.sdkId,
-                gitRepo = "https://github.com/aws-amplify/aws-sdk-swift.git")
+                gitRepo = "https://github.com/awslabs/aws-sdk-swift")
         }
 }
 val discoveredServices: List<AwsService> by lazy { discoverServices() }
@@ -183,18 +181,7 @@ val AwsService.outputDir: String
 
 val AwsService.sourcesDir: String
     get(){
-        return rootProject.file("Sources/Services").absolutePath
-    }
-
-val AwsService.testsDir: String
-    get(){
-        return rootProject.file("Tests/Services").absolutePath
-    }
-
-val AwsService.modelExtrasDir: String
-    get() {
-        val sanitizedName = projectionName.split(".")[0]
-        return rootProject.file("codegen/sdk-codegen/aws-models-test/${sanitizedName}").absolutePath
+        return rootProject.file("Sources/Services/$packageName").absolutePath
     }
 
 task("stageSdks") {
@@ -207,13 +194,6 @@ task("stageSdks") {
                 from("${it.outputDir}")
                 into("${it.sourcesDir}")
                 exclude("Package.swift")
-                exclude("*Tests")
-            }
-            logger.info("copying ${it.outputDir} tests to ${it.testsDir}")
-            copy {
-                from("${it.outputDir}")
-                into("${it.testsDir}")
-                include("*Tests/**")
             }
         }
     }

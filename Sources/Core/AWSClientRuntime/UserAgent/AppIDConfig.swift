@@ -5,6 +5,8 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+@_spi(FileBasedConfig) import AWSSDKCommon
+
 enum AppIDConfig {
 
     /// Determines the app ID to be used from the given config, if any.

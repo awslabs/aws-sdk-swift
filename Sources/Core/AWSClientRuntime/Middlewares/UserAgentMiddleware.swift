@@ -6,8 +6,8 @@
 //
 
 import class Smithy.Context
-import SmithyHTTPAPI
 import ClientRuntime
+import SmithyHTTPAPI
 
 public struct UserAgentMiddleware<OperationStackInput, OperationStackOutput>: Middleware {
     public let id: String = "UserAgentHeader"

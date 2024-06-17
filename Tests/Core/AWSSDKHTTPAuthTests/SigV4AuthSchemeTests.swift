@@ -5,13 +5,11 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import Smithy
-import SmithyHTTPAPI
+import SmithyHTTPAuth
 import SmithyHTTPAuthAPI
-import XCTest
-import SmithyTestUtil
-import ClientRuntime
 import AWSSDKHTTPAuth
+import XCTest
+import Smithy
 
 class SigV4AuthSchemeTests: XCTestCase {
     private var contextBuilder: ContextBuilder!

@@ -5,16 +5,19 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import Smithy
-import SmithyHTTPAuthAPI
-import ClientRuntime
+import class Smithy.Context
+import enum SmithyHTTPAuthAPI.AWSSignedBodyHeader
+import enum SmithyHTTPAuthAPI.SigningPropertyKeys
+import protocol SmithyHTTPAuthAPI.AuthScheme
+import protocol SmithyHTTPAuthAPI.Signer
+import struct Smithy.Attributes
 
 public struct SigV4AAuthScheme: AuthScheme {
     public let schemeID: String = "aws.auth#sigv4a"
     public let signer: Signer = AWSSigV4Signer()
 
     public init() {}
-    
+
     public func customizeSigningProperties(signingProperties: Attributes, context: Context) throws -> Attributes {
         var updatedSigningProperties = signingProperties
 
