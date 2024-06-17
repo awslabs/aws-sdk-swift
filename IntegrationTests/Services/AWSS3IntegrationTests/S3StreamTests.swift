@@ -9,6 +9,7 @@ import Smithy
 import XCTest
 import AWSS3
 @testable import ClientRuntime
+import class SmithyStreams.FileStream
 
 final class S3StreamTests: S3XCTestCase {
     let objectName = "hello-world"
