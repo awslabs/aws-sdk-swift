@@ -5138,20 +5138,6 @@
                 "smithy.api#documentation": "<p>Updates a private DNS\n   namespace.</p>",
                 "smithy.api#examples": [
                     {
-                        "title": "To update a public DNS namespace",
-                        "documentation": "The following example updates the description of a public DNS namespace.",
-                        "input": {
-                            "Id": "ns-bk3aEXAMPLE",
-                            "UpdaterRequestId": "",
-                            "Namespace": {
-                                "Description": "The updated namespace description."
-                            }
-                        },
-                        "output": {
-                            "OperationId": "ft52xe2koxhoeormaceymagglsdjEXAMPLE"
-                        }
-                    },
-                    {
                         "title": "To update a private DNS namespace",
                         "documentation": "The following example updates the description of a private DNS namespace.",
                         "input": {
@@ -5163,6 +5149,20 @@
                         },
                         "output": {
                             "OperationId": "ft52xe2koxhoeormaceymagglsdjyvEXAMPLE"
+                        }
+                    },
+                    {
+                        "title": "To update a public DNS namespace",
+                        "documentation": "The following example updates the description of a public DNS namespace.",
+                        "input": {
+                            "Id": "ns-bk3aEXAMPLE",
+                            "UpdaterRequestId": "",
+                            "Namespace": {
+                                "Description": "The updated namespace description."
+                            }
+                        },
+                        "output": {
+                            "OperationId": "ft52xe2koxhoeormaceymagglsdjEXAMPLE"
                         }
                     }
                 ]
