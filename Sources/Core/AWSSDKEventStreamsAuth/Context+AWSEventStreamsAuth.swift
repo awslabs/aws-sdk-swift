@@ -6,10 +6,10 @@
 //
 
 import Smithy
-import SmithyHTTPAPI
-import SmithyEventStreamsAPI
 import SmithyEventStreams
+import SmithyEventStreamsAPI
 import SmithyEventStreamsAuthAPI
+import SmithyHTTPAPI
 
 /// Setups context with encoder, decoder and signer for bidirectional streaming
 /// and sets the bidirectional streaming flag

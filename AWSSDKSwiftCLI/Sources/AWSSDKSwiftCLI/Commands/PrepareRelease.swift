@@ -164,7 +164,6 @@ struct PrepareRelease {
                 "Package.version",
                 "packageDependencies.plist",
                 "Sources/Services",
-                "Tests/Services",
                 "Sources/Core/AWSSDKForSwift/Documentation.docc/AWSSDKForSwift.md"
             ]
         case .smithySwift:

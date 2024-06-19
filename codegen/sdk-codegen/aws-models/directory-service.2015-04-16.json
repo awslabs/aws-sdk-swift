@@ -2378,7 +2378,20 @@
                     "outputToken": "NextToken",
                     "items": "DirectoryDescriptions",
                     "pageSize": "Limit"
-                }
+                },
+                "smithy.test#smokeTests": [
+                    {
+                        "id": "DescribeDirectoriesSuccess",
+                        "params": {},
+                        "vendorParams": {
+                            "region": "us-west-2"
+                        },
+                        "vendorParamsShape": "aws.test#AwsVendorParams",
+                        "expect": {
+                            "success": {}
+                        }
+                    }
+                ]
             }
         },
         "com.amazonaws.directoryservice#DescribeDirectoriesRequest": {

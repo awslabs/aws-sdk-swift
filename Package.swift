@@ -39,6 +39,7 @@ extension Target.Dependency {
     static var smithyIdentityAPI: Self { .product(name: "SmithyIdentityAPI", package: "smithy-swift") }
     static var smithyRetries: Self { .product(name: "SmithyRetries", package: "smithy-swift") }
     static var smithyRetriesAPI: Self { .product(name: "SmithyRetriesAPI", package: "smithy-swift") }
+    static var smithyWaitersAPI: Self { .product(name: "SmithyWaitersAPI", package: "smithy-swift") }
     static var smithyTestUtils: Self { .product(name: "SmithyTestUtil", package: "smithy-swift") }
 }
 
@@ -185,6 +186,7 @@ let serviceTargetDependencies: [Target.Dependency] = [
     .smithyEventStreamsAuthAPI,
     .smithyEventStreams,
     .smithyChecksumsAPI,
+    .smithyWaitersAPI,
     .awsSDKCommon,
     .awsSDKIdentity,
     .awsSDKHTTPAuth,
@@ -323,7 +325,7 @@ func addProtocolTests() {
         )
         let testTarget = protocolTest.buildOnly ? nil : Target.testTarget(
             name: "\(protocolTest.name)Tests",
-            dependencies: [.smithyTestUtils, .byNameItem(name: protocolTest.name, condition: nil)],
+            dependencies: [.smithyTestUtils, .smithyWaitersAPI, .byNameItem(name: protocolTest.name, condition: nil)],
             path: "\(protocolTest.testPath ?? protocolTest.sourcePath)/swift-codegen/Tests/\(protocolTest.name)Tests"
         )
         package.targets += [target, testTarget].compactMap { $0 }
@@ -334,6 +336,7 @@ func addResolvedTargets() {
     enabledServices.union(integrationTestServices).forEach(addServiceTarget)
     enabledServiceUnitTests.forEach(addServiceUnitTestTarget)
 }
+
 
 // MARK: - Generated
 

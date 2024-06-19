@@ -29325,12 +29325,6 @@
                         "smithy.api#documentation": "<p>The less-than-equal condition to be applied to a single field when querying for\n         findings. </p>"
                     }
                 },
-                "Eq": {
-                    "target": "com.amazonaws.securityhub#Double",
-                    "traits": {
-                        "smithy.api#documentation": "<p>The equal-to condition to be applied to a single field when querying for\n         findings.</p>"
-                    }
-                },
                 "Gt": {
                     "target": "com.amazonaws.securityhub#Double",
                     "traits": {
@@ -29341,6 +29335,12 @@
                     "target": "com.amazonaws.securityhub#Double",
                     "traits": {
                         "smithy.api#documentation": "<p>\n            The less-than condition to be applied to a single field when querying for findings.\n        </p>"
+                    }
+                },
+                "Eq": {
+                    "target": "com.amazonaws.securityhub#Double",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The equal-to condition to be applied to a single field when querying for\n         findings.</p>"
                     }
                 }
             },
