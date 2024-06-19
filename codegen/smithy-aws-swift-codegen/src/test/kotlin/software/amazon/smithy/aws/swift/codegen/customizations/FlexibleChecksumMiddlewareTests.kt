@@ -16,7 +16,7 @@ class FlexibleChecksumMiddlewareTests {
         val contents = TestUtils.getFileContents(context.manifest, "Sources/Example/ChecksumTestsClient.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.FlexibleChecksumsRequestMiddleware<SomeOperationInput, SomeOperationOutput>(checksumAlgorithm: input.checksumAlgorithm?.rawValue))
+        operation.serializeStep.intercept(position: .after, middleware: AWSClientRuntime.FlexibleChecksumsRequestMiddleware<SomeOperationInput, SomeOperationOutput>(checksumAlgorithm: input.checksumAlgorithm?.rawValue))
 """
         contents.shouldContainOnlyOnce(expectedContents)
     }
@@ -27,7 +27,7 @@ class FlexibleChecksumMiddlewareTests {
         val contents = TestUtils.getFileContents(context.manifest, "Sources/Example/ChecksumTestsClient.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.FlexibleChecksumsResponseMiddleware<SomeOperationInput, SomeOperationOutput>(validationMode: true))
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.FlexibleChecksumsResponseMiddleware<SomeOperationInput, SomeOperationOutput>(validationMode: true))
 """
         contents.shouldContainOnlyOnce(expectedContents)
     }
