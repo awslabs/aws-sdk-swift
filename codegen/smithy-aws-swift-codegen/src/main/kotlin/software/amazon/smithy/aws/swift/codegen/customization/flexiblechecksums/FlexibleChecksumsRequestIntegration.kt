@@ -1,5 +1,6 @@
 package software.amazon.smithy.aws.swift.codegen.customization.flexiblechecksums
 
+import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.traits.HttpChecksumTrait
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.shapes.OperationShape
@@ -15,7 +16,6 @@ import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 import software.amazon.smithy.swift.codegen.middleware.OperationMiddleware
 import software.amazon.smithy.swift.codegen.model.expectShape
 import software.amazon.smithy.swift.codegen.model.shapes
-import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes
 
 class FlexibleChecksumsRequestIntegration : SwiftIntegration {
     override fun enabledForService(model: Model, settings: SwiftSettings): Boolean = model
@@ -62,7 +62,7 @@ private object FlexibleChecksumRequestMiddleware : MiddlewareRenderable {
 
         writer.write(
             "\$N<\$L, \$L>(checksumAlgorithm: input.\$L?.rawValue)",
-            ClientRuntimeTypes.Middleware.FlexibleChecksumsRequestMiddleware,
+            AWSClientRuntimeTypes.Core.FlexibleChecksumsRequestMiddleware,
             inputShapeName,
             outputShapeName,
             inputMemberName,

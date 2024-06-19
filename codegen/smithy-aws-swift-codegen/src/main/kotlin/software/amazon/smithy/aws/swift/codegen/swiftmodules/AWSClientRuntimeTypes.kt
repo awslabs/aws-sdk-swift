@@ -44,6 +44,10 @@ object AWSClientRuntimeTypes {
         val AWSClientConfigDefaultsProvider = runtimeSymbol("AWSClientConfigDefaultsProvider", SwiftDeclaration.CLASS)
         val DefaultAWSClientPlugin = runtimeSymbol("DefaultAWSClientPlugin", SwiftDeclaration.CLASS)
         val Route53TrimHostedZoneMiddleware = runtimeSymbol("Route53TrimHostedZoneMiddleware", SwiftDeclaration.STRUCT)
+        val FlexibleChecksumsRequestMiddleware =
+            runtimeSymbol("FlexibleChecksumsRequestMiddleware", SwiftDeclaration.STRUCT)
+        val FlexibleChecksumsResponseMiddleware =
+            runtimeSymbol("FlexibleChecksumsResponseMiddleware", SwiftDeclaration.STRUCT)
     }
 }
 
