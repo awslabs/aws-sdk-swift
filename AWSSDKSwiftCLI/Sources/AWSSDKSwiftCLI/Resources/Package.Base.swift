@@ -229,7 +229,6 @@ func addServiceUnitTestTarget(_ name: String) {
 }
 
 func addIntegrationTestService(_ name: String) {
-    let integrationTestName = "\(name)IntegrationTests"
     var additionalDependencies: [String] = []
     switch name {
     case "AWSEC2":
