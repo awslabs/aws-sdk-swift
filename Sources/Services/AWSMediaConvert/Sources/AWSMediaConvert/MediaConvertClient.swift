@@ -705,7 +705,7 @@ extension MediaConvertClient {
 
     /// Performs the `DescribeEndpoints` operation on the `MediaConvert` service.
     ///
-    /// Send an request with an empty body to the regional API endpoint to get your account API endpoint.
+    /// Send a request with an empty body to the regional API endpoint to get your account API endpoint. Note that DescribeEndpoints is no longer required. We recommend that you send your requests directly to the regional endpoint instead.
     @available(*, deprecated, message: "DescribeEndpoints and account specific endpoints are no longer required. We recommend that you send your requests directly to the regional endpoint instead.")
     ///
     /// - Parameter DescribeEndpointsInput : [no documentation found]
@@ -1397,6 +1397,60 @@ extension MediaConvertClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<PutPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutPolicyOutput>(PutPolicyOutput.httpOutput(from:), PutPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutPolicyInput, PutPolicyOutput>(clientLogMode: config.clientLogMode))
+        let op = builder.attributes(context)
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `SearchJobs` operation on the `MediaConvert` service.
+    ///
+    /// Retrieve a JSON array that includes job details for up to twenty of your most recent jobs. Optionally filter results further according to input file, queue, or status. To retrieve the twenty next most recent jobs, use the nextToken string returned with the array.
+    ///
+    /// - Parameter SearchJobsInput : [no documentation found]
+    ///
+    /// - Returns: `SearchJobsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The service can't process your request because of a problem in the request. Please check your request form and syntax.
+    /// - `ConflictException` : The service couldn't complete your request because there is a conflict with the current state of the resource.
+    /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
+    /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
+    /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
+    public func searchJobs(input: SearchJobsInput) async throws -> SearchJobsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "searchJobs")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "mediaconvert")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<SearchJobsInput, SearchJobsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SearchJobsInput, SearchJobsOutput>(SearchJobsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<SearchJobsInput, SearchJobsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<SearchJobsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SearchJobsInput, SearchJobsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SearchJobsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<SearchJobsInput, SearchJobsOutput>(SearchJobsInput.queryItemProvider(_:)))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<SearchJobsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchJobsOutput>(SearchJobsOutput.httpOutput(from:), SearchJobsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchJobsInput, SearchJobsOutput>(clientLogMode: config.clientLogMode))
         let op = builder.attributes(context)
             .executeRequest(client)
             .build()

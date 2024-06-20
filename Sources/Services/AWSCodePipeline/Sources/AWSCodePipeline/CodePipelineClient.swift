@@ -1081,7 +1081,7 @@ extension CodePipelineClient {
 
     /// Performs the `ListPipelineExecutions` operation on the `CodePipeline_20150709` service.
     ///
-    /// Gets a summary of the most recent executions for a pipeline.
+    /// Gets a summary of the most recent executions for a pipeline. When applying the filter for pipeline executions that have succeeded in the stage, the operation returns all executions in the current pipeline version beginning on February 1, 2024.
     ///
     /// - Parameter ListPipelineExecutionsInput : Represents the input of a ListPipelineExecutions action.
     ///

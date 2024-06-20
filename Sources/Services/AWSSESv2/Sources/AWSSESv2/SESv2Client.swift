@@ -309,7 +309,7 @@ extension SESv2Client {
 
     /// Performs the `CreateConfigurationSetEventDestination` operation on the `SimpleEmailService_v2` service.
     ///
-    /// Create an event destination. Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage. A single configuration set can include more than one event destination.
+    /// Create an event destination. Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon EventBridge and associate a rule to send the event to the specified target. A single configuration set can include more than one event destination.
     ///
     /// - Parameter CreateConfigurationSetEventDestinationInput : A request to add an event destination to a configuration set.
     ///
@@ -928,7 +928,7 @@ extension SESv2Client {
 
     /// Performs the `DeleteConfigurationSetEventDestination` operation on the `SimpleEmailService_v2` service.
     ///
-    /// Delete an event destination. Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
+    /// Delete an event destination. Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon EventBridge and associate a rule to send the event to the specified target.
     ///
     /// - Parameter DeleteConfigurationSetEventDestinationInput : A request to delete an event destination from a configuration set.
     ///
@@ -1495,7 +1495,7 @@ extension SESv2Client {
 
     /// Performs the `GetConfigurationSetEventDestinations` operation on the `SimpleEmailService_v2` service.
     ///
-    /// Retrieve a list of event destinations that are associated with a configuration set. Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
+    /// Retrieve a list of event destinations that are associated with a configuration set. Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon EventBridge and associate a rule to send the event to the specified target.
     ///
     /// - Parameter GetConfigurationSetEventDestinationsInput : A request to obtain information about the event destinations for a configuration set.
     ///
@@ -4395,7 +4395,7 @@ extension SESv2Client {
 
     /// Performs the `UpdateConfigurationSetEventDestination` operation on the `SimpleEmailService_v2` service.
     ///
-    /// Update the configuration of an event destination for a configuration set. Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
+    /// Update the configuration of an event destination for a configuration set. Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon EventBridge and associate a rule to send the event to the specified target.
     ///
     /// - Parameter UpdateConfigurationSetEventDestinationInput : A request to change the settings for an event destination for a configuration set.
     ///

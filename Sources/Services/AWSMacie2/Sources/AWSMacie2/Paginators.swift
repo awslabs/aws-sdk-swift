@@ -99,6 +99,37 @@ extension PaginatorSequence where OperationStackInput == ListAllowListsInput, Op
     }
 }
 extension Macie2Client {
+    /// Paginate over `[ListAutomatedDiscoveryAccountsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAutomatedDiscoveryAccountsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAutomatedDiscoveryAccountsOutput`
+    public func listAutomatedDiscoveryAccountsPaginated(input: ListAutomatedDiscoveryAccountsInput) -> ClientRuntime.PaginatorSequence<ListAutomatedDiscoveryAccountsInput, ListAutomatedDiscoveryAccountsOutput> {
+        return ClientRuntime.PaginatorSequence<ListAutomatedDiscoveryAccountsInput, ListAutomatedDiscoveryAccountsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAutomatedDiscoveryAccounts(input:))
+    }
+}
+
+extension ListAutomatedDiscoveryAccountsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListAutomatedDiscoveryAccountsInput {
+        return ListAutomatedDiscoveryAccountsInput(
+            accountIds: self.accountIds,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListAutomatedDiscoveryAccountsInput, OperationStackOutput == ListAutomatedDiscoveryAccountsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listAutomatedDiscoveryAccountsPaginated`
+    /// to access the nested member `[Macie2ClientTypes.AutomatedDiscoveryAccount]`
+    /// - Returns: `[Macie2ClientTypes.AutomatedDiscoveryAccount]`
+    public func items() async throws -> [Macie2ClientTypes.AutomatedDiscoveryAccount] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
+extension Macie2Client {
     /// Paginate over `[ListClassificationJobsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

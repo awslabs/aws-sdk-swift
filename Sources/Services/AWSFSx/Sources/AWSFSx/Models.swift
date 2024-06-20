@@ -667,6 +667,60 @@ extension FSxClientTypes {
 }
 
 extension FSxClientTypes {
+
+    public enum MetadataConfigurationMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case automatic
+        case userProvisioned
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MetadataConfigurationMode] {
+            return [
+                .automatic,
+                .userProvisioned
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .automatic: return "AUTOMATIC"
+            case .userProvisioned: return "USER_PROVISIONED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension FSxClientTypes {
+    /// The Lustre metadata performance configuration of an Amazon FSx for Lustre file system using a PERSISTENT_2 deployment type. The configuration enables the file system to support increasing metadata performance.
+    public struct FileSystemLustreMetadataConfiguration {
+        /// The number of Metadata IOPS provisioned for the file system. Valid values are 1500, 3000, 6000, 12000, and multiples of 12000 up to a maximum of 192000.
+        public var iops: Swift.Int?
+        /// The metadata configuration mode for provisioning Metadata IOPS for the file system.
+        ///
+        /// * In AUTOMATIC mode, FSx for Lustre automatically provisions and scales the number of Metadata IOPS on your file system based on your file system storage capacity.
+        ///
+        /// * In USER_PROVISIONED mode, you can choose to specify the number of Metadata IOPS to provision for your file system.
+        /// This member is required.
+        public var mode: FSxClientTypes.MetadataConfigurationMode?
+
+        public init(
+            iops: Swift.Int? = nil,
+            mode: FSxClientTypes.MetadataConfigurationMode? = nil
+        )
+        {
+            self.iops = iops
+            self.mode = mode
+        }
+    }
+
+}
+
+extension FSxClientTypes {
     /// The configuration for Lustre root squash used to restrict root-level access from clients that try to access your FSx for Lustre file system as root. Use the RootSquash parameter to enable root squash. To learn more about Lustre root squash, see [Lustre root squash](https://docs.aws.amazon.com/fsx/latest/LustreGuide/root-squash.html). You can also use the NoSquashNids parameter to provide an array of clients who are not affected by the root squash setting. These clients will access the file system as root, with unrestricted privileges.
     public struct LustreRootSquashConfiguration {
         /// When root squash is enabled, you can optionally specify an array of NIDs of clients for which root squash does not apply. A client NID is a Lustre Network Identifier used to uniquely identify a client. You can specify the NID as either a single address or a range of addresses:
@@ -723,6 +777,8 @@ extension FSxClientTypes {
         public var driveCacheType: FSxClientTypes.DriveCacheType?
         /// The Lustre logging configuration. Lustre logging writes the enabled log events for your file system to Amazon CloudWatch Logs.
         public var logConfiguration: FSxClientTypes.LustreLogConfiguration?
+        /// The Lustre metadata performance configuration for an Amazon FSx for Lustre file system using a PERSISTENT_2 deployment type.
+        public var metadataConfiguration: FSxClientTypes.FileSystemLustreMetadataConfiguration?
         /// You use the MountName value when mounting the file system. For the SCRATCH_1 deployment type, this value is always "fsx". For SCRATCH_2, PERSISTENT_1, and PERSISTENT_2 deployment types, this value is a string that is unique within an Amazon Web Services Region.
         public var mountName: Swift.String?
         /// Per unit storage throughput represents the megabytes per second of read or write throughput per 1 tebibyte of storage provisioned. File system throughput capacity is equal to Storage capacity (TiB) * PerUnitStorageThroughput (MB/s/TiB). This option is only valid for PERSISTENT_1 and PERSISTENT_2 deployment types. Valid values:
@@ -747,6 +803,7 @@ extension FSxClientTypes {
             deploymentType: FSxClientTypes.LustreDeploymentType? = nil,
             driveCacheType: FSxClientTypes.DriveCacheType? = nil,
             logConfiguration: FSxClientTypes.LustreLogConfiguration? = nil,
+            metadataConfiguration: FSxClientTypes.FileSystemLustreMetadataConfiguration? = nil,
             mountName: Swift.String? = nil,
             perUnitStorageThroughput: Swift.Int? = nil,
             rootSquashConfiguration: FSxClientTypes.LustreRootSquashConfiguration? = nil,
@@ -761,6 +818,7 @@ extension FSxClientTypes {
             self.deploymentType = deploymentType
             self.driveCacheType = driveCacheType
             self.logConfiguration = logConfiguration
+            self.metadataConfiguration = metadataConfiguration
             self.mountName = mountName
             self.perUnitStorageThroughput = perUnitStorageThroughput
             self.rootSquashConfiguration = rootSquashConfiguration
@@ -4227,7 +4285,7 @@ extension FSxClientTypes {
         ///
         /// * The path can be an NFS data repository that links to the cache. The path can be in one of two formats:
         ///
-        /// * If you are not using the DataRepositorySubdirectories parameter, the path is to an NFS Export directory (or one of its subdirectories) in the format nsf://nfs-domain-name/exportpath. You can therefore link a single NFS Export to a single data repository association.
+        /// * If you are not using the DataRepositorySubdirectories parameter, the path is to an NFS Export directory (or one of its subdirectories) in the format nfs://nfs-domain-name/exportpath. You can therefore link a single NFS Export to a single data repository association.
         ///
         /// * If you are using the DataRepositorySubdirectories parameter, the path is the domain name of the NFS file system in the format nfs://filer-domain-name, which indicates the root of the subdirectories specified with the DataRepositorySubdirectories parameter.
         ///
@@ -4735,6 +4793,31 @@ extension FSxClientTypes {
 }
 
 extension FSxClientTypes {
+    /// The Lustre metadata performance configuration for the creation of an Amazon FSx for Lustre file system using a PERSISTENT_2 deployment type. The configuration uses a Metadata IOPS value to set the maximum rate of metadata disk IOPS supported by the file system. After creation, the file system supports increasing metadata performance. For more information on Metadata IOPS, see [Lustre metadata performance configuration](https://docs.aws.amazon.com/fsx/latest/LustreGuide/managing-metadata-performance.html#metadata-configuration) in the Amazon FSx for Lustre User Guide.
+    public struct CreateFileSystemLustreMetadataConfiguration {
+        /// (USER_PROVISIONED mode only) Specifies the number of Metadata IOPS to provision for the file system. This parameter sets the maximum rate of metadata disk IOPS supported by the file system. Valid values are 1500, 3000, 6000, 12000, and multiples of 12000 up to a maximum of 192000. Iops doesn’t have a default value. If you're using USER_PROVISIONED mode, you can choose to specify a valid value. If you're using AUTOMATIC mode, you cannot specify a value because FSx for Lustre automatically sets the value based on your file system storage capacity.
+        public var iops: Swift.Int?
+        /// The metadata configuration mode for provisioning Metadata IOPS for an FSx for Lustre file system using a PERSISTENT_2 deployment type.
+        ///
+        /// * In AUTOMATIC mode, FSx for Lustre automatically provisions and scales the number of Metadata IOPS for your file system based on your file system storage capacity.
+        ///
+        /// * In USER_PROVISIONED mode, you specify the number of Metadata IOPS to provision for your file system.
+        /// This member is required.
+        public var mode: FSxClientTypes.MetadataConfigurationMode?
+
+        public init(
+            iops: Swift.Int? = nil,
+            mode: FSxClientTypes.MetadataConfigurationMode? = nil
+        )
+        {
+            self.iops = iops
+            self.mode = mode
+        }
+    }
+
+}
+
+extension FSxClientTypes {
     /// The Lustre configuration for the file system being created. The following parameters are not supported for file systems with a data repository association created with .
     ///
     /// * AutoImportPolicy
@@ -4773,7 +4856,7 @@ extension FSxClientTypes {
         ///
         /// For more information, see [Lustre data compression](https://docs.aws.amazon.com/fsx/latest/LustreGuide/data-compression.html) in the Amazon FSx for Lustre User Guide.
         public var dataCompressionType: FSxClientTypes.DataCompressionType?
-        /// (Optional) Choose SCRATCH_1 and SCRATCH_2 deployment types when you need temporary storage and shorter-term processing of data. The SCRATCH_2 deployment type provides in-transit encryption of data and higher burst throughput capacity than SCRATCH_1. Choose PERSISTENT_1 for longer-term storage and for throughput-focused workloads that aren’t latency-sensitive. PERSISTENT_1 supports encryption of data in transit, and is available in all Amazon Web Services Regions in which FSx for Lustre is available. Choose PERSISTENT_2 for longer-term storage and for latency-sensitive workloads that require the highest levels of IOPS/throughput. PERSISTENT_2 supports SSD storage, and offers higher PerUnitStorageThroughput (up to 1000 MB/s/TiB). PERSISTENT_2 is available in a limited number of Amazon Web Services Regions. For more information, and an up-to-date list of Amazon Web Services Regions in which PERSISTENT_2 is available, see [File system deployment options for FSx for Lustre](https://docs.aws.amazon.com/fsx/latest/LustreGuide/using-fsx-lustre.html#lustre-deployment-types) in the Amazon FSx for Lustre User Guide. If you choose PERSISTENT_2, and you set FileSystemTypeVersion to 2.10, the CreateFileSystem operation fails. Encryption of data in transit is automatically turned on when you access SCRATCH_2, PERSISTENT_1 and PERSISTENT_2 file systems from Amazon EC2 instances that support automatic encryption in the Amazon Web Services Regions where they are available. For more information about encryption in transit for FSx for Lustre file systems, see [Encrypting data in transit](https://docs.aws.amazon.com/fsx/latest/LustreGuide/encryption-in-transit-fsxl.html) in the Amazon FSx for Lustre User Guide. (Default = SCRATCH_1)
+        /// (Optional) Choose SCRATCH_1 and SCRATCH_2 deployment types when you need temporary storage and shorter-term processing of data. The SCRATCH_2 deployment type provides in-transit encryption of data and higher burst throughput capacity than SCRATCH_1. Choose PERSISTENT_1 for longer-term storage and for throughput-focused workloads that aren’t latency-sensitive. PERSISTENT_1 supports encryption of data in transit, and is available in all Amazon Web Services Regions in which FSx for Lustre is available. Choose PERSISTENT_2 for longer-term storage and for latency-sensitive workloads that require the highest levels of IOPS/throughput. PERSISTENT_2 supports SSD storage, and offers higher PerUnitStorageThroughput (up to 1000 MB/s/TiB). You can optionally specify a metadata configuration mode for PERSISTENT_2 which supports increasing metadata performance. PERSISTENT_2 is available in a limited number of Amazon Web Services Regions. For more information, and an up-to-date list of Amazon Web Services Regions in which PERSISTENT_2 is available, see [File system deployment options for FSx for Lustre](https://docs.aws.amazon.com/fsx/latest/LustreGuide/using-fsx-lustre.html#lustre-deployment-types) in the Amazon FSx for Lustre User Guide. If you choose PERSISTENT_2, and you set FileSystemTypeVersion to 2.10, the CreateFileSystem operation fails. Encryption of data in transit is automatically turned on when you access SCRATCH_2, PERSISTENT_1, and PERSISTENT_2 file systems from Amazon EC2 instances that support automatic encryption in the Amazon Web Services Regions where they are available. For more information about encryption in transit for FSx for Lustre file systems, see [Encrypting data in transit](https://docs.aws.amazon.com/fsx/latest/LustreGuide/encryption-in-transit-fsxl.html) in the Amazon FSx for Lustre User Guide. (Default = SCRATCH_1)
         public var deploymentType: FSxClientTypes.LustreDeploymentType?
         /// The type of drive cache used by PERSISTENT_1 file systems that are provisioned with HDD storage devices. This parameter is required when storage type is HDD. Set this property to READ to improve the performance for frequently accessed files by caching up to 20% of the total storage capacity of the file system. This parameter is required when StorageType is set to HDD.
         public var driveCacheType: FSxClientTypes.DriveCacheType?
@@ -4785,6 +4868,8 @@ extension FSxClientTypes {
         public var importedFileChunkSize: Swift.Int?
         /// The Lustre logging configuration used when creating an Amazon FSx for Lustre file system. When logging is enabled, Lustre logs error and warning events for data repositories associated with your file system to Amazon CloudWatch Logs.
         public var logConfiguration: FSxClientTypes.LustreLogCreateConfiguration?
+        /// The Lustre metadata performance configuration for the creation of an FSx for Lustre file system using a PERSISTENT_2 deployment type.
+        public var metadataConfiguration: FSxClientTypes.CreateFileSystemLustreMetadataConfiguration?
         /// Required with PERSISTENT_1 and PERSISTENT_2 deployment types, provisions the amount of read and write throughput for each 1 tebibyte (TiB) of file system storage capacity, in MB/s/TiB. File system throughput capacity is calculated by multiplying ﬁle system storage capacity (TiB) by the PerUnitStorageThroughput (MB/s/TiB). For a 2.4-TiB ﬁle system, provisioning 50 MB/s/TiB of PerUnitStorageThroughput yields 120 MB/s of ﬁle system throughput. You pay for the amount of throughput that you provision. Valid values:
         ///
         /// * For PERSISTENT_1 SSD storage: 50, 100, 200 MB/s/TiB.
@@ -4810,6 +4895,7 @@ extension FSxClientTypes {
             importPath: Swift.String? = nil,
             importedFileChunkSize: Swift.Int? = nil,
             logConfiguration: FSxClientTypes.LustreLogCreateConfiguration? = nil,
+            metadataConfiguration: FSxClientTypes.CreateFileSystemLustreMetadataConfiguration? = nil,
             perUnitStorageThroughput: Swift.Int? = nil,
             rootSquashConfiguration: FSxClientTypes.LustreRootSquashConfiguration? = nil,
             weeklyMaintenanceStartTime: Swift.String? = nil
@@ -4826,6 +4912,7 @@ extension FSxClientTypes {
             self.importPath = importPath
             self.importedFileChunkSize = importedFileChunkSize
             self.logConfiguration = logConfiguration
+            self.metadataConfiguration = metadataConfiguration
             self.perUnitStorageThroughput = perUnitStorageThroughput
             self.rootSquashConfiguration = rootSquashConfiguration
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
@@ -4859,7 +4946,7 @@ extension FSxClientTypes {
         public var endpointIpAddressRange: Swift.String?
         /// The ONTAP administrative password for the fsxadmin user with which you administer your file system using the NetApp ONTAP CLI and REST API.
         public var fsxAdminPassword: Swift.String?
-        /// Specifies how many high-availability (HA) pairs of file servers will power your file system. Scale-up file systems are powered by 1 HA pair. The default value is 1. FSx for ONTAP scale-out file systems are powered by up to 12 HA pairs. The value of this property affects the values of StorageCapacity, Iops, and ThroughputCapacity. For more information, see [High-availability (HA) pairs](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/HA-pairs.html) in the FSx for ONTAP user guide. Amazon FSx responds with an HTTP status code 400 (Bad Request) for the following conditions:
+        /// Specifies how many high-availability (HA) pairs of file servers will power your file system. Scale-up file systems are powered by 1 HA pair. The default value is 1. FSx for ONTAP scale-out file systems are powered by up to 12 HA pairs. The value of this property affects the values of StorageCapacity, Iops, and ThroughputCapacity. For more information, see [High-availability (HA) pairs](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/administering-file-systems.html#HA-pairs) in the FSx for ONTAP user guide. Amazon FSx responds with an HTTP status code 400 (Bad Request) for the following conditions:
         ///
         /// * The value of HAPairs is less than 1 or greater than 12.
         ///
@@ -5235,14 +5322,20 @@ public struct CreateFileSystemInput {
     /// The type of Amazon FSx file system to create. Valid values are WINDOWS, LUSTRE, ONTAP, and OPENZFS.
     /// This member is required.
     public var fileSystemType: FSxClientTypes.FileSystemType?
-    /// (Optional) For FSx for Lustre file systems, sets the Lustre version for the file system that you're creating. Valid values are 2.10, 2.12, and 2.15:
+    /// For FSx for Lustre file systems, sets the Lustre version for the file system that you're creating. Valid values are 2.10, 2.12, and 2.15:
     ///
     /// * 2.10 is supported by the Scratch and Persistent_1 Lustre deployment types.
     ///
-    /// * 2.12 and 2.15 are supported by all Lustre deployment types. 2.12 or 2.15 is required when setting FSx for Lustre DeploymentType to PERSISTENT_2.
+    /// * 2.12 is supported by all Lustre deployment types, except for PERSISTENT_2 with a metadata configuration mode.
+    ///
+    /// * 2.15 is supported by all Lustre deployment types and is recommended for all new file systems.
     ///
     ///
-    /// Default value = 2.10, except when DeploymentType is set to PERSISTENT_2, then the default is 2.12. If you set FileSystemTypeVersion to 2.10 for a PERSISTENT_2 Lustre deployment type, the CreateFileSystem operation fails.
+    /// Default value is 2.10, except for the following deployments:
+    ///
+    /// * Default value is 2.12 when DeploymentType is set to PERSISTENT_2 without a metadata configuration mode.
+    ///
+    /// * Default value is 2.15 when DeploymentType is set to PERSISTENT_2 with a metadata configuration mode.
     public var fileSystemTypeVersion: Swift.String?
     /// Specifies the ID of the Key Management Service (KMS) key to use for encrypting data on Amazon FSx file systems, as follows:
     ///
@@ -5275,7 +5368,7 @@ public struct CreateFileSystemInput {
     public var securityGroupIds: [Swift.String]?
     /// Sets the storage capacity of the file system that you're creating, in gibibytes (GiB). FSx for Lustre file systems - The amount of storage capacity that you can configure depends on the value that you set for StorageType and the Lustre DeploymentType, as follows:
     ///
-    /// * For SCRATCH_2, PERSISTENT_2 and PERSISTENT_1 deployment types using SSD storage type, the valid values are 1200 GiB, 2400 GiB, and increments of 2400 GiB.
+    /// * For SCRATCH_2, PERSISTENT_2, and PERSISTENT_1 deployment types using SSD storage type, the valid values are 1200 GiB, 2400 GiB, and increments of 2400 GiB.
     ///
     /// * For PERSISTENT_1 HDD file systems, valid values are increments of 6000 GiB for 12 MB/s/TiB file systems and increments of 1800 GiB for 40 MB/s/TiB file systems.
     ///
@@ -5519,7 +5612,7 @@ public struct CreateStorageVirtualMachineInput {
     ///
     /// * NTFS if the file system is managed by a Microsoft Windows administrator, the majority of users are SMB clients, and an application accessing the data uses a Microsoft Windows user as the service account.
     ///
-    /// * MIXED This is an advanced setting. For more information, see [Volume security style] in the Amazon FSx for NetApp ONTAP User Guide.
+    /// * MIXED This is an advanced setting. For more information, see [Volume security style](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/volume-security-style.html) in the Amazon FSx for NetApp ONTAP User Guide.
     public var rootVolumeSecurityStyle: FSxClientTypes.StorageVirtualMachineRootVolumeSecurityStyle?
     /// The password to use when managing the SVM using the NetApp ONTAP CLI or REST API. If you do not specify a password, you can still use the file system's fsxadmin user to manage the SVM.
     public var svmAdminPassword: Swift.String?
@@ -5939,9 +6032,9 @@ extension FSxClientTypes {
         /// * DP specifies a data-protection volume. A DP volume is read-only and can be used as the destination of a NetApp SnapMirror relationship.
         ///
         ///
-        /// For more information, see [Volume types](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/volume-types) in the Amazon FSx for NetApp ONTAP User Guide.
+        /// For more information, see [Volume types](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-volumes.html#volume-types) in the Amazon FSx for NetApp ONTAP User Guide.
         public var ontapVolumeType: FSxClientTypes.InputOntapVolumeType?
-        /// Specifies the security style for the volume. If a volume's security style is not specified, it is automatically set to the root volume's security style. The security style determines the type of permissions that FSx for ONTAP uses to control data access. For more information, see [Volume security style](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/volume-security-style) in the Amazon FSx for NetApp ONTAP User Guide. Specify one of the following values:
+        /// Specifies the security style for the volume. If a volume's security style is not specified, it is automatically set to the root volume's security style. The security style determines the type of permissions that FSx for ONTAP uses to control data access. Specify one of the following values:
         ///
         /// * UNIX if the file system is managed by a UNIX administrator, the majority of users are NFS clients, and an application accessing the data uses a UNIX user as the service account.
         ///
@@ -5950,7 +6043,7 @@ extension FSxClientTypes {
         /// * MIXED This is an advanced setting. For more information, see the topic [What the security styles and their effects are](https://docs.netapp.com/us-en/ontap/nfs-admin/security-styles-their-effects-concept.html) in the NetApp Documentation Center.
         ///
         ///
-        /// For more information, see [Volume security style](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/volume-security-style.html) in the FSx for ONTAP User Guide.
+        /// For more information, see [Volume security style](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-volumes.html#volume-security-style) in the FSx for ONTAP User Guide.
         public var securityStyle: FSxClientTypes.SecurityStyle?
         /// Specifies the configured size of the volume, in bytes.
         public var sizeInBytes: Swift.Int?
@@ -5994,7 +6087,7 @@ extension FSxClientTypes {
         ///
         /// * NONE - keeps a volume's data in the primary storage tier, preventing it from being moved to the capacity pool tier.
         public var tieringPolicy: FSxClientTypes.TieringPolicy?
-        /// Use to specify the style of an ONTAP volume. FSx for ONTAP offers two styles of volumes that you can use for different purposes, FlexVol and FlexGroup volumes. For more information, see [Volume styles](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/volume-styles.html) in the Amazon FSx for NetApp ONTAP User Guide.
+        /// Use to specify the style of an ONTAP volume. FSx for ONTAP offers two styles of volumes that you can use for different purposes, FlexVol and FlexGroup volumes. For more information, see [Volume styles](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-volumes.html#volume-styles) in the Amazon FSx for NetApp ONTAP User Guide.
         public var volumeStyle: FSxClientTypes.VolumeStyle?
 
         public init(
@@ -7922,6 +8015,30 @@ public struct UpdateFileCacheOutput {
 }
 
 extension FSxClientTypes {
+    /// The Lustre metadata performance configuration update for an Amazon FSx for Lustre file system using a PERSISTENT_2 deployment type. You can request an increase in your file system's Metadata IOPS and/or switch your file system's metadata configuration mode. For more information, see [Managing metadata performance](https://docs.aws.amazon.com/fsx/latest/LustreGuide/managing-metadata-performance.html) in the Amazon FSx for Lustre User Guide.
+    public struct UpdateFileSystemLustreMetadataConfiguration {
+        /// (USER_PROVISIONED mode only) Specifies the number of Metadata IOPS to provision for your file system. Valid values are 1500, 3000, 6000, 12000, and multiples of 12000 up to a maximum of 192000. The value you provide must be greater than or equal to the current number of Metadata IOPS provisioned for the file system.
+        public var iops: Swift.Int?
+        /// The metadata configuration mode for provisioning Metadata IOPS for an FSx for Lustre file system using a PERSISTENT_2 deployment type.
+        ///
+        /// * To increase the Metadata IOPS or to switch from AUTOMATIC mode, specify USER_PROVISIONED as the value for this parameter. Then use the Iops parameter to provide a Metadata IOPS value that is greater than or equal to the current number of Metadata IOPS provisioned for the file system.
+        ///
+        /// * To switch from USER_PROVISIONED mode, specify AUTOMATIC as the value for this parameter, but do not input a value for Iops. If you request to switch from USER_PROVISIONED to AUTOMATIC mode and the current Metadata IOPS value is greater than the automated default, FSx for Lustre rejects the request because downscaling Metadata IOPS is not supported.
+        public var mode: FSxClientTypes.MetadataConfigurationMode?
+
+        public init(
+            iops: Swift.Int? = nil,
+            mode: FSxClientTypes.MetadataConfigurationMode? = nil
+        )
+        {
+            self.iops = iops
+            self.mode = mode
+        }
+    }
+
+}
+
+extension FSxClientTypes {
     /// The configuration object for Amazon FSx for Lustre file systems used in the UpdateFileSystem operation.
     public struct UpdateFileSystemLustreConfiguration {
         /// (Optional) When you create your file system, your existing S3 objects appear as file and directory listings. Use this property to choose how Amazon FSx keeps your file and directory listing up to date as you add or modify objects in your linked S3 bucket. AutoImportPolicy can have the following values:
@@ -7952,6 +8069,8 @@ extension FSxClientTypes {
         public var dataCompressionType: FSxClientTypes.DataCompressionType?
         /// The Lustre logging configuration used when updating an Amazon FSx for Lustre file system. When logging is enabled, Lustre logs error and warning events for data repositories associated with your file system to Amazon CloudWatch Logs.
         public var logConfiguration: FSxClientTypes.LustreLogCreateConfiguration?
+        /// The Lustre metadata performance configuration for an Amazon FSx for Lustre file system using a PERSISTENT_2 deployment type. When this configuration is enabled, the file system supports increasing metadata performance.
+        public var metadataConfiguration: FSxClientTypes.UpdateFileSystemLustreMetadataConfiguration?
         /// The throughput of an Amazon FSx for Lustre Persistent SSD-based file system, measured in megabytes per second per tebibyte (MB/s/TiB). You can increase or decrease your file system's throughput. Valid values depend on the deployment type of the file system, as follows:
         ///
         /// * For PERSISTENT_1 SSD-based deployment types, valid values are 50, 100, and 200 MB/s/TiB.
@@ -7972,6 +8091,7 @@ extension FSxClientTypes {
             dailyAutomaticBackupStartTime: Swift.String? = nil,
             dataCompressionType: FSxClientTypes.DataCompressionType? = nil,
             logConfiguration: FSxClientTypes.LustreLogCreateConfiguration? = nil,
+            metadataConfiguration: FSxClientTypes.UpdateFileSystemLustreMetadataConfiguration? = nil,
             perUnitStorageThroughput: Swift.Int? = nil,
             rootSquashConfiguration: FSxClientTypes.LustreRootSquashConfiguration? = nil,
             weeklyMaintenanceStartTime: Swift.String? = nil
@@ -7982,6 +8102,7 @@ extension FSxClientTypes {
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.dataCompressionType = dataCompressionType
             self.logConfiguration = logConfiguration
+            self.metadataConfiguration = metadataConfiguration
             self.perUnitStorageThroughput = perUnitStorageThroughput
             self.rootSquashConfiguration = rootSquashConfiguration
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
@@ -8113,19 +8234,19 @@ extension FSxClientTypes {
 }
 
 extension FSxClientTypes {
-    /// Specifies changes you are making to the self-managed Microsoft Active Directory (AD) configuration to which an FSx for Windows File Server file system or an FSx for ONTAP SVM is joined.
+    /// Specifies changes you are making to the self-managed Microsoft Active Directory configuration to which an FSx for Windows File Server file system or an FSx for ONTAP SVM is joined.
     public struct SelfManagedActiveDirectoryConfigurationUpdates {
-        /// A list of up to three DNS server or domain controller IP addresses in your self-managed AD domain.
+        /// A list of up to three DNS server or domain controller IP addresses in your self-managed Active Directory domain.
         public var dnsIps: [Swift.String]?
-        /// Specifies an updated fully qualified domain name of your self-managed AD configuration.
+        /// Specifies an updated fully qualified domain name of your self-managed Active Directory configuration.
         public var domainName: Swift.String?
-        /// Specifies the updated name of the self-managed AD domain group whose members are granted administrative privileges for the Amazon FSx resource.
+        /// For FSx for ONTAP file systems only - Specifies the updated name of the self-managed Active Directory domain group whose members are granted administrative privileges for the Amazon FSx resource.
         public var fileSystemAdministratorsGroup: Swift.String?
-        /// Specifies an updated fully qualified distinguished name of the organization unit within your self-managed AD.
+        /// Specifies an updated fully qualified distinguished name of the organization unit within your self-managed Active Directory.
         public var organizationalUnitDistinguishedName: Swift.String?
-        /// Specifies the updated password for the service account on your self-managed AD domain. Amazon FSx uses this account to join to your self-managed AD domain.
+        /// Specifies the updated password for the service account on your self-managed Active Directory domain. Amazon FSx uses this account to join to your self-managed Active Directory domain.
         public var password: Swift.String?
-        /// Specifies the updated user name for the service account on your self-managed AD domain. Amazon FSx uses this account to join to your self-managed AD domain. This account must have the permissions required to join computers to the domain in the organizational unit provided in OrganizationalUnitDistinguishedName.
+        /// Specifies the updated user name for the service account on your self-managed Active Directory domain. Amazon FSx uses this account to join to your self-managed Active Directory domain. This account must have the permissions required to join computers to the domain in the organizational unit provided in OrganizationalUnitDistinguishedName.
         public var userName: Swift.String?
 
         public init(
@@ -8299,7 +8420,7 @@ extension FSxClientTypes {
     public struct UpdateSvmActiveDirectoryConfiguration {
         /// Specifies an updated NetBIOS name of the AD computer object NetBiosName to which an SVM is joined.
         public var netBiosName: Swift.String?
-        /// Specifies changes you are making to the self-managed Microsoft Active Directory (AD) configuration to which an FSx for Windows File Server file system or an FSx for ONTAP SVM is joined.
+        /// Specifies changes you are making to the self-managed Microsoft Active Directory configuration to which an FSx for Windows File Server file system or an FSx for ONTAP SVM is joined.
         public var selfManagedActiveDirectoryConfiguration: FSxClientTypes.SelfManagedActiveDirectoryConfigurationUpdates?
 
         public init(
@@ -12228,6 +12349,18 @@ extension FSxClientTypes.LustreFileSystemConfiguration {
         value.dataCompressionType = try reader["DataCompressionType"].readIfPresent()
         value.logConfiguration = try reader["LogConfiguration"].readIfPresent(with: FSxClientTypes.LustreLogConfiguration.read(from:))
         value.rootSquashConfiguration = try reader["RootSquashConfiguration"].readIfPresent(with: FSxClientTypes.LustreRootSquashConfiguration.read(from:))
+        value.metadataConfiguration = try reader["MetadataConfiguration"].readIfPresent(with: FSxClientTypes.FileSystemLustreMetadataConfiguration.read(from:))
+        return value
+    }
+}
+
+extension FSxClientTypes.FileSystemLustreMetadataConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.FileSystemLustreMetadataConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.FileSystemLustreMetadataConfiguration()
+        value.iops = try reader["Iops"].readIfPresent()
+        value.mode = try reader["Mode"].readIfPresent()
         return value
     }
 }
@@ -12955,9 +13088,19 @@ extension FSxClientTypes.CreateFileSystemLustreConfiguration {
         try writer["ImportPath"].write(value.importPath)
         try writer["ImportedFileChunkSize"].write(value.importedFileChunkSize)
         try writer["LogConfiguration"].write(value.logConfiguration, with: FSxClientTypes.LustreLogCreateConfiguration.write(value:to:))
+        try writer["MetadataConfiguration"].write(value.metadataConfiguration, with: FSxClientTypes.CreateFileSystemLustreMetadataConfiguration.write(value:to:))
         try writer["PerUnitStorageThroughput"].write(value.perUnitStorageThroughput)
         try writer["RootSquashConfiguration"].write(value.rootSquashConfiguration, with: FSxClientTypes.LustreRootSquashConfiguration.write(value:to:))
         try writer["WeeklyMaintenanceStartTime"].write(value.weeklyMaintenanceStartTime)
+    }
+}
+
+extension FSxClientTypes.CreateFileSystemLustreMetadataConfiguration {
+
+    static func write(value: FSxClientTypes.CreateFileSystemLustreMetadataConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Iops"].write(value.iops)
+        try writer["Mode"].write(value.mode)
     }
 }
 
@@ -13233,9 +13376,19 @@ extension FSxClientTypes.UpdateFileSystemLustreConfiguration {
         try writer["DailyAutomaticBackupStartTime"].write(value.dailyAutomaticBackupStartTime)
         try writer["DataCompressionType"].write(value.dataCompressionType)
         try writer["LogConfiguration"].write(value.logConfiguration, with: FSxClientTypes.LustreLogCreateConfiguration.write(value:to:))
+        try writer["MetadataConfiguration"].write(value.metadataConfiguration, with: FSxClientTypes.UpdateFileSystemLustreMetadataConfiguration.write(value:to:))
         try writer["PerUnitStorageThroughput"].write(value.perUnitStorageThroughput)
         try writer["RootSquashConfiguration"].write(value.rootSquashConfiguration, with: FSxClientTypes.LustreRootSquashConfiguration.write(value:to:))
         try writer["WeeklyMaintenanceStartTime"].write(value.weeklyMaintenanceStartTime)
+    }
+}
+
+extension FSxClientTypes.UpdateFileSystemLustreMetadataConfiguration {
+
+    static func write(value: FSxClientTypes.UpdateFileSystemLustreMetadataConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Iops"].write(value.iops)
+        try writer["Mode"].write(value.mode)
     }
 }
 

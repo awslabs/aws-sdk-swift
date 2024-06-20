@@ -746,7 +746,7 @@ extension SNSClientTypes {
 
 /// Input for CreateTopic action.
 public struct CreateTopicInput {
-    /// A map of attributes with their corresponding values. The following lists the names, descriptions, and values of the special request parameters that the CreateTopic action uses:
+    /// A map of attributes with their corresponding values. The following lists names, descriptions, and values of the special request parameters that the CreateTopic action uses:
     ///
     /// * DeliveryPolicy – The policy that defines how Amazon SNS retries failed deliveries to HTTP/S endpoints.
     ///
@@ -1125,16 +1125,16 @@ public struct GetSubscriptionAttributesOutput {
     /// * TopicArn – The topic ARN that the subscription is associated with.
     ///
     ///
-    /// The following attribute applies only to Amazon Kinesis Data Firehose delivery stream subscriptions:
+    /// The following attribute applies only to Amazon Data Firehose delivery stream subscriptions:
     ///
     /// * SubscriptionRoleArn – The ARN of the IAM role that has the following:
     ///
-    /// * Permission to write to the Kinesis Data Firehose delivery stream
+    /// * Permission to write to the Firehose delivery stream
     ///
     /// * Amazon SNS listed as a trusted entity
     ///
     ///
-    /// Specifying a valid ARN for this attribute is required for Kinesis Data Firehose delivery stream subscriptions. For more information, see [Fanout to Kinesis Data Firehose delivery streams](https://docs.aws.amazon.com/sns/latest/dg/sns-firehose-as-subscriber.html) in the Amazon SNS Developer Guide.
+    /// Specifying a valid ARN for this attribute is required for Firehose delivery stream subscriptions. For more information, see [Fanout to Firehose delivery streams](https://docs.aws.amazon.com/sns/latest/dg/sns-firehose-as-subscriber.html) in the Amazon SNS Developer Guide.
     public var attributes: [Swift.String: Swift.String]?
 
     public init(
@@ -2087,7 +2087,7 @@ public struct PublishInput {
     public var messageStructure: Swift.String?
     /// The phone number to which you want to deliver an SMS message. Use E.164 format. If you don't specify a value for the PhoneNumber parameter, you must specify a value for the TargetArn or TopicArn parameters.
     public var phoneNumber: Swift.String?
-    /// Optional parameter to be used as the "Subject" line when the message is delivered to email endpoints. This field will also be included, if present, in the standard JSON messages delivered to other endpoints. Constraints: Subjects must be ASCII text that begins with a letter, number, or punctuation mark; must not include line breaks or control characters; and must be less than 100 characters long.
+    /// Optional parameter to be used as the "Subject" line when the message is delivered to email endpoints. This field will also be included, if present, in the standard JSON messages delivered to other endpoints. Constraints: Subjects must be UTF-8 text with no line breaks or control characters, and less than 100 characters long.
     public var subject: Swift.String?
     /// If you don't specify a value for the TargetArn parameter, you must specify a value for the PhoneNumber or TopicArn parameters.
     public var targetArn: Swift.String?
@@ -2622,16 +2622,16 @@ public struct SetSubscriptionAttributesInput {
     /// * RedrivePolicy – When specified, sends undeliverable messages to the specified Amazon SQS dead-letter queue. Messages that can't be delivered due to client errors (for example, when the subscribed endpoint is unreachable) or server errors (for example, when the service that powers the subscribed endpoint becomes unavailable) are held in the dead-letter queue for further analysis or reprocessing.
     ///
     ///
-    /// The following attribute applies only to Amazon Kinesis Data Firehose delivery stream subscriptions:
+    /// The following attribute applies only to Amazon Data Firehose delivery stream subscriptions:
     ///
     /// * SubscriptionRoleArn – The ARN of the IAM role that has the following:
     ///
-    /// * Permission to write to the Kinesis Data Firehose delivery stream
+    /// * Permission to write to the Firehose delivery stream
     ///
     /// * Amazon SNS listed as a trusted entity
     ///
     ///
-    /// Specifying a valid ARN for this attribute is required for Kinesis Data Firehose delivery stream subscriptions. For more information, see [Fanout to Kinesis Data Firehose delivery streams](https://docs.aws.amazon.com/sns/latest/dg/sns-firehose-as-subscriber.html) in the Amazon SNS Developer Guide.
+    /// Specifying a valid ARN for this attribute is required for Firehose delivery stream subscriptions. For more information, see [Fanout to Firehose delivery streams](https://docs.aws.amazon.com/sns/latest/dg/sns-firehose-as-subscriber.html) in the Amazon SNS Developer Guide.
     /// This member is required.
     public var attributeName: Swift.String?
     /// The new value for the attribute in JSON format.
@@ -2778,16 +2778,16 @@ public struct SubscribeInput {
     /// * RedrivePolicy – When specified, sends undeliverable messages to the specified Amazon SQS dead-letter queue. Messages that can't be delivered due to client errors (for example, when the subscribed endpoint is unreachable) or server errors (for example, when the service that powers the subscribed endpoint becomes unavailable) are held in the dead-letter queue for further analysis or reprocessing.
     ///
     ///
-    /// The following attribute applies only to Amazon Kinesis Data Firehose delivery stream subscriptions:
+    /// The following attribute applies only to Amazon Data Firehose delivery stream subscriptions:
     ///
     /// * SubscriptionRoleArn – The ARN of the IAM role that has the following:
     ///
-    /// * Permission to write to the Kinesis Data Firehose delivery stream
+    /// * Permission to write to the Firehose delivery stream
     ///
     /// * Amazon SNS listed as a trusted entity
     ///
     ///
-    /// Specifying a valid ARN for this attribute is required for Kinesis Data Firehose delivery stream subscriptions. For more information, see [Fanout to Kinesis Data Firehose delivery streams](https://docs.aws.amazon.com/sns/latest/dg/sns-firehose-as-subscriber.html) in the Amazon SNS Developer Guide.
+    /// Specifying a valid ARN for this attribute is required for Firehose delivery stream subscriptions. For more information, see [Fanout to Firehose delivery streams](https://docs.aws.amazon.com/sns/latest/dg/sns-firehose-as-subscriber.html) in the Amazon SNS Developer Guide.
     ///
     ///
     /// The following attributes apply only to [FIFO topics](https://docs.aws.amazon.com/sns/latest/dg/sns-fifo-topics.html):

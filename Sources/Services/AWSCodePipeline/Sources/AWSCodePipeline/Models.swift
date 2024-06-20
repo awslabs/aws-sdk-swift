@@ -3775,7 +3775,7 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
 public struct ListActionExecutionsInput {
     /// Input information used to filter action execution history.
     public var filter: CodePipelineClientTypes.ActionExecutionFilter?
-    /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value. Action execution history is retained for up to 12 months, based on action execution start times. Default value is 100. Detailed execution history is available for executions run on or after February 21, 2019.
+    /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value. Action execution history is retained for up to 12 months, based on action execution start times. Default value is 100.
     public var maxResults: Swift.Int?
     /// The token that was returned from the previous ListActionExecutions call, which can be used to return the next set of action executions in the list.
     public var nextToken: Swift.String?
@@ -5258,6 +5258,7 @@ extension CodePipelineClientTypes {
     public enum SourceRevisionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case commitId
         case imageDigest
+        case s3ObjectKey
         case s3ObjectVersionId
         case sdkUnknown(Swift.String)
 
@@ -5265,6 +5266,7 @@ extension CodePipelineClientTypes {
             return [
                 .commitId,
                 .imageDigest,
+                .s3ObjectKey,
                 .s3ObjectVersionId
             ]
         }
@@ -5278,6 +5280,7 @@ extension CodePipelineClientTypes {
             switch self {
             case .commitId: return "COMMIT_ID"
             case .imageDigest: return "IMAGE_DIGEST"
+            case .s3ObjectKey: return "S3_OBJECT_KEY"
             case .s3ObjectVersionId: return "S3_OBJECT_VERSION_ID"
             case let .sdkUnknown(s): return s
             }
@@ -5286,7 +5289,7 @@ extension CodePipelineClientTypes {
 }
 
 extension CodePipelineClientTypes {
-    /// A list that allows you to specify, or override, the source revision for a pipeline execution that's being started. A source revision is the version with all the changes to your application code, or source artifact, for the pipeline execution.
+    /// A list that allows you to specify, or override, the source revision for a pipeline execution that's being started. A source revision is the version with all the changes to your application code, or source artifact, for the pipeline execution. For the S3_OBJECT_VERSION_ID and S3_OBJECT_KEY types of source revisions, either of the types can be used independently, or they can be used together to override the source with a specific ObjectKey and VersionID.
     public struct SourceRevisionOverride {
         /// The name of the action where the override will be applied.
         /// This member is required.
