@@ -192,6 +192,8 @@ jobs:
       - name: Prepare Integration Tests
         run: ./scripts/ci_steps/prepare_integration_tests.sh
       - name: Build Integration Tests
-        run: swift build --build-tests
+        run: |
+          cd AWSSDKSwiftCLI \
+          swift build --build-tests
       - name: Run Integration Tests
         run: swift test

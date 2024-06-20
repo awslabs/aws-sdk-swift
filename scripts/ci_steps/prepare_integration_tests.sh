@@ -16,7 +16,7 @@ rm -rf Tests/Services/*
 
 # Regenerate the SDK Package.swift to run only integration tests
 cd AWSSDKSwiftCLI
-swift run AWSSDKSwiftCLI generate-package-manifest --include-integration-tests --exclude-aws-services --exclude-runtime-tests ..
+swift run AWSSDKSwiftCLI generate-package-manifest --include-services-with-integ-tests --exclude-aws-services --exclude-runtime-tests ..
 cd ..
 
 # Dump the Package.swift contents to the logs
