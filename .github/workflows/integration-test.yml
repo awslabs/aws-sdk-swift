@@ -197,4 +197,6 @@ jobs:
           cd IntegrationTests \
           swift build --build-tests
       - name: Run Integration Tests
-        run: swift test
+        run: |
+          cd IntegrationTests \
+          swift test
