@@ -83,25 +83,9 @@ func addClientRuntimeDependency() {
 }
 
 func addAWSClientRuntimeDependency() {
-    let awsSDKSwiftURL = "https://github.com/awslabs/aws-sdk-swift"
-    let useLocalDeps = ProcessInfo.processInfo.environment["AWS_SWIFT_SDK_USE_LOCAL_DEPS"] != nil
-    let useMainDeps = ProcessInfo.processInfo.environment["AWS_SWIFT_SDK_USE_MAIN_DEPS"] != nil
-    switch (useLocalDeps, useMainDeps) {
-    case (true, true):
-        fatalError("Unable to determine which dependencies to use. Please only specify one of AWS_SWIFT_SDK_USE_LOCAL_DEPS or AWS_SWIFT_SDK_USE_MAIN_DEPS.")
-    case (true, false):
-        package.dependencies += [
-            .package(path: "../../aws-sdk-swift")
-        ]
-    case (false, true):
-        package.dependencies += [
-            .package(url: awsSDKSwiftURL, branch: "main")
-        ]
-    case (false, false):
-        package.dependencies += [
-            .package(url: awsSDKSwiftURL, .upToNextMajor(from: "0.0.0"))
-        ]
-    }
+    package.dependencies += [
+        .package(path: "../../aws-sdk-swift")
+    ]
 }
 
 func addCRTDependency() {
