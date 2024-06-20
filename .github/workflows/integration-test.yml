@@ -117,7 +117,7 @@ jobs:
         run: ./scripts/ci_steps/prepare_integration_tests.sh
       - name: Run Integration Tests
         run: |
-          cd IntegrationTests \
+          cd IntegrationTests
           set -o pipefail && \
           NSUnbufferedIO=YES xcodebuild \
             -scheme AWSIntegrationTestsOnCI \
@@ -194,9 +194,8 @@ jobs:
         run: ./scripts/ci_steps/prepare_integration_tests.sh
       - name: Build Integration Tests
         run: |
-          cd IntegrationTests \
+          cd IntegrationTests
           swift build --build-tests
       - name: Run Integration Tests
         run: |
-          cd IntegrationTests \
           swift test
