@@ -1858,7 +1858,7 @@ extension FirehoseClientTypes {
 }
 
 extension FirehoseClientTypes {
-    /// A serializer to use for converting data to the Parquet format before storing it in Amazon S3. For more information, see [Apache Parquet](https://parquet.apache.org/documentation/latest/).
+    /// A serializer to use for converting data to the Parquet format before storing it in Amazon S3. For more information, see [Apache Parquet](https://parquet.apache.org/docs/).
     public struct ParquetSerDe {
         /// The Hadoop Distributed File System (HDFS) block size. This is useful if you intend to copy the data from Amazon S3 to HDFS before querying. The default is 256 MiB and the minimum is 64 MiB. Firehose uses this value for padding calculations.
         public var blockSizeBytes: Swift.Int?
@@ -2275,6 +2275,31 @@ extension FirehoseClientTypes {
 }
 
 extension FirehoseClientTypes {
+    /// The structure that defines how Firehose accesses the secret.
+    public struct SecretsManagerConfiguration {
+        /// Specifies whether you want to use the the secrets manager feature. When set as True the secrets manager configuration overwrites the existing secrets in the destination configuration. When it's set to False Firehose falls back to the credentials in the destination configuration.
+        /// This member is required.
+        public var enabled: Swift.Bool?
+        /// Specifies the role that Firehose assumes when calling the Secrets Manager API operation. When you provide the role, it overrides any destination specific role defined in the destination configuration. If you do not provide the then we use the destination specific role. This parameter is required for Splunk.
+        public var roleARN: Swift.String?
+        /// The ARN of the secret that stores your credentials. It must be in the same region as the Firehose stream and the role. The secret ARN can reside in a different account than the delivery stream and role as Firehose supports cross-account secret access. This parameter is required when Enabled is set to True.
+        public var secretARN: Swift.String?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            roleARN: Swift.String? = nil,
+            secretARN: Swift.String? = nil
+        )
+        {
+            self.enabled = enabled
+            self.roleARN = roleARN
+            self.secretARN = secretARN
+        }
+    }
+
+}
+
+extension FirehoseClientTypes {
     /// Describes the configuration of the HTTP endpoint destination.
     public struct HttpEndpointDestinationConfiguration {
         /// The buffering options that can be used before data is delivered to the specified destination. Firehose treats these options as hints, and it might choose to use more optimal values. The SizeInMBs and IntervalInSeconds parameters are optional. However, if you specify a value for one of them, you must also provide a value for the other.
@@ -2286,7 +2311,7 @@ extension FirehoseClientTypes {
         public var endpointConfiguration: FirehoseClientTypes.HttpEndpointConfiguration?
         /// Describes a data processing configuration.
         public var processingConfiguration: FirehoseClientTypes.ProcessingConfiguration?
-        /// The configuration of the requeste sent to the HTTP endpoint specified as the destination.
+        /// The configuration of the request sent to the HTTP endpoint that is specified as the destination.
         public var requestConfiguration: FirehoseClientTypes.HttpEndpointRequestConfiguration?
         /// Describes the retry behavior in case Firehose is unable to deliver data to the specified HTTP endpoint destination, or if it doesn't receive a valid acknowledgment of receipt from the specified HTTP endpoint destination.
         public var retryOptions: FirehoseClientTypes.HttpEndpointRetryOptions?
@@ -2297,6 +2322,8 @@ extension FirehoseClientTypes {
         /// Describes the configuration of a destination in Amazon S3.
         /// This member is required.
         public var s3Configuration: FirehoseClientTypes.S3DestinationConfiguration?
+        /// The configuration that defines how you access secrets for HTTP Endpoint destination.
+        public var secretsManagerConfiguration: FirehoseClientTypes.SecretsManagerConfiguration?
 
         public init(
             bufferingHints: FirehoseClientTypes.HttpEndpointBufferingHints? = nil,
@@ -2307,7 +2334,8 @@ extension FirehoseClientTypes {
             retryOptions: FirehoseClientTypes.HttpEndpointRetryOptions? = nil,
             roleARN: Swift.String? = nil,
             s3BackupMode: FirehoseClientTypes.HttpEndpointS3BackupMode? = nil,
-            s3Configuration: FirehoseClientTypes.S3DestinationConfiguration? = nil
+            s3Configuration: FirehoseClientTypes.S3DestinationConfiguration? = nil,
+            secretsManagerConfiguration: FirehoseClientTypes.SecretsManagerConfiguration? = nil
         )
         {
             self.bufferingHints = bufferingHints
@@ -2319,6 +2347,7 @@ extension FirehoseClientTypes {
             self.roleARN = roleARN
             self.s3BackupMode = s3BackupMode
             self.s3Configuration = s3Configuration
+            self.secretsManagerConfiguration = secretsManagerConfiguration
         }
     }
 
@@ -2430,7 +2459,6 @@ extension FirehoseClientTypes {
         /// This member is required.
         public var copyCommand: FirehoseClientTypes.CopyCommand?
         /// The user password.
-        /// This member is required.
         public var password: Swift.String?
         /// The data processing configuration.
         public var processingConfiguration: FirehoseClientTypes.ProcessingConfiguration?
@@ -2446,8 +2474,9 @@ extension FirehoseClientTypes {
         /// The configuration for the intermediate Amazon S3 location from which Amazon Redshift obtains data. Restrictions are described in the topic for [CreateDeliveryStream]. The compression formats SNAPPY or ZIP cannot be specified in RedshiftDestinationConfiguration.S3Configuration because the Amazon Redshift COPY operation that reads from the S3 bucket doesn't support these compression formats.
         /// This member is required.
         public var s3Configuration: FirehoseClientTypes.S3DestinationConfiguration?
+        /// The configuration that defines how you access secrets for Amazon Redshift.
+        public var secretsManagerConfiguration: FirehoseClientTypes.SecretsManagerConfiguration?
         /// The name of the user.
-        /// This member is required.
         public var username: Swift.String?
 
         public init(
@@ -2461,6 +2490,7 @@ extension FirehoseClientTypes {
             s3BackupConfiguration: FirehoseClientTypes.S3DestinationConfiguration? = nil,
             s3BackupMode: FirehoseClientTypes.RedshiftS3BackupMode? = nil,
             s3Configuration: FirehoseClientTypes.S3DestinationConfiguration? = nil,
+            secretsManagerConfiguration: FirehoseClientTypes.SecretsManagerConfiguration? = nil,
             username: Swift.String? = nil
         )
         {
@@ -2474,6 +2504,7 @@ extension FirehoseClientTypes {
             self.s3BackupConfiguration = s3BackupConfiguration
             self.s3BackupMode = s3BackupMode
             self.s3Configuration = s3Configuration
+            self.secretsManagerConfiguration = secretsManagerConfiguration
             self.username = username
         }
     }
@@ -2482,7 +2513,7 @@ extension FirehoseClientTypes {
 
 extension FirehoseClientTypes.RedshiftDestinationConfiguration: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RedshiftDestinationConfiguration(cloudWatchLoggingOptions: \(Swift.String(describing: cloudWatchLoggingOptions)), clusterJDBCURL: \(Swift.String(describing: clusterJDBCURL)), copyCommand: \(Swift.String(describing: copyCommand)), processingConfiguration: \(Swift.String(describing: processingConfiguration)), retryOptions: \(Swift.String(describing: retryOptions)), roleARN: \(Swift.String(describing: roleARN)), s3BackupConfiguration: \(Swift.String(describing: s3BackupConfiguration)), s3BackupMode: \(Swift.String(describing: s3BackupMode)), s3Configuration: \(Swift.String(describing: s3Configuration)), password: \"CONTENT_REDACTED\", username: \"CONTENT_REDACTED\")"}
+        "RedshiftDestinationConfiguration(cloudWatchLoggingOptions: \(Swift.String(describing: cloudWatchLoggingOptions)), clusterJDBCURL: \(Swift.String(describing: clusterJDBCURL)), copyCommand: \(Swift.String(describing: copyCommand)), processingConfiguration: \(Swift.String(describing: processingConfiguration)), retryOptions: \(Swift.String(describing: retryOptions)), roleARN: \(Swift.String(describing: roleARN)), s3BackupConfiguration: \(Swift.String(describing: s3BackupConfiguration)), s3BackupMode: \(Swift.String(describing: s3BackupMode)), s3Configuration: \(Swift.String(describing: s3Configuration)), secretsManagerConfiguration: \(Swift.String(describing: secretsManagerConfiguration)), password: \"CONTENT_REDACTED\", username: \"CONTENT_REDACTED\")"}
 }
 
 extension FirehoseClientTypes {
@@ -2629,7 +2660,6 @@ extension FirehoseClientTypes {
         /// The name of the record metadata column
         public var metaDataColumnName: Swift.String?
         /// The private key used to encrypt your Snowflake client. For information, see [Using Key Pair Authentication & Key Rotation](https://docs.snowflake.com/en/user-guide/data-load-snowpipe-streaming-configuration#using-key-pair-authentication-key-rotation).
-        /// This member is required.
         public var privateKey: Swift.String?
         /// Describes a data processing configuration.
         public var processingConfiguration: FirehoseClientTypes.ProcessingConfiguration?
@@ -2646,6 +2676,8 @@ extension FirehoseClientTypes {
         /// Each database consists of one or more schemas, which are logical groupings of database objects, such as tables and views
         /// This member is required.
         public var schema: Swift.String?
+        /// The configuration that defines how you access secrets for Snowflake.
+        public var secretsManagerConfiguration: FirehoseClientTypes.SecretsManagerConfiguration?
         /// Optionally configure a Snowflake role. Otherwise the default user role will be used.
         public var snowflakeRoleConfiguration: FirehoseClientTypes.SnowflakeRoleConfiguration?
         /// The VPCE ID for Firehose to privately connect with Snowflake. The ID format is com.amazonaws.vpce.[region].vpce-svc-<[id]>. For more information, see [Amazon PrivateLink & Snowflake](https://docs.snowflake.com/en/user-guide/admin-security-privatelink)
@@ -2654,7 +2686,6 @@ extension FirehoseClientTypes {
         /// This member is required.
         public var table: Swift.String?
         /// User login name for the Snowflake account.
-        /// This member is required.
         public var user: Swift.String?
 
         public init(
@@ -2672,6 +2703,7 @@ extension FirehoseClientTypes {
             s3BackupMode: FirehoseClientTypes.SnowflakeS3BackupMode? = nil,
             s3Configuration: FirehoseClientTypes.S3DestinationConfiguration? = nil,
             schema: Swift.String? = nil,
+            secretsManagerConfiguration: FirehoseClientTypes.SecretsManagerConfiguration? = nil,
             snowflakeRoleConfiguration: FirehoseClientTypes.SnowflakeRoleConfiguration? = nil,
             snowflakeVpcConfiguration: FirehoseClientTypes.SnowflakeVpcConfiguration? = nil,
             table: Swift.String? = nil,
@@ -2692,6 +2724,7 @@ extension FirehoseClientTypes {
             self.s3BackupMode = s3BackupMode
             self.s3Configuration = s3Configuration
             self.schema = schema
+            self.secretsManagerConfiguration = secretsManagerConfiguration
             self.snowflakeRoleConfiguration = snowflakeRoleConfiguration
             self.snowflakeVpcConfiguration = snowflakeVpcConfiguration
             self.table = table
@@ -2703,7 +2736,7 @@ extension FirehoseClientTypes {
 
 extension FirehoseClientTypes.SnowflakeDestinationConfiguration: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SnowflakeDestinationConfiguration(cloudWatchLoggingOptions: \(Swift.String(describing: cloudWatchLoggingOptions)), dataLoadingOption: \(Swift.String(describing: dataLoadingOption)), processingConfiguration: \(Swift.String(describing: processingConfiguration)), retryOptions: \(Swift.String(describing: retryOptions)), roleARN: \(Swift.String(describing: roleARN)), s3BackupMode: \(Swift.String(describing: s3BackupMode)), s3Configuration: \(Swift.String(describing: s3Configuration)), snowflakeRoleConfiguration: \(Swift.String(describing: snowflakeRoleConfiguration)), snowflakeVpcConfiguration: \(Swift.String(describing: snowflakeVpcConfiguration)), accountUrl: \"CONTENT_REDACTED\", contentColumnName: \"CONTENT_REDACTED\", database: \"CONTENT_REDACTED\", keyPassphrase: \"CONTENT_REDACTED\", metaDataColumnName: \"CONTENT_REDACTED\", privateKey: \"CONTENT_REDACTED\", schema: \"CONTENT_REDACTED\", table: \"CONTENT_REDACTED\", user: \"CONTENT_REDACTED\")"}
+        "SnowflakeDestinationConfiguration(cloudWatchLoggingOptions: \(Swift.String(describing: cloudWatchLoggingOptions)), dataLoadingOption: \(Swift.String(describing: dataLoadingOption)), processingConfiguration: \(Swift.String(describing: processingConfiguration)), retryOptions: \(Swift.String(describing: retryOptions)), roleARN: \(Swift.String(describing: roleARN)), s3BackupMode: \(Swift.String(describing: s3BackupMode)), s3Configuration: \(Swift.String(describing: s3Configuration)), secretsManagerConfiguration: \(Swift.String(describing: secretsManagerConfiguration)), snowflakeRoleConfiguration: \(Swift.String(describing: snowflakeRoleConfiguration)), snowflakeVpcConfiguration: \(Swift.String(describing: snowflakeVpcConfiguration)), accountUrl: \"CONTENT_REDACTED\", contentColumnName: \"CONTENT_REDACTED\", database: \"CONTENT_REDACTED\", keyPassphrase: \"CONTENT_REDACTED\", metaDataColumnName: \"CONTENT_REDACTED\", privateKey: \"CONTENT_REDACTED\", schema: \"CONTENT_REDACTED\", table: \"CONTENT_REDACTED\", user: \"CONTENT_REDACTED\")"}
 }
 
 extension FirehoseClientTypes {
@@ -2816,7 +2849,6 @@ extension FirehoseClientTypes {
         /// This member is required.
         public var hecEndpointType: FirehoseClientTypes.HECEndpointType?
         /// This is a GUID that you obtain from your Splunk cluster when you create a new HEC endpoint.
-        /// This member is required.
         public var hecToken: Swift.String?
         /// The data processing configuration.
         public var processingConfiguration: FirehoseClientTypes.ProcessingConfiguration?
@@ -2827,6 +2859,8 @@ extension FirehoseClientTypes {
         /// The configuration for the backup Amazon S3 location.
         /// This member is required.
         public var s3Configuration: FirehoseClientTypes.S3DestinationConfiguration?
+        /// The configuration that defines how you access secrets for Splunk.
+        public var secretsManagerConfiguration: FirehoseClientTypes.SecretsManagerConfiguration?
 
         public init(
             bufferingHints: FirehoseClientTypes.SplunkBufferingHints? = nil,
@@ -2838,7 +2872,8 @@ extension FirehoseClientTypes {
             processingConfiguration: FirehoseClientTypes.ProcessingConfiguration? = nil,
             retryOptions: FirehoseClientTypes.SplunkRetryOptions? = nil,
             s3BackupMode: FirehoseClientTypes.SplunkS3BackupMode? = nil,
-            s3Configuration: FirehoseClientTypes.S3DestinationConfiguration? = nil
+            s3Configuration: FirehoseClientTypes.S3DestinationConfiguration? = nil,
+            secretsManagerConfiguration: FirehoseClientTypes.SecretsManagerConfiguration? = nil
         )
         {
             self.bufferingHints = bufferingHints
@@ -2851,6 +2886,7 @@ extension FirehoseClientTypes {
             self.retryOptions = retryOptions
             self.s3BackupMode = s3BackupMode
             self.s3Configuration = s3Configuration
+            self.secretsManagerConfiguration = secretsManagerConfiguration
         }
     }
 
@@ -3398,6 +3434,8 @@ extension FirehoseClientTypes {
         public var s3BackupMode: FirehoseClientTypes.HttpEndpointS3BackupMode?
         /// Describes a destination in Amazon S3.
         public var s3DestinationDescription: FirehoseClientTypes.S3DestinationDescription?
+        /// The configuration that defines how you access secrets for HTTP Endpoint destination.
+        public var secretsManagerConfiguration: FirehoseClientTypes.SecretsManagerConfiguration?
 
         public init(
             bufferingHints: FirehoseClientTypes.HttpEndpointBufferingHints? = nil,
@@ -3408,7 +3446,8 @@ extension FirehoseClientTypes {
             retryOptions: FirehoseClientTypes.HttpEndpointRetryOptions? = nil,
             roleARN: Swift.String? = nil,
             s3BackupMode: FirehoseClientTypes.HttpEndpointS3BackupMode? = nil,
-            s3DestinationDescription: FirehoseClientTypes.S3DestinationDescription? = nil
+            s3DestinationDescription: FirehoseClientTypes.S3DestinationDescription? = nil,
+            secretsManagerConfiguration: FirehoseClientTypes.SecretsManagerConfiguration? = nil
         )
         {
             self.bufferingHints = bufferingHints
@@ -3420,6 +3459,7 @@ extension FirehoseClientTypes {
             self.roleARN = roleARN
             self.s3BackupMode = s3BackupMode
             self.s3DestinationDescription = s3DestinationDescription
+            self.secretsManagerConfiguration = secretsManagerConfiguration
         }
     }
 
@@ -3450,8 +3490,9 @@ extension FirehoseClientTypes {
         /// The Amazon S3 destination.
         /// This member is required.
         public var s3DestinationDescription: FirehoseClientTypes.S3DestinationDescription?
+        /// The configuration that defines how you access secrets for Amazon Redshift.
+        public var secretsManagerConfiguration: FirehoseClientTypes.SecretsManagerConfiguration?
         /// The name of the user.
-        /// This member is required.
         public var username: Swift.String?
 
         public init(
@@ -3464,6 +3505,7 @@ extension FirehoseClientTypes {
             s3BackupDescription: FirehoseClientTypes.S3DestinationDescription? = nil,
             s3BackupMode: FirehoseClientTypes.RedshiftS3BackupMode? = nil,
             s3DestinationDescription: FirehoseClientTypes.S3DestinationDescription? = nil,
+            secretsManagerConfiguration: FirehoseClientTypes.SecretsManagerConfiguration? = nil,
             username: Swift.String? = nil
         )
         {
@@ -3476,6 +3518,7 @@ extension FirehoseClientTypes {
             self.s3BackupDescription = s3BackupDescription
             self.s3BackupMode = s3BackupMode
             self.s3DestinationDescription = s3DestinationDescription
+            self.secretsManagerConfiguration = secretsManagerConfiguration
             self.username = username
         }
     }
@@ -3484,7 +3527,7 @@ extension FirehoseClientTypes {
 
 extension FirehoseClientTypes.RedshiftDestinationDescription: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RedshiftDestinationDescription(cloudWatchLoggingOptions: \(Swift.String(describing: cloudWatchLoggingOptions)), clusterJDBCURL: \(Swift.String(describing: clusterJDBCURL)), copyCommand: \(Swift.String(describing: copyCommand)), processingConfiguration: \(Swift.String(describing: processingConfiguration)), retryOptions: \(Swift.String(describing: retryOptions)), roleARN: \(Swift.String(describing: roleARN)), s3BackupDescription: \(Swift.String(describing: s3BackupDescription)), s3BackupMode: \(Swift.String(describing: s3BackupMode)), s3DestinationDescription: \(Swift.String(describing: s3DestinationDescription)), username: \"CONTENT_REDACTED\")"}
+        "RedshiftDestinationDescription(cloudWatchLoggingOptions: \(Swift.String(describing: cloudWatchLoggingOptions)), clusterJDBCURL: \(Swift.String(describing: clusterJDBCURL)), copyCommand: \(Swift.String(describing: copyCommand)), processingConfiguration: \(Swift.String(describing: processingConfiguration)), retryOptions: \(Swift.String(describing: retryOptions)), roleARN: \(Swift.String(describing: roleARN)), s3BackupDescription: \(Swift.String(describing: s3BackupDescription)), s3BackupMode: \(Swift.String(describing: s3BackupMode)), s3DestinationDescription: \(Swift.String(describing: s3DestinationDescription)), secretsManagerConfiguration: \(Swift.String(describing: secretsManagerConfiguration)), username: \"CONTENT_REDACTED\")"}
 }
 
 extension FirehoseClientTypes {
@@ -3514,6 +3557,8 @@ extension FirehoseClientTypes {
         public var s3DestinationDescription: FirehoseClientTypes.S3DestinationDescription?
         /// Each database consists of one or more schemas, which are logical groupings of database objects, such as tables and views
         public var schema: Swift.String?
+        /// The configuration that defines how you access secrets for Snowflake.
+        public var secretsManagerConfiguration: FirehoseClientTypes.SecretsManagerConfiguration?
         /// Optionally configure a Snowflake role. Otherwise the default user role will be used.
         public var snowflakeRoleConfiguration: FirehoseClientTypes.SnowflakeRoleConfiguration?
         /// The VPCE ID for Firehose to privately connect with Snowflake. The ID format is com.amazonaws.vpce.[region].vpce-svc-<[id]>. For more information, see [Amazon PrivateLink & Snowflake](https://docs.snowflake.com/en/user-guide/admin-security-privatelink)
@@ -3536,6 +3581,7 @@ extension FirehoseClientTypes {
             s3BackupMode: FirehoseClientTypes.SnowflakeS3BackupMode? = nil,
             s3DestinationDescription: FirehoseClientTypes.S3DestinationDescription? = nil,
             schema: Swift.String? = nil,
+            secretsManagerConfiguration: FirehoseClientTypes.SecretsManagerConfiguration? = nil,
             snowflakeRoleConfiguration: FirehoseClientTypes.SnowflakeRoleConfiguration? = nil,
             snowflakeVpcConfiguration: FirehoseClientTypes.SnowflakeVpcConfiguration? = nil,
             table: Swift.String? = nil,
@@ -3554,6 +3600,7 @@ extension FirehoseClientTypes {
             self.s3BackupMode = s3BackupMode
             self.s3DestinationDescription = s3DestinationDescription
             self.schema = schema
+            self.secretsManagerConfiguration = secretsManagerConfiguration
             self.snowflakeRoleConfiguration = snowflakeRoleConfiguration
             self.snowflakeVpcConfiguration = snowflakeVpcConfiguration
             self.table = table
@@ -3565,7 +3612,7 @@ extension FirehoseClientTypes {
 
 extension FirehoseClientTypes.SnowflakeDestinationDescription: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SnowflakeDestinationDescription(cloudWatchLoggingOptions: \(Swift.String(describing: cloudWatchLoggingOptions)), dataLoadingOption: \(Swift.String(describing: dataLoadingOption)), processingConfiguration: \(Swift.String(describing: processingConfiguration)), retryOptions: \(Swift.String(describing: retryOptions)), roleARN: \(Swift.String(describing: roleARN)), s3BackupMode: \(Swift.String(describing: s3BackupMode)), s3DestinationDescription: \(Swift.String(describing: s3DestinationDescription)), snowflakeRoleConfiguration: \(Swift.String(describing: snowflakeRoleConfiguration)), snowflakeVpcConfiguration: \(Swift.String(describing: snowflakeVpcConfiguration)), accountUrl: \"CONTENT_REDACTED\", contentColumnName: \"CONTENT_REDACTED\", database: \"CONTENT_REDACTED\", metaDataColumnName: \"CONTENT_REDACTED\", schema: \"CONTENT_REDACTED\", table: \"CONTENT_REDACTED\", user: \"CONTENT_REDACTED\")"}
+        "SnowflakeDestinationDescription(cloudWatchLoggingOptions: \(Swift.String(describing: cloudWatchLoggingOptions)), dataLoadingOption: \(Swift.String(describing: dataLoadingOption)), processingConfiguration: \(Swift.String(describing: processingConfiguration)), retryOptions: \(Swift.String(describing: retryOptions)), roleARN: \(Swift.String(describing: roleARN)), s3BackupMode: \(Swift.String(describing: s3BackupMode)), s3DestinationDescription: \(Swift.String(describing: s3DestinationDescription)), secretsManagerConfiguration: \(Swift.String(describing: secretsManagerConfiguration)), snowflakeRoleConfiguration: \(Swift.String(describing: snowflakeRoleConfiguration)), snowflakeVpcConfiguration: \(Swift.String(describing: snowflakeVpcConfiguration)), accountUrl: \"CONTENT_REDACTED\", contentColumnName: \"CONTENT_REDACTED\", database: \"CONTENT_REDACTED\", metaDataColumnName: \"CONTENT_REDACTED\", schema: \"CONTENT_REDACTED\", table: \"CONTENT_REDACTED\", user: \"CONTENT_REDACTED\")"}
 }
 
 extension FirehoseClientTypes {
@@ -3591,6 +3638,8 @@ extension FirehoseClientTypes {
         public var s3BackupMode: FirehoseClientTypes.SplunkS3BackupMode?
         /// The Amazon S3 destination.>
         public var s3DestinationDescription: FirehoseClientTypes.S3DestinationDescription?
+        /// The configuration that defines how you access secrets for Splunk.
+        public var secretsManagerConfiguration: FirehoseClientTypes.SecretsManagerConfiguration?
 
         public init(
             bufferingHints: FirehoseClientTypes.SplunkBufferingHints? = nil,
@@ -3602,7 +3651,8 @@ extension FirehoseClientTypes {
             processingConfiguration: FirehoseClientTypes.ProcessingConfiguration? = nil,
             retryOptions: FirehoseClientTypes.SplunkRetryOptions? = nil,
             s3BackupMode: FirehoseClientTypes.SplunkS3BackupMode? = nil,
-            s3DestinationDescription: FirehoseClientTypes.S3DestinationDescription? = nil
+            s3DestinationDescription: FirehoseClientTypes.S3DestinationDescription? = nil,
+            secretsManagerConfiguration: FirehoseClientTypes.SecretsManagerConfiguration? = nil
         )
         {
             self.bufferingHints = bufferingHints
@@ -3615,6 +3665,7 @@ extension FirehoseClientTypes {
             self.retryOptions = retryOptions
             self.s3BackupMode = s3BackupMode
             self.s3DestinationDescription = s3DestinationDescription
+            self.secretsManagerConfiguration = secretsManagerConfiguration
         }
     }
 
@@ -4341,6 +4392,8 @@ extension FirehoseClientTypes {
         public var s3BackupMode: FirehoseClientTypes.HttpEndpointS3BackupMode?
         /// Describes an update for a destination in Amazon S3.
         public var s3Update: FirehoseClientTypes.S3DestinationUpdate?
+        /// The configuration that defines how you access secrets for HTTP Endpoint destination.
+        public var secretsManagerConfiguration: FirehoseClientTypes.SecretsManagerConfiguration?
 
         public init(
             bufferingHints: FirehoseClientTypes.HttpEndpointBufferingHints? = nil,
@@ -4351,7 +4404,8 @@ extension FirehoseClientTypes {
             retryOptions: FirehoseClientTypes.HttpEndpointRetryOptions? = nil,
             roleARN: Swift.String? = nil,
             s3BackupMode: FirehoseClientTypes.HttpEndpointS3BackupMode? = nil,
-            s3Update: FirehoseClientTypes.S3DestinationUpdate? = nil
+            s3Update: FirehoseClientTypes.S3DestinationUpdate? = nil,
+            secretsManagerConfiguration: FirehoseClientTypes.SecretsManagerConfiguration? = nil
         )
         {
             self.bufferingHints = bufferingHints
@@ -4363,6 +4417,7 @@ extension FirehoseClientTypes {
             self.roleARN = roleARN
             self.s3BackupMode = s3BackupMode
             self.s3Update = s3Update
+            self.secretsManagerConfiguration = secretsManagerConfiguration
         }
     }
 
@@ -4391,6 +4446,8 @@ extension FirehoseClientTypes {
         public var s3BackupUpdate: FirehoseClientTypes.S3DestinationUpdate?
         /// The Amazon S3 destination. The compression formats SNAPPY or ZIP cannot be specified in RedshiftDestinationUpdate.S3Update because the Amazon Redshift COPY operation that reads from the S3 bucket doesn't support these compression formats.
         public var s3Update: FirehoseClientTypes.S3DestinationUpdate?
+        /// The configuration that defines how you access secrets for Amazon Redshift.
+        public var secretsManagerConfiguration: FirehoseClientTypes.SecretsManagerConfiguration?
         /// The name of the user.
         public var username: Swift.String?
 
@@ -4405,6 +4462,7 @@ extension FirehoseClientTypes {
             s3BackupMode: FirehoseClientTypes.RedshiftS3BackupMode? = nil,
             s3BackupUpdate: FirehoseClientTypes.S3DestinationUpdate? = nil,
             s3Update: FirehoseClientTypes.S3DestinationUpdate? = nil,
+            secretsManagerConfiguration: FirehoseClientTypes.SecretsManagerConfiguration? = nil,
             username: Swift.String? = nil
         )
         {
@@ -4418,6 +4476,7 @@ extension FirehoseClientTypes {
             self.s3BackupMode = s3BackupMode
             self.s3BackupUpdate = s3BackupUpdate
             self.s3Update = s3Update
+            self.secretsManagerConfiguration = secretsManagerConfiguration
             self.username = username
         }
     }
@@ -4426,7 +4485,7 @@ extension FirehoseClientTypes {
 
 extension FirehoseClientTypes.RedshiftDestinationUpdate: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RedshiftDestinationUpdate(cloudWatchLoggingOptions: \(Swift.String(describing: cloudWatchLoggingOptions)), clusterJDBCURL: \(Swift.String(describing: clusterJDBCURL)), copyCommand: \(Swift.String(describing: copyCommand)), processingConfiguration: \(Swift.String(describing: processingConfiguration)), retryOptions: \(Swift.String(describing: retryOptions)), roleARN: \(Swift.String(describing: roleARN)), s3BackupMode: \(Swift.String(describing: s3BackupMode)), s3BackupUpdate: \(Swift.String(describing: s3BackupUpdate)), s3Update: \(Swift.String(describing: s3Update)), password: \"CONTENT_REDACTED\", username: \"CONTENT_REDACTED\")"}
+        "RedshiftDestinationUpdate(cloudWatchLoggingOptions: \(Swift.String(describing: cloudWatchLoggingOptions)), clusterJDBCURL: \(Swift.String(describing: clusterJDBCURL)), copyCommand: \(Swift.String(describing: copyCommand)), processingConfiguration: \(Swift.String(describing: processingConfiguration)), retryOptions: \(Swift.String(describing: retryOptions)), roleARN: \(Swift.String(describing: roleARN)), s3BackupMode: \(Swift.String(describing: s3BackupMode)), s3BackupUpdate: \(Swift.String(describing: s3BackupUpdate)), s3Update: \(Swift.String(describing: s3Update)), secretsManagerConfiguration: \(Swift.String(describing: secretsManagerConfiguration)), password: \"CONTENT_REDACTED\", username: \"CONTENT_REDACTED\")"}
 }
 
 extension FirehoseClientTypes {
@@ -4460,6 +4519,8 @@ extension FirehoseClientTypes {
         public var s3Update: FirehoseClientTypes.S3DestinationUpdate?
         /// Each database consists of one or more schemas, which are logical groupings of database objects, such as tables and views
         public var schema: Swift.String?
+        /// Describes the Secrets Manager configuration in Snowflake.
+        public var secretsManagerConfiguration: FirehoseClientTypes.SecretsManagerConfiguration?
         /// Optionally configure a Snowflake role. Otherwise the default user role will be used.
         public var snowflakeRoleConfiguration: FirehoseClientTypes.SnowflakeRoleConfiguration?
         /// All data in Snowflake is stored in database tables, logically structured as collections of columns and rows.
@@ -4482,6 +4543,7 @@ extension FirehoseClientTypes {
             s3BackupMode: FirehoseClientTypes.SnowflakeS3BackupMode? = nil,
             s3Update: FirehoseClientTypes.S3DestinationUpdate? = nil,
             schema: Swift.String? = nil,
+            secretsManagerConfiguration: FirehoseClientTypes.SecretsManagerConfiguration? = nil,
             snowflakeRoleConfiguration: FirehoseClientTypes.SnowflakeRoleConfiguration? = nil,
             table: Swift.String? = nil,
             user: Swift.String? = nil
@@ -4501,6 +4563,7 @@ extension FirehoseClientTypes {
             self.s3BackupMode = s3BackupMode
             self.s3Update = s3Update
             self.schema = schema
+            self.secretsManagerConfiguration = secretsManagerConfiguration
             self.snowflakeRoleConfiguration = snowflakeRoleConfiguration
             self.table = table
             self.user = user
@@ -4511,7 +4574,7 @@ extension FirehoseClientTypes {
 
 extension FirehoseClientTypes.SnowflakeDestinationUpdate: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SnowflakeDestinationUpdate(cloudWatchLoggingOptions: \(Swift.String(describing: cloudWatchLoggingOptions)), dataLoadingOption: \(Swift.String(describing: dataLoadingOption)), processingConfiguration: \(Swift.String(describing: processingConfiguration)), retryOptions: \(Swift.String(describing: retryOptions)), roleARN: \(Swift.String(describing: roleARN)), s3BackupMode: \(Swift.String(describing: s3BackupMode)), s3Update: \(Swift.String(describing: s3Update)), snowflakeRoleConfiguration: \(Swift.String(describing: snowflakeRoleConfiguration)), accountUrl: \"CONTENT_REDACTED\", contentColumnName: \"CONTENT_REDACTED\", database: \"CONTENT_REDACTED\", keyPassphrase: \"CONTENT_REDACTED\", metaDataColumnName: \"CONTENT_REDACTED\", privateKey: \"CONTENT_REDACTED\", schema: \"CONTENT_REDACTED\", table: \"CONTENT_REDACTED\", user: \"CONTENT_REDACTED\")"}
+        "SnowflakeDestinationUpdate(cloudWatchLoggingOptions: \(Swift.String(describing: cloudWatchLoggingOptions)), dataLoadingOption: \(Swift.String(describing: dataLoadingOption)), processingConfiguration: \(Swift.String(describing: processingConfiguration)), retryOptions: \(Swift.String(describing: retryOptions)), roleARN: \(Swift.String(describing: roleARN)), s3BackupMode: \(Swift.String(describing: s3BackupMode)), s3Update: \(Swift.String(describing: s3Update)), secretsManagerConfiguration: \(Swift.String(describing: secretsManagerConfiguration)), snowflakeRoleConfiguration: \(Swift.String(describing: snowflakeRoleConfiguration)), accountUrl: \"CONTENT_REDACTED\", contentColumnName: \"CONTENT_REDACTED\", database: \"CONTENT_REDACTED\", keyPassphrase: \"CONTENT_REDACTED\", metaDataColumnName: \"CONTENT_REDACTED\", privateKey: \"CONTENT_REDACTED\", schema: \"CONTENT_REDACTED\", table: \"CONTENT_REDACTED\", user: \"CONTENT_REDACTED\")"}
 }
 
 extension FirehoseClientTypes {
@@ -4537,6 +4600,8 @@ extension FirehoseClientTypes {
         public var s3BackupMode: FirehoseClientTypes.SplunkS3BackupMode?
         /// Your update to the configuration of the backup Amazon S3 location.
         public var s3Update: FirehoseClientTypes.S3DestinationUpdate?
+        /// The configuration that defines how you access secrets for Splunk.
+        public var secretsManagerConfiguration: FirehoseClientTypes.SecretsManagerConfiguration?
 
         public init(
             bufferingHints: FirehoseClientTypes.SplunkBufferingHints? = nil,
@@ -4548,7 +4613,8 @@ extension FirehoseClientTypes {
             processingConfiguration: FirehoseClientTypes.ProcessingConfiguration? = nil,
             retryOptions: FirehoseClientTypes.SplunkRetryOptions? = nil,
             s3BackupMode: FirehoseClientTypes.SplunkS3BackupMode? = nil,
-            s3Update: FirehoseClientTypes.S3DestinationUpdate? = nil
+            s3Update: FirehoseClientTypes.S3DestinationUpdate? = nil,
+            secretsManagerConfiguration: FirehoseClientTypes.SecretsManagerConfiguration? = nil
         )
         {
             self.bufferingHints = bufferingHints
@@ -4561,6 +4627,7 @@ extension FirehoseClientTypes {
             self.retryOptions = retryOptions
             self.s3BackupMode = s3BackupMode
             self.s3Update = s3Update
+            self.secretsManagerConfiguration = secretsManagerConfiguration
         }
     }
 
@@ -4591,7 +4658,7 @@ public struct UpdateDestinationInput {
     /// [Deprecated] Describes an update for a destination in Amazon S3.
     @available(*, deprecated)
     public var s3DestinationUpdate: FirehoseClientTypes.S3DestinationUpdate?
-    /// Update to the Snowflake destination condiguration settings
+    /// Update to the Snowflake destination configuration settings.
     public var snowflakeDestinationUpdate: FirehoseClientTypes.SnowflakeDestinationUpdate?
     /// Describes an update for a destination in Splunk.
     public var splunkDestinationUpdate: FirehoseClientTypes.SplunkDestinationUpdate?
@@ -5531,6 +5598,26 @@ extension FirehoseClientTypes.SnowflakeDestinationDescription {
         value.retryOptions = try reader["RetryOptions"].readIfPresent(with: FirehoseClientTypes.SnowflakeRetryOptions.read(from:))
         value.s3BackupMode = try reader["S3BackupMode"].readIfPresent()
         value.s3DestinationDescription = try reader["S3DestinationDescription"].readIfPresent(with: FirehoseClientTypes.S3DestinationDescription.read(from:))
+        value.secretsManagerConfiguration = try reader["SecretsManagerConfiguration"].readIfPresent(with: FirehoseClientTypes.SecretsManagerConfiguration.read(from:))
+        return value
+    }
+}
+
+extension FirehoseClientTypes.SecretsManagerConfiguration {
+
+    static func write(value: FirehoseClientTypes.SecretsManagerConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Enabled"].write(value.enabled)
+        try writer["RoleARN"].write(value.roleARN)
+        try writer["SecretARN"].write(value.secretARN)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FirehoseClientTypes.SecretsManagerConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FirehoseClientTypes.SecretsManagerConfiguration()
+        value.secretARN = try reader["SecretARN"].readIfPresent()
+        value.roleARN = try reader["RoleARN"].readIfPresent()
+        value.enabled = try reader["Enabled"].readIfPresent()
         return value
     }
 }
@@ -5596,6 +5683,7 @@ extension FirehoseClientTypes.HttpEndpointDestinationDescription {
         value.retryOptions = try reader["RetryOptions"].readIfPresent(with: FirehoseClientTypes.HttpEndpointRetryOptions.read(from:))
         value.s3BackupMode = try reader["S3BackupMode"].readIfPresent()
         value.s3DestinationDescription = try reader["S3DestinationDescription"].readIfPresent(with: FirehoseClientTypes.S3DestinationDescription.read(from:))
+        value.secretsManagerConfiguration = try reader["SecretsManagerConfiguration"].readIfPresent(with: FirehoseClientTypes.SecretsManagerConfiguration.read(from:))
         return value
     }
 }
@@ -5692,6 +5780,7 @@ extension FirehoseClientTypes.SplunkDestinationDescription {
         value.processingConfiguration = try reader["ProcessingConfiguration"].readIfPresent(with: FirehoseClientTypes.ProcessingConfiguration.read(from:))
         value.cloudWatchLoggingOptions = try reader["CloudWatchLoggingOptions"].readIfPresent(with: FirehoseClientTypes.CloudWatchLoggingOptions.read(from:))
         value.bufferingHints = try reader["BufferingHints"].readIfPresent(with: FirehoseClientTypes.SplunkBufferingHints.read(from:))
+        value.secretsManagerConfiguration = try reader["SecretsManagerConfiguration"].readIfPresent(with: FirehoseClientTypes.SecretsManagerConfiguration.read(from:))
         return value
     }
 }
@@ -5868,6 +5957,7 @@ extension FirehoseClientTypes.RedshiftDestinationDescription {
         value.s3BackupMode = try reader["S3BackupMode"].readIfPresent()
         value.s3BackupDescription = try reader["S3BackupDescription"].readIfPresent(with: FirehoseClientTypes.S3DestinationDescription.read(from:))
         value.cloudWatchLoggingOptions = try reader["CloudWatchLoggingOptions"].readIfPresent(with: FirehoseClientTypes.CloudWatchLoggingOptions.read(from:))
+        value.secretsManagerConfiguration = try reader["SecretsManagerConfiguration"].readIfPresent(with: FirehoseClientTypes.SecretsManagerConfiguration.read(from:))
         return value
     }
 }
@@ -6339,6 +6429,7 @@ extension FirehoseClientTypes.RedshiftDestinationConfiguration {
         try writer["S3BackupConfiguration"].write(value.s3BackupConfiguration, with: FirehoseClientTypes.S3DestinationConfiguration.write(value:to:))
         try writer["S3BackupMode"].write(value.s3BackupMode)
         try writer["S3Configuration"].write(value.s3Configuration, with: FirehoseClientTypes.S3DestinationConfiguration.write(value:to:))
+        try writer["SecretsManagerConfiguration"].write(value.secretsManagerConfiguration, with: FirehoseClientTypes.SecretsManagerConfiguration.write(value:to:))
         try writer["Username"].write(value.username)
     }
 }
@@ -6409,6 +6500,7 @@ extension FirehoseClientTypes.SplunkDestinationConfiguration {
         try writer["RetryOptions"].write(value.retryOptions, with: FirehoseClientTypes.SplunkRetryOptions.write(value:to:))
         try writer["S3BackupMode"].write(value.s3BackupMode)
         try writer["S3Configuration"].write(value.s3Configuration, with: FirehoseClientTypes.S3DestinationConfiguration.write(value:to:))
+        try writer["SecretsManagerConfiguration"].write(value.secretsManagerConfiguration, with: FirehoseClientTypes.SecretsManagerConfiguration.write(value:to:))
     }
 }
 
@@ -6425,6 +6517,7 @@ extension FirehoseClientTypes.HttpEndpointDestinationConfiguration {
         try writer["RoleARN"].write(value.roleARN)
         try writer["S3BackupMode"].write(value.s3BackupMode)
         try writer["S3Configuration"].write(value.s3Configuration, with: FirehoseClientTypes.S3DestinationConfiguration.write(value:to:))
+        try writer["SecretsManagerConfiguration"].write(value.secretsManagerConfiguration, with: FirehoseClientTypes.SecretsManagerConfiguration.write(value:to:))
     }
 }
 
@@ -6483,6 +6576,7 @@ extension FirehoseClientTypes.SnowflakeDestinationConfiguration {
         try writer["S3BackupMode"].write(value.s3BackupMode)
         try writer["S3Configuration"].write(value.s3Configuration, with: FirehoseClientTypes.S3DestinationConfiguration.write(value:to:))
         try writer["Schema"].write(value.schema)
+        try writer["SecretsManagerConfiguration"].write(value.secretsManagerConfiguration, with: FirehoseClientTypes.SecretsManagerConfiguration.write(value:to:))
         try writer["SnowflakeRoleConfiguration"].write(value.snowflakeRoleConfiguration, with: FirehoseClientTypes.SnowflakeRoleConfiguration.write(value:to:))
         try writer["SnowflakeVpcConfiguration"].write(value.snowflakeVpcConfiguration, with: FirehoseClientTypes.SnowflakeVpcConfiguration.write(value:to:))
         try writer["Table"].write(value.table)
@@ -6549,6 +6643,7 @@ extension FirehoseClientTypes.RedshiftDestinationUpdate {
         try writer["S3BackupMode"].write(value.s3BackupMode)
         try writer["S3BackupUpdate"].write(value.s3BackupUpdate, with: FirehoseClientTypes.S3DestinationUpdate.write(value:to:))
         try writer["S3Update"].write(value.s3Update, with: FirehoseClientTypes.S3DestinationUpdate.write(value:to:))
+        try writer["SecretsManagerConfiguration"].write(value.secretsManagerConfiguration, with: FirehoseClientTypes.SecretsManagerConfiguration.write(value:to:))
         try writer["Username"].write(value.username)
     }
 }
@@ -6605,6 +6700,7 @@ extension FirehoseClientTypes.SplunkDestinationUpdate {
         try writer["RetryOptions"].write(value.retryOptions, with: FirehoseClientTypes.SplunkRetryOptions.write(value:to:))
         try writer["S3BackupMode"].write(value.s3BackupMode)
         try writer["S3Update"].write(value.s3Update, with: FirehoseClientTypes.S3DestinationUpdate.write(value:to:))
+        try writer["SecretsManagerConfiguration"].write(value.secretsManagerConfiguration, with: FirehoseClientTypes.SecretsManagerConfiguration.write(value:to:))
     }
 }
 
@@ -6621,6 +6717,7 @@ extension FirehoseClientTypes.HttpEndpointDestinationUpdate {
         try writer["RoleARN"].write(value.roleARN)
         try writer["S3BackupMode"].write(value.s3BackupMode)
         try writer["S3Update"].write(value.s3Update, with: FirehoseClientTypes.S3DestinationUpdate.write(value:to:))
+        try writer["SecretsManagerConfiguration"].write(value.secretsManagerConfiguration, with: FirehoseClientTypes.SecretsManagerConfiguration.write(value:to:))
     }
 }
 
@@ -6657,6 +6754,7 @@ extension FirehoseClientTypes.SnowflakeDestinationUpdate {
         try writer["S3BackupMode"].write(value.s3BackupMode)
         try writer["S3Update"].write(value.s3Update, with: FirehoseClientTypes.S3DestinationUpdate.write(value:to:))
         try writer["Schema"].write(value.schema)
+        try writer["SecretsManagerConfiguration"].write(value.secretsManagerConfiguration, with: FirehoseClientTypes.SecretsManagerConfiguration.write(value:to:))
         try writer["SnowflakeRoleConfiguration"].write(value.snowflakeRoleConfiguration, with: FirehoseClientTypes.SnowflakeRoleConfiguration.write(value:to:))
         try writer["Table"].write(value.table)
         try writer["User"].write(value.user)

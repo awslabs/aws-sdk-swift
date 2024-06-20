@@ -3106,6 +3106,8 @@ public struct UpdateAcceleratorInput {
     public var enabled: Swift.Bool?
     /// The IP address type that an accelerator supports. For a standard accelerator, the value can be IPV4 or DUAL_STACK.
     public var ipAddressType: GlobalAcceleratorClientTypes.IpAddressType?
+    /// The IP addresses for an accelerator.
+    public var ipAddresses: [Swift.String]?
     /// The name of the accelerator. The name can have a maximum of 64 characters, must contain only alphanumeric characters, periods (.), or hyphens (-), and must not begin or end with a hyphen or period.
     public var name: Swift.String?
 
@@ -3113,12 +3115,14 @@ public struct UpdateAcceleratorInput {
         acceleratorArn: Swift.String? = nil,
         enabled: Swift.Bool? = nil,
         ipAddressType: GlobalAcceleratorClientTypes.IpAddressType? = nil,
+        ipAddresses: [Swift.String]? = nil,
         name: Swift.String? = nil
     )
     {
         self.acceleratorArn = acceleratorArn
         self.enabled = enabled
         self.ipAddressType = ipAddressType
+        self.ipAddresses = ipAddresses
         self.name = name
     }
 }
@@ -3225,6 +3229,8 @@ public struct UpdateCustomRoutingAcceleratorInput {
     public var enabled: Swift.Bool?
     /// The IP address type that an accelerator supports. For a custom routing accelerator, the value must be IPV4.
     public var ipAddressType: GlobalAcceleratorClientTypes.IpAddressType?
+    /// The IP addresses for an accelerator.
+    public var ipAddresses: [Swift.String]?
     /// The name of the accelerator. The name can have a maximum of 64 characters, must contain only alphanumeric characters, periods (.), or hyphens (-), and must not begin or end with a hyphen or period.
     public var name: Swift.String?
 
@@ -3232,12 +3238,14 @@ public struct UpdateCustomRoutingAcceleratorInput {
         acceleratorArn: Swift.String? = nil,
         enabled: Swift.Bool? = nil,
         ipAddressType: GlobalAcceleratorClientTypes.IpAddressType? = nil,
+        ipAddresses: [Swift.String]? = nil,
         name: Swift.String? = nil
     )
     {
         self.acceleratorArn = acceleratorArn
         self.enabled = enabled
         self.ipAddressType = ipAddressType
+        self.ipAddresses = ipAddresses
         self.name = name
     }
 }
@@ -4284,6 +4292,7 @@ extension UpdateAcceleratorInput {
         try writer["AcceleratorArn"].write(value.acceleratorArn)
         try writer["Enabled"].write(value.enabled)
         try writer["IpAddressType"].write(value.ipAddressType)
+        try writer["IpAddresses"].writeList(value.ipAddresses, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Name"].write(value.name)
     }
 }
@@ -4319,6 +4328,7 @@ extension UpdateCustomRoutingAcceleratorInput {
         try writer["AcceleratorArn"].write(value.acceleratorArn)
         try writer["Enabled"].write(value.enabled)
         try writer["IpAddressType"].write(value.ipAddressType)
+        try writer["IpAddresses"].writeList(value.ipAddresses, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Name"].write(value.name)
     }
 }

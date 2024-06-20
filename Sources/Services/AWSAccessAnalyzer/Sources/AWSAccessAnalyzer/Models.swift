@@ -38,6 +38,11 @@ public struct DeleteArchiveRuleOutput {
     public init() { }
 }
 
+public struct GenerateFindingRecommendationOutput {
+
+    public init() { }
+}
+
 public struct StartResourceScanOutput {
 
     public init() { }
@@ -54,17 +59,20 @@ public struct UpdateFindingsOutput {
 }
 
 extension AccessAnalyzerClientTypes {
-    /// Contains information about actions that define permissions to check against a policy.
+    /// Contains information about actions and resources that define permissions to check against a policy.
     public struct Access {
         /// A list of actions for the access permissions. Any strings that can be used as an action in an IAM policy can be used in the list of actions to check.
-        /// This member is required.
         public var actions: [Swift.String]?
+        /// A list of resources for the access permissions. Any strings that can be used as a resource in an IAM policy can be used in the list of resources to check.
+        public var resources: [Swift.String]?
 
         public init(
-            actions: [Swift.String]? = nil
+            actions: [Swift.String]? = nil,
+            resources: [Swift.String]? = nil
         )
         {
             self.actions = actions
+            self.resources = resources
         }
     }
 
@@ -285,6 +293,7 @@ extension AccessAnalyzerClientTypes {
     public enum ValidationExceptionReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cannotParse
         case fieldValidationFailed
+        case notSupported
         case other
         case unknownOperation
         case sdkUnknown(Swift.String)
@@ -293,6 +302,7 @@ extension AccessAnalyzerClientTypes {
             return [
                 .cannotParse,
                 .fieldValidationFailed,
+                .notSupported,
                 .other,
                 .unknownOperation
             ]
@@ -307,6 +317,7 @@ extension AccessAnalyzerClientTypes {
             switch self {
             case .cannotParse: return "cannotParse"
             case .fieldValidationFailed: return "fieldValidationFailed"
+            case .notSupported: return "notSupported"
             case .other: return "other"
             case .unknownOperation: return "unknownOperation"
             case let .sdkUnknown(s): return s
@@ -1042,7 +1053,7 @@ extension AccessAnalyzerClientTypes {
 }
 
 public struct CheckAccessNotGrantedInput {
-    /// An access object containing the permissions that shouldn't be granted by the specified policy.
+    /// An access object containing the permissions that shouldn't be granted by the specified policy. If only actions are specified, IAM Access Analyzer checks for access of the actions on all resources in the policy. If only resources are specified, then IAM Access Analyzer checks which actions have access to the specified resources. If both actions and resources are specified, then IAM Access Analyzer checks which of the specified actions have access to the specified resources.
     /// This member is required.
     public var access: [AccessAnalyzerClientTypes.Access]?
     /// The JSON policy document to use as the content for the policy.
@@ -1211,6 +1222,155 @@ public struct CheckNoNewAccessOutput {
         message: Swift.String? = nil,
         reasons: [AccessAnalyzerClientTypes.ReasonSummary]? = nil,
         result: AccessAnalyzerClientTypes.CheckNoNewAccessResult? = nil
+    )
+    {
+        self.message = message
+        self.reasons = reasons
+        self.result = result
+    }
+}
+
+extension AccessAnalyzerClientTypes {
+
+    public enum AccessCheckResourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dynamodbStream
+        case dynamodbTable
+        case efsFilesystem
+        case kinesisDataStream
+        case kinesisStreamConsumer
+        case kmsKey
+        case lambdaFunction
+        case opensearchserviceDomain
+        case roleTrust
+        case s3expressDirectorybucket
+        case s3AccessPoint
+        case s3Bucket
+        case s3Glacier
+        case s3OutpostsAccessPoint
+        case s3OutpostsBucket
+        case secretsmanagerSecret
+        case snsTopic
+        case sqsQueue
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AccessCheckResourceType] {
+            return [
+                .dynamodbStream,
+                .dynamodbTable,
+                .efsFilesystem,
+                .kinesisDataStream,
+                .kinesisStreamConsumer,
+                .kmsKey,
+                .lambdaFunction,
+                .opensearchserviceDomain,
+                .roleTrust,
+                .s3expressDirectorybucket,
+                .s3AccessPoint,
+                .s3Bucket,
+                .s3Glacier,
+                .s3OutpostsAccessPoint,
+                .s3OutpostsBucket,
+                .secretsmanagerSecret,
+                .snsTopic,
+                .sqsQueue
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dynamodbStream: return "AWS::DynamoDB::Stream"
+            case .dynamodbTable: return "AWS::DynamoDB::Table"
+            case .efsFilesystem: return "AWS::EFS::FileSystem"
+            case .kinesisDataStream: return "AWS::Kinesis::Stream"
+            case .kinesisStreamConsumer: return "AWS::Kinesis::StreamConsumer"
+            case .kmsKey: return "AWS::KMS::Key"
+            case .lambdaFunction: return "AWS::Lambda::Function"
+            case .opensearchserviceDomain: return "AWS::OpenSearchService::Domain"
+            case .roleTrust: return "AWS::IAM::AssumeRolePolicyDocument"
+            case .s3expressDirectorybucket: return "AWS::S3Express::DirectoryBucket"
+            case .s3AccessPoint: return "AWS::S3::AccessPoint"
+            case .s3Bucket: return "AWS::S3::Bucket"
+            case .s3Glacier: return "AWS::S3::Glacier"
+            case .s3OutpostsAccessPoint: return "AWS::S3Outposts::AccessPoint"
+            case .s3OutpostsBucket: return "AWS::S3Outposts::Bucket"
+            case .secretsmanagerSecret: return "AWS::SecretsManager::Secret"
+            case .snsTopic: return "AWS::SNS::Topic"
+            case .sqsQueue: return "AWS::SQS::Queue"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CheckNoPublicAccessInput {
+    /// The JSON policy document to evaluate for public access.
+    /// This member is required.
+    public var policyDocument: Swift.String?
+    /// The type of resource to evaluate for public access. For example, to check for public access to Amazon S3 buckets, you can choose AWS::S3::Bucket for the resource type. For resource types not supported as valid values, IAM Access Analyzer will return an error.
+    /// This member is required.
+    public var resourceType: AccessAnalyzerClientTypes.AccessCheckResourceType?
+
+    public init(
+        policyDocument: Swift.String? = nil,
+        resourceType: AccessAnalyzerClientTypes.AccessCheckResourceType? = nil
+    )
+    {
+        self.policyDocument = policyDocument
+        self.resourceType = resourceType
+    }
+}
+
+extension CheckNoPublicAccessInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CheckNoPublicAccessInput(resourceType: \(Swift.String(describing: resourceType)), policyDocument: \"CONTENT_REDACTED\")"}
+}
+
+extension AccessAnalyzerClientTypes {
+
+    public enum CheckNoPublicAccessResult: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fail
+        case pass
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CheckNoPublicAccessResult] {
+            return [
+                .fail,
+                .pass
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .fail: return "FAIL"
+            case .pass: return "PASS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CheckNoPublicAccessOutput {
+    /// The message indicating whether the specified policy allows public access to resources.
+    public var message: Swift.String?
+    /// A list of reasons why the specified resource policy grants public access for the resource type.
+    public var reasons: [AccessAnalyzerClientTypes.ReasonSummary]?
+    /// The result of the check for public access to the specified resource type. If the result is PASS, the policy doesn't allow public access to the specified resource type. If the result is FAIL, the policy might allow public access to the specified resource type.
+    public var result: AccessAnalyzerClientTypes.CheckNoPublicAccessResult?
+
+    public init(
+        message: Swift.String? = nil,
+        reasons: [AccessAnalyzerClientTypes.ReasonSummary]? = nil,
+        result: AccessAnalyzerClientTypes.CheckNoPublicAccessResult? = nil
     )
     {
         self.message = message
@@ -1906,6 +2066,24 @@ public struct CreateAccessPreviewOutput {
     }
 }
 
+public struct GenerateFindingRecommendationInput {
+    /// The [ARN of the analyzer](https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-getting-started.html#permission-resources) used to generate the finding recommendation.
+    /// This member is required.
+    public var analyzerArn: Swift.String?
+    /// The unique ID for the finding recommendation.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        analyzerArn: Swift.String? = nil,
+        id: Swift.String? = nil
+    )
+    {
+        self.analyzerArn = analyzerArn
+        self.id = id
+    }
+}
+
 public struct GetAccessPreviewInput {
     /// The unique ID for the access preview.
     /// This member is required.
@@ -2444,6 +2622,224 @@ public struct GetFindingOutput {
     }
 }
 
+public struct GetFindingRecommendationInput {
+    /// The [ARN of the analyzer](https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-getting-started.html#permission-resources) used to generate the finding recommendation.
+    /// This member is required.
+    public var analyzerArn: Swift.String?
+    /// The unique ID for the finding recommendation.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The maximum number of results to return in the response.
+    public var maxResults: Swift.Int?
+    /// A token used for pagination of results returned.
+    public var nextToken: Swift.String?
+
+    public init(
+        analyzerArn: Swift.String? = nil,
+        id: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.analyzerArn = analyzerArn
+        self.id = id
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension AccessAnalyzerClientTypes {
+    /// Contains information about the reason that the retrieval of a recommendation for a finding failed.
+    public struct RecommendationError {
+        /// The error code for a failed retrieval of a recommendation for a finding.
+        /// This member is required.
+        public var code: Swift.String?
+        /// The error message for a failed retrieval of a recommendation for a finding.
+        /// This member is required.
+        public var message: Swift.String?
+
+        public init(
+            code: Swift.String? = nil,
+            message: Swift.String? = nil
+        )
+        {
+            self.code = code
+            self.message = message
+        }
+    }
+
+}
+
+extension AccessAnalyzerClientTypes {
+
+    public enum RecommendationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case unusedPermissionRecommendation
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RecommendationType] {
+            return [
+                .unusedPermissionRecommendation
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .unusedPermissionRecommendation: return "UnusedPermissionRecommendation"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AccessAnalyzerClientTypes {
+
+    public enum RecommendedRemediationAction: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case createPolicy
+        case detachPolicy
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RecommendedRemediationAction] {
+            return [
+                .createPolicy,
+                .detachPolicy
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .createPolicy: return "CREATE_POLICY"
+            case .detachPolicy: return "DETACH_POLICY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AccessAnalyzerClientTypes {
+    /// Contains information about the action to take for a policy in an unused permissions finding.
+    public struct UnusedPermissionsRecommendedStep {
+        /// If the recommended action for the unused permissions finding is to detach a policy, the ID of an existing policy to be detached.
+        public var existingPolicyId: Swift.String?
+        /// The time at which the existing policy for the unused permissions finding was last updated.
+        public var policyUpdatedAt: Foundation.Date?
+        /// A recommendation of whether to create or detach a policy for an unused permissions finding.
+        /// This member is required.
+        public var recommendedAction: AccessAnalyzerClientTypes.RecommendedRemediationAction?
+        /// If the recommended action for the unused permissions finding is to replace the existing policy, the contents of the recommended policy to replace the policy specified in the existingPolicyId field.
+        public var recommendedPolicy: Swift.String?
+
+        public init(
+            existingPolicyId: Swift.String? = nil,
+            policyUpdatedAt: Foundation.Date? = nil,
+            recommendedAction: AccessAnalyzerClientTypes.RecommendedRemediationAction? = nil,
+            recommendedPolicy: Swift.String? = nil
+        )
+        {
+            self.existingPolicyId = existingPolicyId
+            self.policyUpdatedAt = policyUpdatedAt
+            self.recommendedAction = recommendedAction
+            self.recommendedPolicy = recommendedPolicy
+        }
+    }
+
+}
+
+extension AccessAnalyzerClientTypes {
+    /// Contains information about a recommended step for an unused access analyzer finding.
+    public enum RecommendedStep {
+        /// A recommended step for an unused permissions finding.
+        case unusedpermissionsrecommendedstep(AccessAnalyzerClientTypes.UnusedPermissionsRecommendedStep)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension AccessAnalyzerClientTypes {
+
+    public enum Status: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case inProgress
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Status] {
+            return [
+                .failed,
+                .inProgress,
+                .succeeded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetFindingRecommendationOutput {
+    /// The time at which the retrieval of the finding recommendation was completed.
+    public var completedAt: Foundation.Date?
+    /// Detailed information about the reason that the retrieval of a recommendation for the finding failed.
+    public var error: AccessAnalyzerClientTypes.RecommendationError?
+    /// A token used for pagination of results returned.
+    public var nextToken: Swift.String?
+    /// The type of recommendation for the finding.
+    /// This member is required.
+    public var recommendationType: AccessAnalyzerClientTypes.RecommendationType?
+    /// A group of recommended steps for the finding.
+    public var recommendedSteps: [AccessAnalyzerClientTypes.RecommendedStep]?
+    /// The ARN of the resource of the finding.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// The time at which the retrieval of the finding recommendation was started.
+    /// This member is required.
+    public var startedAt: Foundation.Date?
+    /// The status of the retrieval of the finding recommendation.
+    /// This member is required.
+    public var status: AccessAnalyzerClientTypes.Status?
+
+    public init(
+        completedAt: Foundation.Date? = nil,
+        error: AccessAnalyzerClientTypes.RecommendationError? = nil,
+        nextToken: Swift.String? = nil,
+        recommendationType: AccessAnalyzerClientTypes.RecommendationType? = nil,
+        recommendedSteps: [AccessAnalyzerClientTypes.RecommendedStep]? = nil,
+        resourceArn: Swift.String? = nil,
+        startedAt: Foundation.Date? = nil,
+        status: AccessAnalyzerClientTypes.Status? = nil
+    )
+    {
+        self.completedAt = completedAt
+        self.error = error
+        self.nextToken = nextToken
+        self.recommendationType = recommendationType
+        self.recommendedSteps = recommendedSteps
+        self.resourceArn = resourceArn
+        self.startedAt = startedAt
+        self.status = status
+    }
+}
+
 public struct GetFindingV2Input {
     /// The [ARN of the analyzer](https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-getting-started.html#permission-resources) that generated the finding.
     /// This member is required.
@@ -2582,7 +2978,7 @@ extension AccessAnalyzerClientTypes {
     public struct UnusedPermissionDetails {
         /// A list of unused actions for which the unused access finding was generated.
         public var actions: [AccessAnalyzerClientTypes.UnusedAction]?
-        /// The time at which the permission last accessed.
+        /// The time at which the permission was last accessed.
         public var lastAccessed: Foundation.Date?
         /// The namespace of the Amazon Web Services service that contains the unused actions.
         /// This member is required.
@@ -4327,6 +4723,13 @@ extension CheckNoNewAccessInput {
     }
 }
 
+extension CheckNoPublicAccessInput {
+
+    static func urlPathProvider(_ value: CheckNoPublicAccessInput) -> Swift.String? {
+        return "/policy/check-no-public-access"
+    }
+}
+
 extension CreateAccessPreviewInput {
 
     static func urlPathProvider(_ value: CreateAccessPreviewInput) -> Swift.String? {
@@ -4394,6 +4797,30 @@ extension DeleteArchiveRuleInput {
             let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
             items.append(clientTokenQueryItem)
         }
+        return items
+    }
+}
+
+extension GenerateFindingRecommendationInput {
+
+    static func urlPathProvider(_ value: GenerateFindingRecommendationInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/recommendation/\(id.urlPercentEncoding())"
+    }
+}
+
+extension GenerateFindingRecommendationInput {
+
+    static func queryItemProvider(_ value: GenerateFindingRecommendationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let analyzerArn = value.analyzerArn else {
+            let message = "Creating a URL Query Item failed. analyzerArn is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let analyzerArnQueryItem = Smithy.URIQueryItem(name: "analyzerArn".urlPercentEncoding(), value: Swift.String(analyzerArn).urlPercentEncoding())
+        items.append(analyzerArnQueryItem)
         return items
     }
 }
@@ -4486,6 +4913,38 @@ extension GetFindingInput {
 
     static func queryItemProvider(_ value: GetFindingInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
+        guard let analyzerArn = value.analyzerArn else {
+            let message = "Creating a URL Query Item failed. analyzerArn is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let analyzerArnQueryItem = Smithy.URIQueryItem(name: "analyzerArn".urlPercentEncoding(), value: Swift.String(analyzerArn).urlPercentEncoding())
+        items.append(analyzerArnQueryItem)
+        return items
+    }
+}
+
+extension GetFindingRecommendationInput {
+
+    static func urlPathProvider(_ value: GetFindingRecommendationInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/recommendation/\(id.urlPercentEncoding())"
+    }
+}
+
+extension GetFindingRecommendationInput {
+
+    static func queryItemProvider(_ value: GetFindingRecommendationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
         guard let analyzerArn = value.analyzerArn else {
             let message = "Creating a URL Query Item failed. analyzerArn is required and must not be nil."
             throw Smithy.ClientError.unknownError(message)
@@ -4827,6 +5286,15 @@ extension CheckNoNewAccessInput {
     }
 }
 
+extension CheckNoPublicAccessInput {
+
+    static func write(value: CheckNoPublicAccessInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["policyDocument"].write(value.policyDocument)
+        try writer["resourceType"].write(value.resourceType)
+    }
+}
+
 extension CreateAccessPreviewInput {
 
     static func write(value: CreateAccessPreviewInput?, to writer: SmithyJSON.Writer) throws {
@@ -5008,6 +5476,20 @@ extension CheckNoNewAccessOutput {
     }
 }
 
+extension CheckNoPublicAccessOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CheckNoPublicAccessOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CheckNoPublicAccessOutput()
+        value.message = try reader["message"].readIfPresent()
+        value.reasons = try reader["reasons"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.ReasonSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.result = try reader["result"].readIfPresent()
+        return value
+    }
+}
+
 extension CreateAccessPreviewOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateAccessPreviewOutput {
@@ -5050,6 +5532,13 @@ extension DeleteArchiveRuleOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteArchiveRuleOutput {
         return DeleteArchiveRuleOutput()
+    }
+}
+
+extension GenerateFindingRecommendationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GenerateFindingRecommendationOutput {
+        return GenerateFindingRecommendationOutput()
     }
 }
 
@@ -5109,6 +5598,25 @@ extension GetFindingOutput {
         let reader = responseReader
         var value = GetFindingOutput()
         value.finding = try reader["finding"].readIfPresent(with: AccessAnalyzerClientTypes.Finding.read(from:))
+        return value
+    }
+}
+
+extension GetFindingRecommendationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetFindingRecommendationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetFindingRecommendationOutput()
+        value.completedAt = try reader["completedAt"].readTimestampIfPresent(format: .dateTime)
+        value.error = try reader["error"].readIfPresent(with: AccessAnalyzerClientTypes.RecommendationError.read(from:))
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.recommendationType = try reader["recommendationType"].readIfPresent()
+        value.recommendedSteps = try reader["recommendedSteps"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.RecommendedStep.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resourceArn = try reader["resourceArn"].readIfPresent()
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: .dateTime)
+        value.status = try reader["status"].readIfPresent()
         return value
     }
 }
@@ -5398,6 +5906,25 @@ enum CheckNoNewAccessOutputError {
     }
 }
 
+enum CheckNoPublicAccessOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnprocessableEntityException": return try UnprocessableEntityException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateAccessPreviewOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
@@ -5493,6 +6020,23 @@ enum DeleteArchiveRuleOutputError {
     }
 }
 
+enum GenerateFindingRecommendationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetAccessPreviewOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
@@ -5566,6 +6110,24 @@ enum GetArchiveRuleOutputError {
 }
 
 enum GetFindingOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetFindingRecommendationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -6770,6 +7332,44 @@ extension AccessAnalyzerClientTypes.FindingSourceDetail {
     }
 }
 
+extension AccessAnalyzerClientTypes.RecommendationError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.RecommendationError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AccessAnalyzerClientTypes.RecommendationError()
+        value.code = try reader["code"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension AccessAnalyzerClientTypes.RecommendedStep {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.RecommendedStep {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "unusedPermissionsRecommendedStep":
+                return .unusedpermissionsrecommendedstep(try reader["unusedPermissionsRecommendedStep"].read(with: AccessAnalyzerClientTypes.UnusedPermissionsRecommendedStep.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension AccessAnalyzerClientTypes.UnusedPermissionsRecommendedStep {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.UnusedPermissionsRecommendedStep {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AccessAnalyzerClientTypes.UnusedPermissionsRecommendedStep()
+        value.policyUpdatedAt = try reader["policyUpdatedAt"].readTimestampIfPresent(format: .dateTime)
+        value.recommendedAction = try reader["recommendedAction"].readIfPresent()
+        value.recommendedPolicy = try reader["recommendedPolicy"].readIfPresent()
+        value.existingPolicyId = try reader["existingPolicyId"].readIfPresent()
+        return value
+    }
+}
+
 extension AccessAnalyzerClientTypes.FindingDetails {
 
     static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.FindingDetails {
@@ -7143,6 +7743,7 @@ extension AccessAnalyzerClientTypes.Access {
     static func write(value: AccessAnalyzerClientTypes.Access?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["actions"].writeList(value.actions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["resources"].writeList(value.resources, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

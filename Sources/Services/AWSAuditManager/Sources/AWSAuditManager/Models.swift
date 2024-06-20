@@ -293,6 +293,11 @@ extension AuditManagerClientTypes {
 
 }
 
+extension AuditManagerClientTypes.AssessmentControl: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AssessmentControl(assessmentReportEvidenceCount: \(Swift.String(describing: assessmentReportEvidenceCount)), comments: \(Swift.String(describing: comments)), evidenceCount: \(Swift.String(describing: evidenceCount)), evidenceSources: \(Swift.String(describing: evidenceSources)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), response: \(Swift.String(describing: response)), status: \(Swift.String(describing: status)), description: \"CONTENT_REDACTED\")"}
+}
+
 extension AuditManagerClientTypes {
 
     public enum RoleType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -659,11 +664,12 @@ extension AuditManagerClientTypes {
 }
 
 extension AuditManagerClientTypes {
-    /// The wrapper that contains the Amazon Web Services accounts and services that are in scope for the assessment.
+    /// The wrapper that contains the Amazon Web Services accounts that are in scope for the assessment. You no longer need to specify which Amazon Web Services are in scope when you create or update an assessment. Audit Manager infers the services in scope by examining your assessment controls and their data sources, and then mapping this information to the relevant Amazon Web Services. If an underlying data source changes for your assessment, we automatically update the services scope as needed to reflect the correct Amazon Web Services. This ensures that your assessment collects accurate and comprehensive evidence about all of the relevant services in your AWS environment.
     public struct Scope {
         /// The Amazon Web Services accounts that are included in the scope of the assessment.
         public var awsAccounts: [AuditManagerClientTypes.AWSAccount]?
-        /// The Amazon Web Services services that are included in the scope of the assessment.
+        /// The Amazon Web Services services that are included in the scope of the assessment. This API parameter is no longer supported. If you use this parameter to specify one or more Amazon Web Services, Audit Manager ignores this input. Instead, the value for awsServices will show as empty.
+        @available(*, deprecated, message: "You can't specify services in scope when creating/updating an assessment. If you use the parameter to specify one or more AWS services, Audit Manager ignores the input. Instead the value of the parameter will show as empty indicating that the services are defined and managed by Audit Manager.")
         public var awsServices: [AuditManagerClientTypes.AWSService]?
 
         public init(
@@ -1885,7 +1891,7 @@ public struct CreateAssessmentInput {
     /// The list of roles for the assessment.
     /// This member is required.
     public var roles: [AuditManagerClientTypes.Role]?
-    /// The wrapper that contains the Amazon Web Services accounts and services that are in scope for the assessment.
+    /// The wrapper that contains the Amazon Web Services accounts that are in scope for the assessment. You no longer need to specify which Amazon Web Services are in scope when you create or update an assessment. Audit Manager infers the services in scope by examining your assessment controls and their data sources, and then mapping this information to the relevant Amazon Web Services. If an underlying data source changes for your assessment, we automatically update the services scope as needed to reflect the correct Amazon Web Services. This ensures that your assessment collects accurate and comprehensive evidence about all of the relevant services in your AWS environment.
     /// This member is required.
     public var scope: AuditManagerClientTypes.Scope?
     /// The tags that are associated with the assessment.
@@ -2183,6 +2189,8 @@ extension AuditManagerClientTypes {
         case awsCloudtrail
         case awsConfig
         case awsSecurityHub
+        case commonControl
+        case coreControl
         case manual
         case sdkUnknown(Swift.String)
 
@@ -2192,6 +2200,8 @@ extension AuditManagerClientTypes {
                 .awsCloudtrail,
                 .awsConfig,
                 .awsSecurityHub,
+                .commonControl,
+                .coreControl,
                 .manual
             ]
         }
@@ -2207,6 +2217,8 @@ extension AuditManagerClientTypes {
             case .awsCloudtrail: return "AWS_Cloudtrail"
             case .awsConfig: return "AWS_Config"
             case .awsSecurityHub: return "AWS_Security_Hub"
+            case .commonControl: return "Common_Control"
+            case .coreControl: return "Core_Control"
             case .manual: return "MANUAL"
             case let .sdkUnknown(s): return s
             }
@@ -2235,9 +2247,13 @@ extension AuditManagerClientTypes {
         public var sourceKeyword: AuditManagerClientTypes.SourceKeyword?
         /// The name of the source.
         public var sourceName: Swift.String?
-        /// The setup option for the data source. This option reflects if the evidence collection is automated or manual.
+        /// The setup option for the data source. This option reflects if the evidence collection method is automated or manual. If you don’t provide a value for sourceSetUpOption, Audit Manager automatically infers and populates the correct value based on the sourceType that you specify.
         public var sourceSetUpOption: AuditManagerClientTypes.SourceSetUpOption?
-        /// Specifies one of the five data source types for evidence collection.
+        /// Specifies which type of data source is used to collect evidence.
+        ///
+        /// * The source can be an individual data source type, such as AWS_Cloudtrail, AWS_Config, AWS_Security_Hub, AWS_API_Call, or MANUAL.
+        ///
+        /// * The source can also be a managed grouping of data sources, such as a Core_Control or a Common_Control.
         public var sourceType: AuditManagerClientTypes.SourceType?
         /// The instructions for troubleshooting the control.
         public var troubleshootingText: Swift.String?
@@ -2273,13 +2289,44 @@ extension AuditManagerClientTypes.ControlMappingSource: Swift.CustomDebugStringC
 
 extension AuditManagerClientTypes {
 
+    public enum ControlState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case endOfSupport
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ControlState] {
+            return [
+                .active,
+                .endOfSupport
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .endOfSupport: return "END_OF_SUPPORT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AuditManagerClientTypes {
+
     public enum ControlType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case core
         case custom
         case standard
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ControlType] {
             return [
+                .core,
                 .custom,
                 .standard
             ]
@@ -2292,6 +2339,7 @@ extension AuditManagerClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .core: return "Core"
             case .custom: return "Custom"
             case .standard: return "Standard"
             case let .sdkUnknown(s): return s
@@ -2327,6 +2375,8 @@ extension AuditManagerClientTypes {
         public var lastUpdatedBy: Swift.String?
         /// The name of the control.
         public var name: Swift.String?
+        /// The state of the control. The END_OF_SUPPORT state is applicable to standard controls only. This state indicates that the standard control can still be used to collect evidence, but Audit Manager is no longer updating or maintaining that control.
+        public var state: AuditManagerClientTypes.ControlState?
         /// The tags associated with the control.
         public var tags: [Swift.String: Swift.String]?
         /// The steps that you should follow to determine if the control has been satisfied.
@@ -2347,6 +2397,7 @@ extension AuditManagerClientTypes {
             lastUpdatedAt: Foundation.Date? = nil,
             lastUpdatedBy: Swift.String? = nil,
             name: Swift.String? = nil,
+            state: AuditManagerClientTypes.ControlState? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             testingInformation: Swift.String? = nil,
             type: AuditManagerClientTypes.ControlType? = nil
@@ -2364,6 +2415,7 @@ extension AuditManagerClientTypes {
             self.lastUpdatedAt = lastUpdatedAt
             self.lastUpdatedBy = lastUpdatedBy
             self.name = name
+            self.state = state
             self.tags = tags
             self.testingInformation = testingInformation
             self.type = type
@@ -2374,7 +2426,7 @@ extension AuditManagerClientTypes {
 
 extension AuditManagerClientTypes.Control: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Control(arn: \(Swift.String(describing: arn)), controlMappingSources: \(Swift.String(describing: controlMappingSources)), controlSources: \(Swift.String(describing: controlSources)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), name: \(Swift.String(describing: name)), tags: \(Swift.String(describing: tags)), type: \(Swift.String(describing: type)), actionPlanInstructions: \"CONTENT_REDACTED\", actionPlanTitle: \"CONTENT_REDACTED\", createdBy: \"CONTENT_REDACTED\", lastUpdatedBy: \"CONTENT_REDACTED\", testingInformation: \"CONTENT_REDACTED\")"}
+        "Control(arn: \(Swift.String(describing: arn)), controlMappingSources: \(Swift.String(describing: controlMappingSources)), controlSources: \(Swift.String(describing: controlSources)), createdAt: \(Swift.String(describing: createdAt)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), name: \(Swift.String(describing: name)), state: \(Swift.String(describing: state)), tags: \(Swift.String(describing: tags)), type: \(Swift.String(describing: type)), actionPlanInstructions: \"CONTENT_REDACTED\", actionPlanTitle: \"CONTENT_REDACTED\", createdBy: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", lastUpdatedBy: \"CONTENT_REDACTED\", testingInformation: \"CONTENT_REDACTED\")"}
 }
 
 extension AuditManagerClientTypes {
@@ -2530,7 +2582,7 @@ public struct CreateAssessmentReportOutput {
 }
 
 extension AuditManagerClientTypes {
-    /// The control mapping fields that represent the source for evidence collection, along with related parameters and metadata. This doesn't contain mappingID.
+    /// The mapping attributes that determine the evidence source for a given control, along with related parameters and metadata. This doesn't contain mappingID.
     public struct CreateControlMappingSource {
         /// The description of the data source that determines where Audit Manager collects evidence from for the control.
         public var sourceDescription: Swift.String?
@@ -2548,9 +2600,13 @@ extension AuditManagerClientTypes {
         public var sourceKeyword: AuditManagerClientTypes.SourceKeyword?
         /// The name of the control mapping data source.
         public var sourceName: Swift.String?
-        /// The setup option for the data source, which reflects if the evidence collection is automated or manual.
+        /// The setup option for the data source. This option reflects if the evidence collection method is automated or manual. If you don’t provide a value for sourceSetUpOption, Audit Manager automatically infers and populates the correct value based on the sourceType that you specify.
         public var sourceSetUpOption: AuditManagerClientTypes.SourceSetUpOption?
-        /// Specifies one of the five types of data sources for evidence collection.
+        /// Specifies which type of data source is used to collect evidence.
+        ///
+        /// * The source can be an individual data source type, such as AWS_Cloudtrail, AWS_Config, AWS_Security_Hub, AWS_API_Call, or MANUAL.
+        ///
+        /// * The source can also be a managed grouping of data sources, such as a Core_Control or a Common_Control.
         public var sourceType: AuditManagerClientTypes.SourceType?
         /// The instructions for troubleshooting the control.
         public var troubleshootingText: Swift.String?
@@ -2622,7 +2678,7 @@ public struct CreateControlInput {
 
 extension CreateControlInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateControlInput(controlMappingSources: \(Swift.String(describing: controlMappingSources)), description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), tags: \(Swift.String(describing: tags)), actionPlanInstructions: \"CONTENT_REDACTED\", actionPlanTitle: \"CONTENT_REDACTED\", testingInformation: \"CONTENT_REDACTED\")"}
+        "CreateControlInput(controlMappingSources: \(Swift.String(describing: controlMappingSources)), name: \(Swift.String(describing: name)), tags: \(Swift.String(describing: tags)), actionPlanInstructions: \"CONTENT_REDACTED\", actionPlanTitle: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", testingInformation: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateControlOutput {
@@ -4036,7 +4092,7 @@ public struct ListAssessmentControlInsightsByControlDomainInput {
     /// The unique identifier for the active assessment.
     /// This member is required.
     public var assessmentId: Swift.String?
-    /// The unique identifier for the control domain.
+    /// The unique identifier for the control domain. Audit Manager supports the control domains that are provided by Amazon Web Services Control Catalog. For information about how to find a list of available control domains, see [ListDomains](https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListDomains.html) in the Amazon Web Services Control Catalog API Reference.
     /// This member is required.
     public var controlDomainId: Swift.String?
     /// Represents the maximum number of results on a page or for an API request call.
@@ -4295,7 +4351,7 @@ extension AuditManagerClientTypes {
         public var controlsCountByNoncompliantEvidence: Swift.Int?
         /// A breakdown of the compliance check status for the evidence that’s associated with the control domain.
         public var evidenceInsights: AuditManagerClientTypes.EvidenceInsights?
-        /// The unique identifier for the control domain.
+        /// The unique identifier for the control domain. Audit Manager supports the control domains that are provided by Amazon Web Services Control Catalog. For information about how to find a list of available control domains, see [ListDomains](https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListDomains.html) in the Amazon Web Services Control Catalog API Reference.
         public var id: Swift.String?
         /// The time when the control domain insights were last updated.
         public var lastUpdated: Foundation.Date?
@@ -4378,7 +4434,7 @@ public struct ListControlDomainInsightsByAssessmentOutput {
 }
 
 public struct ListControlInsightsByControlDomainInput {
-    /// The unique identifier for the control domain.
+    /// The unique identifier for the control domain. Audit Manager supports the control domains that are provided by Amazon Web Services Control Catalog. For information about how to find a list of available control domains, see [ListDomains](https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListDomains.html) in the Amazon Web Services Control Catalog API Reference.
     /// This member is required.
     public var controlDomainId: Swift.String?
     /// Represents the maximum number of results on a page or for an API request call.
@@ -4443,20 +4499,24 @@ public struct ListControlInsightsByControlDomainOutput {
 }
 
 public struct ListControlsInput {
-    /// The type of control, such as a standard control or a custom control.
+    /// A filter that narrows the list of controls to a specific resource from the Amazon Web Services Control Catalog. To use this parameter, specify the ARN of the Control Catalog resource. You can specify either a control domain, a control objective, or a common control. For information about how to find the ARNs for these resources, see [ListDomains](https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListDomains.html), [ListObjectives](https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListObjectives.html), and [ListCommonControls](https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListCommonControls.html). You can only filter by one Control Catalog resource at a time. Specifying multiple resource ARNs isn’t currently supported. If you want to filter by more than one ARN, we recommend that you run the ListControls operation separately for each ARN. Alternatively, specify UNCATEGORIZED to list controls that aren't mapped to a Control Catalog resource. For example, this operation might return a list of custom controls that don't belong to any control domain or control objective.
+    public var controlCatalogId: Swift.String?
+    /// A filter that narrows the list of controls to a specific type.
     /// This member is required.
     public var controlType: AuditManagerClientTypes.ControlType?
-    /// Represents the maximum number of results on a page or for an API request call.
+    /// The maximum number of results on a page or for an API request call.
     public var maxResults: Swift.Int?
     /// The pagination token that's used to fetch the next set of results.
     public var nextToken: Swift.String?
 
     public init(
+        controlCatalogId: Swift.String? = nil,
         controlType: AuditManagerClientTypes.ControlType? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
+        self.controlCatalogId = controlCatalogId
         self.controlType = controlType
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4515,6 +4575,44 @@ public struct ListControlsOutput {
     }
 }
 
+extension AuditManagerClientTypes {
+
+    public enum DataSourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsApiCall
+        case awsCloudtrail
+        case awsConfig
+        case awsSecurityHub
+        case manual
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataSourceType] {
+            return [
+                .awsApiCall,
+                .awsCloudtrail,
+                .awsConfig,
+                .awsSecurityHub,
+                .manual
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsApiCall: return "AWS_API_Call"
+            case .awsCloudtrail: return "AWS_Cloudtrail"
+            case .awsConfig: return "AWS_Config"
+            case .awsSecurityHub: return "AWS_Security_Hub"
+            case .manual: return "MANUAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct ListKeywordsForDataSourceInput {
     /// Represents the maximum number of results on a page or for an API request call.
     public var maxResults: Swift.Int?
@@ -4522,12 +4620,12 @@ public struct ListKeywordsForDataSourceInput {
     public var nextToken: Swift.String?
     /// The control mapping data source that the keywords apply to.
     /// This member is required.
-    public var source: AuditManagerClientTypes.SourceType?
+    public var source: AuditManagerClientTypes.DataSourceType?
 
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
-        source: AuditManagerClientTypes.SourceType? = nil
+        source: AuditManagerClientTypes.DataSourceType? = nil
     )
     {
         self.maxResults = maxResults
@@ -4537,7 +4635,7 @@ public struct ListKeywordsForDataSourceInput {
 }
 
 public struct ListKeywordsForDataSourceOutput {
-    /// The list of keywords for the event mapping source.
+    /// The list of keywords for the control mapping source.
     public var keywords: [Swift.String]?
     /// The pagination token that's used to fetch the next set of results.
     public var nextToken: Swift.String?
@@ -5156,7 +5254,7 @@ public struct UpdateControlInput {
 
 extension UpdateControlInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateControlInput(controlId: \(Swift.String(describing: controlId)), controlMappingSources: \(Swift.String(describing: controlMappingSources)), description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), actionPlanInstructions: \"CONTENT_REDACTED\", actionPlanTitle: \"CONTENT_REDACTED\", testingInformation: \"CONTENT_REDACTED\")"}
+        "UpdateControlInput(controlId: \(Swift.String(describing: controlId)), controlMappingSources: \(Swift.String(describing: controlMappingSources)), name: \(Swift.String(describing: name)), actionPlanInstructions: \"CONTENT_REDACTED\", actionPlanTitle: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", testingInformation: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateControlOutput {
@@ -5988,6 +6086,10 @@ extension ListControlsInput {
         }
         let controlTypeQueryItem = Smithy.URIQueryItem(name: "controlType".urlPercentEncoding(), value: Swift.String(controlType.rawValue).urlPercentEncoding())
         items.append(controlTypeQueryItem)
+        if let controlCatalogId = value.controlCatalogId {
+            let controlCatalogIdQueryItem = Smithy.URIQueryItem(name: "controlCatalogId".urlPercentEncoding(), value: Swift.String(controlCatalogId).urlPercentEncoding())
+            items.append(controlCatalogIdQueryItem)
+        }
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
@@ -7295,6 +7397,7 @@ enum CreateAssessmentOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -8078,6 +8181,7 @@ enum UpdateAssessmentOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -8658,6 +8762,7 @@ extension AuditManagerClientTypes.Control {
         value.createdBy = try reader["createdBy"].readIfPresent()
         value.lastUpdatedBy = try reader["lastUpdatedBy"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.state = try reader["state"].readIfPresent()
         return value
     }
 }

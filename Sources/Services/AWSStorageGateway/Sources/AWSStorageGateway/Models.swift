@@ -805,6 +805,35 @@ extension StorageGatewayClientTypes {
 
 extension StorageGatewayClientTypes {
 
+    public enum AutomaticUpdatePolicy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case allVersions
+        case emergencyVersionsOnly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AutomaticUpdatePolicy] {
+            return [
+                .allVersions,
+                .emergencyVersionsOnly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .allVersions: return "ALL_VERSIONS"
+            case .emergencyVersionsOnly: return "EMERGENCY_VERSIONS_ONLY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension StorageGatewayClientTypes {
+
     public enum AvailabilityMonitorTestStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case complete
         case failed
@@ -2738,7 +2767,25 @@ public struct DescribeMaintenanceStartTimeInput {
     }
 }
 
+extension StorageGatewayClientTypes {
+    /// A set of variables indicating the software update preferences for the gateway.
+    public struct SoftwareUpdatePreferences {
+        /// Indicates the automatic update policy for a gateway. ALL_VERSIONS - Enables regular gateway maintenance updates. EMERGENCY_VERSIONS_ONLY - Disables regular gateway maintenance updates.
+        public var automaticUpdatePolicy: StorageGatewayClientTypes.AutomaticUpdatePolicy?
+
+        public init(
+            automaticUpdatePolicy: StorageGatewayClientTypes.AutomaticUpdatePolicy? = nil
+        )
+        {
+            self.automaticUpdatePolicy = automaticUpdatePolicy
+        }
+    }
+
+}
+
 /// A JSON object containing the following fields:
+///
+/// * [DescribeMaintenanceStartTimeOutput$SoftwareUpdatePreferences]
 ///
 /// * [DescribeMaintenanceStartTimeOutput$DayOfMonth]
 ///
@@ -2750,7 +2797,7 @@ public struct DescribeMaintenanceStartTimeInput {
 ///
 /// * [DescribeMaintenanceStartTimeOutput$Timezone]
 public struct DescribeMaintenanceStartTimeOutput {
-    /// The day of the month component of the maintenance start time represented as an ordinal number from 1 to 28, where 1 represents the first day of the month and 28 represents the last day of the month.
+    /// The day of the month component of the maintenance start time represented as an ordinal number from 1 to 28, where 1 represents the first day of the month. It is not possible to set the maintenance schedule to start on days 29 through 31.
     public var dayOfMonth: Swift.Int?
     /// An ordinal number between 0 and 6 that represents the day of the week, where 0 represents Sunday and 6 represents Saturday. The day of week is in the time zone of the gateway.
     public var dayOfWeek: Swift.Int?
@@ -2760,6 +2807,8 @@ public struct DescribeMaintenanceStartTimeOutput {
     public var hourOfDay: Swift.Int?
     /// The minute component of the maintenance start time represented as mm, where mm is the minute (0 to 59). The minute of the hour is in the time zone of the gateway.
     public var minuteOfHour: Swift.Int?
+    /// A set of variables indicating the software update preferences for the gateway. Includes AutomaticUpdatePolicy field with the following inputs: ALL_VERSIONS - Enables regular gateway maintenance updates. EMERGENCY_VERSIONS_ONLY - Disables regular gateway maintenance updates.
+    public var softwareUpdatePreferences: StorageGatewayClientTypes.SoftwareUpdatePreferences?
     /// A value that indicates the time zone that is set for the gateway. The start time and day of week specified should be in the time zone of the gateway.
     public var timezone: Swift.String?
 
@@ -2769,6 +2818,7 @@ public struct DescribeMaintenanceStartTimeOutput {
         gatewayARN: Swift.String? = nil,
         hourOfDay: Swift.Int? = nil,
         minuteOfHour: Swift.Int? = nil,
+        softwareUpdatePreferences: StorageGatewayClientTypes.SoftwareUpdatePreferences? = nil,
         timezone: Swift.String? = nil
     )
     {
@@ -2777,6 +2827,7 @@ public struct DescribeMaintenanceStartTimeOutput {
         self.gatewayARN = gatewayARN
         self.hourOfDay = hourOfDay
         self.minuteOfHour = minuteOfHour
+        self.softwareUpdatePreferences = softwareUpdatePreferences
         self.timezone = timezone
     }
 }
@@ -3172,11 +3223,11 @@ public struct DescribeSMBSettingsOutput {
     ///
     /// * ClientSpecified: If you choose this option, requests are established based on what is negotiated by the client. This option is recommended when you want to maximize compatibility across different clients in your environment. Supported only for S3 File Gateway.
     ///
-    /// * MandatorySigning: If you use this option, File Gateway only allows connections from SMBv2 or SMBv3 clients that have signing turned on. This option works with SMB clients on Microsoft Windows Vista, Windows Server 2008, or later.
+    /// * MandatorySigning: If you choose this option, File Gateway only allows connections from SMBv2 or SMBv3 clients that have signing turned on. This option works with SMB clients on Microsoft Windows Vista, Windows Server 2008, or later.
     ///
-    /// * MandatoryEncryption: If you use this option, File Gateway only allows connections from SMBv3 clients that have encryption turned on. Both 256-bit and 128-bit algorithms are allowed. This option is recommended for environments that handle sensitive data. It works with SMB clients on Microsoft Windows 8, Windows Server 2012, or later.
+    /// * MandatoryEncryption: If you choose this option, File Gateway only allows connections from SMBv3 clients that have encryption turned on. Both 256-bit and 128-bit algorithms are allowed. This option is recommended for environments that handle sensitive data. It works with SMB clients on Microsoft Windows 8, Windows Server 2012, or later.
     ///
-    /// * EnforceEncryption: If you use this option, File Gateway only allows connections from SMBv3 clients that use 256-bit AES encryption algorithms. 128-bit algorithms are not allowed. This option is recommended for environments that handle sensitive data. It works with SMB clients on Microsoft Windows 8, Windows Server 2012, or later.
+    /// * MandatoryEncryptionNoAes128: If you choose this option, File Gateway only allows connections from SMBv3 clients that use 256-bit AES encryption algorithms. 128-bit algorithms are not allowed. This option is recommended for environments that handle sensitive data. It works with SMB clients on Microsoft Windows 8, Windows Server 2012, or later.
     public var smbSecurityStrategy: StorageGatewayClientTypes.SMBSecurityStrategy?
 
     public init(
@@ -5326,7 +5377,7 @@ public struct UpdateGatewayInformationInput {
     /// The Amazon Resource Name (ARN) of the gateway. Use the [ListGateways] operation to return a list of gateways for your account and Amazon Web Services Region.
     /// This member is required.
     public var gatewayARN: Swift.String?
-    /// Specifies the size of the gateway's metadata cache.
+    /// Specifies the size of the gateway's metadata cache. This setting impacts gateway performance and hardware recommendations. For more information, see [Performance guidance for gateways with multiple file shares](https://docs.aws.amazon.com/filegateway/latest/files3/performance-multiple-file-shares.html) in the Amazon S3 File Gateway User Guide.
     public var gatewayCapacity: StorageGatewayClientTypes.GatewayCapacity?
     /// The name you configured for your gateway.
     public var gatewayName: Swift.String?
@@ -5395,6 +5446,8 @@ public struct UpdateGatewaySoftwareNowOutput {
 
 /// A JSON object containing the following fields:
 ///
+/// * [UpdateMaintenanceStartTimeInput$SoftwareUpdatePreferences]
+///
 /// * [UpdateMaintenanceStartTimeInput$DayOfMonth]
 ///
 /// * [UpdateMaintenanceStartTimeInput$DayOfWeek]
@@ -5403,26 +5456,27 @@ public struct UpdateGatewaySoftwareNowOutput {
 ///
 /// * [UpdateMaintenanceStartTimeInput$MinuteOfHour]
 public struct UpdateMaintenanceStartTimeInput {
-    /// The day of the month component of the maintenance start time represented as an ordinal number from 1 to 28, where 1 represents the first day of the month and 28 represents the last day of the month.
+    /// The day of the month component of the maintenance start time represented as an ordinal number from 1 to 28, where 1 represents the first day of the month. It is not possible to set the maintenance schedule to start on days 29 through 31.
     public var dayOfMonth: Swift.Int?
-    /// The day of the week component of the maintenance start time week represented as an ordinal number from 0 to 6, where 0 represents Sunday and 6 Saturday.
+    /// The day of the week component of the maintenance start time week represented as an ordinal number from 0 to 6, where 0 represents Sunday and 6 represents Saturday.
     public var dayOfWeek: Swift.Int?
     /// The Amazon Resource Name (ARN) of the gateway. Use the [ListGateways] operation to return a list of gateways for your account and Amazon Web Services Region.
     /// This member is required.
     public var gatewayARN: Swift.String?
     /// The hour component of the maintenance start time represented as hh, where hh is the hour (00 to 23). The hour of the day is in the time zone of the gateway.
-    /// This member is required.
     public var hourOfDay: Swift.Int?
     /// The minute component of the maintenance start time represented as mm, where mm is the minute (00 to 59). The minute of the hour is in the time zone of the gateway.
-    /// This member is required.
     public var minuteOfHour: Swift.Int?
+    /// A set of variables indicating the software update preferences for the gateway. Includes AutomaticUpdatePolicy field with the following inputs: ALL_VERSIONS - Enables regular gateway maintenance updates. EMERGENCY_VERSIONS_ONLY - Disables regular gateway maintenance updates.
+    public var softwareUpdatePreferences: StorageGatewayClientTypes.SoftwareUpdatePreferences?
 
     public init(
         dayOfMonth: Swift.Int? = nil,
         dayOfWeek: Swift.Int? = nil,
         gatewayARN: Swift.String? = nil,
         hourOfDay: Swift.Int? = nil,
-        minuteOfHour: Swift.Int? = nil
+        minuteOfHour: Swift.Int? = nil,
+        softwareUpdatePreferences: StorageGatewayClientTypes.SoftwareUpdatePreferences? = nil
     )
     {
         self.dayOfMonth = dayOfMonth
@@ -5430,6 +5484,7 @@ public struct UpdateMaintenanceStartTimeInput {
         self.gatewayARN = gatewayARN
         self.hourOfDay = hourOfDay
         self.minuteOfHour = minuteOfHour
+        self.softwareUpdatePreferences = softwareUpdatePreferences
     }
 }
 
@@ -5698,7 +5753,7 @@ public struct UpdateSMBSecurityStrategyInput {
     /// The Amazon Resource Name (ARN) of the gateway. Use the [ListGateways] operation to return a list of gateways for your account and Amazon Web Services Region.
     /// This member is required.
     public var gatewayARN: Swift.String?
-    /// Specifies the type of security strategy. ClientSpecified: if you use this option, requests are established based on what is negotiated by the client. This option is recommended when you want to maximize compatibility across different clients in your environment. Supported only in S3 File Gateway. MandatorySigning: if you use this option, file gateway only allows connections from SMBv2 or SMBv3 clients that have signing enabled. This option works with SMB clients on Microsoft Windows Vista, Windows Server 2008 or newer. MandatoryEncryption: if you use this option, file gateway only allows connections from SMBv3 clients that have encryption enabled. This option is highly recommended for environments that handle sensitive data. This option works with SMB clients on Microsoft Windows 8, Windows Server 2012 or newer.
+    /// Specifies the type of security strategy. ClientSpecified: If you choose this option, requests are established based on what is negotiated by the client. This option is recommended when you want to maximize compatibility across different clients in your environment. Supported only for S3 File Gateway. MandatorySigning: If you choose this option, File Gateway only allows connections from SMBv2 or SMBv3 clients that have signing enabled. This option works with SMB clients on Microsoft Windows Vista, Windows Server 2008 or newer. MandatoryEncryption: If you choose this option, File Gateway only allows connections from SMBv3 clients that have encryption enabled. This option is recommended for environments that handle sensitive data. This option works with SMB clients on Microsoft Windows 8, Windows Server 2012 or newer. MandatoryEncryptionNoAes128: If you choose this option, File Gateway only allows connections from SMBv3 clients that use 256-bit AES encryption algorithms. 128-bit algorithms are not allowed. This option is recommended for environments that handle sensitive data. It works with SMB clients on Microsoft Windows 8, Windows Server 2012, or later.
     /// This member is required.
     public var smbSecurityStrategy: StorageGatewayClientTypes.SMBSecurityStrategy?
 
@@ -7275,6 +7330,7 @@ extension UpdateMaintenanceStartTimeInput {
         try writer["GatewayARN"].write(value.gatewayARN)
         try writer["HourOfDay"].write(value.hourOfDay)
         try writer["MinuteOfHour"].write(value.minuteOfHour)
+        try writer["SoftwareUpdatePreferences"].write(value.softwareUpdatePreferences, with: StorageGatewayClientTypes.SoftwareUpdatePreferences.write(value:to:))
     }
 }
 
@@ -7870,6 +7926,7 @@ extension DescribeMaintenanceStartTimeOutput {
         value.gatewayARN = try reader["GatewayARN"].readIfPresent()
         value.hourOfDay = try reader["HourOfDay"].readIfPresent()
         value.minuteOfHour = try reader["MinuteOfHour"].readIfPresent()
+        value.softwareUpdatePreferences = try reader["SoftwareUpdatePreferences"].readIfPresent(with: StorageGatewayClientTypes.SoftwareUpdatePreferences.read(from:))
         value.timezone = try reader["Timezone"].readIfPresent()
         return value
     }
@@ -10093,6 +10150,21 @@ extension StorageGatewayClientTypes.NetworkInterface {
         value.ipv4Address = try reader["Ipv4Address"].readIfPresent()
         value.macAddress = try reader["MacAddress"].readIfPresent()
         value.ipv6Address = try reader["Ipv6Address"].readIfPresent()
+        return value
+    }
+}
+
+extension StorageGatewayClientTypes.SoftwareUpdatePreferences {
+
+    static func write(value: StorageGatewayClientTypes.SoftwareUpdatePreferences?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AutomaticUpdatePolicy"].write(value.automaticUpdatePolicy)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> StorageGatewayClientTypes.SoftwareUpdatePreferences {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = StorageGatewayClientTypes.SoftwareUpdatePreferences()
+        value.automaticUpdatePolicy = try reader["AutomaticUpdatePolicy"].readIfPresent()
         return value
     }
 }

@@ -949,6 +949,36 @@ extension ListTriggersInput: ClientRuntime.PaginateToken {
         )}
 }
 extension GlueClient {
+    /// Paginate over `[ListUsageProfilesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListUsageProfilesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListUsageProfilesOutput`
+    public func listUsageProfilesPaginated(input: ListUsageProfilesInput) -> ClientRuntime.PaginatorSequence<ListUsageProfilesInput, ListUsageProfilesOutput> {
+        return ClientRuntime.PaginatorSequence<ListUsageProfilesInput, ListUsageProfilesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listUsageProfiles(input:))
+    }
+}
+
+extension ListUsageProfilesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListUsageProfilesInput {
+        return ListUsageProfilesInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListUsageProfilesInput, OperationStackOutput == ListUsageProfilesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listUsageProfilesPaginated`
+    /// to access the nested member `[GlueClientTypes.UsageProfileDefinition]`
+    /// - Returns: `[GlueClientTypes.UsageProfileDefinition]`
+    public func profiles() async throws -> [GlueClientTypes.UsageProfileDefinition] {
+        return try await self.asyncCompactMap { item in item.profiles }
+    }
+}
+extension GlueClient {
     /// Paginate over `[ListWorkflowsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

@@ -2928,6 +2928,13 @@ extension CodeBuildClientTypes {
         ///
         ///
         ///
+        /// * REPOSITORY_NAME
+        ///
+        /// * A webhook triggers a build when the repository name matches the regular expression pattern. Works with GitHub global or organization webhooks only.
+        ///
+        ///
+        ///
+        ///
         /// * WORKFLOW_NAME
         ///
         /// * A webhook triggers a build when the workflow name matches the regular expression pattern. Works with WORKFLOW_JOB_QUEUED events only.
@@ -2949,6 +2956,61 @@ extension CodeBuildClientTypes {
 }
 
 extension CodeBuildClientTypes {
+
+    public enum WebhookScopeType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case githubGlobal
+        case githubOrganization
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WebhookScopeType] {
+            return [
+                .githubGlobal,
+                .githubOrganization
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .githubGlobal: return "GITHUB_GLOBAL"
+            case .githubOrganization: return "GITHUB_ORGANIZATION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CodeBuildClientTypes {
+    /// Contains configuration information about the scope for a webhook.
+    public struct ScopeConfiguration {
+        /// The domain of the GitHub Enterprise organization. Note that this parameter is only required if your project's source type is GITHUB_ENTERPRISE
+        public var domain: Swift.String?
+        /// The name of either the enterprise or organization that will send webhook events to CodeBuild, depending on if the webhook is a global or organization webhook respectively.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The type of scope for a GitHub webhook.
+        /// This member is required.
+        public var scope: CodeBuildClientTypes.WebhookScopeType?
+
+        public init(
+            domain: Swift.String? = nil,
+            name: Swift.String? = nil,
+            scope: CodeBuildClientTypes.WebhookScopeType? = nil
+        )
+        {
+            self.domain = domain
+            self.name = name
+            self.scope = scope
+        }
+    }
+
+}
+
+extension CodeBuildClientTypes {
     /// Information about a webhook that connects repository events to a build project in CodeBuild.
     public struct Webhook {
         /// A regular expression used to determine which repository branches are built when a webhook is triggered. If the name of a branch matches the regular expression, then it is built. If branchFilter is empty, then all branches are built. It is recommended that you use filterGroups instead of branchFilter.
@@ -2963,6 +3025,8 @@ extension CodeBuildClientTypes {
         public var manualCreation: Swift.Bool?
         /// The CodeBuild endpoint where webhook events are sent.
         public var payloadUrl: Swift.String?
+        /// The scope configuration for global or organization webhooks. Global or organization webhooks are only available for GitHub and Github Enterprise webhooks.
+        public var scopeConfiguration: CodeBuildClientTypes.ScopeConfiguration?
         /// The secret token of the associated repository. A Bitbucket webhook does not support secret.
         public var secret: Swift.String?
         /// The URL to the webhook.
@@ -2975,6 +3039,7 @@ extension CodeBuildClientTypes {
             lastModifiedSecret: Foundation.Date? = nil,
             manualCreation: Swift.Bool? = nil,
             payloadUrl: Swift.String? = nil,
+            scopeConfiguration: CodeBuildClientTypes.ScopeConfiguration? = nil,
             secret: Swift.String? = nil,
             url: Swift.String? = nil
         )
@@ -2985,6 +3050,7 @@ extension CodeBuildClientTypes {
             self.lastModifiedSecret = lastModifiedSecret
             self.manualCreation = manualCreation
             self.payloadUrl = payloadUrl
+            self.scopeConfiguration = scopeConfiguration
             self.secret = secret
             self.url = url
         }
@@ -3981,13 +4047,16 @@ public struct CreateWebhookInput {
     /// The name of the CodeBuild project.
     /// This member is required.
     public var projectName: Swift.String?
+    /// The scope configuration for global or organization webhooks. Global or organization webhooks are only available for GitHub and Github Enterprise webhooks.
+    public var scopeConfiguration: CodeBuildClientTypes.ScopeConfiguration?
 
     public init(
         branchFilter: Swift.String? = nil,
         buildType: CodeBuildClientTypes.WebhookBuildType? = nil,
         filterGroups: [[CodeBuildClientTypes.WebhookFilter]]? = nil,
         manualCreation: Swift.Bool? = nil,
-        projectName: Swift.String? = nil
+        projectName: Swift.String? = nil,
+        scopeConfiguration: CodeBuildClientTypes.ScopeConfiguration? = nil
     )
     {
         self.branchFilter = branchFilter
@@ -3995,6 +4064,7 @@ public struct CreateWebhookInput {
         self.filterGroups = filterGroups
         self.manualCreation = manualCreation
         self.projectName = projectName
+        self.scopeConfiguration = scopeConfiguration
     }
 }
 
@@ -6866,6 +6936,7 @@ extension CreateWebhookInput {
         try writer["filterGroups"].writeList(value.filterGroups, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: CodeBuildClientTypes.WebhookFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
         try writer["manualCreation"].write(value.manualCreation)
         try writer["projectName"].write(value.projectName)
+        try writer["scopeConfiguration"].write(value.scopeConfiguration, with: CodeBuildClientTypes.ScopeConfiguration.write(value:to:))
     }
 }
 
@@ -9440,6 +9511,26 @@ extension CodeBuildClientTypes.Webhook {
         value.buildType = try reader["buildType"].readIfPresent()
         value.manualCreation = try reader["manualCreation"].readIfPresent()
         value.lastModifiedSecret = try reader["lastModifiedSecret"].readTimestampIfPresent(format: .epochSeconds)
+        value.scopeConfiguration = try reader["scopeConfiguration"].readIfPresent(with: CodeBuildClientTypes.ScopeConfiguration.read(from:))
+        return value
+    }
+}
+
+extension CodeBuildClientTypes.ScopeConfiguration {
+
+    static func write(value: CodeBuildClientTypes.ScopeConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["domain"].write(value.domain)
+        try writer["name"].write(value.name)
+        try writer["scope"].write(value.scope)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.ScopeConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeBuildClientTypes.ScopeConfiguration()
+        value.name = try reader["name"].readIfPresent()
+        value.domain = try reader["domain"].readIfPresent()
+        value.scope = try reader["scope"].readIfPresent()
         return value
     }
 }

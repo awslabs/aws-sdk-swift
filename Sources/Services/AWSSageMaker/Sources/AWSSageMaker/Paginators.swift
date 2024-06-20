@@ -1466,6 +1466,7 @@ extension ListModelPackageGroupsInput: ClientRuntime.PaginateToken {
         return ListModelPackageGroupsInput(
             creationTimeAfter: self.creationTimeAfter,
             creationTimeBefore: self.creationTimeBefore,
+            crossAccountFilterOption: self.crossAccountFilterOption,
             maxResults: self.maxResults,
             nameContains: self.nameContains,
             nextToken: token,

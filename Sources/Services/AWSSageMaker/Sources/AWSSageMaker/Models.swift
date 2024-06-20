@@ -14021,6 +14021,32 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    public enum ProductionVariantInferenceAmiVersion: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case al2Gpu2
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProductionVariantInferenceAmiVersion] {
+            return [
+                .al2Gpu2
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .al2Gpu2: return "al2-ami-sagemaker-inference-gpu-2"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     public enum ManagedInstanceScalingStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
@@ -14159,6 +14185,8 @@ extension SageMakerClientTypes {
         public var coreDumpConfig: SageMakerClientTypes.ProductionVariantCoreDumpConfig?
         /// You can use this parameter to turn on native Amazon Web Services Systems Manager (SSM) access for a production variant behind an endpoint. By default, SSM access is disabled for all production variants behind an endpoint. You can turn on or turn off SSM access for a production variant behind an existing endpoint by creating a new endpoint configuration and calling UpdateEndpoint.
         public var enableSSMAccess: Swift.Bool?
+        /// Specifies an option from a collection of preconfigured Amazon Machine Image (AMI) images. Each image is configured by Amazon Web Services with a set of software and driver versions. Amazon Web Services optimizes these configurations for different machine learning workloads. By selecting an AMI version, you can ensure that your inference environment is compatible with specific software requirements, such as CUDA driver versions, Linux kernel versions, or Amazon Web Services Neuron driver versions.
+        public var inferenceAmiVersion: SageMakerClientTypes.ProductionVariantInferenceAmiVersion?
         /// Number of instances to launch initially.
         public var initialInstanceCount: Swift.Int?
         /// Determines initial traffic distribution among all of the models that you specify in the endpoint configuration. The traffic to a production variant is determined by the ratio of the VariantWeight to the sum of all VariantWeight values across all ProductionVariants. If unspecified, it defaults to 1.0.
@@ -14186,6 +14214,7 @@ extension SageMakerClientTypes {
             containerStartupHealthCheckTimeoutInSeconds: Swift.Int? = nil,
             coreDumpConfig: SageMakerClientTypes.ProductionVariantCoreDumpConfig? = nil,
             enableSSMAccess: Swift.Bool? = nil,
+            inferenceAmiVersion: SageMakerClientTypes.ProductionVariantInferenceAmiVersion? = nil,
             initialInstanceCount: Swift.Int? = nil,
             initialVariantWeight: Swift.Float? = nil,
             instanceType: SageMakerClientTypes.ProductionVariantInstanceType? = nil,
@@ -14202,6 +14231,7 @@ extension SageMakerClientTypes {
             self.containerStartupHealthCheckTimeoutInSeconds = containerStartupHealthCheckTimeoutInSeconds
             self.coreDumpConfig = coreDumpConfig
             self.enableSSMAccess = enableSSMAccess
+            self.inferenceAmiVersion = inferenceAmiVersion
             self.initialInstanceCount = initialInstanceCount
             self.initialVariantWeight = initialVariantWeight
             self.instanceType = instanceType
@@ -19670,9 +19700,9 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes {
-    /// The model card associated with the model package. Since ModelPackageModelCard is tied to a model package, it is a specific usage of a model card and its schema is simplified compared to the schema of ModelCard. The ModelPackageModelCard schema does not include model_package_details, and model_overview is composed of the model_creator and model_artifact properties. For more information about the model card associated with the model package, see [View the Details of a Model Version](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html).
+    /// The model card associated with the model package. Since ModelPackageModelCard is tied to a model package, it is a specific usage of a model card and its schema is simplified compared to the schema of ModelCard. The ModelPackageModelCard schema does not include model_package_details, and model_overview is composed of the model_creator and model_artifact properties. For more information about the model package model card schema, see [Model package model card schema](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html#model-card-schema). For more information about the model card associated with the model package, see [View the Details of a Model Version](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html).
     public struct ModelPackageModelCard {
-        /// The content of the model card.
+        /// The content of the model card. The content must follow the schema described in [Model Package Model Card Schema](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html#model-card-schema).
         public var modelCardContent: Swift.String?
         /// The approval status of the model card within your organization. Different organizations might have different criteria for model card review and approval.
         ///
@@ -19943,7 +19973,7 @@ public struct CreateModelPackageInput {
     public var metadataProperties: SageMakerClientTypes.MetadataProperties?
     /// Whether the model is approved for deployment. This parameter is optional for versioned models, and does not apply to unversioned models. For versioned models, the value of this parameter must be set to Approved to deploy the model.
     public var modelApprovalStatus: SageMakerClientTypes.ModelApprovalStatus?
-    /// The model card associated with the model package. Since ModelPackageModelCard is tied to a model package, it is a specific usage of a model card and its schema is simplified compared to the schema of ModelCard. The ModelPackageModelCard schema does not include model_package_details, and model_overview is composed of the model_creator and model_artifact properties. For more information about the model card associated with the model package, see [View the Details of a Model Version](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html).
+    /// The model card associated with the model package. Since ModelPackageModelCard is tied to a model package, it is a specific usage of a model card and its schema is simplified compared to the schema of ModelCard. The ModelPackageModelCard schema does not include model_package_details, and model_overview is composed of the model_creator and model_artifact properties. For more information about the model package model card schema, see [Model package model card schema](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html#model-card-schema). For more information about the model card associated with the model package, see [View the Details of a Model Version](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html).
     public var modelCard: SageMakerClientTypes.ModelPackageModelCard?
     /// A structure that contains model metrics reports.
     public var modelMetrics: SageMakerClientTypes.ModelMetrics?
@@ -22776,6 +22806,8 @@ public struct CreateUserProfileOutput {
 extension SageMakerClientTypes {
     /// Use this parameter to configure your OIDC Identity Provider (IdP).
     public struct OidcConfig {
+        /// A string to string map of identifiers specific to the custom identity provider (IdP) being used.
+        public var authenticationRequestExtraParams: [Swift.String: Swift.String]?
         /// The OIDC IdP authorization endpoint used to configure your private workforce.
         /// This member is required.
         public var authorizationEndpoint: Swift.String?
@@ -22794,6 +22826,8 @@ extension SageMakerClientTypes {
         /// The OIDC IdP logout endpoint used to configure your private workforce.
         /// This member is required.
         public var logoutEndpoint: Swift.String?
+        /// An array of string identifiers used to refer to the specific pieces of user data or claims that the client application wants to access.
+        public var scope: Swift.String?
         /// The OIDC IdP token endpoint used to configure your private workforce.
         /// This member is required.
         public var tokenEndpoint: Swift.String?
@@ -22802,22 +22836,26 @@ extension SageMakerClientTypes {
         public var userInfoEndpoint: Swift.String?
 
         public init(
+            authenticationRequestExtraParams: [Swift.String: Swift.String]? = nil,
             authorizationEndpoint: Swift.String? = nil,
             clientId: Swift.String? = nil,
             clientSecret: Swift.String? = nil,
             issuer: Swift.String? = nil,
             jwksUri: Swift.String? = nil,
             logoutEndpoint: Swift.String? = nil,
+            scope: Swift.String? = nil,
             tokenEndpoint: Swift.String? = nil,
             userInfoEndpoint: Swift.String? = nil
         )
         {
+            self.authenticationRequestExtraParams = authenticationRequestExtraParams
             self.authorizationEndpoint = authorizationEndpoint
             self.clientId = clientId
             self.clientSecret = clientSecret
             self.issuer = issuer
             self.jwksUri = jwksUri
             self.logoutEndpoint = logoutEndpoint
+            self.scope = scope
             self.tokenEndpoint = tokenEndpoint
             self.userInfoEndpoint = userInfoEndpoint
         }
@@ -22827,7 +22865,7 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.OidcConfig: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "OidcConfig(authorizationEndpoint: \(Swift.String(describing: authorizationEndpoint)), clientId: \(Swift.String(describing: clientId)), issuer: \(Swift.String(describing: issuer)), jwksUri: \(Swift.String(describing: jwksUri)), logoutEndpoint: \(Swift.String(describing: logoutEndpoint)), tokenEndpoint: \(Swift.String(describing: tokenEndpoint)), userInfoEndpoint: \(Swift.String(describing: userInfoEndpoint)), clientSecret: \"CONTENT_REDACTED\")"}
+        "OidcConfig(authenticationRequestExtraParams: \(Swift.String(describing: authenticationRequestExtraParams)), authorizationEndpoint: \(Swift.String(describing: authorizationEndpoint)), clientId: \(Swift.String(describing: clientId)), issuer: \(Swift.String(describing: issuer)), jwksUri: \(Swift.String(describing: jwksUri)), logoutEndpoint: \(Swift.String(describing: logoutEndpoint)), scope: \(Swift.String(describing: scope)), tokenEndpoint: \(Swift.String(describing: tokenEndpoint)), userInfoEndpoint: \(Swift.String(describing: userInfoEndpoint)), clientSecret: \"CONTENT_REDACTED\")"}
 }
 
 extension SageMakerClientTypes {
@@ -29804,7 +29842,7 @@ public struct DescribeModelPackageOutput {
     public var metadataProperties: SageMakerClientTypes.MetadataProperties?
     /// The approval status of the model package.
     public var modelApprovalStatus: SageMakerClientTypes.ModelApprovalStatus?
-    /// The model card associated with the model package. Since ModelPackageModelCard is tied to a model package, it is a specific usage of a model card and its schema is simplified compared to the schema of ModelCard. The ModelPackageModelCard schema does not include model_package_details, and model_overview is composed of the model_creator and model_artifact properties. For more information about the model card associated with the model package, see [View the Details of a Model Version](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html).
+    /// The model card associated with the model package. Since ModelPackageModelCard is tied to a model package, it is a specific usage of a model card and its schema is simplified compared to the schema of ModelCard. The ModelPackageModelCard schema does not include model_package_details, and model_overview is composed of the model_creator and model_artifact properties. For more information about the model package model card schema, see [Model package model card schema](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html#model-card-schema). For more information about the model card associated with the model package, see [View the Details of a Model Version](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html).
     public var modelCard: SageMakerClientTypes.ModelPackageModelCard?
     /// Metrics for the model.
     public var modelMetrics: SageMakerClientTypes.ModelMetrics?
@@ -32433,6 +32471,8 @@ public struct DescribeWorkforceInput {
 extension SageMakerClientTypes {
     /// Your OIDC IdP workforce configuration.
     public struct OidcConfigForResponse {
+        /// A string to string map of identifiers specific to the custom identity provider (IdP) being used.
+        public var authenticationRequestExtraParams: [Swift.String: Swift.String]?
         /// The OIDC IdP authorization endpoint used to configure your private workforce.
         public var authorizationEndpoint: Swift.String?
         /// The OIDC IdP client ID used to configure your private workforce.
@@ -32443,26 +32483,32 @@ extension SageMakerClientTypes {
         public var jwksUri: Swift.String?
         /// The OIDC IdP logout endpoint used to configure your private workforce.
         public var logoutEndpoint: Swift.String?
+        /// An array of string identifiers used to refer to the specific pieces of user data or claims that the client application wants to access.
+        public var scope: Swift.String?
         /// The OIDC IdP token endpoint used to configure your private workforce.
         public var tokenEndpoint: Swift.String?
         /// The OIDC IdP user information endpoint used to configure your private workforce.
         public var userInfoEndpoint: Swift.String?
 
         public init(
+            authenticationRequestExtraParams: [Swift.String: Swift.String]? = nil,
             authorizationEndpoint: Swift.String? = nil,
             clientId: Swift.String? = nil,
             issuer: Swift.String? = nil,
             jwksUri: Swift.String? = nil,
             logoutEndpoint: Swift.String? = nil,
+            scope: Swift.String? = nil,
             tokenEndpoint: Swift.String? = nil,
             userInfoEndpoint: Swift.String? = nil
         )
         {
+            self.authenticationRequestExtraParams = authenticationRequestExtraParams
             self.authorizationEndpoint = authorizationEndpoint
             self.clientId = clientId
             self.issuer = issuer
             self.jwksUri = jwksUri
             self.logoutEndpoint = logoutEndpoint
+            self.scope = scope
             self.tokenEndpoint = tokenEndpoint
             self.userInfoEndpoint = userInfoEndpoint
         }
@@ -39486,6 +39532,8 @@ public struct ListModelPackageGroupsInput {
     public var creationTimeAfter: Foundation.Date?
     /// A filter that returns only model groups created before the specified time.
     public var creationTimeBefore: Foundation.Date?
+    /// A filter that returns either model groups shared with you or model groups in your own account. When the value is CrossAccount, the results show the resources made discoverable to you from other accounts. When the value is SameAccount or null, the results show resources from your account. The default is SameAccount.
+    public var crossAccountFilterOption: SageMakerClientTypes.CrossAccountFilterOption?
     /// The maximum number of results to return in the response.
     public var maxResults: Swift.Int?
     /// A string in the model group name. This filter returns only model groups whose name contains the specified string.
@@ -39500,6 +39548,7 @@ public struct ListModelPackageGroupsInput {
     public init(
         creationTimeAfter: Foundation.Date? = nil,
         creationTimeBefore: Foundation.Date? = nil,
+        crossAccountFilterOption: SageMakerClientTypes.CrossAccountFilterOption? = nil,
         maxResults: Swift.Int? = nil,
         nameContains: Swift.String? = nil,
         nextToken: Swift.String? = nil,
@@ -39509,6 +39558,7 @@ public struct ListModelPackageGroupsInput {
     {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
+        self.crossAccountFilterOption = crossAccountFilterOption
         self.maxResults = maxResults
         self.nameContains = nameContains
         self.nextToken = nextToken
@@ -43650,7 +43700,7 @@ extension SageMakerClientTypes {
         ///
         /// * PENDING_MANUAL_APPROVAL - The model is waiting for manual approval.
         public var modelApprovalStatus: SageMakerClientTypes.ModelApprovalStatus?
-        /// The model card associated with the model package. Since ModelPackageModelCard is tied to a model package, it is a specific usage of a model card and its schema is simplified compared to the schema of ModelCard. The ModelPackageModelCard schema does not include model_package_details, and model_overview is composed of the model_creator and model_artifact properties. For more information about the model card associated with the model package, see [View the Details of a Model Version](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html).
+        /// The model card associated with the model package. Since ModelPackageModelCard is tied to a model package, it is a specific usage of a model card and its schema is simplified compared to the schema of ModelCard. The ModelPackageModelCard schema does not include model_package_details, and model_overview is composed of the model_creator and model_artifact properties. For more information about the model package model card schema, see [Model package model card schema](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html#model-card-schema). For more information about the model card associated with the model package, see [View the Details of a Model Version](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html).
         public var modelCard: SageMakerClientTypes.ModelPackageModelCard?
         /// Metrics for the model.
         public var modelMetrics: SageMakerClientTypes.ModelMetrics?
@@ -46517,7 +46567,7 @@ public struct UpdateModelPackageInput {
     public var inferenceSpecification: SageMakerClientTypes.InferenceSpecification?
     /// The approval status of the model.
     public var modelApprovalStatus: SageMakerClientTypes.ModelApprovalStatus?
-    /// The model card associated with the model package. Since ModelPackageModelCard is tied to a model package, it is a specific usage of a model card and its schema is simplified compared to the schema of ModelCard. The ModelPackageModelCard schema does not include model_package_details, and model_overview is composed of the model_creator and model_artifact properties. For more information about the model card associated with the model package, see [View the Details of a Model Version](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html).
+    /// The model card associated with the model package. Since ModelPackageModelCard is tied to a model package, it is a specific usage of a model card and its schema is simplified compared to the schema of ModelCard. The ModelPackageModelCard schema does not include model_package_details, and model_overview is composed of the model_creator and model_artifact properties. For more information about the model package model card schema, see [Model package model card schema](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html#model-card-schema). For more information about the model card associated with the model package, see [View the Details of a Model Version](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html).
     public var modelCard: SageMakerClientTypes.ModelPackageModelCard?
     /// The Amazon Resource Name (ARN) of the model package.
     /// This member is required.
@@ -52051,6 +52101,7 @@ extension ListModelPackageGroupsInput {
         guard let value else { return }
         try writer["CreationTimeAfter"].writeTimestamp(value.creationTimeAfter, format: .epochSeconds)
         try writer["CreationTimeBefore"].writeTimestamp(value.creationTimeBefore, format: .epochSeconds)
+        try writer["CrossAccountFilterOption"].write(value.crossAccountFilterOption)
         try writer["MaxResults"].write(value.maxResults)
         try writer["NameContains"].write(value.nameContains)
         try writer["NextToken"].write(value.nextToken)
@@ -65377,6 +65428,7 @@ extension SageMakerClientTypes.ProductionVariant {
         try writer["ContainerStartupHealthCheckTimeoutInSeconds"].write(value.containerStartupHealthCheckTimeoutInSeconds)
         try writer["CoreDumpConfig"].write(value.coreDumpConfig, with: SageMakerClientTypes.ProductionVariantCoreDumpConfig.write(value:to:))
         try writer["EnableSSMAccess"].write(value.enableSSMAccess)
+        try writer["InferenceAmiVersion"].write(value.inferenceAmiVersion)
         try writer["InitialInstanceCount"].write(value.initialInstanceCount)
         try writer["InitialVariantWeight"].write(value.initialVariantWeight)
         try writer["InstanceType"].write(value.instanceType)
@@ -65406,6 +65458,7 @@ extension SageMakerClientTypes.ProductionVariant {
         value.enableSSMAccess = try reader["EnableSSMAccess"].readIfPresent()
         value.managedInstanceScaling = try reader["ManagedInstanceScaling"].readIfPresent(with: SageMakerClientTypes.ProductionVariantManagedInstanceScaling.read(from:))
         value.routingConfig = try reader["RoutingConfig"].readIfPresent(with: SageMakerClientTypes.ProductionVariantRoutingConfig.read(from:))
+        value.inferenceAmiVersion = try reader["InferenceAmiVersion"].readIfPresent()
         return value
     }
 }
@@ -69168,6 +69221,8 @@ extension SageMakerClientTypes.OidcConfigForResponse {
         value.userInfoEndpoint = try reader["UserInfoEndpoint"].readIfPresent()
         value.logoutEndpoint = try reader["LogoutEndpoint"].readIfPresent()
         value.jwksUri = try reader["JwksUri"].readIfPresent()
+        value.scope = try reader["Scope"].readIfPresent()
+        value.authenticationRequestExtraParams = try reader["AuthenticationRequestExtraParams"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -71541,12 +71596,14 @@ extension SageMakerClientTypes.OidcConfig {
 
     static func write(value: SageMakerClientTypes.OidcConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AuthenticationRequestExtraParams"].writeMap(value.authenticationRequestExtraParams, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["AuthorizationEndpoint"].write(value.authorizationEndpoint)
         try writer["ClientId"].write(value.clientId)
         try writer["ClientSecret"].write(value.clientSecret)
         try writer["Issuer"].write(value.issuer)
         try writer["JwksUri"].write(value.jwksUri)
         try writer["LogoutEndpoint"].write(value.logoutEndpoint)
+        try writer["Scope"].write(value.scope)
         try writer["TokenEndpoint"].write(value.tokenEndpoint)
         try writer["UserInfoEndpoint"].write(value.userInfoEndpoint)
     }

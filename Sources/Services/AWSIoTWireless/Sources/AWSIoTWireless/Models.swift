@@ -3814,6 +3814,7 @@ extension IoTWirelessClientTypes {
 
     /// The status of a wireless device in a FUOTA task.
     public enum FuotaDeviceStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deviceExistInConflictFuotaTask
         case fragalgoUnsupported
         case fragindexUnsupported
         case initial
@@ -3829,6 +3830,7 @@ extension IoTWirelessClientTypes {
 
         public static var allCases: [FuotaDeviceStatus] {
             return [
+                .deviceExistInConflictFuotaTask,
                 .fragalgoUnsupported,
                 .fragindexUnsupported,
                 .initial,
@@ -3850,6 +3852,7 @@ extension IoTWirelessClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .deviceExistInConflictFuotaTask: return "Device_exist_in_conflict_fuota_task"
             case .fragalgoUnsupported: return "FragAlgo_unsupported"
             case .fragindexUnsupported: return "FragIndex_unsupported"
             case .initial: return "Initial"
@@ -4530,6 +4533,8 @@ extension IoTWirelessClientTypes {
         case devicejoinrequestcount
         case devicerssi
         case deviceroamingdownlinkcount
+        case deviceroamingrssi
+        case deviceroamingsnr
         case deviceroaminguplinkcount
         case devicesnr
         case deviceuplinkcount
@@ -4564,6 +4569,8 @@ extension IoTWirelessClientTypes {
                 .devicejoinrequestcount,
                 .devicerssi,
                 .deviceroamingdownlinkcount,
+                .deviceroamingrssi,
+                .deviceroamingsnr,
                 .deviceroaminguplinkcount,
                 .devicesnr,
                 .deviceuplinkcount,
@@ -4604,6 +4611,8 @@ extension IoTWirelessClientTypes {
             case .devicejoinrequestcount: return "DeviceJoinRequestCount"
             case .devicerssi: return "DeviceRSSI"
             case .deviceroamingdownlinkcount: return "DeviceRoamingDownlinkCount"
+            case .deviceroamingrssi: return "DeviceRoamingRSSI"
+            case .deviceroamingsnr: return "DeviceRoamingSNR"
             case .deviceroaminguplinkcount: return "DeviceRoamingUplinkCount"
             case .devicesnr: return "DeviceSNR"
             case .deviceuplinkcount: return "DeviceUplinkCount"

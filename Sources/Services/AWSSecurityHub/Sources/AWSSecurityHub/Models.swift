@@ -30705,9 +30705,9 @@ extension SecurityHubClientTypes.NumberFilter {
         var value = SecurityHubClientTypes.NumberFilter()
         value.gte = try reader["Gte"].readIfPresent()
         value.lte = try reader["Lte"].readIfPresent()
-        value.eq = try reader["Eq"].readIfPresent()
         value.gt = try reader["Gt"].readIfPresent()
         value.lt = try reader["Lt"].readIfPresent()
+        value.eq = try reader["Eq"].readIfPresent()
         return value
     }
 }

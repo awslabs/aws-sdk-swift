@@ -300,7 +300,7 @@ extension VerifiedPermissionsClientTypes.CognitoGroupConfigurationItem: Swift.Cu
 }
 
 extension VerifiedPermissionsClientTypes {
-    /// The configuration for an identity source that represents a connection to an Amazon Cognito user pool used as an identity provider for Verified Permissions. This data type is used as a field that is part of an [Configuration](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_Configuration.html) structure that is used as a parameter to [CreateIdentitySource](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html). Example:"CognitoUserPoolConfiguration":{"UserPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","ClientIds": ["a1b2c3d4e5f6g7h8i9j0kalbmc"],"groupConfiguration": {"groupEntityType": "MyCorp::Group"}}
+    /// The configuration for an identity source that represents a connection to an Amazon Cognito user pool used as an identity provider for Verified Permissions. This data type part of a [Configuration](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_Configuration.html) structure that is used as a parameter to [CreateIdentitySource](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html). Example:"CognitoUserPoolConfiguration":{"UserPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","ClientIds": ["a1b2c3d4e5f6g7h8i9j0kalbmc"],"groupConfiguration": {"groupEntityType": "MyCorp::Group"}}
     public struct CognitoUserPoolConfiguration {
         /// The unique application client IDs that are associated with the specified Amazon Cognito user pool. Example: "ClientIds": ["&ExampleCogClientId;"]
         public var clientIds: [Swift.String]?
@@ -387,13 +387,263 @@ extension VerifiedPermissionsClientTypes {
 }
 
 extension VerifiedPermissionsClientTypes {
-    /// Contains configuration information used when creating a new identity source. At this time, the only valid member of this structure is a Amazon Cognito user pool configuration. Specifies a userPoolArn, a groupConfiguration, and a ClientId. This data type is used as a request parameter for the [CreateIdentitySource](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html) operation.
-    public enum Configuration {
-        /// Contains configuration details of a Amazon Cognito user pool that Verified Permissions can use as a source of authenticated identities as entities. It specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of a Amazon Cognito user pool and one or more application client IDs. Example: "configuration":{"cognitoUserPoolConfiguration":{"userPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","clientIds": ["a1b2c3d4e5f6g7h8i9j0kalbmc"],"groupConfiguration": {"groupEntityType": "MyCorp::Group"}}}
-        case cognitouserpoolconfiguration(VerifiedPermissionsClientTypes.CognitoUserPoolConfiguration)
+    /// The claim in OIDC identity provider tokens that indicates a user's group membership, and the entity type that you want to map it to. For example, this object can map the contents of a groups claim to MyCorp::UserGroup. This data type is part of a [OpenIdConnectConfiguration](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectConfiguration.html) structure, which is a parameter of [CreateIdentitySource](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html).
+    public struct OpenIdConnectGroupConfiguration {
+        /// The token claim that you want Verified Permissions to interpret as group membership. For example, groups.
+        /// This member is required.
+        public var groupClaim: Swift.String?
+        /// The policy store entity type that you want to map your users' group claim to. For example, MyCorp::UserGroup. A group entity type is an entity that can have a user entity type as a member.
+        /// This member is required.
+        public var groupEntityType: Swift.String?
+
+        public init(
+            groupClaim: Swift.String? = nil,
+            groupEntityType: Swift.String? = nil
+        )
+        {
+            self.groupClaim = groupClaim
+            self.groupEntityType = groupEntityType
+        }
+    }
+
+}
+
+extension VerifiedPermissionsClientTypes.OpenIdConnectGroupConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "OpenIdConnectGroupConfiguration(groupClaim: \"CONTENT_REDACTED\", groupEntityType: \"CONTENT_REDACTED\")"}
+}
+
+extension VerifiedPermissionsClientTypes {
+    /// The configuration of an OpenID Connect (OIDC) identity source for handling access token claims. Contains the claim that you want to identify as the principal in an authorization request, and the values of the aud claim, or audiences, that you want to accept. This data type is part of a [OpenIdConnectTokenSelection](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectTokenSelection.html) structure, which is a parameter of [CreateIdentitySource](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html).
+    public struct OpenIdConnectAccessTokenConfiguration {
+        /// The access token aud claim values that you want to accept in your policy store. For example, https://myapp.example.com, https://myapp2.example.com.
+        public var audiences: [Swift.String]?
+        /// The claim that determines the principal in OIDC access tokens. For example, sub.
+        public var principalIdClaim: Swift.String?
+
+        public init(
+            audiences: [Swift.String]? = nil,
+            principalIdClaim: Swift.String? = nil
+        )
+        {
+            self.audiences = audiences
+            self.principalIdClaim = principalIdClaim
+        }
+    }
+
+}
+
+extension VerifiedPermissionsClientTypes.OpenIdConnectAccessTokenConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "OpenIdConnectAccessTokenConfiguration(audiences: \(Swift.String(describing: audiences)), principalIdClaim: \"CONTENT_REDACTED\")"}
+}
+
+extension VerifiedPermissionsClientTypes {
+    /// The configuration of an OpenID Connect (OIDC) identity source for handling identity (ID) token claims. Contains the claim that you want to identify as the principal in an authorization request, and the values of the aud claim, or audiences, that you want to accept. This data type is part of a [OpenIdConnectTokenSelection](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectTokenSelection.html) structure, which is a parameter of [CreateIdentitySource](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html).
+    public struct OpenIdConnectIdentityTokenConfiguration {
+        /// The ID token audience, or client ID, claim values that you want to accept in your policy store from an OIDC identity provider. For example, 1example23456789, 2example10111213.
+        public var clientIds: [Swift.String]?
+        /// The claim that determines the principal in OIDC access tokens. For example, sub.
+        public var principalIdClaim: Swift.String?
+
+        public init(
+            clientIds: [Swift.String]? = nil,
+            principalIdClaim: Swift.String? = nil
+        )
+        {
+            self.clientIds = clientIds
+            self.principalIdClaim = principalIdClaim
+        }
+    }
+
+}
+
+extension VerifiedPermissionsClientTypes.OpenIdConnectIdentityTokenConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "OpenIdConnectIdentityTokenConfiguration(clientIds: \(Swift.String(describing: clientIds)), principalIdClaim: \"CONTENT_REDACTED\")"}
+}
+
+extension VerifiedPermissionsClientTypes {
+    /// The token type that you want to process from your OIDC identity provider. Your policy store can process either identity (ID) or access tokens from a given OIDC identity source. This data type is part of a [OpenIdConnectConfiguration](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectConfiguration.html) structure, which is a parameter of [CreateIdentitySource](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html).
+    public enum OpenIdConnectTokenSelection {
+        /// The OIDC configuration for processing access tokens. Contains allowed audience claims, for example https://auth.example.com, and the claim that you want to map to the principal, for example sub.
+        case accesstokenonly(VerifiedPermissionsClientTypes.OpenIdConnectAccessTokenConfiguration)
+        /// The OIDC configuration for processing identity (ID) tokens. Contains allowed client ID claims, for example 1example23456789, and the claim that you want to map to the principal, for example sub.
+        case identitytokenonly(VerifiedPermissionsClientTypes.OpenIdConnectIdentityTokenConfiguration)
         case sdkUnknown(Swift.String)
     }
 
+}
+
+extension VerifiedPermissionsClientTypes {
+    /// Contains configuration details of an OpenID Connect (OIDC) identity provider, or identity source, that Verified Permissions can use to generate entities from authenticated identities. It specifies the issuer URL, token type that you want to use, and policy store entity details. This data type is part of a [Configuration](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_Configuration.html) structure, which is a parameter to [CreateIdentitySource](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html).
+    public struct OpenIdConnectConfiguration {
+        /// A descriptive string that you want to prefix to user entities from your OIDC identity provider. For example, if you set an entityIdPrefix of MyOIDCProvider, you can reference principals in your policies in the format MyCorp::User::MyOIDCProvider|Carlos.
+        public var entityIdPrefix: Swift.String?
+        /// The claim in OIDC identity provider tokens that indicates a user's group membership, and the entity type that you want to map it to. For example, this object can map the contents of a groups claim to MyCorp::UserGroup.
+        public var groupConfiguration: VerifiedPermissionsClientTypes.OpenIdConnectGroupConfiguration?
+        /// The issuer URL of an OIDC identity provider. This URL must have an OIDC discovery endpoint at the path .well-known/openid-configuration.
+        /// This member is required.
+        public var issuer: Swift.String?
+        /// The token type that you want to process from your OIDC identity provider. Your policy store can process either identity (ID) or access tokens from a given OIDC identity source.
+        /// This member is required.
+        public var tokenSelection: VerifiedPermissionsClientTypes.OpenIdConnectTokenSelection?
+
+        public init(
+            entityIdPrefix: Swift.String? = nil,
+            groupConfiguration: VerifiedPermissionsClientTypes.OpenIdConnectGroupConfiguration? = nil,
+            issuer: Swift.String? = nil,
+            tokenSelection: VerifiedPermissionsClientTypes.OpenIdConnectTokenSelection? = nil
+        )
+        {
+            self.entityIdPrefix = entityIdPrefix
+            self.groupConfiguration = groupConfiguration
+            self.issuer = issuer
+            self.tokenSelection = tokenSelection
+        }
+    }
+
+}
+
+extension VerifiedPermissionsClientTypes.OpenIdConnectConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "OpenIdConnectConfiguration(groupConfiguration: \(Swift.String(describing: groupConfiguration)), issuer: \(Swift.String(describing: issuer)), tokenSelection: \(Swift.String(describing: tokenSelection)), entityIdPrefix: \"CONTENT_REDACTED\")"}
+}
+
+extension VerifiedPermissionsClientTypes {
+    /// Contains configuration information used when creating a new identity source. This data type is used as a request parameter for the [CreateIdentitySource](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html) operation.
+    public enum Configuration {
+        /// Contains configuration details of a Amazon Cognito user pool that Verified Permissions can use as a source of authenticated identities as entities. It specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of a Amazon Cognito user pool and one or more application client IDs. Example: "configuration":{"cognitoUserPoolConfiguration":{"userPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","clientIds": ["a1b2c3d4e5f6g7h8i9j0kalbmc"],"groupConfiguration": {"groupEntityType": "MyCorp::Group"}}}
+        case cognitouserpoolconfiguration(VerifiedPermissionsClientTypes.CognitoUserPoolConfiguration)
+        /// Contains configuration details of an OpenID Connect (OIDC) identity provider, or identity source, that Verified Permissions can use to generate entities from authenticated identities. It specifies the issuer URL, token type that you want to use, and policy store entity details. Example:"configuration":{"openIdConnectConfiguration":{"issuer":"https://auth.example.com","tokenSelection":{"accessTokenOnly":{"audiences":["https://myapp.example.com","https://myapp2.example.com"],"principalIdClaim":"sub"}},"entityIdPrefix":"MyOIDCProvider","groupConfiguration":{"groupClaim":"groups","groupEntityType":"MyCorp::UserGroup"}}}
+        case openidconnectconfiguration(VerifiedPermissionsClientTypes.OpenIdConnectConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension VerifiedPermissionsClientTypes {
+    /// The claim in OIDC identity provider tokens that indicates a user's group membership, and the entity type that you want to map it to. For example, this object can map the contents of a groups claim to MyCorp::UserGroup. This data type is part of a [OpenIdConnectConfigurationDetail](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectConfigurationDetail.html) structure, which is a parameter of [GetIdentitySource](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetIdentitySource.html).
+    public struct OpenIdConnectGroupConfigurationDetail {
+        /// The token claim that you want Verified Permissions to interpret as group membership. For example, groups.
+        /// This member is required.
+        public var groupClaim: Swift.String?
+        /// The policy store entity type that you want to map your users' group claim to. For example, MyCorp::UserGroup. A group entity type is an entity that can have a user entity type as a member.
+        /// This member is required.
+        public var groupEntityType: Swift.String?
+
+        public init(
+            groupClaim: Swift.String? = nil,
+            groupEntityType: Swift.String? = nil
+        )
+        {
+            self.groupClaim = groupClaim
+            self.groupEntityType = groupEntityType
+        }
+    }
+
+}
+
+extension VerifiedPermissionsClientTypes.OpenIdConnectGroupConfigurationDetail: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "OpenIdConnectGroupConfigurationDetail(groupClaim: \"CONTENT_REDACTED\", groupEntityType: \"CONTENT_REDACTED\")"}
+}
+
+extension VerifiedPermissionsClientTypes {
+    /// The configuration of an OpenID Connect (OIDC) identity source for handling access token claims. Contains the claim that you want to identify as the principal in an authorization request, and the values of the aud claim, or audiences, that you want to accept. This data type is part of a [OpenIdConnectTokenSelectionDetail](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectTokenSelectionDetail.html) structure, which is a parameter of [GetIdentitySource](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetIdentitySource.html).
+    public struct OpenIdConnectAccessTokenConfigurationDetail {
+        /// The access token aud claim values that you want to accept in your policy store. For example, https://myapp.example.com, https://myapp2.example.com.
+        public var audiences: [Swift.String]?
+        /// The claim that determines the principal in OIDC access tokens. For example, sub.
+        public var principalIdClaim: Swift.String?
+
+        public init(
+            audiences: [Swift.String]? = nil,
+            principalIdClaim: Swift.String? = nil
+        )
+        {
+            self.audiences = audiences
+            self.principalIdClaim = principalIdClaim
+        }
+    }
+
+}
+
+extension VerifiedPermissionsClientTypes.OpenIdConnectAccessTokenConfigurationDetail: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "OpenIdConnectAccessTokenConfigurationDetail(audiences: \(Swift.String(describing: audiences)), principalIdClaim: \"CONTENT_REDACTED\")"}
+}
+
+extension VerifiedPermissionsClientTypes {
+    /// The configuration of an OpenID Connect (OIDC) identity source for handling identity (ID) token claims. Contains the claim that you want to identify as the principal in an authorization request, and the values of the aud claim, or audiences, that you want to accept. This data type is part of a [OpenIdConnectTokenSelectionDetail](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectTokenSelectionDetail.html) structure, which is a parameter of [GetIdentitySource](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetIdentitySource.html).
+    public struct OpenIdConnectIdentityTokenConfigurationDetail {
+        /// The ID token audience, or client ID, claim values that you want to accept in your policy store from an OIDC identity provider. For example, 1example23456789, 2example10111213.
+        public var clientIds: [Swift.String]?
+        /// The claim that determines the principal in OIDC access tokens. For example, sub.
+        public var principalIdClaim: Swift.String?
+
+        public init(
+            clientIds: [Swift.String]? = nil,
+            principalIdClaim: Swift.String? = nil
+        )
+        {
+            self.clientIds = clientIds
+            self.principalIdClaim = principalIdClaim
+        }
+    }
+
+}
+
+extension VerifiedPermissionsClientTypes.OpenIdConnectIdentityTokenConfigurationDetail: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "OpenIdConnectIdentityTokenConfigurationDetail(clientIds: \(Swift.String(describing: clientIds)), principalIdClaim: \"CONTENT_REDACTED\")"}
+}
+
+extension VerifiedPermissionsClientTypes {
+    /// The token type that you want to process from your OIDC identity provider. Your policy store can process either identity (ID) or access tokens from a given OIDC identity source. This data type is part of a [OpenIdConnectConfigurationDetail](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectConfigurationDetail.html) structure, which is a parameter of [GetIdentitySource](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetIdentitySource.html).
+    public enum OpenIdConnectTokenSelectionDetail {
+        /// The OIDC configuration for processing access tokens. Contains allowed audience claims, for example https://auth.example.com, and the claim that you want to map to the principal, for example sub.
+        case accesstokenonly(VerifiedPermissionsClientTypes.OpenIdConnectAccessTokenConfigurationDetail)
+        /// The OIDC configuration for processing identity (ID) tokens. Contains allowed client ID claims, for example 1example23456789, and the claim that you want to map to the principal, for example sub.
+        case identitytokenonly(VerifiedPermissionsClientTypes.OpenIdConnectIdentityTokenConfigurationDetail)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension VerifiedPermissionsClientTypes {
+    /// Contains configuration details of an OpenID Connect (OIDC) identity provider, or identity source, that Verified Permissions can use to generate entities from authenticated identities. It specifies the issuer URL, token type that you want to use, and policy store entity details. This data type is part of a [ConfigurationDetail](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ConfigurationDetail.html) structure, which is a parameter to [GetIdentitySource](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetIdentitySource.html).
+    public struct OpenIdConnectConfigurationDetail {
+        /// A descriptive string that you want to prefix to user entities from your OIDC identity provider. For example, if you set an entityIdPrefix of MyOIDCProvider, you can reference principals in your policies in the format MyCorp::User::MyOIDCProvider|Carlos.
+        public var entityIdPrefix: Swift.String?
+        /// The claim in OIDC identity provider tokens that indicates a user's group membership, and the entity type that you want to map it to. For example, this object can map the contents of a groups claim to MyCorp::UserGroup.
+        public var groupConfiguration: VerifiedPermissionsClientTypes.OpenIdConnectGroupConfigurationDetail?
+        /// The issuer URL of an OIDC identity provider. This URL must have an OIDC discovery endpoint at the path .well-known/openid-configuration.
+        /// This member is required.
+        public var issuer: Swift.String?
+        /// The token type that you want to process from your OIDC identity provider. Your policy store can process either identity (ID) or access tokens from a given OIDC identity source.
+        /// This member is required.
+        public var tokenSelection: VerifiedPermissionsClientTypes.OpenIdConnectTokenSelectionDetail?
+
+        public init(
+            entityIdPrefix: Swift.String? = nil,
+            groupConfiguration: VerifiedPermissionsClientTypes.OpenIdConnectGroupConfigurationDetail? = nil,
+            issuer: Swift.String? = nil,
+            tokenSelection: VerifiedPermissionsClientTypes.OpenIdConnectTokenSelectionDetail? = nil
+        )
+        {
+            self.entityIdPrefix = entityIdPrefix
+            self.groupConfiguration = groupConfiguration
+            self.issuer = issuer
+            self.tokenSelection = tokenSelection
+        }
+    }
+
+}
+
+extension VerifiedPermissionsClientTypes.OpenIdConnectConfigurationDetail: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "OpenIdConnectConfigurationDetail(groupConfiguration: \(Swift.String(describing: groupConfiguration)), issuer: \(Swift.String(describing: issuer)), tokenSelection: \(Swift.String(describing: tokenSelection)), entityIdPrefix: \"CONTENT_REDACTED\")"}
 }
 
 extension VerifiedPermissionsClientTypes {
@@ -401,9 +651,135 @@ extension VerifiedPermissionsClientTypes {
     public enum ConfigurationDetail {
         /// Contains configuration details of a Amazon Cognito user pool that Verified Permissions can use as a source of authenticated identities as entities. It specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of a Amazon Cognito user pool, the policy store entity that you want to assign to user groups, and one or more application client IDs. Example: "configuration":{"cognitoUserPoolConfiguration":{"userPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","clientIds": ["a1b2c3d4e5f6g7h8i9j0kalbmc"],"groupConfiguration": {"groupEntityType": "MyCorp::Group"}}}
         case cognitouserpoolconfiguration(VerifiedPermissionsClientTypes.CognitoUserPoolConfigurationDetail)
+        /// Contains configuration details of an OpenID Connect (OIDC) identity provider, or identity source, that Verified Permissions can use to generate entities from authenticated identities. It specifies the issuer URL, token type that you want to use, and policy store entity details. Example:"configuration":{"openIdConnectConfiguration":{"issuer":"https://auth.example.com","tokenSelection":{"accessTokenOnly":{"audiences":["https://myapp.example.com","https://myapp2.example.com"],"principalIdClaim":"sub"}},"entityIdPrefix":"MyOIDCProvider","groupConfiguration":{"groupClaim":"groups","groupEntityType":"MyCorp::UserGroup"}}}
+        case openidconnectconfiguration(VerifiedPermissionsClientTypes.OpenIdConnectConfigurationDetail)
         case sdkUnknown(Swift.String)
     }
 
+}
+
+extension VerifiedPermissionsClientTypes {
+    /// The claim in OIDC identity provider tokens that indicates a user's group membership, and the entity type that you want to map it to. For example, this object can map the contents of a groups claim to MyCorp::UserGroup. This data type is part of a [OpenIdConnectConfigurationItem](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectConfigurationItem.html) structure, which is a parameter of [ListIdentitySourcea](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html).
+    public struct OpenIdConnectGroupConfigurationItem {
+        /// The token claim that you want Verified Permissions to interpret as group membership. For example, groups.
+        /// This member is required.
+        public var groupClaim: Swift.String?
+        /// The policy store entity type that you want to map your users' group claim to. For example, MyCorp::UserGroup. A group entity type is an entity that can have a user entity type as a member.
+        /// This member is required.
+        public var groupEntityType: Swift.String?
+
+        public init(
+            groupClaim: Swift.String? = nil,
+            groupEntityType: Swift.String? = nil
+        )
+        {
+            self.groupClaim = groupClaim
+            self.groupEntityType = groupEntityType
+        }
+    }
+
+}
+
+extension VerifiedPermissionsClientTypes.OpenIdConnectGroupConfigurationItem: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "OpenIdConnectGroupConfigurationItem(groupClaim: \"CONTENT_REDACTED\", groupEntityType: \"CONTENT_REDACTED\")"}
+}
+
+extension VerifiedPermissionsClientTypes {
+    /// The configuration of an OpenID Connect (OIDC) identity source for handling access token claims. Contains the claim that you want to identify as the principal in an authorization request, and the values of the aud claim, or audiences, that you want to accept. This data type is part of a [OpenIdConnectTokenSelectionItem](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectTokenSelectionItem.html) structure, which is a parameter of [ListIdentitySources](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html).
+    public struct OpenIdConnectAccessTokenConfigurationItem {
+        /// The access token aud claim values that you want to accept in your policy store. For example, https://myapp.example.com, https://myapp2.example.com.
+        public var audiences: [Swift.String]?
+        /// The claim that determines the principal in OIDC access tokens. For example, sub.
+        public var principalIdClaim: Swift.String?
+
+        public init(
+            audiences: [Swift.String]? = nil,
+            principalIdClaim: Swift.String? = nil
+        )
+        {
+            self.audiences = audiences
+            self.principalIdClaim = principalIdClaim
+        }
+    }
+
+}
+
+extension VerifiedPermissionsClientTypes.OpenIdConnectAccessTokenConfigurationItem: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "OpenIdConnectAccessTokenConfigurationItem(audiences: \(Swift.String(describing: audiences)), principalIdClaim: \"CONTENT_REDACTED\")"}
+}
+
+extension VerifiedPermissionsClientTypes {
+    /// The configuration of an OpenID Connect (OIDC) identity source for handling identity (ID) token claims. Contains the claim that you want to identify as the principal in an authorization request, and the values of the aud claim, or audiences, that you want to accept. This data type is part of a [OpenIdConnectTokenSelectionItem](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectTokenSelectionItem.html) structure, which is a parameter of [ListIdentitySources](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html).
+    public struct OpenIdConnectIdentityTokenConfigurationItem {
+        /// The ID token audience, or client ID, claim values that you want to accept in your policy store from an OIDC identity provider. For example, 1example23456789, 2example10111213.
+        public var clientIds: [Swift.String]?
+        /// The claim that determines the principal in OIDC access tokens. For example, sub.
+        public var principalIdClaim: Swift.String?
+
+        public init(
+            clientIds: [Swift.String]? = nil,
+            principalIdClaim: Swift.String? = nil
+        )
+        {
+            self.clientIds = clientIds
+            self.principalIdClaim = principalIdClaim
+        }
+    }
+
+}
+
+extension VerifiedPermissionsClientTypes.OpenIdConnectIdentityTokenConfigurationItem: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "OpenIdConnectIdentityTokenConfigurationItem(clientIds: \(Swift.String(describing: clientIds)), principalIdClaim: \"CONTENT_REDACTED\")"}
+}
+
+extension VerifiedPermissionsClientTypes {
+    /// The token type that you want to process from your OIDC identity provider. Your policy store can process either identity (ID) or access tokens from a given OIDC identity source. This data type is part of a [OpenIdConnectConfigurationItem](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectConfigurationItem.html) structure, which is a parameter of [ListIdentitySources](http://amazonaws.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html).
+    public enum OpenIdConnectTokenSelectionItem {
+        /// The OIDC configuration for processing access tokens. Contains allowed audience claims, for example https://auth.example.com, and the claim that you want to map to the principal, for example sub.
+        case accesstokenonly(VerifiedPermissionsClientTypes.OpenIdConnectAccessTokenConfigurationItem)
+        /// The OIDC configuration for processing identity (ID) tokens. Contains allowed client ID claims, for example 1example23456789, and the claim that you want to map to the principal, for example sub.
+        case identitytokenonly(VerifiedPermissionsClientTypes.OpenIdConnectIdentityTokenConfigurationItem)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension VerifiedPermissionsClientTypes {
+    /// Contains configuration details of an OpenID Connect (OIDC) identity provider, or identity source, that Verified Permissions can use to generate entities from authenticated identities. It specifies the issuer URL, token type that you want to use, and policy store entity details. This data type is part of a [ConfigurationItem](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ConfigurationDetail.html) structure, which is a parameter to [ListIdentitySources](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html).
+    public struct OpenIdConnectConfigurationItem {
+        /// A descriptive string that you want to prefix to user entities from your OIDC identity provider. For example, if you set an entityIdPrefix of MyOIDCProvider, you can reference principals in your policies in the format MyCorp::User::MyOIDCProvider|Carlos.
+        public var entityIdPrefix: Swift.String?
+        /// The claim in OIDC identity provider tokens that indicates a user's group membership, and the entity type that you want to map it to. For example, this object can map the contents of a groups claim to MyCorp::UserGroup.
+        public var groupConfiguration: VerifiedPermissionsClientTypes.OpenIdConnectGroupConfigurationItem?
+        /// The issuer URL of an OIDC identity provider. This URL must have an OIDC discovery endpoint at the path .well-known/openid-configuration.
+        /// This member is required.
+        public var issuer: Swift.String?
+        /// The token type that you want to process from your OIDC identity provider. Your policy store can process either identity (ID) or access tokens from a given OIDC identity source.
+        /// This member is required.
+        public var tokenSelection: VerifiedPermissionsClientTypes.OpenIdConnectTokenSelectionItem?
+
+        public init(
+            entityIdPrefix: Swift.String? = nil,
+            groupConfiguration: VerifiedPermissionsClientTypes.OpenIdConnectGroupConfigurationItem? = nil,
+            issuer: Swift.String? = nil,
+            tokenSelection: VerifiedPermissionsClientTypes.OpenIdConnectTokenSelectionItem? = nil
+        )
+        {
+            self.entityIdPrefix = entityIdPrefix
+            self.groupConfiguration = groupConfiguration
+            self.issuer = issuer
+            self.tokenSelection = tokenSelection
+        }
+    }
+
+}
+
+extension VerifiedPermissionsClientTypes.OpenIdConnectConfigurationItem: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "OpenIdConnectConfigurationItem(groupConfiguration: \(Swift.String(describing: groupConfiguration)), issuer: \(Swift.String(describing: issuer)), tokenSelection: \(Swift.String(describing: tokenSelection)), entityIdPrefix: \"CONTENT_REDACTED\")"}
 }
 
 extension VerifiedPermissionsClientTypes {
@@ -411,6 +787,8 @@ extension VerifiedPermissionsClientTypes {
     public enum ConfigurationItem {
         /// Contains configuration details of a Amazon Cognito user pool that Verified Permissions can use as a source of authenticated identities as entities. It specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of a Amazon Cognito user pool, the policy store entity that you want to assign to user groups, and one or more application client IDs. Example: "configuration":{"cognitoUserPoolConfiguration":{"userPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","clientIds": ["a1b2c3d4e5f6g7h8i9j0kalbmc"],"groupConfiguration": {"groupEntityType": "MyCorp::Group"}}}
         case cognitouserpoolconfiguration(VerifiedPermissionsClientTypes.CognitoUserPoolConfigurationItem)
+        /// Contains configuration details of an OpenID Connect (OIDC) identity provider, or identity source, that Verified Permissions can use to generate entities from authenticated identities. It specifies the issuer URL, token type that you want to use, and policy store entity details. Example:"configuration":{"openIdConnectConfiguration":{"issuer":"https://auth.example.com","tokenSelection":{"accessTokenOnly":{"audiences":["https://myapp.example.com","https://myapp2.example.com"],"principalIdClaim":"sub"}},"entityIdPrefix":"MyOIDCProvider","groupConfiguration":{"groupClaim":"groups","groupEntityType":"MyCorp::UserGroup"}}}
+        case openidconnectconfiguration(VerifiedPermissionsClientTypes.OpenIdConnectConfigurationItem)
         case sdkUnknown(Swift.String)
     }
 
@@ -513,7 +891,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 public struct CreateIdentitySourceInput {
     /// Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an ConflictException error. Verified Permissions recognizes a ClientToken for eight hours. After eight hours, the next request with the same parameters performs the operation again regardless of the value of ClientToken.
     public var clientToken: Swift.String?
-    /// Specifies the details required to communicate with the identity provider (IdP) associated with this identity source. At this time, the only valid member of this structure is a Amazon Cognito user pool configuration. You must specify a UserPoolArn, and optionally, a ClientId.
+    /// Specifies the details required to communicate with the identity provider (IdP) associated with this identity source.
     /// This member is required.
     public var configuration: VerifiedPermissionsClientTypes.Configuration?
     /// Specifies the ID of the policy store in which you want to store this identity source. Only policies and requests made using this policy store can reference identities from the identity provider configured in the new identity source.
@@ -1645,10 +2023,136 @@ extension VerifiedPermissionsClientTypes {
 }
 
 extension VerifiedPermissionsClientTypes {
-    /// Contains an updated configuration to replace the configuration in an existing identity source. At this time, the only valid member of this structure is a Amazon Cognito user pool configuration. You must specify a userPoolArn, and optionally, a ClientId.
+    /// The claim in OIDC identity provider tokens that indicates a user's group membership, and the entity type that you want to map it to. For example, this object can map the contents of a groups claim to MyCorp::UserGroup. This data type is part of a [UpdateOpenIdConnectConfiguration](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdateOpenIdConnectConfiguration.html) structure, which is a parameter to [UpdateIdentitySource](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdateIdentitySource.html).
+    public struct UpdateOpenIdConnectGroupConfiguration {
+        /// The token claim that you want Verified Permissions to interpret as group membership. For example, groups.
+        /// This member is required.
+        public var groupClaim: Swift.String?
+        /// The policy store entity type that you want to map your users' group claim to. For example, MyCorp::UserGroup. A group entity type is an entity that can have a user entity type as a member.
+        /// This member is required.
+        public var groupEntityType: Swift.String?
+
+        public init(
+            groupClaim: Swift.String? = nil,
+            groupEntityType: Swift.String? = nil
+        )
+        {
+            self.groupClaim = groupClaim
+            self.groupEntityType = groupEntityType
+        }
+    }
+
+}
+
+extension VerifiedPermissionsClientTypes.UpdateOpenIdConnectGroupConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateOpenIdConnectGroupConfiguration(groupClaim: \"CONTENT_REDACTED\", groupEntityType: \"CONTENT_REDACTED\")"}
+}
+
+extension VerifiedPermissionsClientTypes {
+    /// The configuration of an OpenID Connect (OIDC) identity source for handling access token claims. Contains the claim that you want to identify as the principal in an authorization request, and the values of the aud claim, or audiences, that you want to accept. This data type is part of a [UpdateOpenIdConnectTokenSelection](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdateOpenIdConnectTokenSelection.html) structure, which is a parameter to [UpdateIdentitySource](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdateIdentitySource.html).
+    public struct UpdateOpenIdConnectAccessTokenConfiguration {
+        /// The access token aud claim values that you want to accept in your policy store. For example, https://myapp.example.com, https://myapp2.example.com.
+        public var audiences: [Swift.String]?
+        /// The claim that determines the principal in OIDC access tokens. For example, sub.
+        public var principalIdClaim: Swift.String?
+
+        public init(
+            audiences: [Swift.String]? = nil,
+            principalIdClaim: Swift.String? = nil
+        )
+        {
+            self.audiences = audiences
+            self.principalIdClaim = principalIdClaim
+        }
+    }
+
+}
+
+extension VerifiedPermissionsClientTypes.UpdateOpenIdConnectAccessTokenConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateOpenIdConnectAccessTokenConfiguration(audiences: \(Swift.String(describing: audiences)), principalIdClaim: \"CONTENT_REDACTED\")"}
+}
+
+extension VerifiedPermissionsClientTypes {
+    /// The configuration of an OpenID Connect (OIDC) identity source for handling identity (ID) token claims. Contains the claim that you want to identify as the principal in an authorization request, and the values of the aud claim, or audiences, that you want to accept. This data type is part of a [UpdateOpenIdConnectTokenSelection](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdateOpenIdConnectTokenSelection.html) structure, which is a parameter to [UpdateIdentitySource](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdateIdentitySource.html).
+    public struct UpdateOpenIdConnectIdentityTokenConfiguration {
+        /// The ID token audience, or client ID, claim values that you want to accept in your policy store from an OIDC identity provider. For example, 1example23456789, 2example10111213.
+        public var clientIds: [Swift.String]?
+        /// The claim that determines the principal in OIDC access tokens. For example, sub.
+        public var principalIdClaim: Swift.String?
+
+        public init(
+            clientIds: [Swift.String]? = nil,
+            principalIdClaim: Swift.String? = nil
+        )
+        {
+            self.clientIds = clientIds
+            self.principalIdClaim = principalIdClaim
+        }
+    }
+
+}
+
+extension VerifiedPermissionsClientTypes.UpdateOpenIdConnectIdentityTokenConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateOpenIdConnectIdentityTokenConfiguration(clientIds: \(Swift.String(describing: clientIds)), principalIdClaim: \"CONTENT_REDACTED\")"}
+}
+
+extension VerifiedPermissionsClientTypes {
+    /// The token type that you want to process from your OIDC identity provider. Your policy store can process either identity (ID) or access tokens from a given OIDC identity source. This data type is part of a [UpdateOpenIdConnectConfiguration](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdateOpenIdConnectConfiguration.html) structure, which is a parameter to [UpdateIdentitySource](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdateIdentitySource.html).
+    public enum UpdateOpenIdConnectTokenSelection {
+        /// The OIDC configuration for processing access tokens. Contains allowed audience claims, for example https://auth.example.com, and the claim that you want to map to the principal, for example sub.
+        case accesstokenonly(VerifiedPermissionsClientTypes.UpdateOpenIdConnectAccessTokenConfiguration)
+        /// The OIDC configuration for processing identity (ID) tokens. Contains allowed client ID claims, for example 1example23456789, and the claim that you want to map to the principal, for example sub.
+        case identitytokenonly(VerifiedPermissionsClientTypes.UpdateOpenIdConnectIdentityTokenConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension VerifiedPermissionsClientTypes {
+    /// Contains configuration details of an OpenID Connect (OIDC) identity provider, or identity source, that Verified Permissions can use to generate entities from authenticated identities. It specifies the issuer URL, token type that you want to use, and policy store entity details. This data type is part of a [UpdateConfiguration](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdateConfiguration.html) structure, which is a parameter to [UpdateIdentitySource](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdateIdentitySource.html).
+    public struct UpdateOpenIdConnectConfiguration {
+        /// A descriptive string that you want to prefix to user entities from your OIDC identity provider. For example, if you set an entityIdPrefix of MyOIDCProvider, you can reference principals in your policies in the format MyCorp::User::MyOIDCProvider|Carlos.
+        public var entityIdPrefix: Swift.String?
+        /// The claim in OIDC identity provider tokens that indicates a user's group membership, and the entity type that you want to map it to. For example, this object can map the contents of a groups claim to MyCorp::UserGroup.
+        public var groupConfiguration: VerifiedPermissionsClientTypes.UpdateOpenIdConnectGroupConfiguration?
+        /// The issuer URL of an OIDC identity provider. This URL must have an OIDC discovery endpoint at the path .well-known/openid-configuration.
+        /// This member is required.
+        public var issuer: Swift.String?
+        /// The token type that you want to process from your OIDC identity provider. Your policy store can process either identity (ID) or access tokens from a given OIDC identity source.
+        /// This member is required.
+        public var tokenSelection: VerifiedPermissionsClientTypes.UpdateOpenIdConnectTokenSelection?
+
+        public init(
+            entityIdPrefix: Swift.String? = nil,
+            groupConfiguration: VerifiedPermissionsClientTypes.UpdateOpenIdConnectGroupConfiguration? = nil,
+            issuer: Swift.String? = nil,
+            tokenSelection: VerifiedPermissionsClientTypes.UpdateOpenIdConnectTokenSelection? = nil
+        )
+        {
+            self.entityIdPrefix = entityIdPrefix
+            self.groupConfiguration = groupConfiguration
+            self.issuer = issuer
+            self.tokenSelection = tokenSelection
+        }
+    }
+
+}
+
+extension VerifiedPermissionsClientTypes.UpdateOpenIdConnectConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateOpenIdConnectConfiguration(groupConfiguration: \(Swift.String(describing: groupConfiguration)), issuer: \(Swift.String(describing: issuer)), tokenSelection: \(Swift.String(describing: tokenSelection)), entityIdPrefix: \"CONTENT_REDACTED\")"}
+}
+
+extension VerifiedPermissionsClientTypes {
+    /// Contains an update to replace the configuration in an existing identity source.
     public enum UpdateConfiguration {
         /// Contains configuration details of a Amazon Cognito user pool.
         case cognitouserpoolconfiguration(VerifiedPermissionsClientTypes.UpdateCognitoUserPoolConfiguration)
+        /// Contains configuration details of an OpenID Connect (OIDC) identity provider, or identity source, that Verified Permissions can use to generate entities from authenticated identities. It specifies the issuer URL, token type that you want to use, and policy store entity details.
+        case openidconnectconfiguration(VerifiedPermissionsClientTypes.UpdateOpenIdConnectConfiguration)
         case sdkUnknown(Swift.String)
     }
 
@@ -2595,7 +3099,7 @@ extension VerifiedPermissionsClientTypes {
         /// The identifier of the entity.
         /// This member is required.
         public var identifier: VerifiedPermissionsClientTypes.EntityIdentifier?
-        /// The parents in the hierarchy that contains the entity.
+        /// The parent entities in the hierarchy that contains the entity. A principal or resource entity can be defined with at most 99 transitive parents per authorization request. A transitive parent is an entity in the hierarchy of entities including all direct parents, and parents of parents. For example, a user can be a member of 91 groups if one of those groups is a member of eight groups, for a total of 100: one entity, 91 entity parents, and eight parents of parents.
         public var parents: [VerifiedPermissionsClientTypes.EntityIdentifier]?
 
         public init(
@@ -4444,9 +4948,73 @@ extension VerifiedPermissionsClientTypes.ConfigurationDetail {
         switch name {
             case "cognitoUserPoolConfiguration":
                 return .cognitouserpoolconfiguration(try reader["cognitoUserPoolConfiguration"].read(with: VerifiedPermissionsClientTypes.CognitoUserPoolConfigurationDetail.read(from:)))
+            case "openIdConnectConfiguration":
+                return .openidconnectconfiguration(try reader["openIdConnectConfiguration"].read(with: VerifiedPermissionsClientTypes.OpenIdConnectConfigurationDetail.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension VerifiedPermissionsClientTypes.OpenIdConnectConfigurationDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.OpenIdConnectConfigurationDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VerifiedPermissionsClientTypes.OpenIdConnectConfigurationDetail()
+        value.issuer = try reader["issuer"].readIfPresent()
+        value.entityIdPrefix = try reader["entityIdPrefix"].readIfPresent()
+        value.groupConfiguration = try reader["groupConfiguration"].readIfPresent(with: VerifiedPermissionsClientTypes.OpenIdConnectGroupConfigurationDetail.read(from:))
+        value.tokenSelection = try reader["tokenSelection"].readIfPresent(with: VerifiedPermissionsClientTypes.OpenIdConnectTokenSelectionDetail.read(from:))
+        return value
+    }
+}
+
+extension VerifiedPermissionsClientTypes.OpenIdConnectTokenSelectionDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.OpenIdConnectTokenSelectionDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "accessTokenOnly":
+                return .accesstokenonly(try reader["accessTokenOnly"].read(with: VerifiedPermissionsClientTypes.OpenIdConnectAccessTokenConfigurationDetail.read(from:)))
+            case "identityTokenOnly":
+                return .identitytokenonly(try reader["identityTokenOnly"].read(with: VerifiedPermissionsClientTypes.OpenIdConnectIdentityTokenConfigurationDetail.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension VerifiedPermissionsClientTypes.OpenIdConnectIdentityTokenConfigurationDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.OpenIdConnectIdentityTokenConfigurationDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VerifiedPermissionsClientTypes.OpenIdConnectIdentityTokenConfigurationDetail()
+        value.principalIdClaim = try reader["principalIdClaim"].readIfPresent() ?? "sub"
+        value.clientIds = try reader["clientIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension VerifiedPermissionsClientTypes.OpenIdConnectAccessTokenConfigurationDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.OpenIdConnectAccessTokenConfigurationDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VerifiedPermissionsClientTypes.OpenIdConnectAccessTokenConfigurationDetail()
+        value.principalIdClaim = try reader["principalIdClaim"].readIfPresent() ?? "sub"
+        value.audiences = try reader["audiences"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension VerifiedPermissionsClientTypes.OpenIdConnectGroupConfigurationDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.OpenIdConnectGroupConfigurationDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VerifiedPermissionsClientTypes.OpenIdConnectGroupConfigurationDetail()
+        value.groupClaim = try reader["groupClaim"].readIfPresent()
+        value.groupEntityType = try reader["groupEntityType"].readIfPresent()
+        return value
     }
 }
 
@@ -4551,9 +5119,73 @@ extension VerifiedPermissionsClientTypes.ConfigurationItem {
         switch name {
             case "cognitoUserPoolConfiguration":
                 return .cognitouserpoolconfiguration(try reader["cognitoUserPoolConfiguration"].read(with: VerifiedPermissionsClientTypes.CognitoUserPoolConfigurationItem.read(from:)))
+            case "openIdConnectConfiguration":
+                return .openidconnectconfiguration(try reader["openIdConnectConfiguration"].read(with: VerifiedPermissionsClientTypes.OpenIdConnectConfigurationItem.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension VerifiedPermissionsClientTypes.OpenIdConnectConfigurationItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.OpenIdConnectConfigurationItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VerifiedPermissionsClientTypes.OpenIdConnectConfigurationItem()
+        value.issuer = try reader["issuer"].readIfPresent()
+        value.entityIdPrefix = try reader["entityIdPrefix"].readIfPresent()
+        value.groupConfiguration = try reader["groupConfiguration"].readIfPresent(with: VerifiedPermissionsClientTypes.OpenIdConnectGroupConfigurationItem.read(from:))
+        value.tokenSelection = try reader["tokenSelection"].readIfPresent(with: VerifiedPermissionsClientTypes.OpenIdConnectTokenSelectionItem.read(from:))
+        return value
+    }
+}
+
+extension VerifiedPermissionsClientTypes.OpenIdConnectTokenSelectionItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.OpenIdConnectTokenSelectionItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "accessTokenOnly":
+                return .accesstokenonly(try reader["accessTokenOnly"].read(with: VerifiedPermissionsClientTypes.OpenIdConnectAccessTokenConfigurationItem.read(from:)))
+            case "identityTokenOnly":
+                return .identitytokenonly(try reader["identityTokenOnly"].read(with: VerifiedPermissionsClientTypes.OpenIdConnectIdentityTokenConfigurationItem.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension VerifiedPermissionsClientTypes.OpenIdConnectIdentityTokenConfigurationItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.OpenIdConnectIdentityTokenConfigurationItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VerifiedPermissionsClientTypes.OpenIdConnectIdentityTokenConfigurationItem()
+        value.principalIdClaim = try reader["principalIdClaim"].readIfPresent() ?? "sub"
+        value.clientIds = try reader["clientIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension VerifiedPermissionsClientTypes.OpenIdConnectAccessTokenConfigurationItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.OpenIdConnectAccessTokenConfigurationItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VerifiedPermissionsClientTypes.OpenIdConnectAccessTokenConfigurationItem()
+        value.principalIdClaim = try reader["principalIdClaim"].readIfPresent() ?? "sub"
+        value.audiences = try reader["audiences"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension VerifiedPermissionsClientTypes.OpenIdConnectGroupConfigurationItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.OpenIdConnectGroupConfigurationItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VerifiedPermissionsClientTypes.OpenIdConnectGroupConfigurationItem()
+        value.groupClaim = try reader["groupClaim"].readIfPresent()
+        value.groupEntityType = try reader["groupEntityType"].readIfPresent()
+        return value
     }
 }
 
@@ -4730,9 +5362,64 @@ extension VerifiedPermissionsClientTypes.Configuration {
         switch value {
             case let .cognitouserpoolconfiguration(cognitouserpoolconfiguration):
                 try writer["cognitoUserPoolConfiguration"].write(cognitouserpoolconfiguration, with: VerifiedPermissionsClientTypes.CognitoUserPoolConfiguration.write(value:to:))
+            case let .openidconnectconfiguration(openidconnectconfiguration):
+                try writer["openIdConnectConfiguration"].write(openidconnectconfiguration, with: VerifiedPermissionsClientTypes.OpenIdConnectConfiguration.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
+    }
+}
+
+extension VerifiedPermissionsClientTypes.OpenIdConnectConfiguration {
+
+    static func write(value: VerifiedPermissionsClientTypes.OpenIdConnectConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["entityIdPrefix"].write(value.entityIdPrefix)
+        try writer["groupConfiguration"].write(value.groupConfiguration, with: VerifiedPermissionsClientTypes.OpenIdConnectGroupConfiguration.write(value:to:))
+        try writer["issuer"].write(value.issuer)
+        try writer["tokenSelection"].write(value.tokenSelection, with: VerifiedPermissionsClientTypes.OpenIdConnectTokenSelection.write(value:to:))
+    }
+}
+
+extension VerifiedPermissionsClientTypes.OpenIdConnectTokenSelection {
+
+    static func write(value: VerifiedPermissionsClientTypes.OpenIdConnectTokenSelection?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .accesstokenonly(accesstokenonly):
+                try writer["accessTokenOnly"].write(accesstokenonly, with: VerifiedPermissionsClientTypes.OpenIdConnectAccessTokenConfiguration.write(value:to:))
+            case let .identitytokenonly(identitytokenonly):
+                try writer["identityTokenOnly"].write(identitytokenonly, with: VerifiedPermissionsClientTypes.OpenIdConnectIdentityTokenConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension VerifiedPermissionsClientTypes.OpenIdConnectIdentityTokenConfiguration {
+
+    static func write(value: VerifiedPermissionsClientTypes.OpenIdConnectIdentityTokenConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientIds"].writeList(value.clientIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["principalIdClaim"].write(value.principalIdClaim)
+    }
+}
+
+extension VerifiedPermissionsClientTypes.OpenIdConnectAccessTokenConfiguration {
+
+    static func write(value: VerifiedPermissionsClientTypes.OpenIdConnectAccessTokenConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["audiences"].writeList(value.audiences, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["principalIdClaim"].write(value.principalIdClaim)
+    }
+}
+
+extension VerifiedPermissionsClientTypes.OpenIdConnectGroupConfiguration {
+
+    static func write(value: VerifiedPermissionsClientTypes.OpenIdConnectGroupConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["groupClaim"].write(value.groupClaim)
+        try writer["groupEntityType"].write(value.groupEntityType)
     }
 }
 
@@ -4842,9 +5529,64 @@ extension VerifiedPermissionsClientTypes.UpdateConfiguration {
         switch value {
             case let .cognitouserpoolconfiguration(cognitouserpoolconfiguration):
                 try writer["cognitoUserPoolConfiguration"].write(cognitouserpoolconfiguration, with: VerifiedPermissionsClientTypes.UpdateCognitoUserPoolConfiguration.write(value:to:))
+            case let .openidconnectconfiguration(openidconnectconfiguration):
+                try writer["openIdConnectConfiguration"].write(openidconnectconfiguration, with: VerifiedPermissionsClientTypes.UpdateOpenIdConnectConfiguration.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
+    }
+}
+
+extension VerifiedPermissionsClientTypes.UpdateOpenIdConnectConfiguration {
+
+    static func write(value: VerifiedPermissionsClientTypes.UpdateOpenIdConnectConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["entityIdPrefix"].write(value.entityIdPrefix)
+        try writer["groupConfiguration"].write(value.groupConfiguration, with: VerifiedPermissionsClientTypes.UpdateOpenIdConnectGroupConfiguration.write(value:to:))
+        try writer["issuer"].write(value.issuer)
+        try writer["tokenSelection"].write(value.tokenSelection, with: VerifiedPermissionsClientTypes.UpdateOpenIdConnectTokenSelection.write(value:to:))
+    }
+}
+
+extension VerifiedPermissionsClientTypes.UpdateOpenIdConnectTokenSelection {
+
+    static func write(value: VerifiedPermissionsClientTypes.UpdateOpenIdConnectTokenSelection?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .accesstokenonly(accesstokenonly):
+                try writer["accessTokenOnly"].write(accesstokenonly, with: VerifiedPermissionsClientTypes.UpdateOpenIdConnectAccessTokenConfiguration.write(value:to:))
+            case let .identitytokenonly(identitytokenonly):
+                try writer["identityTokenOnly"].write(identitytokenonly, with: VerifiedPermissionsClientTypes.UpdateOpenIdConnectIdentityTokenConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension VerifiedPermissionsClientTypes.UpdateOpenIdConnectIdentityTokenConfiguration {
+
+    static func write(value: VerifiedPermissionsClientTypes.UpdateOpenIdConnectIdentityTokenConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientIds"].writeList(value.clientIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["principalIdClaim"].write(value.principalIdClaim)
+    }
+}
+
+extension VerifiedPermissionsClientTypes.UpdateOpenIdConnectAccessTokenConfiguration {
+
+    static func write(value: VerifiedPermissionsClientTypes.UpdateOpenIdConnectAccessTokenConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["audiences"].writeList(value.audiences, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["principalIdClaim"].write(value.principalIdClaim)
+    }
+}
+
+extension VerifiedPermissionsClientTypes.UpdateOpenIdConnectGroupConfiguration {
+
+    static func write(value: VerifiedPermissionsClientTypes.UpdateOpenIdConnectGroupConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["groupClaim"].write(value.groupClaim)
+        try writer["groupEntityType"].write(value.groupEntityType)
     }
 }
 

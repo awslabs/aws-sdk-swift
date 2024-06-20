@@ -681,23 +681,47 @@ extension ECSClientTypes {
 }
 
 extension ECSClientTypes {
-    /// The execute command configuration for the cluster.
-    public struct ClusterConfiguration {
-        /// The details of the execute command configuration.
-        public var executeCommandConfiguration: ECSClientTypes.ExecuteCommandConfiguration?
+    /// The managed storage configuration for the cluster.
+    public struct ManagedStorageConfiguration {
+        /// Specify the Key Management Service key ID for the Fargate ephemeral storage.
+        public var fargateEphemeralStorageKmsKeyId: Swift.String?
+        /// Specify a Key Management Service key ID to encrypt the managed storage.
+        public var kmsKeyId: Swift.String?
 
         public init(
-            executeCommandConfiguration: ECSClientTypes.ExecuteCommandConfiguration? = nil
+            fargateEphemeralStorageKmsKeyId: Swift.String? = nil,
+            kmsKeyId: Swift.String? = nil
         )
         {
-            self.executeCommandConfiguration = executeCommandConfiguration
+            self.fargateEphemeralStorageKmsKeyId = fargateEphemeralStorageKmsKeyId
+            self.kmsKeyId = kmsKeyId
         }
     }
 
 }
 
 extension ECSClientTypes {
-    /// The details of a capacity provider strategy. A capacity provider strategy can be set when using the [RunTask] or [CreateCluster] APIs or as the default capacity provider strategy for a cluster with the [CreateCluster] API. Only capacity providers that are already associated with a cluster and have an ACTIVE or UPDATING status can be used in a capacity provider strategy. The [PutClusterCapacityProviders] API is used to associate a capacity provider with a cluster. If specifying a capacity provider that uses an Auto Scaling group, the capacity provider must already be created. New Auto Scaling group capacity providers can be created with the [CreateCapacityProvider] API operation. To use a Fargate capacity provider, specify either the FARGATE or FARGATE_SPOT capacity providers. The Fargate capacity providers are available to all accounts and only need to be associated with a cluster to be used in a capacity provider strategy. A capacity provider strategy may contain a maximum of 6 capacity providers.
+    /// The execute command and managed storage configuration for the cluster.
+    public struct ClusterConfiguration {
+        /// The details of the execute command configuration.
+        public var executeCommandConfiguration: ECSClientTypes.ExecuteCommandConfiguration?
+        /// The details of the managed storage configuration.
+        public var managedStorageConfiguration: ECSClientTypes.ManagedStorageConfiguration?
+
+        public init(
+            executeCommandConfiguration: ECSClientTypes.ExecuteCommandConfiguration? = nil,
+            managedStorageConfiguration: ECSClientTypes.ManagedStorageConfiguration? = nil
+        )
+        {
+            self.executeCommandConfiguration = executeCommandConfiguration
+            self.managedStorageConfiguration = managedStorageConfiguration
+        }
+    }
+
+}
+
+extension ECSClientTypes {
+    /// The details of a capacity provider strategy. A capacity provider strategy can be set when using the [RunTask] or [CreateCluster] APIs or as the default capacity provider strategy for a cluster with the [CreateCluster] API. Only capacity providers that are already associated with a cluster and have an ACTIVE or UPDATING status can be used in a capacity provider strategy. The [PutClusterCapacityProviders] API is used to associate a capacity provider with a cluster. If specifying a capacity provider that uses an Auto Scaling group, the capacity provider must already be created. New Auto Scaling group capacity providers can be created with the [CreateCapacityProvider] API operation. To use a Fargate capacity provider, specify either the FARGATE or FARGATE_SPOT capacity providers. The Fargate capacity providers are available to all accounts and only need to be associated with a cluster to be used in a capacity provider strategy. With FARGATE_SPOT, you can run interruption tolerant tasks at a rate that's discounted compared to the FARGATE price. FARGATE_SPOT runs tasks on spare compute capacity. When Amazon Web Services needs the capacity back, your tasks are interrupted with a two-minute warning. FARGATE_SPOT only supports Linux tasks with the X86_64 architecture on platform version 1.3.0 or later. A capacity provider strategy may contain a maximum of 6 capacity providers.
     public struct CapacityProviderStrategyItem {
         /// The base value designates how many tasks, at a minimum, to run on the specified capacity provider. Only one capacity provider in a capacity provider strategy can have a base defined. If no value is specified, the default value of 0 is used.
         public var base: Swift.Int
@@ -1701,7 +1725,7 @@ extension ECSClientTypes {
 }
 
 extension ECSClientTypes {
-    /// An object that represents the Amazon Web Services Private Certificate Authority certificate.
+    /// The certificate root authority that secures your service.
     public struct ServiceConnectTlsCertificateAuthority {
         /// The ARN of the Amazon Web Services Private Certificate Authority certificate.
         public var awsPcaAuthorityArn: Swift.String?
@@ -1717,7 +1741,7 @@ extension ECSClientTypes {
 }
 
 extension ECSClientTypes {
-    /// An object that represents the configuration for Service Connect TLS.
+    /// The key that encrypts and decrypts your resources for Service Connect TLS.
     public struct ServiceConnectTlsConfiguration {
         /// The signer certificate authority.
         /// This member is required.
@@ -2151,6 +2175,22 @@ public struct CreateServiceInput {
 }
 
 extension ECSClientTypes {
+    /// The amount of ephemeral storage to allocate for the deployment.
+    public struct DeploymentEphemeralStorage {
+        /// Specify an Key Management Service key ID to encrypt the ephemeral storage for deployment.
+        public var kmsKeyId: Swift.String?
+
+        public init(
+            kmsKeyId: Swift.String? = nil
+        )
+        {
+            self.kmsKeyId = kmsKeyId
+        }
+    }
+
+}
+
+extension ECSClientTypes {
 
     public enum DeploymentRolloutState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case completed
@@ -2213,6 +2253,8 @@ extension ECSClientTypes {
         public var desiredCount: Swift.Int
         /// The number of consecutively failed tasks in the deployment. A task is considered a failure if the service scheduler can't launch the task, the task doesn't transition to a RUNNING state, or if it fails any of its defined health checks and is stopped. Once a service deployment has one or more successfully running tasks, the failed task count resets to zero and stops being evaluated.
         public var failedTasks: Swift.Int
+        /// The Fargate ephemeral storage settings for the deployment.
+        public var fargateEphemeralStorage: ECSClientTypes.DeploymentEphemeralStorage?
         /// The ID of the deployment.
         public var id: Swift.String?
         /// The launch type the tasks in the service are using. For more information, see [Amazon ECS Launch Types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html) in the Amazon Elastic Container Service Developer Guide.
@@ -2249,6 +2291,7 @@ extension ECSClientTypes {
             createdAt: Foundation.Date? = nil,
             desiredCount: Swift.Int = 0,
             failedTasks: Swift.Int = 0,
+            fargateEphemeralStorage: ECSClientTypes.DeploymentEphemeralStorage? = nil,
             id: Swift.String? = nil,
             launchType: ECSClientTypes.LaunchType? = nil,
             networkConfiguration: ECSClientTypes.NetworkConfiguration? = nil,
@@ -2270,6 +2313,7 @@ extension ECSClientTypes {
             self.createdAt = createdAt
             self.desiredCount = desiredCount
             self.failedTasks = failedTasks
+            self.fargateEphemeralStorage = fargateEphemeralStorage
             self.id = id
             self.launchType = launchType
             self.networkConfiguration = networkConfiguration
@@ -2402,6 +2446,8 @@ extension ECSClientTypes {
         public var createdAt: Foundation.Date?
         /// The external ID associated with the task set. If an CodeDeploy deployment created a task set, the externalId parameter contains the CodeDeploy deployment ID. If a task set is created for an external deployment and is associated with a service discovery registry, the externalId parameter contains the ECS_TASK_SET_EXTERNAL_ID Cloud Map attribute.
         public var externalId: Swift.String?
+        /// The Fargate ephemeral storage settings for the task set.
+        public var fargateEphemeralStorage: ECSClientTypes.DeploymentEphemeralStorage?
         /// The ID of the task set.
         public var id: Swift.String?
         /// The launch type the tasks in the task set are using. For more information, see [Amazon ECS launch types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html) in the Amazon Elastic Container Service Developer Guide.
@@ -2472,6 +2518,7 @@ extension ECSClientTypes {
             computedDesiredCount: Swift.Int = 0,
             createdAt: Foundation.Date? = nil,
             externalId: Swift.String? = nil,
+            fargateEphemeralStorage: ECSClientTypes.DeploymentEphemeralStorage? = nil,
             id: Swift.String? = nil,
             launchType: ECSClientTypes.LaunchType? = nil,
             loadBalancers: [ECSClientTypes.LoadBalancer]? = nil,
@@ -2498,6 +2545,7 @@ extension ECSClientTypes {
             self.computedDesiredCount = computedDesiredCount
             self.createdAt = createdAt
             self.externalId = externalId
+            self.fargateEphemeralStorage = fargateEphemeralStorage
             self.id = id
             self.launchType = launchType
             self.loadBalancers = loadBalancers
@@ -3551,9 +3599,7 @@ extension ECSClientTypes {
     ///
     /// If a task is run manually, and not as part of a service, the task will continue its lifecycle regardless of its health status. For tasks that are part of a service, if the task reports as unhealthy then the task will be stopped and the service scheduler will replace it. The following are notes about container health check support:
     ///
-    /// * When the Amazon ECS agent cannot connect to the Amazon ECS service, the service reports the container as UNHEALTHY.
-    ///
-    /// * The health check statuses are the "last heard from" response from the Amazon ECS agent. There are no assumptions made about the status of the container health checks.
+    /// * If the Amazon ECS container agent becomes disconnected from the Amazon ECS service, this won't cause a container to transition to an UNHEALTHY status. This is by design, to ensure that containers remain running during agent restarts or temporary unavailability. The health check status is the "last heard from" response from the Amazon ECS agent, so if the container was considered HEALTHY prior to the disconnect, that status will remain until the agent reconnects and another health check occurs. There are no assumptions made about the status of the container health checks.
     ///
     /// * Container health checks require version 1.17.0 or greater of the Amazon ECS container agent. For more information, see [Updating the Amazon ECS container agent](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-update.html).
     ///
@@ -3943,10 +3989,10 @@ extension ECSClientTypes {
 extension ECSClientTypes {
     /// The type and amount of a resource to assign to a container. The supported resource types are GPUs and Elastic Inference accelerators. For more information, see [Working with GPUs on Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-gpu.html) or [Working with Amazon Elastic Inference on Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-inference.html) in the Amazon Elastic Container Service Developer Guide
     public struct ResourceRequirement {
-        /// The type of resource to assign to a container. The supported values are GPU or InferenceAccelerator.
+        /// The type of resource to assign to a container.
         /// This member is required.
         public var type: ECSClientTypes.ResourceType?
-        /// The value for the specified resource type. If the GPU type is used, the value is the number of physical GPUs the Amazon ECS container agent reserves for the container. The number of GPUs that's reserved for all containers in a task can't exceed the number of available GPUs on the container instance that the task is launched on. If the InferenceAccelerator type is used, the value matches the deviceName for an [InferenceAccelerator](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_InferenceAccelerator.html) specified in a task definition.
+        /// The value for the specified resource type. When the type is GPU, the value is the number of physical GPUs the Amazon ECS container agent reserves for the container. The number of GPUs that's reserved for all containers in a task can't exceed the number of available GPUs on the container instance that the task is launched on. When the type is InferenceAccelerator, the value matches the deviceName for an [InferenceAccelerator](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_InferenceAccelerator.html) specified in a task definition.
         /// This member is required.
         public var value: Swift.String?
 
@@ -6209,6 +6255,26 @@ extension ECSClientTypes {
 }
 
 extension ECSClientTypes {
+    /// The amount of ephemeral storage to allocate for the task.
+    public struct TaskEphemeralStorage {
+        /// Specify an Key Management Service key ID to encrypt the ephemeral storage for the task.
+        public var kmsKeyId: Swift.String?
+        /// The total amount, in GiB, of the ephemeral storage to set for the task. The minimum supported value is 20 GiB and the maximum supported value is  200 GiB.
+        public var sizeInGiB: Swift.Int
+
+        public init(
+            kmsKeyId: Swift.String? = nil,
+            sizeInGiB: Swift.Int = 0
+        )
+        {
+            self.kmsKeyId = kmsKeyId
+            self.sizeInGiB = sizeInGiB
+        }
+    }
+
+}
+
+extension ECSClientTypes {
     /// The overrides that are sent to a container. An empty container override can be passed in. An example of an empty container override is {"containerOverrides": [ ] }. If a non-empty container override is specified, the name parameter must be included. You can use Secrets Manager or Amazon Web Services Systems Manager Parameter Store to store the sensitive data. For more information, see [Retrieve secrets through environment variables](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/secrets-envvar.html) in the Amazon ECS Developer Guide.
     public struct ContainerOverride {
         /// The command to send to the container that overrides the default command from the Docker image or the task definition. You must also specify a container name.
@@ -6404,6 +6470,8 @@ extension ECSClientTypes {
         public var ephemeralStorage: ECSClientTypes.EphemeralStorage?
         /// The Unix timestamp for the time when the task execution stopped.
         public var executionStoppedAt: Foundation.Date?
+        /// The Fargate ephemeral storage settings for the task.
+        public var fargateEphemeralStorage: ECSClientTypes.TaskEphemeralStorage?
         /// The name of the task group that's associated with the task.
         public var group: Swift.String?
         /// The health status for the task. It's determined by the health of the essential containers in the task. If all essential containers in the task are reporting as HEALTHY, the task status also reports as HEALTHY. If any essential containers in the task are reporting as UNHEALTHY or UNKNOWN, the task status also reports as UNHEALTHY or UNKNOWN. The Amazon ECS container agent doesn't monitor or report on Docker health checks that are embedded in a container image and not specified in the container definition. For example, this includes those specified in a parent image or from the image's Dockerfile. Health check parameters that are specified in a container definition override any Docker health checks that are found in the container image.
@@ -6491,6 +6559,7 @@ extension ECSClientTypes {
             enableExecuteCommand: Swift.Bool = false,
             ephemeralStorage: ECSClientTypes.EphemeralStorage? = nil,
             executionStoppedAt: Foundation.Date? = nil,
+            fargateEphemeralStorage: ECSClientTypes.TaskEphemeralStorage? = nil,
             group: Swift.String? = nil,
             healthStatus: ECSClientTypes.HealthStatus? = nil,
             inferenceAccelerators: [ECSClientTypes.InferenceAccelerator]? = nil,
@@ -6529,6 +6598,7 @@ extension ECSClientTypes {
             self.enableExecuteCommand = enableExecuteCommand
             self.ephemeralStorage = ephemeralStorage
             self.executionStoppedAt = executionStoppedAt
+            self.fargateEphemeralStorage = fargateEphemeralStorage
             self.group = group
             self.healthStatus = healthStatus
             self.inferenceAccelerators = inferenceAccelerators
@@ -7859,7 +7929,7 @@ public struct RegisterTaskDefinitionInput {
     public var proxyConfiguration: ECSClientTypes.ProxyConfiguration?
     /// The task launch type that Amazon ECS validates the task definition against. A client exception is returned if the task definition doesn't validate against the compatibilities specified. If no value is specified, the parameter is omitted from the response.
     public var requiresCompatibilities: [ECSClientTypes.Compatibility]?
-    /// The operating system that your tasks definitions run on. A platform family is specified only for tasks using the Fargate launch type. When you specify a task definition in a service, this value must match the runtimePlatform value of the service.
+    /// The operating system that your tasks definitions run on. A platform family is specified only for tasks using the Fargate launch type.
     public var runtimePlatform: ECSClientTypes.RuntimePlatform?
     /// The metadata that you apply to the task definition to help you categorize and organize them. Each tag consists of a key and an optional value. You define both of them. The following basic restrictions apply to tags:
     ///
@@ -12388,12 +12458,31 @@ extension ECSClientTypes.ClusterConfiguration {
     static func write(value: ECSClientTypes.ClusterConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["executeCommandConfiguration"].write(value.executeCommandConfiguration, with: ECSClientTypes.ExecuteCommandConfiguration.write(value:to:))
+        try writer["managedStorageConfiguration"].write(value.managedStorageConfiguration, with: ECSClientTypes.ManagedStorageConfiguration.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ClusterConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ECSClientTypes.ClusterConfiguration()
         value.executeCommandConfiguration = try reader["executeCommandConfiguration"].readIfPresent(with: ECSClientTypes.ExecuteCommandConfiguration.read(from:))
+        value.managedStorageConfiguration = try reader["managedStorageConfiguration"].readIfPresent(with: ECSClientTypes.ManagedStorageConfiguration.read(from:))
+        return value
+    }
+}
+
+extension ECSClientTypes.ManagedStorageConfiguration {
+
+    static func write(value: ECSClientTypes.ManagedStorageConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fargateEphemeralStorageKmsKeyId"].write(value.fargateEphemeralStorageKmsKeyId)
+        try writer["kmsKeyId"].write(value.kmsKeyId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ManagedStorageConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ManagedStorageConfiguration()
+        value.kmsKeyId = try reader["kmsKeyId"].readIfPresent()
+        value.fargateEphemeralStorageKmsKeyId = try reader["fargateEphemeralStorageKmsKeyId"].readIfPresent()
         return value
     }
 }
@@ -12599,6 +12688,17 @@ extension ECSClientTypes.Deployment {
         value.serviceConnectConfiguration = try reader["serviceConnectConfiguration"].readIfPresent(with: ECSClientTypes.ServiceConnectConfiguration.read(from:))
         value.serviceConnectResources = try reader["serviceConnectResources"].readListIfPresent(memberReadingClosure: ECSClientTypes.ServiceConnectServiceResource.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.volumeConfigurations = try reader["volumeConfigurations"].readListIfPresent(memberReadingClosure: ECSClientTypes.ServiceVolumeConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.fargateEphemeralStorage = try reader["fargateEphemeralStorage"].readIfPresent(with: ECSClientTypes.DeploymentEphemeralStorage.read(from:))
+        return value
+    }
+}
+
+extension ECSClientTypes.DeploymentEphemeralStorage {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.DeploymentEphemeralStorage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.DeploymentEphemeralStorage()
+        value.kmsKeyId = try reader["kmsKeyId"].readIfPresent()
         return value
     }
 }
@@ -12862,6 +12962,7 @@ extension ECSClientTypes.TaskSet {
         value.stabilityStatus = try reader["stabilityStatus"].readIfPresent()
         value.stabilityStatusAt = try reader["stabilityStatusAt"].readTimestampIfPresent(format: .epochSeconds)
         value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: ECSClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.fargateEphemeralStorage = try reader["fargateEphemeralStorage"].readIfPresent(with: ECSClientTypes.DeploymentEphemeralStorage.read(from:))
         return value
     }
 }
@@ -13816,6 +13917,18 @@ extension ECSClientTypes.Task {
         value.taskDefinitionArn = try reader["taskDefinitionArn"].readIfPresent()
         value.version = try reader["version"].readIfPresent() ?? 0
         value.ephemeralStorage = try reader["ephemeralStorage"].readIfPresent(with: ECSClientTypes.EphemeralStorage.read(from:))
+        value.fargateEphemeralStorage = try reader["fargateEphemeralStorage"].readIfPresent(with: ECSClientTypes.TaskEphemeralStorage.read(from:))
+        return value
+    }
+}
+
+extension ECSClientTypes.TaskEphemeralStorage {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.TaskEphemeralStorage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.TaskEphemeralStorage()
+        value.sizeInGiB = try reader["sizeInGiB"].readIfPresent() ?? 0
+        value.kmsKeyId = try reader["kmsKeyId"].readIfPresent()
         return value
     }
 }
