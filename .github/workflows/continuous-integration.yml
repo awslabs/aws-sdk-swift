@@ -42,12 +42,12 @@ jobs:
             xcode: Xcode_15.4
           - destination: 'platform=iOS Simulator,OS=17.2,name=iPhone 15'
             xcode: Xcode_15.4
+          - destination: 'platform=visionOS Simulator,OS=1.0,name=Apple Vision Pro'
+            xcode: Xcode_15.4
           # Don't run new simulators with old Xcode
           - destination: 'platform=tvOS Simulator,OS=17.5,name=Apple TV 4K (3rd generation) (at 1080p)'
             xcode: Xcode_15.2
           - destination: 'platform=iOS Simulator,OS=17.5,name=iPhone 15'
-            xcode: Xcode_15.2
-          - destination: 'platform=visionOS Simulator,OS=1.0,name=Apple Vision Pro'
             xcode: Xcode_15.2
           - destination: 'platform=visionOS Simulator,OS=1.2,name=Apple Vision Pro'
             xcode: Xcode_15.2
