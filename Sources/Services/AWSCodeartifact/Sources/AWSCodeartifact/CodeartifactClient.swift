@@ -1403,6 +1403,8 @@ extension CodeartifactClient {
     ///
     /// Returns the endpoint of a repository for a specific package format. A repository has one endpoint for each package format:
     ///
+    /// * cargo
+    ///
     /// * generic
     ///
     /// * maven

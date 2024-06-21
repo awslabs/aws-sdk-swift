@@ -1235,6 +1235,42 @@ extension PaginatorSequence where OperationStackInput == ListLineageGroupsInput,
     }
 }
 extension SageMakerClient {
+    /// Paginate over `[ListMlflowTrackingServersOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListMlflowTrackingServersInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListMlflowTrackingServersOutput`
+    public func listMlflowTrackingServersPaginated(input: ListMlflowTrackingServersInput) -> ClientRuntime.PaginatorSequence<ListMlflowTrackingServersInput, ListMlflowTrackingServersOutput> {
+        return ClientRuntime.PaginatorSequence<ListMlflowTrackingServersInput, ListMlflowTrackingServersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMlflowTrackingServers(input:))
+    }
+}
+
+extension ListMlflowTrackingServersInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListMlflowTrackingServersInput {
+        return ListMlflowTrackingServersInput(
+            createdAfter: self.createdAfter,
+            createdBefore: self.createdBefore,
+            maxResults: self.maxResults,
+            mlflowVersion: self.mlflowVersion,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder,
+            trackingServerStatus: self.trackingServerStatus
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListMlflowTrackingServersInput, OperationStackOutput == ListMlflowTrackingServersOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listMlflowTrackingServersPaginated`
+    /// to access the nested member `[SageMakerClientTypes.TrackingServerSummary]`
+    /// - Returns: `[SageMakerClientTypes.TrackingServerSummary]`
+    public func trackingServerSummaries() async throws -> [SageMakerClientTypes.TrackingServerSummary] {
+        return try await self.asyncCompactMap { item in item.trackingServerSummaries }
+    }
+}
+extension SageMakerClient {
     /// Paginate over `[ListModelBiasJobDefinitionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
