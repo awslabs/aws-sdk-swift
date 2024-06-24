@@ -806,6 +806,34 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes {
+    /// Describes the JWT options configured for the domain.
+    public struct JWTOptionsOutput {
+        /// True if JWT use is enabled.
+        public var enabled: Swift.Bool?
+        /// The key used to verify the signature of incoming JWT requests.
+        public var publicKey: Swift.String?
+        /// The key used for matching the JWT roles attribute.
+        public var rolesKey: Swift.String?
+        /// The key used for matching the JWT subject attribute.
+        public var subjectKey: Swift.String?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            publicKey: Swift.String? = nil,
+            rolesKey: Swift.String? = nil,
+            subjectKey: Swift.String? = nil
+        )
+        {
+            self.enabled = enabled
+            self.publicKey = publicKey
+            self.rolesKey = rolesKey
+            self.subjectKey = subjectKey
+        }
+    }
+
+}
+
+extension OpenSearchClientTypes {
     /// The SAML identity povider information.
     public struct SAMLIdp {
         /// The unique entity ID of the application in the SAML identity provider.
@@ -870,6 +898,8 @@ extension OpenSearchClientTypes {
         public var enabled: Swift.Bool?
         /// True if the internal user database is enabled.
         public var internalUserDatabaseEnabled: Swift.Bool?
+        /// Container for information about the JWT configuration of the Amazon OpenSearch Service.
+        public var jwtOptions: OpenSearchClientTypes.JWTOptionsOutput?
         /// Container for information about the SAML configuration for OpenSearch Dashboards.
         public var samlOptions: OpenSearchClientTypes.SAMLOptionsOutput?
 
@@ -878,6 +908,7 @@ extension OpenSearchClientTypes {
             anonymousAuthEnabled: Swift.Bool? = nil,
             enabled: Swift.Bool? = nil,
             internalUserDatabaseEnabled: Swift.Bool? = nil,
+            jwtOptions: OpenSearchClientTypes.JWTOptionsOutput? = nil,
             samlOptions: OpenSearchClientTypes.SAMLOptionsOutput? = nil
         )
         {
@@ -885,7 +916,36 @@ extension OpenSearchClientTypes {
             self.anonymousAuthEnabled = anonymousAuthEnabled
             self.enabled = enabled
             self.internalUserDatabaseEnabled = internalUserDatabaseEnabled
+            self.jwtOptions = jwtOptions
             self.samlOptions = samlOptions
+        }
+    }
+
+}
+
+extension OpenSearchClientTypes {
+    /// The JWT authentication and authorization configuration for an Amazon OpenSearch Service domain.
+    public struct JWTOptionsInput {
+        /// True to enable JWT authentication and authorization for a domain.
+        public var enabled: Swift.Bool?
+        /// Element of the JWT assertion used by the cluster to verify JWT signatures.
+        public var publicKey: Swift.String?
+        /// Element of the JWT assertion to use for roles.
+        public var rolesKey: Swift.String?
+        /// Element of the JWT assertion to use for the user name.
+        public var subjectKey: Swift.String?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            publicKey: Swift.String? = nil,
+            rolesKey: Swift.String? = nil,
+            subjectKey: Swift.String? = nil
+        )
+        {
+            self.enabled = enabled
+            self.publicKey = publicKey
+            self.rolesKey = rolesKey
+            self.subjectKey = subjectKey
         }
     }
 
@@ -974,6 +1034,8 @@ extension OpenSearchClientTypes {
         public var enabled: Swift.Bool?
         /// True to enable the internal user database.
         public var internalUserDatabaseEnabled: Swift.Bool?
+        /// Container for information about the JWT configuration of the Amazon OpenSearch Service.
+        public var jwtOptions: OpenSearchClientTypes.JWTOptionsInput?
         /// Container for information about the master user.
         public var masterUserOptions: OpenSearchClientTypes.MasterUserOptions?
         /// Container for information about the SAML configuration for OpenSearch Dashboards.
@@ -983,6 +1045,7 @@ extension OpenSearchClientTypes {
             anonymousAuthEnabled: Swift.Bool? = nil,
             enabled: Swift.Bool? = nil,
             internalUserDatabaseEnabled: Swift.Bool? = nil,
+            jwtOptions: OpenSearchClientTypes.JWTOptionsInput? = nil,
             masterUserOptions: OpenSearchClientTypes.MasterUserOptions? = nil,
             samlOptions: OpenSearchClientTypes.SAMLOptionsInput? = nil
         )
@@ -990,6 +1053,7 @@ extension OpenSearchClientTypes {
             self.anonymousAuthEnabled = anonymousAuthEnabled
             self.enabled = enabled
             self.internalUserDatabaseEnabled = internalUserDatabaseEnabled
+            self.jwtOptions = jwtOptions
             self.masterUserOptions = masterUserOptions
             self.samlOptions = samlOptions
         }
@@ -6125,7 +6189,7 @@ public struct GetDataSourceOutput {
     public var description: Swift.String?
     /// The name of the data source.
     public var name: Swift.String?
-    /// The status of the data source response.
+    /// The status of the data source.
     public var status: OpenSearchClientTypes.DataSourceStatus?
 
     public init(
@@ -7459,7 +7523,7 @@ public struct UpdateDataSourceInput {
     /// The name of the data source to modify.
     /// This member is required.
     public var name: Swift.String?
-    /// The status of the data source update request.
+    /// The status of the data source update.
     public var status: OpenSearchClientTypes.DataSourceStatus?
 
     public init(
@@ -11388,8 +11452,22 @@ extension OpenSearchClientTypes.AdvancedSecurityOptions {
         value.enabled = try reader["Enabled"].readIfPresent()
         value.internalUserDatabaseEnabled = try reader["InternalUserDatabaseEnabled"].readIfPresent()
         value.samlOptions = try reader["SAMLOptions"].readIfPresent(with: OpenSearchClientTypes.SAMLOptionsOutput.read(from:))
+        value.jwtOptions = try reader["JWTOptions"].readIfPresent(with: OpenSearchClientTypes.JWTOptionsOutput.read(from:))
         value.anonymousAuthDisableDate = try reader["AnonymousAuthDisableDate"].readTimestampIfPresent(format: .epochSeconds)
         value.anonymousAuthEnabled = try reader["AnonymousAuthEnabled"].readIfPresent()
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.JWTOptionsOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.JWTOptionsOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.JWTOptionsOutput()
+        value.enabled = try reader["Enabled"].readIfPresent()
+        value.subjectKey = try reader["SubjectKey"].readIfPresent()
+        value.rolesKey = try reader["RolesKey"].readIfPresent()
+        value.publicKey = try reader["PublicKey"].readIfPresent()
         return value
     }
 }
@@ -12530,8 +12608,20 @@ extension OpenSearchClientTypes.AdvancedSecurityOptionsInput {
         try writer["AnonymousAuthEnabled"].write(value.anonymousAuthEnabled)
         try writer["Enabled"].write(value.enabled)
         try writer["InternalUserDatabaseEnabled"].write(value.internalUserDatabaseEnabled)
+        try writer["JWTOptions"].write(value.jwtOptions, with: OpenSearchClientTypes.JWTOptionsInput.write(value:to:))
         try writer["MasterUserOptions"].write(value.masterUserOptions, with: OpenSearchClientTypes.MasterUserOptions.write(value:to:))
         try writer["SAMLOptions"].write(value.samlOptions, with: OpenSearchClientTypes.SAMLOptionsInput.write(value:to:))
+    }
+}
+
+extension OpenSearchClientTypes.JWTOptionsInput {
+
+    static func write(value: OpenSearchClientTypes.JWTOptionsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Enabled"].write(value.enabled)
+        try writer["PublicKey"].write(value.publicKey)
+        try writer["RolesKey"].write(value.rolesKey)
+        try writer["SubjectKey"].write(value.subjectKey)
     }
 }
 

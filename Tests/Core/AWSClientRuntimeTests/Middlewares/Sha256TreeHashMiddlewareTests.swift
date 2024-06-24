@@ -12,6 +12,7 @@ import ClientRuntime
 import AwsCommonRuntimeKit
 import SmithyTestUtil
 @testable import AWSClientRuntime
+import class SmithyStreams.BufferedStream
 
 class Sha256TreeHashMiddlewareTests: XCTestCase {
 

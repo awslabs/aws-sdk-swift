@@ -51,6 +51,35 @@ extension CloudHSMV2ClientTypes {
 }
 
 extension CloudHSMV2ClientTypes {
+
+    public enum ClusterMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fips
+        case nonFips
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClusterMode] {
+            return [
+                .fips,
+                .nonFips
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .fips: return "FIPS"
+            case .nonFips: return "NON_FIPS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudHSMV2ClientTypes {
     /// Contains a tag. A tag is a key-value pair.
     public struct Tag {
         /// The key of the tag.
@@ -88,6 +117,10 @@ extension CloudHSMV2ClientTypes {
         public var createTimestamp: Foundation.Date?
         /// The date and time when the backup will be permanently deleted.
         public var deleteTimestamp: Foundation.Date?
+        /// The HSM type of the cluster that was backed up.
+        public var hsmType: Swift.String?
+        /// The mode of the cluster that was backed up.
+        public var mode: CloudHSMV2ClientTypes.ClusterMode?
         /// Specifies whether the service should exempt a backup from the retention policy for the cluster. True exempts a backup from the retention policy. False means the service applies the backup retention policy defined at the cluster.
         public var neverExpires: Swift.Bool?
         /// The identifier (ID) of the source backup from which the new backup was copied.
@@ -106,6 +139,8 @@ extension CloudHSMV2ClientTypes {
             copyTimestamp: Foundation.Date? = nil,
             createTimestamp: Foundation.Date? = nil,
             deleteTimestamp: Foundation.Date? = nil,
+            hsmType: Swift.String? = nil,
+            mode: CloudHSMV2ClientTypes.ClusterMode? = nil,
             neverExpires: Swift.Bool? = nil,
             sourceBackup: Swift.String? = nil,
             sourceCluster: Swift.String? = nil,
@@ -119,6 +154,8 @@ extension CloudHSMV2ClientTypes {
             self.copyTimestamp = copyTimestamp
             self.createTimestamp = createTimestamp
             self.deleteTimestamp = deleteTimestamp
+            self.hsmType = hsmType
+            self.mode = mode
             self.neverExpires = neverExpires
             self.sourceBackup = sourceBackup
             self.sourceCluster = sourceCluster
@@ -410,9 +447,11 @@ public struct CopyBackupToRegionOutput {
 public struct CreateClusterInput {
     /// A policy that defines how the service retains backups.
     public var backupRetentionPolicy: CloudHSMV2ClientTypes.BackupRetentionPolicy?
-    /// The type of HSM to use in the cluster. Currently the only allowed value is hsm1.medium.
+    /// The type of HSM to use in the cluster. The allowed values are hsm1.medium and hsm2m.medium.
     /// This member is required.
     public var hsmType: Swift.String?
+    /// The mode to use in the cluster. The allowed values are FIPS and NON_FIPS.
+    public var mode: CloudHSMV2ClientTypes.ClusterMode?
     /// The identifier (ID) of the cluster backup to restore. Use this value to restore the cluster from a backup instead of creating a new cluster. To find the backup ID, use [DescribeBackups].
     public var sourceBackupId: Swift.String?
     /// The identifiers (IDs) of the subnets where you are creating the cluster. You must specify at least one subnet. If you specify multiple subnets, they must meet the following criteria:
@@ -428,6 +467,7 @@ public struct CreateClusterInput {
     public init(
         backupRetentionPolicy: CloudHSMV2ClientTypes.BackupRetentionPolicy? = nil,
         hsmType: Swift.String? = nil,
+        mode: CloudHSMV2ClientTypes.ClusterMode? = nil,
         sourceBackupId: Swift.String? = nil,
         subnetIds: [Swift.String]? = nil,
         tagList: [CloudHSMV2ClientTypes.Tag]? = nil
@@ -435,6 +475,7 @@ public struct CreateClusterInput {
     {
         self.backupRetentionPolicy = backupRetentionPolicy
         self.hsmType = hsmType
+        self.mode = mode
         self.sourceBackupId = sourceBackupId
         self.subnetIds = subnetIds
         self.tagList = tagList
@@ -623,6 +664,8 @@ extension CloudHSMV2ClientTypes {
         public var hsmType: Swift.String?
         /// Contains information about the HSMs in the cluster.
         public var hsms: [CloudHSMV2ClientTypes.Hsm]?
+        /// The mode of the cluster.
+        public var mode: CloudHSMV2ClientTypes.ClusterMode?
         /// The default password for the cluster's Pre-Crypto Officer (PRECO) user.
         public var preCoPassword: Swift.String?
         /// The identifier (ID) of the cluster's security group.
@@ -648,6 +691,7 @@ extension CloudHSMV2ClientTypes {
             createTimestamp: Foundation.Date? = nil,
             hsmType: Swift.String? = nil,
             hsms: [CloudHSMV2ClientTypes.Hsm]? = nil,
+            mode: CloudHSMV2ClientTypes.ClusterMode? = nil,
             preCoPassword: Swift.String? = nil,
             securityGroup: Swift.String? = nil,
             sourceBackupId: Swift.String? = nil,
@@ -665,6 +709,7 @@ extension CloudHSMV2ClientTypes {
             self.createTimestamp = createTimestamp
             self.hsmType = hsmType
             self.hsms = hsms
+            self.mode = mode
             self.preCoPassword = preCoPassword
             self.securityGroup = securityGroup
             self.sourceBackupId = sourceBackupId
@@ -1216,6 +1261,7 @@ extension CreateClusterInput {
         guard let value else { return }
         try writer["BackupRetentionPolicy"].write(value.backupRetentionPolicy, with: CloudHSMV2ClientTypes.BackupRetentionPolicy.write(value:to:))
         try writer["HsmType"].write(value.hsmType)
+        try writer["Mode"].write(value.mode)
         try writer["SourceBackupId"].write(value.sourceBackupId)
         try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TagList"].writeList(value.tagList, memberWritingClosure: CloudHSMV2ClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -1906,6 +1952,7 @@ extension CloudHSMV2ClientTypes.Cluster {
         value.vpcId = try reader["VpcId"].readIfPresent()
         value.certificates = try reader["Certificates"].readIfPresent(with: CloudHSMV2ClientTypes.Certificates.read(from:))
         value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: CloudHSMV2ClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.mode = try reader["Mode"].readIfPresent()
         return value
     }
 }
@@ -1991,6 +2038,8 @@ extension CloudHSMV2ClientTypes.Backup {
         value.sourceCluster = try reader["SourceCluster"].readIfPresent()
         value.deleteTimestamp = try reader["DeleteTimestamp"].readTimestampIfPresent(format: .epochSeconds)
         value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: CloudHSMV2ClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.hsmType = try reader["HsmType"].readIfPresent()
+        value.mode = try reader["Mode"].readIfPresent()
         return value
     }
 }

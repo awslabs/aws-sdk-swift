@@ -51,6 +51,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSAppSync](../../../../../swift/api/awsappsync/latest)
 
+[AWSAppTest](../../../../../swift/api/awsapptest/latest)
+
 [AWSAppflow](../../../../../swift/api/awsappflow/latest)
 
 [AWSApplicationAutoScaling](../../../../../swift/api/awsapplicationautoscaling/latest)
@@ -60,6 +62,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSApplicationDiscoveryService](../../../../../swift/api/awsapplicationdiscoveryservice/latest)
 
 [AWSApplicationInsights](../../../../../swift/api/awsapplicationinsights/latest)
+
+[AWSApplicationSignals](../../../../../swift/api/awsapplicationsignals/latest)
 
 [AWSArtifact](../../../../../swift/api/awsartifact/latest)
 
@@ -78,8 +82,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSBackup](../../../../../swift/api/awsbackup/latest)
 
 [AWSBackupGateway](../../../../../swift/api/awsbackupgateway/latest)
-
-[AWSBackupStorage](../../../../../swift/api/awsbackupstorage/latest)
 
 [AWSBatch](../../../../../swift/api/awsbatch/latest)
 
@@ -548,6 +550,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSPaymentCryptographyData](../../../../../swift/api/awspaymentcryptographydata/latest)
 
 [AWSPcaConnectorAd](../../../../../swift/api/awspcaconnectorad/latest)
+
+[AWSPcaConnectorScep](../../../../../swift/api/awspcaconnectorscep/latest)
 
 [AWSPersonalize](../../../../../swift/api/awspersonalize/latest)
 

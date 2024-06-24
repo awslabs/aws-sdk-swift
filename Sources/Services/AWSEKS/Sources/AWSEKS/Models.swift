@@ -2734,6 +2734,81 @@ public struct CreateFargateProfileInput {
 
 extension EKSClientTypes {
 
+    public enum FargateProfileIssueCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accessDenied
+        case clusterUnreachable
+        case internalFailure
+        case podExecutionRoleAlreadyInUse
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FargateProfileIssueCode] {
+            return [
+                .accessDenied,
+                .clusterUnreachable,
+                .internalFailure,
+                .podExecutionRoleAlreadyInUse
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accessDenied: return "AccessDenied"
+            case .clusterUnreachable: return "ClusterUnreachable"
+            case .internalFailure: return "InternalFailure"
+            case .podExecutionRoleAlreadyInUse: return "PodExecutionRoleAlreadyInUse"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EKSClientTypes {
+    /// An issue that is associated with the Fargate profile.
+    public struct FargateProfileIssue {
+        /// A brief description of the error.
+        public var code: EKSClientTypes.FargateProfileIssueCode?
+        /// The error message associated with the issue.
+        public var message: Swift.String?
+        /// The Amazon Web Services resources that are affected by this issue.
+        public var resourceIds: [Swift.String]?
+
+        public init(
+            code: EKSClientTypes.FargateProfileIssueCode? = nil,
+            message: Swift.String? = nil,
+            resourceIds: [Swift.String]? = nil
+        )
+        {
+            self.code = code
+            self.message = message
+            self.resourceIds = resourceIds
+        }
+    }
+
+}
+
+extension EKSClientTypes {
+    /// The health status of the Fargate profile. If there are issues with your Fargate profile's health, they are listed here.
+    public struct FargateProfileHealth {
+        /// Any issues that are associated with the Fargate profile.
+        public var issues: [EKSClientTypes.FargateProfileIssue]?
+
+        public init(
+            issues: [EKSClientTypes.FargateProfileIssue]? = nil
+        )
+        {
+            self.issues = issues
+        }
+    }
+
+}
+
+extension EKSClientTypes {
+
     public enum FargateProfileStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case createFailed
@@ -2781,6 +2856,8 @@ extension EKSClientTypes {
         public var fargateProfileArn: Swift.String?
         /// The name of the Fargate profile.
         public var fargateProfileName: Swift.String?
+        /// The health status of the Fargate profile. If there are issues with your Fargate profile's health, they are listed here.
+        public var health: EKSClientTypes.FargateProfileHealth?
         /// The Amazon Resource Name (ARN) of the Pod execution role to use for any Pod that matches the selectors in the Fargate profile. For more information, see [Pod] execution role(https://docs.aws.amazon.com/eks/latest/userguide/pod-execution-role.html) in the Amazon EKS User Guide.
         public var podExecutionRoleArn: Swift.String?
         /// The selectors to match for a Pod to use this Fargate profile.
@@ -2797,6 +2874,7 @@ extension EKSClientTypes {
             createdAt: Foundation.Date? = nil,
             fargateProfileArn: Swift.String? = nil,
             fargateProfileName: Swift.String? = nil,
+            health: EKSClientTypes.FargateProfileHealth? = nil,
             podExecutionRoleArn: Swift.String? = nil,
             selectors: [EKSClientTypes.FargateProfileSelector]? = nil,
             status: EKSClientTypes.FargateProfileStatus? = nil,
@@ -2808,6 +2886,7 @@ extension EKSClientTypes {
             self.createdAt = createdAt
             self.fargateProfileArn = fargateProfileArn
             self.fargateProfileName = fargateProfileName
+            self.health = health
             self.podExecutionRoleArn = podExecutionRoleArn
             self.selectors = selectors
             self.status = status
@@ -9388,6 +9467,29 @@ extension EKSClientTypes.FargateProfile {
         value.selectors = try reader["selectors"].readListIfPresent(memberReadingClosure: EKSClientTypes.FargateProfileSelector.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.status = try reader["status"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.health = try reader["health"].readIfPresent(with: EKSClientTypes.FargateProfileHealth.read(from:))
+        return value
+    }
+}
+
+extension EKSClientTypes.FargateProfileHealth {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.FargateProfileHealth {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.FargateProfileHealth()
+        value.issues = try reader["issues"].readListIfPresent(memberReadingClosure: EKSClientTypes.FargateProfileIssue.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension EKSClientTypes.FargateProfileIssue {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.FargateProfileIssue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.FargateProfileIssue()
+        value.code = try reader["code"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
+        value.resourceIds = try reader["resourceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

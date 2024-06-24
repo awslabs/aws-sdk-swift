@@ -30,6 +30,7 @@ import struct SmithyHTTPAuthAPI.SigningFlags
 import struct Foundation.Date
 import struct Foundation.TimeInterval
 import struct Foundation.URL
+import AWSSDKChecksums
 
 public class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer {
 
@@ -80,8 +81,8 @@ public class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer {
                 throw Smithy.ClientError.dataNotFound("Could not get request signature!")
             }
 
-            // Set streaming body to an AwsChunked wrapped type
-            try sdkSignedRequest.setAwsChunkedBody(
+            // Set streaming body to an Chunked wrapped type
+            try sdkSignedRequest.setChunkedBody(
                 signingConfig: crtSigningConfig,
                 signature: requestSignature,
                 trailingHeaders: unsignedRequest.trailingHeaders,
@@ -252,6 +253,17 @@ public class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer {
         } else {
             // checksum is present
             return isUnsignedBody ? .streamingUnsignedPayloadTrailer : .streamingSha256PayloadTrailer
+        }
+    }
+}
+
+extension SigningConfig {
+    public var useAwsChunkedEncoding: Bool {
+        switch self.signedBodyValue {
+        case .streamingSha256Payload, .streamingSha256PayloadTrailer, .streamingUnSignedPayloadTrailer:
+            return true
+        default:
+            return false
         }
     }
 }

@@ -582,9 +582,9 @@ public struct CreateSecretInput {
     /// The name of the new secret. The secret name can contain ASCII letters, numbers, and the following characters: /_+=.@- Do not end your secret name with a hyphen followed by six characters. If you do so, you risk confusion and unexpected results when searching for a secret by partial ARN. Secrets Manager automatically adds a hyphen and six random characters after the secret name at the end of the ARN.
     /// This member is required.
     public var name: Swift.String?
-    /// The binary data to encrypt and store in the new version of the secret. We recommend that you store your binary data in a file and then pass the contents of the file as a parameter. Either SecretString or SecretBinary must have a value, but not both. This parameter is not available in the Secrets Manager console.
+    /// The binary data to encrypt and store in the new version of the secret. We recommend that you store your binary data in a file and then pass the contents of the file as a parameter. Either SecretString or SecretBinary must have a value, but not both. This parameter is not available in the Secrets Manager console. Sensitive: This field contains sensitive information, so the service does not include it in CloudTrail log entries. If you create your own log entries, you must also avoid logging the information in this field.
     public var secretBinary: Foundation.Data?
-    /// The text data to encrypt and store in this new version of the secret. We recommend you use a JSON structure of key/value pairs for your secret value. Either SecretString or SecretBinary must have a value, but not both. If you create a secret by using the Secrets Manager console then Secrets Manager puts the protected secret text in only the SecretString parameter. The Secrets Manager console stores the information as a JSON structure of key/value pairs that a Lambda rotation function can parse.
+    /// The text data to encrypt and store in this new version of the secret. We recommend you use a JSON structure of key/value pairs for your secret value. Either SecretString or SecretBinary must have a value, but not both. If you create a secret by using the Secrets Manager console then Secrets Manager puts the protected secret text in only the SecretString parameter. The Secrets Manager console stores the information as a JSON structure of key/value pairs that a Lambda rotation function can parse. Sensitive: This field contains sensitive information, so the service does not include it in CloudTrail log entries. If you create your own log entries, you must also avoid logging the information in this field.
     public var secretString: Swift.String?
     /// A list of tags to attach to the secret. Each tag is a key and value pair of strings in a JSON text string, for example: [{"Key":"CostCenter","Value":"12345"},{"Key":"environment","Value":"production"}] Secrets Manager tag key names are case sensitive. A tag with the key "ABC" is a different tag from one with key "abc". If you check tags in permissions policies as part of your security strategy, then adding or removing a tag can change permissions. If the completion of this operation would result in you losing your permissions for this secret, then Secrets Manager blocks the operation and returns an Access Denied error. For more information, see [Control access to secrets using tags](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access_examples.html#tag-secrets-abac) and [Limit access to identities with tags that match secrets' tags](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access_examples.html#auth-and-access_tags2). For information about how to format a JSON parameter for the various command line tool environments, see [Using JSON for Parameters](https://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#cli-using-param-json). If your command-line tool or SDK requires quotation marks around the parameter, you should use single quotes to avoid confusion with the double quotes required in the JSON text. For tag quotas and naming restrictions, see [Service quotas for Tagging](https://docs.aws.amazon.com/general/latest/gr/arg.html#taged-reference-quotas) in the Amazon Web Services General Reference guide.
     public var tags: [SecretsManagerClientTypes.Tag]?
@@ -852,7 +852,7 @@ public struct DescribeSecretOutput {
     ///
     /// * InSync, which indicates that the replica was created.
     public var replicationStatus: [SecretsManagerClientTypes.ReplicationStatusType]?
-    /// Specifies whether automatic rotation is turned on for this secret. To turn on rotation, use [RotateSecret]. To turn off rotation, use [CancelRotateSecret].
+    /// Specifies whether automatic rotation is turned on for this secret. If the secret has never been configured for rotation, Secrets Manager returns null. To turn on rotation, use [RotateSecret]. To turn off rotation, use [CancelRotateSecret].
     public var rotationEnabled: Swift.Bool?
     /// The ARN of the Lambda function that Secrets Manager invokes to rotate the secret.
     public var rotationLambdaARN: Swift.String?
@@ -1005,7 +1005,7 @@ public struct GetResourcePolicyOutput {
 }
 
 public struct GetSecretValueInput {
-    /// The ARN or name of the secret to retrieve. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See [Finding a secret from a partial ARN](https://docs.aws.amazon.com/secretsmanager/latest/userguide/troubleshoot.html#ARN_secretnamehyphen).
+    /// The ARN or name of the secret to retrieve. To retrieve a secret from another account, you must use an ARN. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See [Finding a secret from a partial ARN](https://docs.aws.amazon.com/secretsmanager/latest/userguide/troubleshoot.html#ARN_secretnamehyphen).
     /// This member is required.
     public var secretId: Swift.String?
     /// The unique identifier of the version of the secret to retrieve. If you include both this parameter and VersionStage, the two parameters must refer to the same secret version. If you don't specify either a VersionStage or VersionId, then Secrets Manager returns the AWSCURRENT version. This value is typically a [UUID-type](https://wikipedia.org/wiki/Universally_unique_identifier) value with 32 hexadecimal digits.
@@ -1032,9 +1032,9 @@ public struct GetSecretValueOutput {
     public var createdDate: Foundation.Date?
     /// The friendly name of the secret.
     public var name: Swift.String?
-    /// The decrypted secret value, if the secret value was originally provided as binary data in the form of a byte array. When you retrieve a SecretBinary using the HTTP API, the Python SDK, or the Amazon Web Services CLI, the value is Base64-encoded. Otherwise, it is not encoded. If the secret was created by using the Secrets Manager console, or if the secret value was originally provided as a string, then this field is omitted. The secret value appears in SecretString instead.
+    /// The decrypted secret value, if the secret value was originally provided as binary data in the form of a byte array. When you retrieve a SecretBinary using the HTTP API, the Python SDK, or the Amazon Web Services CLI, the value is Base64-encoded. Otherwise, it is not encoded. If the secret was created by using the Secrets Manager console, or if the secret value was originally provided as a string, then this field is omitted. The secret value appears in SecretString instead. Sensitive: This field contains sensitive information, so the service does not include it in CloudTrail log entries. If you create your own log entries, you must also avoid logging the information in this field.
     public var secretBinary: Foundation.Data?
-    /// The decrypted secret value, if the secret value was originally provided as a string or through the Secrets Manager console. If this secret was created by using the console, then Secrets Manager stores the information as a JSON structure of key/value pairs.
+    /// The decrypted secret value, if the secret value was originally provided as a string or through the Secrets Manager console. If this secret was created by using the console, then Secrets Manager stores the information as a JSON structure of key/value pairs. Sensitive: This field contains sensitive information, so the service does not include it in CloudTrail log entries. If you create your own log entries, you must also avoid logging the information in this field.
     public var secretString: Swift.String?
     /// The unique identifier of this version of the secret.
     public var versionId: Swift.String?
@@ -1381,18 +1381,21 @@ public struct PutSecretValueInput {
     ///
     /// This value becomes the VersionId of the new version.
     public var clientRequestToken: Swift.String?
-    /// The binary data to encrypt and store in the new version of the secret. To use this parameter in the command-line tools, we recommend that you store your binary data in a file and then pass the contents of the file as a parameter. You must include SecretBinary or SecretString, but not both. You can't access this value from the Secrets Manager console.
+    /// A unique identifier that indicates the source of the request. For cross-account rotation (when you rotate a secret in one account by using a Lambda rotation function in another account) and the Lambda rotation function assumes an IAM role to call Secrets Manager, Secrets Manager validates the identity with the rotation token. For more information, see [How rotation works](https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotating-secrets.html). Sensitive: This field contains sensitive information, so the service does not include it in CloudTrail log entries. If you create your own log entries, you must also avoid logging the information in this field.
+    public var rotationToken: Swift.String?
+    /// The binary data to encrypt and store in the new version of the secret. To use this parameter in the command-line tools, we recommend that you store your binary data in a file and then pass the contents of the file as a parameter. You must include SecretBinary or SecretString, but not both. You can't access this value from the Secrets Manager console. Sensitive: This field contains sensitive information, so the service does not include it in CloudTrail log entries. If you create your own log entries, you must also avoid logging the information in this field.
     public var secretBinary: Foundation.Data?
     /// The ARN or name of the secret to add a new version to. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See [Finding a secret from a partial ARN](https://docs.aws.amazon.com/secretsmanager/latest/userguide/troubleshoot.html#ARN_secretnamehyphen). If the secret doesn't already exist, use CreateSecret instead.
     /// This member is required.
     public var secretId: Swift.String?
-    /// The text to encrypt and store in the new version of the secret. You must include SecretBinary or SecretString, but not both. We recommend you create the secret string as JSON key/value pairs, as shown in the example.
+    /// The text to encrypt and store in the new version of the secret. You must include SecretBinary or SecretString, but not both. We recommend you create the secret string as JSON key/value pairs, as shown in the example. Sensitive: This field contains sensitive information, so the service does not include it in CloudTrail log entries. If you create your own log entries, you must also avoid logging the information in this field.
     public var secretString: Swift.String?
     /// A list of staging labels to attach to this version of the secret. Secrets Manager uses staging labels to track versions of a secret through the rotation process. If you specify a staging label that's already associated with a different version of the same secret, then Secrets Manager removes the label from the other version and attaches it to this version. If you specify AWSCURRENT, and it is already attached to another version, then Secrets Manager also moves the staging label AWSPREVIOUS to the version that AWSCURRENT was removed from. If you don't include VersionStages, then Secrets Manager automatically moves the staging label AWSCURRENT to this version.
     public var versionStages: [Swift.String]?
 
     public init(
         clientRequestToken: Swift.String? = nil,
+        rotationToken: Swift.String? = nil,
         secretBinary: Foundation.Data? = nil,
         secretId: Swift.String? = nil,
         secretString: Swift.String? = nil,
@@ -1400,6 +1403,7 @@ public struct PutSecretValueInput {
     )
     {
         self.clientRequestToken = clientRequestToken
+        self.rotationToken = rotationToken
         self.secretBinary = secretBinary
         self.secretId = secretId
         self.secretString = secretString
@@ -1409,7 +1413,7 @@ public struct PutSecretValueInput {
 
 extension PutSecretValueInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "PutSecretValueInput(clientRequestToken: \(Swift.String(describing: clientRequestToken)), secretId: \(Swift.String(describing: secretId)), versionStages: \(Swift.String(describing: versionStages)), secretBinary: \"CONTENT_REDACTED\", secretString: \"CONTENT_REDACTED\")"}
+        "PutSecretValueInput(clientRequestToken: \(Swift.String(describing: clientRequestToken)), secretId: \(Swift.String(describing: secretId)), versionStages: \(Swift.String(describing: versionStages)), rotationToken: \"CONTENT_REDACTED\", secretBinary: \"CONTENT_REDACTED\", secretString: \"CONTENT_REDACTED\")"}
 }
 
 public struct PutSecretValueOutput {
@@ -1540,7 +1544,7 @@ public struct RestoreSecretOutput {
 public struct RotateSecretInput {
     /// A unique identifier for the new version of the secret. You only need to specify this value if you implement your own retry logic and you want to ensure that Secrets Manager doesn't attempt to create a secret version twice. If you use the Amazon Web Services CLI or one of the Amazon Web Services SDKs to call this operation, then you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes it as the value for this parameter in the request. If you generate a raw HTTP request to the Secrets Manager service endpoint, then you must generate a ClientRequestToken and include it in the request. This value helps ensure idempotency. Secrets Manager uses this value to prevent the accidental creation of duplicate versions if there are failures and retries during a rotation. We recommend that you generate a [UUID-type](https://wikipedia.org/wiki/Universally_unique_identifier) value to ensure uniqueness of your versions within the specified secret.
     public var clientRequestToken: Swift.String?
-    /// Specifies whether to rotate the secret immediately or wait until the next scheduled rotation window. The rotation schedule is defined in [RotateSecretRequest$RotationRules]. For secrets that use a Lambda rotation function to rotate, if you don't immediately rotate the secret, Secrets Manager tests the rotation configuration by running the [testSecret] step(https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_how.html) of the Lambda rotation function. The test creates an AWSPENDING version of the secret and then removes it. By default, Secrets Manager rotates the secret immediately.
+    /// Specifies whether to rotate the secret immediately or wait until the next scheduled rotation window. The rotation schedule is defined in [RotateSecretRequest$RotationRules]. For secrets that use a Lambda rotation function to rotate, if you don't immediately rotate the secret, Secrets Manager tests the rotation configuration by running the [testSecret] step(https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_lambda-functions.html#rotate-secrets_lambda-functions-code) of the Lambda rotation function. The test creates an AWSPENDING version of the secret and then removes it. By default, Secrets Manager rotates the secret immediately.
     public var rotateImmediately: Swift.Bool?
     /// For secrets that use a Lambda rotation function to rotate, the ARN of the Lambda rotation function. For secrets that use managed rotation, omit this field. For more information, see [Managed rotation](https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_managed.html) in the Secrets Manager User Guide.
     public var rotationLambdaARN: Swift.String?
@@ -1654,12 +1658,12 @@ public struct UpdateSecretInput {
     public var description: Swift.String?
     /// The ARN, key ID, or alias of the KMS key that Secrets Manager uses to encrypt new secret versions as well as any existing versions with the staging labels AWSCURRENT, AWSPENDING, or AWSPREVIOUS. If you don't have kms:Encrypt permission to the new key, Secrets Manager does not re-ecrypt existing secret versions with the new key. For more information about versions and staging labels, see [Concepts: Version](https://docs.aws.amazon.com/secretsmanager/latest/userguide/getting-started.html#term_version). A key alias is always prefixed by alias/, for example alias/aws/secretsmanager. For more information, see [About aliases](https://docs.aws.amazon.com/kms/latest/developerguide/alias-about.html). If you set this to an empty string, Secrets Manager uses the Amazon Web Services managed key aws/secretsmanager. If this key doesn't already exist in your account, then Secrets Manager creates it for you automatically. All users and roles in the Amazon Web Services account automatically have access to use aws/secretsmanager. Creating aws/secretsmanager can result in a one-time significant delay in returning the result. You can only use the Amazon Web Services managed key aws/secretsmanager if you call this operation using credentials from the same Amazon Web Services account that owns the secret. If the secret is in a different account, then you must use a customer managed key and provide the ARN of that KMS key in this field. The user making the call must have permissions to both the secret and the KMS key in their respective accounts.
     public var kmsKeyId: Swift.String?
-    /// The binary data to encrypt and store in the new version of the secret. We recommend that you store your binary data in a file and then pass the contents of the file as a parameter. Either SecretBinary or SecretString must have a value, but not both. You can't access this parameter in the Secrets Manager console.
+    /// The binary data to encrypt and store in the new version of the secret. We recommend that you store your binary data in a file and then pass the contents of the file as a parameter. Either SecretBinary or SecretString must have a value, but not both. You can't access this parameter in the Secrets Manager console. Sensitive: This field contains sensitive information, so the service does not include it in CloudTrail log entries. If you create your own log entries, you must also avoid logging the information in this field.
     public var secretBinary: Foundation.Data?
     /// The ARN or name of the secret. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See [Finding a secret from a partial ARN](https://docs.aws.amazon.com/secretsmanager/latest/userguide/troubleshoot.html#ARN_secretnamehyphen).
     /// This member is required.
     public var secretId: Swift.String?
-    /// The text data to encrypt and store in the new version of the secret. We recommend you use a JSON structure of key/value pairs for your secret value. Either SecretBinary or SecretString must have a value, but not both.
+    /// The text data to encrypt and store in the new version of the secret. We recommend you use a JSON structure of key/value pairs for your secret value. Either SecretBinary or SecretString must have a value, but not both. Sensitive: This field contains sensitive information, so the service does not include it in CloudTrail log entries. If you create your own log entries, you must also avoid logging the information in this field.
     public var secretString: Swift.String?
 
     public init(
@@ -1751,7 +1755,7 @@ public struct ValidateResourcePolicyInput {
     /// A JSON-formatted string that contains an Amazon Web Services resource-based policy. The policy in the string identifies who can access or manage this secret and its versions. For example policies, see [Permissions policy examples](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access_examples.html).
     /// This member is required.
     public var resourcePolicy: Swift.String?
-    /// This field is reserved for internal use.
+    /// The ARN or name of the secret with the resource-based policy you want to validate.
     public var secretId: Swift.String?
 
     public init(
@@ -2093,6 +2097,7 @@ extension PutSecretValueInput {
     static func write(value: PutSecretValueInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ClientRequestToken"].write(value.clientRequestToken)
+        try writer["RotationToken"].write(value.rotationToken)
         try writer["SecretBinary"].write(value.secretBinary)
         try writer["SecretId"].write(value.secretId)
         try writer["SecretString"].write(value.secretString)

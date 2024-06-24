@@ -299,6 +299,35 @@ extension OSISClientTypes {
 }
 
 extension OSISClientTypes {
+
+    public enum VpcEndpointManagement: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case customer
+        case service
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VpcEndpointManagement] {
+            return [
+                .customer,
+                .service
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .customer: return "CUSTOMER"
+            case .service: return "SERVICE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OSISClientTypes {
     /// Options that specify the subnets and security groups for an OpenSearch Ingestion VPC endpoint.
     public struct VpcOptions {
         /// A list of security groups associated with the VPC endpoint.
@@ -308,16 +337,20 @@ extension OSISClientTypes {
         public var subnetIds: [Swift.String]?
         /// Options for attaching a VPC to a pipeline.
         public var vpcAttachmentOptions: OSISClientTypes.VpcAttachmentOptions?
+        /// Defines whether you or Amazon OpenSearch Ingestion service create and manage the VPC endpoint configured for the pipeline.
+        public var vpcEndpointManagement: OSISClientTypes.VpcEndpointManagement?
 
         public init(
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil,
-            vpcAttachmentOptions: OSISClientTypes.VpcAttachmentOptions? = nil
+            vpcAttachmentOptions: OSISClientTypes.VpcAttachmentOptions? = nil,
+            vpcEndpointManagement: OSISClientTypes.VpcEndpointManagement? = nil
         )
         {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
             self.vpcAttachmentOptions = vpcAttachmentOptions
+            self.vpcEndpointManagement = vpcEndpointManagement
         }
     }
 
@@ -565,6 +598,8 @@ extension OSISClientTypes {
         public var statusReason: OSISClientTypes.PipelineStatusReason?
         /// A list of tags associated with the given pipeline.
         public var tags: [OSISClientTypes.Tag]?
+        /// The VPC endpoint service name for the pipeline.
+        public var vpcEndpointService: Swift.String?
         /// The VPC interface endpoints that have access to the pipeline.
         public var vpcEndpoints: [OSISClientTypes.VpcEndpoint]?
 
@@ -585,6 +620,7 @@ extension OSISClientTypes {
             status: OSISClientTypes.PipelineStatus? = nil,
             statusReason: OSISClientTypes.PipelineStatusReason? = nil,
             tags: [OSISClientTypes.Tag]? = nil,
+            vpcEndpointService: Swift.String? = nil,
             vpcEndpoints: [OSISClientTypes.VpcEndpoint]? = nil
         )
         {
@@ -604,6 +640,7 @@ extension OSISClientTypes {
             self.status = status
             self.statusReason = statusReason
             self.tags = tags
+            self.vpcEndpointService = vpcEndpointService
             self.vpcEndpoints = vpcEndpoints
         }
     }
@@ -2073,6 +2110,7 @@ extension OSISClientTypes.Pipeline {
         value.vpcEndpoints = try reader["VpcEndpoints"].readListIfPresent(memberReadingClosure: OSISClientTypes.VpcEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.bufferOptions = try reader["BufferOptions"].readIfPresent(with: OSISClientTypes.BufferOptions.read(from:))
         value.encryptionAtRestOptions = try reader["EncryptionAtRestOptions"].readIfPresent(with: OSISClientTypes.EncryptionAtRestOptions.read(from:))
+        value.vpcEndpointService = try reader["VpcEndpointService"].readIfPresent()
         value.serviceVpcEndpoints = try reader["ServiceVpcEndpoints"].readListIfPresent(memberReadingClosure: OSISClientTypes.ServiceVpcEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.destinations = try reader["Destinations"].readListIfPresent(memberReadingClosure: OSISClientTypes.PipelineDestination.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: OSISClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -2168,6 +2206,7 @@ extension OSISClientTypes.VpcOptions {
         try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["VpcAttachmentOptions"].write(value.vpcAttachmentOptions, with: OSISClientTypes.VpcAttachmentOptions.write(value:to:))
+        try writer["VpcEndpointManagement"].write(value.vpcEndpointManagement)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> OSISClientTypes.VpcOptions {
@@ -2176,6 +2215,7 @@ extension OSISClientTypes.VpcOptions {
         value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.vpcAttachmentOptions = try reader["VpcAttachmentOptions"].readIfPresent(with: OSISClientTypes.VpcAttachmentOptions.read(from:))
+        value.vpcEndpointManagement = try reader["VpcEndpointManagement"].readIfPresent()
         return value
     }
 }

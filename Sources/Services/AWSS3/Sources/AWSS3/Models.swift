@@ -29,6 +29,8 @@ import protocol Smithy.RequestMessageSerializer
 import struct AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware
 import struct AWSClientRuntime.AWSUserAgentMetadata
 import struct AWSClientRuntime.EndpointResolverMiddleware
+import struct AWSClientRuntime.FlexibleChecksumsRequestMiddleware
+import struct AWSClientRuntime.FlexibleChecksumsResponseMiddleware
 import struct AWSClientRuntime.RestXMLError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct AWSClientRuntime.UserAgentMiddleware
@@ -37,8 +39,6 @@ import struct ClientRuntime.BlobStreamBodyMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 import struct ClientRuntime.DeserializeMiddleware
-import struct ClientRuntime.FlexibleChecksumsRequestMiddleware
-import struct ClientRuntime.FlexibleChecksumsResponseMiddleware
 import struct ClientRuntime.HeaderMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.OperationOutput
@@ -21616,7 +21616,7 @@ extension GetObjectInput {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetObjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetObjectOutput>(GetObjectOutput.httpOutput(from:), GetObjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetObjectInput, GetObjectOutput>(clientLogMode: config.clientLogMode))
-        builder.interceptors.add(ClientRuntime.FlexibleChecksumsResponseMiddleware<GetObjectInput, GetObjectOutput>(validationMode: true))
+        builder.interceptors.add(AWSClientRuntime.FlexibleChecksumsResponseMiddleware<GetObjectInput, GetObjectOutput>(validationMode: true))
         let op = builder.attributes(context)
             .executeRequest(client)
             .build()
@@ -21752,7 +21752,7 @@ extension PutObjectInput {
         context.attributes.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutObjectOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutObjectOutput>())
-        builder.interceptors.add(ClientRuntime.FlexibleChecksumsRequestMiddleware<PutObjectInput, PutObjectOutput>(checksumAlgorithm: input.checksumAlgorithm?.rawValue))
+        builder.interceptors.add(AWSClientRuntime.FlexibleChecksumsRequestMiddleware<PutObjectInput, PutObjectOutput>(checksumAlgorithm: input.checksumAlgorithm?.rawValue))
         builder.serialize(PutObjectPresignedURLMiddleware())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
@@ -21843,7 +21843,7 @@ extension GetObjectInput {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetObjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetObjectOutput>(GetObjectOutput.httpOutput(from:), GetObjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetObjectInput, GetObjectOutput>(clientLogMode: config.clientLogMode))
-        builder.interceptors.add(ClientRuntime.FlexibleChecksumsResponseMiddleware<GetObjectInput, GetObjectOutput>(validationMode: true))
+        builder.interceptors.add(AWSClientRuntime.FlexibleChecksumsResponseMiddleware<GetObjectInput, GetObjectOutput>(validationMode: true))
         let op = builder.attributes(context)
             .executeRequest(client)
             .build()
@@ -21889,7 +21889,7 @@ extension PutObjectInput {
         builder.serialize(ClientRuntime.QueryItemMiddleware<PutObjectInput, PutObjectOutput>(PutObjectInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutObjectInput, PutObjectOutput>(contentType: "application/octet-stream"))
         builder.serialize(ClientRuntime.BlobStreamBodyMiddleware<PutObjectInput, PutObjectOutput>(keyPath: \.body))
-        builder.interceptors.add(ClientRuntime.FlexibleChecksumsRequestMiddleware<PutObjectInput, PutObjectOutput>(checksumAlgorithm: input.checksumAlgorithm?.rawValue))
+        builder.interceptors.add(AWSClientRuntime.FlexibleChecksumsRequestMiddleware<PutObjectInput, PutObjectOutput>(checksumAlgorithm: input.checksumAlgorithm?.rawValue))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutObjectInput, PutObjectOutput>())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
@@ -21942,7 +21942,7 @@ extension UploadPartInput {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UploadPartInput, UploadPartOutput>(UploadPartInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UploadPartInput, UploadPartOutput>(contentType: "application/octet-stream"))
         builder.serialize(ClientRuntime.BlobStreamBodyMiddleware<UploadPartInput, UploadPartOutput>(keyPath: \.body))
-        builder.interceptors.add(ClientRuntime.FlexibleChecksumsRequestMiddleware<UploadPartInput, UploadPartOutput>(checksumAlgorithm: input.checksumAlgorithm?.rawValue))
+        builder.interceptors.add(AWSClientRuntime.FlexibleChecksumsRequestMiddleware<UploadPartInput, UploadPartOutput>(checksumAlgorithm: input.checksumAlgorithm?.rawValue))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UploadPartInput, UploadPartOutput>())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
