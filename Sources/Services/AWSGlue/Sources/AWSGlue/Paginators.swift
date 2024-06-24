@@ -203,6 +203,15 @@ extension GetJobRunsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
+
+extension PaginatorSequence where OperationStackInput == GetJobRunsInput, OperationStackOutput == GetJobRunsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `getJobRunsPaginated`
+    /// to access the nested member `[GlueClientTypes.JobRun]`
+    /// - Returns: `[GlueClientTypes.JobRun]`
+    public func jobRuns() async throws -> [GlueClientTypes.JobRun] {
+        return try await self.asyncCompactMap { item in item.jobRuns }
+    }
+}
 extension GlueClient {
     /// Paginate over `[GetJobsOutput]` results.
     ///
@@ -223,6 +232,15 @@ extension GetJobsInput: ClientRuntime.PaginateToken {
             maxResults: self.maxResults,
             nextToken: token
         )}
+}
+
+extension PaginatorSequence where OperationStackInput == GetJobsInput, OperationStackOutput == GetJobsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `getJobsPaginated`
+    /// to access the nested member `[GlueClientTypes.Job]`
+    /// - Returns: `[GlueClientTypes.Job]`
+    public func jobs() async throws -> [GlueClientTypes.Job] {
+        return try await self.asyncCompactMap { item in item.jobs }
+    }
 }
 extension GlueClient {
     /// Paginate over `[GetMLTaskRunsOutput]` results.
@@ -464,6 +482,15 @@ extension GetTriggersInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
+
+extension PaginatorSequence where OperationStackInput == GetTriggersInput, OperationStackOutput == GetTriggersOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `getTriggersPaginated`
+    /// to access the nested member `[GlueClientTypes.Trigger]`
+    /// - Returns: `[GlueClientTypes.Trigger]`
+    public func triggers() async throws -> [GlueClientTypes.Trigger] {
+        return try await self.asyncCompactMap { item in item.triggers }
+    }
+}
 extension GlueClient {
     /// Paginate over `[GetUnfilteredPartitionsMetadataOutput]` results.
     ///
@@ -541,6 +568,15 @@ extension GetWorkflowRunsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
+
+extension PaginatorSequence where OperationStackInput == GetWorkflowRunsInput, OperationStackOutput == GetWorkflowRunsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `getWorkflowRunsPaginated`
+    /// to access the nested member `[GlueClientTypes.WorkflowRun]`
+    /// - Returns: `[GlueClientTypes.WorkflowRun]`
+    public func runs() async throws -> [GlueClientTypes.WorkflowRun] {
+        return try await self.asyncCompactMap { item in item.runs }
+    }
+}
 extension GlueClient {
     /// Paginate over `[ListBlueprintsOutput]` results.
     ///
@@ -562,6 +598,15 @@ extension ListBlueprintsInput: ClientRuntime.PaginateToken {
             nextToken: token,
             tags: self.tags
         )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListBlueprintsInput, OperationStackOutput == ListBlueprintsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listBlueprintsPaginated`
+    /// to access the nested member `[Swift.String]`
+    /// - Returns: `[Swift.String]`
+    public func blueprints() async throws -> [Swift.String] {
+        return try await self.asyncCompactMap { item in item.blueprints }
+    }
 }
 extension GlueClient {
     /// Paginate over `[ListColumnStatisticsTaskRunsOutput]` results.
@@ -761,6 +806,15 @@ extension ListJobsInput: ClientRuntime.PaginateToken {
             tags: self.tags
         )}
 }
+
+extension PaginatorSequence where OperationStackInput == ListJobsInput, OperationStackOutput == ListJobsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listJobsPaginated`
+    /// to access the nested member `[Swift.String]`
+    /// - Returns: `[Swift.String]`
+    public func jobNames() async throws -> [Swift.String] {
+        return try await self.asyncCompactMap { item in item.jobNames }
+    }
+}
 extension GlueClient {
     /// Paginate over `[ListMLTransformsOutput]` results.
     ///
@@ -948,6 +1002,15 @@ extension ListTriggersInput: ClientRuntime.PaginateToken {
             tags: self.tags
         )}
 }
+
+extension PaginatorSequence where OperationStackInput == ListTriggersInput, OperationStackOutput == ListTriggersOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listTriggersPaginated`
+    /// to access the nested member `[Swift.String]`
+    /// - Returns: `[Swift.String]`
+    public func triggerNames() async throws -> [Swift.String] {
+        return try await self.asyncCompactMap { item in item.triggerNames }
+    }
+}
 extension GlueClient {
     /// Paginate over `[ListUsageProfilesOutput]` results.
     ///
@@ -998,6 +1061,15 @@ extension ListWorkflowsInput: ClientRuntime.PaginateToken {
             maxResults: self.maxResults,
             nextToken: token
         )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListWorkflowsInput, OperationStackOutput == ListWorkflowsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listWorkflowsPaginated`
+    /// to access the nested member `[Swift.String]`
+    /// - Returns: `[Swift.String]`
+    public func workflows() async throws -> [Swift.String] {
+        return try await self.asyncCompactMap { item in item.workflows }
+    }
 }
 extension GlueClient {
     /// Paginate over `[SearchTablesOutput]` results.

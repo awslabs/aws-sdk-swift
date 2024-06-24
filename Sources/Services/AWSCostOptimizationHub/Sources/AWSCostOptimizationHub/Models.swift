@@ -1221,6 +1221,106 @@ extension CostOptimizationHubClientTypes {
 }
 
 extension CostOptimizationHubClientTypes {
+    /// The DB instance configuration used for recommendations.
+    public struct DbInstanceConfiguration {
+        /// The DB instance class of the DB instance.
+        public var dbInstanceClass: Swift.String?
+
+        public init(
+            dbInstanceClass: Swift.String? = nil
+        )
+        {
+            self.dbInstanceClass = dbInstanceClass
+        }
+    }
+
+}
+
+extension CostOptimizationHubClientTypes {
+    /// The Amazon RDS DB instance configuration used for recommendations.
+    public struct RdsDbInstanceConfiguration {
+        /// Details about the instance configuration.
+        public var instance: CostOptimizationHubClientTypes.DbInstanceConfiguration?
+
+        public init(
+            instance: CostOptimizationHubClientTypes.DbInstanceConfiguration? = nil
+        )
+        {
+            self.instance = instance
+        }
+    }
+
+}
+
+extension CostOptimizationHubClientTypes {
+    /// Contains the details of an Amazon RDS DB instance.
+    public struct RdsDbInstance {
+        /// The Amazon RDS DB instance configuration used for recommendations.
+        public var configuration: CostOptimizationHubClientTypes.RdsDbInstanceConfiguration?
+        /// Cost impact of the resource recommendation.
+        public var costCalculation: CostOptimizationHubClientTypes.ResourceCostCalculation?
+
+        public init(
+            configuration: CostOptimizationHubClientTypes.RdsDbInstanceConfiguration? = nil,
+            costCalculation: CostOptimizationHubClientTypes.ResourceCostCalculation? = nil
+        )
+        {
+            self.configuration = configuration
+            self.costCalculation = costCalculation
+        }
+    }
+
+}
+
+extension CostOptimizationHubClientTypes {
+    /// The Amazon RDS DB instance storage configuration used for recommendations.
+    public struct RdsDbInstanceStorageConfiguration {
+        /// The new amount of storage in GB to allocate for the DB instance.
+        public var allocatedStorageInGb: Swift.Double?
+        /// The amount of Provisioned IOPS (input/output operations per second) to be initially allocated for the DB instance.
+        public var iops: Swift.Double?
+        /// The storage throughput for the DB instance.
+        public var storageThroughput: Swift.Double?
+        /// The storage type to associate with the DB instance.
+        public var storageType: Swift.String?
+
+        public init(
+            allocatedStorageInGb: Swift.Double? = nil,
+            iops: Swift.Double? = nil,
+            storageThroughput: Swift.Double? = nil,
+            storageType: Swift.String? = nil
+        )
+        {
+            self.allocatedStorageInGb = allocatedStorageInGb
+            self.iops = iops
+            self.storageThroughput = storageThroughput
+            self.storageType = storageType
+        }
+    }
+
+}
+
+extension CostOptimizationHubClientTypes {
+    /// Contains the details of an Amazon RDS DB instance storage.
+    public struct RdsDbInstanceStorage {
+        /// The Amazon RDS DB instance storage configuration used for recommendations.
+        public var configuration: CostOptimizationHubClientTypes.RdsDbInstanceStorageConfiguration?
+        /// Cost impact of the resource recommendation.
+        public var costCalculation: CostOptimizationHubClientTypes.ResourceCostCalculation?
+
+        public init(
+            configuration: CostOptimizationHubClientTypes.RdsDbInstanceStorageConfiguration? = nil,
+            costCalculation: CostOptimizationHubClientTypes.ResourceCostCalculation? = nil
+        )
+        {
+            self.configuration = configuration
+            self.costCalculation = costCalculation
+        }
+    }
+
+}
+
+extension CostOptimizationHubClientTypes {
     /// The RDS reserved instances configuration used for recommendations.
     public struct RdsReservedInstancesConfiguration {
         /// The account scope that you want your recommendations for.
@@ -1481,6 +1581,10 @@ extension CostOptimizationHubClientTypes {
         case computesavingsplans(CostOptimizationHubClientTypes.ComputeSavingsPlans)
         /// The SageMaker Savings Plans recommendation details.
         case sagemakersavingsplans(CostOptimizationHubClientTypes.SageMakerSavingsPlans)
+        /// The DB instance recommendation details.
+        case rdsdbinstance(CostOptimizationHubClientTypes.RdsDbInstance)
+        /// The DB instance storage recommendation details.
+        case rdsdbinstancestorage(CostOptimizationHubClientTypes.RdsDbInstanceStorage)
         case sdkUnknown(Swift.String)
     }
 
@@ -1499,6 +1603,8 @@ extension CostOptimizationHubClientTypes {
         case elastiCacheReservedInstances
         case lambdaFunction
         case openSearchReservedInstances
+        case rdsDbInstance
+        case rdsDbInstanceStorage
         case rdsReservedInstances
         case redshiftReservedInstances
         case sageMakerSavingsPlans
@@ -1516,6 +1622,8 @@ extension CostOptimizationHubClientTypes {
                 .elastiCacheReservedInstances,
                 .lambdaFunction,
                 .openSearchReservedInstances,
+                .rdsDbInstance,
+                .rdsDbInstanceStorage,
                 .rdsReservedInstances,
                 .redshiftReservedInstances,
                 .sageMakerSavingsPlans
@@ -1539,6 +1647,8 @@ extension CostOptimizationHubClientTypes {
             case .elastiCacheReservedInstances: return "ElastiCacheReservedInstances"
             case .lambdaFunction: return "LambdaFunction"
             case .openSearchReservedInstances: return "OpenSearchReservedInstances"
+            case .rdsDbInstance: return "RdsDbInstance"
+            case .rdsDbInstanceStorage: return "RdsDbInstanceStorage"
             case .rdsReservedInstances: return "RdsReservedInstances"
             case .redshiftReservedInstances: return "RedshiftReservedInstances"
             case .sageMakerSavingsPlans: return "SageMakerSavingsPlans"
@@ -1648,7 +1758,7 @@ public struct GetRecommendationOutput {
     public var currentResourceDetails: CostOptimizationHubClientTypes.ResourceDetails?
     /// The type of resource.
     public var currentResourceType: CostOptimizationHubClientTypes.ResourceType?
-    /// The estimated monthly cost of the recommendation.
+    /// The estimated monthly cost of the current resource. For Reserved Instances and Savings Plans, it refers to the cost for eligible usage.
     public var estimatedMonthlyCost: Swift.Double?
     /// The estimated monthly savings amount for the recommendation.
     public var estimatedMonthlySavings: Swift.Double?
@@ -1925,7 +2035,7 @@ extension CostOptimizationHubClientTypes {
         public var currentResourceSummary: Swift.String?
         /// The current resource type.
         public var currentResourceType: Swift.String?
-        /// The estimated monthly cost for the recommendation.
+        /// The estimated monthly cost of the current resource. For Reserved Instances and Savings Plans, it refers to the cost for eligible usage.
         public var estimatedMonthlyCost: Swift.Double?
         /// The estimated monthly savings amount for the recommendation.
         public var estimatedMonthlySavings: Swift.Double?
@@ -2614,9 +2724,118 @@ extension CostOptimizationHubClientTypes.ResourceDetails {
                 return .computesavingsplans(try reader["computeSavingsPlans"].read(with: CostOptimizationHubClientTypes.ComputeSavingsPlans.read(from:)))
             case "sageMakerSavingsPlans":
                 return .sagemakersavingsplans(try reader["sageMakerSavingsPlans"].read(with: CostOptimizationHubClientTypes.SageMakerSavingsPlans.read(from:)))
+            case "rdsDbInstance":
+                return .rdsdbinstance(try reader["rdsDbInstance"].read(with: CostOptimizationHubClientTypes.RdsDbInstance.read(from:)))
+            case "rdsDbInstanceStorage":
+                return .rdsdbinstancestorage(try reader["rdsDbInstanceStorage"].read(with: CostOptimizationHubClientTypes.RdsDbInstanceStorage.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension CostOptimizationHubClientTypes.RdsDbInstanceStorage {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.RdsDbInstanceStorage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostOptimizationHubClientTypes.RdsDbInstanceStorage()
+        value.configuration = try reader["configuration"].readIfPresent(with: CostOptimizationHubClientTypes.RdsDbInstanceStorageConfiguration.read(from:))
+        value.costCalculation = try reader["costCalculation"].readIfPresent(with: CostOptimizationHubClientTypes.ResourceCostCalculation.read(from:))
+        return value
+    }
+}
+
+extension CostOptimizationHubClientTypes.ResourceCostCalculation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.ResourceCostCalculation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostOptimizationHubClientTypes.ResourceCostCalculation()
+        value.usages = try reader["usages"].readListIfPresent(memberReadingClosure: CostOptimizationHubClientTypes.Usage.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.pricing = try reader["pricing"].readIfPresent(with: CostOptimizationHubClientTypes.ResourcePricing.read(from:))
+        return value
+    }
+}
+
+extension CostOptimizationHubClientTypes.ResourcePricing {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.ResourcePricing {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostOptimizationHubClientTypes.ResourcePricing()
+        value.estimatedCostBeforeDiscounts = try reader["estimatedCostBeforeDiscounts"].readIfPresent()
+        value.estimatedNetUnusedAmortizedCommitments = try reader["estimatedNetUnusedAmortizedCommitments"].readIfPresent()
+        value.estimatedDiscounts = try reader["estimatedDiscounts"].readIfPresent(with: CostOptimizationHubClientTypes.EstimatedDiscounts.read(from:))
+        value.estimatedCostAfterDiscounts = try reader["estimatedCostAfterDiscounts"].readIfPresent()
+        return value
+    }
+}
+
+extension CostOptimizationHubClientTypes.EstimatedDiscounts {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.EstimatedDiscounts {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostOptimizationHubClientTypes.EstimatedDiscounts()
+        value.savingsPlansDiscount = try reader["savingsPlansDiscount"].readIfPresent()
+        value.reservedInstancesDiscount = try reader["reservedInstancesDiscount"].readIfPresent()
+        value.otherDiscount = try reader["otherDiscount"].readIfPresent()
+        return value
+    }
+}
+
+extension CostOptimizationHubClientTypes.Usage {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.Usage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostOptimizationHubClientTypes.Usage()
+        value.usageType = try reader["usageType"].readIfPresent()
+        value.usageAmount = try reader["usageAmount"].readIfPresent()
+        value.operation = try reader["operation"].readIfPresent()
+        value.productCode = try reader["productCode"].readIfPresent()
+        value.unit = try reader["unit"].readIfPresent()
+        return value
+    }
+}
+
+extension CostOptimizationHubClientTypes.RdsDbInstanceStorageConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.RdsDbInstanceStorageConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostOptimizationHubClientTypes.RdsDbInstanceStorageConfiguration()
+        value.storageType = try reader["storageType"].readIfPresent()
+        value.allocatedStorageInGb = try reader["allocatedStorageInGb"].readIfPresent()
+        value.iops = try reader["iops"].readIfPresent()
+        value.storageThroughput = try reader["storageThroughput"].readIfPresent()
+        return value
+    }
+}
+
+extension CostOptimizationHubClientTypes.RdsDbInstance {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.RdsDbInstance {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostOptimizationHubClientTypes.RdsDbInstance()
+        value.configuration = try reader["configuration"].readIfPresent(with: CostOptimizationHubClientTypes.RdsDbInstanceConfiguration.read(from:))
+        value.costCalculation = try reader["costCalculation"].readIfPresent(with: CostOptimizationHubClientTypes.ResourceCostCalculation.read(from:))
+        return value
+    }
+}
+
+extension CostOptimizationHubClientTypes.RdsDbInstanceConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.RdsDbInstanceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostOptimizationHubClientTypes.RdsDbInstanceConfiguration()
+        value.instance = try reader["instance"].readIfPresent(with: CostOptimizationHubClientTypes.DbInstanceConfiguration.read(from:))
+        return value
+    }
+}
+
+extension CostOptimizationHubClientTypes.DbInstanceConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.DbInstanceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostOptimizationHubClientTypes.DbInstanceConfiguration()
+        value.dbInstanceClass = try reader["dbInstanceClass"].readIfPresent()
+        return value
     }
 }
 
@@ -2918,56 +3137,6 @@ extension CostOptimizationHubClientTypes.Ec2AutoScalingGroup {
         var value = CostOptimizationHubClientTypes.Ec2AutoScalingGroup()
         value.configuration = try reader["configuration"].readIfPresent(with: CostOptimizationHubClientTypes.Ec2AutoScalingGroupConfiguration.read(from:))
         value.costCalculation = try reader["costCalculation"].readIfPresent(with: CostOptimizationHubClientTypes.ResourceCostCalculation.read(from:))
-        return value
-    }
-}
-
-extension CostOptimizationHubClientTypes.ResourceCostCalculation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.ResourceCostCalculation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostOptimizationHubClientTypes.ResourceCostCalculation()
-        value.usages = try reader["usages"].readListIfPresent(memberReadingClosure: CostOptimizationHubClientTypes.Usage.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.pricing = try reader["pricing"].readIfPresent(with: CostOptimizationHubClientTypes.ResourcePricing.read(from:))
-        return value
-    }
-}
-
-extension CostOptimizationHubClientTypes.ResourcePricing {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.ResourcePricing {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostOptimizationHubClientTypes.ResourcePricing()
-        value.estimatedCostBeforeDiscounts = try reader["estimatedCostBeforeDiscounts"].readIfPresent()
-        value.estimatedNetUnusedAmortizedCommitments = try reader["estimatedNetUnusedAmortizedCommitments"].readIfPresent()
-        value.estimatedDiscounts = try reader["estimatedDiscounts"].readIfPresent(with: CostOptimizationHubClientTypes.EstimatedDiscounts.read(from:))
-        value.estimatedCostAfterDiscounts = try reader["estimatedCostAfterDiscounts"].readIfPresent()
-        return value
-    }
-}
-
-extension CostOptimizationHubClientTypes.EstimatedDiscounts {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.EstimatedDiscounts {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostOptimizationHubClientTypes.EstimatedDiscounts()
-        value.savingsPlansDiscount = try reader["savingsPlansDiscount"].readIfPresent()
-        value.reservedInstancesDiscount = try reader["reservedInstancesDiscount"].readIfPresent()
-        value.otherDiscount = try reader["otherDiscount"].readIfPresent()
-        return value
-    }
-}
-
-extension CostOptimizationHubClientTypes.Usage {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.Usage {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostOptimizationHubClientTypes.Usage()
-        value.usageType = try reader["usageType"].readIfPresent()
-        value.usageAmount = try reader["usageAmount"].readIfPresent()
-        value.operation = try reader["operation"].readIfPresent()
-        value.productCode = try reader["productCode"].readIfPresent()
-        value.unit = try reader["unit"].readIfPresent()
         return value
     }
 }

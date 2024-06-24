@@ -89,6 +89,7 @@ extension ListParticipantsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListParticipantsInput {
         return ListParticipantsInput(
             filterByPublished: self.filterByPublished,
+            filterByRecordingState: self.filterByRecordingState,
             filterByState: self.filterByState,
             filterByUserId: self.filterByUserId,
             maxResults: self.maxResults,
