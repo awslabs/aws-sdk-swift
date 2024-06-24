@@ -6262,14 +6262,30 @@ extension MediaConvertClientTypes {
 extension MediaConvertClientTypes {
     /// When you include Video generator, MediaConvert creates a video input with black frames. Use this setting if you do not have a video input or if you want to add black video frames before, or after, other inputs. You can specify Video generator, or you can specify an Input file, but you cannot specify both. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/video-generator.html
     public struct InputVideoGenerator {
-        /// Specify an integer value for Black video duration from 50 to 86400000 to generate a black video input for that many milliseconds. Required when you include Video generator.
+        /// Specify the number of audio channels to include in your video generator input. MediaConvert creates these audio channels as silent audio within a single audio track. Enter an integer from 1 to 32.
+        public var channels: Swift.Int?
+        /// Specify the duration, in milliseconds, for your video generator input. Enter an integer from 50 to 86400000.
         public var duration: Swift.Int?
+        /// Specify the denominator of the fraction that represents the frame rate for your video generator input. When you do, you must also specify a value for Frame rate numerator. MediaConvert uses a default frame rate of 29.97 when you leave Frame rate numerator and Frame rate denominator blank.
+        public var framerateDenominator: Swift.Int?
+        /// Specify the numerator of the fraction that represents the frame rate for your video generator input. When you do, you must also specify a value for Frame rate denominator. MediaConvert uses a default frame rate of 29.97 when you leave Frame rate numerator and Frame rate denominator blank.
+        public var framerateNumerator: Swift.Int?
+        /// Specify the audio sample rate, in Hz, for the silent audio in your video generator input. Enter an integer from 32000 to 48000.
+        public var sampleRate: Swift.Int?
 
         public init(
-            duration: Swift.Int? = nil
+            channels: Swift.Int? = nil,
+            duration: Swift.Int? = nil,
+            framerateDenominator: Swift.Int? = nil,
+            framerateNumerator: Swift.Int? = nil,
+            sampleRate: Swift.Int? = nil
         )
         {
+            self.channels = channels
             self.duration = duration
+            self.framerateDenominator = framerateDenominator
+            self.framerateNumerator = framerateNumerator
+            self.sampleRate = sampleRate
         }
     }
 
@@ -8674,6 +8690,8 @@ extension MediaConvertClientTypes {
         public var clientCache: MediaConvertClientTypes.CmafClientCache?
         /// Specification to use (RFC-6381 or the default RFC-4281) during m3u8 playlist generation.
         public var codecSpecification: MediaConvertClientTypes.CmafCodecSpecification?
+        /// Specify whether MediaConvert generates I-frame only video segments for DASH trick play, also known as trick mode. When specified, the I-frame only video segments are included within an additional AdaptationSet in your DASH output manifest. To generate I-frame only video segments: Enter a name as a text string, up to 256 character long. This name is appended to the end of this output group's base filename, that you specify as part of your destination URI, and used for the I-frame only video segment files. You may also include format identifiers. For more information, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/using-variables-in-your-job-settings.html#using-settings-variables-with-streaming-outputs To not generate I-frame only video segments: Leave blank.
+        public var dashIFrameTrickPlayNameModifier: Swift.String?
         /// Specify how MediaConvert writes SegmentTimeline in your output DASH manifest. To write a SegmentTimeline in each video Representation: Keep the default value, Basic. To write a common SegmentTimeline in the video AdaptationSet: Choose Compact. Note that MediaConvert will still write a SegmentTimeline in any Representation that does not share a common timeline. To write a video AdaptationSet for each different output framerate, and a common SegmentTimeline in each AdaptationSet: Choose Distinct.
         public var dashManifestStyle: MediaConvertClientTypes.DashManifestStyle?
         /// Use Destination to specify the S3 output location and the output filename base. Destination accepts format identifiers. If you do not specify the base filename in the URI, the service will use the filename of the input file. If your job has multiple inputs, the service uses the filename of the first input file.
@@ -8726,6 +8744,7 @@ extension MediaConvertClientTypes {
             baseUrl: Swift.String? = nil,
             clientCache: MediaConvertClientTypes.CmafClientCache? = nil,
             codecSpecification: MediaConvertClientTypes.CmafCodecSpecification? = nil,
+            dashIFrameTrickPlayNameModifier: Swift.String? = nil,
             dashManifestStyle: MediaConvertClientTypes.DashManifestStyle? = nil,
             destination: Swift.String? = nil,
             destinationSettings: MediaConvertClientTypes.DestinationSettings? = nil,
@@ -8755,6 +8774,7 @@ extension MediaConvertClientTypes {
             self.baseUrl = baseUrl
             self.clientCache = clientCache
             self.codecSpecification = codecSpecification
+            self.dashIFrameTrickPlayNameModifier = dashIFrameTrickPlayNameModifier
             self.dashManifestStyle = dashManifestStyle
             self.destination = destination
             self.destinationSettings = destinationSettings
@@ -9242,6 +9262,8 @@ extension MediaConvertClientTypes {
         public var audioChannelConfigSchemeIdUri: MediaConvertClientTypes.DashIsoGroupAudioChannelConfigSchemeIdUri?
         /// A partial URI prefix that will be put in the manifest (.mpd) file at the top level BaseURL element. Can be used if streams are delivered from a different URL than the manifest file.
         public var baseUrl: Swift.String?
+        /// Specify whether MediaConvert generates I-frame only video segments for DASH trick play, also known as trick mode. When specified, the I-frame only video segments are included within an additional AdaptationSet in your DASH output manifest. To generate I-frame only video segments: Enter a name as a text string, up to 256 character long. This name is appended to the end of this output group's base filename, that you specify as part of your destination URI, and used for the I-frame only video segment files. You may also include format identifiers. For more information, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/using-variables-in-your-job-settings.html#using-settings-variables-with-streaming-outputs To not generate I-frame only video segments: Leave blank.
+        public var dashIFrameTrickPlayNameModifier: Swift.String?
         /// Specify how MediaConvert writes SegmentTimeline in your output DASH manifest. To write a SegmentTimeline in each video Representation: Keep the default value, Basic. To write a common SegmentTimeline in the video AdaptationSet: Choose Compact. Note that MediaConvert will still write a SegmentTimeline in any Representation that does not share a common timeline. To write a video AdaptationSet for each different output framerate, and a common SegmentTimeline in each AdaptationSet: Choose Distinct.
         public var dashManifestStyle: MediaConvertClientTypes.DashManifestStyle?
         /// Use Destination to specify the S3 output location and the output filename base. Destination accepts format identifiers. If you do not specify the base filename in the URI, the service will use the filename of the input file. If your job has multiple inputs, the service uses the filename of the first input file.
@@ -9283,6 +9305,7 @@ extension MediaConvertClientTypes {
             additionalManifests: [MediaConvertClientTypes.DashAdditionalManifest]? = nil,
             audioChannelConfigSchemeIdUri: MediaConvertClientTypes.DashIsoGroupAudioChannelConfigSchemeIdUri? = nil,
             baseUrl: Swift.String? = nil,
+            dashIFrameTrickPlayNameModifier: Swift.String? = nil,
             dashManifestStyle: MediaConvertClientTypes.DashManifestStyle? = nil,
             destination: Swift.String? = nil,
             destinationSettings: MediaConvertClientTypes.DestinationSettings? = nil,
@@ -9306,6 +9329,7 @@ extension MediaConvertClientTypes {
             self.additionalManifests = additionalManifests
             self.audioChannelConfigSchemeIdUri = audioChannelConfigSchemeIdUri
             self.baseUrl = baseUrl
+            self.dashIFrameTrickPlayNameModifier = dashIFrameTrickPlayNameModifier
             self.dashManifestStyle = dashManifestStyle
             self.destination = destination
             self.destinationSettings = destinationSettings
@@ -22395,6 +22419,54 @@ public struct PutPolicyOutput {
     }
 }
 
+public struct SearchJobsInput {
+    /// Optional. Provide your input file URL or your partial input file name. The maximum length for an input file is 300 characters.
+    public var inputFile: Swift.String?
+    /// Optional. Number of jobs, up to twenty, that will be returned at one time.
+    public var maxResults: Swift.Int?
+    /// Optional. Use this string, provided with the response to a previous request, to request the next batch of jobs.
+    public var nextToken: Swift.String?
+    /// Optional. When you request lists of resources, you can specify whether they are sorted in ASCENDING or DESCENDING order. Default varies by resource.
+    public var order: MediaConvertClientTypes.Order?
+    /// Optional. Provide a queue name, or a queue ARN, to return only jobs from that queue.
+    public var queue: Swift.String?
+    /// Optional. A job's status can be SUBMITTED, PROGRESSING, COMPLETE, CANCELED, or ERROR.
+    public var status: MediaConvertClientTypes.JobStatus?
+
+    public init(
+        inputFile: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        order: MediaConvertClientTypes.Order? = nil,
+        queue: Swift.String? = nil,
+        status: MediaConvertClientTypes.JobStatus? = nil
+    )
+    {
+        self.inputFile = inputFile
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.order = order
+        self.queue = queue
+        self.status = status
+    }
+}
+
+public struct SearchJobsOutput {
+    /// List of jobs.
+    public var jobs: [MediaConvertClientTypes.Job]?
+    /// Use this string to request the next batch of jobs.
+    public var nextToken: Swift.String?
+
+    public init(
+        jobs: [MediaConvertClientTypes.Job]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.jobs = jobs
+        self.nextToken = nextToken
+    }
+}
+
 public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource that you want to tag. To get the ARN, send a GET request with the resource name.
     /// This member is required.
@@ -22870,6 +22942,45 @@ extension PutPolicyInput {
     }
 }
 
+extension SearchJobsInput {
+
+    static func urlPathProvider(_ value: SearchJobsInput) -> Swift.String? {
+        return "/2017-08-29/search"
+    }
+}
+
+extension SearchJobsInput {
+
+    static func queryItemProvider(_ value: SearchJobsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let order = value.order {
+            let orderQueryItem = Smithy.URIQueryItem(name: "order".urlPercentEncoding(), value: Swift.String(order.rawValue).urlPercentEncoding())
+            items.append(orderQueryItem)
+        }
+        if let status = value.status {
+            let statusQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            items.append(statusQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let queue = value.queue {
+            let queueQueryItem = Smithy.URIQueryItem(name: "queue".urlPercentEncoding(), value: Swift.String(queue).urlPercentEncoding())
+            items.append(queueQueryItem)
+        }
+        if let inputFile = value.inputFile {
+            let inputFileQueryItem = Smithy.URIQueryItem(name: "inputFile".urlPercentEncoding(), value: Swift.String(inputFile).urlPercentEncoding())
+            items.append(inputFileQueryItem)
+        }
+        return items
+    }
+}
+
 extension TagResourceInput {
 
     static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
@@ -23299,6 +23410,19 @@ extension PutPolicyOutput {
         let reader = responseReader
         var value = PutPolicyOutput()
         value.policy = try reader["policy"].readIfPresent(with: MediaConvertClientTypes.Policy.read(from:))
+        return value
+    }
+}
+
+extension SearchJobsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SearchJobsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = SearchJobsOutput()
+        value.jobs = try reader["jobs"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.Job.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -23772,6 +23896,25 @@ enum ListTagsForResourceOutputError {
 }
 
 enum PutPolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum SearchJobsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -27080,6 +27223,7 @@ extension MediaConvertClientTypes.DashIsoGroupSettings {
         try writer["additionalManifests"].writeList(value.additionalManifests, memberWritingClosure: MediaConvertClientTypes.DashAdditionalManifest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["audioChannelConfigSchemeIdUri"].write(value.audioChannelConfigSchemeIdUri)
         try writer["baseUrl"].write(value.baseUrl)
+        try writer["dashIFrameTrickPlayNameModifier"].write(value.dashIFrameTrickPlayNameModifier)
         try writer["dashManifestStyle"].write(value.dashManifestStyle)
         try writer["destination"].write(value.destination)
         try writer["destinationSettings"].write(value.destinationSettings, with: MediaConvertClientTypes.DestinationSettings.write(value:to:))
@@ -27106,6 +27250,7 @@ extension MediaConvertClientTypes.DashIsoGroupSettings {
         value.additionalManifests = try reader["additionalManifests"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.DashAdditionalManifest.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.audioChannelConfigSchemeIdUri = try reader["audioChannelConfigSchemeIdUri"].readIfPresent()
         value.baseUrl = try reader["baseUrl"].readIfPresent()
+        value.dashIFrameTrickPlayNameModifier = try reader["dashIFrameTrickPlayNameModifier"].readIfPresent()
         value.dashManifestStyle = try reader["dashManifestStyle"].readIfPresent()
         value.destination = try reader["destination"].readIfPresent()
         value.destinationSettings = try reader["destinationSettings"].readIfPresent(with: MediaConvertClientTypes.DestinationSettings.read(from:))
@@ -27195,6 +27340,7 @@ extension MediaConvertClientTypes.CmafGroupSettings {
         try writer["baseUrl"].write(value.baseUrl)
         try writer["clientCache"].write(value.clientCache)
         try writer["codecSpecification"].write(value.codecSpecification)
+        try writer["dashIFrameTrickPlayNameModifier"].write(value.dashIFrameTrickPlayNameModifier)
         try writer["dashManifestStyle"].write(value.dashManifestStyle)
         try writer["destination"].write(value.destination)
         try writer["destinationSettings"].write(value.destinationSettings, with: MediaConvertClientTypes.DestinationSettings.write(value:to:))
@@ -27227,6 +27373,7 @@ extension MediaConvertClientTypes.CmafGroupSettings {
         value.baseUrl = try reader["baseUrl"].readIfPresent()
         value.clientCache = try reader["clientCache"].readIfPresent()
         value.codecSpecification = try reader["codecSpecification"].readIfPresent()
+        value.dashIFrameTrickPlayNameModifier = try reader["dashIFrameTrickPlayNameModifier"].readIfPresent()
         value.dashManifestStyle = try reader["dashManifestStyle"].readIfPresent()
         value.destination = try reader["destination"].readIfPresent()
         value.destinationSettings = try reader["destinationSettings"].readIfPresent(with: MediaConvertClientTypes.DestinationSettings.read(from:))
@@ -27782,13 +27929,21 @@ extension MediaConvertClientTypes.InputVideoGenerator {
 
     static func write(value: MediaConvertClientTypes.InputVideoGenerator?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["channels"].write(value.channels)
         try writer["duration"].write(value.duration)
+        try writer["framerateDenominator"].write(value.framerateDenominator)
+        try writer["framerateNumerator"].write(value.framerateNumerator)
+        try writer["sampleRate"].write(value.sampleRate)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.InputVideoGenerator {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaConvertClientTypes.InputVideoGenerator()
+        value.channels = try reader["channels"].readIfPresent()
         value.duration = try reader["duration"].readIfPresent()
+        value.framerateDenominator = try reader["framerateDenominator"].readIfPresent()
+        value.framerateNumerator = try reader["framerateNumerator"].readIfPresent()
+        value.sampleRate = try reader["sampleRate"].readIfPresent()
         return value
     }
 }

@@ -154,6 +154,59 @@ extension AccountClient {
 }
 
 extension AccountClient {
+    /// Performs the `AcceptPrimaryEmailUpdate` operation on the `Account` service.
+    ///
+    /// Accepts the request that originated from [StartPrimaryEmailUpdate] to update the primary email address (also known as the root user email address) for the specified account.
+    ///
+    /// - Parameter AcceptPrimaryEmailUpdateInput : [no documentation found]
+    ///
+    /// - Returns: `AcceptPrimaryEmailUpdateOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation failed because the calling identity doesn't have the minimum required permissions.
+    /// - `ConflictException` : The request could not be processed because of a conflict in the current status of the resource. For example, this happens if you try to enable a Region that is currently being disabled (in a status of DISABLING).
+    /// - `InternalServerException` : The operation failed because of an error internal to Amazon Web Services. Try your operation again later.
+    /// - `ResourceNotFoundException` : The operation failed because it specified a resource that can't be found.
+    /// - `TooManyRequestsException` : The operation failed because it was called too frequently and exceeded a throttle limit.
+    /// - `ValidationException` : The operation failed because one of the input parameters was invalid.
+    public func acceptPrimaryEmailUpdate(input: AcceptPrimaryEmailUpdateInput) async throws -> AcceptPrimaryEmailUpdateOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "acceptPrimaryEmailUpdate")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "account")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<AcceptPrimaryEmailUpdateInput, AcceptPrimaryEmailUpdateOutput>(id: "acceptPrimaryEmailUpdate")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AcceptPrimaryEmailUpdateInput, AcceptPrimaryEmailUpdateOutput>(AcceptPrimaryEmailUpdateInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AcceptPrimaryEmailUpdateInput, AcceptPrimaryEmailUpdateOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<AcceptPrimaryEmailUpdateOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<AcceptPrimaryEmailUpdateInput, AcceptPrimaryEmailUpdateOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<AcceptPrimaryEmailUpdateOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<AcceptPrimaryEmailUpdateInput, AcceptPrimaryEmailUpdateOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AcceptPrimaryEmailUpdateInput, AcceptPrimaryEmailUpdateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AcceptPrimaryEmailUpdateInput.write(value:to:)))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<AcceptPrimaryEmailUpdateInput, AcceptPrimaryEmailUpdateOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AcceptPrimaryEmailUpdateOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<AcceptPrimaryEmailUpdateOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AcceptPrimaryEmailUpdateOutput>(AcceptPrimaryEmailUpdateOutput.httpOutput(from:), AcceptPrimaryEmailUpdateOutputError.httpError(from:)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AcceptPrimaryEmailUpdateInput, AcceptPrimaryEmailUpdateOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `DeleteAlternateContact` operation on the `Account` service.
     ///
     /// Deletes the specified alternate contact from an Amazon Web Services account. For complete details about how to use the alternate contact operations, see [Access or updating the alternate contacts](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact.html). Before you can update the alternate contact information for an Amazon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Management and Organizations. For more information, see [Enabling trusted access for Amazon Web Services Account Management](https://docs.aws.amazon.com/accounts/latest/reference/using-orgs-trusted-access.html).
@@ -208,7 +261,7 @@ extension AccountClient {
 
     /// Performs the `DisableRegion` operation on the `Account` service.
     ///
-    /// Disables (opts-out) a particular Region for an account.
+    /// Disables (opts-out) a particular Region for an account. The act of disabling a Region will remove all IAM access to any resources that reside in that Region.
     ///
     /// - Parameter DisableRegionInput : [no documentation found]
     ///
@@ -414,6 +467,58 @@ extension AccountClient {
         return result
     }
 
+    /// Performs the `GetPrimaryEmail` operation on the `Account` service.
+    ///
+    /// Retrieves the primary email address for the specified account.
+    ///
+    /// - Parameter GetPrimaryEmailInput : [no documentation found]
+    ///
+    /// - Returns: `GetPrimaryEmailOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation failed because the calling identity doesn't have the minimum required permissions.
+    /// - `InternalServerException` : The operation failed because of an error internal to Amazon Web Services. Try your operation again later.
+    /// - `ResourceNotFoundException` : The operation failed because it specified a resource that can't be found.
+    /// - `TooManyRequestsException` : The operation failed because it was called too frequently and exceeded a throttle limit.
+    /// - `ValidationException` : The operation failed because one of the input parameters was invalid.
+    public func getPrimaryEmail(input: GetPrimaryEmailInput) async throws -> GetPrimaryEmailOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getPrimaryEmail")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "account")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<GetPrimaryEmailInput, GetPrimaryEmailOutput>(id: "getPrimaryEmail")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPrimaryEmailInput, GetPrimaryEmailOutput>(GetPrimaryEmailInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPrimaryEmailInput, GetPrimaryEmailOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<GetPrimaryEmailOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<GetPrimaryEmailInput, GetPrimaryEmailOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetPrimaryEmailOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<GetPrimaryEmailInput, GetPrimaryEmailOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetPrimaryEmailInput, GetPrimaryEmailOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetPrimaryEmailInput.write(value:to:)))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<GetPrimaryEmailInput, GetPrimaryEmailOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPrimaryEmailOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetPrimaryEmailOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPrimaryEmailOutput>(GetPrimaryEmailOutput.httpOutput(from:), GetPrimaryEmailOutputError.httpError(from:)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPrimaryEmailInput, GetPrimaryEmailOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `GetRegionOptStatus` operation on the `Account` service.
     ///
     /// Retrieves the opt-in status of a particular Region.
@@ -614,6 +719,59 @@ extension AccountClient {
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<PutContactInformationOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutContactInformationOutput>(PutContactInformationOutput.httpOutput(from:), PutContactInformationOutputError.httpError(from:)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutContactInformationInput, PutContactInformationOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `StartPrimaryEmailUpdate` operation on the `Account` service.
+    ///
+    /// Starts the process to update the primary email address for the specified account.
+    ///
+    /// - Parameter StartPrimaryEmailUpdateInput : [no documentation found]
+    ///
+    /// - Returns: `StartPrimaryEmailUpdateOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation failed because the calling identity doesn't have the minimum required permissions.
+    /// - `ConflictException` : The request could not be processed because of a conflict in the current status of the resource. For example, this happens if you try to enable a Region that is currently being disabled (in a status of DISABLING).
+    /// - `InternalServerException` : The operation failed because of an error internal to Amazon Web Services. Try your operation again later.
+    /// - `ResourceNotFoundException` : The operation failed because it specified a resource that can't be found.
+    /// - `TooManyRequestsException` : The operation failed because it was called too frequently and exceeded a throttle limit.
+    /// - `ValidationException` : The operation failed because one of the input parameters was invalid.
+    public func startPrimaryEmailUpdate(input: StartPrimaryEmailUpdateInput) async throws -> StartPrimaryEmailUpdateOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startPrimaryEmailUpdate")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "account")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<StartPrimaryEmailUpdateInput, StartPrimaryEmailUpdateOutput>(id: "startPrimaryEmailUpdate")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartPrimaryEmailUpdateInput, StartPrimaryEmailUpdateOutput>(StartPrimaryEmailUpdateInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartPrimaryEmailUpdateInput, StartPrimaryEmailUpdateOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<StartPrimaryEmailUpdateOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<StartPrimaryEmailUpdateInput, StartPrimaryEmailUpdateOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<StartPrimaryEmailUpdateOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<StartPrimaryEmailUpdateInput, StartPrimaryEmailUpdateOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<StartPrimaryEmailUpdateInput, StartPrimaryEmailUpdateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartPrimaryEmailUpdateInput.write(value:to:)))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<StartPrimaryEmailUpdateInput, StartPrimaryEmailUpdateOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartPrimaryEmailUpdateOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<StartPrimaryEmailUpdateOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartPrimaryEmailUpdateOutput>(StartPrimaryEmailUpdateOutput.httpOutput(from:), StartPrimaryEmailUpdateOutputError.httpError(from:)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartPrimaryEmailUpdateInput, StartPrimaryEmailUpdateOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

@@ -2792,7 +2792,7 @@ extension RedshiftClientTypes {
         public var sourceReservedNodeCount: Swift.Int?
         /// The identifier of the source reserved node.
         public var sourceReservedNodeId: Swift.String?
-        /// The source reserved-node type, for example ds2.xlarge.
+        /// The source reserved-node type, for example ra3.4xlarge.
         public var sourceReservedNodeType: Swift.String?
         /// The status of the reserved-node exchange request. Statuses include in-progress and requested.
         public var status: RedshiftClientTypes.ReservedNodeExchangeStatusType?
@@ -2852,15 +2852,15 @@ extension RedshiftClientTypes {
 extension RedshiftClientTypes {
     /// Describes the status of a cluster restore action. Returns null if the cluster was not created by restoring a snapshot.
     public struct RestoreStatus {
-        /// The number of megabytes per second being transferred from the backup storage. Returns the average rate for a completed backup. This field is only updated when you restore to DC2 and DS2 node types.
+        /// The number of megabytes per second being transferred from the backup storage. Returns the average rate for a completed backup. This field is only updated when you restore to DC2 node types.
         public var currentRestoreRateInMegaBytesPerSecond: Swift.Double?
-        /// The amount of time an in-progress restore has been running, or the amount of time it took a completed restore to finish. This field is only updated when you restore to DC2 and DS2 node types.
+        /// The amount of time an in-progress restore has been running, or the amount of time it took a completed restore to finish. This field is only updated when you restore to DC2 node types.
         public var elapsedTimeInSeconds: Swift.Int?
-        /// The estimate of the time remaining before the restore will complete. Returns 0 for a completed restore. This field is only updated when you restore to DC2 and DS2 node types.
+        /// The estimate of the time remaining before the restore will complete. Returns 0 for a completed restore. This field is only updated when you restore to DC2 node types.
         public var estimatedTimeToCompletionInSeconds: Swift.Int?
-        /// The number of megabytes that have been transferred from snapshot storage. This field is only updated when you restore to DC2 and DS2 node types.
+        /// The number of megabytes that have been transferred from snapshot storage. This field is only updated when you restore to DC2 node types.
         public var progressInMegaBytes: Swift.Int?
-        /// The size of the set of snapshot data used to restore the cluster. This field is only updated when you restore to DC2 and DS2 node types.
+        /// The size of the set of snapshot data used to restore the cluster. This field is only updated when you restore to DC2 node types.
         public var snapshotSizeInMegaBytes: Swift.Int?
         /// The status of the restore action. Returns starting, restoring, completed, or failed.
         public var status: Swift.String?
@@ -4455,7 +4455,7 @@ public struct CreateClusterInput {
     public var masterUsername: Swift.String?
     /// If true, Amazon Redshift will deploy the cluster in two Availability Zones (AZ).
     public var multiAZ: Swift.Bool?
-    /// The node type to be provisioned for the cluster. For information about node types, go to [ Working with Clusters](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#how-many-nodes) in the Amazon Redshift Cluster Management Guide. Valid Values: ds2.xlarge | ds2.8xlarge | dc1.large | dc1.8xlarge | dc2.large | dc2.8xlarge | ra3.xlplus | ra3.4xlarge | ra3.16xlarge
+    /// The node type to be provisioned for the cluster. For information about node types, go to [ Working with Clusters](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#how-many-nodes) in the Amazon Redshift Cluster Management Guide. Valid Values: dc2.large | dc2.8xlarge | ra3.xlplus | ra3.4xlarge | ra3.16xlarge
     /// This member is required.
     public var nodeType: Swift.String?
     /// The number of compute nodes in the cluster. This parameter is required when the ClusterType parameter is specified as multi-node. For information about determining how many nodes you need, go to [ Working with Clusters](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#how-many-nodes) in the Amazon Redshift Cluster Management Guide. If you don't specify this parameter, you get a single-node cluster. When requesting a multi-node cluster, you must specify the number of nodes that you want in the cluster. Default: 1 Constraints: Value must be at least 1 and no more than 100.
@@ -4464,7 +4464,7 @@ public struct CreateClusterInput {
     ///
     /// * For clusters with ra3 nodes - Select a port within the ranges 5431-5455 or 8191-8215. (If you have an existing cluster with ra3 nodes, it isn't required that you change the port to these ranges.)
     ///
-    /// * For clusters with ds2 or dc2 nodes - Select a port within the range 1150-65535.
+    /// * For clusters with dc2 nodes - Select a port within the range 1150-65535.
     public var port: Swift.Int?
     /// The weekly time range (in UTC) during which automated cluster maintenance can occur. Format: ddd:hh24:mi-ddd:hh24:mi Default: A 30-minute window selected at random from an 8-hour block of time per region, occurring on a random day of the week. For more information about the time blocks for each region, see [Maintenance Windows](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#rs-maintenance-windows) in Amazon Redshift Cluster Management Guide. Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Minimum 30-minute window.
     public var preferredMaintenanceWindow: Swift.String?
@@ -6124,7 +6124,7 @@ public struct CreateScheduledActionOutput {
     public var startTime: Foundation.Date?
     /// The state of the scheduled action. For example, DISABLED.
     public var state: RedshiftClientTypes.ScheduledActionState?
-    /// A JSON format string of the Amazon Redshift API operation with input parameters. "{\"ResizeCluster\":{\"NodeType\":\"ds2.8xlarge\",\"ClusterIdentifier\":\"my-test-cluster\",\"NumberOfNodes\":3}}".
+    /// A JSON format string of the Amazon Redshift API operation with input parameters. "{\"ResizeCluster\":{\"NodeType\":\"ra3.4xlarge\",\"ClusterIdentifier\":\"my-test-cluster\",\"NumberOfNodes\":3}}".
     public var targetAction: RedshiftClientTypes.ScheduledActionType?
 
     public init(
@@ -9430,7 +9430,7 @@ extension RedshiftClientTypes {
         public var estimatedDiskUtilizationPercent: Swift.Double?
         /// The category of the node configuration recommendation.
         public var mode: RedshiftClientTypes.Mode?
-        /// The node type, such as, "ds2.8xlarge".
+        /// The node type, such as, "ra3.4xlarge".
         public var nodeType: Swift.String?
         /// The number of nodes.
         public var numberOfNodes: Swift.Int?
@@ -10099,7 +10099,7 @@ extension RedshiftClientTypes {
         public var startTime: Foundation.Date?
         /// The state of the scheduled action. For example, DISABLED.
         public var state: RedshiftClientTypes.ScheduledActionState?
-        /// A JSON format string of the Amazon Redshift API operation with input parameters. "{\"ResizeCluster\":{\"NodeType\":\"ds2.8xlarge\",\"ClusterIdentifier\":\"my-test-cluster\",\"NumberOfNodes\":3}}".
+        /// A JSON format string of the Amazon Redshift API operation with input parameters. "{\"ResizeCluster\":{\"NodeType\":\"ra3.4xlarge\",\"ClusterIdentifier\":\"my-test-cluster\",\"NumberOfNodes\":3}}".
         public var targetAction: RedshiftClientTypes.ScheduledActionType?
 
         public init(
@@ -11991,7 +11991,7 @@ public struct ModifyClusterInput {
     ///
     /// Example: examplecluster
     public var newClusterIdentifier: Swift.String?
-    /// The new node type of the cluster. If you specify a new node type, you must also specify the number of nodes parameter. For more information about resizing clusters, go to [Resizing Clusters in Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/rs-resize-tutorial.html) in the Amazon Redshift Cluster Management Guide. Valid Values: ds2.xlarge | ds2.8xlarge | dc1.large | dc1.8xlarge | dc2.large | dc2.8xlarge | ra3.xlplus | ra3.4xlarge | ra3.16xlarge
+    /// The new node type of the cluster. If you specify a new node type, you must also specify the number of nodes parameter. For more information about resizing clusters, go to [Resizing Clusters in Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/rs-resize-tutorial.html) in the Amazon Redshift Cluster Management Guide. Valid Values: dc2.large | dc2.8xlarge | ra3.xlplus | ra3.4xlarge | ra3.16xlarge
     public var nodeType: Swift.String?
     /// The new number of nodes of the cluster. If you specify a new number of nodes, you must also specify the node type parameter. For more information about resizing clusters, go to [Resizing Clusters in Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/rs-resize-tutorial.html) in the Amazon Redshift Cluster Management Guide. Valid Values: Integer greater than 0.
     public var numberOfNodes: Swift.Int?
@@ -11999,7 +11999,7 @@ public struct ModifyClusterInput {
     ///
     /// * For clusters with ra3 nodes - Select a port within the ranges 5431-5455 or 8191-8215. (If you have an existing cluster with ra3 nodes, it isn't required that you change the port to these ranges.)
     ///
-    /// * For clusters with ds2 or dc2 nodes - Select a port within the range 1150-65535.
+    /// * For clusters with dc2 nodes - Select a port within the range 1150-65535.
     public var port: Swift.Int?
     /// The weekly time range (in UTC) during which system maintenance can occur, if necessary. If system maintenance is necessary during the window, it may result in an outage. This maintenance window change is made immediately. If the new maintenance window indicates the current time, there must be at least 120 minutes between the current time and end of the window in order to ensure that pending changes are applied. Default: Uses existing setting. Format: ddd:hh24:mi-ddd:hh24:mi, for example wed:07:30-wed:08:00. Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Must be at least 30 minutes.
     public var preferredMaintenanceWindow: Swift.String?
@@ -12618,7 +12618,7 @@ public struct ModifyScheduledActionOutput {
     public var startTime: Foundation.Date?
     /// The state of the scheduled action. For example, DISABLED.
     public var state: RedshiftClientTypes.ScheduledActionState?
-    /// A JSON format string of the Amazon Redshift API operation with input parameters. "{\"ResizeCluster\":{\"NodeType\":\"ds2.8xlarge\",\"ClusterIdentifier\":\"my-test-cluster\",\"NumberOfNodes\":3}}".
+    /// A JSON format string of the Amazon Redshift API operation with input parameters. "{\"ResizeCluster\":{\"NodeType\":\"ra3.4xlarge\",\"ClusterIdentifier\":\"my-test-cluster\",\"NumberOfNodes\":3}}".
     public var targetAction: RedshiftClientTypes.ScheduledActionType?
 
     public init(
@@ -13184,13 +13184,13 @@ public struct RestoreFromClusterSnapshotInput {
     public var masterPasswordSecretKmsKeyId: Swift.String?
     /// If true, the snapshot will be restored to a cluster deployed in two Availability Zones.
     public var multiAZ: Swift.Bool?
-    /// The node type that the restored cluster will be provisioned with. Default: The node type of the cluster from which the snapshot was taken. You can modify this if you are using any DS node type. In that case, you can choose to restore into another DS node type of the same size. For example, you can restore ds1.8xlarge into ds2.8xlarge, or ds1.xlarge into ds2.xlarge. If you have a DC instance type, you must restore into that same instance type and size. In other words, you can only restore a dc1.large instance type into another dc1.large instance type or dc2.large instance type. You can't restore dc1.8xlarge to dc2.8xlarge. First restore to a dc1.8xlarge cluster, then resize to a dc2.8large cluster. For more information about node types, see [ About Clusters and Nodes](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#rs-about-clusters-and-nodes) in the Amazon Redshift Cluster Management Guide.
+    /// The node type that the restored cluster will be provisioned with. If you have a DC instance type, you must restore into that same instance type and size. In other words, you can only restore a dc2.large node type into another dc2 type. For more information about node types, see [ About Clusters and Nodes](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#rs-about-clusters-and-nodes) in the Amazon Redshift Cluster Management Guide.
     public var nodeType: Swift.String?
     /// The number of nodes specified when provisioning the restored cluster.
     public var numberOfNodes: Swift.Int?
     /// The Amazon Web Services account used to create or copy the snapshot. Required if you are restoring a snapshot you do not own, optional if you own the snapshot.
     public var ownerAccount: Swift.String?
-    /// The port number on which the cluster accepts connections. Default: The same port as the original cluster. Valid values: For clusters with ds2 or dc2 nodes, must be within the range 1150-65535. For clusters with ra3 nodes, must be within the ranges 5431-5455 or 8191-8215.
+    /// The port number on which the cluster accepts connections. Default: The same port as the original cluster. Valid values: For clusters with DC2 nodes, must be within the range 1150-65535. For clusters with ra3 nodes, must be within the ranges 5431-5455 or 8191-8215.
     public var port: Swift.Int?
     /// The weekly time range (in UTC) during which automated cluster maintenance can occur. Format: ddd:hh24:mi-ddd:hh24:mi Default: The value selected for the cluster from which the snapshot was taken. For more information about the time blocks for each region, see [Maintenance Windows](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#rs-maintenance-windows) in Amazon Redshift Cluster Management Guide. Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Minimum 30-minute window.
     public var preferredMaintenanceWindow: Swift.String?

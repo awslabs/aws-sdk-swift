@@ -581,6 +581,218 @@ extension GlueClientTypes {
 
 }
 
+extension GlueClientTypes {
+
+    public enum AuthenticationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case basic
+        case custom
+        case oauth2
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AuthenticationType] {
+            return [
+                .basic,
+                .custom,
+                .oauth2
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .basic: return "BASIC"
+            case .custom: return "CUSTOM"
+            case .oauth2: return "OAUTH2"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+    /// The OAuth2 client app used for the connection.
+    public struct OAuth2ClientApplication {
+        /// The reference to the SaaS-side client app that is Amazon Web Services managed.
+        public var awsManagedClientApplicationReference: Swift.String?
+        /// The client application clientID if the ClientAppType is USER_MANAGED.
+        public var userManagedClientApplicationClientId: Swift.String?
+
+        public init(
+            awsManagedClientApplicationReference: Swift.String? = nil,
+            userManagedClientApplicationClientId: Swift.String? = nil
+        )
+        {
+            self.awsManagedClientApplicationReference = awsManagedClientApplicationReference
+            self.userManagedClientApplicationClientId = userManagedClientApplicationClientId
+        }
+    }
+
+}
+
+extension GlueClientTypes {
+
+    public enum OAuth2GrantType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case authorizationCode
+        case clientCredentials
+        case jwtBearer
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OAuth2GrantType] {
+            return [
+                .authorizationCode,
+                .clientCredentials,
+                .jwtBearer
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .authorizationCode: return "AUTHORIZATION_CODE"
+            case .clientCredentials: return "CLIENT_CREDENTIALS"
+            case .jwtBearer: return "JWT_BEARER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+    /// A structure containing properties for OAuth2 authentication.
+    public struct OAuth2Properties {
+        /// The client application type. For example, AWS_MANAGED or USER_MANAGED.
+        public var oAuth2ClientApplication: GlueClientTypes.OAuth2ClientApplication?
+        /// The OAuth2 grant type. For example, AUTHORIZATION_CODE, JWT_BEARER, or CLIENT_CREDENTIALS.
+        public var oAuth2GrantType: GlueClientTypes.OAuth2GrantType?
+        /// The URL of the provider's authentication server, to exchange an authorization code for an access token.
+        public var tokenUrl: Swift.String?
+        /// A map of parameters that are added to the token GET request.
+        public var tokenUrlParametersMap: [Swift.String: Swift.String]?
+
+        public init(
+            oAuth2ClientApplication: GlueClientTypes.OAuth2ClientApplication? = nil,
+            oAuth2GrantType: GlueClientTypes.OAuth2GrantType? = nil,
+            tokenUrl: Swift.String? = nil,
+            tokenUrlParametersMap: [Swift.String: Swift.String]? = nil
+        )
+        {
+            self.oAuth2ClientApplication = oAuth2ClientApplication
+            self.oAuth2GrantType = oAuth2GrantType
+            self.tokenUrl = tokenUrl
+            self.tokenUrlParametersMap = tokenUrlParametersMap
+        }
+    }
+
+}
+
+extension GlueClientTypes {
+    /// A structure containing the authentication configuration.
+    public struct AuthenticationConfiguration {
+        /// A structure containing the authentication configuration.
+        public var authenticationType: GlueClientTypes.AuthenticationType?
+        /// The properties for OAuth2 authentication.
+        public var oAuth2Properties: GlueClientTypes.OAuth2Properties?
+        /// The secret manager ARN to store credentials.
+        public var secretArn: Swift.String?
+
+        public init(
+            authenticationType: GlueClientTypes.AuthenticationType? = nil,
+            oAuth2Properties: GlueClientTypes.OAuth2Properties? = nil,
+            secretArn: Swift.String? = nil
+        )
+        {
+            self.authenticationType = authenticationType
+            self.oAuth2Properties = oAuth2Properties
+            self.secretArn = secretArn
+        }
+    }
+
+}
+
+extension GlueClientTypes {
+    /// The set of properties required for the the OAuth2 AUTHORIZATION_CODE grant type workflow.
+    public struct AuthorizationCodeProperties {
+        /// An authorization code to be used in the third leg of the AUTHORIZATION_CODE grant workflow. This is a single-use code which becomes invalid once exchanged for an access token, thus it is acceptable to have this value as a request parameter.
+        public var authorizationCode: Swift.String?
+        /// The redirect URI where the user gets redirected to by authorization server when issuing an authorization code. The URI is subsequently used when the authorization code is exchanged for an access token.
+        public var redirectUri: Swift.String?
+
+        public init(
+            authorizationCode: Swift.String? = nil,
+            redirectUri: Swift.String? = nil
+        )
+        {
+            self.authorizationCode = authorizationCode
+            self.redirectUri = redirectUri
+        }
+    }
+
+}
+
+extension GlueClientTypes {
+    /// A structure containing properties for OAuth2 in the CreateConnection request.
+    public struct OAuth2PropertiesInput {
+        /// The set of properties required for the the OAuth2 AUTHORIZATION_CODE grant type.
+        public var authorizationCodeProperties: GlueClientTypes.AuthorizationCodeProperties?
+        /// The client application type in the CreateConnection request. For example, AWS_MANAGED or USER_MANAGED.
+        public var oAuth2ClientApplication: GlueClientTypes.OAuth2ClientApplication?
+        /// The OAuth2 grant type in the CreateConnection request. For example, AUTHORIZATION_CODE, JWT_BEARER, or CLIENT_CREDENTIALS.
+        public var oAuth2GrantType: GlueClientTypes.OAuth2GrantType?
+        /// The URL of the provider's authentication server, to exchange an authorization code for an access token.
+        public var tokenUrl: Swift.String?
+        /// A map of parameters that are added to the token GET request.
+        public var tokenUrlParametersMap: [Swift.String: Swift.String]?
+
+        public init(
+            authorizationCodeProperties: GlueClientTypes.AuthorizationCodeProperties? = nil,
+            oAuth2ClientApplication: GlueClientTypes.OAuth2ClientApplication? = nil,
+            oAuth2GrantType: GlueClientTypes.OAuth2GrantType? = nil,
+            tokenUrl: Swift.String? = nil,
+            tokenUrlParametersMap: [Swift.String: Swift.String]? = nil
+        )
+        {
+            self.authorizationCodeProperties = authorizationCodeProperties
+            self.oAuth2ClientApplication = oAuth2ClientApplication
+            self.oAuth2GrantType = oAuth2GrantType
+            self.tokenUrl = tokenUrl
+            self.tokenUrlParametersMap = tokenUrlParametersMap
+        }
+    }
+
+}
+
+extension GlueClientTypes {
+    /// A structure containing the authentication configuration in the CreateConnection request.
+    public struct AuthenticationConfigurationInput {
+        /// A structure containing the authentication configuration in the CreateConnection request.
+        public var authenticationType: GlueClientTypes.AuthenticationType?
+        /// The properties for OAuth2 authentication in the CreateConnection request.
+        public var oAuth2Properties: GlueClientTypes.OAuth2PropertiesInput?
+        /// The secret manager ARN to store credentials in the CreateConnection request.
+        public var secretArn: Swift.String?
+
+        public init(
+            authenticationType: GlueClientTypes.AuthenticationType? = nil,
+            oAuth2Properties: GlueClientTypes.OAuth2PropertiesInput? = nil,
+            secretArn: Swift.String? = nil
+        )
+        {
+            self.authenticationType = authenticationType
+            self.oAuth2Properties = oAuth2Properties
+            self.secretArn = secretArn
+        }
+    }
+
+}
+
 /// A specified entity does not exist
 public struct EntityNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -7088,19 +7300,29 @@ extension GlueClientTypes {
 extension GlueClientTypes {
 
     public enum FederationSourceErrorCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accessdeniedexception
+        case entitynotfoundexception
         case internalserviceexception
+        case invalidcredentialsexception
+        case invalidinputexception
         case invalidresponseexception
         case operationnotsupportedexception
         case operationtimeoutexception
+        case partialfailureexception
         case throttlingexception
         case sdkUnknown(Swift.String)
 
         public static var allCases: [FederationSourceErrorCode] {
             return [
+                .accessdeniedexception,
+                .entitynotfoundexception,
                 .internalserviceexception,
+                .invalidcredentialsexception,
+                .invalidinputexception,
                 .invalidresponseexception,
                 .operationnotsupportedexception,
                 .operationtimeoutexception,
+                .partialfailureexception,
                 .throttlingexception
             ]
         }
@@ -7112,10 +7334,15 @@ extension GlueClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .accessdeniedexception: return "AccessDeniedException"
+            case .entitynotfoundexception: return "EntityNotFoundException"
             case .internalserviceexception: return "InternalServiceException"
+            case .invalidcredentialsexception: return "InvalidCredentialsException"
+            case .invalidinputexception: return "InvalidInputException"
             case .invalidresponseexception: return "InvalidResponseException"
             case .operationnotsupportedexception: return "OperationNotSupportedException"
             case .operationtimeoutexception: return "OperationTimeoutException"
+            case .partialfailureexception: return "PartialFailureException"
             case .throttlingexception: return "ThrottlingException"
             case let .sdkUnknown(s): return s
             }
@@ -8148,11 +8375,13 @@ extension GlueClientTypes {
         public var predecessorRuns: [GlueClientTypes.Predecessor]?
         /// The ID of the previous run of this job. For example, the JobRunId specified in the StartJobRun action.
         public var previousRunId: Swift.String?
+        /// The name of an Glue usage profile associated with the job run.
+        public var profileName: Swift.String?
         /// The name of the SecurityConfiguration structure to be used with this job run.
         public var securityConfiguration: Swift.String?
         /// The date and time at which this job run was started.
         public var startedOn: Foundation.Date?
-        /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. This value overrides the timeout value set in the parent job. The maximum value for timeout for batch jobs is 7 days or 10080 minutes. The default is 2880 minutes (48 hours) for batch jobs. Any existing Glue jobs that have a greater timeout value are defaulted to 7 days. For instance you have specified a timeout of 20 days for a batch job, it will be stopped on the 7th day. Streaming jobs must have timeout values less than 7 days or 10080 minutes. When the value is left blank, the job will be restarted after 7 days based if you have not setup a maintenance window. If you have setup maintenance window, it will be restarted during the maintenance window after 7 days.
+        /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. This value overrides the timeout value set in the parent job. Streaming jobs must have timeout values less than 7 days or 10080 minutes. When the value is left blank, the job will be restarted after 7 days based if you have not setup a maintenance window. If you have setup maintenance window, it will be restarted during the maintenance window after 7 days.
         public var timeout: Swift.Int?
         /// The name of the trigger that started this job run.
         public var triggerName: Swift.String?
@@ -8193,6 +8422,7 @@ extension GlueClientTypes {
             numberOfWorkers: Swift.Int? = nil,
             predecessorRuns: [GlueClientTypes.Predecessor]? = nil,
             previousRunId: Swift.String? = nil,
+            profileName: Swift.String? = nil,
             securityConfiguration: Swift.String? = nil,
             startedOn: Foundation.Date? = nil,
             timeout: Swift.Int? = nil,
@@ -8221,6 +8451,7 @@ extension GlueClientTypes {
             self.numberOfWorkers = numberOfWorkers
             self.predecessorRuns = predecessorRuns
             self.previousRunId = previousRunId
+            self.profileName = profileName
             self.securityConfiguration = securityConfiguration
             self.startedOn = startedOn
             self.timeout = timeout
@@ -9273,6 +9504,7 @@ extension GlueClientTypes {
         case kafkaSslEnabled
         case password
         case port
+        case roleArn
         case secretId
         case skipCustomJdbcCertValidation
         case userName
@@ -9319,6 +9551,7 @@ extension GlueClientTypes {
                 .kafkaSslEnabled,
                 .password,
                 .port,
+                .roleArn,
                 .secretId,
                 .skipCustomJdbcCertValidation,
                 .userName
@@ -9371,6 +9604,7 @@ extension GlueClientTypes {
             case .kafkaSslEnabled: return "KAFKA_SSL_ENABLED"
             case .password: return "PASSWORD"
             case .port: return "PORT"
+            case .roleArn: return "ROLE_ARN"
             case .secretId: return "SECRET_ID"
             case .skipCustomJdbcCertValidation: return "SKIP_CUSTOM_JDBC_CERT_VALIDATION"
             case .userName: return "USERNAME"
@@ -9389,6 +9623,7 @@ extension GlueClientTypes {
         case marketplace
         case mongodb
         case network
+        case salesforce
         case sftp
         case sdkUnknown(Swift.String)
 
@@ -9400,6 +9635,7 @@ extension GlueClientTypes {
                 .marketplace,
                 .mongodb,
                 .network,
+                .salesforce,
                 .sftp
             ]
         }
@@ -9417,6 +9653,7 @@ extension GlueClientTypes {
             case .marketplace: return "MARKETPLACE"
             case .mongodb: return "MONGODB"
             case .network: return "NETWORK"
+            case .salesforce: return "SALESFORCE"
             case .sftp: return "SFTP"
             case let .sdkUnknown(s): return s
             }
@@ -9425,9 +9662,9 @@ extension GlueClientTypes {
 }
 
 extension GlueClientTypes {
-    /// Specifies the physical requirements for a connection.
+    /// The OAuth client app in GetConnection response.
     public struct PhysicalConnectionRequirements {
-        /// The connection's Availability Zone. This field is redundant because the specified subnet implies the Availability Zone to be used. Currently the field must be populated, but it will be deprecated in the future.
+        /// The connection's Availability Zone.
         public var availabilityZone: Swift.String?
         /// The security group ID list used by the connection.
         public var securityGroupIdList: [Swift.String]?
@@ -9451,6 +9688,8 @@ extension GlueClientTypes {
 extension GlueClientTypes {
     /// A structure that is used to specify a connection to create or update.
     public struct ConnectionInput {
+        /// The authentication properties of the connection. Used for a Salesforce connection.
+        public var authenticationConfiguration: GlueClientTypes.AuthenticationConfigurationInput?
         /// These key-value pairs define parameters for the connection.
         /// This member is required.
         public var connectionProperties: [Swift.String: Swift.String]?
@@ -9493,6 +9732,13 @@ extension GlueClientTypes {
         ///
         ///
         ///
+        /// * SALESFORCE - Designates a connection to Salesforce using OAuth authencation.
+        ///
+        /// * Requires the AuthenticationConfiguration member to be configured.
+        ///
+        ///
+        ///
+        ///
         /// * NETWORK - Designates a network connection to a data source within an Amazon Virtual Private Cloud environment (Amazon VPC). NETWORK Connections do not require ConnectionParameters. Instead, provide a PhysicalConnectionRequirements.
         ///
         /// * MARKETPLACE - Uses configuration settings contained in a connector purchased from Amazon Web Services Marketplace to read from and write to data stores that are not natively supported by Glue. MARKETPLACE Connections use the following ConnectionParameters.
@@ -9514,27 +9760,33 @@ extension GlueClientTypes {
         public var description: Swift.String?
         /// A list of criteria that can be used in selecting this connection.
         public var matchCriteria: [Swift.String]?
-        /// The name of the connection. Connection will not function as expected without a name.
+        /// The name of the connection.
         /// This member is required.
         public var name: Swift.String?
-        /// A map of physical connection requirements, such as virtual private cloud (VPC) and SecurityGroup, that are needed to successfully make this connection.
+        /// The physical connection requirements, such as virtual private cloud (VPC) and SecurityGroup, that are needed to successfully make this connection.
         public var physicalConnectionRequirements: GlueClientTypes.PhysicalConnectionRequirements?
+        /// A flag to validate the credentials during create connection. Used for a Salesforce connection. Default is true.
+        public var validateCredentials: Swift.Bool
 
         public init(
+            authenticationConfiguration: GlueClientTypes.AuthenticationConfigurationInput? = nil,
             connectionProperties: [Swift.String: Swift.String]? = nil,
             connectionType: GlueClientTypes.ConnectionType? = nil,
             description: Swift.String? = nil,
             matchCriteria: [Swift.String]? = nil,
             name: Swift.String? = nil,
-            physicalConnectionRequirements: GlueClientTypes.PhysicalConnectionRequirements? = nil
+            physicalConnectionRequirements: GlueClientTypes.PhysicalConnectionRequirements? = nil,
+            validateCredentials: Swift.Bool = false
         )
         {
+            self.authenticationConfiguration = authenticationConfiguration
             self.connectionProperties = connectionProperties
             self.connectionType = connectionType
             self.description = description
             self.matchCriteria = matchCriteria
             self.name = name
             self.physicalConnectionRequirements = physicalConnectionRequirements
+            self.validateCredentials = validateCredentials
         }
     }
 
@@ -9561,9 +9813,48 @@ public struct CreateConnectionInput {
     }
 }
 
-public struct CreateConnectionOutput {
+extension GlueClientTypes {
 
-    public init() { }
+    public enum ConnectionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case inProgress
+        case ready
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConnectionStatus] {
+            return [
+                .failed,
+                .inProgress,
+                .ready
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .ready: return "READY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateConnectionOutput {
+    /// The status of the connection creation request. The request can take some time for certain authentication types, for example when creating an OAuth connection with token exchange over VPC.
+    public var createConnectionStatus: GlueClientTypes.ConnectionStatus?
+
+    public init(
+        createConnectionStatus: GlueClientTypes.ConnectionStatus? = nil
+    )
+    {
+        self.createConnectionStatus = createConnectionStatus
+    }
 }
 
 public struct CreateCrawlerInput {
@@ -11403,6 +11694,8 @@ extension GlueClientTypes {
         public var maxCapacity: Swift.Double?
         /// The number of workers of a defined WorkerType to use for the session.
         public var numberOfWorkers: Swift.Int?
+        /// The name of an Glue usage profile associated with the session.
+        public var profileName: Swift.String?
         /// The code execution progress of the session.
         public var progress: Swift.Double
         /// The name or Amazon Resource Name (ARN) of the IAM role associated with the Session.
@@ -11429,6 +11722,7 @@ extension GlueClientTypes {
             idleTimeout: Swift.Int? = nil,
             maxCapacity: Swift.Double? = nil,
             numberOfWorkers: Swift.Int? = nil,
+            profileName: Swift.String? = nil,
             progress: Swift.Double = 0.0,
             role: Swift.String? = nil,
             securityConfiguration: Swift.String? = nil,
@@ -11450,6 +11744,7 @@ extension GlueClientTypes {
             self.idleTimeout = idleTimeout
             self.maxCapacity = maxCapacity
             self.numberOfWorkers = numberOfWorkers
+            self.profileName = profileName
             self.progress = progress
             self.role = role
             self.securityConfiguration = securityConfiguration
@@ -11564,6 +11859,98 @@ extension GlueClientTypes {
 }
 
 extension GlueClientTypes {
+
+    public enum ViewDialect: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case athena
+        case redshift
+        case spark
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ViewDialect] {
+            return [
+                .athena,
+                .redshift,
+                .spark
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .athena: return "ATHENA"
+            case .redshift: return "REDSHIFT"
+            case .spark: return "SPARK"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+    /// A structure containing details of a representation to update or create a Lake Formation view.
+    public struct ViewRepresentationInput {
+        /// A parameter that specifies the engine type of a specific representation.
+        public var dialect: GlueClientTypes.ViewDialect?
+        /// A parameter that specifies the version of the engine of a specific representation.
+        public var dialectVersion: Swift.String?
+        /// The name of the connection to be used to validate the specific representation of the view.
+        public var validationConnection: Swift.String?
+        /// A string that represents the SQL query that describes the view with expanded resource ARNs
+        public var viewExpandedText: Swift.String?
+        /// A string that represents the original SQL query that describes the view.
+        public var viewOriginalText: Swift.String?
+
+        public init(
+            dialect: GlueClientTypes.ViewDialect? = nil,
+            dialectVersion: Swift.String? = nil,
+            validationConnection: Swift.String? = nil,
+            viewExpandedText: Swift.String? = nil,
+            viewOriginalText: Swift.String? = nil
+        )
+        {
+            self.dialect = dialect
+            self.dialectVersion = dialectVersion
+            self.validationConnection = validationConnection
+            self.viewExpandedText = viewExpandedText
+            self.viewOriginalText = viewOriginalText
+        }
+    }
+
+}
+
+extension GlueClientTypes {
+    /// A structure containing details for creating or updating an Glue view.
+    public struct ViewDefinitionInput {
+        /// The definer of a view in SQL.
+        public var definer: Swift.String?
+        /// You can set this flag as true to instruct the engine not to push user-provided operations into the logical plan of the view during query planning. However, setting this flag does not guarantee that the engine will comply. Refer to the engine's documentation to understand the guarantees provided, if any.
+        public var isProtected: Swift.Bool?
+        /// A list of structures that contains the dialect of the view, and the query that defines the view.
+        public var representations: [GlueClientTypes.ViewRepresentationInput]?
+        /// A list of base table ARNs that make up the view.
+        public var subObjects: [Swift.String]?
+
+        public init(
+            definer: Swift.String? = nil,
+            isProtected: Swift.Bool? = nil,
+            representations: [GlueClientTypes.ViewRepresentationInput]? = nil,
+            subObjects: [Swift.String]? = nil
+        )
+        {
+            self.definer = definer
+            self.isProtected = isProtected
+            self.representations = representations
+            self.subObjects = subObjects
+        }
+    }
+
+}
+
+extension GlueClientTypes {
     /// A structure used to define a table.
     public struct TableInput {
         /// A description of the table.
@@ -11589,6 +11976,8 @@ extension GlueClientTypes {
         public var tableType: Swift.String?
         /// A TableIdentifier structure that describes a target table for resource linking.
         public var targetTable: GlueClientTypes.TableIdentifier?
+        /// A structure that contains all the information that defines the view, including the dialect or dialects for the view, and the query.
+        public var viewDefinition: GlueClientTypes.ViewDefinitionInput?
         /// Included for Apache Hive compatibility. Not used in the normal course of Glue operations.
         public var viewExpandedText: Swift.String?
         /// Included for Apache Hive compatibility. Not used in the normal course of Glue operations. If the table is a VIRTUAL_VIEW, certain Athena configuration encoded in base64.
@@ -11606,6 +11995,7 @@ extension GlueClientTypes {
             storageDescriptor: GlueClientTypes.StorageDescriptor? = nil,
             tableType: Swift.String? = nil,
             targetTable: GlueClientTypes.TableIdentifier? = nil,
+            viewDefinition: GlueClientTypes.ViewDefinitionInput? = nil,
             viewExpandedText: Swift.String? = nil,
             viewOriginalText: Swift.String? = nil
         )
@@ -11621,6 +12011,7 @@ extension GlueClientTypes {
             self.storageDescriptor = storageDescriptor
             self.tableType = tableType
             self.targetTable = targetTable
+            self.viewDefinition = viewDefinition
             self.viewExpandedText = viewExpandedText
             self.viewOriginalText = viewOriginalText
         }
@@ -11758,6 +12149,117 @@ public struct CreateTriggerInput {
 
 public struct CreateTriggerOutput {
     /// The name of the trigger.
+    public var name: Swift.String?
+
+    public init(
+        name: Swift.String? = nil
+    )
+    {
+        self.name = name
+    }
+}
+
+/// The operation is not available in the region.
+public struct OperationNotSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// A message describing the problem.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "OperationNotSupportedException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+extension GlueClientTypes {
+    /// Specifies the values that an admin sets for each job or session parameter configured in a Glue usage profile.
+    public struct ConfigurationObject {
+        /// A list of allowed values for the parameter.
+        public var allowedValues: [Swift.String]?
+        /// A default value for the parameter.
+        public var defaultValue: Swift.String?
+        /// A maximum allowed value for the parameter.
+        public var maxValue: Swift.String?
+        /// A minimum allowed value for the parameter.
+        public var minValue: Swift.String?
+
+        public init(
+            allowedValues: [Swift.String]? = nil,
+            defaultValue: Swift.String? = nil,
+            maxValue: Swift.String? = nil,
+            minValue: Swift.String? = nil
+        )
+        {
+            self.allowedValues = allowedValues
+            self.defaultValue = defaultValue
+            self.maxValue = maxValue
+            self.minValue = minValue
+        }
+    }
+
+}
+
+extension GlueClientTypes {
+    /// Specifies the job and session values that an admin configures in an Glue usage profile.
+    public struct ProfileConfiguration {
+        /// A key-value map of configuration parameters for Glue jobs.
+        public var jobConfiguration: [Swift.String: GlueClientTypes.ConfigurationObject]?
+        /// A key-value map of configuration parameters for Glue sessions.
+        public var sessionConfiguration: [Swift.String: GlueClientTypes.ConfigurationObject]?
+
+        public init(
+            jobConfiguration: [Swift.String: GlueClientTypes.ConfigurationObject]? = nil,
+            sessionConfiguration: [Swift.String: GlueClientTypes.ConfigurationObject]? = nil
+        )
+        {
+            self.jobConfiguration = jobConfiguration
+            self.sessionConfiguration = sessionConfiguration
+        }
+    }
+
+}
+
+public struct CreateUsageProfileInput {
+    /// A ProfileConfiguration object specifying the job and session values for the profile.
+    /// This member is required.
+    public var configuration: GlueClientTypes.ProfileConfiguration?
+    /// A description of the usage profile.
+    public var description: Swift.String?
+    /// The name of the usage profile.
+    /// This member is required.
+    public var name: Swift.String?
+    /// A list of tags applied to the usage profile.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        configuration: GlueClientTypes.ProfileConfiguration? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    )
+    {
+        self.configuration = configuration
+        self.description = description
+        self.name = name
+        self.tags = tags
+    }
+}
+
+public struct CreateUsageProfileOutput {
+    /// The name of the usage profile that was created.
     public var name: Swift.String?
 
     public init(
@@ -12757,6 +13259,24 @@ public struct DeleteTriggerOutput {
     {
         self.name = name
     }
+}
+
+public struct DeleteUsageProfileInput {
+    /// The name of the usage profile to delete.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        name: Swift.String? = nil
+    )
+    {
+        self.name = name
+    }
+}
+
+public struct DeleteUsageProfileOutput {
+
+    public init() { }
 }
 
 public struct DeleteUserDefinedFunctionInput {
@@ -13992,6 +14512,8 @@ public struct GetConnectionInput {
 extension GlueClientTypes {
     /// Defines a connection to a data source.
     public struct Connection {
+        /// The authentication properties of the connection.
+        public var authenticationConfiguration: GlueClientTypes.AuthenticationConfiguration?
         /// These key-value pairs define parameters for the connection:
         ///
         /// * HOST - The host URI: either the fully qualified domain name (FQDN) or the IPv4 address of the database host.
@@ -14080,42 +14602,56 @@ extension GlueClientTypes {
         public var connectionProperties: [Swift.String: Swift.String]?
         /// The type of the connection. Currently, SFTP is not supported.
         public var connectionType: GlueClientTypes.ConnectionType?
-        /// The time that this connection definition was created.
+        /// The timestamp of the time that this connection definition was created.
         public var creationTime: Foundation.Date?
         /// The description of the connection.
         public var description: Swift.String?
+        /// A timestamp of the time this connection was last validated.
+        public var lastConnectionValidationTime: Foundation.Date?
         /// The user, group, or role that last updated this connection definition.
         public var lastUpdatedBy: Swift.String?
-        /// The last time that this connection definition was updated.
+        /// The timestamp of the last time the connection definition was updated.
         public var lastUpdatedTime: Foundation.Date?
         /// A list of criteria that can be used in selecting this connection.
         public var matchCriteria: [Swift.String]?
         /// The name of the connection definition.
         public var name: Swift.String?
-        /// A map of physical connection requirements, such as virtual private cloud (VPC) and SecurityGroup, that are needed to make this connection successfully.
+        /// The physical connection requirements, such as virtual private cloud (VPC) and SecurityGroup, that are needed to make this connection successfully.
         public var physicalConnectionRequirements: GlueClientTypes.PhysicalConnectionRequirements?
+        /// The status of the connection. Can be one of: READY, IN_PROGRESS, or FAILED.
+        public var status: GlueClientTypes.ConnectionStatus?
+        /// The reason for the connection status.
+        public var statusReason: Swift.String?
 
         public init(
+            authenticationConfiguration: GlueClientTypes.AuthenticationConfiguration? = nil,
             connectionProperties: [Swift.String: Swift.String]? = nil,
             connectionType: GlueClientTypes.ConnectionType? = nil,
             creationTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
+            lastConnectionValidationTime: Foundation.Date? = nil,
             lastUpdatedBy: Swift.String? = nil,
             lastUpdatedTime: Foundation.Date? = nil,
             matchCriteria: [Swift.String]? = nil,
             name: Swift.String? = nil,
-            physicalConnectionRequirements: GlueClientTypes.PhysicalConnectionRequirements? = nil
+            physicalConnectionRequirements: GlueClientTypes.PhysicalConnectionRequirements? = nil,
+            status: GlueClientTypes.ConnectionStatus? = nil,
+            statusReason: Swift.String? = nil
         )
         {
+            self.authenticationConfiguration = authenticationConfiguration
             self.connectionProperties = connectionProperties
             self.connectionType = connectionType
             self.creationTime = creationTime
             self.description = description
+            self.lastConnectionValidationTime = lastConnectionValidationTime
             self.lastUpdatedBy = lastUpdatedBy
             self.lastUpdatedTime = lastUpdatedTime
             self.matchCriteria = matchCriteria
             self.name = name
             self.physicalConnectionRequirements = physicalConnectionRequirements
+            self.status = status
+            self.statusReason = statusReason
         }
     }
 
@@ -14883,19 +15419,52 @@ public struct GetDataQualityRulesetEvaluationRunInput {
 }
 
 extension GlueClientTypes {
+
+    public enum DQCompositeRuleEvaluationMethod: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case column
+        case row
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DQCompositeRuleEvaluationMethod] {
+            return [
+                .column,
+                .row
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .column: return "COLUMN"
+            case .row: return "ROW"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
     /// Additional run options you can specify for an evaluation run.
     public struct DataQualityEvaluationRunAdditionalRunOptions {
         /// Whether or not to enable CloudWatch metrics.
         public var cloudWatchMetricsEnabled: Swift.Bool?
+        /// Set the evaluation method for composite rules in the ruleset to ROW/COLUMN
+        public var compositeRuleEvaluationMethod: GlueClientTypes.DQCompositeRuleEvaluationMethod?
         /// Prefix for Amazon S3 to store results.
         public var resultsS3Prefix: Swift.String?
 
         public init(
             cloudWatchMetricsEnabled: Swift.Bool? = nil,
+            compositeRuleEvaluationMethod: GlueClientTypes.DQCompositeRuleEvaluationMethod? = nil,
             resultsS3Prefix: Swift.String? = nil
         )
         {
             self.cloudWatchMetricsEnabled = cloudWatchMetricsEnabled
+            self.compositeRuleEvaluationMethod = compositeRuleEvaluationMethod
             self.resultsS3Prefix = resultsS3Prefix
         }
     }
@@ -14923,7 +15492,7 @@ public struct GetDataQualityRulesetEvaluationRunOutput {
     public var resultIds: [Swift.String]?
     /// An IAM role supplied to encrypt the results of the run.
     public var role: Swift.String?
-    /// A list of ruleset names for the run.
+    /// A list of ruleset names for the run. Currently, this parameter takes only one Ruleset name.
     public var rulesetNames: [Swift.String]?
     /// The unique run identifier associated with this run.
     public var runId: Swift.String?
@@ -17417,38 +17986,6 @@ extension GlueClientTypes {
 }
 
 extension GlueClientTypes {
-
-    public enum ViewDialect: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case athena
-        case redshift
-        case spark
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ViewDialect] {
-            return [
-                .athena,
-                .redshift,
-                .spark
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .athena: return "ATHENA"
-            case .redshift: return "REDSHIFT"
-            case .spark: return "SPARK"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension GlueClientTypes {
     /// A structure that contains the dialect of the view, and the query that defines the view.
     public struct ViewRepresentation {
         /// The dialect of the query engine.
@@ -17457,9 +17994,11 @@ extension GlueClientTypes {
         public var dialectVersion: Swift.String?
         /// Dialects marked as stale are no longer valid and must be updated before they can be queried in their respective query engines.
         public var isStale: Swift.Bool?
+        /// The name of the connection to be used to validate the specific representation of the view.
+        public var validationConnection: Swift.String?
         /// The expanded SQL for the view. This SQL is used by engines while processing a query on a view. Engines may perform operations during view creation to transform ViewOriginalText to ViewExpandedText. For example:
         ///
-        /// * Fully qualify identifiers: SELECT * from table1 → SELECT * from db1.table1
+        /// * Fully qualified identifiers: SELECT * from table1 -> SELECT * from db1.table1
         public var viewExpandedText: Swift.String?
         /// The SELECT query provided by the customer during CREATE VIEW DDL. This SQL is not used during a query on a view (ViewExpandedText is used instead). ViewOriginalText is used for cases like SHOW CREATE VIEW where users want to see the original DDL command that created the view.
         public var viewOriginalText: Swift.String?
@@ -17468,6 +18007,7 @@ extension GlueClientTypes {
             dialect: GlueClientTypes.ViewDialect? = nil,
             dialectVersion: Swift.String? = nil,
             isStale: Swift.Bool? = nil,
+            validationConnection: Swift.String? = nil,
             viewExpandedText: Swift.String? = nil,
             viewOriginalText: Swift.String? = nil
         )
@@ -17475,6 +18015,7 @@ extension GlueClientTypes {
             self.dialect = dialect
             self.dialectVersion = dialectVersion
             self.isStale = isStale
+            self.validationConnection = validationConnection
             self.viewExpandedText = viewExpandedText
             self.viewOriginalText = viewOriginalText
         }
@@ -18348,6 +18889,47 @@ public struct GetUnfilteredTableMetadataOutput {
         self.resourceArn = resourceArn
         self.rowFilter = rowFilter
         self.table = table
+    }
+}
+
+public struct GetUsageProfileInput {
+    /// The name of the usage profile to retrieve.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        name: Swift.String? = nil
+    )
+    {
+        self.name = name
+    }
+}
+
+public struct GetUsageProfileOutput {
+    /// A ProfileConfiguration object specifying the job and session values for the profile.
+    public var configuration: GlueClientTypes.ProfileConfiguration?
+    /// The date and time when the usage profile was created.
+    public var createdOn: Foundation.Date?
+    /// A description of the usage profile.
+    public var description: Swift.String?
+    /// The date and time when the usage profile was last modified.
+    public var lastModifiedOn: Foundation.Date?
+    /// The name of the usage profile.
+    public var name: Swift.String?
+
+    public init(
+        configuration: GlueClientTypes.ProfileConfiguration? = nil,
+        createdOn: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        lastModifiedOn: Foundation.Date? = nil,
+        name: Swift.String? = nil
+    )
+    {
+        self.configuration = configuration
+        self.createdOn = createdOn
+        self.description = description
+        self.lastModifiedOn = lastModifiedOn
+        self.name = name
     }
 }
 
@@ -19934,6 +20516,66 @@ public struct ListTriggersOutput {
     }
 }
 
+public struct ListUsageProfilesInput {
+    /// The maximum number of usage profiles to return in a single response.
+    public var maxResults: Swift.Int?
+    /// A continuation token, included if this is a continuation call.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension GlueClientTypes {
+    /// Describes an Glue usage profile.
+    public struct UsageProfileDefinition {
+        /// The date and time when the usage profile was created.
+        public var createdOn: Foundation.Date?
+        /// A description of the usage profile.
+        public var description: Swift.String?
+        /// The date and time when the usage profile was last modified.
+        public var lastModifiedOn: Foundation.Date?
+        /// The name of the usage profile.
+        public var name: Swift.String?
+
+        public init(
+            createdOn: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            lastModifiedOn: Foundation.Date? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.createdOn = createdOn
+            self.description = description
+            self.lastModifiedOn = lastModifiedOn
+            self.name = name
+        }
+    }
+
+}
+
+public struct ListUsageProfilesOutput {
+    /// A continuation token, present if the current list segment is not the last.
+    public var nextToken: Swift.String?
+    /// A list of usage profile (UsageProfileDefinition) objects.
+    public var profiles: [GlueClientTypes.UsageProfileDefinition]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        profiles: [GlueClientTypes.UsageProfileDefinition]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.profiles = profiles
+    }
+}
+
 public struct ListWorkflowsInput {
     /// The maximum size of a list to return.
     public var maxResults: Swift.Int?
@@ -21143,7 +21785,7 @@ public struct StartJobRunInput {
     public var numberOfWorkers: Swift.Int?
     /// The name of the SecurityConfiguration structure to be used with this job run.
     public var securityConfiguration: Swift.String?
-    /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. This value overrides the timeout value set in the parent job. Streaming jobs do not have a timeout. The default for non-streaming jobs is 2,880 minutes (48 hours).
+    /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. This value overrides the timeout value set in the parent job. Streaming jobs must have timeout values less than 7 days or 10080 minutes. When the value is left blank, the job will be restarted after 7 days based if you have not setup a maintenance window. If you have setup maintenance window, it will be restarted during the maintenance window after 7 days.
     public var timeout: Swift.Int?
     /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.
     ///
@@ -22533,12 +23175,49 @@ public struct UpdateSourceControlFromJobOutput {
     }
 }
 
+extension GlueClientTypes {
+
+    public enum ViewUpdateAction: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case add
+        case addOrReplace
+        case drop
+        case replace
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ViewUpdateAction] {
+            return [
+                .add,
+                .addOrReplace,
+                .drop,
+                .replace
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .add: return "ADD"
+            case .addOrReplace: return "ADD_OR_REPLACE"
+            case .drop: return "DROP"
+            case .replace: return "REPLACE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct UpdateTableInput {
     /// The ID of the Data Catalog where the table resides. If none is provided, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
     /// The name of the catalog database in which the table resides. For Hive compatibility, this name is entirely lowercase.
     /// This member is required.
     public var databaseName: Swift.String?
+    /// A flag that can be set to true to ignore matching storage descriptor and subobject matching requirements.
+    public var force: Swift.Bool?
     /// By default, UpdateTable always creates an archived version of the table before updating it. However, if skipArchive is set to true, UpdateTable does not create the archived version.
     public var skipArchive: Swift.Bool?
     /// An updated TableInput object to define the metadata table in the catalog.
@@ -22548,22 +23227,28 @@ public struct UpdateTableInput {
     public var transactionId: Swift.String?
     /// The version ID at which to update the table contents.
     public var versionId: Swift.String?
+    /// The operation to be performed when updating the view.
+    public var viewUpdateAction: GlueClientTypes.ViewUpdateAction?
 
     public init(
         catalogId: Swift.String? = nil,
         databaseName: Swift.String? = nil,
+        force: Swift.Bool? = nil,
         skipArchive: Swift.Bool? = nil,
         tableInput: GlueClientTypes.TableInput? = nil,
         transactionId: Swift.String? = nil,
-        versionId: Swift.String? = nil
+        versionId: Swift.String? = nil,
+        viewUpdateAction: GlueClientTypes.ViewUpdateAction? = nil
     )
     {
         self.catalogId = catalogId
         self.databaseName = databaseName
+        self.force = force
         self.skipArchive = skipArchive
         self.tableInput = tableInput
         self.transactionId = transactionId
         self.versionId = versionId
+        self.viewUpdateAction = viewUpdateAction
     }
 }
 
@@ -22673,6 +23358,40 @@ public struct UpdateTriggerOutput {
     )
     {
         self.trigger = trigger
+    }
+}
+
+public struct UpdateUsageProfileInput {
+    /// A ProfileConfiguration object specifying the job and session values for the profile.
+    /// This member is required.
+    public var configuration: GlueClientTypes.ProfileConfiguration?
+    /// A description of the usage profile.
+    public var description: Swift.String?
+    /// The name of the usage profile.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        configuration: GlueClientTypes.ProfileConfiguration? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil
+    )
+    {
+        self.configuration = configuration
+        self.description = description
+        self.name = name
+    }
+}
+
+public struct UpdateUsageProfileOutput {
+    /// The name of the usage profile that was updated.
+    public var name: Swift.String?
+
+    public init(
+        name: Swift.String? = nil
+    )
+    {
+        self.name = name
     }
 }
 
@@ -23161,13 +23880,15 @@ extension GlueClientTypes {
         public var notificationProperty: GlueClientTypes.NotificationProperty?
         /// The number of workers of a defined workerType that are allocated when a job runs.
         public var numberOfWorkers: Swift.Int?
+        /// The name of an Glue usage profile associated with the job.
+        public var profileName: Swift.String?
         /// The name or Amazon Resource Name (ARN) of the IAM role associated with this job.
         public var role: Swift.String?
         /// The name of the SecurityConfiguration structure to be used with this job.
         public var securityConfiguration: Swift.String?
         /// The details for a source control configuration for a job, allowing synchronization of job artifacts to or from a remote repository.
         public var sourceControlDetails: GlueClientTypes.SourceControlDetails?
-        /// The job timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
+        /// The job timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours) for batch jobs. Streaming jobs must have timeout values less than 7 days or 10080 minutes. When the value is left blank, the job will be restarted after 7 days based if you have not setup a maintenance window. If you have setup maintenance window, it will be restarted during the maintenance window after 7 days.
         public var timeout: Swift.Int?
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.
         ///
@@ -23205,6 +23926,7 @@ extension GlueClientTypes {
             nonOverridableArguments: [Swift.String: Swift.String]? = nil,
             notificationProperty: GlueClientTypes.NotificationProperty? = nil,
             numberOfWorkers: Swift.Int? = nil,
+            profileName: Swift.String? = nil,
             role: Swift.String? = nil,
             securityConfiguration: Swift.String? = nil,
             sourceControlDetails: GlueClientTypes.SourceControlDetails? = nil,
@@ -23232,6 +23954,7 @@ extension GlueClientTypes {
             self.nonOverridableArguments = nonOverridableArguments
             self.notificationProperty = notificationProperty
             self.numberOfWorkers = numberOfWorkers
+            self.profileName = profileName
             self.role = role
             self.securityConfiguration = securityConfiguration
             self.sourceControlDetails = sourceControlDetails
@@ -23244,7 +23967,7 @@ extension GlueClientTypes {
 
 extension GlueClientTypes.Job: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Job(allocatedCapacity: \(Swift.String(describing: allocatedCapacity)), command: \(Swift.String(describing: command)), connections: \(Swift.String(describing: connections)), createdOn: \(Swift.String(describing: createdOn)), defaultArguments: \(Swift.String(describing: defaultArguments)), description: \(Swift.String(describing: description)), executionClass: \(Swift.String(describing: executionClass)), executionProperty: \(Swift.String(describing: executionProperty)), glueVersion: \(Swift.String(describing: glueVersion)), jobMode: \(Swift.String(describing: jobMode)), lastModifiedOn: \(Swift.String(describing: lastModifiedOn)), logUri: \(Swift.String(describing: logUri)), maintenanceWindow: \(Swift.String(describing: maintenanceWindow)), maxCapacity: \(Swift.String(describing: maxCapacity)), maxRetries: \(Swift.String(describing: maxRetries)), name: \(Swift.String(describing: name)), nonOverridableArguments: \(Swift.String(describing: nonOverridableArguments)), notificationProperty: \(Swift.String(describing: notificationProperty)), numberOfWorkers: \(Swift.String(describing: numberOfWorkers)), role: \(Swift.String(describing: role)), securityConfiguration: \(Swift.String(describing: securityConfiguration)), sourceControlDetails: \(Swift.String(describing: sourceControlDetails)), timeout: \(Swift.String(describing: timeout)), workerType: \(Swift.String(describing: workerType)), codeGenConfigurationNodes: \"CONTENT_REDACTED\")"}
+        "Job(allocatedCapacity: \(Swift.String(describing: allocatedCapacity)), command: \(Swift.String(describing: command)), connections: \(Swift.String(describing: connections)), createdOn: \(Swift.String(describing: createdOn)), defaultArguments: \(Swift.String(describing: defaultArguments)), description: \(Swift.String(describing: description)), executionClass: \(Swift.String(describing: executionClass)), executionProperty: \(Swift.String(describing: executionProperty)), glueVersion: \(Swift.String(describing: glueVersion)), jobMode: \(Swift.String(describing: jobMode)), lastModifiedOn: \(Swift.String(describing: lastModifiedOn)), logUri: \(Swift.String(describing: logUri)), maintenanceWindow: \(Swift.String(describing: maintenanceWindow)), maxCapacity: \(Swift.String(describing: maxCapacity)), maxRetries: \(Swift.String(describing: maxRetries)), name: \(Swift.String(describing: name)), nonOverridableArguments: \(Swift.String(describing: nonOverridableArguments)), notificationProperty: \(Swift.String(describing: notificationProperty)), numberOfWorkers: \(Swift.String(describing: numberOfWorkers)), profileName: \(Swift.String(describing: profileName)), role: \(Swift.String(describing: role)), securityConfiguration: \(Swift.String(describing: securityConfiguration)), sourceControlDetails: \(Swift.String(describing: sourceControlDetails)), timeout: \(Swift.String(describing: timeout)), workerType: \(Swift.String(describing: workerType)), codeGenConfigurationNodes: \"CONTENT_REDACTED\")"}
 }
 
 extension GlueClientTypes {
@@ -23304,7 +24027,7 @@ extension GlueClientTypes {
         public var securityConfiguration: Swift.String?
         /// The details for a source control configuration for a job, allowing synchronization of job artifacts to or from a remote repository.
         public var sourceControlDetails: GlueClientTypes.SourceControlDetails?
-        /// The job timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
+        /// The job timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours) for batch jobs. Streaming jobs must have timeout values less than 7 days or 10080 minutes. When the value is left blank, the job will be restarted after 7 days based if you have not setup a maintenance window. If you have setup maintenance window, it will be restarted during the maintenance window after 7 days.
         public var timeout: Swift.Int?
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.
         ///
@@ -23440,7 +24163,7 @@ public struct CreateJobInput {
     public var sourceControlDetails: GlueClientTypes.SourceControlDetails?
     /// The tags to use with this job. You may use tags to limit access to the job. For more information about tags in Glue, see [Amazon Web Services Tags in Glue](https://docs.aws.amazon.com/glue/latest/dg/monitor-tags.html) in the developer guide.
     public var tags: [Swift.String: Swift.String]?
-    /// The job timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
+    /// The job timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours) for batch jobs. Streaming jobs must have timeout values less than 7 days or 10080 minutes. When the value is left blank, the job will be restarted after 7 days based if you have not setup a maintenance window. If you have setup maintenance window, it will be restarted during the maintenance window after 7 days.
     public var timeout: Swift.Int?
     /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.
     ///
@@ -23872,6 +24595,13 @@ extension CreateTriggerInput {
     }
 }
 
+extension CreateUsageProfileInput {
+
+    static func urlPathProvider(_ value: CreateUsageProfileInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CreateUserDefinedFunctionInput {
 
     static func urlPathProvider(_ value: CreateUserDefinedFunctionInput) -> Swift.String? {
@@ -24050,6 +24780,13 @@ extension DeleteTableVersionInput {
 extension DeleteTriggerInput {
 
     static func urlPathProvider(_ value: DeleteTriggerInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteUsageProfileInput {
+
+    static func urlPathProvider(_ value: DeleteUsageProfileInput) -> Swift.String? {
         return "/"
     }
 }
@@ -24502,6 +25239,13 @@ extension GetUnfilteredTableMetadataInput {
     }
 }
 
+extension GetUsageProfileInput {
+
+    static func urlPathProvider(_ value: GetUsageProfileInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension GetUserDefinedFunctionInput {
 
     static func urlPathProvider(_ value: GetUserDefinedFunctionInput) -> Swift.String? {
@@ -24680,6 +25424,13 @@ extension ListTableOptimizerRunsInput {
 extension ListTriggersInput {
 
     static func urlPathProvider(_ value: ListTriggersInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListUsageProfilesInput {
+
+    static func urlPathProvider(_ value: ListUsageProfilesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -25051,6 +25802,13 @@ extension UpdateTableOptimizerInput {
 extension UpdateTriggerInput {
 
     static func urlPathProvider(_ value: UpdateTriggerInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension UpdateUsageProfileInput {
+
+    static func urlPathProvider(_ value: UpdateUsageProfileInput) -> Swift.String? {
         return "/"
     }
 }
@@ -25562,6 +26320,17 @@ extension CreateTriggerInput {
     }
 }
 
+extension CreateUsageProfileInput {
+
+    static func write(value: CreateUsageProfileInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Configuration"].write(value.configuration, with: GlueClientTypes.ProfileConfiguration.write(value:to:))
+        try writer["Description"].write(value.description)
+        try writer["Name"].write(value.name)
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
 extension CreateUserDefinedFunctionInput {
 
     static func write(value: CreateUserDefinedFunctionInput?, to writer: SmithyJSON.Writer) throws {
@@ -25798,6 +26567,14 @@ extension DeleteTableVersionInput {
 extension DeleteTriggerInput {
 
     static func write(value: DeleteTriggerInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+    }
+}
+
+extension DeleteUsageProfileInput {
+
+    static func write(value: DeleteUsageProfileInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Name"].write(value.name)
     }
@@ -26443,6 +27220,14 @@ extension GetUnfilteredTableMetadataInput {
     }
 }
 
+extension GetUsageProfileInput {
+
+    static func write(value: GetUsageProfileInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+    }
+}
+
 extension GetUserDefinedFunctionInput {
 
     static func write(value: GetUserDefinedFunctionInput?, to writer: SmithyJSON.Writer) throws {
@@ -26706,6 +27491,15 @@ extension ListTriggersInput {
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension ListUsageProfilesInput {
+
+    static func write(value: ListUsageProfilesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
     }
 }
 
@@ -27260,10 +28054,12 @@ extension UpdateTableInput {
         guard let value else { return }
         try writer["CatalogId"].write(value.catalogId)
         try writer["DatabaseName"].write(value.databaseName)
+        try writer["Force"].write(value.force)
         try writer["SkipArchive"].write(value.skipArchive)
         try writer["TableInput"].write(value.tableInput, with: GlueClientTypes.TableInput.write(value:to:))
         try writer["TransactionId"].write(value.transactionId)
         try writer["VersionId"].write(value.versionId)
+        try writer["ViewUpdateAction"].write(value.viewUpdateAction)
     }
 }
 
@@ -27285,6 +28081,16 @@ extension UpdateTriggerInput {
         guard let value else { return }
         try writer["Name"].write(value.name)
         try writer["TriggerUpdate"].write(value.triggerUpdate, with: GlueClientTypes.TriggerUpdate.write(value:to:))
+    }
+}
+
+extension UpdateUsageProfileInput {
+
+    static func write(value: UpdateUsageProfileInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Configuration"].write(value.configuration, with: GlueClientTypes.ProfileConfiguration.write(value:to:))
+        try writer["Description"].write(value.description)
+        try writer["Name"].write(value.name)
     }
 }
 
@@ -27596,7 +28402,12 @@ extension CreateClassifierOutput {
 extension CreateConnectionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateConnectionOutput {
-        return CreateConnectionOutput()
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateConnectionOutput()
+        value.createConnectionStatus = try reader["CreateConnectionStatus"].readIfPresent()
+        return value
     }
 }
 
@@ -27805,6 +28616,18 @@ extension CreateTriggerOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateTriggerOutput()
+        value.name = try reader["Name"].readIfPresent()
+        return value
+    }
+}
+
+extension CreateUsageProfileOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateUsageProfileOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateUsageProfileOutput()
         value.name = try reader["Name"].readIfPresent()
         return value
     }
@@ -28043,6 +28866,13 @@ extension DeleteTriggerOutput {
         var value = DeleteTriggerOutput()
         value.name = try reader["Name"].readIfPresent()
         return value
+    }
+}
+
+extension DeleteUsageProfileOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteUsageProfileOutput {
+        return DeleteUsageProfileOutput()
     }
 }
 
@@ -28950,6 +29780,22 @@ extension GetUnfilteredTableMetadataOutput {
     }
 }
 
+extension GetUsageProfileOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetUsageProfileOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetUsageProfileOutput()
+        value.configuration = try reader["Configuration"].readIfPresent(with: GlueClientTypes.ProfileConfiguration.read(from:))
+        value.createdOn = try reader["CreatedOn"].readTimestampIfPresent(format: .epochSeconds)
+        value.description = try reader["Description"].readIfPresent()
+        value.lastModifiedOn = try reader["LastModifiedOn"].readTimestampIfPresent(format: .epochSeconds)
+        value.name = try reader["Name"].readIfPresent()
+        return value
+    }
+}
+
 extension GetUserDefinedFunctionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetUserDefinedFunctionOutput {
@@ -29278,6 +30124,19 @@ extension ListTriggersOutput {
         var value = ListTriggersOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.triggerNames = try reader["TriggerNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListUsageProfilesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListUsageProfilesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListUsageProfilesOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.profiles = try reader["Profiles"].readListIfPresent(memberReadingClosure: GlueClientTypes.UsageProfileDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -29845,6 +30704,18 @@ extension UpdateTriggerOutput {
         let reader = responseReader
         var value = UpdateTriggerOutput()
         value.trigger = try reader["Trigger"].readIfPresent(with: GlueClientTypes.Trigger.read(from:))
+        return value
+    }
+}
+
+extension UpdateUsageProfileOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateUsageProfileOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateUsageProfileOutput()
+        value.name = try reader["Name"].readIfPresent()
         return value
     }
 }
@@ -30623,6 +31494,25 @@ enum CreateTriggerOutputError {
     }
 }
 
+enum CreateUsageProfileOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AlreadyExistsException": return try AlreadyExistsException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "OperationNotSupportedException": return try OperationNotSupportedException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            case "ResourceNumberLimitExceededException": return try ResourceNumberLimitExceededException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateUserDefinedFunctionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
@@ -31069,6 +31959,23 @@ enum DeleteTriggerOutputError {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteUsageProfileOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "OperationNotSupportedException": return try OperationNotSupportedException.makeError(baseError: baseError)
             case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -32179,6 +33086,24 @@ enum GetUnfilteredTableMetadataOutputError {
     }
 }
 
+enum GetUsageProfileOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "OperationNotSupportedException": return try OperationNotSupportedException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetUserDefinedFunctionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
@@ -32604,6 +33529,23 @@ enum ListTriggersOutputError {
             case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListUsageProfilesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "OperationNotSupportedException": return try OperationNotSupportedException.makeError(baseError: baseError)
             case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -33566,6 +34508,25 @@ enum UpdateTriggerOutputError {
     }
 }
 
+enum UpdateUsageProfileOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "OperationNotSupportedException": return try OperationNotSupportedException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateUserDefinedFunctionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
@@ -33819,6 +34780,19 @@ extension ValidationException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension OperationNotSupportedException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OperationNotSupportedException {
+        let reader = baseError.errorBodyReader
+        var value = OperationNotSupportedException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -34656,6 +35630,7 @@ extension GlueClientTypes.Job {
         value.executionClass = try reader["ExecutionClass"].readIfPresent()
         value.sourceControlDetails = try reader["SourceControlDetails"].readIfPresent(with: GlueClientTypes.SourceControlDetails.read(from:))
         value.maintenanceWindow = try reader["MaintenanceWindow"].readIfPresent()
+        value.profileName = try reader["ProfileName"].readIfPresent()
         return value
     }
 }
@@ -37761,6 +38736,7 @@ extension GlueClientTypes.JobRun {
         value.dpuSeconds = try reader["DPUSeconds"].readIfPresent()
         value.executionClass = try reader["ExecutionClass"].readIfPresent()
         value.maintenanceWindow = try reader["MaintenanceWindow"].readIfPresent()
+        value.profileName = try reader["ProfileName"].readIfPresent()
         return value
     }
 }
@@ -37892,6 +38868,7 @@ extension GlueClientTypes.Session {
         value.executionTime = try reader["ExecutionTime"].readIfPresent()
         value.dpuSeconds = try reader["DPUSeconds"].readIfPresent()
         value.idleTimeout = try reader["IdleTimeout"].readIfPresent()
+        value.profileName = try reader["ProfileName"].readIfPresent()
         return value
     }
 }
@@ -38308,6 +39285,52 @@ extension GlueClientTypes.Connection {
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: .epochSeconds)
         value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: .epochSeconds)
         value.lastUpdatedBy = try reader["LastUpdatedBy"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusReason = try reader["StatusReason"].readIfPresent()
+        value.lastConnectionValidationTime = try reader["LastConnectionValidationTime"].readTimestampIfPresent(format: .epochSeconds)
+        value.authenticationConfiguration = try reader["AuthenticationConfiguration"].readIfPresent(with: GlueClientTypes.AuthenticationConfiguration.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.AuthenticationConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.AuthenticationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.AuthenticationConfiguration()
+        value.authenticationType = try reader["AuthenticationType"].readIfPresent()
+        value.secretArn = try reader["SecretArn"].readIfPresent()
+        value.oAuth2Properties = try reader["OAuth2Properties"].readIfPresent(with: GlueClientTypes.OAuth2Properties.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.OAuth2Properties {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.OAuth2Properties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.OAuth2Properties()
+        value.oAuth2GrantType = try reader["OAuth2GrantType"].readIfPresent()
+        value.oAuth2ClientApplication = try reader["OAuth2ClientApplication"].readIfPresent(with: GlueClientTypes.OAuth2ClientApplication.read(from:))
+        value.tokenUrl = try reader["TokenUrl"].readIfPresent()
+        value.tokenUrlParametersMap = try reader["TokenUrlParametersMap"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.OAuth2ClientApplication {
+
+    static func write(value: GlueClientTypes.OAuth2ClientApplication?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AWSManagedClientApplicationReference"].write(value.awsManagedClientApplicationReference)
+        try writer["UserManagedClientApplicationClientId"].write(value.userManagedClientApplicationClientId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.OAuth2ClientApplication {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.OAuth2ClientApplication()
+        value.userManagedClientApplicationClientId = try reader["UserManagedClientApplicationClientId"].readIfPresent()
+        value.awsManagedClientApplicationReference = try reader["AWSManagedClientApplicationReference"].readIfPresent()
         return value
     }
 }
@@ -38570,6 +39593,7 @@ extension GlueClientTypes.DataQualityEvaluationRunAdditionalRunOptions {
     static func write(value: GlueClientTypes.DataQualityEvaluationRunAdditionalRunOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CloudWatchMetricsEnabled"].write(value.cloudWatchMetricsEnabled)
+        try writer["CompositeRuleEvaluationMethod"].write(value.compositeRuleEvaluationMethod)
         try writer["ResultsS3Prefix"].write(value.resultsS3Prefix)
     }
 
@@ -38578,6 +39602,7 @@ extension GlueClientTypes.DataQualityEvaluationRunAdditionalRunOptions {
         var value = GlueClientTypes.DataQualityEvaluationRunAdditionalRunOptions()
         value.cloudWatchMetricsEnabled = try reader["CloudWatchMetricsEnabled"].readIfPresent()
         value.resultsS3Prefix = try reader["ResultsS3Prefix"].readIfPresent()
+        value.compositeRuleEvaluationMethod = try reader["CompositeRuleEvaluationMethod"].readIfPresent()
         return value
     }
 }
@@ -39091,6 +40116,7 @@ extension GlueClientTypes.ViewRepresentation {
         value.dialectVersion = try reader["DialectVersion"].readIfPresent()
         value.viewOriginalText = try reader["ViewOriginalText"].readIfPresent()
         value.viewExpandedText = try reader["ViewExpandedText"].readIfPresent()
+        value.validationConnection = try reader["ValidationConnection"].readIfPresent()
         value.isStale = try reader["IsStale"].readIfPresent()
         return value
     }
@@ -39159,6 +40185,44 @@ extension GlueClientTypes.ColumnRowFilter {
         var value = GlueClientTypes.ColumnRowFilter()
         value.columnName = try reader["ColumnName"].readIfPresent()
         value.rowFilterExpression = try reader["RowFilterExpression"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.ProfileConfiguration {
+
+    static func write(value: GlueClientTypes.ProfileConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["JobConfiguration"].writeMap(value.jobConfiguration, valueWritingClosure: GlueClientTypes.ConfigurationObject.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["SessionConfiguration"].writeMap(value.sessionConfiguration, valueWritingClosure: GlueClientTypes.ConfigurationObject.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ProfileConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.ProfileConfiguration()
+        value.sessionConfiguration = try reader["SessionConfiguration"].readMapIfPresent(valueReadingClosure: GlueClientTypes.ConfigurationObject.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.jobConfiguration = try reader["JobConfiguration"].readMapIfPresent(valueReadingClosure: GlueClientTypes.ConfigurationObject.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.ConfigurationObject {
+
+    static func write(value: GlueClientTypes.ConfigurationObject?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AllowedValues"].writeList(value.allowedValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["DefaultValue"].write(value.defaultValue)
+        try writer["MaxValue"].write(value.maxValue)
+        try writer["MinValue"].write(value.minValue)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ConfigurationObject {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.ConfigurationObject()
+        value.defaultValue = try reader["DefaultValue"].readIfPresent()
+        value.allowedValues = try reader["AllowedValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.minValue = try reader["MinValue"].readIfPresent()
+        value.maxValue = try reader["MaxValue"].readIfPresent()
         return value
     }
 }
@@ -39317,6 +40381,19 @@ extension GlueClientTypes.SchemaVersionListItem {
     }
 }
 
+extension GlueClientTypes.UsageProfileDefinition {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.UsageProfileDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.UsageProfileDefinition()
+        value.name = try reader["Name"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.createdOn = try reader["CreatedOn"].readTimestampIfPresent(format: .epochSeconds)
+        value.lastModifiedOn = try reader["LastModifiedOn"].readTimestampIfPresent(format: .epochSeconds)
+        return value
+    }
+}
+
 extension GlueClientTypes.MetadataInfo {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.MetadataInfo {
@@ -39434,12 +40511,45 @@ extension GlueClientTypes.ConnectionInput {
 
     static func write(value: GlueClientTypes.ConnectionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AuthenticationConfiguration"].write(value.authenticationConfiguration, with: GlueClientTypes.AuthenticationConfigurationInput.write(value:to:))
         try writer["ConnectionProperties"].writeMap(value.connectionProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["ConnectionType"].write(value.connectionType)
         try writer["Description"].write(value.description)
         try writer["MatchCriteria"].writeList(value.matchCriteria, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Name"].write(value.name)
         try writer["PhysicalConnectionRequirements"].write(value.physicalConnectionRequirements, with: GlueClientTypes.PhysicalConnectionRequirements.write(value:to:))
+        try writer["ValidateCredentials"].write(value.validateCredentials)
+    }
+}
+
+extension GlueClientTypes.AuthenticationConfigurationInput {
+
+    static func write(value: GlueClientTypes.AuthenticationConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AuthenticationType"].write(value.authenticationType)
+        try writer["OAuth2Properties"].write(value.oAuth2Properties, with: GlueClientTypes.OAuth2PropertiesInput.write(value:to:))
+        try writer["SecretArn"].write(value.secretArn)
+    }
+}
+
+extension GlueClientTypes.OAuth2PropertiesInput {
+
+    static func write(value: GlueClientTypes.OAuth2PropertiesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AuthorizationCodeProperties"].write(value.authorizationCodeProperties, with: GlueClientTypes.AuthorizationCodeProperties.write(value:to:))
+        try writer["OAuth2ClientApplication"].write(value.oAuth2ClientApplication, with: GlueClientTypes.OAuth2ClientApplication.write(value:to:))
+        try writer["OAuth2GrantType"].write(value.oAuth2GrantType)
+        try writer["TokenUrl"].write(value.tokenUrl)
+        try writer["TokenUrlParametersMap"].writeMap(value.tokenUrlParametersMap, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension GlueClientTypes.AuthorizationCodeProperties {
+
+    static func write(value: GlueClientTypes.AuthorizationCodeProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AuthorizationCode"].write(value.authorizationCode)
+        try writer["RedirectUri"].write(value.redirectUri)
     }
 }
 
@@ -39490,6 +40600,30 @@ extension GlueClientTypes.TableInput {
         try writer["StorageDescriptor"].write(value.storageDescriptor, with: GlueClientTypes.StorageDescriptor.write(value:to:))
         try writer["TableType"].write(value.tableType)
         try writer["TargetTable"].write(value.targetTable, with: GlueClientTypes.TableIdentifier.write(value:to:))
+        try writer["ViewDefinition"].write(value.viewDefinition, with: GlueClientTypes.ViewDefinitionInput.write(value:to:))
+        try writer["ViewExpandedText"].write(value.viewExpandedText)
+        try writer["ViewOriginalText"].write(value.viewOriginalText)
+    }
+}
+
+extension GlueClientTypes.ViewDefinitionInput {
+
+    static func write(value: GlueClientTypes.ViewDefinitionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Definer"].write(value.definer)
+        try writer["IsProtected"].write(value.isProtected)
+        try writer["Representations"].writeList(value.representations, memberWritingClosure: GlueClientTypes.ViewRepresentationInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SubObjects"].writeList(value.subObjects, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GlueClientTypes.ViewRepresentationInput {
+
+    static func write(value: GlueClientTypes.ViewRepresentationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Dialect"].write(value.dialect)
+        try writer["DialectVersion"].write(value.dialectVersion)
+        try writer["ValidationConnection"].write(value.validationConnection)
         try writer["ViewExpandedText"].write(value.viewExpandedText)
         try writer["ViewOriginalText"].write(value.viewOriginalText)
     }

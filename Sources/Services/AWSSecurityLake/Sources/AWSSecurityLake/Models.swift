@@ -966,7 +966,7 @@ public struct CreateSubscriberInput {
     public var sources: [SecurityLakeClientTypes.LogSourceResource]?
     /// The description for your subscriber account in Security Lake.
     public var subscriberDescription: Swift.String?
-    /// The AWS identity used to access your data.
+    /// The Amazon Web Services identity used to access your data.
     /// This member is required.
     public var subscriberIdentity: SecurityLakeClientTypes.AwsIdentity?
     /// The name of your Security Lake subscriber account.
@@ -1035,7 +1035,7 @@ extension SecurityLakeClientTypes {
         public var accessTypes: [SecurityLakeClientTypes.AccessType]?
         /// The date and time when the subscriber was created.
         public var createdAt: Foundation.Date?
-        /// The Amazon Resource Name (ARN) which uniquely defines the AWS RAM resource share. Before accepting the RAM resource share invitation, you can view details related to the RAM resource share. This field is available only for Lake Formation subscribers created after March 8, 2023.
+        /// The Amazon Resource Name (ARN) which uniquely defines the Amazon Web Services RAM resource share. Before accepting the RAM resource share invitation, you can view details related to the RAM resource share. This field is available only for Lake Formation subscribers created after March 8, 2023.
         public var resourceShareArn: Swift.String?
         /// The name of the resource share.
         public var resourceShareName: Swift.String?
@@ -1056,7 +1056,7 @@ extension SecurityLakeClientTypes {
         /// The subscriber ID of the Amazon Security Lake subscriber account.
         /// This member is required.
         public var subscriberId: Swift.String?
-        /// The AWS identity used to access your data.
+        /// The Amazon Web Services identity used to access your data.
         /// This member is required.
         public var subscriberIdentity: SecurityLakeClientTypes.AwsIdentity?
         /// The name of your Amazon Security Lake subscriber account.

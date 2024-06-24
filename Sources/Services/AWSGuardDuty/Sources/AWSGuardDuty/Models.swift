@@ -19,7 +19,17 @@ import struct AWSClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
 import struct SmithyReadWrite.WritingClosureBox
 
+public struct DeleteMalwareProtectionPlanOutput {
+
+    public init() { }
+}
+
 public struct GetOrganizationStatisticsInput {
+
+    public init() { }
+}
+
+public struct UpdateMalwareProtectionPlanOutput {
 
     public init() { }
 }
@@ -3037,6 +3047,145 @@ public struct CreateIPSetOutput {
     }
 }
 
+extension GuardDutyClientTypes {
+
+    public enum MalwareProtectionPlanTaggingActionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MalwareProtectionPlanTaggingActionStatus] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+    /// Information about adding tags to the scanned S3 object after the scan result.
+    public struct MalwareProtectionPlanTaggingAction {
+        /// Indicates whether or not the tags will added.
+        public var status: GuardDutyClientTypes.MalwareProtectionPlanTaggingActionStatus?
+
+        public init(
+            status: GuardDutyClientTypes.MalwareProtectionPlanTaggingActionStatus? = nil
+        )
+        {
+            self.status = status
+        }
+    }
+
+}
+
+extension GuardDutyClientTypes {
+    /// Information about whether the tags will be added to the S3 object after scanning.
+    public struct MalwareProtectionPlanActions {
+        /// Indicates whether the scanned S3 object will have tags about the scan result.
+        public var tagging: GuardDutyClientTypes.MalwareProtectionPlanTaggingAction?
+
+        public init(
+            tagging: GuardDutyClientTypes.MalwareProtectionPlanTaggingAction? = nil
+        )
+        {
+            self.tagging = tagging
+        }
+    }
+
+}
+
+extension GuardDutyClientTypes {
+    /// Information about the protected S3 bucket resource.
+    public struct CreateS3BucketResource {
+        /// Name of the S3 bucket.
+        public var bucketName: Swift.String?
+        /// Information about the specified object prefixes. The S3 object will be scanned only if it belongs to any of the specified object prefixes.
+        public var objectPrefixes: [Swift.String]?
+
+        public init(
+            bucketName: Swift.String? = nil,
+            objectPrefixes: [Swift.String]? = nil
+        )
+        {
+            self.bucketName = bucketName
+            self.objectPrefixes = objectPrefixes
+        }
+    }
+
+}
+
+extension GuardDutyClientTypes {
+    /// Information about the protected resource that is associated with the created Malware Protection plan. Presently, S3Bucket is the only supported protected resource.
+    public struct CreateProtectedResource {
+        /// Information about the protected S3 bucket resource.
+        public var s3Bucket: GuardDutyClientTypes.CreateS3BucketResource?
+
+        public init(
+            s3Bucket: GuardDutyClientTypes.CreateS3BucketResource? = nil
+        )
+        {
+            self.s3Bucket = s3Bucket
+        }
+    }
+
+}
+
+public struct CreateMalwareProtectionPlanInput {
+    /// Information about whether the tags will be added to the S3 object after scanning.
+    public var actions: GuardDutyClientTypes.MalwareProtectionPlanActions?
+    /// The idempotency token for the create request.
+    public var clientToken: Swift.String?
+    /// Information about the protected resource that is associated with the created Malware Protection plan. Presently, S3Bucket is the only supported protected resource.
+    /// This member is required.
+    public var protectedResource: GuardDutyClientTypes.CreateProtectedResource?
+    /// IAM role with permissions required to scan and add tags to the associated protected resource.
+    /// This member is required.
+    public var role: Swift.String?
+    /// Tags added to the Malware Protection plan resource.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        actions: GuardDutyClientTypes.MalwareProtectionPlanActions? = nil,
+        clientToken: Swift.String? = nil,
+        protectedResource: GuardDutyClientTypes.CreateProtectedResource? = nil,
+        role: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    )
+    {
+        self.actions = actions
+        self.clientToken = clientToken
+        self.protectedResource = protectedResource
+        self.role = role
+        self.tags = tags
+    }
+}
+
+public struct CreateMalwareProtectionPlanOutput {
+    /// A unique identifier associated with the Malware Protection plan resource.
+    public var malwareProtectionPlanId: Swift.String?
+
+    public init(
+        malwareProtectionPlanId: Swift.String? = nil
+    )
+    {
+        self.malwareProtectionPlanId = malwareProtectionPlanId
+    }
+}
+
 public struct CreateMembersInput {
     /// A list of account ID and email address pairs of the accounts that you want to associate with the GuardDuty administrator account.
     /// This member is required.
@@ -3639,6 +3788,48 @@ public struct DeleteIPSetOutput {
     public init() { }
 }
 
+/// The requested resource can't be found.
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// The error message.
+        public internal(set) var message: Swift.String? = nil
+        /// The error type.
+        public internal(set) var type: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        type: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+        self.properties.type = type
+    }
+}
+
+public struct DeleteMalwareProtectionPlanInput {
+    /// A unique identifier associated with Malware Protection plan resource.
+    /// This member is required.
+    public var malwareProtectionPlanId: Swift.String?
+
+    public init(
+        malwareProtectionPlanId: Swift.String? = nil
+    )
+    {
+        self.malwareProtectionPlanId = malwareProtectionPlanId
+    }
+}
+
 public struct DeleteMembersInput {
     /// A list of account IDs of the GuardDuty member accounts that you want to delete.
     /// This member is required.
@@ -3832,11 +4023,11 @@ extension GuardDutyClientTypes {
         public var deviceName: Swift.String?
         /// EBS volume encryption type.
         public var encryptionType: Swift.String?
-        /// KMS key Arn used to encrypt the EBS volume.
+        /// KMS key ARN used to encrypt the EBS volume.
         public var kmsKeyArn: Swift.String?
-        /// Snapshot Arn of the EBS volume.
+        /// Snapshot ARN of the EBS volume.
         public var snapshotArn: Swift.String?
-        /// EBS volume Arn information.
+        /// EBS volume ARN information.
         public var volumeArn: Swift.String?
         /// EBS volume size in GB.
         public var volumeSizeInGB: Swift.Int?
@@ -3868,7 +4059,7 @@ extension GuardDutyClientTypes {
 extension GuardDutyClientTypes {
     /// Represents the resources that were scanned in the scan entry.
     public struct ResourceDetails {
-        /// InstanceArn that was scanned in the scan entry.
+        /// Instance ARN that was scanned in the scan entry.
         public var instanceArn: Swift.String?
 
         public init(
@@ -4905,7 +5096,7 @@ extension GuardDutyClientTypes {
         public var filePath: Swift.String?
         /// The hash value of the infected file.
         public var hash: Swift.String?
-        /// EBS volume Arn details of the infected file.
+        /// EBS volume ARN details of the infected file.
         public var volumeArn: Swift.String?
 
         public init(
@@ -5866,6 +6057,38 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes {
+    /// Information about the S3 object that was scanned
+    public struct S3ObjectDetail {
+        /// The entity tag is a hash of the S3 object. The ETag reflects changes only to the contents of an object, and not its metadata.
+        public var eTag: Swift.String?
+        /// Hash of the threat detected in this finding.
+        public var hash: Swift.String?
+        /// Key of the S3 object.
+        public var key: Swift.String?
+        /// Amazon Resource Name (ARN) of the S3 object.
+        public var objectArn: Swift.String?
+        /// Version ID of the object.
+        public var versionId: Swift.String?
+
+        public init(
+            eTag: Swift.String? = nil,
+            hash: Swift.String? = nil,
+            key: Swift.String? = nil,
+            objectArn: Swift.String? = nil,
+            versionId: Swift.String? = nil
+        )
+        {
+            self.eTag = eTag
+            self.hash = hash
+            self.key = key
+            self.objectArn = objectArn
+            self.versionId = versionId
+        }
+    }
+
+}
+
+extension GuardDutyClientTypes {
     /// Contains information on the S3 bucket.
     public struct S3BucketDetail {
         /// The Amazon Resource Name (ARN) of the S3 bucket.
@@ -5880,6 +6103,8 @@ extension GuardDutyClientTypes {
         public var owner: GuardDutyClientTypes.Owner?
         /// Describes the public access policies that apply to the S3 bucket.
         public var publicAccess: GuardDutyClientTypes.PublicAccess?
+        /// Information about the S3 object that was scanned.
+        public var s3ObjectDetails: [GuardDutyClientTypes.S3ObjectDetail]?
         /// All tags attached to the S3 bucket
         public var tags: [GuardDutyClientTypes.Tag]?
         /// Describes whether the bucket is a source or destination bucket.
@@ -5892,6 +6117,7 @@ extension GuardDutyClientTypes {
             name: Swift.String? = nil,
             owner: GuardDutyClientTypes.Owner? = nil,
             publicAccess: GuardDutyClientTypes.PublicAccess? = nil,
+            s3ObjectDetails: [GuardDutyClientTypes.S3ObjectDetail]? = nil,
             tags: [GuardDutyClientTypes.Tag]? = nil,
             type: Swift.String? = nil
         )
@@ -5902,6 +6128,7 @@ extension GuardDutyClientTypes {
             self.name = name
             self.owner = owner
             self.publicAccess = publicAccess
+            self.s3ObjectDetails = s3ObjectDetails
             self.tags = tags
             self.type = type
         }
@@ -5984,6 +6211,66 @@ extension GuardDutyClientTypes {
         {
             self.type = type
             self.value = value
+        }
+    }
+
+}
+
+extension GuardDutyClientTypes {
+    /// Information about the nested item path and hash of the protected resource.
+    public struct ItemPath {
+        /// The hash value of the infected resource.
+        public var hash: Swift.String?
+        /// The nested item path where the infected file was found.
+        public var nestedItemPath: Swift.String?
+
+        public init(
+            hash: Swift.String? = nil,
+            nestedItemPath: Swift.String? = nil
+        )
+        {
+            self.hash = hash
+            self.nestedItemPath = nestedItemPath
+        }
+    }
+
+}
+
+extension GuardDutyClientTypes {
+    /// Information about the detected threats associated with the generated finding.
+    public struct Threat {
+        /// Information about the nested item path and hash of the protected resource.
+        public var itemPaths: [GuardDutyClientTypes.ItemPath]?
+        /// Name of the detected threat that caused GuardDuty to generate this finding.
+        public var name: Swift.String?
+        /// Source of the threat that generated this finding.
+        public var source: Swift.String?
+
+        public init(
+            itemPaths: [GuardDutyClientTypes.ItemPath]? = nil,
+            name: Swift.String? = nil,
+            source: Swift.String? = nil
+        )
+        {
+            self.itemPaths = itemPaths
+            self.name = name
+            self.source = source
+        }
+    }
+
+}
+
+extension GuardDutyClientTypes {
+    /// Information about the malware scan that generated a GuardDuty finding.
+    public struct MalwareScanDetails {
+        /// Information about the detected threats associated with the generated GuardDuty finding.
+        public var threats: [GuardDutyClientTypes.Threat]?
+
+        public init(
+            threats: [GuardDutyClientTypes.Threat]? = nil
+        )
+        {
+            self.threats = threats
         }
     }
 
@@ -6258,6 +6545,8 @@ extension GuardDutyClientTypes {
         public var evidence: GuardDutyClientTypes.Evidence?
         /// The name of the feature that generated a finding.
         public var featureName: Swift.String?
+        /// Returns details from the malware scan that generated a GuardDuty finding.
+        public var malwareScanDetails: GuardDutyClientTypes.MalwareScanDetails?
         /// The resource role information for this finding.
         public var resourceRole: Swift.String?
         /// Information about the process and any required context values for a specific finding
@@ -6279,6 +6568,7 @@ extension GuardDutyClientTypes {
             eventLastSeen: Swift.String? = nil,
             evidence: GuardDutyClientTypes.Evidence? = nil,
             featureName: Swift.String? = nil,
+            malwareScanDetails: GuardDutyClientTypes.MalwareScanDetails? = nil,
             resourceRole: Swift.String? = nil,
             runtimeDetails: GuardDutyClientTypes.RuntimeDetails? = nil,
             serviceName: Swift.String? = nil,
@@ -6296,6 +6586,7 @@ extension GuardDutyClientTypes {
             self.eventLastSeen = eventLastSeen
             self.evidence = evidence
             self.featureName = featureName
+            self.malwareScanDetails = malwareScanDetails
             self.resourceRole = resourceRole
             self.runtimeDetails = runtimeDetails
             self.serviceName = serviceName
@@ -6775,6 +7066,111 @@ public struct GetIPSetOutput {
         self.location = location
         self.name = name
         self.status = status
+        self.tags = tags
+    }
+}
+
+public struct GetMalwareProtectionPlanInput {
+    /// A unique identifier associated with Malware Protection plan resource.
+    /// This member is required.
+    public var malwareProtectionPlanId: Swift.String?
+
+    public init(
+        malwareProtectionPlanId: Swift.String? = nil
+    )
+    {
+        self.malwareProtectionPlanId = malwareProtectionPlanId
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    public enum MalwareProtectionPlanStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case error
+        case warning
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MalwareProtectionPlanStatus] {
+            return [
+                .active,
+                .error,
+                .warning
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .error: return "ERROR"
+            case .warning: return "WARNING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+    /// Information about the issue code and message associated to the status of your Malware Protection plan.
+    public struct MalwareProtectionPlanStatusReason {
+        /// Issue code.
+        public var code: Swift.String?
+        /// Issue message that specifies the reason. For information about potential troubleshooting steps, see [Troubleshooting Malware Protection for S3 status issues](https://docs.aws.amazon.com/guardduty/latest/ug/troubleshoot-s3-malware-protection-status-errors.html) in the GuardDuty User Guide.
+        public var message: Swift.String?
+
+        public init(
+            code: Swift.String? = nil,
+            message: Swift.String? = nil
+        )
+        {
+            self.code = code
+            self.message = message
+        }
+    }
+
+}
+
+public struct GetMalwareProtectionPlanOutput {
+    /// Information about whether the tags will be added to the S3 object after scanning.
+    public var actions: GuardDutyClientTypes.MalwareProtectionPlanActions?
+    /// Amazon Resource Name (ARN) of the protected resource.
+    public var arn: Swift.String?
+    /// The timestamp when the Malware Protection plan resource was created.
+    public var createdAt: Foundation.Date?
+    /// Information about the protected resource that is associated with the created Malware Protection plan. Presently, S3Bucket is the only supported protected resource.
+    public var protectedResource: GuardDutyClientTypes.CreateProtectedResource?
+    /// IAM role that includes the permissions required to scan and add tags to the associated protected resource.
+    public var role: Swift.String?
+    /// Malware Protection plan status.
+    public var status: GuardDutyClientTypes.MalwareProtectionPlanStatus?
+    /// Information about the issue code and message associated to the status of your Malware Protection plan.
+    public var statusReasons: [GuardDutyClientTypes.MalwareProtectionPlanStatusReason]?
+    /// Tags added to the Malware Protection plan resource.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        actions: GuardDutyClientTypes.MalwareProtectionPlanActions? = nil,
+        arn: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        protectedResource: GuardDutyClientTypes.CreateProtectedResource? = nil,
+        role: Swift.String? = nil,
+        status: GuardDutyClientTypes.MalwareProtectionPlanStatus? = nil,
+        statusReasons: [GuardDutyClientTypes.MalwareProtectionPlanStatusReason]? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    )
+    {
+        self.actions = actions
+        self.arn = arn
+        self.createdAt = createdAt
+        self.protectedResource = protectedResource
+        self.role = role
+        self.status = status
+        self.statusReasons = statusReasons
         self.tags = tags
     }
 }
@@ -8145,6 +8541,50 @@ public struct ListIPSetsOutput {
     }
 }
 
+public struct ListMalwareProtectionPlansInput {
+    /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
+    public var nextToken: Swift.String?
+
+    public init(
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.nextToken = nextToken
+    }
+}
+
+extension GuardDutyClientTypes {
+    /// Information about the Malware Protection plan resource.
+    public struct MalwareProtectionPlanSummary {
+        /// A unique identifier associated with Malware Protection plan.
+        public var malwareProtectionPlanId: Swift.String?
+
+        public init(
+            malwareProtectionPlanId: Swift.String? = nil
+        )
+        {
+            self.malwareProtectionPlanId = malwareProtectionPlanId
+        }
+    }
+
+}
+
+public struct ListMalwareProtectionPlansOutput {
+    /// A list of unique identifiers associated with each Malware Protection plan.
+    public var malwareProtectionPlans: [GuardDutyClientTypes.MalwareProtectionPlanSummary]?
+    /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
+    public var nextToken: Swift.String?
+
+    public init(
+        malwareProtectionPlans: [GuardDutyClientTypes.MalwareProtectionPlanSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.malwareProtectionPlans = malwareProtectionPlans
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListMembersInput {
     /// The unique ID of the detector the member is associated with.
     /// This member is required.
@@ -8624,6 +9064,63 @@ public struct UpdateIPSetOutput {
     public init() { }
 }
 
+extension GuardDutyClientTypes {
+    /// Information about the protected S3 bucket resource.
+    public struct UpdateS3BucketResource {
+        /// Information about the specified object prefixes. The S3 object will be scanned only if it belongs to any of the specified object prefixes.
+        public var objectPrefixes: [Swift.String]?
+
+        public init(
+            objectPrefixes: [Swift.String]? = nil
+        )
+        {
+            self.objectPrefixes = objectPrefixes
+        }
+    }
+
+}
+
+extension GuardDutyClientTypes {
+    /// Information about the protected resource that is associated with the created Malware Protection plan. Presently, S3Bucket is the only supported protected resource.
+    public struct UpdateProtectedResource {
+        /// Information about the protected S3 bucket resource.
+        public var s3Bucket: GuardDutyClientTypes.UpdateS3BucketResource?
+
+        public init(
+            s3Bucket: GuardDutyClientTypes.UpdateS3BucketResource? = nil
+        )
+        {
+            self.s3Bucket = s3Bucket
+        }
+    }
+
+}
+
+public struct UpdateMalwareProtectionPlanInput {
+    /// Information about whether the tags will be added to the S3 object after scanning.
+    public var actions: GuardDutyClientTypes.MalwareProtectionPlanActions?
+    /// A unique identifier associated with the Malware Protection plan.
+    /// This member is required.
+    public var malwareProtectionPlanId: Swift.String?
+    /// Information about the protected resource that is associated with the created Malware Protection plan. Presently, S3Bucket is the only supported protected resource.
+    public var protectedResource: GuardDutyClientTypes.UpdateProtectedResource?
+    /// IAM role with permissions required to scan and add tags to the associated protected resource.
+    public var role: Swift.String?
+
+    public init(
+        actions: GuardDutyClientTypes.MalwareProtectionPlanActions? = nil,
+        malwareProtectionPlanId: Swift.String? = nil,
+        protectedResource: GuardDutyClientTypes.UpdateProtectedResource? = nil,
+        role: Swift.String? = nil
+    )
+    {
+        self.actions = actions
+        self.malwareProtectionPlanId = malwareProtectionPlanId
+        self.protectedResource = protectedResource
+        self.role = role
+    }
+}
+
 public struct UpdateMalwareScanSettingsInput {
     /// The unique ID of the detector that specifies the GuardDuty service where you want to update scan settings.
     /// This member is required.
@@ -9074,6 +9571,13 @@ extension CreateIPSetInput {
     }
 }
 
+extension CreateMalwareProtectionPlanInput {
+
+    static func urlPathProvider(_ value: CreateMalwareProtectionPlanInput) -> Swift.String? {
+        return "/malware-protection-plan"
+    }
+}
+
 extension CreateMembersInput {
 
     static func urlPathProvider(_ value: CreateMembersInput) -> Swift.String? {
@@ -9161,6 +9665,16 @@ extension DeleteIPSetInput {
             return nil
         }
         return "/detector/\(detectorId.urlPercentEncoding())/ipset/\(ipSetId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteMalwareProtectionPlanInput {
+
+    static func urlPathProvider(_ value: DeleteMalwareProtectionPlanInput) -> Swift.String? {
+        guard let malwareProtectionPlanId = value.malwareProtectionPlanId else {
+            return nil
+        }
+        return "/malware-protection-plan/\(malwareProtectionPlanId.urlPercentEncoding())"
     }
 }
 
@@ -9376,6 +9890,16 @@ extension GetIPSetInput {
     }
 }
 
+extension GetMalwareProtectionPlanInput {
+
+    static func urlPathProvider(_ value: GetMalwareProtectionPlanInput) -> Swift.String? {
+        guard let malwareProtectionPlanId = value.malwareProtectionPlanId else {
+            return nil
+        }
+        return "/malware-protection-plan/\(malwareProtectionPlanId.urlPercentEncoding())"
+    }
+}
+
 extension GetMalwareScanSettingsInput {
 
     static func urlPathProvider(_ value: GetMalwareScanSettingsInput) -> Swift.String? {
@@ -9579,6 +10103,25 @@ extension ListIPSetsInput {
         if let maxResults = value.maxResults {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListMalwareProtectionPlansInput {
+
+    static func urlPathProvider(_ value: ListMalwareProtectionPlansInput) -> Swift.String? {
+        return "/malware-protection-plan"
+    }
+}
+
+extension ListMalwareProtectionPlansInput {
+
+    static func queryItemProvider(_ value: ListMalwareProtectionPlansInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
         return items
     }
@@ -9818,6 +10361,16 @@ extension UpdateIPSetInput {
     }
 }
 
+extension UpdateMalwareProtectionPlanInput {
+
+    static func urlPathProvider(_ value: UpdateMalwareProtectionPlanInput) -> Swift.String? {
+        guard let malwareProtectionPlanId = value.malwareProtectionPlanId else {
+            return nil
+        }
+        return "/malware-protection-plan/\(malwareProtectionPlanId.urlPercentEncoding())"
+    }
+}
+
 extension UpdateMalwareScanSettingsInput {
 
     static func urlPathProvider(_ value: UpdateMalwareScanSettingsInput) -> Swift.String? {
@@ -9936,6 +10489,18 @@ extension CreateIPSetInput {
         try writer["format"].write(value.format)
         try writer["location"].write(value.location)
         try writer["name"].write(value.name)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreateMalwareProtectionPlanInput {
+
+    static func write(value: CreateMalwareProtectionPlanInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["actions"].write(value.actions, with: GuardDutyClientTypes.MalwareProtectionPlanActions.write(value:to:))
+        try writer["clientToken"].write(value.clientToken)
+        try writer["protectedResource"].write(value.protectedResource, with: GuardDutyClientTypes.CreateProtectedResource.write(value:to:))
+        try writer["role"].write(value.role)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -10215,6 +10780,16 @@ extension UpdateIPSetInput {
     }
 }
 
+extension UpdateMalwareProtectionPlanInput {
+
+    static func write(value: UpdateMalwareProtectionPlanInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["actions"].write(value.actions, with: GuardDutyClientTypes.MalwareProtectionPlanActions.write(value:to:))
+        try writer["protectedResource"].write(value.protectedResource, with: GuardDutyClientTypes.UpdateProtectedResource.write(value:to:))
+        try writer["role"].write(value.role)
+    }
+}
+
 extension UpdateMalwareScanSettingsInput {
 
     static func write(value: UpdateMalwareScanSettingsInput?, to writer: SmithyJSON.Writer) throws {
@@ -10321,6 +10896,18 @@ extension CreateIPSetOutput {
     }
 }
 
+extension CreateMalwareProtectionPlanOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateMalwareProtectionPlanOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateMalwareProtectionPlanOutput()
+        value.malwareProtectionPlanId = try reader["malwareProtectionPlanId"].readIfPresent()
+        return value
+    }
+}
+
 extension CreateMembersOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateMembersOutput {
@@ -10406,6 +10993,13 @@ extension DeleteIPSetOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteIPSetOutput {
         return DeleteIPSetOutput()
+    }
+}
+
+extension DeleteMalwareProtectionPlanOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteMalwareProtectionPlanOutput {
+        return DeleteMalwareProtectionPlanOutput()
     }
 }
 
@@ -10633,6 +11227,25 @@ extension GetIPSetOutput {
     }
 }
 
+extension GetMalwareProtectionPlanOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetMalwareProtectionPlanOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetMalwareProtectionPlanOutput()
+        value.actions = try reader["actions"].readIfPresent(with: GuardDutyClientTypes.MalwareProtectionPlanActions.read(from:))
+        value.arn = try reader["arn"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: .epochSeconds)
+        value.protectedResource = try reader["protectedResource"].readIfPresent(with: GuardDutyClientTypes.CreateProtectedResource.read(from:))
+        value.role = try reader["role"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.statusReasons = try reader["statusReasons"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.MalwareProtectionPlanStatusReason.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension GetMalwareScanSettingsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetMalwareScanSettingsOutput {
@@ -10828,6 +11441,19 @@ extension ListIPSetsOutput {
     }
 }
 
+extension ListMalwareProtectionPlansOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListMalwareProtectionPlansOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListMalwareProtectionPlansOutput()
+        value.malwareProtectionPlans = try reader["malwareProtectionPlans"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.MalwareProtectionPlanSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListMembersOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListMembersOutput {
@@ -10982,6 +11608,13 @@ extension UpdateIPSetOutput {
     }
 }
 
+extension UpdateMalwareProtectionPlanOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateMalwareProtectionPlanOutput {
+        return UpdateMalwareProtectionPlanOutput()
+    }
+}
+
 extension UpdateMalwareScanSettingsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateMalwareScanSettingsOutput {
@@ -11106,6 +11739,23 @@ enum CreateIPSetOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateMalwareProtectionPlanOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -11242,6 +11892,23 @@ enum DeleteIPSetOutputError {
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteMalwareProtectionPlanOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -11532,6 +12199,23 @@ enum GetIPSetOutputError {
     }
 }
 
+enum GetMalwareProtectionPlanOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetMalwareScanSettingsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
@@ -11750,6 +12434,22 @@ enum ListIPSetsOutputError {
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListMalwareProtectionPlansOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -11986,6 +12686,23 @@ enum UpdateIPSetOutputError {
     }
 }
 
+enum UpdateMalwareProtectionPlanOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateMalwareScanSettingsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
@@ -12108,6 +12825,20 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.type = try reader["__type"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ResourceNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
         value.properties.type = try reader["__type"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -12573,6 +13304,40 @@ extension GuardDutyClientTypes.Service {
         value.ebsVolumeScanDetails = try reader["ebsVolumeScanDetails"].readIfPresent(with: GuardDutyClientTypes.EbsVolumeScanDetails.read(from:))
         value.runtimeDetails = try reader["runtimeDetails"].readIfPresent(with: GuardDutyClientTypes.RuntimeDetails.read(from:))
         value.detection = try reader["detection"].readIfPresent(with: GuardDutyClientTypes.Detection.read(from:))
+        value.malwareScanDetails = try reader["malwareScanDetails"].readIfPresent(with: GuardDutyClientTypes.MalwareScanDetails.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.MalwareScanDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.MalwareScanDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.MalwareScanDetails()
+        value.threats = try reader["threats"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Threat.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.Threat {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Threat {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.Threat()
+        value.name = try reader["name"].readIfPresent()
+        value.source = try reader["source"].readIfPresent()
+        value.itemPaths = try reader["itemPaths"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.ItemPath.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.ItemPath {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ItemPath {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.ItemPath()
+        value.nestedItemPath = try reader["nestedItemPath"].readIfPresent()
+        value.hash = try reader["hash"].readIfPresent()
         return value
     }
 }
@@ -13501,6 +14266,21 @@ extension GuardDutyClientTypes.S3BucketDetail {
         value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.defaultServerSideEncryption = try reader["defaultServerSideEncryption"].readIfPresent(with: GuardDutyClientTypes.DefaultServerSideEncryption.read(from:))
         value.publicAccess = try reader["publicAccess"].readIfPresent(with: GuardDutyClientTypes.PublicAccess.read(from:))
+        value.s3ObjectDetails = try reader["s3ObjectDetails"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.S3ObjectDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.S3ObjectDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.S3ObjectDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.S3ObjectDetail()
+        value.objectArn = try reader["objectArn"].readIfPresent()
+        value.key = try reader["key"].readIfPresent()
+        value.eTag = try reader["eTag"].readIfPresent()
+        value.hash = try reader["hash"].readIfPresent()
+        value.versionId = try reader["versionId"].readIfPresent()
         return value
     }
 }
@@ -13624,6 +14404,79 @@ extension GuardDutyClientTypes.FindingStatistics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.FindingStatistics()
         value.countBySeverity = try reader["countBySeverity"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.CreateProtectedResource {
+
+    static func write(value: GuardDutyClientTypes.CreateProtectedResource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["s3Bucket"].write(value.s3Bucket, with: GuardDutyClientTypes.CreateS3BucketResource.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.CreateProtectedResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.CreateProtectedResource()
+        value.s3Bucket = try reader["s3Bucket"].readIfPresent(with: GuardDutyClientTypes.CreateS3BucketResource.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.CreateS3BucketResource {
+
+    static func write(value: GuardDutyClientTypes.CreateS3BucketResource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bucketName"].write(value.bucketName)
+        try writer["objectPrefixes"].writeList(value.objectPrefixes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.CreateS3BucketResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.CreateS3BucketResource()
+        value.bucketName = try reader["bucketName"].readIfPresent()
+        value.objectPrefixes = try reader["objectPrefixes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.MalwareProtectionPlanActions {
+
+    static func write(value: GuardDutyClientTypes.MalwareProtectionPlanActions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["tagging"].write(value.tagging, with: GuardDutyClientTypes.MalwareProtectionPlanTaggingAction.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.MalwareProtectionPlanActions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.MalwareProtectionPlanActions()
+        value.tagging = try reader["tagging"].readIfPresent(with: GuardDutyClientTypes.MalwareProtectionPlanTaggingAction.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.MalwareProtectionPlanTaggingAction {
+
+    static func write(value: GuardDutyClientTypes.MalwareProtectionPlanTaggingAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["status"].write(value.status)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.MalwareProtectionPlanTaggingAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.MalwareProtectionPlanTaggingAction()
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.MalwareProtectionPlanStatusReason {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.MalwareProtectionPlanStatusReason {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.MalwareProtectionPlanStatusReason()
+        value.code = try reader["code"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
         return value
     }
 }
@@ -14077,6 +14930,16 @@ extension GuardDutyClientTypes.Invitation {
     }
 }
 
+extension GuardDutyClientTypes.MalwareProtectionPlanSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.MalwareProtectionPlanSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.MalwareProtectionPlanSummary()
+        value.malwareProtectionPlanId = try reader["malwareProtectionPlanId"].readIfPresent()
+        return value
+    }
+}
+
 extension GuardDutyClientTypes.AdminAccount {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.AdminAccount {
@@ -14257,6 +15120,22 @@ extension GuardDutyClientTypes.CoverageSortCriteria {
         guard let value else { return }
         try writer["attributeName"].write(value.attributeName)
         try writer["orderBy"].write(value.orderBy)
+    }
+}
+
+extension GuardDutyClientTypes.UpdateProtectedResource {
+
+    static func write(value: GuardDutyClientTypes.UpdateProtectedResource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["s3Bucket"].write(value.s3Bucket, with: GuardDutyClientTypes.UpdateS3BucketResource.write(value:to:))
+    }
+}
+
+extension GuardDutyClientTypes.UpdateS3BucketResource {
+
+    static func write(value: GuardDutyClientTypes.UpdateS3BucketResource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["objectPrefixes"].writeList(value.objectPrefixes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

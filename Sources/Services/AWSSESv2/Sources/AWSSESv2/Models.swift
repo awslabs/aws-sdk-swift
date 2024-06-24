@@ -1788,6 +1788,23 @@ public struct CreateConfigurationSetOutput {
 }
 
 extension SESv2ClientTypes {
+    /// An object that defines an Amazon EventBridge destination for email events. You can use Amazon EventBridge to send notifications when certain email events occur.
+    public struct EventBridgeDestination {
+        /// The Amazon Resource Name (ARN) of the Amazon EventBridge bus to publish email events to. Only the default bus is supported.
+        /// This member is required.
+        public var eventBusArn: Swift.String?
+
+        public init(
+            eventBusArn: Swift.String? = nil
+        )
+        {
+            self.eventBusArn = eventBusArn
+        }
+    }
+
+}
+
+extension SESv2ClientTypes {
     /// An object that defines an Amazon Kinesis Data Firehose destination for email events. You can use Amazon Kinesis Data Firehose to stream data to other services, such as Amazon S3 and Amazon Redshift.
     public struct KinesisFirehoseDestination {
         /// The Amazon Resource Name (ARN) of the Amazon Kinesis Data Firehose stream that the Amazon SES API v2 sends email events to.
@@ -1880,7 +1897,7 @@ extension SESv2ClientTypes {
 }
 
 extension SESv2ClientTypes {
-    /// An object that defines an Amazon SNS destination for email events. You can use Amazon SNS to send notification when certain email events occur.
+    /// An object that defines an Amazon SNS destination for email events. You can use Amazon SNS to send notifications when certain email events occur.
     public struct SnsDestination {
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic to publish email events to. For more information about Amazon SNS topics, see the [Amazon SNS Developer Guide](https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html).
         /// This member is required.
@@ -1903,18 +1920,21 @@ extension SESv2ClientTypes {
         public var cloudWatchDestination: SESv2ClientTypes.CloudWatchDestination?
         /// If true, the event destination is enabled. When the event destination is enabled, the specified event types are sent to the destinations in this EventDestinationDefinition. If false, the event destination is disabled. When the event destination is disabled, events aren't sent to the specified destinations.
         public var enabled: Swift.Bool
+        /// An object that defines an Amazon EventBridge destination for email events. You can use Amazon EventBridge to send notifications when certain email events occur.
+        public var eventBridgeDestination: SESv2ClientTypes.EventBridgeDestination?
         /// An object that defines an Amazon Kinesis Data Firehose destination for email events. You can use Amazon Kinesis Data Firehose to stream data to other services, such as Amazon S3 and Amazon Redshift.
         public var kinesisFirehoseDestination: SESv2ClientTypes.KinesisFirehoseDestination?
         /// An array that specifies which events the Amazon SES API v2 should send to the destinations in this EventDestinationDefinition.
         public var matchingEventTypes: [SESv2ClientTypes.EventType]?
         /// An object that defines an Amazon Pinpoint project destination for email events. You can send email event data to a Amazon Pinpoint project to view metrics using the Transactional Messaging dashboards that are built in to Amazon Pinpoint. For more information, see [Transactional Messaging Charts](https://docs.aws.amazon.com/pinpoint/latest/userguide/analytics-transactional-messages.html) in the Amazon Pinpoint User Guide.
         public var pinpointDestination: SESv2ClientTypes.PinpointDestination?
-        /// An object that defines an Amazon SNS destination for email events. You can use Amazon SNS to send notification when certain email events occur.
+        /// An object that defines an Amazon SNS destination for email events. You can use Amazon SNS to send notifications when certain email events occur.
         public var snsDestination: SESv2ClientTypes.SnsDestination?
 
         public init(
             cloudWatchDestination: SESv2ClientTypes.CloudWatchDestination? = nil,
             enabled: Swift.Bool = false,
+            eventBridgeDestination: SESv2ClientTypes.EventBridgeDestination? = nil,
             kinesisFirehoseDestination: SESv2ClientTypes.KinesisFirehoseDestination? = nil,
             matchingEventTypes: [SESv2ClientTypes.EventType]? = nil,
             pinpointDestination: SESv2ClientTypes.PinpointDestination? = nil,
@@ -1923,6 +1943,7 @@ extension SESv2ClientTypes {
         {
             self.cloudWatchDestination = cloudWatchDestination
             self.enabled = enabled
+            self.eventBridgeDestination = eventBridgeDestination
             self.kinesisFirehoseDestination = kinesisFirehoseDestination
             self.matchingEventTypes = matchingEventTypes
             self.pinpointDestination = pinpointDestination
@@ -3995,6 +4016,8 @@ extension SESv2ClientTypes {
         public var cloudWatchDestination: SESv2ClientTypes.CloudWatchDestination?
         /// If true, the event destination is enabled. When the event destination is enabled, the specified event types are sent to the destinations in this EventDestinationDefinition. If false, the event destination is disabled. When the event destination is disabled, events aren't sent to the specified destinations.
         public var enabled: Swift.Bool
+        /// An object that defines an Amazon EventBridge destination for email events. You can use Amazon EventBridge to send notifications when certain email events occur.
+        public var eventBridgeDestination: SESv2ClientTypes.EventBridgeDestination?
         /// An object that defines an Amazon Kinesis Data Firehose destination for email events. You can use Amazon Kinesis Data Firehose to stream data to other services, such as Amazon S3 and Amazon Redshift.
         public var kinesisFirehoseDestination: SESv2ClientTypes.KinesisFirehoseDestination?
         /// The types of events that Amazon SES sends to the specified event destinations.
@@ -4025,12 +4048,13 @@ extension SESv2ClientTypes {
         public var name: Swift.String?
         /// An object that defines an Amazon Pinpoint project destination for email events. You can send email event data to a Amazon Pinpoint project to view metrics using the Transactional Messaging dashboards that are built in to Amazon Pinpoint. For more information, see [Transactional Messaging Charts](https://docs.aws.amazon.com/pinpoint/latest/userguide/analytics-transactional-messages.html) in the Amazon Pinpoint User Guide.
         public var pinpointDestination: SESv2ClientTypes.PinpointDestination?
-        /// An object that defines an Amazon SNS destination for email events. You can use Amazon SNS to send notification when certain email events occur.
+        /// An object that defines an Amazon SNS destination for email events. You can use Amazon SNS to send notifications when certain email events occur.
         public var snsDestination: SESv2ClientTypes.SnsDestination?
 
         public init(
             cloudWatchDestination: SESv2ClientTypes.CloudWatchDestination? = nil,
             enabled: Swift.Bool = false,
+            eventBridgeDestination: SESv2ClientTypes.EventBridgeDestination? = nil,
             kinesisFirehoseDestination: SESv2ClientTypes.KinesisFirehoseDestination? = nil,
             matchingEventTypes: [SESv2ClientTypes.EventType]? = nil,
             name: Swift.String? = nil,
@@ -4040,6 +4064,7 @@ extension SESv2ClientTypes {
         {
             self.cloudWatchDestination = cloudWatchDestination
             self.enabled = enabled
+            self.eventBridgeDestination = eventBridgeDestination
             self.kinesisFirehoseDestination = kinesisFirehoseDestination
             self.matchingEventTypes = matchingEventTypes
             self.name = name
@@ -11935,6 +11960,7 @@ extension SESv2ClientTypes.EventDestination {
         value.kinesisFirehoseDestination = try reader["KinesisFirehoseDestination"].readIfPresent(with: SESv2ClientTypes.KinesisFirehoseDestination.read(from:))
         value.cloudWatchDestination = try reader["CloudWatchDestination"].readIfPresent(with: SESv2ClientTypes.CloudWatchDestination.read(from:))
         value.snsDestination = try reader["SnsDestination"].readIfPresent(with: SESv2ClientTypes.SnsDestination.read(from:))
+        value.eventBridgeDestination = try reader["EventBridgeDestination"].readIfPresent(with: SESv2ClientTypes.EventBridgeDestination.read(from:))
         value.pinpointDestination = try reader["PinpointDestination"].readIfPresent(with: SESv2ClientTypes.PinpointDestination.read(from:))
         return value
     }
@@ -11951,6 +11977,21 @@ extension SESv2ClientTypes.PinpointDestination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SESv2ClientTypes.PinpointDestination()
         value.applicationArn = try reader["ApplicationArn"].readIfPresent()
+        return value
+    }
+}
+
+extension SESv2ClientTypes.EventBridgeDestination {
+
+    static func write(value: SESv2ClientTypes.EventBridgeDestination?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EventBusArn"].write(value.eventBusArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.EventBridgeDestination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.EventBridgeDestination()
+        value.eventBusArn = try reader["EventBusArn"].readIfPresent()
         return value
     }
 }
@@ -12749,6 +12790,7 @@ extension SESv2ClientTypes.EventDestinationDefinition {
         guard let value else { return }
         try writer["CloudWatchDestination"].write(value.cloudWatchDestination, with: SESv2ClientTypes.CloudWatchDestination.write(value:to:))
         try writer["Enabled"].write(value.enabled)
+        try writer["EventBridgeDestination"].write(value.eventBridgeDestination, with: SESv2ClientTypes.EventBridgeDestination.write(value:to:))
         try writer["KinesisFirehoseDestination"].write(value.kinesisFirehoseDestination, with: SESv2ClientTypes.KinesisFirehoseDestination.write(value:to:))
         try writer["MatchingEventTypes"].writeList(value.matchingEventTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SESv2ClientTypes.EventType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["PinpointDestination"].write(value.pinpointDestination, with: SESv2ClientTypes.PinpointDestination.write(value:to:))

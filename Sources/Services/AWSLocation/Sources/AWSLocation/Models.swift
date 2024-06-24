@@ -1157,19 +1157,23 @@ extension LocationClientTypes.Circle: Swift.CustomDebugStringConvertible {
 }
 
 extension LocationClientTypes {
-    /// Contains the geofence geometry details. A geofence geometry is made up of either a polygon or a circle. Can be either a polygon or a circle. Including both will return a validation error. Amazon Location doesn't currently support polygons with holes, multipolygons, polygons that are wound clockwise, or that cross the antimeridian.
+    /// Contains the geofence geometry details. A geofence geometry is made up of either a polygon or a circle. Can be a polygon, a circle or a polygon encoded in Geobuf format. Including multiple selections will return a validation error. Amazon Location doesn't currently support polygons with holes, multipolygons, polygons that are wound clockwise, or that cross the antimeridian.
     public struct GeofenceGeometry {
         /// A circle on the earth, as defined by a center point and a radius.
         public var circle: LocationClientTypes.Circle?
+        /// Geobuf is a compact binary encoding for geographic data that provides lossless compression of GeoJSON polygons. The Geobuf must be Base64-encoded. A polygon in Geobuf format can have up to 100,000 vertices.
+        public var geobuf: Foundation.Data?
         /// A polygon is a list of linear rings which are each made up of a list of vertices. Each vertex is a 2-dimensional point of the form: [longitude, latitude]. This is represented as an array of doubles of length 2 (so [double, double]). An array of 4 or more vertices, where the first and last vertex are the same (to form a closed boundary), is called a linear ring. The linear ring vertices must be listed in counter-clockwise order around the ring’s interior. The linear ring is represented as an array of vertices, or an array of arrays of doubles ([[double, double], ...]). A geofence consists of a single linear ring. To allow for future expansion, the Polygon parameter takes an array of linear rings, which is represented as an array of arrays of arrays of doubles ([[[double, double], ...], ...]). A linear ring for use in geofences can consist of between 4 and 1,000 vertices.
         public var polygon: [[[Swift.Double]]]?
 
         public init(
             circle: LocationClientTypes.Circle? = nil,
+            geobuf: Foundation.Data? = nil,
             polygon: [[[Swift.Double]]]? = nil
         )
         {
             self.circle = circle
+            self.geobuf = geobuf
             self.polygon = polygon
         }
     }
@@ -1178,7 +1182,7 @@ extension LocationClientTypes {
 
 extension LocationClientTypes.GeofenceGeometry: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GeofenceGeometry(polygon: \(Swift.String(describing: polygon)), circle: \"CONTENT_REDACTED\")"}
+        "GeofenceGeometry(polygon: \(Swift.String(describing: polygon)), circle: \"CONTENT_REDACTED\", geobuf: \"CONTENT_REDACTED\")"}
 }
 
 extension LocationClientTypes {
@@ -1189,7 +1193,7 @@ extension LocationClientTypes {
         public var geofenceId: Swift.String?
         /// Associates one of more properties with the geofence. A property is a key-value pair stored with the geofence and added to any geofence event triggered with that geofence. Format: "key" : "value"
         public var geofenceProperties: [Swift.String: Swift.String]?
-        /// Contains the details of the position of the geofence. Can be either a polygon or a circle. Including both will return a validation error. Each [ geofence polygon](https://docs.aws.amazon.com/location-geofences/latest/APIReference/API_GeofenceGeometry.html) can have a maximum of 1,000 vertices.
+        /// Contains the details to specify the position of the geofence. Can be a polygon, a circle or a polygon encoded in Geobuf format. Including multiple selections will return a validation error. The [ geofence polygon](https://docs.aws.amazon.com/location-geofences/latest/APIReference/API_GeofenceGeometry.html) format supports a maximum of 1,000 vertices. The [Geofence geobuf](https://docs.aws.amazon.com/location-geofences/latest/APIReference/API_GeofenceGeometry.html) format supports a maximum of 100,000 vertices.
         /// This member is required.
         public var geometry: LocationClientTypes.GeofenceGeometry?
 
@@ -2174,6 +2178,135 @@ public struct CalculateRouteMatrixOutput {
     }
 }
 
+extension LocationClientTypes {
+    /// LTE local identification information (local ID).
+    public struct LteLocalId {
+        /// E-UTRA (Evolved Universal Terrestrial Radio Access) absolute radio frequency channel number (EARFCN).
+        /// This member is required.
+        public var earfcn: Swift.Int
+        /// Physical Cell ID (PCI).
+        /// This member is required.
+        public var pci: Swift.Int
+
+        public init(
+            earfcn: Swift.Int = 0,
+            pci: Swift.Int = 0
+        )
+        {
+            self.earfcn = earfcn
+            self.pci = pci
+        }
+    }
+
+}
+
+extension LocationClientTypes {
+    /// LTE network measurements.
+    public struct LteNetworkMeasurements {
+        /// E-UTRAN Cell Identifier (ECI).
+        /// This member is required.
+        public var cellId: Swift.Int
+        /// E-UTRA (Evolved Universal Terrestrial Radio Access) absolute radio frequency channel number (EARFCN).
+        /// This member is required.
+        public var earfcn: Swift.Int
+        /// Physical Cell ID (PCI).
+        /// This member is required.
+        public var pci: Swift.Int
+        /// Signal power of the reference signal received, measured in dBm (decibel-milliwatts).
+        public var rsrp: Swift.Int?
+        /// Signal quality of the reference Signal received, measured in decibels (dB).
+        public var rsrq: Swift.Float?
+
+        public init(
+            cellId: Swift.Int = 0,
+            earfcn: Swift.Int = 0,
+            pci: Swift.Int = 0,
+            rsrp: Swift.Int? = nil,
+            rsrq: Swift.Float? = nil
+        )
+        {
+            self.cellId = cellId
+            self.earfcn = earfcn
+            self.pci = pci
+            self.rsrp = rsrp
+            self.rsrq = rsrq
+        }
+    }
+
+}
+
+extension LocationClientTypes {
+    /// Details about the Long-Term Evolution (LTE) network.
+    public struct LteCellDetails {
+        /// The E-UTRAN Cell Identifier (ECI).
+        /// This member is required.
+        public var cellId: Swift.Int
+        /// The LTE local identification information (local ID).
+        public var localId: LocationClientTypes.LteLocalId?
+        /// The Mobile Country Code (MCC).
+        /// This member is required.
+        public var mcc: Swift.Int?
+        /// The Mobile Network Code (MNC)
+        /// This member is required.
+        public var mnc: Swift.Int?
+        /// The network measurements.
+        public var networkMeasurements: [LocationClientTypes.LteNetworkMeasurements]?
+        /// Indicates whether the LTE object is capable of supporting NR (new radio).
+        public var nrCapable: Swift.Bool?
+        /// Signal power of the reference signal received, measured in decibel-milliwatts (dBm).
+        public var rsrp: Swift.Int?
+        /// Signal quality of the reference Signal received, measured in decibels (dB).
+        public var rsrq: Swift.Float?
+        /// LTE Tracking Area Code (TAC).
+        public var tac: Swift.Int?
+        /// Timing Advance (TA).
+        public var timingAdvance: Swift.Int?
+
+        public init(
+            cellId: Swift.Int = 0,
+            localId: LocationClientTypes.LteLocalId? = nil,
+            mcc: Swift.Int? = nil,
+            mnc: Swift.Int? = nil,
+            networkMeasurements: [LocationClientTypes.LteNetworkMeasurements]? = nil,
+            nrCapable: Swift.Bool? = nil,
+            rsrp: Swift.Int? = nil,
+            rsrq: Swift.Float? = nil,
+            tac: Swift.Int? = nil,
+            timingAdvance: Swift.Int? = nil
+        )
+        {
+            self.cellId = cellId
+            self.localId = localId
+            self.mcc = mcc
+            self.mnc = mnc
+            self.networkMeasurements = networkMeasurements
+            self.nrCapable = nrCapable
+            self.rsrp = rsrp
+            self.rsrq = rsrq
+            self.tac = tac
+            self.timingAdvance = timingAdvance
+        }
+    }
+
+}
+
+extension LocationClientTypes {
+    /// The cellular network communication infrastructure that the device uses.
+    public struct CellSignals {
+        /// Information about the Long-Term Evolution (LTE) network the device is connected to.
+        /// This member is required.
+        public var lteCellDetails: [LocationClientTypes.LteCellDetails]?
+
+        public init(
+            lteCellDetails: [LocationClientTypes.LteCellDetails]? = nil
+        )
+        {
+            self.lteCellDetails = lteCellDetails
+        }
+    }
+
+}
+
 public struct CreateGeofenceCollectionInput {
     /// A custom name for the geofence collection. Requirements:
     ///
@@ -2245,13 +2378,13 @@ public struct CreateGeofenceCollectionOutput {
 extension LocationClientTypes {
     /// Specifies the map tile style selected from an available provider.
     public struct MapConfiguration {
-        /// Specifies the custom layers for the style. Leave unset to not enable any custom layer, or, for styles that support custom layers, you can enable layer(s), such as POI layer for the VectorEsriNavigation style. Default is unset. Currenlty only VectorEsriNavigation supports CustomLayers. For more information, see [Custom Layers](https://docs.aws.amazon.com/location/latest/developerguide/map-concepts.html#map-custom-layers).
+        /// Specifies the custom layers for the style. Leave unset to not enable any custom layer, or, for styles that support custom layers, you can enable layer(s), such as POI layer for the VectorEsriNavigation style. Default is unset. Not all map resources or styles support custom layers. See Custom Layers for more information.
         public var customLayers: [Swift.String]?
         /// Specifies the political view for the style. Leave unset to not use a political view, or, for styles that support specific political views, you can choose a view, such as IND for the Indian view. Default is unset. Not all map resources or styles support political view styles. See [Political views](https://docs.aws.amazon.com/location/latest/developerguide/map-concepts.html#political-views) for more information.
         public var politicalView: Swift.String?
         /// Specifies the map style selected from an available data provider. Valid [Esri map styles](https://docs.aws.amazon.com/location/latest/developerguide/esri.html):
         ///
-        /// * VectorEsriNavigation – The Esri Navigation map style, which provides a detailed basemap for the world symbolized with a custom navigation map style that's designed for use during the day in mobile devices. It also includes a richer set of places, such as shops, services, restaurants, attractions, and other points of interest. Enable the POI layer by setting it in CustomLayers to leverage the additional places data.
+        /// * VectorEsriDarkGrayCanvas – The Esri Dark Gray Canvas map style. A vector basemap with a dark gray, neutral background with minimal colors, labels, and features that's designed to draw attention to your thematic content.
         ///
         /// * RasterEsriImagery – The Esri Imagery map style. A raster basemap that provides one meter or better satellite and aerial imagery in many parts of the world and lower resolution satellite imagery worldwide.
         ///
@@ -2261,20 +2394,20 @@ extension LocationClientTypes {
         ///
         /// * VectorEsriStreets – The Esri Street Map style, which provides a detailed vector basemap for the world symbolized with a classic Esri street map style. The vector tile layer is similar in content and style to the World Street Map raster map.
         ///
-        /// * VectorEsriDarkGrayCanvas – The Esri Dark Gray Canvas map style. A vector basemap with a dark gray, neutral background with minimal colors, labels, and features that's designed to draw attention to your thematic content.
+        /// * VectorEsriNavigation – The Esri Navigation map style, which provides a detailed basemap for the world symbolized with a custom navigation map style that's designed for use during the day in mobile devices.
         ///
         ///
         /// Valid [HERE Technologies map styles](https://docs.aws.amazon.com/location/latest/developerguide/HERE.html):
         ///
+        /// * VectorHereContrast – The HERE Contrast (Berlin) map style is a high contrast detailed base map of the world that blends 3D and 2D rendering. The VectorHereContrast style has been renamed from VectorHereBerlin. VectorHereBerlin has been deprecated, but will continue to work in applications that use it.
+        ///
         /// * VectorHereExplore – A default HERE map style containing a neutral, global map and its features including roads, buildings, landmarks, and water features. It also now includes a fully designed map of Japan.
+        ///
+        /// * VectorHereExploreTruck – A global map containing truck restrictions and attributes (e.g. width / height / HAZMAT) symbolized with highlighted segments and icons on top of HERE Explore to support use cases within transport and logistics.
         ///
         /// * RasterHereExploreSatellite – A global map containing high resolution satellite imagery.
         ///
         /// * HybridHereExploreSatellite – A global map displaying the road network, street names, and city labels over satellite imagery. This style will automatically retrieve both raster and vector tiles, and your charges will be based on total tiles retrieved. Hybrid styles use both vector and raster tiles when rendering the map that you see. This means that more tiles are retrieved than when using either vector or raster tiles alone. Your charges will include all tiles retrieved.
-        ///
-        /// * VectorHereContrast – The HERE Contrast (Berlin) map style is a high contrast detailed base map of the world that blends 3D and 2D rendering. The VectorHereContrast style has been renamed from VectorHereBerlin. VectorHereBerlin has been deprecated, but will continue to work in applications that use it.
-        ///
-        /// * VectorHereExploreTruck – A global map containing truck restrictions and attributes (e.g. width / height / HAZMAT) symbolized with highlighted segments and icons on top of HERE Explore to support use cases within transport and logistics.
         ///
         ///
         /// Valid [GrabMaps map styles](https://docs.aws.amazon.com/location/latest/developerguide/grab.html):
@@ -3154,6 +3287,76 @@ public struct DescribeTrackerOutput {
     }
 }
 
+extension LocationClientTypes {
+    /// Wi-Fi access point.
+    public struct WiFiAccessPoint {
+        /// Medium access control address (Mac).
+        /// This member is required.
+        public var macAddress: Swift.String?
+        /// Received signal strength (dBm) of the WLAN measurement data.
+        /// This member is required.
+        public var rss: Swift.Int?
+
+        public init(
+            macAddress: Swift.String? = nil,
+            rss: Swift.Int? = nil
+        )
+        {
+            self.macAddress = macAddress
+            self.rss = rss
+        }
+    }
+
+}
+
+extension LocationClientTypes {
+    /// The device's position, IP address, and Wi-Fi access points.
+    public struct DeviceState {
+        /// Defines the level of certainty of the position.
+        public var accuracy: LocationClientTypes.PositionalAccuracy?
+        /// The cellular network infrastructure that the device is connected to.
+        public var cellSignals: LocationClientTypes.CellSignals?
+        /// The device identifier.
+        /// This member is required.
+        public var deviceId: Swift.String?
+        /// The device's Ipv4 address.
+        public var ipv4Address: Swift.String?
+        /// The last known device position.
+        /// This member is required.
+        public var position: [Swift.Double]?
+        /// The timestamp at which the device's position was determined. Uses [ ISO 8601 ](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
+        /// This member is required.
+        public var sampleTime: Foundation.Date?
+        /// The Wi-Fi access points the device is using.
+        public var wiFiAccessPoints: [LocationClientTypes.WiFiAccessPoint]?
+
+        public init(
+            accuracy: LocationClientTypes.PositionalAccuracy? = nil,
+            cellSignals: LocationClientTypes.CellSignals? = nil,
+            deviceId: Swift.String? = nil,
+            ipv4Address: Swift.String? = nil,
+            position: [Swift.Double]? = nil,
+            sampleTime: Foundation.Date? = nil,
+            wiFiAccessPoints: [LocationClientTypes.WiFiAccessPoint]? = nil
+        )
+        {
+            self.accuracy = accuracy
+            self.cellSignals = cellSignals
+            self.deviceId = deviceId
+            self.ipv4Address = ipv4Address
+            self.position = position
+            self.sampleTime = sampleTime
+            self.wiFiAccessPoints = wiFiAccessPoints
+        }
+    }
+
+}
+
+extension LocationClientTypes.DeviceState: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DeviceState(accuracy: \(Swift.String(describing: accuracy)), cellSignals: \(Swift.String(describing: cellSignals)), deviceId: \(Swift.String(describing: deviceId)), ipv4Address: \(Swift.String(describing: ipv4Address)), sampleTime: \(Swift.String(describing: sampleTime)), wiFiAccessPoints: \(Swift.String(describing: wiFiAccessPoints)), position: \"CONTENT_REDACTED\")"}
+}
+
 public struct DisassociateTrackerConsumerInput {
     /// The Amazon Resource Name (ARN) for the geofence collection to be disassociated from the tracker resource. Used when you need to specify a resource across all Amazon Web Services.
     ///
@@ -3177,6 +3380,211 @@ public struct DisassociateTrackerConsumerInput {
 public struct DisassociateTrackerConsumerOutput {
 
     public init() { }
+}
+
+extension LocationClientTypes {
+
+    public enum ForecastedGeofenceEventType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// This event type signifies that a device is forecasted to enter the geofence
+        case enter
+        /// This event type signifies that a device is forecasted to exit the geofence
+        case exit
+        /// This event type signifies that a device is stationary in the geofence and an exit/enter cannot be forecasted
+        case idle
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ForecastedGeofenceEventType] {
+            return [
+                .enter,
+                .exit,
+                .idle
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .enter: return "ENTER"
+            case .exit: return "EXIT"
+            case .idle: return "IDLE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LocationClientTypes {
+    /// A forecasted event represents a geofence event in relation to the requested device state, that may occur given the provided device state and time horizon.
+    public struct ForecastedEvent {
+        /// The forecasted event identifier.
+        /// This member is required.
+        public var eventId: Swift.String?
+        /// The event type, forecasting three states for which a device can be in relative to a geofence: ENTER: If a device is outside of a geofence, but would breach the fence if the device is moving at its current speed within time horizon window. EXIT: If a device is inside of a geofence, but would breach the fence if the device is moving at its current speed within time horizon window. IDLE: If a device is inside of a geofence, and the device is not moving.
+        /// This member is required.
+        public var eventType: LocationClientTypes.ForecastedGeofenceEventType?
+        /// The forecasted time the device will breach the geofence in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ
+        public var forecastedBreachTime: Foundation.Date?
+        /// The geofence identifier pertaining to the forecasted event.
+        /// This member is required.
+        public var geofenceId: Swift.String?
+        /// The geofence properties.
+        public var geofenceProperties: [Swift.String: Swift.String]?
+        /// Indicates if the device is located within the geofence.
+        /// This member is required.
+        public var isDeviceInGeofence: Swift.Bool?
+        /// The closest distance from the device's position to the geofence.
+        /// This member is required.
+        public var nearestDistance: Swift.Double
+
+        public init(
+            eventId: Swift.String? = nil,
+            eventType: LocationClientTypes.ForecastedGeofenceEventType? = nil,
+            forecastedBreachTime: Foundation.Date? = nil,
+            geofenceId: Swift.String? = nil,
+            geofenceProperties: [Swift.String: Swift.String]? = nil,
+            isDeviceInGeofence: Swift.Bool? = nil,
+            nearestDistance: Swift.Double = 0.0
+        )
+        {
+            self.eventId = eventId
+            self.eventType = eventType
+            self.forecastedBreachTime = forecastedBreachTime
+            self.geofenceId = geofenceId
+            self.geofenceProperties = geofenceProperties
+            self.isDeviceInGeofence = isDeviceInGeofence
+            self.nearestDistance = nearestDistance
+        }
+    }
+
+}
+
+extension LocationClientTypes.ForecastedEvent: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ForecastedEvent(eventId: \(Swift.String(describing: eventId)), eventType: \(Swift.String(describing: eventType)), forecastedBreachTime: \(Swift.String(describing: forecastedBreachTime)), geofenceId: \(Swift.String(describing: geofenceId)), isDeviceInGeofence: \(Swift.String(describing: isDeviceInGeofence)), nearestDistance: \(Swift.String(describing: nearestDistance)), geofenceProperties: \"CONTENT_REDACTED\")"}
+}
+
+extension LocationClientTypes {
+    /// The device's position, IP address, and WiFi access points.
+    public struct ForecastGeofenceEventsDeviceState {
+        /// The device's position.
+        /// This member is required.
+        public var position: [Swift.Double]?
+        /// The device's speed.
+        public var speed: Swift.Double?
+
+        public init(
+            position: [Swift.Double]? = nil,
+            speed: Swift.Double? = nil
+        )
+        {
+            self.position = position
+            self.speed = speed
+        }
+    }
+
+}
+
+extension LocationClientTypes.ForecastGeofenceEventsDeviceState: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ForecastGeofenceEventsDeviceState(speed: \(Swift.String(describing: speed)), position: \"CONTENT_REDACTED\")"}
+}
+
+extension LocationClientTypes {
+
+    public enum SpeedUnit: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case kilometersperhour
+        case milesperhour
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SpeedUnit] {
+            return [
+                .kilometersperhour,
+                .milesperhour
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .kilometersperhour: return "KilometersPerHour"
+            case .milesperhour: return "MilesPerHour"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct ForecastGeofenceEventsInput {
+    /// The name of the geofence collection.
+    /// This member is required.
+    public var collectionName: Swift.String?
+    /// The device's state, including current position and speed.
+    /// This member is required.
+    public var deviceState: LocationClientTypes.ForecastGeofenceEventsDeviceState?
+    /// The distance unit used for the NearestDistance property returned in a forecasted event. The measurement system must match for DistanceUnit and SpeedUnit; if Kilometers is specified for DistanceUnit, then SpeedUnit must be KilometersPerHour. Default Value: Kilometers
+    public var distanceUnit: LocationClientTypes.DistanceUnit?
+    /// An optional limit for the number of resources returned in a single call. Default value: 20
+    public var maxResults: Swift.Int?
+    /// The pagination token specifying which page of results to return in the response. If no token is provided, the default page is the first page. Default value: null
+    public var nextToken: Swift.String?
+    /// The speed unit for the device captured by the device state. The measurement system must match for DistanceUnit and SpeedUnit; if Kilometers is specified for DistanceUnit, then SpeedUnit must be KilometersPerHour. Default Value: KilometersPerHour.
+    public var speedUnit: LocationClientTypes.SpeedUnit?
+    /// Specifies the time horizon in minutes for the forecasted events.
+    public var timeHorizonMinutes: Swift.Double?
+
+    public init(
+        collectionName: Swift.String? = nil,
+        deviceState: LocationClientTypes.ForecastGeofenceEventsDeviceState? = nil,
+        distanceUnit: LocationClientTypes.DistanceUnit? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        speedUnit: LocationClientTypes.SpeedUnit? = nil,
+        timeHorizonMinutes: Swift.Double? = nil
+    )
+    {
+        self.collectionName = collectionName
+        self.deviceState = deviceState
+        self.distanceUnit = distanceUnit
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.speedUnit = speedUnit
+        self.timeHorizonMinutes = timeHorizonMinutes
+    }
+}
+
+public struct ForecastGeofenceEventsOutput {
+    /// The distance unit for the forecasted events.
+    /// This member is required.
+    public var distanceUnit: LocationClientTypes.DistanceUnit?
+    /// The list of forecasted events.
+    /// This member is required.
+    public var forecastedEvents: [LocationClientTypes.ForecastedEvent]?
+    /// The pagination token specifying which page of results to return in the response. If no token is provided, the default page is the first page.
+    public var nextToken: Swift.String?
+    /// The speed unit for the forecasted events.
+    /// This member is required.
+    public var speedUnit: LocationClientTypes.SpeedUnit?
+
+    public init(
+        distanceUnit: LocationClientTypes.DistanceUnit? = nil,
+        forecastedEvents: [LocationClientTypes.ForecastedEvent]? = nil,
+        nextToken: Swift.String? = nil,
+        speedUnit: LocationClientTypes.SpeedUnit? = nil
+    )
+    {
+        self.distanceUnit = distanceUnit
+        self.forecastedEvents = forecastedEvents
+        self.nextToken = nextToken
+        self.speedUnit = speedUnit
+    }
 }
 
 public struct ListTagsForResourceInput {
@@ -3357,7 +3765,7 @@ public struct ListGeofenceCollectionsInput {
 }
 
 extension LocationClientTypes {
-    /// Contains the geofence collection details.
+    /// Contains the geofence collection details. The returned geometry will always match the geometry format used when the geofence was created.
     public struct ListGeofenceCollectionsResponseEntry {
         /// The name of the geofence collection.
         /// This member is required.
@@ -3427,7 +3835,7 @@ public struct ListGeofencesInput {
 }
 
 extension LocationClientTypes {
-    /// Contains a list of geofences stored in a given geofence collection.
+    /// Contains a list of geofences stored in a given geofence collection. The returned geometry will always match the geometry format used when the geofence was created.
     public struct ListGeofenceResponseEntry {
         /// The timestamp for when the geofence was stored in a geofence collection in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ
         /// This member is required.
@@ -3508,7 +3916,7 @@ public struct PutGeofenceInput {
     public var geofenceId: Swift.String?
     /// Associates one of more properties with the geofence. A property is a key-value pair stored with the geofence and added to any geofence event triggered with that geofence. Format: "key" : "value"
     public var geofenceProperties: [Swift.String: Swift.String]?
-    /// Contains the details to specify the position of the geofence. Can be either a polygon or a circle. Including both will return a validation error. Each [ geofence polygon](https://docs.aws.amazon.com/location-geofences/latest/APIReference/API_GeofenceGeometry.html) can have a maximum of 1,000 vertices.
+    /// Contains the details to specify the position of the geofence. Can be a polygon, a circle or a polygon encoded in Geobuf format. Including multiple selections will return a validation error. The [ geofence polygon](https://docs.aws.amazon.com/location-geofences/latest/APIReference/API_GeofenceGeometry.html) format supports a maximum of 1,000 vertices. The [Geofence Geobuf](https://docs.aws.amazon.com/location-geofences/latest/APIReference/API_GeofenceGeometry.html) format supports a maximum of 100,000 vertices.
     /// This member is required.
     public var geometry: LocationClientTypes.GeofenceGeometry?
 
@@ -3624,7 +4032,7 @@ public struct GetDevicePositionOutput {
     public var position: [Swift.Double]?
     /// The properties associated with the position.
     public var positionProperties: [Swift.String: Swift.String]?
-    /// The timestamp for when the tracker resource received the device position in [ ISO 8601 ](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
+    /// The timestamp for when the tracker resource received the device position. Uses [ ISO 8601 ](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
     /// This member is required.
     public var receivedTime: Foundation.Date?
     /// The timestamp at which the device's position was determined. Uses [ ISO 8601 ](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
@@ -3720,7 +4128,7 @@ public struct GetMapGlyphsInput {
     ///
     /// * VectorEsriStreets – Arial Regular | Arial Italic | Arial Bold
     ///
-    /// * VectorEsriNavigation – Arial Regular | Arial Italic | Arial Bold | Arial Unicode MS Bold | Arial Unicode MS Regular
+    /// * VectorEsriNavigation – Arial Regular | Arial Italic | Arial Bold
     ///
     ///
     /// Valid font stacks for [HERE Technologies](https://docs.aws.amazon.com/location/latest/developerguide/HERE.html) styles:
@@ -3956,17 +4364,7 @@ public struct GetPlaceInput {
     public var key: Swift.String?
     /// The preferred language used to return results. The value must be a valid [BCP 47](https://tools.ietf.org/search/bcp47) language tag, for example, en for English. This setting affects the languages used in the results, but not the results themselves. If no language is specified, or not supported for a particular result, the partner automatically chooses a language for the result. For an example, we'll use the Greek language. You search for a location around Athens, Greece, with the language parameter set to en. The city in the results will most likely be returned as Athens. If you set the language parameter to el, for Greek, then the city in the results will more likely be returned as Αθήνα. If the data provider does not have a value for Greek, the result will be in a language that the provider does support.
     public var language: Swift.String?
-    /// The identifier of the place to find. While you can use PlaceID in subsequent requests, PlaceID is not intended to be a permanent identifier and the ID can change between consecutive API calls. Please see the following PlaceID behaviour for each data provider:
-    ///
-    /// * Esri: Place IDs will change every quarter at a minimum. The typical time period for these changes would be March, June, September, and December. Place IDs might also change between the typical quarterly change but that will be much less frequent.
-    ///
-    /// * HERE: We recommend that you cache data for no longer than a week to keep your data data fresh. You can assume that less than 1% ID shifts will release over release which is approximately 1 - 2 times per week.
-    ///
-    /// * Grab: Place IDs can expire or become invalid in the following situations.
-    ///
-    /// * Data operations: The POI may be removed from Grab POI database by Grab Map Ops based on the ground-truth, such as being closed in the real world, being detected as a duplicate POI, or having incorrect information. Grab will synchronize data to the Waypoint environment on weekly basis.
-    ///
-    /// * Interpolated POI: Interpolated POI is a temporary POI generated in real time when serving a request, and it will be marked as derived in the place.result_type field in the response. The information of interpolated POIs will be retained for at least 30 days, which means that within 30 days, you are able to obtain POI details by Place ID from Place Details API. After 30 days, the interpolated POIs(both Place ID and details) may expire and inaccessible from the Places Details API.
+    /// The identifier of the place to find.
     /// This member is required.
     public var placeId: Swift.String?
 
@@ -4061,7 +4459,7 @@ extension LocationClientTypes {
         public var region: Swift.String?
         /// The name for a street or a road to identify a location. For example, Main Street.
         public var street: Swift.String?
-        /// An area that's part of a larger municipality. For example, Blissville is a submunicipality in the Queen County in New York. This property is only returned for a place index that uses Esri as a data provider. The property is represented as a district. For more information about data providers, see [Amazon Location Service data providers](https://docs.aws.amazon.com/location/latest/developerguide/what-is-data-provider.html).
+        /// An area that's part of a larger municipality. For example, Blissville  is a submunicipality in the Queen County in New York. This property supported by Esri and OpenData. The Esri property is district, and the OpenData property is borough.
         public var subMunicipality: Swift.String?
         /// A county, or an area that's part of a larger region. For example, Metro Vancouver.
         public var subRegion: Swift.String?
@@ -4069,9 +4467,9 @@ extension LocationClientTypes {
         public var supplementalCategories: [Swift.String]?
         /// The time zone in which the Place is located. Returned only when using HERE or Grab as the selected partner.
         public var timeZone: LocationClientTypes.TimeZone?
-        /// For addresses with multiple units, the unit identifier. Can include numbers and letters, for example 3B or Unit 123. This property is returned only for a place index that uses Esri or Grab as a data provider. It is not returned for SearchPlaceIndexForPosition.
+        /// For addresses with multiple units, the unit identifier. Can include numbers and letters, for example 3B or Unit 123. Returned only for a place index that uses Esri or Grab as a data provider. Is not returned for SearchPlaceIndexForPosition.
         public var unitNumber: Swift.String?
-        /// For addresses with a UnitNumber, the type of unit. For example, Apartment. This property is returned only for a place index that uses Esri as a data provider.
+        /// For addresses with a UnitNumber, the type of unit. For example, Apartment. Returned only for a place index that uses Esri as a data provider.
         public var unitType: Swift.String?
 
         public init(
@@ -4127,6 +4525,40 @@ public struct GetPlaceOutput {
     {
         self.place = place
     }
+}
+
+extension LocationClientTypes {
+    /// The inferred state of the device, given the provided position, IP address, cellular signals, and Wi-Fi- access points.
+    public struct InferredState {
+        /// The level of certainty of the inferred position.
+        public var accuracy: LocationClientTypes.PositionalAccuracy?
+        /// The distance between the inferred position and the device's self-reported position.
+        public var deviationDistance: Swift.Double?
+        /// The device position inferred by the provided position, IP address, cellular signals, and Wi-Fi- access points.
+        public var position: [Swift.Double]?
+        /// Indicates if a proxy was used.
+        /// This member is required.
+        public var proxyDetected: Swift.Bool?
+
+        public init(
+            accuracy: LocationClientTypes.PositionalAccuracy? = nil,
+            deviationDistance: Swift.Double? = nil,
+            position: [Swift.Double]? = nil,
+            proxyDetected: Swift.Bool? = nil
+        )
+        {
+            self.accuracy = accuracy
+            self.deviationDistance = deviationDistance
+            self.position = position
+            self.proxyDetected = proxyDetected
+        }
+    }
+
+}
+
+extension LocationClientTypes.InferredState: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "InferredState(accuracy: \(Swift.String(describing: accuracy)), deviationDistance: \(Swift.String(describing: deviationDistance)), proxyDetected: \(Swift.String(describing: proxyDetected)), position: \"CONTENT_REDACTED\")"}
 }
 
 extension LocationClientTypes {
@@ -4565,7 +4997,7 @@ public struct ListTrackersOutput {
 extension LocationClientTypes {
     /// Specifies the political view for the style.
     public struct MapConfigurationUpdate {
-        /// Specifies the custom layers for the style. Leave unset to not enable any custom layer, or, for styles that support custom layers, you can enable layer(s), such as POI layer for the VectorEsriNavigation style. Default is unset. Currenlty only VectorEsriNavigation supports CustomLayers. For more information, see [Custom Layers](https://docs.aws.amazon.com/location/latest/developerguide/map-concepts.html#map-custom-layers).
+        /// Specifies the custom layers for the style. Leave unset to not enable any custom layer, or, for styles that support custom layers, you can enable layer(s), such as POI layer for the VectorEsriNavigation style. Default is unset. Not all map resources or styles support custom layers. See Custom Layers for more information.
         public var customLayers: [Swift.String]?
         /// Specifies the political view for the style. Set to an empty string to not use a political view, or, for styles that support specific political views, you can choose a view, such as IND for the Indian view. Not all map resources or styles support political view styles. See [Political views](https://docs.aws.amazon.com/location/latest/developerguide/map-concepts.html#political-views) for more information.
         public var politicalView: Swift.String?
@@ -4809,17 +5241,7 @@ extension LocationClientTypes {
     public struct SearchForSuggestionsResult {
         /// The Amazon Location categories that describe the Place. For more information about using categories, including a list of Amazon Location categories, see [Categories and filtering](https://docs.aws.amazon.com/location/latest/developerguide/category-filtering.html), in the Amazon Location Service Developer Guide.
         public var categories: [Swift.String]?
-        /// The unique identifier of the Place. You can use this with the GetPlace operation to find the place again later, or to get full information for the Place. The GetPlace request must use the same PlaceIndex resource as the SearchPlaceIndexForSuggestions that generated the Place ID. For SearchPlaceIndexForSuggestions operations, the PlaceId is returned by place indexes that use Esri, Grab, or HERE as data providers. While you can use PlaceID in subsequent requests, PlaceID is not intended to be a permanent identifier and the ID can change between consecutive API calls. Please see the following PlaceID behaviour for each data provider:
-        ///
-        /// * Esri: Place IDs will change every quarter at a minimum. The typical time period for these changes would be March, June, September, and December. Place IDs might also change between the typical quarterly change but that will be much less frequent.
-        ///
-        /// * HERE: We recommend that you cache data for no longer than a week to keep your data data fresh. You can assume that less than 1% ID shifts will release over release which is approximately 1 - 2 times per week.
-        ///
-        /// * Grab: Place IDs can expire or become invalid in the following situations.
-        ///
-        /// * Data operations: The POI may be removed from Grab POI database by Grab Map Ops based on the ground-truth, such as being closed in the real world, being detected as a duplicate POI, or having incorrect information. Grab will synchronize data to the Waypoint environment on weekly basis.
-        ///
-        /// * Interpolated POI: Interpolated POI is a temporary POI generated in real time when serving a request, and it will be marked as derived in the place.result_type field in the response. The information of interpolated POIs will be retained for at least 30 days, which means that within 30 days, you are able to obtain POI details by Place ID from Place Details API. After 30 days, the interpolated POIs(both Place ID and details) may expire and inaccessible from the Places Details API.
+        /// The unique identifier of the Place. You can use this with the GetPlace operation to find the place again later, or to get full information for the Place. The GetPlace request must use the same PlaceIndex resource as the SearchPlaceIndexForSuggestions that generated the Place ID. For SearchPlaceIndexForSuggestions operations, the PlaceId is returned by place indexes that use Esri, Grab, or HERE as data providers.
         public var placeId: Swift.String?
         /// Categories from the data provider that describe the Place that are not mapped to any Amazon Location categories.
         public var supplementalCategories: [Swift.String]?
@@ -5233,6 +5655,61 @@ public struct UpdateTrackerOutput {
     }
 }
 
+public struct VerifyDevicePositionInput {
+    /// The device's state, including position, IP address, cell signals and Wi-Fi access points.
+    /// This member is required.
+    public var deviceState: LocationClientTypes.DeviceState?
+    /// The distance unit for the verification request. Default Value: Kilometers
+    public var distanceUnit: LocationClientTypes.DistanceUnit?
+    /// The name of the tracker resource to be associated with verification request.
+    /// This member is required.
+    public var trackerName: Swift.String?
+
+    public init(
+        deviceState: LocationClientTypes.DeviceState? = nil,
+        distanceUnit: LocationClientTypes.DistanceUnit? = nil,
+        trackerName: Swift.String? = nil
+    )
+    {
+        self.deviceState = deviceState
+        self.distanceUnit = distanceUnit
+        self.trackerName = trackerName
+    }
+}
+
+public struct VerifyDevicePositionOutput {
+    /// The device identifier.
+    /// This member is required.
+    public var deviceId: Swift.String?
+    /// The distance unit for the verification response.
+    /// This member is required.
+    public var distanceUnit: LocationClientTypes.DistanceUnit?
+    /// The inferred state of the device, given the provided position, IP address, cellular signals, and Wi-Fi- access points.
+    /// This member is required.
+    public var inferredState: LocationClientTypes.InferredState?
+    /// The timestamp for when the tracker resource received the device position in [ ISO 8601 ](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
+    /// This member is required.
+    public var receivedTime: Foundation.Date?
+    /// The timestamp at which the device's position was determined. Uses [ ISO 8601 ](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
+    /// This member is required.
+    public var sampleTime: Foundation.Date?
+
+    public init(
+        deviceId: Swift.String? = nil,
+        distanceUnit: LocationClientTypes.DistanceUnit? = nil,
+        inferredState: LocationClientTypes.InferredState? = nil,
+        receivedTime: Foundation.Date? = nil,
+        sampleTime: Foundation.Date? = nil
+    )
+    {
+        self.deviceId = deviceId
+        self.distanceUnit = distanceUnit
+        self.inferredState = inferredState
+        self.receivedTime = receivedTime
+        self.sampleTime = sampleTime
+    }
+}
+
 extension AssociateTrackerConsumerInput {
 
     static func urlPathProvider(_ value: AssociateTrackerConsumerInput) -> Swift.String? {
@@ -5531,6 +6008,16 @@ extension DisassociateTrackerConsumerInput {
             return nil
         }
         return "/tracking/v0/trackers/\(trackerName.urlPercentEncoding())/consumers/\(consumerArn.urlPercentEncoding())"
+    }
+}
+
+extension ForecastGeofenceEventsInput {
+
+    static func urlPathProvider(_ value: ForecastGeofenceEventsInput) -> Swift.String? {
+        guard let collectionName = value.collectionName else {
+            return nil
+        }
+        return "/geofencing/v0/collections/\(collectionName.urlPercentEncoding())/forecast-geofence-events"
     }
 }
 
@@ -5965,6 +6452,16 @@ extension UpdateTrackerInput {
     }
 }
 
+extension VerifyDevicePositionInput {
+
+    static func urlPathProvider(_ value: VerifyDevicePositionInput) -> Swift.String? {
+        guard let trackerName = value.trackerName else {
+            return nil
+        }
+        return "/tracking/v0/trackers/\(trackerName.urlPercentEncoding())/positions/verify"
+    }
+}
+
 extension AssociateTrackerConsumerInput {
 
     static func write(value: AssociateTrackerConsumerInput?, to writer: SmithyJSON.Writer) throws {
@@ -6124,6 +6621,19 @@ extension CreateTrackerInput {
         try writer["PositionFiltering"].write(value.positionFiltering)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["TrackerName"].write(value.trackerName)
+    }
+}
+
+extension ForecastGeofenceEventsInput {
+
+    static func write(value: ForecastGeofenceEventsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DeviceState"].write(value.deviceState, with: LocationClientTypes.ForecastGeofenceEventsDeviceState.write(value:to:))
+        try writer["DistanceUnit"].write(value.distanceUnit)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["SpeedUnit"].write(value.speedUnit)
+        try writer["TimeHorizonMinutes"].write(value.timeHorizonMinutes)
     }
 }
 
@@ -6330,6 +6840,15 @@ extension UpdateTrackerInput {
         try writer["EventBridgeEnabled"].write(value.eventBridgeEnabled)
         try writer["KmsKeyEnableGeospatialQueries"].write(value.kmsKeyEnableGeospatialQueries)
         try writer["PositionFiltering"].write(value.positionFiltering)
+    }
+}
+
+extension VerifyDevicePositionInput {
+
+    static func write(value: VerifyDevicePositionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DeviceState"].write(value.deviceState, with: LocationClientTypes.DeviceState.write(value:to:))
+        try writer["DistanceUnit"].write(value.distanceUnit)
     }
 }
 
@@ -6689,6 +7208,21 @@ extension DisassociateTrackerConsumerOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DisassociateTrackerConsumerOutput {
         return DisassociateTrackerConsumerOutput()
+    }
+}
+
+extension ForecastGeofenceEventsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ForecastGeofenceEventsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ForecastGeofenceEventsOutput()
+        value.distanceUnit = try reader["DistanceUnit"].readIfPresent()
+        value.forecastedEvents = try reader["ForecastedEvents"].readListIfPresent(memberReadingClosure: LocationClientTypes.ForecastedEvent.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.speedUnit = try reader["SpeedUnit"].readIfPresent()
+        return value
     }
 }
 
@@ -7115,6 +7649,22 @@ extension UpdateTrackerOutput {
         value.trackerArn = try reader["TrackerArn"].readIfPresent()
         value.trackerName = try reader["TrackerName"].readIfPresent()
         value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: .dateTime)
+        return value
+    }
+}
+
+extension VerifyDevicePositionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> VerifyDevicePositionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = VerifyDevicePositionOutput()
+        value.deviceId = try reader["DeviceId"].readIfPresent()
+        value.distanceUnit = try reader["DistanceUnit"].readIfPresent()
+        value.inferredState = try reader["InferredState"].readIfPresent(with: LocationClientTypes.InferredState.read(from:))
+        value.receivedTime = try reader["ReceivedTime"].readTimestampIfPresent(format: .dateTime)
+        value.sampleTime = try reader["SampleTime"].readTimestampIfPresent(format: .dateTime)
         return value
     }
 }
@@ -7614,6 +8164,24 @@ enum DescribeTrackerOutputError {
 }
 
 enum DisassociateTrackerConsumerOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ForecastGeofenceEventsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -8165,6 +8733,24 @@ enum UpdateTrackerOutputError {
     }
 }
 
+enum VerifyDevicePositionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 extension ServiceQuotaExceededException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
@@ -8521,11 +9107,28 @@ extension LocationClientTypes.DataSourceConfiguration {
     }
 }
 
+extension LocationClientTypes.ForecastedEvent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.ForecastedEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LocationClientTypes.ForecastedEvent()
+        value.eventId = try reader["EventId"].readIfPresent()
+        value.geofenceId = try reader["GeofenceId"].readIfPresent()
+        value.isDeviceInGeofence = try reader["IsDeviceInGeofence"].readIfPresent()
+        value.nearestDistance = try reader["NearestDistance"].readIfPresent() ?? 0
+        value.eventType = try reader["EventType"].readIfPresent()
+        value.forecastedBreachTime = try reader["ForecastedBreachTime"].readTimestampIfPresent(format: .dateTime)
+        value.geofenceProperties = try reader["GeofenceProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension LocationClientTypes.GeofenceGeometry {
 
     static func write(value: LocationClientTypes.GeofenceGeometry?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Circle"].write(value.circle, with: LocationClientTypes.Circle.write(value:to:))
+        try writer["Geobuf"].write(value.geobuf)
         try writer["Polygon"].writeList(value.polygon, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
     }
 
@@ -8534,6 +9137,7 @@ extension LocationClientTypes.GeofenceGeometry {
         var value = LocationClientTypes.GeofenceGeometry()
         value.polygon = try reader["Polygon"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
         value.circle = try reader["Circle"].readIfPresent(with: LocationClientTypes.Circle.read(from:))
+        value.geobuf = try reader["Geobuf"].readIfPresent()
         return value
     }
 }
@@ -8800,6 +9404,19 @@ extension LocationClientTypes.SearchForTextResult {
     }
 }
 
+extension LocationClientTypes.InferredState {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.InferredState {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LocationClientTypes.InferredState()
+        value.position = try reader["Position"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
+        value.accuracy = try reader["Accuracy"].readIfPresent(with: LocationClientTypes.PositionalAccuracy.read(from:))
+        value.deviationDistance = try reader["DeviationDistance"].readIfPresent()
+        value.proxyDetected = try reader["ProxyDetected"].readIfPresent()
+        return value
+    }
+}
+
 extension LocationClientTypes.ValidationExceptionField {
 
     static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.ValidationExceptionField {
@@ -8873,6 +9490,15 @@ extension LocationClientTypes.TruckDimensions {
     }
 }
 
+extension LocationClientTypes.ForecastGeofenceEventsDeviceState {
+
+    static func write(value: LocationClientTypes.ForecastGeofenceEventsDeviceState?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Position"].writeList(value.position, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Speed"].write(value.speed)
+    }
+}
+
 extension LocationClientTypes.TrackingFilterGeometry {
 
     static func write(value: LocationClientTypes.TrackingFilterGeometry?, to writer: SmithyJSON.Writer) throws {
@@ -8895,6 +9521,75 @@ extension LocationClientTypes.MapConfigurationUpdate {
         guard let value else { return }
         try writer["CustomLayers"].writeList(value.customLayers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["PoliticalView"].write(value.politicalView)
+    }
+}
+
+extension LocationClientTypes.DeviceState {
+
+    static func write(value: LocationClientTypes.DeviceState?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Accuracy"].write(value.accuracy, with: LocationClientTypes.PositionalAccuracy.write(value:to:))
+        try writer["CellSignals"].write(value.cellSignals, with: LocationClientTypes.CellSignals.write(value:to:))
+        try writer["DeviceId"].write(value.deviceId)
+        try writer["Ipv4Address"].write(value.ipv4Address)
+        try writer["Position"].writeList(value.position, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SampleTime"].writeTimestamp(value.sampleTime, format: .dateTime)
+        try writer["WiFiAccessPoints"].writeList(value.wiFiAccessPoints, memberWritingClosure: LocationClientTypes.WiFiAccessPoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension LocationClientTypes.CellSignals {
+
+    static func write(value: LocationClientTypes.CellSignals?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LteCellDetails"].writeList(value.lteCellDetails, memberWritingClosure: LocationClientTypes.LteCellDetails.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension LocationClientTypes.LteCellDetails {
+
+    static func write(value: LocationClientTypes.LteCellDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CellId"].write(value.cellId)
+        try writer["LocalId"].write(value.localId, with: LocationClientTypes.LteLocalId.write(value:to:))
+        try writer["Mcc"].write(value.mcc)
+        try writer["Mnc"].write(value.mnc)
+        try writer["NetworkMeasurements"].writeList(value.networkMeasurements, memberWritingClosure: LocationClientTypes.LteNetworkMeasurements.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["NrCapable"].write(value.nrCapable)
+        try writer["Rsrp"].write(value.rsrp)
+        try writer["Rsrq"].write(value.rsrq)
+        try writer["Tac"].write(value.tac)
+        try writer["TimingAdvance"].write(value.timingAdvance)
+    }
+}
+
+extension LocationClientTypes.LteNetworkMeasurements {
+
+    static func write(value: LocationClientTypes.LteNetworkMeasurements?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CellId"].write(value.cellId)
+        try writer["Earfcn"].write(value.earfcn)
+        try writer["Pci"].write(value.pci)
+        try writer["Rsrp"].write(value.rsrp)
+        try writer["Rsrq"].write(value.rsrq)
+    }
+}
+
+extension LocationClientTypes.LteLocalId {
+
+    static func write(value: LocationClientTypes.LteLocalId?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Earfcn"].write(value.earfcn)
+        try writer["Pci"].write(value.pci)
+    }
+}
+
+extension LocationClientTypes.WiFiAccessPoint {
+
+    static func write(value: LocationClientTypes.WiFiAccessPoint?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MacAddress"].write(value.macAddress)
+        try writer["Rss"].write(value.rss)
     }
 }
 

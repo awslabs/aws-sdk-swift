@@ -165,3 +165,37 @@ extension PaginatorSequence where OperationStackInput == ListQueuesInput, Operat
         return try await self.asyncCompactMap { item in item.queues }
     }
 }
+extension MediaConvertClient {
+    /// Paginate over `[SearchJobsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[SearchJobsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchJobsOutput`
+    public func searchJobsPaginated(input: SearchJobsInput) -> ClientRuntime.PaginatorSequence<SearchJobsInput, SearchJobsOutput> {
+        return ClientRuntime.PaginatorSequence<SearchJobsInput, SearchJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchJobs(input:))
+    }
+}
+
+extension SearchJobsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> SearchJobsInput {
+        return SearchJobsInput(
+            inputFile: self.inputFile,
+            maxResults: self.maxResults,
+            nextToken: token,
+            order: self.order,
+            queue: self.queue,
+            status: self.status
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == SearchJobsInput, OperationStackOutput == SearchJobsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `searchJobsPaginated`
+    /// to access the nested member `[MediaConvertClientTypes.Job]`
+    /// - Returns: `[MediaConvertClientTypes.Job]`
+    public func jobs() async throws -> [MediaConvertClientTypes.Job] {
+        return try await self.asyncCompactMap { item in item.jobs }
+    }
+}

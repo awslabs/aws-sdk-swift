@@ -106,6 +106,126 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes {
+
+    /// The status of automated sensitive data discovery for an Amazon Macie account. Valid values are:
+    public enum AutomatedDiscoveryAccountStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AutomatedDiscoveryAccountStatus] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Macie2ClientTypes {
+    /// Provides information about the status of automated sensitive data discovery for an Amazon Macie account.
+    public struct AutomatedDiscoveryAccount {
+        /// The Amazon Web Services account ID for the account.
+        public var accountId: Swift.String?
+        /// The current status of automated sensitive data discovery for the account. Possible values are: ENABLED, perform automated sensitive data discovery activities for the account; and, DISABLED, don't perform automated sensitive data discovery activities for the account.
+        public var status: Macie2ClientTypes.AutomatedDiscoveryAccountStatus?
+
+        public init(
+            accountId: Swift.String? = nil,
+            status: Macie2ClientTypes.AutomatedDiscoveryAccountStatus? = nil
+        )
+        {
+            self.accountId = accountId
+            self.status = status
+        }
+    }
+
+}
+
+extension Macie2ClientTypes {
+    /// Changes the status of automated sensitive data discovery for an Amazon Macie account.
+    public struct AutomatedDiscoveryAccountUpdate {
+        /// The Amazon Web Services account ID for the account.
+        public var accountId: Swift.String?
+        /// The new status of automated sensitive data discovery for the account. Valid values are: ENABLED, perform automated sensitive data discovery activities for the account; and, DISABLED, don't perform automated sensitive data discovery activities for the account.
+        public var status: Macie2ClientTypes.AutomatedDiscoveryAccountStatus?
+
+        public init(
+            accountId: Swift.String? = nil,
+            status: Macie2ClientTypes.AutomatedDiscoveryAccountStatus? = nil
+        )
+        {
+            self.accountId = accountId
+            self.status = status
+        }
+    }
+
+}
+
+extension Macie2ClientTypes {
+
+    /// The error code that indicates why a request failed to change the status of automated sensitive data discovery for an Amazon Macie account. Possible values are:
+    public enum AutomatedDiscoveryAccountUpdateErrorCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accountNotFound
+        case accountPaused
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AutomatedDiscoveryAccountUpdateErrorCode] {
+            return [
+                .accountNotFound,
+                .accountPaused
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accountNotFound: return "ACCOUNT_NOT_FOUND"
+            case .accountPaused: return "ACCOUNT_PAUSED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Macie2ClientTypes {
+    /// Provides information about a request that failed to change the status of automated sensitive data discovery for an Amazon Macie account.
+    public struct AutomatedDiscoveryAccountUpdateError {
+        /// The Amazon Web Services account ID for the account that the request applied to.
+        public var accountId: Swift.String?
+        /// The error code for the error that caused the request to fail for the account (accountId). Possible values are: ACCOUNT_NOT_FOUND, the account doesn’t exist or you're not the Amazon Macie administrator for the account; and, ACCOUNT_PAUSED, Macie isn’t enabled for the account in the current Amazon Web Services Region.
+        public var errorCode: Macie2ClientTypes.AutomatedDiscoveryAccountUpdateErrorCode?
+
+        public init(
+            accountId: Swift.String? = nil,
+            errorCode: Macie2ClientTypes.AutomatedDiscoveryAccountUpdateErrorCode? = nil
+        )
+        {
+            self.accountId = accountId
+            self.errorCode = errorCode
+        }
+    }
+
+}
+
+extension Macie2ClientTypes {
     /// Provides information about a custom data identifier.
     public struct BatchGetCustomDataIdentifierSummary {
         /// The Amazon Resource Name (ARN) of the custom data identifier.
@@ -175,7 +295,37 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes {
 
-    /// The error code for an error that prevented Amazon Macie from retrieving and processing metadata from Amazon S3 for an S3 bucket and the bucket's objects.
+    /// Specifies whether automated sensitive data discovery is currently configured to analyze objects in an S3 bucket. Possible values are:
+    public enum AutomatedDiscoveryMonitoringStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case monitored
+        case notMonitored
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AutomatedDiscoveryMonitoringStatus] {
+            return [
+                .monitored,
+                .notMonitored
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .monitored: return "MONITORED"
+            case .notMonitored: return "NOT_MONITORED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Macie2ClientTypes {
+
+    /// The error code for an error that prevented Amazon Macie from retrieving and processing information about an S3 bucket and the bucket's objects.
     public enum BucketMetadataErrorCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case accessDenied
         case sdkUnknown(Swift.String)
@@ -265,9 +415,9 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes {
-    /// Specifies whether any one-time or recurring classification jobs are configured to analyze data in an S3 bucket, and, if so, the details of the job that ran most recently.
+    /// Specifies whether any one-time or recurring classification jobs are configured to analyze objects in an S3 bucket, and, if so, the details of the job that ran most recently.
     public struct JobDetails {
-        /// Specifies whether any one-time or recurring jobs are configured to analyze data in the bucket. Possible values are:
+        /// Specifies whether any one-time or recurring jobs are configured to analyze objects in the bucket. Possible values are:
         ///
         /// * TRUE - The bucket is explicitly included in the bucket definition (S3BucketDefinitionForJob) for one or more jobs and at least one of those jobs has a status other than CANCELLED. Or the bucket matched the bucket criteria (S3BucketCriteriaForJob) for at least one job that previously ran.
         ///
@@ -275,7 +425,7 @@ extension Macie2ClientTypes {
         ///
         /// * UNKNOWN - An exception occurred when Amazon Macie attempted to retrieve job data for the bucket.
         public var isDefinedInJob: Macie2ClientTypes.IsDefinedInJob?
-        /// Specifies whether any recurring jobs are configured to analyze data in the bucket. Possible values are:
+        /// Specifies whether any recurring jobs are configured to analyze objects in the bucket. Possible values are:
         ///
         /// * TRUE - The bucket is explicitly included in the bucket definition (S3BucketDefinitionForJob) for one or more recurring jobs or the bucket matches the bucket criteria (S3BucketCriteriaForJob) for one or more recurring jobs. At least one of those jobs has a status other than CANCELLED.
         ///
@@ -283,7 +433,7 @@ extension Macie2ClientTypes {
         ///
         /// * UNKNOWN - An exception occurred when Amazon Macie attempted to retrieve job data for the bucket.
         public var isMonitoredByJob: Macie2ClientTypes.IsMonitoredByJob?
-        /// The unique identifier for the job that ran most recently and is configured to analyze data in the bucket, either the latest run of a recurring job or the only run of a one-time job. This value is typically null if the value for the isDefinedInJob property is FALSE or UNKNOWN.
+        /// The unique identifier for the job that ran most recently and is configured to analyze objects in the bucket, either the latest run of a recurring job or the only run of a one-time job. This value is typically null if the value for the isDefinedInJob property is FALSE or UNKNOWN.
         public var lastJobId: Swift.String?
         /// The date and time, in UTC and extended ISO 8601 format, when the job (lastJobId) started. If the job is a recurring job, this value indicates when the most recent run started. This value is typically null if the value for the isDefinedInJob property is FALSE or UNKNOWN.
         public var lastJobRunTime: Foundation.Date?
@@ -704,6 +854,8 @@ extension Macie2ClientTypes {
         ///
         /// Valid server-side encryption headers are: x-amz-server-side-encryption with a value of AES256 or aws:kms, and x-amz-server-side-encryption-customer-algorithm with a value of AES256.
         public var allowsUnencryptedObjectUploads: Macie2ClientTypes.AllowsUnencryptedObjectUploads?
+        /// Specifies whether automated sensitive data discovery is currently configured to analyze objects in the bucket. Possible values are: MONITORED, the bucket is included in analyses; and, NOT_MONITORED, the bucket is excluded from analyses. If automated sensitive data discovery is disabled for your account, this value is NOT_MONITORED.
+        public var automatedDiscoveryMonitoringStatus: Macie2ClientTypes.AutomatedDiscoveryMonitoringStatus?
         /// The Amazon Resource Name (ARN) of the bucket.
         public var bucketArn: Swift.String?
         /// The date and time, in UTC and extended ISO 8601 format, when the bucket was created. This value can also indicate when changes such as edits to the bucket's policy were most recently made to the bucket.
@@ -718,9 +870,9 @@ extension Macie2ClientTypes {
         public var errorCode: Macie2ClientTypes.BucketMetadataErrorCode?
         /// A brief description of the error (errorCode) that prevented Amazon Macie from retrieving and processing information about the bucket and the bucket's objects. This value is null if Macie was able to retrieve and process the information.
         public var errorMessage: Swift.String?
-        /// Specifies whether any one-time or recurring classification jobs are configured to analyze data in the bucket, and, if so, the details of the job that ran most recently.
+        /// Specifies whether any one-time or recurring classification jobs are configured to analyze objects in the bucket, and, if so, the details of the job that ran most recently.
         public var jobDetails: Macie2ClientTypes.JobDetails?
-        /// The date and time, in UTC and extended ISO 8601 format, when Amazon Macie most recently analyzed data in the bucket while performing automated sensitive data discovery for your account. This value is null if automated sensitive data discovery is currently disabled for your account.
+        /// The date and time, in UTC and extended ISO 8601 format, when Amazon Macie most recently analyzed objects in the bucket while performing automated sensitive data discovery. This value is null if automated sensitive data discovery is disabled for your account.
         public var lastAutomatedDiscoveryTime: Foundation.Date?
         /// The date and time, in UTC and extended ISO 8601 format, when Amazon Macie most recently retrieved bucket or object metadata from Amazon S3 for the bucket.
         public var lastUpdated: Foundation.Date?
@@ -734,7 +886,7 @@ extension Macie2ClientTypes {
         public var region: Swift.String?
         /// Specifies whether the bucket is configured to replicate one or more objects to buckets for other Amazon Web Services accounts and, if so, which accounts.
         public var replicationDetails: Macie2ClientTypes.ReplicationDetails?
-        /// The sensitivity score for the bucket, ranging from -1 (classification error) to 100 (sensitive). This value is null if automated sensitive data discovery is currently disabled for your account.
+        /// The sensitivity score for the bucket, ranging from -1 (classification error) to 100 (sensitive).If automated sensitive data discovery has never been enabled for your account or it’s been disabled for your organization or your standalone account for more than 30 days, possible values are: 1, the bucket is empty; or, 50, the bucket stores objects but it’s been excluded from recent analyses.
         public var sensitivityScore: Swift.Int?
         /// The default server-side encryption settings for the bucket.
         public var serverSideEncryption: Macie2ClientTypes.BucketServerSideEncryption?
@@ -767,6 +919,7 @@ extension Macie2ClientTypes {
         public init(
             accountId: Swift.String? = nil,
             allowsUnencryptedObjectUploads: Macie2ClientTypes.AllowsUnencryptedObjectUploads? = nil,
+            automatedDiscoveryMonitoringStatus: Macie2ClientTypes.AutomatedDiscoveryMonitoringStatus? = nil,
             bucketArn: Swift.String? = nil,
             bucketCreatedAt: Foundation.Date? = nil,
             bucketName: Swift.String? = nil,
@@ -795,6 +948,7 @@ extension Macie2ClientTypes {
         {
             self.accountId = accountId
             self.allowsUnencryptedObjectUploads = allowsUnencryptedObjectUploads
+            self.automatedDiscoveryMonitoringStatus = automatedDiscoveryMonitoringStatus
             self.bucketArn = bucketArn
             self.bucketCreatedAt = bucketCreatedAt
             self.bucketName = bucketName
@@ -1103,7 +1257,7 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes {
-    /// Provides information about a type of sensitive data that Amazon Macie found in an S3 bucket while performing automated sensitive data discovery for the bucket. The information also specifies the custom data identifier or managed data identifier that detected the data. This information is available only if automated sensitive data discovery is currently enabled for your account.
+    /// Provides information about a type of sensitive data that Amazon Macie found in an S3 bucket while performing automated sensitive data discovery for an account. The information also specifies the custom or managed data identifier that detected the data. This information is available only if automated sensitive data discovery has been enabled for the account.
     public struct Detection {
         /// If the sensitive data was detected by a custom data identifier, the Amazon Resource Name (ARN) of the custom data identifier that detected the data. Otherwise, this value is null.
         public var arn: Swift.String?
@@ -2115,9 +2269,9 @@ extension Macie2ClientTypes {
     public struct FindingActor {
         /// The domain name of the device that the entity used to perform the action on the affected resource.
         public var domainDetails: Macie2ClientTypes.DomainDetails?
-        /// The IP address of the device that the entity used to perform the action on the affected resource. This object also provides information such as the owner and geographic location for the IP address.
+        /// The IP address and related details about the device that the entity used to perform the action on the affected resource. The details can include information such as the owner and geographic location of the IP address.
         public var ipAddressDetails: Macie2ClientTypes.IpAddressDetails?
-        /// The type and other characteristics of the entity that performed the action on the affected resource.
+        /// The type and other characteristics of the entity that performed the action on the affected resource. This value is null if the action was performed by an anonymous (unauthenticated) entity.
         public var userIdentity: Macie2ClientTypes.UserIdentity?
 
         public init(
@@ -3302,6 +3456,8 @@ extension Macie2ClientTypes {
     public struct MatchingBucket {
         /// The unique identifier for the Amazon Web Services account that owns the bucket.
         public var accountId: Swift.String?
+        /// Specifies whether automated sensitive data discovery is currently configured to analyze objects in the bucket. Possible values are: MONITORED, the bucket is included in analyses; and, NOT_MONITORED, the bucket is excluded from analyses. If automated sensitive data discovery is disabled for your account, this value is NOT_MONITORED.
+        public var automatedDiscoveryMonitoringStatus: Macie2ClientTypes.AutomatedDiscoveryMonitoringStatus?
         /// The name of the bucket.
         public var bucketName: Swift.String?
         /// The total number of objects that Amazon Macie can analyze in the bucket. These objects use a supported storage class and have a file name extension for a supported file or storage format.
@@ -3314,13 +3470,13 @@ extension Macie2ClientTypes {
         public var errorMessage: Swift.String?
         /// Specifies whether any one-time or recurring classification jobs are configured to analyze objects in the bucket, and, if so, the details of the job that ran most recently.
         public var jobDetails: Macie2ClientTypes.JobDetails?
-        /// The date and time, in UTC and extended ISO 8601 format, when Amazon Macie most recently analyzed data in the bucket while performing automated sensitive data discovery for your account. This value is null if automated sensitive data discovery is currently disabled for your account.
+        /// The date and time, in UTC and extended ISO 8601 format, when Amazon Macie most recently analyzed objects in the bucket while performing automated sensitive data discovery. This value is null if automated sensitive data discovery is disabled for your account.
         public var lastAutomatedDiscoveryTime: Foundation.Date?
         /// The total number of objects in the bucket.
         public var objectCount: Swift.Int?
         /// The total number of objects in the bucket, grouped by server-side encryption type. This includes a grouping that reports the total number of objects that aren't encrypted or use client-side encryption.
         public var objectCountByEncryptionType: Macie2ClientTypes.ObjectCountByEncryptionType?
-        /// The current sensitivity score for the bucket, ranging from -1 (classification error) to 100 (sensitive). This value is null if automated sensitive data discovery is currently disabled for your account.
+        /// The sensitivity score for the bucket, ranging from -1 (classification error) to 100 (sensitive).If automated sensitive data discovery has never been enabled for your account or it’s been disabled for your organization or your standalone account for more than 30 days, possible values are: 1, the bucket is empty; or, 50, the bucket stores objects but it’s been excluded from recent analyses.
         public var sensitivityScore: Swift.Int?
         /// The total storage size, in bytes, of the bucket. If versioning is enabled for the bucket, Amazon Macie calculates this value based on the size of the latest version of each object in the bucket. This value doesn't reflect the storage size of all versions of each object in the bucket.
         public var sizeInBytes: Swift.Int?
@@ -3333,6 +3489,7 @@ extension Macie2ClientTypes {
 
         public init(
             accountId: Swift.String? = nil,
+            automatedDiscoveryMonitoringStatus: Macie2ClientTypes.AutomatedDiscoveryMonitoringStatus? = nil,
             bucketName: Swift.String? = nil,
             classifiableObjectCount: Swift.Int? = nil,
             classifiableSizeInBytes: Swift.Int? = nil,
@@ -3350,6 +3507,7 @@ extension Macie2ClientTypes {
         )
         {
             self.accountId = accountId
+            self.automatedDiscoveryMonitoringStatus = automatedDiscoveryMonitoringStatus
             self.bucketName = bucketName
             self.classifiableObjectCount = classifiableObjectCount
             self.classifiableSizeInBytes = classifiableSizeInBytes
@@ -3434,7 +3592,7 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes {
-    /// Provides information about an S3 object that Amazon Macie selected for analysis while performing automated sensitive data discovery for an S3 bucket, and the status and results of the analysis. This information is available only if automated sensitive data discovery is currently enabled for your account.
+    /// Provides information about an S3 object that Amazon Macie selected for analysis while performing automated sensitive data discovery for an account, and the status and results of the analysis. This information is available only if automated sensitive data discovery has been enabled for the account.
     public struct ResourceProfileArtifact {
         /// The Amazon Resource Name (ARN) of the object.
         /// This member is required.
@@ -3500,6 +3658,7 @@ extension Macie2ClientTypes {
     /// The property to use in a condition that filters the query results. Valid values are:
     public enum SearchResourcesSimpleCriterionKey: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case accountId
+        case automatedDiscoveryMonitoringStatus
         case s3BucketEffectivePermission
         case s3BucketName
         case s3BucketSharedAccess
@@ -3508,6 +3667,7 @@ extension Macie2ClientTypes {
         public static var allCases: [SearchResourcesSimpleCriterionKey] {
             return [
                 .accountId,
+                .automatedDiscoveryMonitoringStatus,
                 .s3BucketEffectivePermission,
                 .s3BucketName,
                 .s3BucketSharedAccess
@@ -3522,6 +3682,7 @@ extension Macie2ClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .accountId: return "ACCOUNT_ID"
+            case .automatedDiscoveryMonitoringStatus: return "AUTOMATED_DISCOVERY_MONITORING_STATUS"
             case .s3BucketEffectivePermission: return "S3_BUCKET_EFFECTIVE_PERMISSION"
             case .s3BucketName: return "S3_BUCKET_NAME"
             case .s3BucketSharedAccess: return "S3_BUCKET_SHARED_ACCESS"
@@ -3541,6 +3702,8 @@ extension Macie2ClientTypes {
         /// An array that lists one or more values to use in the condition. If you specify multiple values, Amazon Macie uses OR logic to join the values. Valid values for each supported property (key) are:
         ///
         /// * ACCOUNT_ID - A string that represents the unique identifier for the Amazon Web Services account that owns the resource.
+        ///
+        /// * AUTOMATED_DISCOVERY_MONITORING_STATUS - A string that represents an enumerated value that Macie defines for the [BucketMetadata.automatedDiscoveryMonitoringStatus](https://docs.aws.amazon.com/macie/latest/APIReference/datasources-s3.html#datasources-s3-prop-bucketmetadata-automateddiscoverymonitoringstatus) property of an S3 bucket.
         ///
         /// * S3_BUCKET_EFFECTIVE_PERMISSION - A string that represents an enumerated value that Macie defines for the [BucketPublicAccess.effectivePermission](https://docs.aws.amazon.com/macie/latest/APIReference/datasources-s3.html#datasources-s3-prop-bucketpublicaccess-effectivepermission) property of an S3 bucket.
         ///
@@ -3627,7 +3790,7 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes {
-    /// Provides information about the sensitivity inspection template for an Amazon Macie account. Macie uses the template's settings when it performs automated sensitive data discovery for the account.
+    /// Provides information about the sensitivity inspection template for an Amazon Macie account.
     public struct SensitivityInspectionTemplatesEntry {
         /// The unique identifier for the sensitivity inspection template.
         public var id: Swift.String?
@@ -3923,7 +4086,7 @@ extension Macie2ClientTypes {
     public struct UsageRecord {
         /// The unique identifier for the Amazon Web Services account that the data applies to.
         public var accountId: Swift.String?
-        /// The date and time, in UTC and extended ISO 8601 format, when the free trial of automated sensitive data discovery started for the account. If the account is a member account in an organization, this value is the same as the value for the organization's Amazon Macie administrator account.
+        /// The date and time, in UTC and extended ISO 8601 format, when the free trial of automated sensitive data discovery started for the account. This value is null if automated sensitive data discovery hasn't been enabled for the account.
         public var automatedDiscoveryFreeTrialStartDate: Foundation.Date?
         /// The date and time, in UTC and extended ISO 8601 format, when the Amazon Macie free trial started for the account.
         public var freeTrialStartDate: Foundation.Date?
@@ -4435,7 +4598,40 @@ extension Macie2ClientTypes {
 
 extension Macie2ClientTypes {
 
-    /// The status of the automated sensitive data discovery configuration for an Amazon Macie account. Valid values are:
+    /// Specifies whether to automatically enable automated sensitive data discovery for accounts that are part of an organization in Amazon Macie. Valid values are:
+    public enum AutoEnableMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case all
+        case new
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AutoEnableMode] {
+            return [
+                .all,
+                .new,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case .new: return "NEW"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Macie2ClientTypes {
+
+    /// The status of the automated sensitive data discovery configuration for an organization in Amazon Macie or a standalone Macie account. Valid values are:
     public enum AutomatedDiscoveryStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
@@ -4518,6 +4714,30 @@ public struct BatchGetCustomDataIdentifiersOutput {
     {
         self.customDataIdentifiers = customDataIdentifiers
         self.notFoundIdentifierIds = notFoundIdentifierIds
+    }
+}
+
+public struct BatchUpdateAutomatedDiscoveryAccountsInput {
+    /// An array of objects, one for each account to change the status of automated sensitive data discovery for. Each object specifies the Amazon Web Services account ID for an account and a new status for that account.
+    public var accounts: [Macie2ClientTypes.AutomatedDiscoveryAccountUpdate]?
+
+    public init(
+        accounts: [Macie2ClientTypes.AutomatedDiscoveryAccountUpdate]? = nil
+    )
+    {
+        self.accounts = accounts
+    }
+}
+
+public struct BatchUpdateAutomatedDiscoveryAccountsOutput {
+    /// An array of objects, one for each account whose status wasn’t changed. Each object identifies the account and explains why the status of automated sensitive data discovery wasn’t changed for the account. This value is null if the request succeeded for all specified accounts.
+    public var errors: [Macie2ClientTypes.AutomatedDiscoveryAccountUpdateError]?
+
+    public init(
+        errors: [Macie2ClientTypes.AutomatedDiscoveryAccountUpdateError]? = nil
+    )
+    {
+        self.errors = errors
     }
 }
 
@@ -4777,7 +4997,7 @@ extension Macie2ClientTypes {
 extension Macie2ClientTypes {
     /// Specifies an S3 bucket to store data classification results in, and the encryption settings to use when storing results in that bucket.
     public struct S3Destination {
-        /// The name of the bucket.
+        /// The name of the bucket. This must be the name of an existing general purpose bucket.
         /// This member is required.
         public var bucketName: Swift.String?
         /// The path prefix to use in the path to the location in the bucket. This prefix specifies where to store classification results in the bucket.
@@ -4801,7 +5021,7 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes {
-    /// Specifies where to store data classification results, and the encryption settings to use when storing results in that location. The location must be an S3 bucket.
+    /// Specifies where to store data classification results, and the encryption settings to use when storing results in that location. The location must be an S3 general purpose bucket.
     public struct ClassificationExportConfiguration {
         /// The S3 bucket to store data classification results in, and the encryption settings to use when storing results in that bucket.
         public var s3Destination: Macie2ClientTypes.S3Destination?
@@ -5120,7 +5340,7 @@ public struct CreateClassificationJobInput {
     ///
     /// * ONE_TIME - Run the job only once. If you specify this value, don't specify a value for the scheduleFrequency property.
     ///
-    /// * SCHEDULED - Run the job on a daily, weekly, or monthly basis. If you specify this value, use the scheduleFrequency property to define the recurrence pattern for the job.
+    /// * SCHEDULED - Run the job on a daily, weekly, or monthly basis. If you specify this value, use the scheduleFrequency property to specify the recurrence pattern for the job.
     /// This member is required.
     public var jobType: Macie2ClientTypes.JobType?
     /// An array of unique identifiers, one for each managed data identifier for the job to include (use) or exclude (not use) when it analyzes data. Inclusion or exclusion depends on the managed data identifier selection type that you specify for the job (managedDataIdentifierSelector). To retrieve a list of valid values for this property, use the ListManagedDataIdentifiers operation.
@@ -5138,7 +5358,7 @@ public struct CreateClassificationJobInput {
     /// * RECOMMENDED (default) - Use the recommended set of managed data identifiers. If you specify this value, don't specify any values for the managedDataIdentifierIds property.
     ///
     ///
-    /// If you don't specify a value for this property, the job uses the recommended set of managed data identifiers. If the job is a recurring job and you specify ALL or EXCLUDE, each job run automatically uses new managed data identifiers that are released. If you don't specify a value for this property or you specify RECOMMENDED for a recurring job, each job run automatically uses all the managed data identifiers that are in the recommended set when the run starts. For information about individual managed data identifiers or to determine which ones are in the recommended set, see [Using managed data identifiers](https://docs.aws.amazon.com/macie/latest/user/managed-data-identifiers.html) and [Recommended managed data identifiers](https://docs.aws.amazon.com/macie/latest/user/discovery-jobs-mdis-recommended.html) in the Amazon Macie User Guide.
+    /// If you don't specify a value for this property, the job uses the recommended set of managed data identifiers. If the job is a recurring job and you specify ALL or EXCLUDE, each job run automatically uses new managed data identifiers that are released. If you don't specify a value for this property or you specify RECOMMENDED for a recurring job, each job run automatically uses all the managed data identifiers that are in the recommended set when the run starts. To learn about individual managed data identifiers or determine which ones are in the recommended set, see [Using managed data identifiers](https://docs.aws.amazon.com/macie/latest/user/managed-data-identifiers.html) or [Recommended managed data identifiers](https://docs.aws.amazon.com/macie/latest/user/discovery-jobs-mdis-recommended.html) in the Amazon Macie User Guide.
     public var managedDataIdentifierSelector: Macie2ClientTypes.ManagedDataIdentifierSelector?
     /// A custom name for the job. The name can contain as many as 500 characters.
     /// This member is required.
@@ -5704,13 +5924,13 @@ extension Macie2ClientTypes {
 }
 
 public struct DescribeClassificationJobOutput {
-    /// An array of unique identifiers, one for each allow list that the job uses when it analyzes data.
+    /// An array of unique identifiers, one for each allow list that the job is configured to use when it analyzes data.
     public var allowListIds: [Swift.String]?
     /// The token that was provided to ensure the idempotency of the request to create the job.
     public var clientToken: Swift.String?
     /// The date and time, in UTC and extended ISO 8601 format, when the job was created.
     public var createdAt: Foundation.Date?
-    /// An array of unique identifiers, one for each custom data identifier that the job uses when it analyzes data. This value is null if the job uses only managed data identifiers to analyze data.
+    /// An array of unique identifiers, one for each custom data identifier that the job is configured to use when it analyzes data. This value is null if the job is configured to use only managed data identifiers to analyze data.
     public var customDataIdentifierIds: [Swift.String]?
     /// The custom description of the job.
     public var description: Swift.String?
@@ -5759,7 +5979,7 @@ public struct DescribeClassificationJobOutput {
     /// * RECOMMENDED (default) - Use the recommended set of managed data identifiers.
     ///
     ///
-    /// If this value is null, the job uses the recommended set of managed data identifiers. If the job is a recurring job and this value is ALL or EXCLUDE, each job run automatically uses new managed data identifiers that are released. If this value is null or RECOMMENDED for a recurring job, each job run uses all the managed data identifiers that are in the recommended set when the run starts. For information about individual managed data identifiers or to determine which ones are in the recommended set, see [Using managed data identifiers](https://docs.aws.amazon.com/macie/latest/user/managed-data-identifiers.html) and [Recommended managed data identifiers](https://docs.aws.amazon.com/macie/latest/user/discovery-jobs-mdis-recommended.html) in the Amazon Macie User Guide.
+    /// If this value is null, the job uses the recommended set of managed data identifiers. If the job is a recurring job and this value is ALL or EXCLUDE, each job run automatically uses new managed data identifiers that are released. If this value is null or RECOMMENDED for a recurring job, each job run uses all the managed data identifiers that are in the recommended set when the run starts. To learn about individual managed data identifiers or determine which ones are in the recommended set, see [Using managed data identifiers](https://docs.aws.amazon.com/macie/latest/user/managed-data-identifiers.html) or [Recommended managed data identifiers](https://docs.aws.amazon.com/macie/latest/user/discovery-jobs-mdis-recommended.html) in the Amazon Macie User Guide.
     public var managedDataIdentifierSelector: Macie2ClientTypes.ManagedDataIdentifierSelector?
     /// The custom name of the job.
     public var name: Swift.String?
@@ -5771,7 +5991,7 @@ public struct DescribeClassificationJobOutput {
     public var scheduleFrequency: Macie2ClientTypes.JobScheduleFrequency?
     /// The number of times that the job has run and processing statistics for the job's current run.
     public var statistics: Macie2ClientTypes.Statistics?
-    /// A map of key-value pairs that specifies which tags (keys and values) are associated with the classification job.
+    /// A map of key-value pairs that specifies which tags (keys and values) are associated with the job.
     public var tags: [Swift.String: Swift.String]?
     /// If the current status of the job is USER_PAUSED, specifies when the job was paused and when the job or job run will expire and be cancelled if it isn't resumed. This value is present only if the value for jobStatus is USER_PAUSED.
     public var userPausedDetails: Macie2ClientTypes.UserPausedDetails?
@@ -6151,20 +6371,23 @@ public struct GetAutomatedDiscoveryConfigurationInput {
 }
 
 public struct GetAutomatedDiscoveryConfigurationOutput {
-    /// The unique identifier for the classification scope that's used when performing automated sensitive data discovery for the account. The classification scope specifies S3 buckets to exclude from automated sensitive data discovery.
+    /// Specifies whether automated sensitive data discovery is enabled automatically for accounts in the organization. Possible values are: ALL, enable it for all existing accounts and new member accounts; NEW, enable it only for new member accounts; and, NONE, don't enable it for any accounts.
+    public var autoEnableOrganizationMembers: Macie2ClientTypes.AutoEnableMode?
+    /// The unique identifier for the classification scope that's used when performing automated sensitive data discovery. The classification scope specifies S3 buckets to exclude from analyses.
     public var classificationScopeId: Swift.String?
-    /// The date and time, in UTC and extended ISO 8601 format, when automated sensitive data discovery was most recently disabled for the account. This value is null if automated sensitive data discovery wasn't enabled and subsequently disabled for the account.
+    /// The date and time, in UTC and extended ISO 8601 format, when automated sensitive data discovery was most recently disabled. This value is null if automated sensitive data discovery is currently enabled.
     public var disabledAt: Foundation.Date?
-    /// The date and time, in UTC and extended ISO 8601 format, when automated sensitive data discovery was initially enabled for the account. This value is null if automated sensitive data discovery has never been enabled for the account.
+    /// The date and time, in UTC and extended ISO 8601 format, when automated sensitive data discovery was initially enabled. This value is null if automated sensitive data discovery has never been enabled.
     public var firstEnabledAt: Foundation.Date?
-    /// The date and time, in UTC and extended ISO 8601 format, when automated sensitive data discovery was most recently enabled or disabled for the account.
+    /// The date and time, in UTC and extended ISO 8601 format, when the configuration settings or status of automated sensitive data discovery was most recently changed.
     public var lastUpdatedAt: Foundation.Date?
-    /// The unique identifier for the sensitivity inspection template that's used when performing automated sensitive data discovery for the account. The template specifies which allow lists, custom data identifiers, and managed data identifiers to use when analyzing data.
+    /// The unique identifier for the sensitivity inspection template that's used when performing automated sensitive data discovery. The template specifies which allow lists, custom data identifiers, and managed data identifiers to use when analyzing data.
     public var sensitivityInspectionTemplateId: Swift.String?
-    /// The current status of the automated sensitive data discovery configuration for the account. Possible values are: ENABLED, use the specified settings to perform automated sensitive data discovery activities for the account; and, DISABLED, don't perform automated sensitive data discovery activities for the account.
+    /// The current status of automated sensitive data discovery for the organization or account. Possible values are: ENABLED, use the specified settings to perform automated sensitive data discovery activities; and, DISABLED, don't perform automated sensitive data discovery activities.
     public var status: Macie2ClientTypes.AutomatedDiscoveryStatus?
 
     public init(
+        autoEnableOrganizationMembers: Macie2ClientTypes.AutoEnableMode? = nil,
         classificationScopeId: Swift.String? = nil,
         disabledAt: Foundation.Date? = nil,
         firstEnabledAt: Foundation.Date? = nil,
@@ -6173,6 +6396,7 @@ public struct GetAutomatedDiscoveryConfigurationOutput {
         status: Macie2ClientTypes.AutomatedDiscoveryStatus? = nil
     )
     {
+        self.autoEnableOrganizationMembers = autoEnableOrganizationMembers
         self.classificationScopeId = classificationScopeId
         self.disabledAt = disabledAt
         self.firstEnabledAt = firstEnabledAt
@@ -6770,7 +6994,7 @@ public struct GetResourceProfileInput {
 }
 
 extension Macie2ClientTypes {
-    /// Provides statistical data for sensitive data discovery metrics that apply to an S3 bucket that Amazon Macie monitors and analyzes for your account. The statistics capture the results of automated sensitive data discovery activities that Macie has performed for the bucket. The data is available only if automated sensitive data discovery is currently enabled for your account.
+    /// Provides statistical data for sensitive data discovery metrics that apply to an S3 bucket that Amazon Macie monitors and analyzes for an account, if automated sensitive data discovery has been enabled for the account. The data captures the results of automated sensitive data discovery activities that Macie has performed for the bucket.
     public struct ResourceStatistics {
         /// The total amount of data, in bytes, that Amazon Macie has analyzed in the bucket.
         public var totalBytesClassified: Swift.Int?
@@ -7156,7 +7380,7 @@ public struct GetSensitivityInspectionTemplateInput {
 }
 
 extension Macie2ClientTypes {
-    /// Specifies managed data identifiers to exclude (not use) when performing automated sensitive data discovery for an Amazon Macie account. For information about the managed data identifiers that Amazon Macie currently provides, see [Using managed data identifiers](https://docs.aws.amazon.com/macie/latest/user/managed-data-identifiers.html) in the Amazon Macie User Guide.
+    /// Specifies managed data identifiers to exclude (not use) when performing automated sensitive data discovery. For information about the managed data identifiers that Amazon Macie currently provides, see [Using managed data identifiers](https://docs.aws.amazon.com/macie/latest/user/managed-data-identifiers.html) in the Amazon Macie User Guide.
     public struct SensitivityInspectionTemplateExcludes {
         /// An array of unique identifiers, one for each managed data identifier to exclude. To retrieve a list of valid values, use the ListManagedDataIdentifiers operation.
         public var managedDataIdentifierIds: [Swift.String]?
@@ -7172,7 +7396,7 @@ extension Macie2ClientTypes {
 }
 
 extension Macie2ClientTypes {
-    /// Specifies the allow lists, custom data identifiers, and managed data identifiers to include (use) when performing automated sensitive data discovery for an Amazon Macie account. The configuration must specify at least one custom data identifier or managed data identifier. For information about the managed data identifiers that Amazon Macie currently provides, see [Using managed data identifiers](https://docs.aws.amazon.com/macie/latest/user/managed-data-identifiers.html) in the Amazon Macie User Guide.
+    /// Specifies the allow lists, custom data identifiers, and managed data identifiers to include (use) when performing automated sensitive data discovery. The configuration must specify at least one custom data identifier or managed data identifier. For information about the managed data identifiers that Amazon Macie currently provides, see [Using managed data identifiers](https://docs.aws.amazon.com/macie/latest/user/managed-data-identifiers.html) in the Amazon Macie User Guide.
     public struct SensitivityInspectionTemplateIncludes {
         /// An array of unique identifiers, one for each allow list to include.
         public var allowListIds: [Swift.String]?
@@ -7198,9 +7422,9 @@ extension Macie2ClientTypes {
 public struct GetSensitivityInspectionTemplateOutput {
     /// The custom description of the template.
     public var description: Swift.String?
-    /// The managed data identifiers that are explicitly excluded (not used) when analyzing data.
+    /// The managed data identifiers that are explicitly excluded (not used) when performing automated sensitive data discovery.
     public var excludes: Macie2ClientTypes.SensitivityInspectionTemplateExcludes?
-    /// The allow lists, custom data identifiers, and managed data identifiers that are explicitly included (used) when analyzing data.
+    /// The allow lists, custom data identifiers, and managed data identifiers that are explicitly included (used) when performing automated sensitive data discovery.
     public var includes: Macie2ClientTypes.SensitivityInspectionTemplateIncludes?
     /// The name of the template: automated-sensitive-data-discovery.
     public var name: Swift.String?
@@ -7413,6 +7637,42 @@ public struct ListAllowListsOutput {
     )
     {
         self.allowLists = allowLists
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAutomatedDiscoveryAccountsInput {
+    /// The Amazon Web Services account ID for each account, for as many as 50 accounts. To retrieve the status for multiple accounts, append the accountIds parameter and argument for each account, separated by an ampersand (&). To retrieve the status for all the accounts in an organization, omit this parameter.
+    public var accountIds: [Swift.String]?
+    /// The maximum number of items to include in each page of a paginated response.
+    public var maxResults: Swift.Int?
+    /// The nextToken string that specifies which page of results to return in a paginated response.
+    public var nextToken: Swift.String?
+
+    public init(
+        accountIds: [Swift.String]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.accountIds = accountIds
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAutomatedDiscoveryAccountsOutput {
+    /// An array of objects, one for each account specified in the request. Each object specifies the Amazon Web Services account ID for an account and the current status of automated sensitive data discovery for that account.
+    public var items: [Macie2ClientTypes.AutomatedDiscoveryAccount]?
+    /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [Macie2ClientTypes.AutomatedDiscoveryAccount]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.items = items
         self.nextToken = nextToken
     }
 }
@@ -8234,14 +8494,18 @@ public struct UpdateAllowListOutput {
 }
 
 public struct UpdateAutomatedDiscoveryConfigurationInput {
-    /// The new status of automated sensitive data discovery for the account. Valid values are: ENABLED, start or resume automated sensitive data discovery activities for the account; and, DISABLED, stop performing automated sensitive data discovery activities for the account. When you enable automated sensitive data discovery for the first time, Amazon Macie uses default configuration settings to determine which data sources to analyze and which managed data identifiers to use. To change these settings, use the UpdateClassificationScope and UpdateSensitivityInspectionTemplate operations, respectively. If you change the settings and subsequently disable the configuration, Amazon Macie retains your changes.
+    /// Specifies whether to automatically enable automated sensitive data discovery for accounts in the organization. Valid values are: ALL (default), enable it for all existing accounts and new member accounts; NEW, enable it only for new member accounts; and, NONE, don't enable it for any accounts. If you specify NEW or NONE, automated sensitive data discovery continues to be enabled for any existing accounts that it's currently enabled for. To enable or disable it for individual member accounts, specify NEW or NONE, and then enable or disable it for each account by using the BatchUpdateAutomatedDiscoveryAccounts operation.
+    public var autoEnableOrganizationMembers: Macie2ClientTypes.AutoEnableMode?
+    /// The new status of automated sensitive data discovery for the organization or account. Valid values are: ENABLED, start or resume all automated sensitive data discovery activities; and, DISABLED, stop performing all automated sensitive data discovery activities. If you specify DISABLED for an administrator account, you also disable automated sensitive data discovery for all member accounts in the organization.
     /// This member is required.
     public var status: Macie2ClientTypes.AutomatedDiscoveryStatus?
 
     public init(
+        autoEnableOrganizationMembers: Macie2ClientTypes.AutoEnableMode? = nil,
         status: Macie2ClientTypes.AutomatedDiscoveryStatus? = nil
     )
     {
+        self.autoEnableOrganizationMembers = autoEnableOrganizationMembers
         self.status = status
     }
 }
@@ -8445,7 +8709,7 @@ public struct UpdateMemberSessionOutput {
 }
 
 public struct UpdateOrganizationConfigurationInput {
-    /// Specifies whether to enable Amazon Macie automatically for an account when the account is added to the organization in Organizations.
+    /// Specifies whether to enable Amazon Macie automatically for accounts that are added to the organization in Organizations.
     /// This member is required.
     public var autoEnable: Swift.Bool?
 
@@ -8563,12 +8827,12 @@ public struct UpdateRevealConfigurationOutput {
 public struct UpdateSensitivityInspectionTemplateInput {
     /// A custom description of the template. The description can contain as many as 200 characters.
     public var description: Swift.String?
-    /// The managed data identifiers to explicitly exclude (not use) when analyzing data. To exclude an allow list or custom data identifier that's currently included by the template, update the values for the SensitivityInspectionTemplateIncludes.allowListIds and SensitivityInspectionTemplateIncludes.customDataIdentifierIds properties, respectively.
+    /// The managed data identifiers to explicitly exclude (not use) when performing automated sensitive data discovery. To exclude an allow list or custom data identifier that's currently included by the template, update the values for the SensitivityInspectionTemplateIncludes.allowListIds and SensitivityInspectionTemplateIncludes.customDataIdentifierIds properties, respectively.
     public var excludes: Macie2ClientTypes.SensitivityInspectionTemplateExcludes?
     /// The unique identifier for the Amazon Macie resource that the request applies to.
     /// This member is required.
     public var id: Swift.String?
-    /// The allow lists, custom data identifiers, and managed data identifiers to explicitly include (use) when analyzing data.
+    /// The allow lists, custom data identifiers, and managed data identifiers to explicitly include (use) when performing automated sensitive data discovery.
     public var includes: Macie2ClientTypes.SensitivityInspectionTemplateIncludes?
 
     public init(
@@ -8601,6 +8865,13 @@ extension BatchGetCustomDataIdentifiersInput {
 
     static func urlPathProvider(_ value: BatchGetCustomDataIdentifiersInput) -> Swift.String? {
         return "/custom-data-identifiers/get"
+    }
+}
+
+extension BatchUpdateAutomatedDiscoveryAccountsInput {
+
+    static func urlPathProvider(_ value: BatchUpdateAutomatedDiscoveryAccountsInput) -> Swift.String? {
+        return "/automated-discovery/accounts"
     }
 }
 
@@ -9024,6 +9295,35 @@ extension ListAllowListsInput {
 
     static func queryItemProvider(_ value: ListAllowListsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListAutomatedDiscoveryAccountsInput {
+
+    static func urlPathProvider(_ value: ListAutomatedDiscoveryAccountsInput) -> Swift.String? {
+        return "/automated-discovery/accounts"
+    }
+}
+
+extension ListAutomatedDiscoveryAccountsInput {
+
+    static func queryItemProvider(_ value: ListAutomatedDiscoveryAccountsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let accountIds = value.accountIds {
+            accountIds.forEach { queryItemValue in
+                let queryItem = Smithy.URIQueryItem(name: "accountIds".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
+        }
         if let maxResults = value.maxResults {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
@@ -9482,6 +9782,14 @@ extension BatchGetCustomDataIdentifiersInput {
     }
 }
 
+extension BatchUpdateAutomatedDiscoveryAccountsInput {
+
+    static func write(value: BatchUpdateAutomatedDiscoveryAccountsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accounts"].writeList(value.accounts, memberWritingClosure: Macie2ClientTypes.AutomatedDiscoveryAccountUpdate.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension CreateAllowListInput {
 
     static func write(value: CreateAllowListInput?, to writer: SmithyJSON.Writer) throws {
@@ -9758,6 +10066,7 @@ extension UpdateAutomatedDiscoveryConfigurationInput {
 
     static func write(value: UpdateAutomatedDiscoveryConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["autoEnableOrganizationMembers"].write(value.autoEnableOrganizationMembers)
         try writer["status"].write(value.status)
     }
 }
@@ -9867,6 +10176,18 @@ extension BatchGetCustomDataIdentifiersOutput {
         var value = BatchGetCustomDataIdentifiersOutput()
         value.customDataIdentifiers = try reader["customDataIdentifiers"].readListIfPresent(memberReadingClosure: Macie2ClientTypes.BatchGetCustomDataIdentifierSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.notFoundIdentifierIds = try reader["notFoundIdentifierIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BatchUpdateAutomatedDiscoveryAccountsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BatchUpdateAutomatedDiscoveryAccountsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchUpdateAutomatedDiscoveryAccountsOutput()
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: Macie2ClientTypes.AutomatedDiscoveryAccountUpdateError.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -10151,6 +10472,7 @@ extension GetAutomatedDiscoveryConfigurationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetAutomatedDiscoveryConfigurationOutput()
+        value.autoEnableOrganizationMembers = try reader["autoEnableOrganizationMembers"].readIfPresent()
         value.classificationScopeId = try reader["classificationScopeId"].readIfPresent()
         value.disabledAt = try reader["disabledAt"].readTimestampIfPresent(format: .dateTime)
         value.firstEnabledAt = try reader["firstEnabledAt"].readTimestampIfPresent(format: .dateTime)
@@ -10456,6 +10778,19 @@ extension ListAllowListsOutput {
         let reader = responseReader
         var value = ListAllowListsOutput()
         value.allowLists = try reader["allowLists"].readListIfPresent(memberReadingClosure: Macie2ClientTypes.AllowListSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListAutomatedDiscoveryAccountsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAutomatedDiscoveryAccountsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAutomatedDiscoveryAccountsOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: Macie2ClientTypes.AutomatedDiscoveryAccount.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -10822,6 +11157,24 @@ enum BatchGetCustomDataIdentifiersOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum BatchUpdateAutomatedDiscoveryAccountsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -11727,6 +12080,24 @@ enum ListAllowListsOutputError {
     }
 }
 
+enum ListAutomatedDiscoveryAccountsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListClassificationJobsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
@@ -12416,6 +12787,17 @@ extension Macie2ClientTypes.BatchGetCustomDataIdentifierSummary {
     }
 }
 
+extension Macie2ClientTypes.AutomatedDiscoveryAccountUpdateError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.AutomatedDiscoveryAccountUpdateError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Macie2ClientTypes.AutomatedDiscoveryAccountUpdateError()
+        value.accountId = try reader["accountId"].readIfPresent()
+        value.errorCode = try reader["errorCode"].readIfPresent()
+        return value
+    }
+}
+
 extension Macie2ClientTypes.UnprocessedAccount {
 
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.UnprocessedAccount {
@@ -12435,6 +12817,7 @@ extension Macie2ClientTypes.BucketMetadata {
         var value = Macie2ClientTypes.BucketMetadata()
         value.accountId = try reader["accountId"].readIfPresent()
         value.allowsUnencryptedObjectUploads = try reader["allowsUnencryptedObjectUploads"].readIfPresent()
+        value.automatedDiscoveryMonitoringStatus = try reader["automatedDiscoveryMonitoringStatus"].readIfPresent()
         value.bucketArn = try reader["bucketArn"].readIfPresent()
         value.bucketCreatedAt = try reader["bucketCreatedAt"].readTimestampIfPresent(format: .dateTime)
         value.bucketName = try reader["bucketName"].readIfPresent()
@@ -13887,6 +14270,17 @@ extension Macie2ClientTypes.AllowListSummary {
     }
 }
 
+extension Macie2ClientTypes.AutomatedDiscoveryAccount {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.AutomatedDiscoveryAccount {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Macie2ClientTypes.AutomatedDiscoveryAccount()
+        value.accountId = try reader["accountId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
 extension Macie2ClientTypes.JobSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> Macie2ClientTypes.JobSummary {
@@ -14038,6 +14432,7 @@ extension Macie2ClientTypes.MatchingBucket {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Macie2ClientTypes.MatchingBucket()
         value.accountId = try reader["accountId"].readIfPresent()
+        value.automatedDiscoveryMonitoringStatus = try reader["automatedDiscoveryMonitoringStatus"].readIfPresent()
         value.bucketName = try reader["bucketName"].readIfPresent()
         value.classifiableObjectCount = try reader["classifiableObjectCount"].readIfPresent()
         value.classifiableSizeInBytes = try reader["classifiableSizeInBytes"].readIfPresent()
@@ -14053,6 +14448,15 @@ extension Macie2ClientTypes.MatchingBucket {
         value.unclassifiableObjectCount = try reader["unclassifiableObjectCount"].readIfPresent(with: Macie2ClientTypes.ObjectLevelStatistics.read(from:))
         value.unclassifiableObjectSizeInBytes = try reader["unclassifiableObjectSizeInBytes"].readIfPresent(with: Macie2ClientTypes.ObjectLevelStatistics.read(from:))
         return value
+    }
+}
+
+extension Macie2ClientTypes.AutomatedDiscoveryAccountUpdate {
+
+    static func write(value: Macie2ClientTypes.AutomatedDiscoveryAccountUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accountId"].write(value.accountId)
+        try writer["status"].write(value.status)
     }
 }
 
