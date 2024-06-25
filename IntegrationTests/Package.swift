@@ -16,8 +16,6 @@ extension Target.Dependency {
     // AWS modules
     static var awsClientRuntime: Self { .product(name: "AWSClientRuntime", package: "aws-sdk-swift") }
     static var awsSDKCommon: Self { .product(name: "AWSSDKCommon", package: "aws-sdk-swift") }
-    static var awsSDKEventStreamsAuth: Self { .product(name: "AWSSDKEventStreamsAuth", package: "aws-sdk-swift") }
-    static var awsSDKHTTPAuth: Self { .product(name: "AWSSDKHTTPAuth", package: "aws-sdk-swift") }
     static var awsSDKIdentity: Self { .product(name: "AWSSDKIdentity", package: "aws-sdk-swift") }
 
     // CRT module
@@ -25,18 +23,7 @@ extension Target.Dependency {
 
     // Smithy modules
     static var clientRuntime: Self { .product(name: "ClientRuntime", package: "smithy-swift") }
-    static var smithy: Self { .product(name: "Smithy", package: "smithy-swift") }
-    static var smithyChecksumsAPI: Self { .product(name: "SmithyChecksumsAPI", package: "smithy-swift") }
-    static var smithyEventStreams: Self { .product(name: "SmithyEventStreams", package: "smithy-swift") }
-    static var smithyEventStreamsAPI: Self { .product(name: "SmithyEventStreamsAPI", package: "smithy-swift") }
-    static var smithyEventStreamsAuthAPI: Self { .product(name: "SmithyEventStreamsAuthAPI", package: "smithy-swift") }
-    static var smithyHTTPAPI: Self { .product(name: "SmithyHTTPAPI", package: "smithy-swift") }
-    static var smithyHTTPAuth: Self { .product(name: "SmithyHTTPAuth", package: "smithy-swift") }
     static var smithyIdentity: Self { .product(name: "SmithyIdentity", package: "smithy-swift") }
-    static var smithyIdentityAPI: Self { .product(name: "SmithyIdentityAPI", package: "smithy-swift") }
-    static var smithyRetries: Self { .product(name: "SmithyRetries", package: "smithy-swift") }
-    static var smithyRetriesAPI: Self { .product(name: "SmithyRetriesAPI", package: "smithy-swift") }
-    static var smithyWaitersAPI: Self { .product(name: "SmithyWaitersAPI", package: "smithy-swift") }
     static var smithyTestUtils: Self { .product(name: "SmithyTestUtil", package: "smithy-swift") }
 }
 
@@ -83,9 +70,25 @@ func addClientRuntimeDependency() {
 }
 
 func addAWSClientRuntimeDependency() {
-    package.dependencies += [
-        .package(path: "../../aws-sdk-swift")
-    ]
+    let smithySwiftURL = "https://github.com/awslabs/aws-sdk-swift"
+    let useLocalDeps = ProcessInfo.processInfo.environment["AWS_SWIFT_SDK_USE_LOCAL_DEPS"] != nil
+    let useMainDeps = ProcessInfo.processInfo.environment["AWS_SWIFT_SDK_USE_MAIN_DEPS"] != nil
+    switch (useLocalDeps, useMainDeps) {
+    case (true, true):
+        fatalError("Unable to determine which dependencies to use. Please only specify one of AWS_SWIFT_SDK_USE_LOCAL_DEPS or AWS_SWIFT_SDK_USE_MAIN_DEPS.")
+    case (true, false):
+        package.dependencies += [
+            .package(path: "../../aws-sdk-swift")
+        ]
+    case (false, true):
+        package.dependencies += [
+            .package(url: smithySwiftURL, branch: "main")
+        ]
+    case (false, false):
+        package.dependencies += [
+            .package(url: smithySwiftURL, .upToNextMajor(from: "0.0.0"))
+        ]
+    }
 }
 
 func addCRTDependency() {
