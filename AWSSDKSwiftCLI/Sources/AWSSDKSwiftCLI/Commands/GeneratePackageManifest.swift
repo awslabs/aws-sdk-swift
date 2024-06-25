@@ -32,9 +32,6 @@ struct GeneratePackageManifestCommand: ParsableCommand {
     @Option(help: "The names of the services to include in the package manifest. This defaults to all services located in aws-sdk-swift/Sources/Services")
     var services: [String] = []
 
-    @Flag(help: "If the package manifest should include services with integration tests.")
-    var includeServicesWithIntegTests: Bool = false
-    
     @Flag(help: "If the package manifest should include the protocol tests.")
     var includeProtocolTests: Bool = false
 
@@ -51,7 +48,6 @@ struct GeneratePackageManifestCommand: ParsableCommand {
             clientRuntimeVersion: clientRuntimeVersion,
             crtVersion: crtVersion,
             services: services.isEmpty ? nil : services,
-            includeServicesWithIntegTests: includeServicesWithIntegTests,
             includeProtocolTests: includeProtocolTests,
             excludeAWSServices: excludeAWSServices,
             excludeRuntimeTests: excludeRuntimeTests
@@ -77,8 +73,6 @@ struct GeneratePackageManifest {
     /// The list of services to include as products
     /// If `nil` then the list is populated with the names of all items within the `Sources/Services` directory
     let services: [String]?
-    /// If the package manifest should include the services that have integration tests.
-    let includeServicesWithIntegTests: Bool
     /// If the package manifest should include the protocol tests.
     let includeProtocolTests: Bool
     /// If the package manifest should exclude the AWS services.
@@ -110,12 +104,7 @@ struct GeneratePackageManifest {
     func generatePackageManifestContents() throws -> String {
         let versions = try resolveVersions()
         let servicesWithIntegrationTests = try resolveServicesWithIntegrationTests()
-        let services = try resolveServices().map {
-            PackageManifestBuilder.Service(
-                name: $0,
-                includeServicesWithIntegTests: servicesWithIntegrationTests.contains($0)
-            )
-        }
+        let services = try resolveServices().map { PackageManifestBuilder.Service(name: $0) }
         log("Creating package manifest contents...")
         let contents = try buildPackageManifest(versions.clientRuntime, versions.crt, services)
         log("Successfully created package manifest contents")
@@ -237,7 +226,6 @@ extension GeneratePackageManifest {
         clientRuntimeVersion: Version? = nil,
         crtVersion: Version? = nil,
         services: [String]? = nil,
-        includeServicesWithIntegTests: Bool = false,
         includeProtocolTests: Bool = false,
         excludeAWSServices: Bool = false,
         excludeRuntimeTests: Bool = false
@@ -248,7 +236,6 @@ extension GeneratePackageManifest {
             clientRuntimeVersion: clientRuntimeVersion,
             crtVersion: crtVersion,
             services: services,
-            includeServicesWithIntegTests: includeServicesWithIntegTests,
             includeProtocolTests: includeProtocolTests,
             excludeAWSServices: excludeAWSServices,
             excludeRuntimeTests: excludeRuntimeTests
@@ -258,7 +245,6 @@ extension GeneratePackageManifest {
                 crtVersion: _crtVersion,
                 services: _services,
                 includeProtocolTests: includeProtocolTests,
-                includeServicesWithIntegTests: includeServicesWithIntegTests,
                 excludeAWSServices: excludeAWSServices,
                 excludeRuntimeTests: excludeRuntimeTests
             )
