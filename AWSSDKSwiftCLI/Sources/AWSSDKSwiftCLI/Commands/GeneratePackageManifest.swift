@@ -32,9 +32,6 @@ struct GeneratePackageManifestCommand: ParsableCommand {
     @Option(help: "The names of the services to include in the package manifest. This defaults to all services located in aws-sdk-swift/Sources/Services")
     var services: [String] = []
 
-    @Flag(help: "If the package manifest should include the integration tests.")
-    var includeIntegrationTests: Bool = false
-    
     @Flag(help: "If the package manifest should exclude AWS services.")
     var excludeAWSServices = false
 
@@ -48,7 +45,6 @@ struct GeneratePackageManifestCommand: ParsableCommand {
             clientRuntimeVersion: clientRuntimeVersion,
             crtVersion: crtVersion,
             services: services.isEmpty ? nil : services,
-            includeIntegrationTests: includeIntegrationTests,
             excludeAWSServices: excludeAWSServices,
             excludeRuntimeTests: excludeRuntimeTests
         )
@@ -73,8 +69,6 @@ struct GeneratePackageManifest {
     /// The list of services to include as products
     /// If `nil` then the list is populated with the names of all items within the `Sources/Services` directory
     let services: [String]?
-    /// If the package manifest should include the integration tests.
-    let includeIntegrationTests: Bool
     /// If the package manifest should exclude the AWS services.
     let excludeAWSServices: Bool
     /// If the package manifest should exclude runtime unit tests.
@@ -87,7 +81,7 @@ struct GeneratePackageManifest {
     ) throws -> String
     /// Returns the contents of the package manifest file given the versions of dependencies and the list of services.
     let buildPackageManifest: BuildPackageManifest
-    
+
     /// Generates a package manifest file and saves it to `packageFileName`
     func run() throws {
         try FileManager.default.changeWorkingDirectory(repoPath)
@@ -103,19 +97,13 @@ struct GeneratePackageManifest {
     /// - Returns: The contents of the generated package manifest.
     func generatePackageManifestContents() throws -> String {
         let versions = try resolveVersions()
-        let servicesWithIntegrationTests = try resolveServicesWithIntegrationTests()
-        let services = try resolveServices().map {
-            PackageManifestBuilder.Service(
-                name: $0,
-                includeIntegrationTests: servicesWithIntegrationTests.contains($0)
-            )
-        }
+        let services = try resolveServices().map { PackageManifestBuilder.Service(name: $0) }
         log("Creating package manifest contents...")
         let contents = try buildPackageManifest(versions.clientRuntime, versions.crt, services)
         log("Successfully created package manifest contents")
         return contents
     }
-    
+
     /// Saves the package manifest file.
     /// If no file exists, then this will create a new file. Otherwise, this will overwrite the existing file.
     ///
@@ -129,7 +117,7 @@ struct GeneratePackageManifest {
         )
         log("Successfully saved package manifest to \(packageFileName)")
     }
-    
+
     /// Returns the versions for ClientRuntime and CRT.
     /// If explcit versions are provided by the command, then this returns the specified versions.
     /// Otherwise, this returns the versions defined in `packageDependencies.plist`.
@@ -147,7 +135,7 @@ struct GeneratePackageManifest {
         }
         let resolvedClientRuntime: Version
         let resolvedCRT: Version
-    
+
         if let explicitVersion = self.clientRuntimeVersion {
             resolvedClientRuntime = explicitVersion
             log("Using ClientRuntime version provided: \(resolvedClientRuntime.description)")
@@ -155,7 +143,7 @@ struct GeneratePackageManifest {
             resolvedClientRuntime = packageDependencies.value.clientRuntimeVersion
             log("Using ClientRuntime version loaded from file: \(resolvedClientRuntime.description)")
         }
-        
+
         if let explicitVersion = self.crtVersion {
             resolvedCRT = explicitVersion
             log("Using CRT version provided: \(resolvedCRT.description)")
@@ -163,19 +151,19 @@ struct GeneratePackageManifest {
             resolvedCRT = packageDependencies.value.awsCRTSwiftVersion
             log("Using CRT version loaded from file: \(resolvedCRT.description)")
         }
-        
+
         log("""
         Resolved versions of dependencies:
             * ClientRuntime: \(resolvedClientRuntime.description)
             * CRT: \(resolvedCRT.description)
         """)
-            
+
         return (
             clientRuntime: resolvedClientRuntime,
             crt: resolvedCRT
         )
     }
-    
+
     /// Returns the list of services to include in the package manifest.
     /// If an explicit list of services was provided by the command, then this returns the specified services.
     /// Otherwise, this returns the list of services that exist within `Sources/Services`
@@ -192,21 +180,6 @@ struct GeneratePackageManifest {
             resolvedServices = try FileManager.default.enabledServices()
         }
         log("Resolved list of services: \(resolvedServices.count)")
-        return resolvedServices
-    }
-
-    /// Returns the list of services to include in the package manifest.
-    /// If an explicit list of services was provided by the command, then this returns the specified services.
-    /// Otherwise, this returns the list of services that exist within `Sources/Services`
-    ///
-    /// - Returns: The list of services to include in the package manifest
-    func resolveServicesWithIntegrationTests() throws -> [String] {
-        log("Resolving services with integration tests...")
-        let resolvedServices = try FileManager
-            .default
-            .integrationTests()
-            .map { $0.replacingOccurrences(of: "IntegrationTests", with: "") }
-        log("List of services with integration tests: \(resolvedServices.count)")
         return resolvedServices
     }
 }
@@ -231,7 +204,6 @@ extension GeneratePackageManifest {
         clientRuntimeVersion: Version? = nil,
         crtVersion: Version? = nil,
         services: [String]? = nil,
-        includeIntegrationTests: Bool = false,
         excludeAWSServices: Bool = false,
         excludeRuntimeTests: Bool = false
     ) -> Self {
@@ -241,7 +213,6 @@ extension GeneratePackageManifest {
             clientRuntimeVersion: clientRuntimeVersion,
             crtVersion: crtVersion,
             services: services,
-            includeIntegrationTests: includeIntegrationTests,
             excludeAWSServices: excludeAWSServices,
             excludeRuntimeTests: excludeRuntimeTests
         ) { _clientRuntimeVersion, _crtVersion, _services in
@@ -249,7 +220,6 @@ extension GeneratePackageManifest {
                 clientRuntimeVersion: _clientRuntimeVersion,
                 crtVersion: _crtVersion,
                 services: _services,
-                includeIntegrationTests: includeIntegrationTests,
                 excludeAWSServices: excludeAWSServices,
                 excludeRuntimeTests: excludeRuntimeTests
             )

@@ -228,58 +228,12 @@ func addServiceUnitTestTarget(_ name: String) {
     ]
 }
 
-func addIntegrationTestTarget(_ name: String) {
-    let integrationTestName = "\(name)IntegrationTests"
-    var additionalDependencies: [String] = []
-    var exclusions: [String] = []
-    switch name {
-    case "AWSEC2":
-        additionalDependencies = ["AWSIAM", "AWSSTS", "AWSCloudWatchLogs"]
-        exclusions = [
-            "Resources/IMDSIntegTestApp"
-        ]
-    case "AWSECS":
-        additionalDependencies = ["AWSCloudWatchLogs", "AWSEC2",  "AWSIAM", "AWSSTS"]
-        exclusions = [
-            "README.md",
-            "Resources/ECSIntegTestApp/"
-        ]
-    case "AWSS3":
-        additionalDependencies = ["AWSSSOAdmin", "AWSS3Control", "AWSSTS"]
-    case "AWSEventBridge":
-        additionalDependencies = ["AWSRoute53"]
-    case "AWSCloudFrontKeyValueStore":
-        additionalDependencies = ["AWSCloudFront"]
-    case "AWSSTS":
-        additionalDependencies = ["AWSIAM", "AWSCognitoIdentity"]
-    default:
-        break
-    }
-    integrationTestServices.insert(name)
-    additionalDependencies.forEach { integrationTestServices.insert($0) }
-    package.targets += [
-        .testTarget(
-            name: integrationTestName,
-            dependencies: [.crt, .clientRuntime, .awsClientRuntime, .byName(name: name), .smithyTestUtils, .awsSDKIdentity, .smithyIdentity, .awsSDKCommon] + additionalDependencies.map { Target.Dependency.target(name: $0, condition: nil) },
-            path: "./IntegrationTests/Services/\(integrationTestName)",
-            exclude: exclusions,
-            resources: [.process("Resources")]
-        )
-    ]
-}
-
 var enabledServices = Set<String>()
 var enabledServiceUnitTests = Set<String>()
 
 func addAllServices() {
     enabledServices = Set(serviceTargets)
     enabledServiceUnitTests = Set(serviceTargets)
-}
-
-var integrationTestServices = Set<String>()
-
-func addIntegrationTests() {
-    servicesWithIntegrationTests.forEach { addIntegrationTestTarget($0) }
 }
 
 func excludeRuntimeUnitTests() {
@@ -292,6 +246,6 @@ func excludeRuntimeUnitTests() {
 }
 
 func addResolvedTargets() {
-    enabledServices.union(integrationTestServices).forEach(addServiceTarget)
+    enabledServices.forEach(addServiceTarget)
     enabledServiceUnitTests.forEach(addServiceUnitTestTarget)
 }
