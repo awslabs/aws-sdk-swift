@@ -17,7 +17,6 @@ struct PackageManifestBuilder {
     let clientRuntimeVersion: Version
     let crtVersion: Version
     let services: [Service]
-    let includeProtocolTests: Bool
     let excludeAWSServices: Bool
     let excludeRuntimeTests: Bool
     let basePackageContents: () throws -> String
@@ -26,7 +25,6 @@ struct PackageManifestBuilder {
         clientRuntimeVersion: Version,
         crtVersion: Version,
         services: [Service],
-        includeProtocolTests: Bool,
         excludeAWSServices: Bool,
         excludeRuntimeTests: Bool,
         basePackageContents: @escaping () throws -> String
@@ -34,7 +32,6 @@ struct PackageManifestBuilder {
         self.clientRuntimeVersion = clientRuntimeVersion
         self.crtVersion = crtVersion
         self.services = services
-        self.includeProtocolTests = includeProtocolTests
         self.excludeAWSServices = excludeAWSServices
         self.basePackageContents = basePackageContents
         self.excludeRuntimeTests = excludeRuntimeTests
@@ -44,11 +41,10 @@ struct PackageManifestBuilder {
         clientRuntimeVersion: Version,
         crtVersion: Version,
         services: [Service],
-        includeProtocolTests: Bool,
         excludeAWSServices: Bool,
         excludeRuntimeTests: Bool
     ) {
-        self.init(clientRuntimeVersion: clientRuntimeVersion, crtVersion: crtVersion, services: services, includeProtocolTests: includeProtocolTests, excludeAWSServices: excludeAWSServices, excludeRuntimeTests: excludeRuntimeTests) {
+        self.init(clientRuntimeVersion: clientRuntimeVersion, crtVersion: crtVersion, services: services, excludeAWSServices: excludeAWSServices, excludeRuntimeTests: excludeRuntimeTests) {
             // Returns the contents of the base package manifest stored in the bundle at `Resources/Package.Base.swift`
             let basePackageName = "Package.Base"
             
@@ -96,8 +92,6 @@ struct PackageManifestBuilder {
             // Add the generated content that defines the list of services to include
             buildServiceTargets(),
             "",
-            buildProtocolTests(),
-            "",
             buildResolvedServices(),
             "\n"
         ]
@@ -142,14 +136,6 @@ struct PackageManifestBuilder {
         lines += ["\(excludeAWSServices ? "// " : "")addAllServices()"]
 
         return lines.joined(separator: .newline)
-    }
-
-    /// Calls the method to include protocol tests in the manifest.
-    private func buildProtocolTests() -> String {
-        return [
-            "// Uncomment this line to enable protocol tests",
-            (includeProtocolTests ? "" : "// ") + "addProtocolTests()"
-        ].joined(separator: .newline)
     }
 
     private func buildResolvedServices() -> String {

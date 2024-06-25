@@ -32,9 +32,6 @@ struct GeneratePackageManifestCommand: ParsableCommand {
     @Option(help: "The names of the services to include in the package manifest. This defaults to all services located in aws-sdk-swift/Sources/Services")
     var services: [String] = []
 
-    @Flag(help: "If the package manifest should include the protocol tests.")
-    var includeProtocolTests: Bool = false
-
     @Flag(help: "If the package manifest should exclude AWS services.")
     var excludeAWSServices = false
 
@@ -48,7 +45,6 @@ struct GeneratePackageManifestCommand: ParsableCommand {
             clientRuntimeVersion: clientRuntimeVersion,
             crtVersion: crtVersion,
             services: services.isEmpty ? nil : services,
-            includeProtocolTests: includeProtocolTests,
             excludeAWSServices: excludeAWSServices,
             excludeRuntimeTests: excludeRuntimeTests
         )
@@ -73,8 +69,6 @@ struct GeneratePackageManifest {
     /// The list of services to include as products
     /// If `nil` then the list is populated with the names of all items within the `Sources/Services` directory
     let services: [String]?
-    /// If the package manifest should include the protocol tests.
-    let includeProtocolTests: Bool
     /// If the package manifest should exclude the AWS services.
     let excludeAWSServices: Bool
     /// If the package manifest should exclude runtime unit tests.
@@ -210,7 +204,6 @@ extension GeneratePackageManifest {
         clientRuntimeVersion: Version? = nil,
         crtVersion: Version? = nil,
         services: [String]? = nil,
-        includeProtocolTests: Bool = false,
         excludeAWSServices: Bool = false,
         excludeRuntimeTests: Bool = false
     ) -> Self {
@@ -220,7 +213,6 @@ extension GeneratePackageManifest {
             clientRuntimeVersion: clientRuntimeVersion,
             crtVersion: crtVersion,
             services: services,
-            includeProtocolTests: includeProtocolTests,
             excludeAWSServices: excludeAWSServices,
             excludeRuntimeTests: excludeRuntimeTests
         ) { _clientRuntimeVersion, _crtVersion, _services in
@@ -228,7 +220,6 @@ extension GeneratePackageManifest {
                 clientRuntimeVersion: _clientRuntimeVersion,
                 crtVersion: _crtVersion,
                 services: _services,
-                includeProtocolTests: includeProtocolTests,
                 excludeAWSServices: excludeAWSServices,
                 excludeRuntimeTests: excludeRuntimeTests
             )
