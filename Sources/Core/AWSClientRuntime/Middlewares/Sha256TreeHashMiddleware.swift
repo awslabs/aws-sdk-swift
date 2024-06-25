@@ -7,6 +7,7 @@ import AwsCommonRuntimeKit
 import ClientRuntime
 import SmithyHTTPAPI
 import struct Foundation.Data
+import struct Smithy.AttributeKey
 
 public struct Sha256TreeHashMiddleware<OperationStackInput, OperationStackOutput>: Middleware {
     public let id: String = "Sha256TreeHash"
@@ -24,11 +25,11 @@ public struct Sha256TreeHashMiddleware<OperationStackInput, OperationStackOutput
           Self.MInput == H.Input,
           Self.MOutput == H.Output {
               let request = input.build()
-              try await addHashes(request: request, builder: input)
+              try await addHashes(request: request, builder: input, context: context)
               return try await next.handle(context: context, input: input)
           }
 
-    private func addHashes(request: SdkHttpRequest, builder: SdkHttpRequestBuilder) async throws {
+    private func addHashes(request: SdkHttpRequest, builder: SdkHttpRequestBuilder, context: Context) async throws {
         switch request.body {
         case .data(let data):
             guard let data = data else {
@@ -57,7 +58,8 @@ public struct Sha256TreeHashMiddleware<OperationStackInput, OperationStackOutput
             let (linearHash, treeHash) = try computeHashes(data: streamBytes)
             if let treeHash = treeHash, let linearHash = linearHash {
                 builder.withHeader(name: X_AMZ_SHA256_TREE_HASH_HEADER_NAME, value: treeHash)
-                builder.withHeader(name: X_AMZ_CONTENT_SHA256_HEADER_NAME, value: linearHash)
+                // provide the value but let CRT add the SHA256 header during signing
+                context.attributes.set(key: AttributeKey(name: X_AMZ_CONTENT_SHA256_HEADER_NAME), value: linearHash)
             }
         case .noStream:
             break
@@ -110,12 +112,12 @@ extension Sha256TreeHashMiddleware: HttpInterceptor {
     public typealias InputType = OperationStackInput
     public typealias OutputType = OperationStackOutput
 
-    public func modifyBeforeTransmit(
+    public func modifyBeforeSigning(
         context: some MutableRequest<Self.InputType, Self.RequestType, Self.AttributesType>
     ) async throws {
         let request = context.getRequest()
         let builder = request.toBuilder()
-        try await addHashes(request: request, builder: builder)
+        try await addHashes(request: request, builder: builder, context: context.getAttributes())
         context.updateRequest(updated: builder.build())
     }
 }

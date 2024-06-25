@@ -125,11 +125,13 @@ public class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer {
         // Determine signed body value
         let checksumIsPresent = signingProperties.get(key: SigningPropertyKeys.checksum) != nil
         let isChunkedEligibleStream = signingProperties.get(key: SigningPropertyKeys.isChunkedEligibleStream) ?? false
+        let preComputedSha256 = signingProperties.get(key: AttributeKey<String>(name: "SignedBodyValue"))
 
         let signedBodyValue: AWSSignedBodyValue = determineSignedBodyValue(
             checksumIsPresent: checksumIsPresent,
             isChunkedEligbleStream: isChunkedEligibleStream,
-            isUnsignedBody: unsignedBody
+            isUnsignedBody: unsignedBody,
+            preComputedSha256: preComputedSha256
         )
 
         let flags: SigningFlags = SigningFlags(
@@ -239,11 +241,18 @@ public class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer {
     private func determineSignedBodyValue(
         checksumIsPresent: Bool,
         isChunkedEligbleStream: Bool,
-        isUnsignedBody: Bool
+        isUnsignedBody: Bool,
+        preComputedSha256: String?
     ) -> AWSSignedBodyValue {
         if !isChunkedEligbleStream {
             // Normal Payloads, Event Streams, etc.
-            return isUnsignedBody ? .unsignedPayload : .empty
+            if isUnsignedBody {
+                return .unsignedPayload
+            } else if let sha256 = preComputedSha256 {
+                return .precomputed(sha256)
+            } else {
+                return .empty
+            }
         }
 
         // streaming + eligible for chunked transfer
