@@ -35,9 +35,6 @@ struct GeneratePackageManifestCommand: ParsableCommand {
     @Flag(help: "If the package manifest should include the integration tests.")
     var includeIntegrationTests: Bool = false
     
-    @Flag(help: "If the package manifest should include the protocol tests.")
-    var includeProtocolTests: Bool = false
-
     @Flag(help: "If the package manifest should exclude AWS services.")
     var excludeAWSServices = false
 
@@ -52,7 +49,6 @@ struct GeneratePackageManifestCommand: ParsableCommand {
             crtVersion: crtVersion,
             services: services.isEmpty ? nil : services,
             includeIntegrationTests: includeIntegrationTests,
-            includeProtocolTests: includeProtocolTests,
             excludeAWSServices: excludeAWSServices,
             excludeRuntimeTests: excludeRuntimeTests
         )
@@ -79,8 +75,6 @@ struct GeneratePackageManifest {
     let services: [String]?
     /// If the package manifest should include the integration tests.
     let includeIntegrationTests: Bool
-    /// If the package manifest should include the protocol tests.
-    let includeProtocolTests: Bool
     /// If the package manifest should exclude the AWS services.
     let excludeAWSServices: Bool
     /// If the package manifest should exclude runtime unit tests.
@@ -238,7 +232,6 @@ extension GeneratePackageManifest {
         crtVersion: Version? = nil,
         services: [String]? = nil,
         includeIntegrationTests: Bool = false,
-        includeProtocolTests: Bool = false,
         excludeAWSServices: Bool = false,
         excludeRuntimeTests: Bool = false
     ) -> Self {
@@ -249,7 +242,6 @@ extension GeneratePackageManifest {
             crtVersion: crtVersion,
             services: services,
             includeIntegrationTests: includeIntegrationTests,
-            includeProtocolTests: includeProtocolTests,
             excludeAWSServices: excludeAWSServices,
             excludeRuntimeTests: excludeRuntimeTests
         ) { _clientRuntimeVersion, _crtVersion, _services in
@@ -257,7 +249,6 @@ extension GeneratePackageManifest {
                 clientRuntimeVersion: _clientRuntimeVersion,
                 crtVersion: _crtVersion,
                 services: _services,
-                includeProtocolTests: includeProtocolTests,
                 includeIntegrationTests: includeIntegrationTests,
                 excludeAWSServices: excludeAWSServices,
                 excludeRuntimeTests: excludeRuntimeTests
