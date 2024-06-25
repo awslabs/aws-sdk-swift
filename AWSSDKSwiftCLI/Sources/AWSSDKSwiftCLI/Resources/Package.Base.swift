@@ -291,58 +291,6 @@ func excludeRuntimeUnitTests() {
     }
 }
 
-func addProtocolTests() {
-    struct ProtocolTest {
-        let name: String
-        let sourcePath: String
-        let testPath: String?
-        let buildOnly: Bool
-
-        init(name: String, sourcePath: String, testPath: String? = nil, buildOnly: Bool = false) {
-            self.name = name
-            self.sourcePath = sourcePath
-            self.testPath = testPath
-            self.buildOnly = buildOnly
-        }
-    }
-
-    let baseDir = "codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen"
-    let baseDirLocal = "codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-codegen-local"
-
-    let protocolTests: [ProtocolTest] = [
-        .init(name: "AWSRestJsonTestSDK", sourcePath: "\(baseDir)/aws-restjson"),
-        .init(name: "AWSRestJsonValidationTestSDK", sourcePath: "\(baseDir)/aws-restjson-validation"),
-        .init(name: "AWSJson1_0TestSDK", sourcePath: "\(baseDir)/aws-json-10"),
-        .init(name: "AWSJson1_1TestSDK", sourcePath: "\(baseDir)/aws-json-11"),
-        .init(name: "RestXmlTestSDK", sourcePath: "\(baseDir)/rest-xml"),
-        .init(name: "RestXmlWithNamespaceTestSDK", sourcePath: "\(baseDir)/rest-xml-xmlns"),
-        .init(name: "Ec2QueryTestSDK", sourcePath: "\(baseDir)/ec2-query"),
-        .init(name: "AWSQueryTestSDK", sourcePath: "\(baseDir)/aws-query"),
-        .init(name: "APIGatewayTestSDK", sourcePath: "\(baseDir)/apigateway"),
-        .init(name: "GlacierTestSDK", sourcePath: "\(baseDir)/glacier"),
-        .init(name: "MachineLearningTestSDK", sourcePath: "\(baseDir)/machinelearning"),
-        .init(name: "S3TestSDK", sourcePath: "\(baseDir)/s3"),
-        .init(name: "rest_json_extras", sourcePath: "\(baseDirLocal)/rest_json_extras"),
-        .init(name: "AwsQueryExtras", sourcePath: "\(baseDirLocal)/AwsQueryExtras"),
-        .init(name: "EventStream", sourcePath: "\(baseDirLocal)/EventStream", buildOnly: true),
-        .init(name: "RPCEventStream", sourcePath: "\(baseDirLocal)/RPCEventStream", buildOnly: true),
-        .init(name: "Waiters", sourcePath: "\(baseDirLocal)/Waiters", testPath: "codegen/protocol-test-codegen-local/Tests"),
-    ]
-    for protocolTest in protocolTests {
-        let target = Target.target(
-            name: protocolTest.name,
-            dependencies: serviceTargetDependencies,
-            path: "\(protocolTest.sourcePath)/swift-codegen/Sources/\(protocolTest.name)"
-        )
-        let testTarget = protocolTest.buildOnly ? nil : Target.testTarget(
-            name: "\(protocolTest.name)Tests",
-            dependencies: [.smithyTestUtils, .smithyStreams, .smithyWaitersAPI, .byNameItem(name: protocolTest.name, condition: nil)],
-            path: "\(protocolTest.testPath ?? protocolTest.sourcePath)/swift-codegen/Tests/\(protocolTest.name)Tests"
-        )
-        package.targets += [target, testTarget].compactMap { $0 }
-    }
-}
-
 func addResolvedTargets() {
     enabledServices.union(integrationTestServices).forEach(addServiceTarget)
     enabledServiceUnitTests.forEach(addServiceUnitTestTarget)
