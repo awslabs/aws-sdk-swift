@@ -12,14 +12,11 @@ import PackageDescription
 struct PackageManifestBuilder {
     struct Service {
         let name: String
-        let includeIntegrationTests: Bool
     }
 
     let clientRuntimeVersion: Version
     let crtVersion: Version
     let services: [Service]
-    let includeProtocolTests: Bool
-    let includeIntegrationTests: Bool
     let excludeAWSServices: Bool
     let excludeRuntimeTests: Bool
     let basePackageContents: () throws -> String
@@ -28,8 +25,6 @@ struct PackageManifestBuilder {
         clientRuntimeVersion: Version,
         crtVersion: Version,
         services: [Service],
-        includeProtocolTests: Bool,
-        includeIntegrationTests: Bool,
         excludeAWSServices: Bool,
         excludeRuntimeTests: Bool,
         basePackageContents: @escaping () throws -> String
@@ -37,8 +32,6 @@ struct PackageManifestBuilder {
         self.clientRuntimeVersion = clientRuntimeVersion
         self.crtVersion = crtVersion
         self.services = services
-        self.includeProtocolTests = includeProtocolTests
-        self.includeIntegrationTests = includeIntegrationTests
         self.excludeAWSServices = excludeAWSServices
         self.basePackageContents = basePackageContents
         self.excludeRuntimeTests = excludeRuntimeTests
@@ -48,12 +41,10 @@ struct PackageManifestBuilder {
         clientRuntimeVersion: Version,
         crtVersion: Version,
         services: [Service],
-        includeProtocolTests: Bool,
-        includeIntegrationTests: Bool,
         excludeAWSServices: Bool,
         excludeRuntimeTests: Bool
     ) {
-        self.init(clientRuntimeVersion: clientRuntimeVersion, crtVersion: crtVersion, services: services, includeProtocolTests: includeProtocolTests, includeIntegrationTests: includeIntegrationTests, excludeAWSServices: excludeAWSServices, excludeRuntimeTests: excludeRuntimeTests) {
+        self.init(clientRuntimeVersion: clientRuntimeVersion, crtVersion: crtVersion, services: services, excludeAWSServices: excludeAWSServices, excludeRuntimeTests: excludeRuntimeTests) {
             // Returns the contents of the base package manifest stored in the bundle at `Resources/Package.Base.swift`
             let basePackageName = "Package.Base"
             
@@ -101,11 +92,6 @@ struct PackageManifestBuilder {
             // Add the generated content that defines the list of services to include
             buildServiceTargets(),
             "",
-            // Add the generated content that defines the list of services with integration tests to include
-            buildIntegrationTestsTargets(),
-            "",
-            buildProtocolTests(),
-            "",
             buildResolvedServices(),
             "\n"
         ]
@@ -150,29 +136,6 @@ struct PackageManifestBuilder {
         lines += ["\(excludeAWSServices ? "// " : "")addAllServices()"]
 
         return lines.joined(separator: .newline)
-    }
-
-    /// Builds the list of services to add integration test targets for..
-    /// This generates an array of strings, where the each item is a name of a service
-    /// and calls the `addIntegrationTestTarget` for each item.
-    private func buildIntegrationTestsTargets() -> String {
-        var lines: [String] = []
-        lines += ["let servicesWithIntegrationTests: [String] = ["]
-        lines += services.filter(\.includeIntegrationTests).map { "    \($0.name.wrappedInQuotes())," }
-        lines += ["]"]
-        lines += [""]
-        lines += ["// Uncomment this line to enable integration tests"]
-        lines += ["\(includeIntegrationTests ? "" : "// ")addIntegrationTests()"]
-
-        return lines.joined(separator: .newline)
-    }
-
-    /// Calls the method to include protocol tests in the manifest.
-    private func buildProtocolTests() -> String {
-        return [
-            "// Uncomment this line to enable protocol tests",
-            (includeProtocolTests ? "" : "// ") + "addProtocolTests()"
-        ].joined(separator: .newline)
     }
 
     private func buildResolvedServices() -> String {
