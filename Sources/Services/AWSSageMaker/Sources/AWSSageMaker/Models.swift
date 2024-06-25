@@ -104,6 +104,11 @@ public struct DeleteHubContentOutput {
     public init() { }
 }
 
+public struct DeleteHubContentReferenceOutput {
+
+    public init() { }
+}
+
 public struct DeleteHubOutput {
 
     public init() { }
@@ -646,6 +651,23 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes {
+    /// Configuration information specifying which hub contents have accessible deployment options.
+    public struct InferenceHubAccessConfig {
+        /// The ARN of the hub content for which deployment access is allowed.
+        /// This member is required.
+        public var hubContentArn: Swift.String?
+
+        public init(
+            hubContentArn: Swift.String? = nil
+        )
+        {
+            self.hubContentArn = hubContentArn
+        }
+    }
+
+}
+
+extension SageMakerClientTypes {
     /// The access configuration file to control access to the ML model. You can explicitly accept the model end-user license agreement (EULA) within the ModelAccessConfig.
     ///
     /// * If you are a Jumpstart user, see the [End-user license agreements](https://docs.aws.amazon.com/sagemaker/latest/dg/jumpstart-foundation-models-choose.html#jumpstart-foundation-models-choose-eula) section for more details on accepting the EULA.
@@ -724,6 +746,8 @@ extension SageMakerClientTypes {
         /// * Do not organize the model artifacts in [S3 console using folders](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-folders.html). When you create a folder in S3 console, S3 creates a 0-byte object with a key set to the folder name you provide. They key of the 0-byte object ends with a slash (/) which violates SageMaker restrictions on model artifact file names, leading to model deployment failure.
         /// This member is required.
         public var compressionType: SageMakerClientTypes.ModelCompressionType?
+        /// Configuration information for hub access.
+        public var hubAccessConfig: SageMakerClientTypes.InferenceHubAccessConfig?
         /// Specifies the access configuration file for the ML model. You can explicitly accept the model end-user license agreement (EULA) within the ModelAccessConfig. You are responsible for reviewing and complying with any applicable license terms and making sure they are acceptable for your use case before downloading or using a model.
         public var modelAccessConfig: SageMakerClientTypes.ModelAccessConfig?
         /// Specifies the type of ML model data to deploy. If you choose S3Prefix, S3Uri identifies a key name prefix. SageMaker uses all objects that match the specified key name prefix as part of the ML model data to deploy. A valid key name prefix identified by S3Uri always ends with a forward slash (/). If you choose S3Object, S3Uri identifies an object that is the ML model data to deploy.
@@ -735,12 +759,14 @@ extension SageMakerClientTypes {
 
         public init(
             compressionType: SageMakerClientTypes.ModelCompressionType? = nil,
+            hubAccessConfig: SageMakerClientTypes.InferenceHubAccessConfig? = nil,
             modelAccessConfig: SageMakerClientTypes.ModelAccessConfig? = nil,
             s3DataType: SageMakerClientTypes.S3ModelDataType? = nil,
             s3Uri: Swift.String? = nil
         )
         {
             self.compressionType = compressionType
+            self.hubAccessConfig = hubAccessConfig
             self.modelAccessConfig = modelAccessConfig
             self.s3DataType = s3DataType
             self.s3Uri = s3Uri
@@ -9187,6 +9213,33 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes {
+    /// Defines the configuration for attaching an additional Amazon Elastic Block Store (EBS) volume to each instance of the SageMaker HyperPod cluster instance group.
+    public struct ClusterEbsVolumeConfig {
+        /// The size in gigabytes (GB) of the additional EBS volume to be attached to the instances in the SageMaker HyperPod cluster instance group. The additional EBS volume is attached to each instance within the SageMaker HyperPod cluster instance group and mounted to /opt/sagemaker.
+        /// This member is required.
+        public var volumeSizeInGB: Swift.Int?
+
+        public init(
+            volumeSizeInGB: Swift.Int? = nil
+        )
+        {
+            self.volumeSizeInGB = volumeSizeInGB
+        }
+    }
+
+}
+
+extension SageMakerClientTypes {
+    /// Defines the configuration for attaching additional storage to the instances in the SageMaker HyperPod cluster instance group.
+    public enum ClusterInstanceStorageConfig {
+        /// Defines the configuration for attaching additional Amazon Elastic Block Store (EBS) volumes to the instances in the SageMaker HyperPod cluster instance group. The additional EBS volume is attached to each instance within the SageMaker HyperPod cluster instance group and mounted to /opt/sagemaker.
+        case ebsvolumeconfig(SageMakerClientTypes.ClusterEbsVolumeConfig)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension SageMakerClientTypes {
 
     public enum ClusterInstanceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case mlC5n18xlarge
@@ -9354,6 +9407,8 @@ extension SageMakerClientTypes {
         public var executionRole: Swift.String?
         /// The name of the instance group of a SageMaker HyperPod cluster.
         public var instanceGroupName: Swift.String?
+        /// The additional storage configurations for the instances in the SageMaker HyperPod cluster instance group.
+        public var instanceStorageConfigs: [SageMakerClientTypes.ClusterInstanceStorageConfig]?
         /// The instance type of the instance group of a SageMaker HyperPod cluster.
         public var instanceType: SageMakerClientTypes.ClusterInstanceType?
         /// Details of LifeCycle configuration for the instance group.
@@ -9367,6 +9422,7 @@ extension SageMakerClientTypes {
             currentCount: Swift.Int? = nil,
             executionRole: Swift.String? = nil,
             instanceGroupName: Swift.String? = nil,
+            instanceStorageConfigs: [SageMakerClientTypes.ClusterInstanceStorageConfig]? = nil,
             instanceType: SageMakerClientTypes.ClusterInstanceType? = nil,
             lifeCycleConfig: SageMakerClientTypes.ClusterLifeCycleConfig? = nil,
             targetCount: Swift.Int? = nil,
@@ -9376,6 +9432,7 @@ extension SageMakerClientTypes {
             self.currentCount = currentCount
             self.executionRole = executionRole
             self.instanceGroupName = instanceGroupName
+            self.instanceStorageConfigs = instanceStorageConfigs
             self.instanceType = instanceType
             self.lifeCycleConfig = lifeCycleConfig
             self.targetCount = targetCount
@@ -9397,6 +9454,8 @@ extension SageMakerClientTypes {
         /// Specifies the name of the instance group.
         /// This member is required.
         public var instanceGroupName: Swift.String?
+        /// Specifies the additional storage configurations for the instances in the SageMaker HyperPod cluster instance group.
+        public var instanceStorageConfigs: [SageMakerClientTypes.ClusterInstanceStorageConfig]?
         /// Specifies the instance type of the instance group.
         /// This member is required.
         public var instanceType: SageMakerClientTypes.ClusterInstanceType?
@@ -9410,6 +9469,7 @@ extension SageMakerClientTypes {
             executionRole: Swift.String? = nil,
             instanceCount: Swift.Int? = nil,
             instanceGroupName: Swift.String? = nil,
+            instanceStorageConfigs: [SageMakerClientTypes.ClusterInstanceStorageConfig]? = nil,
             instanceType: SageMakerClientTypes.ClusterInstanceType? = nil,
             lifeCycleConfig: SageMakerClientTypes.ClusterLifeCycleConfig? = nil,
             threadsPerCore: Swift.Int? = nil
@@ -9418,6 +9478,7 @@ extension SageMakerClientTypes {
             self.executionRole = executionRole
             self.instanceCount = instanceCount
             self.instanceGroupName = instanceGroupName
+            self.instanceStorageConfigs = instanceStorageConfigs
             self.instanceType = instanceType
             self.lifeCycleConfig = lifeCycleConfig
             self.threadsPerCore = threadsPerCore
@@ -9514,6 +9575,8 @@ extension SageMakerClientTypes {
         public var instanceId: Swift.String?
         /// The status of the instance.
         public var instanceStatus: SageMakerClientTypes.ClusterInstanceStatusDetails?
+        /// The configurations of additional storage specified to the instance group where the instance (node) is launched.
+        public var instanceStorageConfigs: [SageMakerClientTypes.ClusterInstanceStorageConfig]?
         /// The type of the instance.
         public var instanceType: SageMakerClientTypes.ClusterInstanceType?
         /// The time when the instance is launched.
@@ -9533,6 +9596,7 @@ extension SageMakerClientTypes {
             instanceGroupName: Swift.String? = nil,
             instanceId: Swift.String? = nil,
             instanceStatus: SageMakerClientTypes.ClusterInstanceStatusDetails? = nil,
+            instanceStorageConfigs: [SageMakerClientTypes.ClusterInstanceStorageConfig]? = nil,
             instanceType: SageMakerClientTypes.ClusterInstanceType? = nil,
             launchTime: Foundation.Date? = nil,
             lifeCycleConfig: SageMakerClientTypes.ClusterLifeCycleConfig? = nil,
@@ -9545,6 +9609,7 @@ extension SageMakerClientTypes {
             self.instanceGroupName = instanceGroupName
             self.instanceId = instanceId
             self.instanceStatus = instanceStatus
+            self.instanceStorageConfigs = instanceStorageConfigs
             self.instanceType = instanceType
             self.launchTime = launchTime
             self.lifeCycleConfig = lifeCycleConfig
@@ -14021,6 +14086,32 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    public enum ProductionVariantInferenceAmiVersion: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case al2Gpu2
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProductionVariantInferenceAmiVersion] {
+            return [
+                .al2Gpu2
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .al2Gpu2: return "al2-ami-sagemaker-inference-gpu-2"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     public enum ManagedInstanceScalingStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
@@ -14159,6 +14250,8 @@ extension SageMakerClientTypes {
         public var coreDumpConfig: SageMakerClientTypes.ProductionVariantCoreDumpConfig?
         /// You can use this parameter to turn on native Amazon Web Services Systems Manager (SSM) access for a production variant behind an endpoint. By default, SSM access is disabled for all production variants behind an endpoint. You can turn on or turn off SSM access for a production variant behind an existing endpoint by creating a new endpoint configuration and calling UpdateEndpoint.
         public var enableSSMAccess: Swift.Bool?
+        /// Specifies an option from a collection of preconfigured Amazon Machine Image (AMI) images. Each image is configured by Amazon Web Services with a set of software and driver versions. Amazon Web Services optimizes these configurations for different machine learning workloads. By selecting an AMI version, you can ensure that your inference environment is compatible with specific software requirements, such as CUDA driver versions, Linux kernel versions, or Amazon Web Services Neuron driver versions.
+        public var inferenceAmiVersion: SageMakerClientTypes.ProductionVariantInferenceAmiVersion?
         /// Number of instances to launch initially.
         public var initialInstanceCount: Swift.Int?
         /// Determines initial traffic distribution among all of the models that you specify in the endpoint configuration. The traffic to a production variant is determined by the ratio of the VariantWeight to the sum of all VariantWeight values across all ProductionVariants. If unspecified, it defaults to 1.0.
@@ -14186,6 +14279,7 @@ extension SageMakerClientTypes {
             containerStartupHealthCheckTimeoutInSeconds: Swift.Int? = nil,
             coreDumpConfig: SageMakerClientTypes.ProductionVariantCoreDumpConfig? = nil,
             enableSSMAccess: Swift.Bool? = nil,
+            inferenceAmiVersion: SageMakerClientTypes.ProductionVariantInferenceAmiVersion? = nil,
             initialInstanceCount: Swift.Int? = nil,
             initialVariantWeight: Swift.Float? = nil,
             instanceType: SageMakerClientTypes.ProductionVariantInstanceType? = nil,
@@ -14202,6 +14296,7 @@ extension SageMakerClientTypes {
             self.containerStartupHealthCheckTimeoutInSeconds = containerStartupHealthCheckTimeoutInSeconds
             self.coreDumpConfig = coreDumpConfig
             self.enableSSMAccess = enableSSMAccess
+            self.inferenceAmiVersion = inferenceAmiVersion
             self.initialInstanceCount = initialInstanceCount
             self.initialVariantWeight = initialVariantWeight
             self.instanceType = instanceType
@@ -15498,6 +15593,54 @@ public struct CreateHubOutput {
     )
     {
         self.hubArn = hubArn
+    }
+}
+
+public struct CreateHubContentReferenceInput {
+    /// The name of the hub content to reference.
+    public var hubContentName: Swift.String?
+    /// The name of the hub to add the hub content reference to.
+    /// This member is required.
+    public var hubName: Swift.String?
+    /// The minimum version of the hub content to reference.
+    public var minVersion: Swift.String?
+    /// The ARN of the public hub content to reference.
+    /// This member is required.
+    public var sageMakerPublicHubContentArn: Swift.String?
+    /// Any tags associated with the hub content to reference.
+    public var tags: [SageMakerClientTypes.Tag]?
+
+    public init(
+        hubContentName: Swift.String? = nil,
+        hubName: Swift.String? = nil,
+        minVersion: Swift.String? = nil,
+        sageMakerPublicHubContentArn: Swift.String? = nil,
+        tags: [SageMakerClientTypes.Tag]? = nil
+    )
+    {
+        self.hubContentName = hubContentName
+        self.hubName = hubName
+        self.minVersion = minVersion
+        self.sageMakerPublicHubContentArn = sageMakerPublicHubContentArn
+        self.tags = tags
+    }
+}
+
+public struct CreateHubContentReferenceOutput {
+    /// The ARN of the hub that the hub content reference was added to.
+    /// This member is required.
+    public var hubArn: Swift.String?
+    /// The ARN of the hub content.
+    /// This member is required.
+    public var hubContentArn: Swift.String?
+
+    public init(
+        hubArn: Swift.String? = nil,
+        hubContentArn: Swift.String? = nil
+    )
+    {
+        self.hubArn = hubArn
+        self.hubContentArn = hubContentArn
     }
 }
 
@@ -18978,6 +19121,93 @@ public struct CreateLabelingJobOutput {
 
 extension SageMakerClientTypes {
 
+    public enum TrackingServerSize: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case l
+        case m
+        case s
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TrackingServerSize] {
+            return [
+                .l,
+                .m,
+                .s
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .l: return "Large"
+            case .m: return "Medium"
+            case .s: return "Small"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateMlflowTrackingServerInput {
+    /// The S3 URI for a general purpose bucket to use as the MLflow Tracking Server artifact store.
+    /// This member is required.
+    public var artifactStoreUri: Swift.String?
+    /// Whether to enable or disable automatic registration of new MLflow models to the SageMaker Model Registry. To enable automatic model registration, set this value to True. To disable automatic model registration, set this value to False. If not specified, AutomaticModelRegistration defaults to False.
+    public var automaticModelRegistration: Swift.Bool?
+    /// The version of MLflow that the tracking server uses. To see which MLflow versions are available to use, see [How it works](https://docs.aws.amazon.com/sagemaker/latest/dg/mlflow.html#mlflow-create-tracking-server-how-it-works).
+    public var mlflowVersion: Swift.String?
+    /// The Amazon Resource Name (ARN) for an IAM role in your account that the MLflow Tracking Server uses to access the artifact store in Amazon S3. The role should have AmazonS3FullAccess permissions. For more information on IAM permissions for tracking server creation, see [Set up IAM permissions for MLflow](https://docs.aws.amazon.com/sagemaker/latest/dg/mlflow-create-tracking-server-iam.html).
+    /// This member is required.
+    public var roleArn: Swift.String?
+    /// Tags consisting of key-value pairs used to manage metadata for the tracking server.
+    public var tags: [SageMakerClientTypes.Tag]?
+    /// A unique string identifying the tracking server name. This string is part of the tracking server ARN.
+    /// This member is required.
+    public var trackingServerName: Swift.String?
+    /// The size of the tracking server you want to create. You can choose between "Small", "Medium", and "Large". The default MLflow Tracking Server configuration size is "Small". You can choose a size depending on the projected use of the tracking server such as the volume of data logged, number of users, and frequency of use. We recommend using a small tracking server for teams of up to 25 users, a medium tracking server for teams of up to 50 users, and a large tracking server for teams of up to 100 users.
+    public var trackingServerSize: SageMakerClientTypes.TrackingServerSize?
+    /// The day and time of the week in Coordinated Universal Time (UTC) 24-hour standard time that weekly maintenance updates are scheduled. For example: TUE:03:30.
+    public var weeklyMaintenanceWindowStart: Swift.String?
+
+    public init(
+        artifactStoreUri: Swift.String? = nil,
+        automaticModelRegistration: Swift.Bool? = nil,
+        mlflowVersion: Swift.String? = nil,
+        roleArn: Swift.String? = nil,
+        tags: [SageMakerClientTypes.Tag]? = nil,
+        trackingServerName: Swift.String? = nil,
+        trackingServerSize: SageMakerClientTypes.TrackingServerSize? = nil,
+        weeklyMaintenanceWindowStart: Swift.String? = nil
+    )
+    {
+        self.artifactStoreUri = artifactStoreUri
+        self.automaticModelRegistration = automaticModelRegistration
+        self.mlflowVersion = mlflowVersion
+        self.roleArn = roleArn
+        self.tags = tags
+        self.trackingServerName = trackingServerName
+        self.trackingServerSize = trackingServerSize
+        self.weeklyMaintenanceWindowStart = weeklyMaintenanceWindowStart
+    }
+}
+
+public struct CreateMlflowTrackingServerOutput {
+    /// The ARN of the tracking server.
+    public var trackingServerArn: Swift.String?
+
+    public init(
+        trackingServerArn: Swift.String? = nil
+    )
+    {
+        self.trackingServerArn = trackingServerArn
+    }
+}
+
+extension SageMakerClientTypes {
+
     public enum InferenceExecutionMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case direct
         case serial
@@ -19670,9 +19900,9 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes {
-    /// The model card associated with the model package. Since ModelPackageModelCard is tied to a model package, it is a specific usage of a model card and its schema is simplified compared to the schema of ModelCard. The ModelPackageModelCard schema does not include model_package_details, and model_overview is composed of the model_creator and model_artifact properties. For more information about the model card associated with the model package, see [View the Details of a Model Version](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html).
+    /// The model card associated with the model package. Since ModelPackageModelCard is tied to a model package, it is a specific usage of a model card and its schema is simplified compared to the schema of ModelCard. The ModelPackageModelCard schema does not include model_package_details, and model_overview is composed of the model_creator and model_artifact properties. For more information about the model package model card schema, see [Model package model card schema](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html#model-card-schema). For more information about the model card associated with the model package, see [View the Details of a Model Version](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html).
     public struct ModelPackageModelCard {
-        /// The content of the model card.
+        /// The content of the model card. The content must follow the schema described in [Model Package Model Card Schema](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html#model-card-schema).
         public var modelCardContent: Swift.String?
         /// The approval status of the model card within your organization. Different organizations might have different criteria for model card review and approval.
         ///
@@ -19943,7 +20173,7 @@ public struct CreateModelPackageInput {
     public var metadataProperties: SageMakerClientTypes.MetadataProperties?
     /// Whether the model is approved for deployment. This parameter is optional for versioned models, and does not apply to unversioned models. For versioned models, the value of this parameter must be set to Approved to deploy the model.
     public var modelApprovalStatus: SageMakerClientTypes.ModelApprovalStatus?
-    /// The model card associated with the model package. Since ModelPackageModelCard is tied to a model package, it is a specific usage of a model card and its schema is simplified compared to the schema of ModelCard. The ModelPackageModelCard schema does not include model_package_details, and model_overview is composed of the model_creator and model_artifact properties. For more information about the model card associated with the model package, see [View the Details of a Model Version](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html).
+    /// The model card associated with the model package. Since ModelPackageModelCard is tied to a model package, it is a specific usage of a model card and its schema is simplified compared to the schema of ModelCard. The ModelPackageModelCard schema does not include model_package_details, and model_overview is composed of the model_creator and model_artifact properties. For more information about the model package model card schema, see [Model package model card schema](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html#model-card-schema). For more information about the model card associated with the model package, see [View the Details of a Model Version](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html).
     public var modelCard: SageMakerClientTypes.ModelPackageModelCard?
     /// A structure that contains model metrics reports.
     public var modelMetrics: SageMakerClientTypes.ModelMetrics?
@@ -20961,6 +21191,39 @@ public struct CreatePresignedDomainUrlInput {
 
 public struct CreatePresignedDomainUrlOutput {
     /// The presigned URL.
+    public var authorizedUrl: Swift.String?
+
+    public init(
+        authorizedUrl: Swift.String? = nil
+    )
+    {
+        self.authorizedUrl = authorizedUrl
+    }
+}
+
+public struct CreatePresignedMlflowTrackingServerUrlInput {
+    /// The duration in seconds that your presigned URL is valid. The presigned URL can be used only once.
+    public var expiresInSeconds: Swift.Int?
+    /// The duration in seconds that your MLflow UI session is valid.
+    public var sessionExpirationDurationInSeconds: Swift.Int?
+    /// The name of the tracking server to connect to your MLflow UI.
+    /// This member is required.
+    public var trackingServerName: Swift.String?
+
+    public init(
+        expiresInSeconds: Swift.Int? = nil,
+        sessionExpirationDurationInSeconds: Swift.Int? = nil,
+        trackingServerName: Swift.String? = nil
+    )
+    {
+        self.expiresInSeconds = expiresInSeconds
+        self.sessionExpirationDurationInSeconds = sessionExpirationDurationInSeconds
+        self.trackingServerName = trackingServerName
+    }
+}
+
+public struct CreatePresignedMlflowTrackingServerUrlOutput {
+    /// A presigned URL with an authorization token.
     public var authorizedUrl: Swift.String?
 
     public init(
@@ -22776,6 +23039,8 @@ public struct CreateUserProfileOutput {
 extension SageMakerClientTypes {
     /// Use this parameter to configure your OIDC Identity Provider (IdP).
     public struct OidcConfig {
+        /// A string to string map of identifiers specific to the custom identity provider (IdP) being used.
+        public var authenticationRequestExtraParams: [Swift.String: Swift.String]?
         /// The OIDC IdP authorization endpoint used to configure your private workforce.
         /// This member is required.
         public var authorizationEndpoint: Swift.String?
@@ -22794,6 +23059,8 @@ extension SageMakerClientTypes {
         /// The OIDC IdP logout endpoint used to configure your private workforce.
         /// This member is required.
         public var logoutEndpoint: Swift.String?
+        /// An array of string identifiers used to refer to the specific pieces of user data or claims that the client application wants to access.
+        public var scope: Swift.String?
         /// The OIDC IdP token endpoint used to configure your private workforce.
         /// This member is required.
         public var tokenEndpoint: Swift.String?
@@ -22802,22 +23069,26 @@ extension SageMakerClientTypes {
         public var userInfoEndpoint: Swift.String?
 
         public init(
+            authenticationRequestExtraParams: [Swift.String: Swift.String]? = nil,
             authorizationEndpoint: Swift.String? = nil,
             clientId: Swift.String? = nil,
             clientSecret: Swift.String? = nil,
             issuer: Swift.String? = nil,
             jwksUri: Swift.String? = nil,
             logoutEndpoint: Swift.String? = nil,
+            scope: Swift.String? = nil,
             tokenEndpoint: Swift.String? = nil,
             userInfoEndpoint: Swift.String? = nil
         )
         {
+            self.authenticationRequestExtraParams = authenticationRequestExtraParams
             self.authorizationEndpoint = authorizationEndpoint
             self.clientId = clientId
             self.clientSecret = clientSecret
             self.issuer = issuer
             self.jwksUri = jwksUri
             self.logoutEndpoint = logoutEndpoint
+            self.scope = scope
             self.tokenEndpoint = tokenEndpoint
             self.userInfoEndpoint = userInfoEndpoint
         }
@@ -22827,11 +23098,11 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes.OidcConfig: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "OidcConfig(authorizationEndpoint: \(Swift.String(describing: authorizationEndpoint)), clientId: \(Swift.String(describing: clientId)), issuer: \(Swift.String(describing: issuer)), jwksUri: \(Swift.String(describing: jwksUri)), logoutEndpoint: \(Swift.String(describing: logoutEndpoint)), tokenEndpoint: \(Swift.String(describing: tokenEndpoint)), userInfoEndpoint: \(Swift.String(describing: userInfoEndpoint)), clientSecret: \"CONTENT_REDACTED\")"}
+        "OidcConfig(authenticationRequestExtraParams: \(Swift.String(describing: authenticationRequestExtraParams)), authorizationEndpoint: \(Swift.String(describing: authorizationEndpoint)), clientId: \(Swift.String(describing: clientId)), issuer: \(Swift.String(describing: issuer)), jwksUri: \(Swift.String(describing: jwksUri)), logoutEndpoint: \(Swift.String(describing: logoutEndpoint)), scope: \(Swift.String(describing: scope)), tokenEndpoint: \(Swift.String(describing: tokenEndpoint)), userInfoEndpoint: \(Swift.String(describing: userInfoEndpoint)), clientSecret: \"CONTENT_REDACTED\")"}
 }
 
 extension SageMakerClientTypes {
-    /// A list of IP address ranges ([CIDRs](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html)). Used to create an allow list of IP addresses for a private workforce. Workers will only be able to login to their worker portal from an IP address within this range. By default, a workforce isn't restricted to specific IP addresses.
+    /// A list of IP address ranges ([CIDRs](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html)). Used to create an allow list of IP addresses for a private workforce. Workers will only be able to log in to their worker portal from an IP address within this range. By default, a workforce isn't restricted to specific IP addresses.
     public struct SourceIpConfig {
         /// A list of one to ten [Classless Inter-Domain Routing](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html) (CIDR) values. Maximum: Ten CIDR values The following Length Constraints apply to individual CIDR values in the CIDR value list.
         /// This member is required.
@@ -22876,7 +23147,7 @@ public struct CreateWorkforceInput {
     public var cognitoConfig: SageMakerClientTypes.CognitoConfig?
     /// Use this parameter to configure a private workforce using your own OIDC Identity Provider. Do not use CognitoConfig if you specify values for OidcConfig.
     public var oidcConfig: SageMakerClientTypes.OidcConfig?
-    /// A list of IP address ranges ([CIDRs](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html)). Used to create an allow list of IP addresses for a private workforce. Workers will only be able to login to their worker portal from an IP address within this range. By default, a workforce isn't restricted to specific IP addresses.
+    /// A list of IP address ranges ([CIDRs](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html)). Used to create an allow list of IP addresses for a private workforce. Workers will only be able to log in to their worker portal from an IP address within this range. By default, a workforce isn't restricted to specific IP addresses.
     public var sourceIpConfig: SageMakerClientTypes.SourceIpConfig?
     /// An array of key-value pairs that contain metadata to help you categorize and organize our workforce. Each tag consists of a key and a value, both of which you define.
     public var tags: [SageMakerClientTypes.Tag]?
@@ -23741,12 +24012,14 @@ extension SageMakerClientTypes {
 
     public enum HubContentType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case model
+        case modelReference
         case notebook
         case sdkUnknown(Swift.String)
 
         public static var allCases: [HubContentType] {
             return [
                 .model,
+                .modelReference,
                 .notebook
             ]
         }
@@ -23759,6 +24032,7 @@ extension SageMakerClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .model: return "Model"
+            case .modelReference: return "ModelReference"
             case .notebook: return "Notebook"
             case let .sdkUnknown(s): return s
             }
@@ -23790,6 +24064,29 @@ public struct DeleteHubContentInput {
         self.hubContentName = hubContentName
         self.hubContentType = hubContentType
         self.hubContentVersion = hubContentVersion
+        self.hubName = hubName
+    }
+}
+
+public struct DeleteHubContentReferenceInput {
+    /// The name of the hub content to delete.
+    /// This member is required.
+    public var hubContentName: Swift.String?
+    /// The type of hub content to delete.
+    /// This member is required.
+    public var hubContentType: SageMakerClientTypes.HubContentType?
+    /// The name of the hub to delete the hub content reference from.
+    /// This member is required.
+    public var hubName: Swift.String?
+
+    public init(
+        hubContentName: Swift.String? = nil,
+        hubContentType: SageMakerClientTypes.HubContentType? = nil,
+        hubName: Swift.String? = nil
+    )
+    {
+        self.hubContentName = hubContentName
+        self.hubContentType = hubContentType
         self.hubName = hubName
     }
 }
@@ -23905,6 +24202,31 @@ public struct DeleteInferenceExperimentOutput {
     )
     {
         self.inferenceExperimentArn = inferenceExperimentArn
+    }
+}
+
+public struct DeleteMlflowTrackingServerInput {
+    /// The name of the the tracking server to delete.
+    /// This member is required.
+    public var trackingServerName: Swift.String?
+
+    public init(
+        trackingServerName: Swift.String? = nil
+    )
+    {
+        self.trackingServerName = trackingServerName
+    }
+}
+
+public struct DeleteMlflowTrackingServerOutput {
+    /// A TrackingServerArn object, the ARN of the tracking server that is deleted if successfully found.
+    public var trackingServerArn: Swift.String?
+
+    public init(
+        trackingServerArn: Swift.String? = nil
+    )
+    {
+        self.trackingServerArn = trackingServerArn
     }
 }
 
@@ -27316,6 +27638,35 @@ extension SageMakerClientTypes {
     }
 }
 
+extension SageMakerClientTypes {
+
+    public enum HubContentSupportStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deprecated
+        case supported
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HubContentSupportStatus] {
+            return [
+                .deprecated,
+                .supported
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .deprecated: return "Deprecated"
+            case .supported: return "Supported"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct DescribeHubContentOutput {
     /// The date and time that hub content was created.
     /// This member is required.
@@ -27359,6 +27710,12 @@ public struct DescribeHubContentOutput {
     /// The name of the hub that contains the content.
     /// This member is required.
     public var hubName: Swift.String?
+    /// The minimum version of the hub content.
+    public var referenceMinVersion: Swift.String?
+    /// The ARN of the public hub content.
+    public var sageMakerPublicHubContentArn: Swift.String?
+    /// The support status of the hub content.
+    public var supportStatus: SageMakerClientTypes.HubContentSupportStatus?
 
     public init(
         creationTime: Foundation.Date? = nil,
@@ -27376,7 +27733,10 @@ public struct DescribeHubContentOutput {
         hubContentStatus: SageMakerClientTypes.HubContentStatus? = nil,
         hubContentType: SageMakerClientTypes.HubContentType? = nil,
         hubContentVersion: Swift.String? = nil,
-        hubName: Swift.String? = nil
+        hubName: Swift.String? = nil,
+        referenceMinVersion: Swift.String? = nil,
+        sageMakerPublicHubContentArn: Swift.String? = nil,
+        supportStatus: SageMakerClientTypes.HubContentSupportStatus? = nil
     )
     {
         self.creationTime = creationTime
@@ -27395,6 +27755,9 @@ public struct DescribeHubContentOutput {
         self.hubContentType = hubContentType
         self.hubContentVersion = hubContentVersion
         self.hubName = hubName
+        self.referenceMinVersion = referenceMinVersion
+        self.sageMakerPublicHubContentArn = sageMakerPublicHubContentArn
+        self.supportStatus = supportStatus
     }
 }
 
@@ -28658,20 +29021,16 @@ extension SageMakerClientTypes {
     /// The metrics of recommendations.
     public struct RecommendationMetrics {
         /// Defines the cost per hour for the instance.
-        /// This member is required.
         public var costPerHour: Swift.Float?
         /// Defines the cost per inference for the instance .
-        /// This member is required.
         public var costPerInference: Swift.Float?
         /// The expected CPU utilization at maximum invocations per minute for the instance. NaN indicates that the value is not available.
         public var cpuUtilization: Swift.Float?
         /// The expected maximum number of requests per minute for the instance.
-        /// This member is required.
         public var maxInvocations: Swift.Int?
         /// The expected memory utilization at maximum invocations per minute for the instance. NaN indicates that the value is not available.
         public var memoryUtilization: Swift.Float?
         /// The expected model latency at maximum invocation per minute for the instance.
-        /// This member is required.
         public var modelLatency: Swift.Int?
         /// The time it takes to launch new compute resources for a serverless endpoint. The time can vary depending on the model size, how long it takes to download the model, and the start-up time of the container. NaN indicates that the value is not available.
         public var modelSetupTime: Swift.Int?
@@ -28760,7 +29119,6 @@ extension SageMakerClientTypes {
         /// A timestamp that shows when the benchmark started.
         public var invocationStartTime: Foundation.Date?
         /// The metrics used to decide what recommendation to make.
-        /// This member is required.
         public var metrics: SageMakerClientTypes.RecommendationMetrics?
         /// Defines the model configuration.
         /// This member is required.
@@ -29202,6 +29560,190 @@ public struct DescribeLineageGroupOutput {
         self.lastModifiedTime = lastModifiedTime
         self.lineageGroupArn = lineageGroupArn
         self.lineageGroupName = lineageGroupName
+    }
+}
+
+public struct DescribeMlflowTrackingServerInput {
+    /// The name of the MLflow Tracking Server to describe.
+    /// This member is required.
+    public var trackingServerName: Swift.String?
+
+    public init(
+        trackingServerName: Swift.String? = nil
+    )
+    {
+        self.trackingServerName = trackingServerName
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum IsTrackingServerActive: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case inactive
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IsTrackingServerActive] {
+            return [
+                .active,
+                .inactive
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "Active"
+            case .inactive: return "Inactive"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum TrackingServerStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case created
+        case createFailed
+        case creating
+        case deleteFailed
+        case deleting
+        case maintenanceComplete
+        case maintenanceFailed
+        case maintenanceInProgress
+        case started
+        case starting
+        case startFailed
+        case stopped
+        case stopping
+        case stopFailed
+        case updated
+        case updateFailed
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TrackingServerStatus] {
+            return [
+                .created,
+                .createFailed,
+                .creating,
+                .deleteFailed,
+                .deleting,
+                .maintenanceComplete,
+                .maintenanceFailed,
+                .maintenanceInProgress,
+                .started,
+                .starting,
+                .startFailed,
+                .stopped,
+                .stopping,
+                .stopFailed,
+                .updated,
+                .updateFailed,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .created: return "Created"
+            case .createFailed: return "CreateFailed"
+            case .creating: return "Creating"
+            case .deleteFailed: return "DeleteFailed"
+            case .deleting: return "Deleting"
+            case .maintenanceComplete: return "MaintenanceComplete"
+            case .maintenanceFailed: return "MaintenanceFailed"
+            case .maintenanceInProgress: return "MaintenanceInProgress"
+            case .started: return "Started"
+            case .starting: return "Starting"
+            case .startFailed: return "StartFailed"
+            case .stopped: return "Stopped"
+            case .stopping: return "Stopping"
+            case .stopFailed: return "StopFailed"
+            case .updated: return "Updated"
+            case .updateFailed: return "UpdateFailed"
+            case .updating: return "Updating"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DescribeMlflowTrackingServerOutput {
+    /// The S3 URI of the general purpose bucket used as the MLflow Tracking Server artifact store.
+    public var artifactStoreUri: Swift.String?
+    /// Whether automatic registration of new MLflow models to the SageMaker Model Registry is enabled.
+    public var automaticModelRegistration: Swift.Bool?
+    /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+    public var createdBy: SageMakerClientTypes.UserContext?
+    /// The timestamp of when the described MLflow Tracking Server was created.
+    public var creationTime: Foundation.Date?
+    /// Whether the described MLflow Tracking Server is currently active.
+    public var isActive: SageMakerClientTypes.IsTrackingServerActive?
+    /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+    public var lastModifiedBy: SageMakerClientTypes.UserContext?
+    /// The timestamp of when the described MLflow Tracking Server was last modified.
+    public var lastModifiedTime: Foundation.Date?
+    /// The MLflow version used for the described tracking server.
+    public var mlflowVersion: Swift.String?
+    /// The Amazon Resource Name (ARN) for an IAM role in your account that the described MLflow Tracking Server uses to access the artifact store in Amazon S3.
+    public var roleArn: Swift.String?
+    /// The ARN of the described tracking server.
+    public var trackingServerArn: Swift.String?
+    /// The name of the described tracking server.
+    public var trackingServerName: Swift.String?
+    /// The size of the described tracking server.
+    public var trackingServerSize: SageMakerClientTypes.TrackingServerSize?
+    /// The current creation status of the described MLflow Tracking Server.
+    public var trackingServerStatus: SageMakerClientTypes.TrackingServerStatus?
+    /// The URL to connect to the MLflow user interface for the described tracking server.
+    public var trackingServerUrl: Swift.String?
+    /// The day and time of the week when weekly maintenance occurs on the described tracking server.
+    public var weeklyMaintenanceWindowStart: Swift.String?
+
+    public init(
+        artifactStoreUri: Swift.String? = nil,
+        automaticModelRegistration: Swift.Bool? = nil,
+        createdBy: SageMakerClientTypes.UserContext? = nil,
+        creationTime: Foundation.Date? = nil,
+        isActive: SageMakerClientTypes.IsTrackingServerActive? = nil,
+        lastModifiedBy: SageMakerClientTypes.UserContext? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
+        mlflowVersion: Swift.String? = nil,
+        roleArn: Swift.String? = nil,
+        trackingServerArn: Swift.String? = nil,
+        trackingServerName: Swift.String? = nil,
+        trackingServerSize: SageMakerClientTypes.TrackingServerSize? = nil,
+        trackingServerStatus: SageMakerClientTypes.TrackingServerStatus? = nil,
+        trackingServerUrl: Swift.String? = nil,
+        weeklyMaintenanceWindowStart: Swift.String? = nil
+    )
+    {
+        self.artifactStoreUri = artifactStoreUri
+        self.automaticModelRegistration = automaticModelRegistration
+        self.createdBy = createdBy
+        self.creationTime = creationTime
+        self.isActive = isActive
+        self.lastModifiedBy = lastModifiedBy
+        self.lastModifiedTime = lastModifiedTime
+        self.mlflowVersion = mlflowVersion
+        self.roleArn = roleArn
+        self.trackingServerArn = trackingServerArn
+        self.trackingServerName = trackingServerName
+        self.trackingServerSize = trackingServerSize
+        self.trackingServerStatus = trackingServerStatus
+        self.trackingServerUrl = trackingServerUrl
+        self.weeklyMaintenanceWindowStart = weeklyMaintenanceWindowStart
     }
 }
 
@@ -29804,7 +30346,7 @@ public struct DescribeModelPackageOutput {
     public var metadataProperties: SageMakerClientTypes.MetadataProperties?
     /// The approval status of the model package.
     public var modelApprovalStatus: SageMakerClientTypes.ModelApprovalStatus?
-    /// The model card associated with the model package. Since ModelPackageModelCard is tied to a model package, it is a specific usage of a model card and its schema is simplified compared to the schema of ModelCard. The ModelPackageModelCard schema does not include model_package_details, and model_overview is composed of the model_creator and model_artifact properties. For more information about the model card associated with the model package, see [View the Details of a Model Version](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html).
+    /// The model card associated with the model package. Since ModelPackageModelCard is tied to a model package, it is a specific usage of a model card and its schema is simplified compared to the schema of ModelCard. The ModelPackageModelCard schema does not include model_package_details, and model_overview is composed of the model_creator and model_artifact properties. For more information about the model package model card schema, see [Model package model card schema](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html#model-card-schema). For more information about the model card associated with the model package, see [View the Details of a Model Version](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html).
     public var modelCard: SageMakerClientTypes.ModelPackageModelCard?
     /// Metrics for the model.
     public var modelMetrics: SageMakerClientTypes.ModelMetrics?
@@ -31268,7 +31810,7 @@ public struct DescribeSubscribedWorkteamInput {
 }
 
 extension SageMakerClientTypes {
-    /// Describes a work team of a vendor that does the a labelling job.
+    /// Describes a work team of a vendor that does the labelling job.
     public struct SubscribedWorkteam {
         /// Marketplace product listing ID.
         public var listingId: Swift.String?
@@ -32433,6 +32975,8 @@ public struct DescribeWorkforceInput {
 extension SageMakerClientTypes {
     /// Your OIDC IdP workforce configuration.
     public struct OidcConfigForResponse {
+        /// A string to string map of identifiers specific to the custom identity provider (IdP) being used.
+        public var authenticationRequestExtraParams: [Swift.String: Swift.String]?
         /// The OIDC IdP authorization endpoint used to configure your private workforce.
         public var authorizationEndpoint: Swift.String?
         /// The OIDC IdP client ID used to configure your private workforce.
@@ -32443,26 +32987,32 @@ extension SageMakerClientTypes {
         public var jwksUri: Swift.String?
         /// The OIDC IdP logout endpoint used to configure your private workforce.
         public var logoutEndpoint: Swift.String?
+        /// An array of string identifiers used to refer to the specific pieces of user data or claims that the client application wants to access.
+        public var scope: Swift.String?
         /// The OIDC IdP token endpoint used to configure your private workforce.
         public var tokenEndpoint: Swift.String?
         /// The OIDC IdP user information endpoint used to configure your private workforce.
         public var userInfoEndpoint: Swift.String?
 
         public init(
+            authenticationRequestExtraParams: [Swift.String: Swift.String]? = nil,
             authorizationEndpoint: Swift.String? = nil,
             clientId: Swift.String? = nil,
             issuer: Swift.String? = nil,
             jwksUri: Swift.String? = nil,
             logoutEndpoint: Swift.String? = nil,
+            scope: Swift.String? = nil,
             tokenEndpoint: Swift.String? = nil,
             userInfoEndpoint: Swift.String? = nil
         )
         {
+            self.authenticationRequestExtraParams = authenticationRequestExtraParams
             self.authorizationEndpoint = authorizationEndpoint
             self.clientId = clientId
             self.issuer = issuer
             self.jwksUri = jwksUri
             self.logoutEndpoint = logoutEndpoint
+            self.scope = scope
             self.tokenEndpoint = tokenEndpoint
             self.userInfoEndpoint = userInfoEndpoint
         }
@@ -34673,6 +35223,12 @@ extension SageMakerClientTypes {
         /// The version of the hub content.
         /// This member is required.
         public var hubContentVersion: Swift.String?
+        /// The date and time when the hub content was originally created, before any updates or revisions.
+        public var originalCreationTime: Foundation.Date?
+        /// The ARN of the public hub content.
+        public var sageMakerPublicHubContentArn: Swift.String?
+        /// The support status of the hub content.
+        public var supportStatus: SageMakerClientTypes.HubContentSupportStatus?
 
         public init(
             creationTime: Foundation.Date? = nil,
@@ -34684,7 +35240,10 @@ extension SageMakerClientTypes {
             hubContentSearchKeywords: [Swift.String]? = nil,
             hubContentStatus: SageMakerClientTypes.HubContentStatus? = nil,
             hubContentType: SageMakerClientTypes.HubContentType? = nil,
-            hubContentVersion: Swift.String? = nil
+            hubContentVersion: Swift.String? = nil,
+            originalCreationTime: Foundation.Date? = nil,
+            sageMakerPublicHubContentArn: Swift.String? = nil,
+            supportStatus: SageMakerClientTypes.HubContentSupportStatus? = nil
         )
         {
             self.creationTime = creationTime
@@ -34697,6 +35256,9 @@ extension SageMakerClientTypes {
             self.hubContentStatus = hubContentStatus
             self.hubContentType = hubContentType
             self.hubContentVersion = hubContentVersion
+            self.originalCreationTime = originalCreationTime
+            self.sageMakerPublicHubContentArn = sageMakerPublicHubContentArn
+            self.supportStatus = supportStatus
         }
     }
 
@@ -38724,6 +39286,134 @@ public struct ListLineageGroupsOutput {
     }
 }
 
+extension SageMakerClientTypes {
+
+    public enum SortTrackingServerBy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case creationTime
+        case name
+        case status
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SortTrackingServerBy] {
+            return [
+                .creationTime,
+                .name,
+                .status
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .creationTime: return "CreationTime"
+            case .name: return "Name"
+            case .status: return "Status"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct ListMlflowTrackingServersInput {
+    /// Use the CreatedAfter filter to only list tracking servers created after a specific date and time. Listed tracking servers are shown with a date and time such as "2024-03-16T01:46:56+00:00". The CreatedAfter parameter takes in a Unix timestamp. To convert a date and time into a Unix timestamp, see [EpochConverter](https://www.epochconverter.com/).
+    public var createdAfter: Foundation.Date?
+    /// Use the CreatedBefore filter to only list tracking servers created before a specific date and time. Listed tracking servers are shown with a date and time such as "2024-03-16T01:46:56+00:00". The CreatedBefore parameter takes in a Unix timestamp. To convert a date and time into a Unix timestamp, see [EpochConverter](https://www.epochconverter.com/).
+    public var createdBefore: Foundation.Date?
+    /// The maximum number of tracking servers to list.
+    public var maxResults: Swift.Int?
+    /// Filter for tracking servers using the specified MLflow version.
+    public var mlflowVersion: Swift.String?
+    /// If the previous response was truncated, you will receive this token. Use it in your next request to receive the next set of results.
+    public var nextToken: Swift.String?
+    /// Filter for trackings servers sorting by name, creation time, or creation status.
+    public var sortBy: SageMakerClientTypes.SortTrackingServerBy?
+    /// Change the order of the listed tracking servers. By default, tracking servers are listed in Descending order by creation time. To change the list order, you can specify SortOrder to be Ascending.
+    public var sortOrder: SageMakerClientTypes.SortOrder?
+    /// Filter for tracking servers with a specified creation status.
+    public var trackingServerStatus: SageMakerClientTypes.TrackingServerStatus?
+
+    public init(
+        createdAfter: Foundation.Date? = nil,
+        createdBefore: Foundation.Date? = nil,
+        maxResults: Swift.Int? = nil,
+        mlflowVersion: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        sortBy: SageMakerClientTypes.SortTrackingServerBy? = nil,
+        sortOrder: SageMakerClientTypes.SortOrder? = nil,
+        trackingServerStatus: SageMakerClientTypes.TrackingServerStatus? = nil
+    )
+    {
+        self.createdAfter = createdAfter
+        self.createdBefore = createdBefore
+        self.maxResults = maxResults
+        self.mlflowVersion = mlflowVersion
+        self.nextToken = nextToken
+        self.sortBy = sortBy
+        self.sortOrder = sortOrder
+        self.trackingServerStatus = trackingServerStatus
+    }
+}
+
+extension SageMakerClientTypes {
+    /// The summary of the tracking server to list.
+    public struct TrackingServerSummary {
+        /// The creation time of a listed tracking server.
+        public var creationTime: Foundation.Date?
+        /// The activity status of a listed tracking server.
+        public var isActive: SageMakerClientTypes.IsTrackingServerActive?
+        /// The last modified time of a listed tracking server.
+        public var lastModifiedTime: Foundation.Date?
+        /// The MLflow version used for a listed tracking server.
+        public var mlflowVersion: Swift.String?
+        /// The ARN of a listed tracking server.
+        public var trackingServerArn: Swift.String?
+        /// The name of a listed tracking server.
+        public var trackingServerName: Swift.String?
+        /// The creation status of a listed tracking server.
+        public var trackingServerStatus: SageMakerClientTypes.TrackingServerStatus?
+
+        public init(
+            creationTime: Foundation.Date? = nil,
+            isActive: SageMakerClientTypes.IsTrackingServerActive? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            mlflowVersion: Swift.String? = nil,
+            trackingServerArn: Swift.String? = nil,
+            trackingServerName: Swift.String? = nil,
+            trackingServerStatus: SageMakerClientTypes.TrackingServerStatus? = nil
+        )
+        {
+            self.creationTime = creationTime
+            self.isActive = isActive
+            self.lastModifiedTime = lastModifiedTime
+            self.mlflowVersion = mlflowVersion
+            self.trackingServerArn = trackingServerArn
+            self.trackingServerName = trackingServerName
+            self.trackingServerStatus = trackingServerStatus
+        }
+    }
+
+}
+
+public struct ListMlflowTrackingServersOutput {
+    /// If the previous response was truncated, you will receive this token. Use it in your next request to receive the next set of results.
+    public var nextToken: Swift.String?
+    /// A list of tracking servers according to chosen filters.
+    public var trackingServerSummaries: [SageMakerClientTypes.TrackingServerSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        trackingServerSummaries: [SageMakerClientTypes.TrackingServerSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.trackingServerSummaries = trackingServerSummaries
+    }
+}
+
 public struct ListModelBiasJobDefinitionsInput {
     /// A filter that returns only model bias jobs created after a specified time.
     public var creationTimeAfter: Foundation.Date?
@@ -39486,6 +40176,8 @@ public struct ListModelPackageGroupsInput {
     public var creationTimeAfter: Foundation.Date?
     /// A filter that returns only model groups created before the specified time.
     public var creationTimeBefore: Foundation.Date?
+    /// A filter that returns either model groups shared with you or model groups in your own account. When the value is CrossAccount, the results show the resources made discoverable to you from other accounts. When the value is SameAccount or null, the results show resources from your account. The default is SameAccount.
+    public var crossAccountFilterOption: SageMakerClientTypes.CrossAccountFilterOption?
     /// The maximum number of results to return in the response.
     public var maxResults: Swift.Int?
     /// A string in the model group name. This filter returns only model groups whose name contains the specified string.
@@ -39500,6 +40192,7 @@ public struct ListModelPackageGroupsInput {
     public init(
         creationTimeAfter: Foundation.Date? = nil,
         creationTimeBefore: Foundation.Date? = nil,
+        crossAccountFilterOption: SageMakerClientTypes.CrossAccountFilterOption? = nil,
         maxResults: Swift.Int? = nil,
         nameContains: Swift.String? = nil,
         nextToken: Swift.String? = nil,
@@ -39509,6 +40202,7 @@ public struct ListModelPackageGroupsInput {
     {
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
+        self.crossAccountFilterOption = crossAccountFilterOption
         self.maxResults = maxResults
         self.nameContains = nameContains
         self.nextToken = nextToken
@@ -43650,7 +44344,7 @@ extension SageMakerClientTypes {
         ///
         /// * PENDING_MANUAL_APPROVAL - The model is waiting for manual approval.
         public var modelApprovalStatus: SageMakerClientTypes.ModelApprovalStatus?
-        /// The model card associated with the model package. Since ModelPackageModelCard is tied to a model package, it is a specific usage of a model card and its schema is simplified compared to the schema of ModelCard. The ModelPackageModelCard schema does not include model_package_details, and model_overview is composed of the model_creator and model_artifact properties. For more information about the model card associated with the model package, see [View the Details of a Model Version](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html).
+        /// The model card associated with the model package. Since ModelPackageModelCard is tied to a model package, it is a specific usage of a model card and its schema is simplified compared to the schema of ModelCard. The ModelPackageModelCard schema does not include model_package_details, and model_overview is composed of the model_creator and model_artifact properties. For more information about the model package model card schema, see [Model package model card schema](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html#model-card-schema). For more information about the model card associated with the model package, see [View the Details of a Model Version](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html).
         public var modelCard: SageMakerClientTypes.ModelPackageModelCard?
         /// Metrics for the model.
         public var modelMetrics: SageMakerClientTypes.ModelMetrics?
@@ -45253,6 +45947,31 @@ public struct StartInferenceExperimentOutput {
     }
 }
 
+public struct StartMlflowTrackingServerInput {
+    /// The name of the tracking server to start.
+    /// This member is required.
+    public var trackingServerName: Swift.String?
+
+    public init(
+        trackingServerName: Swift.String? = nil
+    )
+    {
+        self.trackingServerName = trackingServerName
+    }
+}
+
+public struct StartMlflowTrackingServerOutput {
+    /// The ARN of the started tracking server.
+    public var trackingServerArn: Swift.String?
+
+    public init(
+        trackingServerArn: Swift.String? = nil
+    )
+    {
+        self.trackingServerArn = trackingServerArn
+    }
+}
+
 public struct StartMonitoringScheduleInput {
     /// The name of the schedule to start.
     /// This member is required.
@@ -45475,6 +46194,31 @@ public struct StopLabelingJobInput {
     )
     {
         self.labelingJobName = labelingJobName
+    }
+}
+
+public struct StopMlflowTrackingServerInput {
+    /// The name of the tracking server to stop.
+    /// This member is required.
+    public var trackingServerName: Swift.String?
+
+    public init(
+        trackingServerName: Swift.String? = nil
+    )
+    {
+        self.trackingServerName = trackingServerName
+    }
+}
+
+public struct StopMlflowTrackingServerOutput {
+    /// The ARN of the stopped tracking server.
+    public var trackingServerArn: Swift.String?
+
+    public init(
+        trackingServerArn: Swift.String? = nil
+    )
+    {
+        self.trackingServerArn = trackingServerArn
     }
 }
 
@@ -46451,6 +47195,47 @@ public struct UpdateInferenceExperimentOutput {
     }
 }
 
+public struct UpdateMlflowTrackingServerInput {
+    /// The new S3 URI for the general purpose bucket to use as the artifact store for the MLflow Tracking Server.
+    public var artifactStoreUri: Swift.String?
+    /// Whether to enable or disable automatic registration of new MLflow models to the SageMaker Model Registry. To enable automatic model registration, set this value to True. To disable automatic model registration, set this value to False. If not specified, AutomaticModelRegistration defaults to False
+    public var automaticModelRegistration: Swift.Bool?
+    /// The name of the MLflow Tracking Server to update.
+    /// This member is required.
+    public var trackingServerName: Swift.String?
+    /// The new size for the MLflow Tracking Server.
+    public var trackingServerSize: SageMakerClientTypes.TrackingServerSize?
+    /// The new weekly maintenance window start day and time to update. The maintenance window day and time should be in Coordinated Universal Time (UTC) 24-hour standard time. For example: TUE:03:30.
+    public var weeklyMaintenanceWindowStart: Swift.String?
+
+    public init(
+        artifactStoreUri: Swift.String? = nil,
+        automaticModelRegistration: Swift.Bool? = nil,
+        trackingServerName: Swift.String? = nil,
+        trackingServerSize: SageMakerClientTypes.TrackingServerSize? = nil,
+        weeklyMaintenanceWindowStart: Swift.String? = nil
+    )
+    {
+        self.artifactStoreUri = artifactStoreUri
+        self.automaticModelRegistration = automaticModelRegistration
+        self.trackingServerName = trackingServerName
+        self.trackingServerSize = trackingServerSize
+        self.weeklyMaintenanceWindowStart = weeklyMaintenanceWindowStart
+    }
+}
+
+public struct UpdateMlflowTrackingServerOutput {
+    /// The ARN of the updated MLflow Tracking Server.
+    public var trackingServerArn: Swift.String?
+
+    public init(
+        trackingServerArn: Swift.String? = nil
+    )
+    {
+        self.trackingServerArn = trackingServerArn
+    }
+}
+
 public struct UpdateModelCardInput {
     /// The updated model card content. Content must be in [model card JSON schema](https://docs.aws.amazon.com/sagemaker/latest/dg/model-cards.html#model-cards-json-schema) and provided as a string. When updating model card content, be sure to include the full content and not just updated content.
     public var content: Swift.String?
@@ -46517,7 +47302,7 @@ public struct UpdateModelPackageInput {
     public var inferenceSpecification: SageMakerClientTypes.InferenceSpecification?
     /// The approval status of the model.
     public var modelApprovalStatus: SageMakerClientTypes.ModelApprovalStatus?
-    /// The model card associated with the model package. Since ModelPackageModelCard is tied to a model package, it is a specific usage of a model card and its schema is simplified compared to the schema of ModelCard. The ModelPackageModelCard schema does not include model_package_details, and model_overview is composed of the model_creator and model_artifact properties. For more information about the model card associated with the model package, see [View the Details of a Model Version](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html).
+    /// The model card associated with the model package. Since ModelPackageModelCard is tied to a model package, it is a specific usage of a model card and its schema is simplified compared to the schema of ModelCard. The ModelPackageModelCard schema does not include model_package_details, and model_overview is composed of the model_creator and model_artifact properties. For more information about the model package model card schema, see [Model package model card schema](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html#model-card-schema). For more information about the model card associated with the model package, see [View the Details of a Model Version](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html).
     public var modelCard: SageMakerClientTypes.ModelPackageModelCard?
     /// The Amazon Resource Name (ARN) of the model package.
     /// This member is required.
@@ -47432,6 +48217,13 @@ extension CreateHubInput {
     }
 }
 
+extension CreateHubContentReferenceInput {
+
+    static func urlPathProvider(_ value: CreateHubContentReferenceInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CreateHumanTaskUiInput {
 
     static func urlPathProvider(_ value: CreateHumanTaskUiInput) -> Swift.String? {
@@ -47484,6 +48276,13 @@ extension CreateInferenceRecommendationsJobInput {
 extension CreateLabelingJobInput {
 
     static func urlPathProvider(_ value: CreateLabelingJobInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension CreateMlflowTrackingServerInput {
+
+    static func urlPathProvider(_ value: CreateMlflowTrackingServerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -47575,6 +48374,13 @@ extension CreatePipelineInput {
 extension CreatePresignedDomainUrlInput {
 
     static func urlPathProvider(_ value: CreatePresignedDomainUrlInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension CreatePresignedMlflowTrackingServerUrlInput {
+
+    static func urlPathProvider(_ value: CreatePresignedMlflowTrackingServerUrlInput) -> Swift.String? {
         return "/"
     }
 }
@@ -47817,6 +48623,13 @@ extension DeleteHubContentInput {
     }
 }
 
+extension DeleteHubContentReferenceInput {
+
+    static func urlPathProvider(_ value: DeleteHubContentReferenceInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DeleteHumanTaskUiInput {
 
     static func urlPathProvider(_ value: DeleteHumanTaskUiInput) -> Swift.String? {
@@ -47855,6 +48668,13 @@ extension DeleteInferenceComponentInput {
 extension DeleteInferenceExperimentInput {
 
     static func urlPathProvider(_ value: DeleteInferenceExperimentInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteMlflowTrackingServerInput {
+
+    static func urlPathProvider(_ value: DeleteMlflowTrackingServerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -48254,6 +49074,13 @@ extension DescribeLabelingJobInput {
 extension DescribeLineageGroupInput {
 
     static func urlPathProvider(_ value: DescribeLineageGroupInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeMlflowTrackingServerInput {
+
+    static func urlPathProvider(_ value: DescribeMlflowTrackingServerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -48783,6 +49610,13 @@ extension ListLineageGroupsInput {
     }
 }
 
+extension ListMlflowTrackingServersInput {
+
+    static func urlPathProvider(_ value: ListMlflowTrackingServersInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListModelBiasJobDefinitionsInput {
 
     static func urlPathProvider(_ value: ListModelBiasJobDefinitionsInput) -> Swift.String? {
@@ -49105,6 +49939,13 @@ extension StartInferenceExperimentInput {
     }
 }
 
+extension StartMlflowTrackingServerInput {
+
+    static func urlPathProvider(_ value: StartMlflowTrackingServerInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension StartMonitoringScheduleInput {
 
     static func urlPathProvider(_ value: StartMonitoringScheduleInput) -> Swift.String? {
@@ -49178,6 +50019,13 @@ extension StopInferenceRecommendationsJobInput {
 extension StopLabelingJobInput {
 
     static func urlPathProvider(_ value: StopLabelingJobInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension StopMlflowTrackingServerInput {
+
+    static func urlPathProvider(_ value: StopMlflowTrackingServerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -49367,6 +50215,13 @@ extension UpdateInferenceComponentRuntimeConfigInput {
 extension UpdateInferenceExperimentInput {
 
     static func urlPathProvider(_ value: UpdateInferenceExperimentInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension UpdateMlflowTrackingServerInput {
+
+    static func urlPathProvider(_ value: UpdateMlflowTrackingServerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -49839,6 +50694,18 @@ extension CreateHubInput {
     }
 }
 
+extension CreateHubContentReferenceInput {
+
+    static func write(value: CreateHubContentReferenceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["HubContentName"].write(value.hubContentName)
+        try writer["HubName"].write(value.hubName)
+        try writer["MinVersion"].write(value.minVersion)
+        try writer["SageMakerPublicHubContentArn"].write(value.sageMakerPublicHubContentArn)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension CreateHumanTaskUiInput {
 
     static func write(value: CreateHumanTaskUiInput?, to writer: SmithyJSON.Writer) throws {
@@ -49953,6 +50820,21 @@ extension CreateLabelingJobInput {
         try writer["RoleArn"].write(value.roleArn)
         try writer["StoppingConditions"].write(value.stoppingConditions, with: SageMakerClientTypes.LabelingJobStoppingConditions.write(value:to:))
         try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension CreateMlflowTrackingServerInput {
+
+    static func write(value: CreateMlflowTrackingServerInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ArtifactStoreUri"].write(value.artifactStoreUri)
+        try writer["AutomaticModelRegistration"].write(value.automaticModelRegistration)
+        try writer["MlflowVersion"].write(value.mlflowVersion)
+        try writer["RoleArn"].write(value.roleArn)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TrackingServerName"].write(value.trackingServerName)
+        try writer["TrackingServerSize"].write(value.trackingServerSize)
+        try writer["WeeklyMaintenanceWindowStart"].write(value.weeklyMaintenanceWindowStart)
     }
 }
 
@@ -50153,6 +51035,16 @@ extension CreatePresignedDomainUrlInput {
         try writer["SessionExpirationDurationInSeconds"].write(value.sessionExpirationDurationInSeconds)
         try writer["SpaceName"].write(value.spaceName)
         try writer["UserProfileName"].write(value.userProfileName)
+    }
+}
+
+extension CreatePresignedMlflowTrackingServerUrlInput {
+
+    static func write(value: CreatePresignedMlflowTrackingServerUrlInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ExpiresInSeconds"].write(value.expiresInSeconds)
+        try writer["SessionExpirationDurationInSeconds"].write(value.sessionExpirationDurationInSeconds)
+        try writer["TrackingServerName"].write(value.trackingServerName)
     }
 }
 
@@ -50528,6 +51420,16 @@ extension DeleteHubContentInput {
     }
 }
 
+extension DeleteHubContentReferenceInput {
+
+    static func write(value: DeleteHubContentReferenceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["HubContentName"].write(value.hubContentName)
+        try writer["HubContentType"].write(value.hubContentType)
+        try writer["HubName"].write(value.hubName)
+    }
+}
+
 extension DeleteHumanTaskUiInput {
 
     static func write(value: DeleteHumanTaskUiInput?, to writer: SmithyJSON.Writer) throws {
@@ -50575,6 +51477,14 @@ extension DeleteInferenceExperimentInput {
     static func write(value: DeleteInferenceExperimentInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Name"].write(value.name)
+    }
+}
+
+extension DeleteMlflowTrackingServerInput {
+
+    static func write(value: DeleteMlflowTrackingServerInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TrackingServerName"].write(value.trackingServerName)
     }
 }
 
@@ -51052,6 +51962,14 @@ extension DescribeLineageGroupInput {
     static func write(value: DescribeLineageGroupInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["LineageGroupName"].write(value.lineageGroupName)
+    }
+}
+
+extension DescribeMlflowTrackingServerInput {
+
+    static func write(value: DescribeMlflowTrackingServerInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TrackingServerName"].write(value.trackingServerName)
     }
 }
 
@@ -51958,6 +52876,21 @@ extension ListLineageGroupsInput {
     }
 }
 
+extension ListMlflowTrackingServersInput {
+
+    static func write(value: ListMlflowTrackingServersInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CreatedAfter"].writeTimestamp(value.createdAfter, format: .epochSeconds)
+        try writer["CreatedBefore"].writeTimestamp(value.createdBefore, format: .epochSeconds)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["MlflowVersion"].write(value.mlflowVersion)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["SortBy"].write(value.sortBy)
+        try writer["SortOrder"].write(value.sortOrder)
+        try writer["TrackingServerStatus"].write(value.trackingServerStatus)
+    }
+}
+
 extension ListModelBiasJobDefinitionsInput {
 
     static func write(value: ListModelBiasJobDefinitionsInput?, to writer: SmithyJSON.Writer) throws {
@@ -52051,6 +52984,7 @@ extension ListModelPackageGroupsInput {
         guard let value else { return }
         try writer["CreationTimeAfter"].writeTimestamp(value.creationTimeAfter, format: .epochSeconds)
         try writer["CreationTimeBefore"].writeTimestamp(value.creationTimeBefore, format: .epochSeconds)
+        try writer["CrossAccountFilterOption"].write(value.crossAccountFilterOption)
         try writer["MaxResults"].write(value.maxResults)
         try writer["NameContains"].write(value.nameContains)
         try writer["NextToken"].write(value.nextToken)
@@ -52587,6 +53521,14 @@ extension StartInferenceExperimentInput {
     }
 }
 
+extension StartMlflowTrackingServerInput {
+
+    static func write(value: StartMlflowTrackingServerInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TrackingServerName"].write(value.trackingServerName)
+    }
+}
+
 extension StartMonitoringScheduleInput {
 
     static func write(value: StartMonitoringScheduleInput?, to writer: SmithyJSON.Writer) throws {
@@ -52683,6 +53625,14 @@ extension StopLabelingJobInput {
     static func write(value: StopLabelingJobInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["LabelingJobName"].write(value.labelingJobName)
+    }
+}
+
+extension StopMlflowTrackingServerInput {
+
+    static func write(value: StopMlflowTrackingServerInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TrackingServerName"].write(value.trackingServerName)
     }
 }
 
@@ -52967,6 +53917,18 @@ extension UpdateInferenceExperimentInput {
         try writer["Name"].write(value.name)
         try writer["Schedule"].write(value.schedule, with: SageMakerClientTypes.InferenceExperimentSchedule.write(value:to:))
         try writer["ShadowModeConfig"].write(value.shadowModeConfig, with: SageMakerClientTypes.ShadowModeConfig.write(value:to:))
+    }
+}
+
+extension UpdateMlflowTrackingServerInput {
+
+    static func write(value: UpdateMlflowTrackingServerInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ArtifactStoreUri"].write(value.artifactStoreUri)
+        try writer["AutomaticModelRegistration"].write(value.automaticModelRegistration)
+        try writer["TrackingServerName"].write(value.trackingServerName)
+        try writer["TrackingServerSize"].write(value.trackingServerSize)
+        try writer["WeeklyMaintenanceWindowStart"].write(value.weeklyMaintenanceWindowStart)
     }
 }
 
@@ -53479,6 +54441,19 @@ extension CreateHubOutput {
     }
 }
 
+extension CreateHubContentReferenceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateHubContentReferenceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateHubContentReferenceOutput()
+        value.hubArn = try reader["HubArn"].readIfPresent()
+        value.hubContentArn = try reader["HubContentArn"].readIfPresent()
+        return value
+    }
+}
+
 extension CreateHumanTaskUiOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateHumanTaskUiOutput {
@@ -53571,6 +54546,18 @@ extension CreateLabelingJobOutput {
         let reader = responseReader
         var value = CreateLabelingJobOutput()
         value.labelingJobArn = try reader["LabelingJobArn"].readIfPresent()
+        return value
+    }
+}
+
+extension CreateMlflowTrackingServerOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateMlflowTrackingServerOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateMlflowTrackingServerOutput()
+        value.trackingServerArn = try reader["TrackingServerArn"].readIfPresent()
         return value
     }
 }
@@ -53726,6 +54713,18 @@ extension CreatePresignedDomainUrlOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreatePresignedDomainUrlOutput()
+        value.authorizedUrl = try reader["AuthorizedUrl"].readIfPresent()
+        return value
+    }
+}
+
+extension CreatePresignedMlflowTrackingServerUrlOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreatePresignedMlflowTrackingServerUrlOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreatePresignedMlflowTrackingServerUrlOutput()
         value.authorizedUrl = try reader["AuthorizedUrl"].readIfPresent()
         return value
     }
@@ -54061,6 +55060,13 @@ extension DeleteHubContentOutput {
     }
 }
 
+extension DeleteHubContentReferenceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteHubContentReferenceOutput {
+        return DeleteHubContentReferenceOutput()
+    }
+}
+
 extension DeleteHumanTaskUiOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteHumanTaskUiOutput {
@@ -54104,6 +55110,18 @@ extension DeleteInferenceExperimentOutput {
         let reader = responseReader
         var value = DeleteInferenceExperimentOutput()
         value.inferenceExperimentArn = try reader["InferenceExperimentArn"].readIfPresent()
+        return value
+    }
+}
+
+extension DeleteMlflowTrackingServerOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteMlflowTrackingServerOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteMlflowTrackingServerOutput()
+        value.trackingServerArn = try reader["TrackingServerArn"].readIfPresent()
         return value
     }
 }
@@ -54878,6 +55896,9 @@ extension DescribeHubContentOutput {
         value.hubContentType = try reader["HubContentType"].readIfPresent()
         value.hubContentVersion = try reader["HubContentVersion"].readIfPresent()
         value.hubName = try reader["HubName"].readIfPresent()
+        value.referenceMinVersion = try reader["ReferenceMinVersion"].readIfPresent()
+        value.sageMakerPublicHubContentArn = try reader["SageMakerPublicHubContentArn"].readIfPresent()
+        value.supportStatus = try reader["SupportStatus"].readIfPresent()
         return value
     }
 }
@@ -55092,6 +56113,32 @@ extension DescribeLineageGroupOutput {
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: .epochSeconds)
         value.lineageGroupArn = try reader["LineageGroupArn"].readIfPresent()
         value.lineageGroupName = try reader["LineageGroupName"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeMlflowTrackingServerOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeMlflowTrackingServerOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeMlflowTrackingServerOutput()
+        value.artifactStoreUri = try reader["ArtifactStoreUri"].readIfPresent()
+        value.automaticModelRegistration = try reader["AutomaticModelRegistration"].readIfPresent()
+        value.createdBy = try reader["CreatedBy"].readIfPresent(with: SageMakerClientTypes.UserContext.read(from:))
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: .epochSeconds)
+        value.isActive = try reader["IsActive"].readIfPresent()
+        value.lastModifiedBy = try reader["LastModifiedBy"].readIfPresent(with: SageMakerClientTypes.UserContext.read(from:))
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: .epochSeconds)
+        value.mlflowVersion = try reader["MlflowVersion"].readIfPresent()
+        value.roleArn = try reader["RoleArn"].readIfPresent()
+        value.trackingServerArn = try reader["TrackingServerArn"].readIfPresent()
+        value.trackingServerName = try reader["TrackingServerName"].readIfPresent()
+        value.trackingServerSize = try reader["TrackingServerSize"].readIfPresent()
+        value.trackingServerStatus = try reader["TrackingServerStatus"].readIfPresent()
+        value.trackingServerUrl = try reader["TrackingServerUrl"].readIfPresent()
+        value.weeklyMaintenanceWindowStart = try reader["WeeklyMaintenanceWindowStart"].readIfPresent()
         return value
     }
 }
@@ -56337,6 +57384,19 @@ extension ListLineageGroupsOutput {
     }
 }
 
+extension ListMlflowTrackingServersOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListMlflowTrackingServersOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListMlflowTrackingServersOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.trackingServerSummaries = try reader["TrackingServerSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.TrackingServerSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension ListModelBiasJobDefinitionsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListModelBiasJobDefinitionsOutput {
@@ -56919,6 +57979,18 @@ extension StartInferenceExperimentOutput {
     }
 }
 
+extension StartMlflowTrackingServerOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartMlflowTrackingServerOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartMlflowTrackingServerOutput()
+        value.trackingServerArn = try reader["TrackingServerArn"].readIfPresent()
+        return value
+    }
+}
+
 extension StartMonitoringScheduleOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartMonitoringScheduleOutput {
@@ -57003,6 +58075,18 @@ extension StopLabelingJobOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopLabelingJobOutput {
         return StopLabelingJobOutput()
+    }
+}
+
+extension StopMlflowTrackingServerOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopMlflowTrackingServerOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StopMlflowTrackingServerOutput()
+        value.trackingServerArn = try reader["TrackingServerArn"].readIfPresent()
+        return value
     }
 }
 
@@ -57286,6 +58370,18 @@ extension UpdateInferenceExperimentOutput {
         let reader = responseReader
         var value = UpdateInferenceExperimentOutput()
         value.inferenceExperimentArn = try reader["InferenceExperimentArn"].readIfPresent()
+        return value
+    }
+}
+
+extension UpdateMlflowTrackingServerOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateMlflowTrackingServerOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateMlflowTrackingServerOutput()
+        value.trackingServerArn = try reader["TrackingServerArn"].readIfPresent()
         return value
     }
 }
@@ -57860,6 +58956,22 @@ enum CreateHubOutputError {
     }
 }
 
+enum CreateHubContentReferenceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceInUse": return try ResourceInUse.makeError(baseError: baseError)
+            case "ResourceLimitExceeded": return try ResourceLimitExceeded.makeError(baseError: baseError)
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateHumanTaskUiOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
@@ -57974,6 +59086,20 @@ enum CreateLabelingJobOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceInUse": return try ResourceInUse.makeError(baseError: baseError)
+            case "ResourceLimitExceeded": return try ResourceLimitExceeded.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateMlflowTrackingServerOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
             case "ResourceLimitExceeded": return try ResourceLimitExceeded.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -58159,6 +59285,20 @@ enum CreatePipelineOutputError {
 }
 
 enum CreatePresignedDomainUrlOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreatePresignedMlflowTrackingServerUrlOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -58659,6 +59799,20 @@ enum DeleteHubContentOutputError {
     }
 }
 
+enum DeleteHubContentReferenceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteHumanTaskUiOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
@@ -58738,6 +59892,20 @@ enum DeleteInferenceExperimentOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteMlflowTrackingServerOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
             case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -59522,6 +60690,20 @@ enum DescribeLabelingJobOutputError {
 }
 
 enum DescribeLineageGroupOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeMlflowTrackingServerOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -60546,6 +61728,19 @@ enum ListLineageGroupsOutputError {
     }
 }
 
+enum ListMlflowTrackingServersOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListModelBiasJobDefinitionsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
@@ -61169,6 +62364,21 @@ enum StartInferenceExperimentOutputError {
     }
 }
 
+enum StartMlflowTrackingServerOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StartMonitoringScheduleOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
@@ -61318,6 +62528,21 @@ enum StopLabelingJobOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StopMlflowTrackingServerOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -61708,6 +62933,22 @@ enum UpdateInferenceExperimentOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateMlflowTrackingServerOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ResourceLimitExceeded": return try ResourceLimitExceeded.makeError(baseError: baseError)
             case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -62151,6 +63392,7 @@ extension SageMakerClientTypes.S3ModelDataSource {
     static func write(value: SageMakerClientTypes.S3ModelDataSource?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CompressionType"].write(value.compressionType)
+        try writer["HubAccessConfig"].write(value.hubAccessConfig, with: SageMakerClientTypes.InferenceHubAccessConfig.write(value:to:))
         try writer["ModelAccessConfig"].write(value.modelAccessConfig, with: SageMakerClientTypes.ModelAccessConfig.write(value:to:))
         try writer["S3DataType"].write(value.s3DataType)
         try writer["S3Uri"].write(value.s3Uri)
@@ -62163,6 +63405,22 @@ extension SageMakerClientTypes.S3ModelDataSource {
         value.s3DataType = try reader["S3DataType"].readIfPresent()
         value.compressionType = try reader["CompressionType"].readIfPresent()
         value.modelAccessConfig = try reader["ModelAccessConfig"].readIfPresent(with: SageMakerClientTypes.ModelAccessConfig.read(from:))
+        value.hubAccessConfig = try reader["HubAccessConfig"].readIfPresent(with: SageMakerClientTypes.InferenceHubAccessConfig.read(from:))
+        return value
+    }
+}
+
+extension SageMakerClientTypes.InferenceHubAccessConfig {
+
+    static func write(value: SageMakerClientTypes.InferenceHubAccessConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["HubContentArn"].write(value.hubContentArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.InferenceHubAccessConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.InferenceHubAccessConfig()
+        value.hubContentArn = try reader["HubContentArn"].readIfPresent()
         return value
     }
 }
@@ -63667,6 +64925,46 @@ extension SageMakerClientTypes.ClusterInstanceGroupDetails {
         value.lifeCycleConfig = try reader["LifeCycleConfig"].readIfPresent(with: SageMakerClientTypes.ClusterLifeCycleConfig.read(from:))
         value.executionRole = try reader["ExecutionRole"].readIfPresent()
         value.threadsPerCore = try reader["ThreadsPerCore"].readIfPresent()
+        value.instanceStorageConfigs = try reader["InstanceStorageConfigs"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ClusterInstanceStorageConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SageMakerClientTypes.ClusterInstanceStorageConfig {
+
+    static func write(value: SageMakerClientTypes.ClusterInstanceStorageConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .ebsvolumeconfig(ebsvolumeconfig):
+                try writer["EbsVolumeConfig"].write(ebsvolumeconfig, with: SageMakerClientTypes.ClusterEbsVolumeConfig.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ClusterInstanceStorageConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "EbsVolumeConfig":
+                return .ebsvolumeconfig(try reader["EbsVolumeConfig"].read(with: SageMakerClientTypes.ClusterEbsVolumeConfig.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension SageMakerClientTypes.ClusterEbsVolumeConfig {
+
+    static func write(value: SageMakerClientTypes.ClusterEbsVolumeConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["VolumeSizeInGB"].write(value.volumeSizeInGB)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ClusterEbsVolumeConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.ClusterEbsVolumeConfig()
+        value.volumeSizeInGB = try reader["VolumeSizeInGB"].readIfPresent()
         return value
     }
 }
@@ -63700,6 +64998,7 @@ extension SageMakerClientTypes.ClusterNodeDetails {
         value.launchTime = try reader["LaunchTime"].readTimestampIfPresent(format: .epochSeconds)
         value.lifeCycleConfig = try reader["LifeCycleConfig"].readIfPresent(with: SageMakerClientTypes.ClusterLifeCycleConfig.read(from:))
         value.threadsPerCore = try reader["ThreadsPerCore"].readIfPresent()
+        value.instanceStorageConfigs = try reader["InstanceStorageConfigs"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ClusterInstanceStorageConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.privatePrimaryIp = try reader["PrivatePrimaryIp"].readIfPresent()
         value.privateDnsHostname = try reader["PrivateDnsHostname"].readIfPresent()
         value.placement = try reader["Placement"].readIfPresent(with: SageMakerClientTypes.ClusterInstancePlacement.read(from:))
@@ -65377,6 +66676,7 @@ extension SageMakerClientTypes.ProductionVariant {
         try writer["ContainerStartupHealthCheckTimeoutInSeconds"].write(value.containerStartupHealthCheckTimeoutInSeconds)
         try writer["CoreDumpConfig"].write(value.coreDumpConfig, with: SageMakerClientTypes.ProductionVariantCoreDumpConfig.write(value:to:))
         try writer["EnableSSMAccess"].write(value.enableSSMAccess)
+        try writer["InferenceAmiVersion"].write(value.inferenceAmiVersion)
         try writer["InitialInstanceCount"].write(value.initialInstanceCount)
         try writer["InitialVariantWeight"].write(value.initialVariantWeight)
         try writer["InstanceType"].write(value.instanceType)
@@ -65406,6 +66706,7 @@ extension SageMakerClientTypes.ProductionVariant {
         value.enableSSMAccess = try reader["EnableSSMAccess"].readIfPresent()
         value.managedInstanceScaling = try reader["ManagedInstanceScaling"].readIfPresent(with: SageMakerClientTypes.ProductionVariantManagedInstanceScaling.read(from:))
         value.routingConfig = try reader["RoutingConfig"].readIfPresent(with: SageMakerClientTypes.ProductionVariantRoutingConfig.read(from:))
+        value.inferenceAmiVersion = try reader["InferenceAmiVersion"].readIfPresent()
         return value
     }
 }
@@ -69168,6 +70469,8 @@ extension SageMakerClientTypes.OidcConfigForResponse {
         value.userInfoEndpoint = try reader["UserInfoEndpoint"].readIfPresent()
         value.logoutEndpoint = try reader["LogoutEndpoint"].readIfPresent()
         value.jwksUri = try reader["JwksUri"].readIfPresent()
+        value.scope = try reader["Scope"].readIfPresent()
+        value.authenticationRequestExtraParams = try reader["AuthenticationRequestExtraParams"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -69860,14 +71163,17 @@ extension SageMakerClientTypes.HubContentInfo {
         var value = SageMakerClientTypes.HubContentInfo()
         value.hubContentName = try reader["HubContentName"].readIfPresent()
         value.hubContentArn = try reader["HubContentArn"].readIfPresent()
+        value.sageMakerPublicHubContentArn = try reader["SageMakerPublicHubContentArn"].readIfPresent()
         value.hubContentVersion = try reader["HubContentVersion"].readIfPresent()
         value.hubContentType = try reader["HubContentType"].readIfPresent()
         value.documentSchemaVersion = try reader["DocumentSchemaVersion"].readIfPresent()
         value.hubContentDisplayName = try reader["HubContentDisplayName"].readIfPresent()
         value.hubContentDescription = try reader["HubContentDescription"].readIfPresent()
+        value.supportStatus = try reader["SupportStatus"].readIfPresent()
         value.hubContentSearchKeywords = try reader["HubContentSearchKeywords"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.hubContentStatus = try reader["HubContentStatus"].readIfPresent()
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: .epochSeconds)
+        value.originalCreationTime = try reader["OriginalCreationTime"].readTimestampIfPresent(format: .epochSeconds)
         return value
     }
 }
@@ -70098,6 +71404,22 @@ extension SageMakerClientTypes.LineageGroupSummary {
         value.displayName = try reader["DisplayName"].readIfPresent()
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: .epochSeconds)
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: .epochSeconds)
+        return value
+    }
+}
+
+extension SageMakerClientTypes.TrackingServerSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.TrackingServerSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.TrackingServerSummary()
+        value.trackingServerArn = try reader["TrackingServerArn"].readIfPresent()
+        value.trackingServerName = try reader["TrackingServerName"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: .epochSeconds)
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: .epochSeconds)
+        value.trackingServerStatus = try reader["TrackingServerStatus"].readIfPresent()
+        value.isActive = try reader["IsActive"].readIfPresent()
+        value.mlflowVersion = try reader["MlflowVersion"].readIfPresent()
         return value
     }
 }
@@ -71429,6 +72751,7 @@ extension SageMakerClientTypes.ClusterInstanceGroupSpecification {
         try writer["ExecutionRole"].write(value.executionRole)
         try writer["InstanceCount"].write(value.instanceCount)
         try writer["InstanceGroupName"].write(value.instanceGroupName)
+        try writer["InstanceStorageConfigs"].writeList(value.instanceStorageConfigs, memberWritingClosure: SageMakerClientTypes.ClusterInstanceStorageConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["InstanceType"].write(value.instanceType)
         try writer["LifeCycleConfig"].write(value.lifeCycleConfig, with: SageMakerClientTypes.ClusterLifeCycleConfig.write(value:to:))
         try writer["ThreadsPerCore"].write(value.threadsPerCore)
@@ -71541,12 +72864,14 @@ extension SageMakerClientTypes.OidcConfig {
 
     static func write(value: SageMakerClientTypes.OidcConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AuthenticationRequestExtraParams"].writeMap(value.authenticationRequestExtraParams, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["AuthorizationEndpoint"].write(value.authorizationEndpoint)
         try writer["ClientId"].write(value.clientId)
         try writer["ClientSecret"].write(value.clientSecret)
         try writer["Issuer"].write(value.issuer)
         try writer["JwksUri"].write(value.jwksUri)
         try writer["LogoutEndpoint"].write(value.logoutEndpoint)
+        try writer["Scope"].write(value.scope)
         try writer["TokenEndpoint"].write(value.tokenEndpoint)
         try writer["UserInfoEndpoint"].write(value.userInfoEndpoint)
     }

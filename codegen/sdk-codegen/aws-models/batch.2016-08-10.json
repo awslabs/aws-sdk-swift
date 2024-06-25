@@ -3137,7 +3137,20 @@
                     "outputToken": "nextToken",
                     "items": "computeEnvironments",
                     "pageSize": "maxResults"
-                }
+                },
+                "smithy.test#smokeTests": [
+                    {
+                        "id": "DescribeComputeEnvironmentsSuccess",
+                        "params": {},
+                        "vendorParams": {
+                            "region": "us-west-2"
+                        },
+                        "vendorParamsShape": "aws.test#AwsVendorParams",
+                        "expect": {
+                            "success": {}
+                        }
+                    }
+                ]
             }
         },
         "com.amazonaws.batch#DescribeComputeEnvironmentsRequest": {
@@ -6616,36 +6629,6 @@
                 "smithy.api#documentation": "<p>Registers an Batch job definition.</p>",
                 "smithy.api#examples": [
                     {
-                        "title": "To register a job definition",
-                        "documentation": "This example registers a job definition for a simple container job.",
-                        "input": {
-                            "containerProperties": {
-                                "image": "busybox",
-                                "command": [
-                                    "sleep",
-                                    "10"
-                                ],
-                                "resourceRequirements": [
-                                    {
-                                        "type": "MEMORY",
-                                        "value": "128"
-                                    },
-                                    {
-                                        "type": "VCPU",
-                                        "value": "1"
-                                    }
-                                ]
-                            },
-                            "type": "container",
-                            "jobDefinitionName": "sleep10"
-                        },
-                        "output": {
-                            "jobDefinitionName": "sleep10",
-                            "jobDefinitionArn": "arn:aws:batch:us-east-1:012345678910:job-definition/sleep10:1",
-                            "revision": 1
-                        }
-                    },
-                    {
                         "title": "RegisterJobDefinition with tags",
                         "documentation": "This demonstrates calling the RegisterJobDefinition action, including tags.",
                         "input": {
@@ -6676,6 +6659,36 @@
                         "output": {
                             "jobDefinitionName": "sleep30",
                             "jobDefinitionArn": "arn:aws:batch:us-east-1:012345678910:job-definition/sleep30:1",
+                            "revision": 1
+                        }
+                    },
+                    {
+                        "title": "To register a job definition",
+                        "documentation": "This example registers a job definition for a simple container job.",
+                        "input": {
+                            "containerProperties": {
+                                "image": "busybox",
+                                "command": [
+                                    "sleep",
+                                    "10"
+                                ],
+                                "resourceRequirements": [
+                                    {
+                                        "type": "MEMORY",
+                                        "value": "128"
+                                    },
+                                    {
+                                        "type": "VCPU",
+                                        "value": "1"
+                                    }
+                                ]
+                            },
+                            "type": "container",
+                            "jobDefinitionName": "sleep10"
+                        },
+                        "output": {
+                            "jobDefinitionName": "sleep10",
+                            "jobDefinitionArn": "arn:aws:batch:us-east-1:012345678910:job-definition/sleep10:1",
                             "revision": 1
                         }
                     }

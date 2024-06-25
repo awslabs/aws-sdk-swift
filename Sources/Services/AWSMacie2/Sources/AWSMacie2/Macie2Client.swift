@@ -265,6 +265,58 @@ extension Macie2Client {
         return result
     }
 
+    /// Performs the `BatchUpdateAutomatedDiscoveryAccounts` operation on the `Macie2` service.
+    ///
+    /// Changes the status of automated sensitive data discovery for one or more accounts.
+    ///
+    /// - Parameter BatchUpdateAutomatedDiscoveryAccountsInput : [no documentation found]
+    ///
+    /// - Returns: `BatchUpdateAutomatedDiscoveryAccountsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
+    public func batchUpdateAutomatedDiscoveryAccounts(input: BatchUpdateAutomatedDiscoveryAccountsInput) async throws -> BatchUpdateAutomatedDiscoveryAccountsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .patch)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchUpdateAutomatedDiscoveryAccounts")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "macie2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<BatchUpdateAutomatedDiscoveryAccountsInput, BatchUpdateAutomatedDiscoveryAccountsOutput>(id: "batchUpdateAutomatedDiscoveryAccounts")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchUpdateAutomatedDiscoveryAccountsInput, BatchUpdateAutomatedDiscoveryAccountsOutput>(BatchUpdateAutomatedDiscoveryAccountsInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchUpdateAutomatedDiscoveryAccountsInput, BatchUpdateAutomatedDiscoveryAccountsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<BatchUpdateAutomatedDiscoveryAccountsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<BatchUpdateAutomatedDiscoveryAccountsInput, BatchUpdateAutomatedDiscoveryAccountsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<BatchUpdateAutomatedDiscoveryAccountsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<BatchUpdateAutomatedDiscoveryAccountsInput, BatchUpdateAutomatedDiscoveryAccountsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<BatchUpdateAutomatedDiscoveryAccountsInput, BatchUpdateAutomatedDiscoveryAccountsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchUpdateAutomatedDiscoveryAccountsInput.write(value:to:)))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<BatchUpdateAutomatedDiscoveryAccountsInput, BatchUpdateAutomatedDiscoveryAccountsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchUpdateAutomatedDiscoveryAccountsOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<BatchUpdateAutomatedDiscoveryAccountsOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchUpdateAutomatedDiscoveryAccountsOutput>(BatchUpdateAutomatedDiscoveryAccountsOutput.httpOutput(from:), BatchUpdateAutomatedDiscoveryAccountsOutputError.httpError(from:)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchUpdateAutomatedDiscoveryAccountsInput, BatchUpdateAutomatedDiscoveryAccountsOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `CreateAllowList` operation on the `Macie2` service.
     ///
     /// Creates and defines the settings for an allow list.
@@ -1582,7 +1634,7 @@ extension Macie2Client {
 
     /// Performs the `GetAutomatedDiscoveryConfiguration` operation on the `Macie2` service.
     ///
-    /// Retrieves the configuration settings and status of automated sensitive data discovery for an account.
+    /// Retrieves the configuration settings and status of automated sensitive data discovery for an organization or standalone account.
     ///
     /// - Parameter GetAutomatedDiscoveryConfigurationInput : [no documentation found]
     ///
@@ -2648,6 +2700,56 @@ extension Macie2Client {
         return result
     }
 
+    /// Performs the `ListAutomatedDiscoveryAccounts` operation on the `Macie2` service.
+    ///
+    /// Retrieves the status of automated sensitive data discovery for one or more accounts.
+    ///
+    /// - Parameter ListAutomatedDiscoveryAccountsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAutomatedDiscoveryAccountsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
+    public func listAutomatedDiscoveryAccounts(input: ListAutomatedDiscoveryAccountsInput) async throws -> ListAutomatedDiscoveryAccountsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listAutomatedDiscoveryAccounts")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "macie2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ListAutomatedDiscoveryAccountsInput, ListAutomatedDiscoveryAccountsOutput>(id: "listAutomatedDiscoveryAccounts")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAutomatedDiscoveryAccountsInput, ListAutomatedDiscoveryAccountsOutput>(ListAutomatedDiscoveryAccountsInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAutomatedDiscoveryAccountsInput, ListAutomatedDiscoveryAccountsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListAutomatedDiscoveryAccountsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListAutomatedDiscoveryAccountsInput, ListAutomatedDiscoveryAccountsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListAutomatedDiscoveryAccountsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListAutomatedDiscoveryAccountsInput, ListAutomatedDiscoveryAccountsOutput>(ListAutomatedDiscoveryAccountsInput.queryItemProvider(_:)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAutomatedDiscoveryAccountsOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListAutomatedDiscoveryAccountsOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAutomatedDiscoveryAccountsOutput>(ListAutomatedDiscoveryAccountsOutput.httpOutput(from:), ListAutomatedDiscoveryAccountsOutputError.httpError(from:)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAutomatedDiscoveryAccountsInput, ListAutomatedDiscoveryAccountsOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `ListClassificationJobs` operation on the `Macie2` service.
     ///
     /// Retrieves a subset of information about one or more classification jobs.
@@ -2913,7 +3015,7 @@ extension Macie2Client {
 
     /// Performs the `ListInvitations` operation on the `Macie2` service.
     ///
-    /// Retrieves information about the Amazon Macie membership invitations that were received by an account.
+    /// Retrieves information about Amazon Macie membership invitations that were received by an account.
     ///
     /// - Parameter ListInvitationsInput : [no documentation found]
     ///
@@ -3112,7 +3214,7 @@ extension Macie2Client {
 
     /// Performs the `ListResourceProfileArtifacts` operation on the `Macie2` service.
     ///
-    /// Retrieves information about objects that were selected from an S3 bucket for automated sensitive data discovery.
+    /// Retrieves information about objects that Amazon Macie selected from an S3 bucket for automated sensitive data discovery.
     ///
     /// - Parameter ListResourceProfileArtifactsInput : [no documentation found]
     ///
@@ -3303,7 +3405,7 @@ extension Macie2Client {
 
     /// Performs the `PutClassificationExportConfiguration` operation on the `Macie2` service.
     ///
-    /// Creates or updates the configuration settings for storing data classification results.
+    /// Adds or updates the configuration settings for storing data classification results.
     ///
     /// - Parameter PutClassificationExportConfigurationInput : [no documentation found]
     ///
@@ -3509,7 +3611,7 @@ extension Macie2Client {
 
     /// Performs the `TestCustomDataIdentifier` operation on the `Macie2` service.
     ///
-    /// Tests a custom data identifier.
+    /// Tests criteria for a custom data identifier.
     ///
     /// - Parameter TestCustomDataIdentifierInput : [no documentation found]
     ///
@@ -3656,7 +3758,7 @@ extension Macie2Client {
 
     /// Performs the `UpdateAutomatedDiscoveryConfiguration` operation on the `Macie2` service.
     ///
-    /// Enables or disables automated sensitive data discovery for an account.
+    /// Changes the configuration settings and status of automated sensitive data discovery for an organization or standalone account.
     ///
     /// - Parameter UpdateAutomatedDiscoveryConfigurationInput : [no documentation found]
     ///

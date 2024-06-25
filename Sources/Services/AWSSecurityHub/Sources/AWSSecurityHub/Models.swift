@@ -17776,7 +17776,18 @@ extension SecurityHubClientTypes {
 }
 
 extension SecurityHubClientTypes {
-    /// The severity assigned to the finding by the finding provider.
+    /// The severity assigned to a finding by the finding provider. This object may include one or more of the following attributes:
+    ///
+    /// * Label
+    ///
+    /// * Normalized
+    ///
+    /// * Original
+    ///
+    /// * Product
+    ///
+    ///
+    /// If a [BatchImportFindings](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchImportFindings.html) request for a new finding only provides Label or only provides Normalized, Security Hub automatically populates the value of the other field. The Normalized and Product attributes are included in the FindingProviderSeverity structure to preserve the historical information associated with the finding, even if the top-level Severity object is later modified using the [BatchUpdateFindings](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateFindings.html) operation. If the top-level Finding.Severity object is present, but Finding.FindingProviderFields isn't present, Security Hub creates the FindingProviderFields.Severity object and copies the entire Finding.Severity object into it. This ensures that the original, provider-supplied details are retained within the FindingProviderFields.Severity object, even if the top-level Severity object is overwritten.
     public struct FindingProviderSeverity {
         /// The severity label assigned to the finding by the finding provider.
         public var label: SecurityHubClientTypes.SeverityLabel?
@@ -17796,7 +17807,20 @@ extension SecurityHubClientTypes {
 }
 
 extension SecurityHubClientTypes {
-    /// In a BatchImportFindings request, finding providers use FindingProviderFields to provide and update values for confidence, criticality, related findings, severity, and types.
+    /// In a [BatchImportFindings](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchImportFindings.html) request, finding providers use FindingProviderFields to provide and update values for the following fields:
+    ///
+    /// * Confidence
+    ///
+    /// * Criticality
+    ///
+    /// * RelatedFindings
+    ///
+    /// * Severity
+    ///
+    /// * Types
+    ///
+    ///
+    /// The preceding fields are nested under the FindingProviderFields object, but also have analogues of the same name as top-level ASFF fields. When a new finding is sent to Security Hub by a finding provider, Security Hub populates the FindingProviderFields object automatically, if it is empty, based on the corresponding top-level fields. Finding providers can update FindingProviderFields only by using the BatchImportFindings operation. Finding providers can't update this object with the [BatchUpdateFindings](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateFindings.html) operation. Customers can update the top-level fields by using the BatchUpdateFindings operation. Customers can't update FindingProviderFields. For information about how Security Hub handles updates from BatchImportFindings to FindingProviderFields and to the corresponding top-level attributes, see [Using ]FindingProviderFields(https://docs.aws.amazon.com/securityhub/latest/userguide/finding-update-batchimportfindings.html#batchimportfindings-findingproviderfields) in the Security Hub User Guide.
     public struct FindingProviderFields {
         /// A finding's confidence. Confidence is defined as the likelihood that a finding accurately identifies the behavior or issue that it was intended to identify. Confidence is scored on a 0-100 basis using a ratio scale, where 0 means zero percent confidence and 100 means 100 percent confidence.
         public var confidence: Swift.Int?
