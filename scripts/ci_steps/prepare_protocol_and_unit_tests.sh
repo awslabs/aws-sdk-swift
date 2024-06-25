@@ -4,7 +4,7 @@ set -e
 
 # Regenerate the SDK Package.swift to run only protocol tests and runtime unit tests
 cd AWSSDKSwiftCLI
-swift run AWSSDKSwiftCLI generate-package-manifest --include-protocol-tests --exclude-aws-services ..
+swift run AWSSDKSwiftCLI generate-package-manifest --exclude-aws-services ..
 cd ..
 
 # Dump the Package.swift contents to the logs
