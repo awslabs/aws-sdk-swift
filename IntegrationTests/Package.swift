@@ -56,17 +56,17 @@ func addRuntimeDependencies() {
         fatalError("Unable to determine which dependencies to use. Please only specify one of AWS_SWIFT_SDK_USE_LOCAL_DEPS or AWS_SWIFT_SDK_USE_MAIN_DEPS.")
     case (true, false):
         package.dependencies += [
-            .package(path: "../../smithy-swift")
+            .package(path: "../../smithy-swift"),
             .package(path: "../../aws-sdk-swift")
         ]
     case (false, true):
         package.dependencies += [
-            .package(url: smithySwiftURL, branch: "main")
+            .package(url: smithySwiftURL, branch: "main"),
             .package(url: awsSDKSwiftURL, branch: "main")
         ]
     case (false, false):
         package.dependencies += [
-            .package(url: smithySwiftURL, .upToNextMajor(from: "0.0.0"))
+            .package(url: smithySwiftURL, .upToNextMajor(from: "0.0.0")),
             .package(url: awsSDKSwiftURL, .upToNextMajor(from: "0.0.0"))
         ]
     }
