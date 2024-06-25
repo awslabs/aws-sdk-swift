@@ -228,40 +228,12 @@ func addServiceUnitTestTarget(_ name: String) {
     ]
 }
 
-func addIntegrationTestService(_ name: String) {
-    var additionalDependencies: [String] = []
-    switch name {
-    case "AWSEC2":
-        additionalDependencies = ["AWSIAM", "AWSSTS", "AWSCloudWatchLogs"]
-    case "AWSECS":
-        additionalDependencies = ["AWSCloudWatchLogs", "AWSEC2",  "AWSIAM", "AWSSTS"]
-    case "AWSS3":
-        additionalDependencies = ["AWSSSOAdmin", "AWSS3Control", "AWSSTS"]
-    case "AWSEventBridge":
-        additionalDependencies = ["AWSRoute53"]
-    case "AWSCloudFrontKeyValueStore":
-        additionalDependencies = ["AWSCloudFront"]
-    case "AWSSTS":
-        additionalDependencies = ["AWSIAM", "AWSCognitoIdentity"]
-    default:
-        break
-    }
-    integrationTestServices.insert(name)
-    additionalDependencies.forEach { integrationTestServices.insert($0) }
-}
-
 var enabledServices = Set<String>()
 var enabledServiceUnitTests = Set<String>()
 
 func addAllServices() {
     enabledServices = Set(serviceTargets)
     enabledServiceUnitTests = Set(serviceTargets)
-}
-
-var integrationTestServices = Set<String>()
-
-func enableServicesWithIntegrationTests() {
-    servicesWithIntegrationTests.forEach { addIntegrationTestService($0) }
 }
 
 func excludeRuntimeUnitTests() {
@@ -326,6 +298,6 @@ func addProtocolTests() {
 }
 
 func addResolvedTargets() {
-    enabledServices.union(integrationTestServices).forEach(addServiceTarget)
+    enabledServices.forEach(addServiceTarget)
     enabledServiceUnitTests.forEach(addServiceUnitTestTarget)
 }
