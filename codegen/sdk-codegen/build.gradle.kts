@@ -193,7 +193,7 @@ task("stageSdks") {
             copy {
                 from("${it.outputDir}")
                 into("${it.sourcesDir}")
-                exclude("Package.swift")
+//                exclude("Package.swift")
             }
         }
     }

@@ -28,7 +28,7 @@ extension Process {
         }
 
         static func checksum(archiveFileURL: URL) -> Process {
-            sprProcess(["shasum", "-a", "256", archiveFileURL.path()])
+            sprProcess(["shasum", "-b", "-a", "256", archiveFileURL.path()])
         }
 
         /// Returns a process for executing SPR commands.

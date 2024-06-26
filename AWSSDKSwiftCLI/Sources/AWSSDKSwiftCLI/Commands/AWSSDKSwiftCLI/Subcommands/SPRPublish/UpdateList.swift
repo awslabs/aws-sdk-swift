@@ -69,7 +69,10 @@ extension SPRPublish {
             guard let baseURL = URL(string: url) else {
                 throw Error("URL is invalid")
             }
-            return baseURL.appending(component: "\(id)/\(name)")
+            return baseURL
+                .appending(component: id)
+                .appending(component: name)
+                .appending(component: version)
         }
     }
 }

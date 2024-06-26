@@ -22,7 +22,7 @@ local.properties
 
 # Swift/SPM config & temp
 .build/
-/Package.resolved
+Package.resolved
 .swiftpm/
 
 # Codegen build products
