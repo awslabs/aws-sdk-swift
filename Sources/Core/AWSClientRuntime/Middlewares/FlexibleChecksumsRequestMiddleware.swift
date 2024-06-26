@@ -109,9 +109,7 @@ extension FlexibleChecksumsRequestMiddleware: HttpInterceptor {
     public typealias InputType = OperationStackInput
     public typealias OutputType = OperationStackOutput
 
-    public func modifyBeforeRetryLoop(
-        context: some MutableRequest<InputType, RequestType, AttributesType>
-    ) async throws {
+    public func modifyBeforeRetryLoop(context: some MutableRequest<InputType, RequestType>) async throws {
         let builder = context.getRequest().toBuilder()
         try await addHeaders(builder: builder, attributes: context.getAttributes())
         context.updateRequest(updated: builder.build())

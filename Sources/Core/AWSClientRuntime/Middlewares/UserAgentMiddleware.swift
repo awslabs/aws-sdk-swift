@@ -43,9 +43,7 @@ extension UserAgentMiddleware: HttpInterceptor {
     public typealias InputType = OperationStackInput
     public typealias OutputType = OperationStackOutput
 
-    public func modifyBeforeRetryLoop(
-        context: some MutableRequest<Self.InputType, SdkHttpRequest, Context>
-    ) async throws {
+    public func modifyBeforeRetryLoop(context: some MutableRequest<Self.InputType, SdkHttpRequest>) async throws {
         let builder = context.getRequest().toBuilder()
         addHeader(builder: builder)
         context.updateRequest(updated: builder.build())

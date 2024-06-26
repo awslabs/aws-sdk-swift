@@ -21,7 +21,10 @@ import protocol AWSClientRuntime.AWSRegionClientConfiguration
 import protocol ClientRuntime.Client
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
+import protocol ClientRuntime.HttpInterceptor
+import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
+import protocol ClientRuntime.InterceptorProvider
 import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
@@ -106,9 +109,13 @@ extension CloudFrontKeyValueStoreClient {
 
         public var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver
 
+        public private(set) var interceptorProviders: [ClientRuntime.InterceptorProvider]
+
+        public private(set) var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
+
         internal let logger: Smithy.LogAgent
 
-        private init(_ useFIPS: Swift.Bool?, _ useDualStack: Swift.Bool?, _ appID: Swift.String?, _ awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver, _ awsRetryMode: AWSClientRuntime.AWSRetryMode, _ region: Swift.String?, _ signingRegion: Swift.String?, _ endpointResolver: EndpointResolver, _ telemetryProvider: ClientRuntime.TelemetryProvider, _ retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions, _ clientLogMode: ClientRuntime.ClientLogMode, _ endpoint: Swift.String?, _ idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator, _ httpClientEngine: SmithyHTTPAPI.HTTPClient, _ httpClientConfiguration: ClientRuntime.HttpClientConfiguration, _ authSchemes: SmithyHTTPAuthAPI.AuthSchemes?, _ authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver) {
+        private init(_ useFIPS: Swift.Bool?, _ useDualStack: Swift.Bool?, _ appID: Swift.String?, _ awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver, _ awsRetryMode: AWSClientRuntime.AWSRetryMode, _ region: Swift.String?, _ signingRegion: Swift.String?, _ endpointResolver: EndpointResolver, _ telemetryProvider: ClientRuntime.TelemetryProvider, _ retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions, _ clientLogMode: ClientRuntime.ClientLogMode, _ endpoint: Swift.String?, _ idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator, _ httpClientEngine: SmithyHTTPAPI.HTTPClient, _ httpClientConfiguration: ClientRuntime.HttpClientConfiguration, _ authSchemes: SmithyHTTPAuthAPI.AuthSchemes?, _ authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver, _ interceptorProviders: [ClientRuntime.InterceptorProvider], _ httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]) {
             self.useFIPS = useFIPS
             self.useDualStack = useDualStack
             self.appID = appID
@@ -126,28 +133,38 @@ extension CloudFrontKeyValueStoreClient {
             self.httpClientConfiguration = httpClientConfiguration
             self.authSchemes = authSchemes
             self.authSchemeResolver = authSchemeResolver
+            self.interceptorProviders = interceptorProviders
+            self.httpInterceptorProviders = httpInterceptorProviders
             self.logger = telemetryProvider.loggerProvider.getLogger(name: CloudFrontKeyValueStoreClient.clientName)
         }
 
-        public convenience init(useFIPS: Swift.Bool? = nil, useDualStack: Swift.Bool? = nil, appID: Swift.String? = nil, awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil, awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil, region: Swift.String? = nil, signingRegion: Swift.String? = nil, endpointResolver: EndpointResolver? = nil, telemetryProvider: ClientRuntime.TelemetryProvider? = nil, retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil, clientLogMode: ClientRuntime.ClientLogMode? = nil, endpoint: Swift.String? = nil, idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil, httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil, httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil, authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil, authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil) throws {
-            self.init(useFIPS, useDualStack, try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(), try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver), try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(), region, signingRegion, try endpointResolver ?? DefaultEndpointResolver(), telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider, try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(), clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode, endpoint, idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator, httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine, httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration, authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme(), AWSSDKHTTPAuth.SigV4AAuthScheme()], authSchemeResolver ?? DefaultCloudFrontKeyValueStoreAuthSchemeResolver())
+        public convenience init(useFIPS: Swift.Bool? = nil, useDualStack: Swift.Bool? = nil, appID: Swift.String? = nil, awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil, awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil, region: Swift.String? = nil, signingRegion: Swift.String? = nil, endpointResolver: EndpointResolver? = nil, telemetryProvider: ClientRuntime.TelemetryProvider? = nil, retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil, clientLogMode: ClientRuntime.ClientLogMode? = nil, endpoint: Swift.String? = nil, idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil, httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil, httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil, authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil, authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil, interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil, httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil) throws {
+            self.init(useFIPS, useDualStack, try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(), try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver), try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(), region, signingRegion, try endpointResolver ?? DefaultEndpointResolver(), telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider, try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(), clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode, endpoint, idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator, httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine, httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration, authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme(), AWSSDKHTTPAuth.SigV4AAuthScheme()], authSchemeResolver ?? DefaultCloudFrontKeyValueStoreAuthSchemeResolver(), interceptorProviders ?? [], httpInterceptorProviders ?? [])
         }
 
-        public convenience init(useFIPS: Swift.Bool? = nil, useDualStack: Swift.Bool? = nil, appID: Swift.String? = nil, awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil, awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil, region: Swift.String? = nil, signingRegion: Swift.String? = nil, endpointResolver: EndpointResolver? = nil, telemetryProvider: ClientRuntime.TelemetryProvider? = nil, retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil, clientLogMode: ClientRuntime.ClientLogMode? = nil, endpoint: Swift.String? = nil, idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil, httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil, httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil, authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil, authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil) async throws {
-            self.init(useFIPS, useDualStack, try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(), try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver), try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(), try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region), try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region), try endpointResolver ?? DefaultEndpointResolver(), telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider, try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(), clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode, endpoint, idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator, httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine, httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration, authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme(), AWSSDKHTTPAuth.SigV4AAuthScheme()], authSchemeResolver ?? DefaultCloudFrontKeyValueStoreAuthSchemeResolver())
+        public convenience init(useFIPS: Swift.Bool? = nil, useDualStack: Swift.Bool? = nil, appID: Swift.String? = nil, awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil, awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil, region: Swift.String? = nil, signingRegion: Swift.String? = nil, endpointResolver: EndpointResolver? = nil, telemetryProvider: ClientRuntime.TelemetryProvider? = nil, retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil, clientLogMode: ClientRuntime.ClientLogMode? = nil, endpoint: Swift.String? = nil, idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil, httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil, httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil, authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil, authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil, interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil, httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil) async throws {
+            self.init(useFIPS, useDualStack, try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(), try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver), try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(), try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region), try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region), try endpointResolver ?? DefaultEndpointResolver(), telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider, try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(), clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode, endpoint, idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator, httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine, httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration, authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme(), AWSSDKHTTPAuth.SigV4AAuthScheme()], authSchemeResolver ?? DefaultCloudFrontKeyValueStoreAuthSchemeResolver(), interceptorProviders ?? [], httpInterceptorProviders ?? [])
         }
 
         public convenience required init() async throws {
-            try await self.init(useFIPS: nil, useDualStack: nil, appID: nil, awsCredentialIdentityResolver: nil, awsRetryMode: nil, region: nil, signingRegion: nil, endpointResolver: nil, telemetryProvider: nil, retryStrategyOptions: nil, clientLogMode: nil, endpoint: nil, idempotencyTokenGenerator: nil, httpClientEngine: nil, httpClientConfiguration: nil, authSchemes: nil, authSchemeResolver: nil)
+            try await self.init(useFIPS: nil, useDualStack: nil, appID: nil, awsCredentialIdentityResolver: nil, awsRetryMode: nil, region: nil, signingRegion: nil, endpointResolver: nil, telemetryProvider: nil, retryStrategyOptions: nil, clientLogMode: nil, endpoint: nil, idempotencyTokenGenerator: nil, httpClientEngine: nil, httpClientConfiguration: nil, authSchemes: nil, authSchemeResolver: nil, interceptorProviders: nil, httpInterceptorProviders: nil)
         }
 
         public convenience init(region: String) throws {
-            self.init(nil, nil, try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(), try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(), try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(), region, region, try DefaultEndpointResolver(), ClientRuntime.DefaultTelemetry.provider, try AWSClientConfigDefaultsProvider.retryStrategyOptions(), AWSClientConfigDefaultsProvider.clientLogMode, nil, AWSClientConfigDefaultsProvider.idempotencyTokenGenerator, AWSClientConfigDefaultsProvider.httpClientEngine, AWSClientConfigDefaultsProvider.httpClientConfiguration, [AWSSDKHTTPAuth.SigV4AuthScheme(), AWSSDKHTTPAuth.SigV4AAuthScheme()], DefaultCloudFrontKeyValueStoreAuthSchemeResolver())
+            self.init(nil, nil, try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(), try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(), try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(), region, region, try DefaultEndpointResolver(), ClientRuntime.DefaultTelemetry.provider, try AWSClientConfigDefaultsProvider.retryStrategyOptions(), AWSClientConfigDefaultsProvider.clientLogMode, nil, AWSClientConfigDefaultsProvider.idempotencyTokenGenerator, AWSClientConfigDefaultsProvider.httpClientEngine, AWSClientConfigDefaultsProvider.httpClientConfiguration, [AWSSDKHTTPAuth.SigV4AuthScheme(), AWSSDKHTTPAuth.SigV4AAuthScheme()], DefaultCloudFrontKeyValueStoreAuthSchemeResolver(), [], [])
         }
 
         public var partitionID: String? {
             return "\(CloudFrontKeyValueStoreClient.clientName) - \(region ?? "")"
         }
+        public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self.interceptorProviders.append(provider)
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self.httpInterceptorProviders.append(provider)
+        }
+
     }
 
     public static func builder() -> ClientRuntime.ClientBuilder<CloudFrontKeyValueStoreClient> {
@@ -196,6 +213,13 @@ extension CloudFrontKeyValueStoreClient {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeleteKeyInput, DeleteKeyOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DeleteKeyInput, DeleteKeyOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteKeyInput, DeleteKeyOutput>(DeleteKeyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteKeyInput, DeleteKeyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, kvsARN: input.kvsARN, region: config.region, useFIPS: config.useFIPS ?? false)
@@ -249,6 +273,13 @@ extension CloudFrontKeyValueStoreClient {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DescribeKeyValueStoreInput, DescribeKeyValueStoreOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DescribeKeyValueStoreInput, DescribeKeyValueStoreOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeKeyValueStoreInput, DescribeKeyValueStoreOutput>(DescribeKeyValueStoreInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeKeyValueStoreInput, DescribeKeyValueStoreOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, kvsARN: input.kvsARN, region: config.region, useFIPS: config.useFIPS ?? false)
@@ -301,6 +332,13 @@ extension CloudFrontKeyValueStoreClient {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetKeyInput, GetKeyOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<GetKeyInput, GetKeyOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetKeyInput, GetKeyOutput>(GetKeyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetKeyInput, GetKeyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, kvsARN: input.kvsARN, region: config.region, useFIPS: config.useFIPS ?? false)
@@ -354,6 +392,13 @@ extension CloudFrontKeyValueStoreClient {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListKeysInput, ListKeysOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListKeysInput, ListKeysOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListKeysInput, ListKeysOutput>(ListKeysInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListKeysInput, ListKeysOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, kvsARN: input.kvsARN, region: config.region, useFIPS: config.useFIPS ?? false)
@@ -409,6 +454,13 @@ extension CloudFrontKeyValueStoreClient {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutKeyInput, PutKeyOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<PutKeyInput, PutKeyOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutKeyInput, PutKeyOutput>(PutKeyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutKeyInput, PutKeyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, kvsARN: input.kvsARN, region: config.region, useFIPS: config.useFIPS ?? false)
@@ -467,6 +519,13 @@ extension CloudFrontKeyValueStoreClient {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<UpdateKeysInput, UpdateKeysOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<UpdateKeysInput, UpdateKeysOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateKeysInput, UpdateKeysOutput>(UpdateKeysInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateKeysInput, UpdateKeysOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, kvsARN: input.kvsARN, region: config.region, useFIPS: config.useFIPS ?? false)

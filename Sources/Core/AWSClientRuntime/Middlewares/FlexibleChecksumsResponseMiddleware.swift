@@ -120,14 +120,12 @@ extension FlexibleChecksumsResponseMiddleware: HttpInterceptor {
     public typealias InputType = OperationStackInput
     public typealias OutputType = OperationStackOutput
 
-    public func modifyBeforeRetryLoop(
-        context: some MutableRequest<InputType, RequestType, AttributesType>
-    ) async throws {
+    public func modifyBeforeRetryLoop(context: some MutableRequest<InputType, RequestType>) async throws {
         context.getAttributes().set(key: AttributeKey<String>(name: "ChecksumHeaderValidated"), value: nil)
     }
 
     public func modifyBeforeDeserialization(
-        context: some MutableResponse<InputType, RequestType, ResponseType, AttributesType>
+        context: some MutableResponse<InputType, RequestType, ResponseType>
     ) async throws {
         guard let logger = context.getAttributes().getLogger() else {
             throw ClientError.unknownError("No logger found!")
