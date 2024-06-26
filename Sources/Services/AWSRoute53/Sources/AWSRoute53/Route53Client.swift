@@ -20,7 +20,10 @@ import protocol AWSClientRuntime.AWSRegionClientConfiguration
 import protocol ClientRuntime.Client
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
+import protocol ClientRuntime.HttpInterceptor
+import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.IdempotencyTokenGenerator
+import protocol ClientRuntime.InterceptorProvider
 import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
@@ -103,9 +106,13 @@ extension Route53Client {
 
         public var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver
 
+        public private(set) var interceptorProviders: [ClientRuntime.InterceptorProvider]
+
+        public private(set) var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
+
         internal let logger: Smithy.LogAgent
 
-        private init(_ useFIPS: Swift.Bool?, _ useDualStack: Swift.Bool?, _ appID: Swift.String?, _ awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver, _ awsRetryMode: AWSClientRuntime.AWSRetryMode, _ region: Swift.String?, _ signingRegion: Swift.String?, _ endpointResolver: EndpointResolver, _ telemetryProvider: ClientRuntime.TelemetryProvider, _ retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions, _ clientLogMode: ClientRuntime.ClientLogMode, _ endpoint: Swift.String?, _ idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator, _ httpClientEngine: SmithyHTTPAPI.HTTPClient, _ httpClientConfiguration: ClientRuntime.HttpClientConfiguration, _ authSchemes: SmithyHTTPAuthAPI.AuthSchemes?, _ authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver) {
+        private init(_ useFIPS: Swift.Bool?, _ useDualStack: Swift.Bool?, _ appID: Swift.String?, _ awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver, _ awsRetryMode: AWSClientRuntime.AWSRetryMode, _ region: Swift.String?, _ signingRegion: Swift.String?, _ endpointResolver: EndpointResolver, _ telemetryProvider: ClientRuntime.TelemetryProvider, _ retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions, _ clientLogMode: ClientRuntime.ClientLogMode, _ endpoint: Swift.String?, _ idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator, _ httpClientEngine: SmithyHTTPAPI.HTTPClient, _ httpClientConfiguration: ClientRuntime.HttpClientConfiguration, _ authSchemes: SmithyHTTPAuthAPI.AuthSchemes?, _ authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver, _ interceptorProviders: [ClientRuntime.InterceptorProvider], _ httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]) {
             self.useFIPS = useFIPS
             self.useDualStack = useDualStack
             self.appID = appID
@@ -123,28 +130,38 @@ extension Route53Client {
             self.httpClientConfiguration = httpClientConfiguration
             self.authSchemes = authSchemes
             self.authSchemeResolver = authSchemeResolver
+            self.interceptorProviders = interceptorProviders
+            self.httpInterceptorProviders = httpInterceptorProviders
             self.logger = telemetryProvider.loggerProvider.getLogger(name: Route53Client.clientName)
         }
 
-        public convenience init(useFIPS: Swift.Bool? = nil, useDualStack: Swift.Bool? = nil, appID: Swift.String? = nil, awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil, awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil, region: Swift.String? = nil, signingRegion: Swift.String? = nil, endpointResolver: EndpointResolver? = nil, telemetryProvider: ClientRuntime.TelemetryProvider? = nil, retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil, clientLogMode: ClientRuntime.ClientLogMode? = nil, endpoint: Swift.String? = nil, idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil, httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil, httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil, authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil, authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil) throws {
-            self.init(useFIPS, useDualStack, try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(), try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver), try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(), region, signingRegion, try endpointResolver ?? DefaultEndpointResolver(), telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider, try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(), clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode, endpoint, idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator, httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine, httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration, authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()], authSchemeResolver ?? DefaultRoute53AuthSchemeResolver())
+        public convenience init(useFIPS: Swift.Bool? = nil, useDualStack: Swift.Bool? = nil, appID: Swift.String? = nil, awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil, awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil, region: Swift.String? = nil, signingRegion: Swift.String? = nil, endpointResolver: EndpointResolver? = nil, telemetryProvider: ClientRuntime.TelemetryProvider? = nil, retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil, clientLogMode: ClientRuntime.ClientLogMode? = nil, endpoint: Swift.String? = nil, idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil, httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil, httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil, authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil, authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil, interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil, httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil) throws {
+            self.init(useFIPS, useDualStack, try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(), try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver), try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(), region, signingRegion, try endpointResolver ?? DefaultEndpointResolver(), telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider, try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(), clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode, endpoint, idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator, httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine, httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration, authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()], authSchemeResolver ?? DefaultRoute53AuthSchemeResolver(), interceptorProviders ?? [], httpInterceptorProviders ?? [])
         }
 
-        public convenience init(useFIPS: Swift.Bool? = nil, useDualStack: Swift.Bool? = nil, appID: Swift.String? = nil, awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil, awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil, region: Swift.String? = nil, signingRegion: Swift.String? = nil, endpointResolver: EndpointResolver? = nil, telemetryProvider: ClientRuntime.TelemetryProvider? = nil, retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil, clientLogMode: ClientRuntime.ClientLogMode? = nil, endpoint: Swift.String? = nil, idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil, httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil, httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil, authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil, authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil) async throws {
-            self.init(useFIPS, useDualStack, try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(), try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver), try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(), try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region), try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region), try endpointResolver ?? DefaultEndpointResolver(), telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider, try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(), clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode, endpoint, idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator, httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine, httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration, authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()], authSchemeResolver ?? DefaultRoute53AuthSchemeResolver())
+        public convenience init(useFIPS: Swift.Bool? = nil, useDualStack: Swift.Bool? = nil, appID: Swift.String? = nil, awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil, awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil, region: Swift.String? = nil, signingRegion: Swift.String? = nil, endpointResolver: EndpointResolver? = nil, telemetryProvider: ClientRuntime.TelemetryProvider? = nil, retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil, clientLogMode: ClientRuntime.ClientLogMode? = nil, endpoint: Swift.String? = nil, idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil, httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil, httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil, authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil, authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil, interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil, httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil) async throws {
+            self.init(useFIPS, useDualStack, try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(), try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver), try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(), try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region), try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region), try endpointResolver ?? DefaultEndpointResolver(), telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider, try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(), clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode, endpoint, idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator, httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine, httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration, authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()], authSchemeResolver ?? DefaultRoute53AuthSchemeResolver(), interceptorProviders ?? [], httpInterceptorProviders ?? [])
         }
 
         public convenience required init() async throws {
-            try await self.init(useFIPS: nil, useDualStack: nil, appID: nil, awsCredentialIdentityResolver: nil, awsRetryMode: nil, region: nil, signingRegion: nil, endpointResolver: nil, telemetryProvider: nil, retryStrategyOptions: nil, clientLogMode: nil, endpoint: nil, idempotencyTokenGenerator: nil, httpClientEngine: nil, httpClientConfiguration: nil, authSchemes: nil, authSchemeResolver: nil)
+            try await self.init(useFIPS: nil, useDualStack: nil, appID: nil, awsCredentialIdentityResolver: nil, awsRetryMode: nil, region: nil, signingRegion: nil, endpointResolver: nil, telemetryProvider: nil, retryStrategyOptions: nil, clientLogMode: nil, endpoint: nil, idempotencyTokenGenerator: nil, httpClientEngine: nil, httpClientConfiguration: nil, authSchemes: nil, authSchemeResolver: nil, interceptorProviders: nil, httpInterceptorProviders: nil)
         }
 
         public convenience init(region: String) throws {
-            self.init(nil, nil, try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(), try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(), try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(), region, region, try DefaultEndpointResolver(), ClientRuntime.DefaultTelemetry.provider, try AWSClientConfigDefaultsProvider.retryStrategyOptions(), AWSClientConfigDefaultsProvider.clientLogMode, nil, AWSClientConfigDefaultsProvider.idempotencyTokenGenerator, AWSClientConfigDefaultsProvider.httpClientEngine, AWSClientConfigDefaultsProvider.httpClientConfiguration, [AWSSDKHTTPAuth.SigV4AuthScheme()], DefaultRoute53AuthSchemeResolver())
+            self.init(nil, nil, try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(), try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(), try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(), region, region, try DefaultEndpointResolver(), ClientRuntime.DefaultTelemetry.provider, try AWSClientConfigDefaultsProvider.retryStrategyOptions(), AWSClientConfigDefaultsProvider.clientLogMode, nil, AWSClientConfigDefaultsProvider.idempotencyTokenGenerator, AWSClientConfigDefaultsProvider.httpClientEngine, AWSClientConfigDefaultsProvider.httpClientConfiguration, [AWSSDKHTTPAuth.SigV4AuthScheme()], DefaultRoute53AuthSchemeResolver(), [], [])
         }
 
         public var partitionID: String? {
             return "\(Route53Client.clientName) - \(region ?? "")"
         }
+        public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self.interceptorProviders.append(provider)
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self.httpInterceptorProviders.append(provider)
+        }
+
     }
 
     public static func builder() -> ClientRuntime.ClientBuilder<Route53Client> {
@@ -193,6 +210,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ActivateKeySigningKeyInput, ActivateKeySigningKeyOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ActivateKeySigningKeyInput, ActivateKeySigningKeyOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(AWSClientRuntime.Route53TrimHostedZoneMiddleware<ActivateKeySigningKeyInput, ActivateKeySigningKeyOutput>(\.hostedZoneId))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ActivateKeySigningKeyInput, ActivateKeySigningKeyOutput>(ActivateKeySigningKeyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ActivateKeySigningKeyInput, ActivateKeySigningKeyOutput>())
@@ -264,6 +288,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<AssociateVPCWithHostedZoneInput, AssociateVPCWithHostedZoneOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<AssociateVPCWithHostedZoneInput, AssociateVPCWithHostedZoneOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(AWSClientRuntime.Route53TrimHostedZoneMiddleware<AssociateVPCWithHostedZoneInput, AssociateVPCWithHostedZoneOutput>(\.hostedZoneId))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateVPCWithHostedZoneInput, AssociateVPCWithHostedZoneOutput>(AssociateVPCWithHostedZoneInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateVPCWithHostedZoneInput, AssociateVPCWithHostedZoneOutput>())
@@ -325,6 +356,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ChangeCidrCollectionInput, ChangeCidrCollectionOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ChangeCidrCollectionInput, ChangeCidrCollectionOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ChangeCidrCollectionInput, ChangeCidrCollectionOutput>(ChangeCidrCollectionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ChangeCidrCollectionInput, ChangeCidrCollectionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -389,6 +427,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ChangeResourceRecordSetsInput, ChangeResourceRecordSetsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ChangeResourceRecordSetsInput, ChangeResourceRecordSetsOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(AWSClientRuntime.Route53TrimHostedZoneMiddleware<ChangeResourceRecordSetsInput, ChangeResourceRecordSetsOutput>(\.hostedZoneId))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ChangeResourceRecordSetsInput, ChangeResourceRecordSetsOutput>(ChangeResourceRecordSetsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ChangeResourceRecordSetsInput, ChangeResourceRecordSetsOutput>())
@@ -445,6 +490,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ChangeTagsForResourceInput, ChangeTagsForResourceOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ChangeTagsForResourceInput, ChangeTagsForResourceOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ChangeTagsForResourceInput, ChangeTagsForResourceOutput>(ChangeTagsForResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ChangeTagsForResourceInput, ChangeTagsForResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -499,6 +551,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<CreateCidrCollectionInput, CreateCidrCollectionOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<CreateCidrCollectionInput, CreateCidrCollectionOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateCidrCollectionInput, CreateCidrCollectionOutput>(CreateCidrCollectionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateCidrCollectionInput, CreateCidrCollectionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -562,6 +621,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<CreateHealthCheckInput, CreateHealthCheckOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<CreateHealthCheckInput, CreateHealthCheckOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateHealthCheckInput, CreateHealthCheckOutput>(CreateHealthCheckInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateHealthCheckInput, CreateHealthCheckOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -645,6 +711,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<CreateHostedZoneInput, CreateHostedZoneOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<CreateHostedZoneInput, CreateHostedZoneOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateHostedZoneInput, CreateHostedZoneOutput>(CreateHostedZoneInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateHostedZoneInput, CreateHostedZoneOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -705,6 +778,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<CreateKeySigningKeyInput, CreateKeySigningKeyOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<CreateKeySigningKeyInput, CreateKeySigningKeyOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateKeySigningKeyInput, CreateKeySigningKeyOutput>(CreateKeySigningKeyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateKeySigningKeyInput, CreateKeySigningKeyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -812,6 +892,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<CreateQueryLoggingConfigInput, CreateQueryLoggingConfigOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<CreateQueryLoggingConfigInput, CreateQueryLoggingConfigOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateQueryLoggingConfigInput, CreateQueryLoggingConfigOutput>(CreateQueryLoggingConfigInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateQueryLoggingConfigInput, CreateQueryLoggingConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -890,6 +977,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<CreateReusableDelegationSetInput, CreateReusableDelegationSetOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<CreateReusableDelegationSetInput, CreateReusableDelegationSetOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateReusableDelegationSetInput, CreateReusableDelegationSetOutput>(CreateReusableDelegationSetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateReusableDelegationSetInput, CreateReusableDelegationSetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -944,6 +1038,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<CreateTrafficPolicyInput, CreateTrafficPolicyOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<CreateTrafficPolicyInput, CreateTrafficPolicyOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateTrafficPolicyInput, CreateTrafficPolicyOutput>(CreateTrafficPolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateTrafficPolicyInput, CreateTrafficPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -999,6 +1100,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<CreateTrafficPolicyInstanceInput, CreateTrafficPolicyInstanceOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<CreateTrafficPolicyInstanceInput, CreateTrafficPolicyInstanceOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateTrafficPolicyInstanceInput, CreateTrafficPolicyInstanceOutput>(CreateTrafficPolicyInstanceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateTrafficPolicyInstanceInput, CreateTrafficPolicyInstanceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -1054,6 +1162,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<CreateTrafficPolicyVersionInput, CreateTrafficPolicyVersionOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<CreateTrafficPolicyVersionInput, CreateTrafficPolicyVersionOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateTrafficPolicyVersionInput, CreateTrafficPolicyVersionOutput>(CreateTrafficPolicyVersionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateTrafficPolicyVersionInput, CreateTrafficPolicyVersionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -1109,6 +1224,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<CreateVPCAssociationAuthorizationInput, CreateVPCAssociationAuthorizationOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<CreateVPCAssociationAuthorizationInput, CreateVPCAssociationAuthorizationOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(AWSClientRuntime.Route53TrimHostedZoneMiddleware<CreateVPCAssociationAuthorizationInput, CreateVPCAssociationAuthorizationOutput>(\.hostedZoneId))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateVPCAssociationAuthorizationInput, CreateVPCAssociationAuthorizationOutput>(CreateVPCAssociationAuthorizationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateVPCAssociationAuthorizationInput, CreateVPCAssociationAuthorizationOutput>())
@@ -1167,6 +1289,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeactivateKeySigningKeyInput, DeactivateKeySigningKeyOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DeactivateKeySigningKeyInput, DeactivateKeySigningKeyOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(AWSClientRuntime.Route53TrimHostedZoneMiddleware<DeactivateKeySigningKeyInput, DeactivateKeySigningKeyOutput>(\.hostedZoneId))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeactivateKeySigningKeyInput, DeactivateKeySigningKeyOutput>(DeactivateKeySigningKeyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeactivateKeySigningKeyInput, DeactivateKeySigningKeyOutput>())
@@ -1219,6 +1348,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeleteCidrCollectionInput, DeleteCidrCollectionOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DeleteCidrCollectionInput, DeleteCidrCollectionOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteCidrCollectionInput, DeleteCidrCollectionOutput>(DeleteCidrCollectionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCidrCollectionInput, DeleteCidrCollectionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -1269,6 +1405,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeleteHealthCheckInput, DeleteHealthCheckOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DeleteHealthCheckInput, DeleteHealthCheckOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteHealthCheckInput, DeleteHealthCheckOutput>(DeleteHealthCheckInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteHealthCheckInput, DeleteHealthCheckOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -1325,6 +1468,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeleteHostedZoneInput, DeleteHostedZoneOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DeleteHostedZoneInput, DeleteHostedZoneOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(AWSClientRuntime.Route53TrimHostedZoneMiddleware<DeleteHostedZoneInput, DeleteHostedZoneOutput>(\.id))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteHostedZoneInput, DeleteHostedZoneOutput>(DeleteHostedZoneInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteHostedZoneInput, DeleteHostedZoneOutput>())
@@ -1379,6 +1529,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeleteKeySigningKeyInput, DeleteKeySigningKeyOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DeleteKeySigningKeyInput, DeleteKeySigningKeyOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(AWSClientRuntime.Route53TrimHostedZoneMiddleware<DeleteKeySigningKeyInput, DeleteKeySigningKeyOutput>(\.hostedZoneId))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteKeySigningKeyInput, DeleteKeySigningKeyOutput>(DeleteKeySigningKeyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteKeySigningKeyInput, DeleteKeySigningKeyOutput>())
@@ -1430,6 +1587,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeleteQueryLoggingConfigInput, DeleteQueryLoggingConfigOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DeleteQueryLoggingConfigInput, DeleteQueryLoggingConfigOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteQueryLoggingConfigInput, DeleteQueryLoggingConfigOutput>(DeleteQueryLoggingConfigInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteQueryLoggingConfigInput, DeleteQueryLoggingConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -1481,6 +1645,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeleteReusableDelegationSetInput, DeleteReusableDelegationSetOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DeleteReusableDelegationSetInput, DeleteReusableDelegationSetOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(AWSClientRuntime.Route53TrimHostedZoneMiddleware<DeleteReusableDelegationSetInput, DeleteReusableDelegationSetOutput>(\.id))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteReusableDelegationSetInput, DeleteReusableDelegationSetOutput>(DeleteReusableDelegationSetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteReusableDelegationSetInput, DeleteReusableDelegationSetOutput>())
@@ -1539,6 +1710,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeleteTrafficPolicyInput, DeleteTrafficPolicyOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DeleteTrafficPolicyInput, DeleteTrafficPolicyOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteTrafficPolicyInput, DeleteTrafficPolicyOutput>(DeleteTrafficPolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTrafficPolicyInput, DeleteTrafficPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -1589,6 +1767,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeleteTrafficPolicyInstanceInput, DeleteTrafficPolicyInstanceOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DeleteTrafficPolicyInstanceInput, DeleteTrafficPolicyInstanceOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteTrafficPolicyInstanceInput, DeleteTrafficPolicyInstanceOutput>(DeleteTrafficPolicyInstanceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTrafficPolicyInstanceInput, DeleteTrafficPolicyInstanceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -1641,6 +1826,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DeleteVPCAssociationAuthorizationInput, DeleteVPCAssociationAuthorizationOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DeleteVPCAssociationAuthorizationInput, DeleteVPCAssociationAuthorizationOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(AWSClientRuntime.Route53TrimHostedZoneMiddleware<DeleteVPCAssociationAuthorizationInput, DeleteVPCAssociationAuthorizationOutput>(\.hostedZoneId))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteVPCAssociationAuthorizationInput, DeleteVPCAssociationAuthorizationOutput>(DeleteVPCAssociationAuthorizationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteVPCAssociationAuthorizationInput, DeleteVPCAssociationAuthorizationOutput>())
@@ -1700,6 +1892,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DisableHostedZoneDNSSECInput, DisableHostedZoneDNSSECOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DisableHostedZoneDNSSECInput, DisableHostedZoneDNSSECOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(AWSClientRuntime.Route53TrimHostedZoneMiddleware<DisableHostedZoneDNSSECInput, DisableHostedZoneDNSSECOutput>(\.hostedZoneId))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisableHostedZoneDNSSECInput, DisableHostedZoneDNSSECOutput>(DisableHostedZoneDNSSECInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisableHostedZoneDNSSECInput, DisableHostedZoneDNSSECOutput>())
@@ -1773,6 +1972,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<DisassociateVPCFromHostedZoneInput, DisassociateVPCFromHostedZoneOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<DisassociateVPCFromHostedZoneInput, DisassociateVPCFromHostedZoneOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(AWSClientRuntime.Route53TrimHostedZoneMiddleware<DisassociateVPCFromHostedZoneInput, DisassociateVPCFromHostedZoneOutput>(\.hostedZoneId))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateVPCFromHostedZoneInput, DisassociateVPCFromHostedZoneOutput>(DisassociateVPCFromHostedZoneInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateVPCFromHostedZoneInput, DisassociateVPCFromHostedZoneOutput>())
@@ -1833,6 +2039,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<EnableHostedZoneDNSSECInput, EnableHostedZoneDNSSECOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<EnableHostedZoneDNSSECInput, EnableHostedZoneDNSSECOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(AWSClientRuntime.Route53TrimHostedZoneMiddleware<EnableHostedZoneDNSSECInput, EnableHostedZoneDNSSECOutput>(\.hostedZoneId))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<EnableHostedZoneDNSSECInput, EnableHostedZoneDNSSECOutput>(EnableHostedZoneDNSSECInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<EnableHostedZoneDNSSECInput, EnableHostedZoneDNSSECOutput>())
@@ -1882,6 +2095,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetAccountLimitInput, GetAccountLimitOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<GetAccountLimitInput, GetAccountLimitOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAccountLimitInput, GetAccountLimitOutput>(GetAccountLimitInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAccountLimitInput, GetAccountLimitOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -1935,6 +2155,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetChangeInput, GetChangeOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<GetChangeInput, GetChangeOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetChangeInput, GetChangeOutput>(GetChangeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetChangeInput, GetChangeOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -1978,6 +2205,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetCheckerIpRangesInput, GetCheckerIpRangesOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<GetCheckerIpRangesInput, GetCheckerIpRangesOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetCheckerIpRangesInput, GetCheckerIpRangesOutput>(GetCheckerIpRangesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCheckerIpRangesInput, GetCheckerIpRangesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -2028,6 +2262,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetDNSSECInput, GetDNSSECOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<GetDNSSECInput, GetDNSSECOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(AWSClientRuntime.Route53TrimHostedZoneMiddleware<GetDNSSECInput, GetDNSSECOutput>(\.hostedZoneId))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetDNSSECInput, GetDNSSECOutput>(GetDNSSECInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDNSSECInput, GetDNSSECOutput>())
@@ -2078,6 +2319,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetGeoLocationInput, GetGeoLocationOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<GetGeoLocationInput, GetGeoLocationOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetGeoLocationInput, GetGeoLocationOutput>(GetGeoLocationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetGeoLocationInput, GetGeoLocationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -2129,6 +2377,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetHealthCheckInput, GetHealthCheckOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<GetHealthCheckInput, GetHealthCheckOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetHealthCheckInput, GetHealthCheckOutput>(GetHealthCheckInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetHealthCheckInput, GetHealthCheckOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -2172,6 +2427,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetHealthCheckCountInput, GetHealthCheckCountOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<GetHealthCheckCountInput, GetHealthCheckCountOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetHealthCheckCountInput, GetHealthCheckCountOutput>(GetHealthCheckCountInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetHealthCheckCountInput, GetHealthCheckCountOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -2221,6 +2483,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetHealthCheckLastFailureReasonInput, GetHealthCheckLastFailureReasonOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<GetHealthCheckLastFailureReasonInput, GetHealthCheckLastFailureReasonOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetHealthCheckLastFailureReasonInput, GetHealthCheckLastFailureReasonOutput>(GetHealthCheckLastFailureReasonInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetHealthCheckLastFailureReasonInput, GetHealthCheckLastFailureReasonOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -2270,6 +2539,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetHealthCheckStatusInput, GetHealthCheckStatusOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<GetHealthCheckStatusInput, GetHealthCheckStatusOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetHealthCheckStatusInput, GetHealthCheckStatusOutput>(GetHealthCheckStatusInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetHealthCheckStatusInput, GetHealthCheckStatusOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -2319,6 +2595,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetHostedZoneInput, GetHostedZoneOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<GetHostedZoneInput, GetHostedZoneOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(AWSClientRuntime.Route53TrimHostedZoneMiddleware<GetHostedZoneInput, GetHostedZoneOutput>(\.id))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetHostedZoneInput, GetHostedZoneOutput>(GetHostedZoneInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetHostedZoneInput, GetHostedZoneOutput>())
@@ -2368,6 +2651,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetHostedZoneCountInput, GetHostedZoneCountOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<GetHostedZoneCountInput, GetHostedZoneCountOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetHostedZoneCountInput, GetHostedZoneCountOutput>(GetHostedZoneCountInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetHostedZoneCountInput, GetHostedZoneCountOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -2418,6 +2708,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetHostedZoneLimitInput, GetHostedZoneLimitOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<GetHostedZoneLimitInput, GetHostedZoneLimitOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(AWSClientRuntime.Route53TrimHostedZoneMiddleware<GetHostedZoneLimitInput, GetHostedZoneLimitOutput>(\.hostedZoneId))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetHostedZoneLimitInput, GetHostedZoneLimitOutput>(GetHostedZoneLimitInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetHostedZoneLimitInput, GetHostedZoneLimitOutput>())
@@ -2468,6 +2765,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetQueryLoggingConfigInput, GetQueryLoggingConfigOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<GetQueryLoggingConfigInput, GetQueryLoggingConfigOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetQueryLoggingConfigInput, GetQueryLoggingConfigOutput>(GetQueryLoggingConfigInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetQueryLoggingConfigInput, GetQueryLoggingConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -2518,6 +2822,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetReusableDelegationSetInput, GetReusableDelegationSetOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<GetReusableDelegationSetInput, GetReusableDelegationSetOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(AWSClientRuntime.Route53TrimHostedZoneMiddleware<GetReusableDelegationSetInput, GetReusableDelegationSetOutput>(\.id))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetReusableDelegationSetInput, GetReusableDelegationSetOutput>(GetReusableDelegationSetInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetReusableDelegationSetInput, GetReusableDelegationSetOutput>())
@@ -2568,6 +2879,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetReusableDelegationSetLimitInput, GetReusableDelegationSetLimitOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<GetReusableDelegationSetLimitInput, GetReusableDelegationSetLimitOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(AWSClientRuntime.Route53TrimHostedZoneMiddleware<GetReusableDelegationSetLimitInput, GetReusableDelegationSetLimitOutput>(\.delegationSetId))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetReusableDelegationSetLimitInput, GetReusableDelegationSetLimitOutput>(GetReusableDelegationSetLimitInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetReusableDelegationSetLimitInput, GetReusableDelegationSetLimitOutput>())
@@ -2618,6 +2936,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetTrafficPolicyInput, GetTrafficPolicyOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<GetTrafficPolicyInput, GetTrafficPolicyOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetTrafficPolicyInput, GetTrafficPolicyOutput>(GetTrafficPolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTrafficPolicyInput, GetTrafficPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -2667,6 +2992,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetTrafficPolicyInstanceInput, GetTrafficPolicyInstanceOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<GetTrafficPolicyInstanceInput, GetTrafficPolicyInstanceOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetTrafficPolicyInstanceInput, GetTrafficPolicyInstanceOutput>(GetTrafficPolicyInstanceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTrafficPolicyInstanceInput, GetTrafficPolicyInstanceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -2710,6 +3042,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetTrafficPolicyInstanceCountInput, GetTrafficPolicyInstanceCountOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<GetTrafficPolicyInstanceCountInput, GetTrafficPolicyInstanceCountOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetTrafficPolicyInstanceCountInput, GetTrafficPolicyInstanceCountOutput>(GetTrafficPolicyInstanceCountInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTrafficPolicyInstanceCountInput, GetTrafficPolicyInstanceCountOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -2760,6 +3099,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListCidrBlocksInput, ListCidrBlocksOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListCidrBlocksInput, ListCidrBlocksOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListCidrBlocksInput, ListCidrBlocksOutput>(ListCidrBlocksInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListCidrBlocksInput, ListCidrBlocksOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -2809,6 +3155,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListCidrCollectionsInput, ListCidrCollectionsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListCidrCollectionsInput, ListCidrCollectionsOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListCidrCollectionsInput, ListCidrCollectionsOutput>(ListCidrCollectionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListCidrCollectionsInput, ListCidrCollectionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -2859,6 +3212,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListCidrLocationsInput, ListCidrLocationsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListCidrLocationsInput, ListCidrLocationsOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListCidrLocationsInput, ListCidrLocationsOutput>(ListCidrLocationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListCidrLocationsInput, ListCidrLocationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -2908,6 +3268,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListGeoLocationsInput, ListGeoLocationsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListGeoLocationsInput, ListGeoLocationsOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListGeoLocationsInput, ListGeoLocationsOutput>(ListGeoLocationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListGeoLocationsInput, ListGeoLocationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -2958,6 +3325,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListHealthChecksInput, ListHealthChecksOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListHealthChecksInput, ListHealthChecksOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListHealthChecksInput, ListHealthChecksOutput>(ListHealthChecksInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListHealthChecksInput, ListHealthChecksOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -3009,6 +3383,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListHostedZonesInput, ListHostedZonesOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListHostedZonesInput, ListHostedZonesOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListHostedZonesInput, ListHostedZonesOutput>(ListHostedZonesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListHostedZonesInput, ListHostedZonesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -3067,6 +3448,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListHostedZonesByNameInput, ListHostedZonesByNameOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListHostedZonesByNameInput, ListHostedZonesByNameOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListHostedZonesByNameInput, ListHostedZonesByNameOutput>(ListHostedZonesByNameInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListHostedZonesByNameInput, ListHostedZonesByNameOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -3133,6 +3521,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListHostedZonesByVPCInput, ListHostedZonesByVPCOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListHostedZonesByVPCInput, ListHostedZonesByVPCOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListHostedZonesByVPCInput, ListHostedZonesByVPCOutput>(ListHostedZonesByVPCInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListHostedZonesByVPCInput, ListHostedZonesByVPCOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -3184,6 +3579,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListQueryLoggingConfigsInput, ListQueryLoggingConfigsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListQueryLoggingConfigsInput, ListQueryLoggingConfigsOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListQueryLoggingConfigsInput, ListQueryLoggingConfigsOutput>(ListQueryLoggingConfigsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListQueryLoggingConfigsInput, ListQueryLoggingConfigsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -3234,6 +3636,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListResourceRecordSetsInput, ListResourceRecordSetsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListResourceRecordSetsInput, ListResourceRecordSetsOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(AWSClientRuntime.Route53TrimHostedZoneMiddleware<ListResourceRecordSetsInput, ListResourceRecordSetsOutput>(\.hostedZoneId))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListResourceRecordSetsInput, ListResourceRecordSetsOutput>(ListResourceRecordSetsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListResourceRecordSetsInput, ListResourceRecordSetsOutput>())
@@ -3284,6 +3693,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListReusableDelegationSetsInput, ListReusableDelegationSetsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListReusableDelegationSetsInput, ListReusableDelegationSetsOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListReusableDelegationSetsInput, ListReusableDelegationSetsOutput>(ListReusableDelegationSetsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListReusableDelegationSetsInput, ListReusableDelegationSetsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -3337,6 +3753,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListTagsForResourceInput, ListTagsForResourceOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -3389,6 +3812,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListTagsForResourcesInput, ListTagsForResourcesOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListTagsForResourcesInput, ListTagsForResourcesOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTagsForResourcesInput, ListTagsForResourcesOutput>(ListTagsForResourcesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourcesInput, ListTagsForResourcesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -3440,6 +3870,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListTrafficPoliciesInput, ListTrafficPoliciesOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListTrafficPoliciesInput, ListTrafficPoliciesOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTrafficPoliciesInput, ListTrafficPoliciesOutput>(ListTrafficPoliciesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTrafficPoliciesInput, ListTrafficPoliciesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -3490,6 +3927,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListTrafficPolicyInstancesInput, ListTrafficPolicyInstancesOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListTrafficPolicyInstancesInput, ListTrafficPolicyInstancesOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTrafficPolicyInstancesInput, ListTrafficPolicyInstancesOutput>(ListTrafficPolicyInstancesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTrafficPolicyInstancesInput, ListTrafficPolicyInstancesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -3541,6 +3985,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListTrafficPolicyInstancesByHostedZoneInput, ListTrafficPolicyInstancesByHostedZoneOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListTrafficPolicyInstancesByHostedZoneInput, ListTrafficPolicyInstancesByHostedZoneOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTrafficPolicyInstancesByHostedZoneInput, ListTrafficPolicyInstancesByHostedZoneOutput>(ListTrafficPolicyInstancesByHostedZoneInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTrafficPolicyInstancesByHostedZoneInput, ListTrafficPolicyInstancesByHostedZoneOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -3592,6 +4043,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListTrafficPolicyInstancesByPolicyInput, ListTrafficPolicyInstancesByPolicyOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListTrafficPolicyInstancesByPolicyInput, ListTrafficPolicyInstancesByPolicyOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTrafficPolicyInstancesByPolicyInput, ListTrafficPolicyInstancesByPolicyOutput>(ListTrafficPolicyInstancesByPolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTrafficPolicyInstancesByPolicyInput, ListTrafficPolicyInstancesByPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -3642,6 +4100,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListTrafficPolicyVersionsInput, ListTrafficPolicyVersionsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListTrafficPolicyVersionsInput, ListTrafficPolicyVersionsOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTrafficPolicyVersionsInput, ListTrafficPolicyVersionsOutput>(ListTrafficPolicyVersionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTrafficPolicyVersionsInput, ListTrafficPolicyVersionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -3693,6 +4158,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<ListVPCAssociationAuthorizationsInput, ListVPCAssociationAuthorizationsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<ListVPCAssociationAuthorizationsInput, ListVPCAssociationAuthorizationsOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(AWSClientRuntime.Route53TrimHostedZoneMiddleware<ListVPCAssociationAuthorizationsInput, ListVPCAssociationAuthorizationsOutput>(\.hostedZoneId))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListVPCAssociationAuthorizationsInput, ListVPCAssociationAuthorizationsOutput>(ListVPCAssociationAuthorizationsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListVPCAssociationAuthorizationsInput, ListVPCAssociationAuthorizationsOutput>())
@@ -3744,6 +4216,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<TestDNSAnswerInput, TestDNSAnswerOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<TestDNSAnswerInput, TestDNSAnswerOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<TestDNSAnswerInput, TestDNSAnswerOutput>(TestDNSAnswerInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TestDNSAnswerInput, TestDNSAnswerOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -3795,6 +4274,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<UpdateHealthCheckInput, UpdateHealthCheckOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<UpdateHealthCheckInput, UpdateHealthCheckOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateHealthCheckInput, UpdateHealthCheckOutput>(UpdateHealthCheckInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateHealthCheckInput, UpdateHealthCheckOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -3848,6 +4334,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<UpdateHostedZoneCommentInput, UpdateHostedZoneCommentOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<UpdateHostedZoneCommentInput, UpdateHostedZoneCommentOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(AWSClientRuntime.Route53TrimHostedZoneMiddleware<UpdateHostedZoneCommentInput, UpdateHostedZoneCommentOutput>(\.id))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateHostedZoneCommentInput, UpdateHostedZoneCommentOutput>(UpdateHostedZoneCommentInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateHostedZoneCommentInput, UpdateHostedZoneCommentOutput>())
@@ -3902,6 +4395,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<UpdateTrafficPolicyCommentInput, UpdateTrafficPolicyCommentOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<UpdateTrafficPolicyCommentInput, UpdateTrafficPolicyCommentOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateTrafficPolicyCommentInput, UpdateTrafficPolicyCommentOutput>(UpdateTrafficPolicyCommentInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateTrafficPolicyCommentInput, UpdateTrafficPolicyCommentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -3963,6 +4463,13 @@ extension Route53Client {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<UpdateTrafficPolicyInstanceInput, UpdateTrafficPolicyInstanceOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            let i: any ClientRuntime.HttpInterceptor<UpdateTrafficPolicyInstanceInput, UpdateTrafficPolicyInstanceOutput> = provider.create()
+            builder.interceptors.add(i)
+        }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateTrafficPolicyInstanceInput, UpdateTrafficPolicyInstanceOutput>(UpdateTrafficPolicyInstanceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateTrafficPolicyInstanceInput, UpdateTrafficPolicyInstanceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)

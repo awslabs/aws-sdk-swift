@@ -111,12 +111,13 @@ jobs:
           TOKEN_ESCAPED=`echo -n "$AWS_SESSION_TOKEN" | jq -Rsa .`
           # Insert the credentials into the .xctestplan file, write the modified JSON
           # to a temp file, then move the temp over the original.
-          jq ".defaultOptions.environmentVariableEntries += [{\"key\": \"AWS_ACCESS_KEY_ID\", \"value\": $AKID_ESCAPED}, {\"key\": \"AWS_SECRET_ACCESS_KEY\", \"value\": $SECRET_ESCAPED}, {\"key\": \"AWS_DEFAULT_REGION\", \"value\": $REGION_ESCAPED}, {\"key\": \"AWS_SESSION_TOKEN\", \"value\": $TOKEN_ESCAPED}]" XCTestPlans/AWSIntegrationTestsOnCI.xctestplan > testplan.tmp
-          mv testplan.tmp XCTestPlans/AWSIntegrationTestsOnCI.xctestplan
+          jq ".defaultOptions.environmentVariableEntries += [{\"key\": \"AWS_ACCESS_KEY_ID\", \"value\": $AKID_ESCAPED}, {\"key\": \"AWS_SECRET_ACCESS_KEY\", \"value\": $SECRET_ESCAPED}, {\"key\": \"AWS_DEFAULT_REGION\", \"value\": $REGION_ESCAPED}, {\"key\": \"AWS_SESSION_TOKEN\", \"value\": $TOKEN_ESCAPED}]" IntegrationTests/XCTestPlans/AWSIntegrationTestsOnCI.xctestplan > testplan.tmp
+          mv testplan.tmp IntegrationTests/XCTestPlans/AWSIntegrationTestsOnCI.xctestplan
       - name: Prepare Integration Tests
         run: ./scripts/ci_steps/prepare_integration_tests.sh
       - name: Run Integration Tests
         run: |
+          cd IntegrationTests
           set -o pipefail && \
           NSUnbufferedIO=YES xcodebuild \
             -scheme AWSIntegrationTestsOnCI \
@@ -192,6 +193,12 @@ jobs:
       - name: Prepare Integration Tests
         run: ./scripts/ci_steps/prepare_integration_tests.sh
       - name: Build Integration Tests
-        run: swift build --build-tests
+        run: |
+          cd IntegrationTests
+          swift build --build-tests
+          cd ..
       - name: Run Integration Tests
-        run: swift test
+        run: |
+          cd IntegrationTests
+          swift test
+          cd ..
