@@ -61,7 +61,7 @@ class S3EventStreamTests: S3XCTestCase {
         XCTAssertEqual(expectedOutput, actualOutput)
     }
 
-    func test_eventStreamOutput() async throws {
+    func test_100x_eventStreamOutput() async throws {
         try await repeatConcurrently(count: 100, test: testEventStreamOutput)
     }
 }
