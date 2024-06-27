@@ -18,7 +18,7 @@ let package = Package(
         .package(id: "aws-sdk-swift.AWSSDKHTTPAuth", from: "0.0.1"),
         .package(id: "aws-sdk-swift.AWSSDKIdentity", from: "0.0.1"),
         .package(url: "https://github.com/awslabs/aws-crt-swift", exact: "0.30.0"),
-        .package(id: "aws-sdk-swift.smithy-swift", exact: "0.0.1"),
+        .package(id: "aws-sdk-swift.smithy-swift", from: "0.0.1"),
     ],
     targets: [
         .target(
