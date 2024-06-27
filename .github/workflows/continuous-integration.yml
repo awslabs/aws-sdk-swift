@@ -106,7 +106,7 @@ jobs:
             test 2>&1 \
             | xcbeautify
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.INTEGRATION_TEST_ROLE_ARN }}
           aws-region: us-west-2 # or your preferred region
