@@ -8,6 +8,7 @@
 import Foundation
 import AWSS3
 import XCTest
+import AWSIntegrationTestUtils
 
 class S3EventStreamTests: S3XCTestCase {
     private let objectKey = "integ-test-json-object"
@@ -58,5 +59,9 @@ class S3EventStreamTests: S3XCTestCase {
         // Check returned record event's payload was successfully received.
         let expectedOutput = "{\"id\":\"1\"}\n{\"id\":\"2\"}\n"
         XCTAssertEqual(expectedOutput, actualOutput)
+    }
+
+    func test_eventStreamOutput() async throws {
+        try await repeatConcurrently(count: 100, test: testEventStreamOutput)
     }
 }

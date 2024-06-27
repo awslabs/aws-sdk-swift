@@ -10,6 +10,7 @@ import AWSSTS
 import ClientRuntime
 import AWSClientRuntime
 import AWSSDKHTTPAuth
+import AWSIntegrationTestUtils
 
 /// Tests presigned request using STS::getCallerIdentity.
 class STSPresignedRequestTests: XCTestCase {
@@ -33,5 +34,9 @@ class STSPresignedRequestTests: XCTestCase {
         }
         let httpResponse = try await stsConfig.httpClientEngine.send(request: presignedRequest)
         XCTAssertEqual(httpResponse.statusCode.rawValue, 200)
+    }
+
+    func test_100x_getCallerIdentity() async throws {
+        try await repeatConcurrently(count: 100, test: testGetCallerIdentity)
     }
 }
