@@ -94,11 +94,6 @@ jobs:
           java-version: 17
       - name: Tools Versions
         run: ./scripts/ci_steps/log_tool_versions.sh
-      - name: Set fake credentials
-        id: step_one
-        run: |
-          echo "AWS_ACCESS_KEY_ID=AKIDEXAMPLE" >> "$GITHUB_ENV" && \
-          echo "AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY" >> "$GITHUB_ENV"
       - name: Prepare Protocol & Unit Tests
         run: |
           ./scripts/ci_steps/prepare_protocol_and_unit_tests.sh
@@ -110,6 +105,11 @@ jobs:
             -destination '${{ matrix.destination }}' \
             test 2>&1 \
             | xcbeautify
+      - name: Set fake credentials
+        id: step_one
+        run: |
+          echo "AWS_ACCESS_KEY_ID=AKIDEXAMPLE" >> "$GITHUB_ENV" && \
+          echo "AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY" >> "$GITHUB_ENV"
       - name: Build and Run Protocol Tests
         run: |
           cd codegen/
