@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct Error: LocalizedError {
-    var message: String
-    var errorDescription: String? { message }
-    
-    init(_ message: String) {
+public struct Error: LocalizedError {
+    public var message: String
+    public var errorDescription: String? { message }
+
+    public init(_ message: String) {
         self.message = message
     }
 }

@@ -18,7 +18,6 @@ struct AWSSDKSwiftCLI: AsyncParsableCommand {
             SyncClientRuntimeVersionCommand.self,
             TestAWSSDKCommand.self,
             GenerateDocIndexCommand.self,
-            SPRPublish.self,
         ]
     )
 }

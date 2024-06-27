@@ -21,7 +21,7 @@ extension Version: Decodable {
 
 // MARK: - Loading from File
 
-extension Version {
+public extension Version {
     /// Returns a version loaded from the provided file.
     /// The file's contents must only contain the version and nothing else.
     /// This is used to load a Version from a `Package.version` file.
@@ -47,7 +47,7 @@ extension Version {
 
 // MARK: - Incrementing versions
 
-extension Version {
+public extension Version {
     /// Returns a new version by incrementing the major version of the receiver
     ///
     /// - Returns: A new version by incrementing the major version of the receiver

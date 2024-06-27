@@ -11,8 +11,9 @@ import AWSCloudFront
 import Smithy
 import SmithyStreams
 import ClientRuntime
+import AWSCLIUtils
 
-extension SPRPublish {
+extension SPRPublisher {
 
     func updateList() async throws {
         let s3Client = try S3Client(region: region)
@@ -65,7 +66,7 @@ extension SPRPublish {
     }
 
     private var listKey: String {
-        "\(id)/\(name)"
+        "\(scope)/\(name)"
     }
 
     private var releaseURL: URL {
@@ -74,7 +75,7 @@ extension SPRPublish {
                 throw Error("URL is invalid")
             }
             return baseURL
-                .appending(component: id)
+                .appending(component: scope)
                 .appending(component: name)
                 .appending(component: version)
         }

@@ -7,17 +7,19 @@
 
 import Foundation
 import ArgumentParser
-import ClientRuntime
+import SPR
 
+@main
 struct SPRPublish: AsyncParsableCommand {
-    
+
     static var configuration = CommandConfiguration(
         commandName: "spr-publish",
-        abstract: "Publishes a new version of a package to SPR."
+        abstract: "Publishes a new version of a package to SPR.",
+        version: "1.0.0"
     )
 
     @Option(help: "The ID of the package being published.  Must meet the requirements of the Swift Package Registry spec.")
-    var id: String
+    var scope: String
 
     @Option(help: "The name of the package being published.  Must match the name defined in the package's Package.swift.")
     var name: String
@@ -25,14 +27,14 @@ struct SPRPublish: AsyncParsableCommand {
     @Option(help: "The version of the package to be published, i.e. \"1.2.3\".  The version must be valid per Semantic Versioning 2.0 (https://semver.org/).")
     var version: String
 
-    @Option(help: "The relative path to the Swift package being published.")
-    var packagePath: String
+    @Option(help: "The path to the Swift package being published.")
+    var path: String
 
     @Option(help: "The AWS region in which the registry is located.  Alternate to this option, the region may be obtained from environment var AWS_SDK_SPR_REGION.  Defaults to us-east-1.")
     var region: String = ""
 
     @Option(help: "The bucket name for the S3 bucket hosting the Registry. Alternate to this option, the bucket may be obtained from environment var AWS_SDK_SPR_BUCKET.")
-    var bucket: String?
+    public var bucket: String?
 
     @Option(help: "The base URL for the registry.")
     var url: String
@@ -46,21 +48,17 @@ struct SPRPublish: AsyncParsableCommand {
     var checksum = ""
 
     mutating func run() async throws {
-        await setOptions()
-        try verifyPackage()
-        try await uploadArchive()
-        try await uploadManifest()
-        try await uploadMetadata()
-        try await updateList()
-    }
-
-    private mutating func setOptions() async {
-        await SDKLoggingSystem.initialize(logLevel: .info)
-        let env = ProcessInfo.processInfo.environment
-        bucket = bucket ?? env["AWS_SDK_SPR_BUCKET"]
-        if region.isEmpty {
-            region = env["AWS_SDK_SPR_REGION"] ?? "us-east-1"
-        }
-        distributionID = distributionID ?? env["AWS_SDK_SPR_DISTRIBUTION_ID"]
+        var publisher = SPRPublisher(
+            scope: scope,
+            name: name,
+            version: version,
+            path: path,
+            region: region,
+            bucket: bucket,
+            url: url,
+            distributionID: distributionID,
+            replace: replace
+        )
+        try await publisher.run()
     }
 }

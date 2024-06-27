@@ -9,11 +9,11 @@ import Foundation
 import AWSS3
 import Smithy
 import SmithyStreams
+import AWSCLIUtils
 
-extension SPRPublish {
+extension SPRPublisher {
 
     func uploadMetadata() async throws {
-        let config = try await S3Client.Config(region: region)
         let s3Client = try S3Client(region: region)
         try await verify(s3Client: s3Client)
         try await upload(s3Client: s3Client)
@@ -41,7 +41,7 @@ extension SPRPublish {
     }
 
     private var metadataKey: String {
-        "\(id)/\(name)/\(version)"
+        "\(scope)/\(name)/\(version)"
     }
 
     private func createMetadata() -> PackageInfo {
@@ -50,6 +50,6 @@ extension SPRPublish {
         let author = PackageInfo.Metadata.Author(name: "AWS SDK for Swift Team", email: nil, description: nil, organization: organization, url: nil)
         let resource = Resource(name: "source-archive", type: "application/zip", checksum: checksum, signing: nil)
         let metadata = PackageInfo.Metadata(author: author, description: "A Swift package, what can I say?", licenseURL: nil, originalPublicationTime: now, readmeURL: nil, repositoryURLs: nil)
-        return PackageInfo(id: "\(id).\(name)", version: version, resources: [resource], metadata: metadata, publishedAt: now)
+        return PackageInfo(id: "\(scope).\(name)", version: version, resources: [resource], metadata: metadata, publishedAt: now)
     }
 }

@@ -9,13 +9,13 @@ import Foundation
 import AWSS3
 import Smithy
 import SmithyStreams
+import AWSCLIUtils
 
-extension SPRPublish {
+extension SPRPublisher {
 
     func uploadManifest() async throws {
-        let packageFileURL = URL(fileURLWithPath: packagePath).standardizedFileURL
+        let packageFileURL = URL(fileURLWithPath: path).standardizedFileURL
         let manifestFileURL = packageFileURL.appending(component: "Package.swift")
-        let config = try await S3Client.Config(region: region)
         let s3Client = try S3Client(region: region)
         try await verify(s3Client: s3Client)
         try await upload(s3Client: s3Client, manifestFileURL: manifestFileURL)
@@ -43,6 +43,6 @@ extension SPRPublish {
     }
 
     private var manifestKey: String {
-        "\(id)/\(name)/\(version)/Package.swift"
+        "\(scope)/\(name)/\(version)/Package.swift"
     }
 }

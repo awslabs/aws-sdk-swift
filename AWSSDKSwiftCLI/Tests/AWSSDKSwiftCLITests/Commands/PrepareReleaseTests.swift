@@ -8,6 +8,7 @@
 @testable import AWSSDKSwiftCLI
 import PackageDescription
 import XCTest
+import AWSCLIUtils
 
 class PrepareReleaseTests: CLITestCase {
     

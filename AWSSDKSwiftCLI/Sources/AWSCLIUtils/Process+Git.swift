@@ -9,7 +9,7 @@ import Foundation
 import PackageDescription
 import struct ArgumentParser.ExitCode
 
-extension Process {
+public extension Process {
     /// A struct to create processes for executing git commands.
     struct Git {
         /// Returns a process for executing git commands.
@@ -18,31 +18,31 @@ extension Process {
         }
         
         /// Returns a process for executing `git status`
-        func status() -> Process {
+        public func status() -> Process {
             gitProcess(["status"])
         }
         
         /// Returns a process for executing `git diff <a>..<b> --quiet`
         /// This is used for determining if `<a>` is different from `<b>` and therefore
-        func diff(_ a: String, _ b: String) -> Process {
+        public func diff(_ a: String, _ b: String) -> Process {
             gitProcess(["diff", "\(a)..\(b)", "--quiet"])
         }
         
         /// Returns a process for executing `git add <args>`
         /// This is used for staging specific files.
-        func add(_ files: [String]) -> Process {
+        public func add(_ files: [String]) -> Process {
             gitProcess(["add"] + files)
         }
         
         /// Returns a process for executing `git commit -m <message>`
         /// This is used for committing changes with the provided message
-        func commit(_ message: String) -> Process {
+        public func commit(_ message: String) -> Process {
             gitProcess(["commit", "-m", message])
         }
         
         /// Returns a process for executing `git tag -a <version> -m <message>`
         /// This is used for creating a tag with the provided version and message.
-        func tag(_ version: Version, _ message: String) -> Process {
+        public func tag(_ version: Version, _ message: String) -> Process {
             gitProcess(["tag", "-a", "\(version)", "-m", message])
         }
         
@@ -69,7 +69,7 @@ extension Process {
     static var git: Git { Git() }
 }
 
-extension Process.Git {
+public extension Process.Git {
     /// Returns true if the provided commits/branches/trees are different, otherwise returns false
     func diffHasChanges(_ a: String, _ b: String) throws -> Bool {
         let task = diff(a, b)

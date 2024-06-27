@@ -7,6 +7,7 @@
 
 import Foundation
 import PackageDescription
+import AWSCLIUtils
 
 extension Process {
 

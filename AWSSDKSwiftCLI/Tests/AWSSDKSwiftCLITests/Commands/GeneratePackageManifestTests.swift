@@ -114,7 +114,6 @@ extension GeneratePackageManifest {
         clientRuntimeVersion: Version? = nil,
         crtVersion: Version? = nil,
         services: [String]? = nil,
-        includeProtocolTests: Bool = false,
         excludeAWSServices: Bool = false,
         excludeRuntimeTests: Bool = false,
         buildPackageManifest: @escaping BuildPackageManifest = { (_,_,_) throws -> String in "" }
@@ -125,7 +124,6 @@ extension GeneratePackageManifest {
             clientRuntimeVersion: clientRuntimeVersion,
             crtVersion: crtVersion,
             services: services,
-            includeProtocolTests: includeProtocolTests,
             excludeAWSServices: excludeAWSServices,
             excludeRuntimeTests: excludeRuntimeTests,
             buildPackageManifest: buildPackageManifest

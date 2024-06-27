@@ -9,13 +9,14 @@ import Foundation
 import AWSS3
 import Smithy
 import SmithyStreams
+import AWSCLIUtils
 
-extension SPRPublish {
+extension SPRPublisher {
 
     mutating func uploadArchive() async throws {
         let tmpDirFileURL = FileManager.default.temporaryDirectory
         let archiveFileURL = tmpDirFileURL.appending(component: "\(UUID().uuidString).zip")
-        let archiveProcess = Process.SPR.archive(name: name, packagePath: packagePath, archiveFileURL: archiveFileURL)
+        let archiveProcess = Process.SPR.archive(name: name, packagePath: path, archiveFileURL: archiveFileURL)
         try _run(archiveProcess)
         guard FileManager.default.fileExists(atPath: archiveFileURL.path()) else {
             throw Error("Archive process succeeded but archive does not exist.")
@@ -54,6 +55,6 @@ extension SPRPublish {
     }
 
     private var archiveKey: String {
-        "\(id)/\(name)/\(version).zip"
+        "\(scope)/\(name)/\(version).zip"
     }
 }

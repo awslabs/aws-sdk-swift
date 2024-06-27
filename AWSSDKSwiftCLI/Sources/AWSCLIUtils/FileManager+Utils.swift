@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension FileManager {
+public extension FileManager {
     /// Changes the working directory to the provided path
     func changeWorkingDirectory(_ path: String) throws {
         log("Changing working directory to: \(path)")

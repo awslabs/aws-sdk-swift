@@ -9,6 +9,7 @@
 import Algorithms
 import PackageDescription
 import XCTest
+import AWSCLIUtils
 
 class TestAWSSDKTests: CLITestCase {
     

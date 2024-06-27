@@ -6,8 +6,9 @@
 //
 
 import Foundation
+import AWSCLIUtils
 
-extension SPRPublish {
+extension SPRPublisher {
 
     func verifyPackage() throws {
         let description = try getPackageDescription()
@@ -17,7 +18,7 @@ extension SPRPublish {
     }
 
     private func getPackageDescription() throws -> Describe {
-        guard let stdout = try _runReturningStdOut(Process.SPR.describe(packagePath: packagePath)) else {
+        guard let stdout = try _runReturningStdOut(Process.SPR.describe(packagePath: path)) else {
             throw Error("no stdout from Describe command")
         }
         return try JSONDecoder().decode(Describe.self, from: Data(stdout.utf8))

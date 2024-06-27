@@ -18,16 +18,46 @@ let package = Package(
         .executableTarget(
             name: "AWSSDKSwiftCLI",
             dependencies: [
+                "AWSCLIUtils",
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
-                .product(name: "PackageDescription", package: "swift-package-manager"),
                 .product(name: "Algorithms", package: "swift-algorithms"),
-                .product(name: "Logging", package: "swift-log"),
-                .product(name: "AWSS3", package: "aws-sdk-swift"),
-                .product(name: "AWSCloudFront", package: "aws-sdk-swift"),
             ],
             resources: [
                 .process("Resources/Package.Base.swift"),
                 .process("Resources/DocIndex.Base.md")
+            ]
+        ),
+        .executableTarget(
+            name: "spr-publish",
+            dependencies: [
+                "SPR",
+                "AWSCLIUtils",
+                .product(name: "ArgumentParser", package: "swift-argument-parser"),
+            ]
+        ),
+        .executableTarget(
+            name: "spr-multi-publish",
+            dependencies: [
+                "SPR",
+                "AWSCLIUtils",
+                "spr-publish",
+            ]
+        ),
+        .target(
+            name: "SPR",
+            dependencies: [
+                "AWSCLIUtils",
+                .product(name: "ArgumentParser", package: "swift-argument-parser"),
+                .product(name: "AWSS3", package: "aws-sdk-swift"),
+                .product(name: "AWSCloudFront", package: "aws-sdk-swift"),
+            ]
+        ),
+        .target(
+            name: "AWSCLIUtils",
+            dependencies: [
+                .product(name: "ArgumentParser", package: "swift-argument-parser"),
+                .product(name: "Logging", package: "swift-log"),
+                .product(name: "PackageDescription", package: "swift-package-manager"),
             ]
         ),
         .testTarget(

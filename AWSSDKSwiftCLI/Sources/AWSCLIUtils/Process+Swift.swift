@@ -8,7 +8,7 @@
 import Foundation
 import PackageDescription
 
-extension Process {
+public extension Process {
     struct Swift {
         /// Returns a process for executing swift commands.
         private func swiftProcess(_ args: [String]) -> Process {
@@ -16,7 +16,7 @@ extension Process {
         }
         
         /// Returns a process for executing `swift test`
-        func test() -> Process {
+        public func test() -> Process {
             swiftProcess(["test"])
         }
     }

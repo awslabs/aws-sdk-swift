@@ -8,7 +8,7 @@
 import Foundation
 import ArgumentParser
 
-extension Process {
+public extension Process {
     /// Creates a process using `/usr/bin/env` as the executable
     /// This makes it easy to create a process  for any command, as long as the corresponding executable exists in the PATH.
     ///
@@ -36,7 +36,7 @@ extension Process {
     }
 }
 
-func _run(_ process: Process) throws {
+public func _run(_ process: Process) throws {
     // If debug and we have a non-nil test runner, then use that
     // This allows developers to intercept processes when they run to assert that it is the expected process
     #if DEBUG
@@ -48,7 +48,7 @@ func _run(_ process: Process) throws {
     try ProcessRunner.standard.run(process)
 }
 
-func _runReturningStdOut(_ process: Process) throws -> String? {
+public func _runReturningStdOut(_ process: Process) throws -> String? {
     let stdOut = Pipe()
     process.standardOutput = stdOut
     
@@ -64,13 +64,18 @@ func _runReturningStdOut(_ process: Process) throws -> String? {
 }
 
 /// A simple struct that runs a process
-struct ProcessRunner {
-    let run: (Process) throws -> Void
+public struct ProcessRunner {
+
+    public init(_ run: @escaping (Process) throws -> Void) {
+        self.run = run
+    }
+
+    public let run: (Process) throws -> Void
     
     /// Creates the standard runner to be used by the release version of this CLI
     ///
     /// Runs the process and prints out the process's full command.
-    static let standard = ProcessRunner { process in
+    public static let standard = ProcessRunner { process in
         log("Running process: \(process.commandString)")
         try process.run()
         process.waitUntilExit()
@@ -82,6 +87,6 @@ struct ProcessRunner {
     
     #if DEBUG
     // Set this to a non-nil value in tests to intercept when a process is run
-    static var testRunner: ProcessRunner? = nil
+    public static var testRunner: ProcessRunner? = nil
     #endif
 }

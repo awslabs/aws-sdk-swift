@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension String {
+public extension String {
     /// Returns the receiver wrapped in the provided string
     ///
     /// ```swift

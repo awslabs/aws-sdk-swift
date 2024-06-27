@@ -7,6 +7,7 @@
 
 import ArgumentParser
 import Foundation
+import AWSCLIUtils
 
 // MARK: - Command
 
