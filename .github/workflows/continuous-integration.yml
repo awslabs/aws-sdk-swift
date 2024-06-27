@@ -6,8 +6,6 @@ on:
 
 env:
   AWS_SWIFT_SDK_USE_LOCAL_DEPS: 1
-  AWS_ACCESS_KEY_ID: AKIDEXAMPLE
-  AWS_SECRET_ACCESS_KEY: wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY
 
 jobs:
   apple:
@@ -96,6 +94,11 @@ jobs:
           java-version: 17
       - name: Tools Versions
         run: ./scripts/ci_steps/log_tool_versions.sh
+      - name: Set fake credentials
+        id: step_one
+        run: |
+          echo "AWS_ACCESS_KEY_ID=AKIDEXAMPLE" >> "$GITHUB_ENV" && \
+          echo "AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY" >> "$GITHUB_ENV"
       - name: Prepare Protocol & Unit Tests
         run: |
           ./scripts/ci_steps/prepare_protocol_and_unit_tests.sh
