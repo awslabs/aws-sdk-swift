@@ -10,6 +10,7 @@ import AWSS3
 import AWSCloudFront
 import Smithy
 import SmithyStreams
+import ClientRuntime
 
 extension SPRPublish {
 
@@ -31,7 +32,10 @@ extension SPRPublish {
                 throw Error("Could not get version list.")
             }
             list = try JSONDecoder().decode(ListPackageReleases.self, from: data)
+            log("Version list found.")
+            log("Contents: \(String(data: data, encoding: .utf8) ?? "<not UTF-8>")")
         } catch is NoSuchKey {
+            log("Version list is not found, creating a new one.")
             list = ListPackageReleases(releases: [:])
         }
         guard !list.releases.keys.contains(version) || replace else {

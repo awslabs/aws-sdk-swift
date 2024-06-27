@@ -55,7 +55,7 @@ struct SPRPublish: AsyncParsableCommand {
     }
 
     private mutating func setOptions() async {
-        await SDKLoggingSystem.initialize(logLevel: .error)
+        await SDKLoggingSystem.initialize(logLevel: .info)
         let env = ProcessInfo.processInfo.environment
         bucket = bucket ?? env["AWS_SDK_SPR_BUCKET"]
         if region.isEmpty {
