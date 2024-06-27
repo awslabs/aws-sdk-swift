@@ -12,8 +12,6 @@ jobs:
     runs-on: ${{ matrix.runner }}
     env:
       DEVELOPER_DIR: /Applications/${{ matrix.xcode }}.app/Contents/Developer
-      AWS_ACCESS_KEY_ID: test-key-id
-      AWS_SECRET_ACCESS_KEY: test-secret-key
     strategy:
       fail-fast: false
       matrix:
@@ -107,6 +105,11 @@ jobs:
             -destination '${{ matrix.destination }}' \
             test 2>&1 \
             | xcbeautify
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.INTEGRATION_TEST_ROLE_ARN }}
+          aws-region: us-west-2 # or your preferred region
       - name: Build and Run Protocol Tests
         run: |
           cd codegen/
