@@ -35,11 +35,15 @@ let package = Package(
                 .product(name: "AWSSDKIdentity", package: "aws-sdk-swift.AWSSDKIdentity"),
             ]
         ),
-        .testTarget(name: "AWSClientRuntimeTests", dependencies: [
-            "AWSClientRuntime",
-            .product(name: "ClientRuntime", package: "aws-sdk-swift.smithy-swift"),
-//            .product(name: "SmithyTestUtils", package: "smithy-swift"),
-            .product(name: "AWSSDKCommon", package: "aws-sdk-swift.AWSSDKCommon"),
-        ]),
+        .testTarget(
+            name: "AWSClientRuntimeTests",
+            dependencies: [
+                "AWSClientRuntime",
+                .product(name: "ClientRuntime", package: "aws-sdk-swift.smithy-swift"),
+                .product(name: "SmithyTestUtil", package: "aws-sdk-swift.smithy-swift"),
+                .product(name: "AWSSDKCommon", package: "aws-sdk-swift.AWSSDKCommon"),
+            ],
+            resources: [.process("Resources")]
+        ),
     ]
 )

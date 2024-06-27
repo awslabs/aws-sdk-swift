@@ -16,7 +16,6 @@ import AWSSDKEventStreamsAuth
 import XCTest
 import AwsCommonRuntimeKit
 import ClientRuntime
-@testable import AWSClientRuntime
 
 final class AWSMessageEncoderStreamTests: XCTestCase {
     let baseStream = AsyncThrowingStream<TestEvent, Error> { continuation in
@@ -167,30 +166,6 @@ final class AWSMessageEncoderStreamTests: XCTestCase {
         XCTAssertEqual(
             initialRequestPayload?.headers.first(where: { $0.name == ":event-type" })?.value,
             .string("initial-request")
-        )
-    }
-}
-
-class TestCustomAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
-    let credentials: AWSCredentialIdentity
-
-    init(credentials: AWSCredentialIdentity) {
-        self.credentials = credentials
-    }
-
-    convenience init() {
-        self.init(credentials: AWSCredentialIdentity(
-            accessKey: "AKIDEXAMPLE",
-            secret: "wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY",
-            expiration: .init(timeIntervalSinceNow: 30)
-        ))
-    }
-
-    func getIdentity(identityProperties: Attributes?) async throws -> AWSCredentialIdentity {
-        return AWSCredentialIdentity(
-            accessKey: "AKIDEXAMPLE",
-            secret: "wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY",
-            expiration: .init(timeIntervalSinceNow: 30)
         )
     }
 }
