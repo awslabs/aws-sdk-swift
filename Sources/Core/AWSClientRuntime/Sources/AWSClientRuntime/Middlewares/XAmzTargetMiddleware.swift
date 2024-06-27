@@ -37,9 +37,7 @@ extension XAmzTargetMiddleware: HttpInterceptor {
     public typealias InputType = OperationStackInput
     public typealias OutputType = OperationStackOutput
 
-    public func modifyBeforeRetryLoop(
-        context: some MutableRequest<Self.InputType, Self.RequestType, Self.AttributesType>
-    ) async throws {
+    public func modifyBeforeRetryLoop(context: some MutableRequest<Self.InputType, Self.RequestType>) async throws {
         let builder = context.getRequest().toBuilder()
         addHeader(builder: builder)
         context.updateRequest(updated: builder.build())

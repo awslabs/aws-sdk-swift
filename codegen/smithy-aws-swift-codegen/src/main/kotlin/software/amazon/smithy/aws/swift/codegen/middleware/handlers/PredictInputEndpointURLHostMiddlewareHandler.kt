@@ -7,7 +7,6 @@ import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.steps.OperationInitializeStep
 import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.swiftmodules.FoundationTypes
-import software.amazon.smithy.swift.codegen.swiftmodules.SmithyTypes
 
 class PredictInputEndpointURLHostMiddlewareHandler(
     private val writer: SwiftWriter,
@@ -41,10 +40,9 @@ class PredictInputEndpointURLHostMiddlewareHandler(
             writer.write("public typealias OutputType = PredictOutput")
             writer.write("")
             writer.openBlock(
-                "public func modifyBeforeSerialization(context: some \$N<InputType, \$N>) async throws {",
+                "public func modifyBeforeSerialization(context: some \$N<InputType>) async throws {",
                 "}",
                 ClientRuntimeTypes.Middleware.MutableInput,
-                SmithyTypes.Context,
             ) {
                 writer.openBlock(
                     "if let endpoint = context.getInput().predictEndpoint, let url = \$N(string: endpoint), let host = url.host {",
