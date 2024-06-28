@@ -112,7 +112,7 @@ extension Sha256TreeHashMiddleware: HttpInterceptor {
     public typealias InputType = OperationStackInput
     public typealias OutputType = OperationStackOutput
 
-    public func modifyBeforeTransmit(context: some MutableRequest<Self.InputType, Self.RequestType>) async throws {
+    public func modifyBeforeSigning(context: some MutableRequest<Self.InputType, Self.RequestType>) async throws {
         let request = context.getRequest()
         let builder = request.toBuilder()
         try await addHashes(request: request, builder: builder, context: context.getAttributes())
