@@ -83,56 +83,56 @@ let package = Package(
                 .awsSDKHTTPAuth,
                 .awsSDKIdentity
             ],
-            path: "./Sources/Core/AWSClientRuntime",
+            path: "Sources/Core/AWSClientRuntime/Sources",
             resources: [
-                .copy("PrivacyInfo.xcprivacy")
+                .process("AWSClientRuntime/Resources/PrivacyInfo.xcprivacy")
             ]
         ),
         .target(
             name: "AWSSDKCommon",
             dependencies: [.crt],
-            path: "./Sources/Core/AWSSDKCommon"
+            path: "Sources/Core/AWSSDKCommon/Sources"
         ),
         .target(
             name: "AWSSDKEventStreamsAuth",
             dependencies: [.smithyEventStreamsAPI, .smithyEventStreamsAuthAPI, .smithyEventStreams, .crt, .clientRuntime, "AWSSDKHTTPAuth"],
-            path: "./Sources/Core/AWSSDKEventStreamsAuth"
+            path: "Sources/Core/AWSSDKEventStreamsAuth/Sources"
         ),
         .target(
             name: "AWSSDKHTTPAuth",
             dependencies: [.crt, .smithy, .clientRuntime, .smithyHTTPAuth, "AWSSDKIdentity", "AWSSDKChecksums"],
-            path: "./Sources/Core/AWSSDKHTTPAuth"
+            path: "Sources/Core/AWSSDKHTTPAuth/Sources"
         ),
         .target(
             name: "AWSSDKIdentity",
             dependencies: [.crt, .smithy, .clientRuntime, .smithyIdentity, .smithyIdentityAPI, .smithyHTTPAPI, .awsSDKCommon],
-            path: "./Sources/Core/AWSSDKIdentity"
+            path: "Sources/Core/AWSSDKIdentity/Sources"
         ),
         .target(
             name: "AWSSDKChecksums",
             dependencies: [.crt, .smithy, .clientRuntime, .smithyChecksumsAPI, .smithyChecksums, .smithyHTTPAPI],
-            path: "./Sources/Core/AWSSDKChecksums"
+            path: "Sources/Core/AWSSDKChecksums/Sources"
         ),
         .testTarget(
             name: "AWSClientRuntimeTests",
             dependencies: [.awsClientRuntime, .clientRuntime, .smithyTestUtils, .awsSDKCommon],
-            path: "./Tests/Core/AWSClientRuntimeTests",
+            path: "Sources/Core/AWSClientRuntime/Tests/AWSClientRuntimeTests",
             resources: [.process("Resources")]
         ),
         .testTarget(
             name: "AWSSDKEventStreamsAuthTests",
             dependencies: ["AWSClientRuntime", "AWSSDKEventStreamsAuth", .smithyStreams],
-            path: "./Tests/Core/AWSSDKEventStreamsAuthTests"
+            path: "Sources/Core/AWSSDKEventStreamsAuth/Tests/AWSSDKEventStreamsAuthTests"
         ),
         .testTarget(
             name: "AWSSDKHTTPAuthTests",
             dependencies: ["AWSSDKHTTPAuth", "AWSClientRuntime", "AWSSDKEventStreamsAuth", .crt, .clientRuntime, .smithyTestUtils],
-            path: "./Tests/Core/AWSSDKHTTPAuthTests"
+            path: "Sources/Core/AWSSDKHTTPAuth/Tests/AWSSDKHTTPAuthTests"
         ),
         .testTarget(
             name: "AWSSDKIdentityTests",
             dependencies: [.smithy, .smithyIdentity, "AWSSDKIdentity", .awsClientRuntime],
-            path: "./Tests/Core/AWSSDKIdentityTests",
+            path: "Sources/Core/AWSSDKIdentity/Tests/AWSSDKIdentityTests",
             resources: [.process("Resources")]
         )
     ]

@@ -33,7 +33,8 @@ let package = Package(
                 .product(name: "AWSSDKCommon", package: "aws-sdk-swift.AWSSDKCommon"),
                 .product(name: "AWSSDKHTTPAuth", package: "aws-sdk-swift.AWSSDKHTTPAuth"),
                 .product(name: "AWSSDKIdentity", package: "aws-sdk-swift.AWSSDKIdentity"),
-            ]
+            ],
+            resources: [.process("Resources")]
         ),
         .testTarget(
             name: "AWSClientRuntimeTests",
