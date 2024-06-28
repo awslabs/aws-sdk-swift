@@ -105,16 +105,17 @@ jobs:
             -destination '${{ matrix.destination }}' \
             test 2>&1 \
             | xcbeautify
-      - name: Set fake credentials
-        id: step_one
-        run: |
-          echo "AWS_ACCESS_KEY_ID=AKIDEXAMPLE" >> "$GITHUB_ENV" && \
-          echo "AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY" >> "$GITHUB_ENV"
+      # - name: Set fake credentials
+      #   id: step_one
+      #   run: |
+      #     echo "AWS_ACCESS_KEY_ID=AKIDEXAMPLE" >> "$GITHUB_ENV" && \
+      #     echo "AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY" >> "$GITHUB_ENV"
       - name: Build and Run Protocol Tests
         run: |
           cd codegen/
           set -o pipefail && \
-          NSUnbufferedIO=YES xcodebuild \
+          NSUnbufferedIO=YES AWS_ACCESS_KEY_ID=AKIDEXAMPLE AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY \
+          xcodebuild \
             -scheme aws-sdk-swift-protocol-tests-Package \
             -destination '${{ matrix.destination }}' \
             test 2>&1 \
