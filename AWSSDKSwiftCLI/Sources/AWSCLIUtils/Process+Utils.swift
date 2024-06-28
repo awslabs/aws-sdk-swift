@@ -52,14 +52,10 @@ public func _runReturningStdOut(_ process: Process) throws -> String? {
     let stdOut = Pipe()
     process.standardOutput = stdOut
     
-    var data = Data()
-    stdOut.fileHandleForReading.readabilityHandler = { handle in
-        data += handle.availableData
-    }
-    
     try _run(process)
     process.waitUntilExit()
     
+    let data = try stdOut.fileHandleForReading.readToEnd() ?? Data()
     return String(data: data, encoding: .utf8)
 }
 
@@ -76,7 +72,7 @@ public struct ProcessRunner {
     ///
     /// Runs the process and prints out the process's full command.
     public static let standard = ProcessRunner { process in
-        log("Running process: \(process.commandString)")
+        log(level: .debug, "Running process: \(process.commandString)")
         try process.run()
         process.waitUntilExit()
         let exitCode = ExitCode(process.terminationStatus)

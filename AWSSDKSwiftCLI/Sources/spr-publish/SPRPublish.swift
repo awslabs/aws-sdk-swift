@@ -15,7 +15,7 @@ struct SPRPublish: AsyncParsableCommand {
     static var configuration = CommandConfiguration(
         commandName: "spr-publish",
         abstract: "Publishes a new version of a package to SPR.",
-        version: "1.0.0"
+        version: "0.0.1"
     )
 
     @Option(help: "The ID of the package being published.  Must meet the requirements of the Swift Package Registry spec.")
@@ -48,6 +48,8 @@ struct SPRPublish: AsyncParsableCommand {
     var checksum = ""
 
     mutating func run() async throws {
+        let start = Date()
+        print("Package: \(name)")
         var publisher = SPRPublisher(
             scope: scope,
             name: name,
@@ -60,5 +62,9 @@ struct SPRPublish: AsyncParsableCommand {
             replace: replace
         )
         try await publisher.run()
+        try await SPRPublisher.invalidate(region: region, distributionID: distributionID, invalidations: publisher.invalidations)
+
+        let elapsed = Date().timeIntervalSince(start)
+        print("Time elapsed: \(String(format: "%.2f", elapsed)) sec")
     }
 }

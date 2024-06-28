@@ -17,14 +17,14 @@ extension SPRPublisher {
         let tmpDirFileURL = FileManager.default.temporaryDirectory
         let archiveFileURL = tmpDirFileURL.appending(component: "\(UUID().uuidString).zip")
         let archiveProcess = Process.SPR.archive(name: name, packagePath: path, archiveFileURL: archiveFileURL)
-        try _run(archiveProcess)
+        _ = try _runReturningStdOut(archiveProcess)
         guard FileManager.default.fileExists(atPath: archiveFileURL.path()) else {
             throw Error("Archive process succeeded but archive does not exist.")
         }
         let checksumProcess = Process.SPR.checksum(archiveFileURL: archiveFileURL)
         let checksumStdout = try _runReturningStdOut(checksumProcess)
         guard let checksum = checksumStdout?.split(separator: " ").first else {
-            throw Error("Checksum could not be parsed")
+            throw Error("Checksum could not be parsed. Output: \(checksumStdout ?? "<none>")")
         }
         self.checksum = String(checksum)
         let s3Client = try S3Client(region: region)

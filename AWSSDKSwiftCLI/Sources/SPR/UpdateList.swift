@@ -7,7 +7,6 @@
 
 import Foundation
 import AWSS3
-import AWSCloudFront
 import Smithy
 import SmithyStreams
 import ClientRuntime
@@ -15,13 +14,12 @@ import AWSCLIUtils
 
 extension SPRPublisher {
 
-    func updateList() async throws {
+    mutating func updateList() async throws {
         let s3Client = try S3Client(region: region)
         var list = try await verify(s3Client: s3Client)
         list.releases[version] = try makeRelease()
         try await upload(s3Client: s3Client, list: list)
-        let cloudFrontClient = try CloudFrontClient(region: region)
-        try await invalidate(cloudFrontClient: cloudFrontClient)
+        invalidations.append(listKey)
     }
 
     private func verify(s3Client: S3Client) async throws -> ListPackageReleases {
@@ -33,10 +31,7 @@ extension SPRPublisher {
                 throw Error("Could not get version list.")
             }
             list = try JSONDecoder().decode(ListPackageReleases.self, from: data)
-            log("Version list found.")
-            log("Contents: \(String(data: data, encoding: .utf8) ?? "<not UTF-8>")")
         } catch is NoSuchKey {
-            log("Version list is not found, creating a new one.")
             list = ListPackageReleases(releases: [:])
         }
         guard !list.releases.keys.contains(version) || replace else {
@@ -50,22 +45,15 @@ extension SPRPublisher {
     }
 
     private func upload(s3Client: S3Client, list: ListPackageReleases) async throws {
-        let data = try JSONEncoder().encode(list)
+        let jsonEncoder = JSONEncoder()
+        jsonEncoder.outputFormatting = [.prettyPrinted, .sortedKeys]
+        let data = try jsonEncoder.encode(list)
         let body = ByteStream.data(data)
         let input = PutObjectInput(body: body, bucket: bucket, contentType: "application/json", key: listKey)
         _ = try await s3Client.putObject(input: input)
     }
 
-    private func invalidate(cloudFrontClient: CloudFrontClient) async throws {
-        guard let distributionID, !distributionID.isEmpty else {
-            throw Error("CloudFront DistributionID not provided")
-        }
-        let invalidationBatch = CloudFrontClientTypes.InvalidationBatch(callerReference: UUID().uuidString, paths: CloudFrontClientTypes.Paths(items: ["/\(listKey)"], quantity: 1))
-        let input = CreateInvalidationInput(distributionId: distributionID, invalidationBatch: invalidationBatch)
-        _ = try await cloudFrontClient.createInvalidation(input: input)
-    }
-
-    private var listKey: String {
+    var listKey: String {
         "\(scope)/\(name)"
     }
 

@@ -21,6 +21,11 @@ extension SPRPublisher {
         guard let stdout = try _runReturningStdOut(Process.SPR.describe(packagePath: path)) else {
             throw Error("no stdout from Describe command")
         }
-        return try JSONDecoder().decode(Describe.self, from: Data(stdout.utf8))
+        do {
+            return try JSONDecoder().decode(Describe.self, from: Data(stdout.utf8))
+        } catch {
+            try printError("Error occurred while parsing JSON package description.")
+            throw error
+        }
     }
 }

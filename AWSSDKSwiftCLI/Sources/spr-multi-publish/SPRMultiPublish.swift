@@ -15,7 +15,8 @@ struct SPRMultiPublish: AsyncParsableCommand {
 
     static var configuration = CommandConfiguration(
         commandName: "spr-multi-publish",
-        abstract: "Publishes a new version of all aws-sdk-swift & smithy-swift packages to SPR."
+        abstract: "Publishes a new version of all aws-sdk-swift & smithy-swift packages to SPR.",
+        version: "0.0.1"
     )
 
     @Option(help: "The scope of the package being published.  Must meet the requirements of the Swift Package Registry spec.")
@@ -40,38 +41,52 @@ struct SPRMultiPublish: AsyncParsableCommand {
     var replace = false
 
     mutating func run() async throws {
+        let start = Date()
         let allPackages = try runtimePackages + serviceClientPackages
-        for (name, path) in allPackages {
-            log("Package: \(name)")
-            log("    Path: \(path)")
-            let manifestURL = URL(fileURLWithPath: path).standardizedFileURL
-            guard FileManager.default.fileExists(atPath: manifestURL.path) else {
-                throw Error("File does not exist at \(manifestURL)")
+        var allInvalidations = [String]()
+        do {
+            for (name, path) in allPackages {
+                print("Package: \(name)")
+                var publisher = SPRPublisher(
+                    scope: scope,
+                    name: name,
+                    version: version,
+                    path: path,
+                    region: region,
+                    bucket: bucket,
+                    url: url,
+                    distributionID: distributionID,
+                    replace: replace
+                )
+                try await publisher.run()
+                allInvalidations.append(contentsOf: publisher.invalidations)
+                print("")
             }
-//            var publisher = SPRPublisher(
-//                scope: scope,
-//                name: name,
-//                version: version,
-//                path: path,
-//                region: region,
-//                bucket: bucket,
-//                url: url,
-//                distributionID: distributionID,
-//                replace: replace
-//            )
-//            try await publisher.run()
+            try await invalidate(allInvalidations)
+        } catch {
+            try printError("Error caught while publishing.")
+            try await invalidate(allInvalidations)
+            throw error
         }
+
+        let elapsed = Date().timeIntervalSince(start)
+        print("Time elapsed: \(String(format: "%.2f", elapsed)) sec")
+    }
+
+    private func invalidate(_ invalidations: [String]) async throws {
+        print("Finishing & invalidating \(invalidations.count) package lists.")
+        try await SPRPublisher.invalidate(region: region, distributionID: distributionID, invalidations: invalidations)
     }
 
     private var runtimePackages: [(String, String)] {
         return [
             ("smithy-swift", "../../smithy-swift/"),
-            runtimePackage("AWSClientRuntime"),
-            runtimePackage("AWSSDKChecksums"),
-            runtimePackage("AWSSDKCommon"),
-            runtimePackage("AWSSDKEventStreamsAuth"),
-            runtimePackage("AWSSDKHTTPAuth"),
-            runtimePackage("AWSSDKIdentity"),
+            awsRuntimePackage("AWSClientRuntime"),
+            awsRuntimePackage("AWSSDKChecksums"),
+            awsRuntimePackage("AWSSDKCommon"),
+            awsRuntimePackage("AWSSDKEventStreamsAuth"),
+            awsRuntimePackage("AWSSDKHTTPAuth"),
+            awsRuntimePackage("AWSSDKIdentity"),
         ]
     }
 
@@ -85,7 +100,7 @@ struct SPRMultiPublish: AsyncParsableCommand {
         }
     }
 
-    private func runtimePackage(_ name: String) -> (String, String) {
+    private func awsRuntimePackage(_ name: String) -> (String, String) {
         return (name, "../Sources/Core/\(name)/")
     }
 

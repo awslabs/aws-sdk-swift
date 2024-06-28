@@ -10,7 +10,11 @@ import Logging
 struct Logger {
     static let standard = Logging.Logger(
         label: "com.aws.sdk.swift.cli",
-        factory: { StreamLogHandler.standardOutput(label: $0) }
+        factory: {
+            var logger = StreamLogHandler.standardOutput(label: $0)
+            logger.logLevel = .info
+            return logger
+        }
     )
 }
 

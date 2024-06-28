@@ -37,3 +37,9 @@ public extension String {
     /// Returns the string that represents a newline
     static var newline: Self { "\n" }
 }
+
+public func printError(_ items: Any..., separator: String = " ", terminator: String = "\n") throws {
+    var s = ""
+    print(items, separator: separator, terminator: terminator, to: &s)
+    try FileHandle.standardError.write(contentsOf: Data(s.utf8))
+}

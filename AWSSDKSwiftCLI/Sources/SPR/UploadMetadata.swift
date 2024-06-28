@@ -34,7 +34,9 @@ extension SPRPublisher {
 
     private func upload(s3Client: S3Client) async throws {
         let metadata = createMetadata()
-        let data = try JSONEncoder().encode(metadata)
+        let jsonEncoder = JSONEncoder()
+        jsonEncoder.outputFormatting = [.prettyPrinted, .sortedKeys]
+        let data = try jsonEncoder.encode(metadata)
         let body = ByteStream.data(data)
         let input = PutObjectInput(body: body, bucket: bucket, contentType: "application/json", key: metadataKey)
         _ = try await s3Client.putObject(input: input)

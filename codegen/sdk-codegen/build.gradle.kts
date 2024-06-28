@@ -115,7 +115,8 @@ fun generateSmithyBuild(services: List<AwsService>): String {
                           "rootProject": $buildStandaloneSdk
                       },
                       "useInterceptors": ${interceptorsServices.contains(service.packageName)},
-                      "mergeModels": true
+                      "mergeModels": true,
+                      "registries": { "scope": "aws-sdk-swift", "url": "https://d1b0xmm48lrxf5.cloudfront.net/" }
                     }
                 }
             }
