@@ -23,7 +23,7 @@ class RestXMLProtocolGenerator : AWSHTTPBindingProtocolGenerator(RestXMLCustomiz
         "S3EscapeObjectKeyInUriLabel", // moved to s3-tests.smithy
         "S3EscapePathObjectKeyInUriLabel", // moved to s3-tests.smithy
         "SDKAppliedContentEncoding_restXml", // not implemented yet (request compression)
-        "SDKAppendedGzipAfterProvidedEncoding_restXml",  // not implemented yet (request compression)
+        "SDKAppendedGzipAfterProvidedEncoding_restXml", // not implemented yet (request compression)
         "S3PreservesEmbeddedDotSegmentInUriLabel", // moved to s3-tests.smithy
         "S3PreservesLeadingDotSegmentInUriLabel", // moved to s3-tests.smithy
     )
