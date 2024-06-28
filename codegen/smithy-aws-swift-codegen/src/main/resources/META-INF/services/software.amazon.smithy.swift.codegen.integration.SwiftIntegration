@@ -24,3 +24,4 @@ software.amazon.smithy.aws.swift.codegen.model.AWSDeprecatedShapeRemover
 software.amazon.smithy.aws.swift.codegen.AWSClientConfigurationIntegration
 software.amazon.smithy.swift.codegen.swiftintegrations.InitialRequestIntegration
 software.amazon.smithy.aws.swift.codegen.swiftintegrations.RegistryConfigIntegration
+software.amazon.smithy.aws.swift.codegen.swiftintegrations.PackageVersionIntegration

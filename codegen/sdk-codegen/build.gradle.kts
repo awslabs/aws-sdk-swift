@@ -6,9 +6,12 @@
 // This build file has been adapted from the Go v2 SDK, here:
 // https://github.com/aws/aws-sdk-go-v2/blob/master/codegen/sdk-codegen/build.gradle.kts
 
+import org.jetbrains.kotlin.com.google.common.primitives.Chars
 import software.amazon.smithy.gradle.tasks.SmithyBuild
 import software.amazon.smithy.model.Model
+import software.amazon.smithy.model.node.Node
 import software.amazon.smithy.model.shapes.ServiceShape
+import java.nio.charset.Charset
 import java.util.Properties
 import kotlin.streams.toList
 
@@ -162,13 +165,16 @@ fun discoverServices(): List<AwsService> {
             val serviceApi = service.getTrait(software.amazon.smithy.aws.traits.ServiceTrait::class.java).orNull()
                 ?: error { "Expected aws.api#service trait attached to model ${file.absolutePath}" }
             val (name, version, _) = file.name.split(".")
+            val serviceClientVersions = Node.parse(rootProject.file("ServiceClientVersions.json").readText(Charset.forName("UTF-8")))
+            val packageVersion = serviceClientVersions.expectObjectNode().getStringMember(name).orNull()?.value ?:
+                serviceClientVersions.expectObjectNode().getStringMember("sdk").get().value
 
             logger.info("discovered service: ${serviceApi.sdkId}")
 
             AwsService(
                 name = service.id.toString(),
                 packageName = "AWS${serviceApi.sdkId.filterNot { it.isWhitespace() }.capitalize()}",
-                packageVersion = "1.0",
+                packageVersion = packageVersion,
                 modelFile = file,
                 projectionName = name + "." + version.toLowerCase(),
                 sdkId = serviceApi.sdkId,

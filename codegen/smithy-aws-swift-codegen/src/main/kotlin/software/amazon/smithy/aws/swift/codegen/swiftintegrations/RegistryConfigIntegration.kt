@@ -19,13 +19,19 @@ class RegistryConfigIntegration: SwiftIntegration {
         protocolGenerationContext.delegator.useFileWriter(".swiftpm/configuration/registries.json") { writer ->
             val json = """
             {
-              "authentication" : {
-            
-              },
               "registries" : {
                 "aws-sdk-swift" : {
                   "supportsAvailability" : false,
                   "url" : "https://d1b0xmm48lrxf5.cloudfront.net/"
+                }
+              },
+              "security": {
+                "scopeOverrides": {
+                  "aws-sdk-swift": {
+                  "signing": {
+                    "onUnsigned": "silentAllow"
+                  }
+                }
                 }
               },
               "version" : 1
