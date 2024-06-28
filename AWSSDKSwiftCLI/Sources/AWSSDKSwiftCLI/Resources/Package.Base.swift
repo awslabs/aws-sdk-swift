@@ -223,7 +223,8 @@ func addServiceUnitTestTarget(_ name: String) {
         .testTarget(
             name: "\(testName)",
             dependencies: [.crt, .clientRuntime, .awsClientRuntime, .byName(name: name), .smithyTestUtils],
-            path: "./Sources/Services/\(name)/Tests/\(testName)"
+            path: "Sources/Services/\(name)/Sources/\(name)",
+            resources: [.process("Resources")]
         )
     ]
 }
