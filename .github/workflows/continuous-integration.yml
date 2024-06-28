@@ -111,8 +111,8 @@ jobs:
       - name: Configure AWS Credentials for Integration Tests
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ secrets.INTEGRATION_TEST_ROLE_ARN }}
-          aws-region: us-west-2
+          aws-access-key-id: test-token
+          aws-secret-access-key: test-secret
       - name: Build and Run Protocol Tests
         run: |
           cd codegen/
@@ -184,8 +184,8 @@ jobs:
       - name: Configure AWS Credentials for Integration Tests
         uses: aws-actions/configure-aws-credentials@v3
         with:
-          role-to-assume: ${{ secrets.INTEGRATION_TEST_ROLE_ARN }}
-          aws-region: us-west-2
+          aws-access-key-id: test-token
+          aws-secret-access-key: test-secret
       - name: Prepare Protocol & Unit Tests
         run: |
           ./scripts/ci_steps/prepare_protocol_and_unit_tests.sh
