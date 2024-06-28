@@ -85,7 +85,7 @@ let package = Package(
             ],
             path: "Sources/Core/AWSClientRuntime/Sources",
             resources: [
-                .process("AWSClientRuntime/Resources/PrivacyInfo.xcprivacy")
+                .process("AWSClientRuntime/Resources")
             ]
         ),
         .target(
