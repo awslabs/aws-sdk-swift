@@ -114,11 +114,11 @@ jobs:
         run: |
           cd codegen/
           set -o pipefail && \
+          AWS_ACCESS_KEY_ID=AKIDEXAMPLE \
+          AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY \
           xcodebuild \
             -scheme aws-sdk-swift-protocol-tests-Package \
             -destination '${{ matrix.destination }}' \
-            AWS_ACCESS_KEY_ID=AKIDEXAMPLE \
-            AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY \
             test 2>&1 \
             | xcbeautify
           cd ..
