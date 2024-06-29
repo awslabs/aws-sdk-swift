@@ -29,7 +29,7 @@ public extension Process {
     
     /// Returns the executable and arguments combined as a string
     var commandString: String {
-        let items = [executableURL?.path()] + (arguments ?? [])
+        let items = [urlPath(executableURL)] + (arguments ?? [])
         return items
             .compactMap { $0 }
             .joined(separator: " ")
