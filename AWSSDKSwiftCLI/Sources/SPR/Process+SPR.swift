@@ -20,13 +20,13 @@ extension Process {
         }
 
         static func archive(name: String, packagePath: String, archiveFileURL: URL) -> Process {
-            let process = Process(["swift", "package", "archive-source", "--output", archiveFileURL.path()])
+            let process = Process(["swift", "package", "archive-source", "--output", urlPath(archiveFileURL)])
             process.currentDirectoryURL = packageFileURL(packagePath: packagePath)
             return process
         }
 
         static func checksum(archiveFileURL: URL) -> Process {
-            Process(["shasum", "-b", "-a", "256", archiveFileURL.path()])
+            Process(["shasum", "-b", "-a", "256", urlPath(archiveFileURL)])
         }
 
         private static func packageFileURL(packagePath: String) -> URL {

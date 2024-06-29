@@ -18,7 +18,7 @@ extension SPRPublisher {
         let archiveFileURL = tmpDirFileURL.appending(component: "\(UUID().uuidString).zip")
         let archiveProcess = Process.SPR.archive(name: name, packagePath: path, archiveFileURL: archiveFileURL)
         _ = try _runReturningStdOut(archiveProcess)
-        guard FileManager.default.fileExists(atPath: archiveFileURL.path()) else {
+        guard FileManager.default.fileExists(atPath: urlPath(archiveFileURL)) else {
             throw Error("Archive process succeeded but archive does not exist.")
         }
         let checksumProcess = Process.SPR.checksum(archiveFileURL: archiveFileURL)
