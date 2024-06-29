@@ -7,6 +7,7 @@
 
 @testable import AWSSDKSwiftCLI
 import XCTest
+import AWSCLIUtils
 
 class CLITestCase: XCTestCase {
     let tmpPath = "tmp"

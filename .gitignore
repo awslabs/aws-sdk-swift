@@ -35,3 +35,7 @@ codegen/protocol-test-codegen/smithy-build.json
 
 # VS Code config files
 .vscode/
+
+# Allow the AWSSDKSwiftCLI Package.resolved
+# while excluding all other Package.resolved files
+!/AWSSDKSwiftCLI/Package.resolved

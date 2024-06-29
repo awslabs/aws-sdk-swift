@@ -1,5 +1,10 @@
 included:
-  - Sources/Core
+  - Sources/Core/AWSClientRuntime/Sources
+  - Sources/Core/AWSSDKChecksums/Sources
+  - Sources/Core/AWSSDKCommon/Sources
+  - Sources/Core/AWSSDKEventStreamsAuth/Sources
+  - Sources/Core/AWSSDKHTTPAuth/Sources
+  - Sources/Core/AWSSDKIdentity/Sources
 
 analyzer_rules:
   - unused_import
