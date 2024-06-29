@@ -127,6 +127,7 @@ jobs:
         run: |
           cd codegen/
           set -o pipefail && \
+          ls -l && \
           xcodebuild \
             -scheme aws-sdk-swift-protocol-tests-Package \
             -testPlan ProtocolTestPlan \
