@@ -18,7 +18,7 @@ workspace.xml
 
 # Gradle config & temp
 .gradle/
-local.properties
+/local.properties
 
 # Swift/SPM config & temp
 .build/
@@ -37,4 +37,5 @@ codegen/protocol-test-codegen/smithy-build.json
 .vscode/
 
 # Allow the AWSSDKSwiftCLI Package.resolved
+# while excluding all other Package.resolved files
 !/AWSSDKSwiftCLI/Package.resolved

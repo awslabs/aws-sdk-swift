@@ -31,11 +31,13 @@ let package = Package(
                 .product(name: "AWSSDKCommon", package: "aws-sdk-swift.AWSSDKCommon"),
             ]
         ),
-        .testTarget(name: "AWSSDKIdentityTests", dependencies: [
-            "AWSSDKIdentity",
-            .product(name: "Smithy", package: "aws-sdk-swift.smithy-swift"),
-            .product(name: "SmithyIdentity", package: "aws-sdk-swift.smithy-swift"),
-//            .product(name: "AWSClientRuntime", package: "aws-sdk-swift.AWSClientRuntime"),
-        ]),
+        .testTarget(
+            name: "AWSSDKIdentityTests",
+            dependencies: [
+                "AWSSDKIdentity",
+                .product(name: "Smithy", package: "aws-sdk-swift.smithy-swift"),
+                .product(name: "SmithyIdentity", package: "aws-sdk-swift.smithy-swift"),
+            ]
+        ),
     ]
 )

@@ -8,7 +8,7 @@
 import ArgumentParser
 
 @main
-struct AWSSDKSwiftCLI: AsyncParsableCommand {
+struct AWSSDKSwiftCLI: ParsableCommand {
     static var configuration = CommandConfiguration(
         commandName: "AWSSDKSwiftCLI",
         abstract: "CLI for managing the AWS SDK for Swift",
@@ -17,7 +17,7 @@ struct AWSSDKSwiftCLI: AsyncParsableCommand {
             PrepareReleaseCommand.self,
             SyncClientRuntimeVersionCommand.self,
             TestAWSSDKCommand.self,
-            GenerateDocIndexCommand.self,
+            GenerateDocIndexCommand.self
         ]
     )
 }

@@ -32,7 +32,6 @@ let package = Package(
         ),
         .testTarget(name: "AWSSDKEventStreamsAuthTests", dependencies: [
             "AWSSDKEventStreamsAuth",
-//            .product(name: "AWSClientRuntime", package: "aws-sdk-swift.AWSClientRuntime"),
             .product(name: "SmithyStreams", package: "aws-sdk-swift.smithy-swift"),
             .product(name: "SmithyTestUtil", package: "aws-sdk-swift.smithy-swift"),
         ]),

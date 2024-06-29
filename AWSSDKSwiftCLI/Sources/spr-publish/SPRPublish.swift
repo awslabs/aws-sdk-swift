@@ -45,8 +45,6 @@ struct SPRPublish: AsyncParsableCommand {
     @Option(help: "If true, any existing release matching this version will be replaced.  If false and the selected version already exists, the publish command fails.  Defaults to false.")
     var replace = false
 
-    var checksum = ""
-
     mutating func run() async throws {
         let start = Date()
         print("Package: \(name)")

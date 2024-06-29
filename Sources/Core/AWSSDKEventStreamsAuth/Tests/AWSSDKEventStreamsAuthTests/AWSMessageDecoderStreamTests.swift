@@ -9,10 +9,10 @@ import SmithyEventStreamsAPI
 import SmithyEventStreams
 import XCTest
 import ClientRuntime
-//import AWSClientRuntime
 import class SmithyStreams.BufferedStream
 
 final class AWSMessageDecoderStreamTests: XCTestCase {
+
     func testIterator() async throws {
         let bufferedStream = BufferedStream(
             data: validMessageDataWithAllHeaders + validMessageDataEmptyPayload + validMessageDataNoHeaders,
