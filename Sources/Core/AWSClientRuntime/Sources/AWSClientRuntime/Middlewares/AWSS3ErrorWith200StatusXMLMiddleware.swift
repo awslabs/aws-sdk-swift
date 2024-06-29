@@ -47,7 +47,7 @@ public struct AWSS3ErrorWith200StatusXMLMiddleware<OperationStackInput, Operatio
         }
 
         response.body = .data(data)
-        let xmlString = String(data: data, encoding: .utf8) ?? ""
+        let xmlString = String(decoding: data, as: UTF8.self)
         return xmlString.contains("<Error>")
     }
 

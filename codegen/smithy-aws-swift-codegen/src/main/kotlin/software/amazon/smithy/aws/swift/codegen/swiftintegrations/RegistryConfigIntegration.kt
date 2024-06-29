@@ -7,7 +7,7 @@ import software.amazon.smithy.swift.codegen.core.SwiftCodegenContext
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 
-class RegistryConfigIntegration: SwiftIntegration {
+class RegistryConfigIntegration : SwiftIntegration {
 
     override fun enabledForService(model: Model, settings: SwiftSettings): Boolean = true
 
