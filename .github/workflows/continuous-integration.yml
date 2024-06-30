@@ -127,6 +127,7 @@ jobs:
         run: |
           cd codegen/
           set -o pipefail && \
+          xcodebuild -showTestPlans -scheme ProtocolTestPlan && \
           xcodebuild \
             -scheme ProtocolTestPlan \
             -testPlan ProtocolTestPlan \
