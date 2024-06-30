@@ -100,11 +100,6 @@ jobs:
       - name: Prepare Protocol & Unit Tests
         run: |
           ./scripts/ci_steps/prepare_protocol_and_unit_tests.sh
-      - name: Configure AWS Credentials for Integration Tests
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: ${{ secrets.INTEGRATION_TEST_ROLE_ARN }}
-          aws-region: us-west-2
       - name: Build and Run Unit Tests
         run: |
           set -o pipefail && \
@@ -113,6 +108,11 @@ jobs:
             -destination '${{ matrix.destination }}' \
             test 2>&1 \
             | xcbeautify
+      - name: Configure AWS Credentials for Integration Tests
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.INTEGRATION_TEST_ROLE_ARN }}
+          aws-region: us-west-2
       - name: Add Credentials to Test Plan
         run: |
           # JSON-escape the credentials.  They are also surrounded with double quotes.

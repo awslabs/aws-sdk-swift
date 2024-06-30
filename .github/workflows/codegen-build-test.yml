@@ -8,6 +8,9 @@ on:
 
 env:
   AWS_SWIFT_SDK_USE_LOCAL_DEPS: 1
+  AWS_ACCESS_KEY_ID: test-key-id
+  AWS_SECRET_ACCESS_KEY: test-secret-key
+  AWS_DEFAULT_REGION: us-west-2
 
 jobs:
   codegen-build-test:
