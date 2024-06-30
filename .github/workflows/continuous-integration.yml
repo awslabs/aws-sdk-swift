@@ -127,10 +127,10 @@ jobs:
         run: |
           cd codegen/
           set -o pipefail && \
-          xcodebuild -showTestPlans -scheme ProtocolTestPlan && \
+          xcodebuild -showTestPlans -scheme aws-sdk-swift-protocol-tests-Package && \
           xcodebuild \
-            -scheme ProtocolTestPlan \
-            -testPlan ProtocolTestPlan \
+            -scheme aws-sdk-swift-protocol-tests-Package \
+            -testPlan XCTestPlans/ProtocolTestPlan \
             -destination '${{ matrix.destination }}' \
             test 2>&1 \
             | xcbeautify

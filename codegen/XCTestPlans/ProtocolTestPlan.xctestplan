@@ -2,14 +2,16 @@
   "configurations" : [
     {
       "id" : "13F35EEE-6A97-4B33-90EE-D251A1D42E6F",
-      "name" : "Configuration 1",
+      "name" : "Test Scheme Action",
       "options" : {
 
       }
     }
   ],
   "defaultOptions" : {
-    "testTimeoutsEnabled" : true
+    "environmentVariableEntries" : [
+
+    ]
   },
   "testTargets" : [
     {
