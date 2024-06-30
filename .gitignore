@@ -39,3 +39,5 @@ codegen/protocol-test-codegen/smithy-build.json
 # Allow the AWSSDKSwiftCLI Package.resolved
 # while excluding all other Package.resolved files
 !/AWSSDKSwiftCLI/Package.resolved
+
+/Sources/Services/*
