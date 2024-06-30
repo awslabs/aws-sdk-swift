@@ -128,9 +128,9 @@ jobs:
           cd codegen/
           set -o pipefail && \
           ls -l && \
-          xcodebuild -showTestPlans -scheme aws-sdk-swift-protocol-tests-Package && \
+          xcodebuild -showTestPlans -scheme ProtocolTestPlan && \
           xcodebuild \
-            -scheme aws-sdk-swift-protocol-tests-Package \
+            -scheme ProtocolTestPlan \
             -testPlan ProtocolTestPlan \
             -destination '${{ matrix.destination }}' \
             test 2>&1 \
