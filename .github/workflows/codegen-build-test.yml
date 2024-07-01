@@ -23,6 +23,13 @@ jobs:
       AWS_REGION: us-west-2
       AWS_SESSION_TOKEN: session-token
     steps:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: us-west-2
+          aws-access-key-id: test
+          aws-secret-access-key: test
+          aws-session-token: test
       - name: Checkout aws-sdk-swift
         uses: actions/checkout@v3
       - name: Select smithy-swift branch
