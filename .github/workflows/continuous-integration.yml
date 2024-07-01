@@ -130,7 +130,7 @@ jobs:
           xcodebuild -showTestPlans -scheme aws-sdk-swift-protocol-tests-Package && \
           xcodebuild \
             -scheme aws-sdk-swift-protocol-tests-Package \
-            -testPlan XCTestPlans/ProtocolTestPlan \
+            -testPlan ProtocolTestPlan \
             -destination '${{ matrix.destination }}' \
             test 2>&1 \
             | xcbeautify
