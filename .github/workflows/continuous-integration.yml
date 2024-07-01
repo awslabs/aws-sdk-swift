@@ -121,8 +121,8 @@ jobs:
           REGION_ESCAPED=`echo -n "$AWS_DEFAULT_REGION" | jq -Rsa .`
           # Insert the credentials into the .xctestplan file, write the modified JSON
           # to a temp file, then move the temp over the original.
-          jq ".defaultOptions.environmentVariableEntries += [{\"key\": \"AWS_ACCESS_KEY_ID\", \"value\": $AKID_ESCAPED}, {\"key\": \"AWS_SECRET_ACCESS_KEY\", \"value\": $SECRET_ESCAPED}, {\"key\": \"AWS_DEFAULT_REGION\", \"value\": $REGION_ESCAPED}]" codegen/ProtocolTestPlan.xctestplan > testplan.tmp
-          mv testplan.tmp codegen/ProtocolTestPlan.xctestplan
+          jq ".defaultOptions.environmentVariableEntries += [{\"key\": \"AWS_ACCESS_KEY_ID\", \"value\": $AKID_ESCAPED}, {\"key\": \"AWS_SECRET_ACCESS_KEY\", \"value\": $SECRET_ESCAPED}, {\"key\": \"AWS_DEFAULT_REGION\", \"value\": $REGION_ESCAPED}]" codegen/XCTestPlans/ProtocolTestPlan.xctestplan > testplan.tmp
+          mv testplan.tmp codegen/XCTestPlans/ProtocolTestPlan.xctestplan
       - name: Build and Run Protocol Tests
         run: |
           cd codegen/
