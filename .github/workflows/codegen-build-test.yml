@@ -17,19 +17,14 @@ jobs:
     runs-on: macos-14-xlarge
     env:
       DEVELOPER_DIR: /Applications/Xcode_15.4.app/Contents/Developer
-      AWS_ACCESS_KEY_ID: test-key-id
-      AWS_SECRET_ACCESS_KEY: test-secret-key
-      AWS_DEFAULT_REGION: us-west-2
-      AWS_REGION: us-west-2
-      AWS_SESSION_TOKEN: session-token
     steps:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-west-2
-          aws-access-key-id: test
-          aws-secret-access-key: test
-          aws-session-token: test
+          aws-access-key-id: AKIAIOSFODNN7EXAMPLE
+          aws-secret-access-key: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+          aws-session-token: AQoDYXdzEPT//////////wEXAMPLEtc764bNrC9SAPBSM22wDOk4x4HIZ8j4FZTwdQWLWsKWHGBuFqwAeMicRXmxfpSPfIeoIYRqTflfKD8YUuwthAx7mSEI/qkPpKPi/kMcGdQrmGdeehM4IC1NtBmUpp2wUE8phUZampKsburEDy0KPkyQDYwT7WZ0wq5VSXDvp75YU9HFvlRd8Tx6q6fE8YQcHNVXAkiY9q6d+xo0rKwTm0qyvv22Smi3nAANLI7pGwpiLb3HillWrzmqiE7dTOeH64llFq6OvE8F0lbya+KkMxg2t8yUvLOqU44f0/74EXAMPLEbw/mVQtUJ66qKkUJxZi0Lwx/NEvb+dKEgU9dS7rpExuZ1KNQ7f4M5P8WZhsaanl9ptgkQc=
       - name: Checkout aws-sdk-swift
         uses: actions/checkout@v3
       - name: Select smithy-swift branch
