@@ -67,10 +67,5 @@ jobs:
         run: ./scripts/ci_steps/codegen_sdk.sh
       - name: Build SDK with Unit Tests
         run: swift build --build-tests
-      - name: Configure AWS Credentials for Integration Tests
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: ${{ secrets.INTEGRATION_TEST_ROLE_ARN }}
-          aws-region: us-west-2
       - name: Run Unit Tests
-        run: swift test --skip-build
+        run: swift test --skip-build --env AWS_ACCESS_KEY_ID=test-access-key-id --env AWS_SECRET_ACCESS_KEY=test-secret-key-id --env AWS_REGION=us-west-2 --env AWS_SESSION_TOKEN=test-session-token
