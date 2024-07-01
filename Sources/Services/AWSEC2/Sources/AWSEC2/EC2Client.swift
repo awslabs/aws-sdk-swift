@@ -7,6 +7,7 @@ import class ClientRuntime.ClientBuilder
 import class ClientRuntime.DefaultClientPlugin
 import class ClientRuntime.HttpClientConfiguration
 import class ClientRuntime.OrchestratorBuilder
+import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.ContextBuilder
 import class SmithyFormURL.Writer
@@ -16,6 +17,7 @@ import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum ClientRuntime.ClientLogMode
 import enum ClientRuntime.DefaultTelemetry
+import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
 import protocol ClientRuntime.Client
@@ -44,6 +46,7 @@ import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
+import struct Smithy.Attributes
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
@@ -221,7 +224,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptAddressTransferOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AcceptAddressTransferOutput>(AcceptAddressTransferOutput.httpOutput(from:), AcceptAddressTransferOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptAddressTransferInput, AcceptAddressTransferOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AcceptAddressTransfer")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -274,7 +284,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptReservedInstancesExchangeQuoteOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AcceptReservedInstancesExchangeQuoteOutput>(AcceptReservedInstancesExchangeQuoteOutput.httpOutput(from:), AcceptReservedInstancesExchangeQuoteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptReservedInstancesExchangeQuoteInput, AcceptReservedInstancesExchangeQuoteOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AcceptReservedInstancesExchangeQuote")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -327,7 +344,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptTransitGatewayMulticastDomainAssociationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AcceptTransitGatewayMulticastDomainAssociationsOutput>(AcceptTransitGatewayMulticastDomainAssociationsOutput.httpOutput(from:), AcceptTransitGatewayMulticastDomainAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptTransitGatewayMulticastDomainAssociationsInput, AcceptTransitGatewayMulticastDomainAssociationsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AcceptTransitGatewayMulticastDomainAssociations")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -380,7 +404,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptTransitGatewayPeeringAttachmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AcceptTransitGatewayPeeringAttachmentOutput>(AcceptTransitGatewayPeeringAttachmentOutput.httpOutput(from:), AcceptTransitGatewayPeeringAttachmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptTransitGatewayPeeringAttachmentInput, AcceptTransitGatewayPeeringAttachmentOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AcceptTransitGatewayPeeringAttachment")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -433,7 +464,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptTransitGatewayVpcAttachmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AcceptTransitGatewayVpcAttachmentOutput>(AcceptTransitGatewayVpcAttachmentOutput.httpOutput(from:), AcceptTransitGatewayVpcAttachmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptTransitGatewayVpcAttachmentInput, AcceptTransitGatewayVpcAttachmentOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AcceptTransitGatewayVpcAttachment")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -486,7 +524,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptVpcEndpointConnectionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AcceptVpcEndpointConnectionsOutput>(AcceptVpcEndpointConnectionsOutput.httpOutput(from:), AcceptVpcEndpointConnectionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptVpcEndpointConnectionsInput, AcceptVpcEndpointConnectionsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AcceptVpcEndpointConnections")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -539,7 +584,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptVpcPeeringConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AcceptVpcPeeringConnectionOutput>(AcceptVpcPeeringConnectionOutput.httpOutput(from:), AcceptVpcPeeringConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptVpcPeeringConnectionInput, AcceptVpcPeeringConnectionOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AcceptVpcPeeringConnection")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -592,7 +644,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<AdvertiseByoipCidrOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AdvertiseByoipCidrOutput>(AdvertiseByoipCidrOutput.httpOutput(from:), AdvertiseByoipCidrOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdvertiseByoipCidrInput, AdvertiseByoipCidrOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AdvertiseByoipCidr")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -645,7 +704,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<AllocateAddressOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AllocateAddressOutput>(AllocateAddressOutput.httpOutput(from:), AllocateAddressOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AllocateAddressInput, AllocateAddressOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AllocateAddress")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -698,7 +764,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<AllocateHostsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AllocateHostsOutput>(AllocateHostsOutput.httpOutput(from:), AllocateHostsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AllocateHostsInput, AllocateHostsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AllocateHosts")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -752,7 +825,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<AllocateIpamPoolCidrOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AllocateIpamPoolCidrOutput>(AllocateIpamPoolCidrOutput.httpOutput(from:), AllocateIpamPoolCidrOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AllocateIpamPoolCidrInput, AllocateIpamPoolCidrOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AllocateIpamPoolCidr")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -805,7 +885,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ApplySecurityGroupsToClientVpnTargetNetworkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ApplySecurityGroupsToClientVpnTargetNetworkOutput>(ApplySecurityGroupsToClientVpnTargetNetworkOutput.httpOutput(from:), ApplySecurityGroupsToClientVpnTargetNetworkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ApplySecurityGroupsToClientVpnTargetNetworkInput, ApplySecurityGroupsToClientVpnTargetNetworkOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ApplySecurityGroupsToClientVpnTargetNetwork")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -858,7 +945,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<AssignIpv6AddressesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssignIpv6AddressesOutput>(AssignIpv6AddressesOutput.httpOutput(from:), AssignIpv6AddressesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssignIpv6AddressesInput, AssignIpv6AddressesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssignIpv6Addresses")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -911,7 +1005,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<AssignPrivateIpAddressesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssignPrivateIpAddressesOutput>(AssignPrivateIpAddressesOutput.httpOutput(from:), AssignPrivateIpAddressesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssignPrivateIpAddressesInput, AssignPrivateIpAddressesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssignPrivateIpAddresses")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -964,7 +1065,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<AssignPrivateNatGatewayAddressOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssignPrivateNatGatewayAddressOutput>(AssignPrivateNatGatewayAddressOutput.httpOutput(from:), AssignPrivateNatGatewayAddressOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssignPrivateNatGatewayAddressInput, AssignPrivateNatGatewayAddressOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssignPrivateNatGatewayAddress")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1017,7 +1125,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateAddressOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateAddressOutput>(AssociateAddressOutput.httpOutput(from:), AssociateAddressOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateAddressInput, AssociateAddressOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateAddress")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1071,7 +1186,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateClientVpnTargetNetworkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateClientVpnTargetNetworkOutput>(AssociateClientVpnTargetNetworkOutput.httpOutput(from:), AssociateClientVpnTargetNetworkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateClientVpnTargetNetworkInput, AssociateClientVpnTargetNetworkOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateClientVpnTargetNetwork")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1124,7 +1246,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateDhcpOptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateDhcpOptionsOutput>(AssociateDhcpOptionsOutput.httpOutput(from:), AssociateDhcpOptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateDhcpOptionsInput, AssociateDhcpOptionsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateDhcpOptions")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1177,7 +1306,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateEnclaveCertificateIamRoleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateEnclaveCertificateIamRoleOutput>(AssociateEnclaveCertificateIamRoleOutput.httpOutput(from:), AssociateEnclaveCertificateIamRoleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateEnclaveCertificateIamRoleInput, AssociateEnclaveCertificateIamRoleOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateEnclaveCertificateIamRole")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1230,7 +1366,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateIamInstanceProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateIamInstanceProfileOutput>(AssociateIamInstanceProfileOutput.httpOutput(from:), AssociateIamInstanceProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateIamInstanceProfileInput, AssociateIamInstanceProfileOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateIamInstanceProfile")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1283,7 +1426,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateInstanceEventWindowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateInstanceEventWindowOutput>(AssociateInstanceEventWindowOutput.httpOutput(from:), AssociateInstanceEventWindowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateInstanceEventWindowInput, AssociateInstanceEventWindowOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateInstanceEventWindow")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1336,7 +1486,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateIpamByoasnOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateIpamByoasnOutput>(AssociateIpamByoasnOutput.httpOutput(from:), AssociateIpamByoasnOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateIpamByoasnInput, AssociateIpamByoasnOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateIpamByoasn")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1390,7 +1547,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateIpamResourceDiscoveryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateIpamResourceDiscoveryOutput>(AssociateIpamResourceDiscoveryOutput.httpOutput(from:), AssociateIpamResourceDiscoveryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateIpamResourceDiscoveryInput, AssociateIpamResourceDiscoveryOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateIpamResourceDiscovery")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1443,7 +1607,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateNatGatewayAddressOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateNatGatewayAddressOutput>(AssociateNatGatewayAddressOutput.httpOutput(from:), AssociateNatGatewayAddressOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateNatGatewayAddressInput, AssociateNatGatewayAddressOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateNatGatewayAddress")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1496,7 +1667,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateRouteTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateRouteTableOutput>(AssociateRouteTableOutput.httpOutput(from:), AssociateRouteTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateRouteTableInput, AssociateRouteTableOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateRouteTable")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1549,7 +1727,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateSubnetCidrBlockOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateSubnetCidrBlockOutput>(AssociateSubnetCidrBlockOutput.httpOutput(from:), AssociateSubnetCidrBlockOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateSubnetCidrBlockInput, AssociateSubnetCidrBlockOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateSubnetCidrBlock")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1602,7 +1787,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateTransitGatewayMulticastDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateTransitGatewayMulticastDomainOutput>(AssociateTransitGatewayMulticastDomainOutput.httpOutput(from:), AssociateTransitGatewayMulticastDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateTransitGatewayMulticastDomainInput, AssociateTransitGatewayMulticastDomainOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateTransitGatewayMulticastDomain")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1655,7 +1847,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateTransitGatewayPolicyTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateTransitGatewayPolicyTableOutput>(AssociateTransitGatewayPolicyTableOutput.httpOutput(from:), AssociateTransitGatewayPolicyTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateTransitGatewayPolicyTableInput, AssociateTransitGatewayPolicyTableOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateTransitGatewayPolicyTable")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1708,7 +1907,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateTransitGatewayRouteTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateTransitGatewayRouteTableOutput>(AssociateTransitGatewayRouteTableOutput.httpOutput(from:), AssociateTransitGatewayRouteTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateTransitGatewayRouteTableInput, AssociateTransitGatewayRouteTableOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateTransitGatewayRouteTable")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1762,7 +1968,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateTrunkInterfaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateTrunkInterfaceOutput>(AssociateTrunkInterfaceOutput.httpOutput(from:), AssociateTrunkInterfaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateTrunkInterfaceInput, AssociateTrunkInterfaceOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateTrunkInterface")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1815,7 +2028,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateVpcCidrBlockOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateVpcCidrBlockOutput>(AssociateVpcCidrBlockOutput.httpOutput(from:), AssociateVpcCidrBlockOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateVpcCidrBlockInput, AssociateVpcCidrBlockOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateVpcCidrBlock")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1868,7 +2088,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<AttachClassicLinkVpcOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AttachClassicLinkVpcOutput>(AttachClassicLinkVpcOutput.httpOutput(from:), AttachClassicLinkVpcOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AttachClassicLinkVpcInput, AttachClassicLinkVpcOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AttachClassicLinkVpc")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1921,7 +2148,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<AttachInternetGatewayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AttachInternetGatewayOutput>(AttachInternetGatewayOutput.httpOutput(from:), AttachInternetGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AttachInternetGatewayInput, AttachInternetGatewayOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AttachInternetGateway")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1974,7 +2208,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<AttachNetworkInterfaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AttachNetworkInterfaceOutput>(AttachNetworkInterfaceOutput.httpOutput(from:), AttachNetworkInterfaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AttachNetworkInterfaceInput, AttachNetworkInterfaceOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AttachNetworkInterface")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2028,7 +2269,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<AttachVerifiedAccessTrustProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AttachVerifiedAccessTrustProviderOutput>(AttachVerifiedAccessTrustProviderOutput.httpOutput(from:), AttachVerifiedAccessTrustProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AttachVerifiedAccessTrustProviderInput, AttachVerifiedAccessTrustProviderOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AttachVerifiedAccessTrustProvider")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2092,7 +2340,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<AttachVolumeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AttachVolumeOutput>(AttachVolumeOutput.httpOutput(from:), AttachVolumeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AttachVolumeInput, AttachVolumeOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AttachVolume")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2145,7 +2400,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<AttachVpnGatewayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AttachVpnGatewayOutput>(AttachVpnGatewayOutput.httpOutput(from:), AttachVpnGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AttachVpnGatewayInput, AttachVpnGatewayOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AttachVpnGateway")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2199,7 +2461,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<AuthorizeClientVpnIngressOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AuthorizeClientVpnIngressOutput>(AuthorizeClientVpnIngressOutput.httpOutput(from:), AuthorizeClientVpnIngressOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AuthorizeClientVpnIngressInput, AuthorizeClientVpnIngressOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AuthorizeClientVpnIngress")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2252,7 +2521,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<AuthorizeSecurityGroupEgressOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AuthorizeSecurityGroupEgressOutput>(AuthorizeSecurityGroupEgressOutput.httpOutput(from:), AuthorizeSecurityGroupEgressOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AuthorizeSecurityGroupEgressInput, AuthorizeSecurityGroupEgressOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AuthorizeSecurityGroupEgress")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2305,7 +2581,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<AuthorizeSecurityGroupIngressOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AuthorizeSecurityGroupIngressOutput>(AuthorizeSecurityGroupIngressOutput.httpOutput(from:), AuthorizeSecurityGroupIngressOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AuthorizeSecurityGroupIngressInput, AuthorizeSecurityGroupIngressOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AuthorizeSecurityGroupIngress")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2358,7 +2641,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<BundleInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BundleInstanceOutput>(BundleInstanceOutput.httpOutput(from:), BundleInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BundleInstanceInput, BundleInstanceOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BundleInstance")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2411,7 +2701,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelBundleTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelBundleTaskOutput>(CancelBundleTaskOutput.httpOutput(from:), CancelBundleTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelBundleTaskInput, CancelBundleTaskOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CancelBundleTask")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2464,7 +2761,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelCapacityReservationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelCapacityReservationOutput>(CancelCapacityReservationOutput.httpOutput(from:), CancelCapacityReservationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelCapacityReservationInput, CancelCapacityReservationOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CancelCapacityReservation")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2523,7 +2827,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelCapacityReservationFleetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelCapacityReservationFleetsOutput>(CancelCapacityReservationFleetsOutput.httpOutput(from:), CancelCapacityReservationFleetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelCapacityReservationFleetsInput, CancelCapacityReservationFleetsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CancelCapacityReservationFleets")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2576,7 +2887,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelConversionTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelConversionTaskOutput>(CancelConversionTaskOutput.httpOutput(from:), CancelConversionTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelConversionTaskInput, CancelConversionTaskOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CancelConversionTask")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2629,7 +2947,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelExportTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelExportTaskOutput>(CancelExportTaskOutput.httpOutput(from:), CancelExportTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelExportTaskInput, CancelExportTaskOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CancelExportTask")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2682,7 +3007,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelImageLaunchPermissionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelImageLaunchPermissionOutput>(CancelImageLaunchPermissionOutput.httpOutput(from:), CancelImageLaunchPermissionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelImageLaunchPermissionInput, CancelImageLaunchPermissionOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CancelImageLaunchPermission")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2735,7 +3067,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelImportTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelImportTaskOutput>(CancelImportTaskOutput.httpOutput(from:), CancelImportTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelImportTaskInput, CancelImportTaskOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CancelImportTask")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2788,7 +3127,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelReservedInstancesListingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelReservedInstancesListingOutput>(CancelReservedInstancesListingOutput.httpOutput(from:), CancelReservedInstancesListingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelReservedInstancesListingInput, CancelReservedInstancesListingOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CancelReservedInstancesListing")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2843,7 +3189,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelSpotFleetRequestsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelSpotFleetRequestsOutput>(CancelSpotFleetRequestsOutput.httpOutput(from:), CancelSpotFleetRequestsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelSpotFleetRequestsInput, CancelSpotFleetRequestsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CancelSpotFleetRequests")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2896,7 +3249,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelSpotInstanceRequestsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelSpotInstanceRequestsOutput>(CancelSpotInstanceRequestsOutput.httpOutput(from:), CancelSpotInstanceRequestsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelSpotInstanceRequestsInput, CancelSpotInstanceRequestsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CancelSpotInstanceRequests")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2949,7 +3309,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ConfirmProductInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ConfirmProductInstanceOutput>(ConfirmProductInstanceOutput.httpOutput(from:), ConfirmProductInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ConfirmProductInstanceInput, ConfirmProductInstanceOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ConfirmProductInstance")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3002,7 +3369,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CopyFpgaImageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CopyFpgaImageOutput>(CopyFpgaImageOutput.httpOutput(from:), CopyFpgaImageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CopyFpgaImageInput, CopyFpgaImageOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CopyFpgaImage")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3055,7 +3429,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CopyImageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CopyImageOutput>(CopyImageOutput.httpOutput(from:), CopyImageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CopyImageInput, CopyImageOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CopyImage")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3108,7 +3489,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CopySnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CopySnapshotOutput>(CopySnapshotOutput.httpOutput(from:), CopySnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CopySnapshotInput, CopySnapshotOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CopySnapshot")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3161,7 +3549,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCapacityReservationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCapacityReservationOutput>(CreateCapacityReservationOutput.httpOutput(from:), CreateCapacityReservationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCapacityReservationInput, CreateCapacityReservationOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateCapacityReservation")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3215,7 +3610,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCapacityReservationFleetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCapacityReservationFleetOutput>(CreateCapacityReservationFleetOutput.httpOutput(from:), CreateCapacityReservationFleetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCapacityReservationFleetInput, CreateCapacityReservationFleetOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateCapacityReservationFleet")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3269,7 +3671,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCarrierGatewayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCarrierGatewayOutput>(CreateCarrierGatewayOutput.httpOutput(from:), CreateCarrierGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCarrierGatewayInput, CreateCarrierGatewayOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateCarrierGateway")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3323,7 +3732,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateClientVpnEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateClientVpnEndpointOutput>(CreateClientVpnEndpointOutput.httpOutput(from:), CreateClientVpnEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateClientVpnEndpointInput, CreateClientVpnEndpointOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateClientVpnEndpoint")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3377,7 +3793,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateClientVpnRouteOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateClientVpnRouteOutput>(CreateClientVpnRouteOutput.httpOutput(from:), CreateClientVpnRouteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateClientVpnRouteInput, CreateClientVpnRouteOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateClientVpnRoute")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3430,7 +3853,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCoipCidrOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCoipCidrOutput>(CreateCoipCidrOutput.httpOutput(from:), CreateCoipCidrOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCoipCidrInput, CreateCoipCidrOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateCoipCidr")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3483,7 +3913,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCoipPoolOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCoipPoolOutput>(CreateCoipPoolOutput.httpOutput(from:), CreateCoipPoolOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCoipPoolInput, CreateCoipPoolOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateCoipPool")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3536,7 +3973,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCustomerGatewayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCustomerGatewayOutput>(CreateCustomerGatewayOutput.httpOutput(from:), CreateCustomerGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCustomerGatewayInput, CreateCustomerGatewayOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateCustomerGateway")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3589,7 +4033,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDefaultSubnetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDefaultSubnetOutput>(CreateDefaultSubnetOutput.httpOutput(from:), CreateDefaultSubnetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDefaultSubnetInput, CreateDefaultSubnetOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateDefaultSubnet")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3642,7 +4093,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDefaultVpcOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDefaultVpcOutput>(CreateDefaultVpcOutput.httpOutput(from:), CreateDefaultVpcOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDefaultVpcInput, CreateDefaultVpcOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateDefaultVpc")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3707,7 +4165,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDhcpOptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDhcpOptionsOutput>(CreateDhcpOptionsOutput.httpOutput(from:), CreateDhcpOptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDhcpOptionsInput, CreateDhcpOptionsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateDhcpOptions")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3760,7 +4225,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEgressOnlyInternetGatewayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEgressOnlyInternetGatewayOutput>(CreateEgressOnlyInternetGatewayOutput.httpOutput(from:), CreateEgressOnlyInternetGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEgressOnlyInternetGatewayInput, CreateEgressOnlyInternetGatewayOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateEgressOnlyInternetGateway")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3813,7 +4285,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFleetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFleetOutput>(CreateFleetOutput.httpOutput(from:), CreateFleetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFleetInput, CreateFleetOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateFleet")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3866,7 +4345,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFlowLogsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFlowLogsOutput>(CreateFlowLogsOutput.httpOutput(from:), CreateFlowLogsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFlowLogsInput, CreateFlowLogsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateFlowLogs")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3919,7 +4405,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFpgaImageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFpgaImageOutput>(CreateFpgaImageOutput.httpOutput(from:), CreateFpgaImageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFpgaImageInput, CreateFpgaImageOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateFpgaImage")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3972,7 +4465,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateImageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateImageOutput>(CreateImageOutput.httpOutput(from:), CreateImageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateImageInput, CreateImageOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateImage")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -4026,7 +4526,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateInstanceConnectEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateInstanceConnectEndpointOutput>(CreateInstanceConnectEndpointOutput.httpOutput(from:), CreateInstanceConnectEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateInstanceConnectEndpointInput, CreateInstanceConnectEndpointOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateInstanceConnectEndpoint")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -4086,7 +4593,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateInstanceEventWindowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateInstanceEventWindowOutput>(CreateInstanceEventWindowOutput.httpOutput(from:), CreateInstanceEventWindowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateInstanceEventWindowInput, CreateInstanceEventWindowOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateInstanceEventWindow")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -4139,7 +4653,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateInstanceExportTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateInstanceExportTaskOutput>(CreateInstanceExportTaskOutput.httpOutput(from:), CreateInstanceExportTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateInstanceExportTaskInput, CreateInstanceExportTaskOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateInstanceExportTask")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -4192,7 +4713,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateInternetGatewayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateInternetGatewayOutput>(CreateInternetGatewayOutput.httpOutput(from:), CreateInternetGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateInternetGatewayInput, CreateInternetGatewayOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateInternetGateway")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -4246,7 +4774,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateIpamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIpamOutput>(CreateIpamOutput.httpOutput(from:), CreateIpamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIpamInput, CreateIpamOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateIpam")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -4300,7 +4835,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateIpamPoolOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIpamPoolOutput>(CreateIpamPoolOutput.httpOutput(from:), CreateIpamPoolOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIpamPoolInput, CreateIpamPoolOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateIpamPool")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -4354,7 +4896,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateIpamResourceDiscoveryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIpamResourceDiscoveryOutput>(CreateIpamResourceDiscoveryOutput.httpOutput(from:), CreateIpamResourceDiscoveryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIpamResourceDiscoveryInput, CreateIpamResourceDiscoveryOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateIpamResourceDiscovery")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -4408,7 +4957,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateIpamScopeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIpamScopeOutput>(CreateIpamScopeOutput.httpOutput(from:), CreateIpamScopeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIpamScopeInput, CreateIpamScopeOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateIpamScope")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -4461,7 +5017,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateKeyPairOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateKeyPairOutput>(CreateKeyPairOutput.httpOutput(from:), CreateKeyPairOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateKeyPairInput, CreateKeyPairOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateKeyPair")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -4514,7 +5077,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLaunchTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLaunchTemplateOutput>(CreateLaunchTemplateOutput.httpOutput(from:), CreateLaunchTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLaunchTemplateInput, CreateLaunchTemplateOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateLaunchTemplate")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -4567,7 +5137,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLaunchTemplateVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLaunchTemplateVersionOutput>(CreateLaunchTemplateVersionOutput.httpOutput(from:), CreateLaunchTemplateVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLaunchTemplateVersionInput, CreateLaunchTemplateVersionOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateLaunchTemplateVersion")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -4624,7 +5201,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLocalGatewayRouteOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLocalGatewayRouteOutput>(CreateLocalGatewayRouteOutput.httpOutput(from:), CreateLocalGatewayRouteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLocalGatewayRouteInput, CreateLocalGatewayRouteOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateLocalGatewayRoute")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -4677,7 +5261,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLocalGatewayRouteTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLocalGatewayRouteTableOutput>(CreateLocalGatewayRouteTableOutput.httpOutput(from:), CreateLocalGatewayRouteTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLocalGatewayRouteTableInput, CreateLocalGatewayRouteTableOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateLocalGatewayRouteTable")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -4730,7 +5321,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationOutput>(CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationOutput.httpOutput(from:), CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationInput, CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociation")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -4783,7 +5381,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLocalGatewayRouteTableVpcAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLocalGatewayRouteTableVpcAssociationOutput>(CreateLocalGatewayRouteTableVpcAssociationOutput.httpOutput(from:), CreateLocalGatewayRouteTableVpcAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLocalGatewayRouteTableVpcAssociationInput, CreateLocalGatewayRouteTableVpcAssociationOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateLocalGatewayRouteTableVpcAssociation")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -4837,7 +5442,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateManagedPrefixListOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateManagedPrefixListOutput>(CreateManagedPrefixListOutput.httpOutput(from:), CreateManagedPrefixListOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateManagedPrefixListInput, CreateManagedPrefixListOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateManagedPrefixList")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -4891,7 +5503,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateNatGatewayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateNatGatewayOutput>(CreateNatGatewayOutput.httpOutput(from:), CreateNatGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateNatGatewayInput, CreateNatGatewayOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateNatGateway")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -4945,7 +5564,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateNetworkAclOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateNetworkAclOutput>(CreateNetworkAclOutput.httpOutput(from:), CreateNetworkAclOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateNetworkAclInput, CreateNetworkAclOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateNetworkAcl")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -4998,7 +5624,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateNetworkAclEntryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateNetworkAclEntryOutput>(CreateNetworkAclEntryOutput.httpOutput(from:), CreateNetworkAclEntryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateNetworkAclEntryInput, CreateNetworkAclEntryOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateNetworkAclEntry")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -5052,7 +5685,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateNetworkInsightsAccessScopeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateNetworkInsightsAccessScopeOutput>(CreateNetworkInsightsAccessScopeOutput.httpOutput(from:), CreateNetworkInsightsAccessScopeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateNetworkInsightsAccessScopeInput, CreateNetworkInsightsAccessScopeOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateNetworkInsightsAccessScope")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -5106,7 +5746,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateNetworkInsightsPathOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateNetworkInsightsPathOutput>(CreateNetworkInsightsPathOutput.httpOutput(from:), CreateNetworkInsightsPathOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateNetworkInsightsPathInput, CreateNetworkInsightsPathOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateNetworkInsightsPath")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -5160,7 +5807,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateNetworkInterfaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateNetworkInterfaceOutput>(CreateNetworkInterfaceOutput.httpOutput(from:), CreateNetworkInterfaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateNetworkInterfaceInput, CreateNetworkInterfaceOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateNetworkInterface")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -5213,7 +5867,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateNetworkInterfacePermissionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateNetworkInterfacePermissionOutput>(CreateNetworkInterfacePermissionOutput.httpOutput(from:), CreateNetworkInterfacePermissionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateNetworkInterfacePermissionInput, CreateNetworkInterfacePermissionOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateNetworkInterfacePermission")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -5266,7 +5927,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePlacementGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePlacementGroupOutput>(CreatePlacementGroupOutput.httpOutput(from:), CreatePlacementGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePlacementGroupInput, CreatePlacementGroupOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreatePlacementGroup")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -5319,7 +5987,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePublicIpv4PoolOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePublicIpv4PoolOutput>(CreatePublicIpv4PoolOutput.httpOutput(from:), CreatePublicIpv4PoolOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePublicIpv4PoolInput, CreatePublicIpv4PoolOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreatePublicIpv4Pool")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -5373,7 +6048,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateReplaceRootVolumeTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateReplaceRootVolumeTaskOutput>(CreateReplaceRootVolumeTaskOutput.httpOutput(from:), CreateReplaceRootVolumeTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateReplaceRootVolumeTaskInput, CreateReplaceRootVolumeTaskOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateReplaceRootVolumeTask")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -5426,7 +6108,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateReservedInstancesListingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateReservedInstancesListingOutput>(CreateReservedInstancesListingOutput.httpOutput(from:), CreateReservedInstancesListingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateReservedInstancesListingInput, CreateReservedInstancesListingOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateReservedInstancesListing")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -5479,7 +6168,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRestoreImageTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRestoreImageTaskOutput>(CreateRestoreImageTaskOutput.httpOutput(from:), CreateRestoreImageTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRestoreImageTaskInput, CreateRestoreImageTaskOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateRestoreImageTask")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -5539,7 +6235,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRouteOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRouteOutput>(CreateRouteOutput.httpOutput(from:), CreateRouteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRouteInput, CreateRouteOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateRoute")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -5593,7 +6296,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRouteTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRouteTableOutput>(CreateRouteTableOutput.httpOutput(from:), CreateRouteTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRouteTableInput, CreateRouteTableOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateRouteTable")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -5646,7 +6356,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSecurityGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSecurityGroupOutput>(CreateSecurityGroupOutput.httpOutput(from:), CreateSecurityGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSecurityGroupInput, CreateSecurityGroupOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateSecurityGroup")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -5699,7 +6416,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSnapshotOutput>(CreateSnapshotOutput.httpOutput(from:), CreateSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSnapshotInput, CreateSnapshotOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateSnapshot")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -5752,7 +6476,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSnapshotsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSnapshotsOutput>(CreateSnapshotsOutput.httpOutput(from:), CreateSnapshotsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSnapshotsInput, CreateSnapshotsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateSnapshots")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -5805,7 +6536,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSpotDatafeedSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSpotDatafeedSubscriptionOutput>(CreateSpotDatafeedSubscriptionOutput.httpOutput(from:), CreateSpotDatafeedSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSpotDatafeedSubscriptionInput, CreateSpotDatafeedSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateSpotDatafeedSubscription")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -5858,7 +6596,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateStoreImageTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateStoreImageTaskOutput>(CreateStoreImageTaskOutput.httpOutput(from:), CreateStoreImageTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateStoreImageTaskInput, CreateStoreImageTaskOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateStoreImageTask")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -5911,7 +6656,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSubnetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSubnetOutput>(CreateSubnetOutput.httpOutput(from:), CreateSubnetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSubnetInput, CreateSubnetOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateSubnet")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -5964,7 +6716,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSubnetCidrReservationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSubnetCidrReservationOutput>(CreateSubnetCidrReservationOutput.httpOutput(from:), CreateSubnetCidrReservationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSubnetCidrReservationInput, CreateSubnetCidrReservationOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateSubnetCidrReservation")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -6017,7 +6776,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTagsOutput>(CreateTagsOutput.httpOutput(from:), CreateTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTagsInput, CreateTagsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateTags")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -6071,7 +6837,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTrafficMirrorFilterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTrafficMirrorFilterOutput>(CreateTrafficMirrorFilterOutput.httpOutput(from:), CreateTrafficMirrorFilterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTrafficMirrorFilterInput, CreateTrafficMirrorFilterOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateTrafficMirrorFilter")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -6125,7 +6898,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTrafficMirrorFilterRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTrafficMirrorFilterRuleOutput>(CreateTrafficMirrorFilterRuleOutput.httpOutput(from:), CreateTrafficMirrorFilterRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTrafficMirrorFilterRuleInput, CreateTrafficMirrorFilterRuleOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateTrafficMirrorFilterRule")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -6179,7 +6959,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTrafficMirrorSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTrafficMirrorSessionOutput>(CreateTrafficMirrorSessionOutput.httpOutput(from:), CreateTrafficMirrorSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTrafficMirrorSessionInput, CreateTrafficMirrorSessionOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateTrafficMirrorSession")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -6233,7 +7020,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTrafficMirrorTargetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTrafficMirrorTargetOutput>(CreateTrafficMirrorTargetOutput.httpOutput(from:), CreateTrafficMirrorTargetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTrafficMirrorTargetInput, CreateTrafficMirrorTargetOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateTrafficMirrorTarget")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -6286,7 +7080,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTransitGatewayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTransitGatewayOutput>(CreateTransitGatewayOutput.httpOutput(from:), CreateTransitGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTransitGatewayInput, CreateTransitGatewayOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateTransitGateway")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -6339,7 +7140,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTransitGatewayConnectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTransitGatewayConnectOutput>(CreateTransitGatewayConnectOutput.httpOutput(from:), CreateTransitGatewayConnectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTransitGatewayConnectInput, CreateTransitGatewayConnectOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateTransitGatewayConnect")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -6392,7 +7200,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTransitGatewayConnectPeerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTransitGatewayConnectPeerOutput>(CreateTransitGatewayConnectPeerOutput.httpOutput(from:), CreateTransitGatewayConnectPeerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTransitGatewayConnectPeerInput, CreateTransitGatewayConnectPeerOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateTransitGatewayConnectPeer")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -6445,7 +7260,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTransitGatewayMulticastDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTransitGatewayMulticastDomainOutput>(CreateTransitGatewayMulticastDomainOutput.httpOutput(from:), CreateTransitGatewayMulticastDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTransitGatewayMulticastDomainInput, CreateTransitGatewayMulticastDomainOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateTransitGatewayMulticastDomain")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -6498,7 +7320,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTransitGatewayPeeringAttachmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTransitGatewayPeeringAttachmentOutput>(CreateTransitGatewayPeeringAttachmentOutput.httpOutput(from:), CreateTransitGatewayPeeringAttachmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTransitGatewayPeeringAttachmentInput, CreateTransitGatewayPeeringAttachmentOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateTransitGatewayPeeringAttachment")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -6551,7 +7380,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTransitGatewayPolicyTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTransitGatewayPolicyTableOutput>(CreateTransitGatewayPolicyTableOutput.httpOutput(from:), CreateTransitGatewayPolicyTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTransitGatewayPolicyTableInput, CreateTransitGatewayPolicyTableOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateTransitGatewayPolicyTable")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -6604,7 +7440,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTransitGatewayPrefixListReferenceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTransitGatewayPrefixListReferenceOutput>(CreateTransitGatewayPrefixListReferenceOutput.httpOutput(from:), CreateTransitGatewayPrefixListReferenceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTransitGatewayPrefixListReferenceInput, CreateTransitGatewayPrefixListReferenceOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateTransitGatewayPrefixListReference")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -6657,7 +7500,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTransitGatewayRouteOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTransitGatewayRouteOutput>(CreateTransitGatewayRouteOutput.httpOutput(from:), CreateTransitGatewayRouteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTransitGatewayRouteInput, CreateTransitGatewayRouteOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateTransitGatewayRoute")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -6710,7 +7560,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTransitGatewayRouteTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTransitGatewayRouteTableOutput>(CreateTransitGatewayRouteTableOutput.httpOutput(from:), CreateTransitGatewayRouteTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTransitGatewayRouteTableInput, CreateTransitGatewayRouteTableOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateTransitGatewayRouteTable")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -6763,7 +7620,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTransitGatewayRouteTableAnnouncementOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTransitGatewayRouteTableAnnouncementOutput>(CreateTransitGatewayRouteTableAnnouncementOutput.httpOutput(from:), CreateTransitGatewayRouteTableAnnouncementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTransitGatewayRouteTableAnnouncementInput, CreateTransitGatewayRouteTableAnnouncementOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateTransitGatewayRouteTableAnnouncement")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -6816,7 +7680,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTransitGatewayVpcAttachmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTransitGatewayVpcAttachmentOutput>(CreateTransitGatewayVpcAttachmentOutput.httpOutput(from:), CreateTransitGatewayVpcAttachmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTransitGatewayVpcAttachmentInput, CreateTransitGatewayVpcAttachmentOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateTransitGatewayVpcAttachment")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -6870,7 +7741,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVerifiedAccessEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVerifiedAccessEndpointOutput>(CreateVerifiedAccessEndpointOutput.httpOutput(from:), CreateVerifiedAccessEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVerifiedAccessEndpointInput, CreateVerifiedAccessEndpointOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateVerifiedAccessEndpoint")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -6924,7 +7802,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVerifiedAccessGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVerifiedAccessGroupOutput>(CreateVerifiedAccessGroupOutput.httpOutput(from:), CreateVerifiedAccessGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVerifiedAccessGroupInput, CreateVerifiedAccessGroupOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateVerifiedAccessGroup")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -6978,7 +7863,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVerifiedAccessInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVerifiedAccessInstanceOutput>(CreateVerifiedAccessInstanceOutput.httpOutput(from:), CreateVerifiedAccessInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVerifiedAccessInstanceInput, CreateVerifiedAccessInstanceOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateVerifiedAccessInstance")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -7032,7 +7924,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVerifiedAccessTrustProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVerifiedAccessTrustProviderOutput>(CreateVerifiedAccessTrustProviderOutput.httpOutput(from:), CreateVerifiedAccessTrustProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVerifiedAccessTrustProviderInput, CreateVerifiedAccessTrustProviderOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateVerifiedAccessTrustProvider")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -7086,7 +7985,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVolumeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVolumeOutput>(CreateVolumeOutput.httpOutput(from:), CreateVolumeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVolumeInput, CreateVolumeOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateVolume")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -7139,7 +8045,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVpcOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVpcOutput>(CreateVpcOutput.httpOutput(from:), CreateVpcOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVpcInput, CreateVpcOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateVpc")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -7192,7 +8105,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVpcEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVpcEndpointOutput>(CreateVpcEndpointOutput.httpOutput(from:), CreateVpcEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVpcEndpointInput, CreateVpcEndpointOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateVpcEndpoint")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -7245,7 +8165,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVpcEndpointConnectionNotificationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVpcEndpointConnectionNotificationOutput>(CreateVpcEndpointConnectionNotificationOutput.httpOutput(from:), CreateVpcEndpointConnectionNotificationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVpcEndpointConnectionNotificationInput, CreateVpcEndpointConnectionNotificationOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateVpcEndpointConnectionNotification")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -7305,7 +8232,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVpcEndpointServiceConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVpcEndpointServiceConfigurationOutput>(CreateVpcEndpointServiceConfigurationOutput.httpOutput(from:), CreateVpcEndpointServiceConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVpcEndpointServiceConfigurationInput, CreateVpcEndpointServiceConfigurationOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateVpcEndpointServiceConfiguration")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -7358,7 +8292,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVpcPeeringConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVpcPeeringConnectionOutput>(CreateVpcPeeringConnectionOutput.httpOutput(from:), CreateVpcPeeringConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVpcPeeringConnectionInput, CreateVpcPeeringConnectionOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateVpcPeeringConnection")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -7411,7 +8352,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVpnConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVpnConnectionOutput>(CreateVpnConnectionOutput.httpOutput(from:), CreateVpnConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVpnConnectionInput, CreateVpnConnectionOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateVpnConnection")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -7464,7 +8412,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVpnConnectionRouteOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVpnConnectionRouteOutput>(CreateVpnConnectionRouteOutput.httpOutput(from:), CreateVpnConnectionRouteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVpnConnectionRouteInput, CreateVpnConnectionRouteOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateVpnConnectionRoute")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -7517,7 +8472,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVpnGatewayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVpnGatewayOutput>(CreateVpnGatewayOutput.httpOutput(from:), CreateVpnGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVpnGatewayInput, CreateVpnGatewayOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateVpnGateway")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -7570,7 +8532,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCarrierGatewayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCarrierGatewayOutput>(DeleteCarrierGatewayOutput.httpOutput(from:), DeleteCarrierGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCarrierGatewayInput, DeleteCarrierGatewayOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteCarrierGateway")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -7623,7 +8592,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteClientVpnEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteClientVpnEndpointOutput>(DeleteClientVpnEndpointOutput.httpOutput(from:), DeleteClientVpnEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteClientVpnEndpointInput, DeleteClientVpnEndpointOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteClientVpnEndpoint")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -7676,7 +8652,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteClientVpnRouteOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteClientVpnRouteOutput>(DeleteClientVpnRouteOutput.httpOutput(from:), DeleteClientVpnRouteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteClientVpnRouteInput, DeleteClientVpnRouteOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteClientVpnRoute")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -7729,7 +8712,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCoipCidrOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCoipCidrOutput>(DeleteCoipCidrOutput.httpOutput(from:), DeleteCoipCidrOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCoipCidrInput, DeleteCoipCidrOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteCoipCidr")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -7782,7 +8772,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCoipPoolOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCoipPoolOutput>(DeleteCoipPoolOutput.httpOutput(from:), DeleteCoipPoolOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCoipPoolInput, DeleteCoipPoolOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteCoipPool")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -7835,7 +8832,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCustomerGatewayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCustomerGatewayOutput>(DeleteCustomerGatewayOutput.httpOutput(from:), DeleteCustomerGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCustomerGatewayInput, DeleteCustomerGatewayOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteCustomerGateway")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -7888,7 +8892,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDhcpOptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDhcpOptionsOutput>(DeleteDhcpOptionsOutput.httpOutput(from:), DeleteDhcpOptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDhcpOptionsInput, DeleteDhcpOptionsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteDhcpOptions")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -7941,7 +8952,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEgressOnlyInternetGatewayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEgressOnlyInternetGatewayOutput>(DeleteEgressOnlyInternetGatewayOutput.httpOutput(from:), DeleteEgressOnlyInternetGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEgressOnlyInternetGatewayInput, DeleteEgressOnlyInternetGatewayOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteEgressOnlyInternetGateway")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -8005,7 +9023,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFleetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFleetsOutput>(DeleteFleetsOutput.httpOutput(from:), DeleteFleetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFleetsInput, DeleteFleetsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteFleets")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -8058,7 +9083,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFlowLogsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFlowLogsOutput>(DeleteFlowLogsOutput.httpOutput(from:), DeleteFlowLogsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFlowLogsInput, DeleteFlowLogsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteFlowLogs")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -8111,7 +9143,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFpgaImageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFpgaImageOutput>(DeleteFpgaImageOutput.httpOutput(from:), DeleteFpgaImageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFpgaImageInput, DeleteFpgaImageOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteFpgaImage")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -8164,7 +9203,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteInstanceConnectEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteInstanceConnectEndpointOutput>(DeleteInstanceConnectEndpointOutput.httpOutput(from:), DeleteInstanceConnectEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteInstanceConnectEndpointInput, DeleteInstanceConnectEndpointOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteInstanceConnectEndpoint")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -8217,7 +9263,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteInstanceEventWindowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteInstanceEventWindowOutput>(DeleteInstanceEventWindowOutput.httpOutput(from:), DeleteInstanceEventWindowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteInstanceEventWindowInput, DeleteInstanceEventWindowOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteInstanceEventWindow")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -8270,7 +9323,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteInternetGatewayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteInternetGatewayOutput>(DeleteInternetGatewayOutput.httpOutput(from:), DeleteInternetGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteInternetGatewayInput, DeleteInternetGatewayOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteInternetGateway")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -8323,7 +9383,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIpamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIpamOutput>(DeleteIpamOutput.httpOutput(from:), DeleteIpamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIpamInput, DeleteIpamOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteIpam")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -8376,7 +9443,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIpamPoolOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIpamPoolOutput>(DeleteIpamPoolOutput.httpOutput(from:), DeleteIpamPoolOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIpamPoolInput, DeleteIpamPoolOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteIpamPool")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -8429,7 +9503,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIpamResourceDiscoveryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIpamResourceDiscoveryOutput>(DeleteIpamResourceDiscoveryOutput.httpOutput(from:), DeleteIpamResourceDiscoveryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIpamResourceDiscoveryInput, DeleteIpamResourceDiscoveryOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteIpamResourceDiscovery")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -8482,7 +9563,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIpamScopeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIpamScopeOutput>(DeleteIpamScopeOutput.httpOutput(from:), DeleteIpamScopeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIpamScopeInput, DeleteIpamScopeOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteIpamScope")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -8535,7 +9623,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteKeyPairOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteKeyPairOutput>(DeleteKeyPairOutput.httpOutput(from:), DeleteKeyPairOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteKeyPairInput, DeleteKeyPairOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteKeyPair")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -8588,7 +9683,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLaunchTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLaunchTemplateOutput>(DeleteLaunchTemplateOutput.httpOutput(from:), DeleteLaunchTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLaunchTemplateInput, DeleteLaunchTemplateOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteLaunchTemplate")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -8641,7 +9743,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLaunchTemplateVersionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLaunchTemplateVersionsOutput>(DeleteLaunchTemplateVersionsOutput.httpOutput(from:), DeleteLaunchTemplateVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLaunchTemplateVersionsInput, DeleteLaunchTemplateVersionsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteLaunchTemplateVersions")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -8694,7 +9803,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLocalGatewayRouteOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLocalGatewayRouteOutput>(DeleteLocalGatewayRouteOutput.httpOutput(from:), DeleteLocalGatewayRouteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLocalGatewayRouteInput, DeleteLocalGatewayRouteOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteLocalGatewayRoute")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -8747,7 +9863,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLocalGatewayRouteTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLocalGatewayRouteTableOutput>(DeleteLocalGatewayRouteTableOutput.httpOutput(from:), DeleteLocalGatewayRouteTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLocalGatewayRouteTableInput, DeleteLocalGatewayRouteTableOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteLocalGatewayRouteTable")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -8800,7 +9923,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationOutput>(DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationOutput.httpOutput(from:), DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationInput, DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociation")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -8853,7 +9983,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLocalGatewayRouteTableVpcAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLocalGatewayRouteTableVpcAssociationOutput>(DeleteLocalGatewayRouteTableVpcAssociationOutput.httpOutput(from:), DeleteLocalGatewayRouteTableVpcAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLocalGatewayRouteTableVpcAssociationInput, DeleteLocalGatewayRouteTableVpcAssociationOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteLocalGatewayRouteTableVpcAssociation")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -8906,7 +10043,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteManagedPrefixListOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteManagedPrefixListOutput>(DeleteManagedPrefixListOutput.httpOutput(from:), DeleteManagedPrefixListOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteManagedPrefixListInput, DeleteManagedPrefixListOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteManagedPrefixList")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -8959,7 +10103,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteNatGatewayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteNatGatewayOutput>(DeleteNatGatewayOutput.httpOutput(from:), DeleteNatGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteNatGatewayInput, DeleteNatGatewayOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteNatGateway")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -9012,7 +10163,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteNetworkAclOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteNetworkAclOutput>(DeleteNetworkAclOutput.httpOutput(from:), DeleteNetworkAclOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteNetworkAclInput, DeleteNetworkAclOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteNetworkAcl")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -9065,7 +10223,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteNetworkAclEntryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteNetworkAclEntryOutput>(DeleteNetworkAclEntryOutput.httpOutput(from:), DeleteNetworkAclEntryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteNetworkAclEntryInput, DeleteNetworkAclEntryOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteNetworkAclEntry")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -9118,7 +10283,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteNetworkInsightsAccessScopeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteNetworkInsightsAccessScopeOutput>(DeleteNetworkInsightsAccessScopeOutput.httpOutput(from:), DeleteNetworkInsightsAccessScopeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteNetworkInsightsAccessScopeInput, DeleteNetworkInsightsAccessScopeOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteNetworkInsightsAccessScope")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -9171,7 +10343,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteNetworkInsightsAccessScopeAnalysisOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteNetworkInsightsAccessScopeAnalysisOutput>(DeleteNetworkInsightsAccessScopeAnalysisOutput.httpOutput(from:), DeleteNetworkInsightsAccessScopeAnalysisOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteNetworkInsightsAccessScopeAnalysisInput, DeleteNetworkInsightsAccessScopeAnalysisOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteNetworkInsightsAccessScopeAnalysis")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -9224,7 +10403,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteNetworkInsightsAnalysisOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteNetworkInsightsAnalysisOutput>(DeleteNetworkInsightsAnalysisOutput.httpOutput(from:), DeleteNetworkInsightsAnalysisOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteNetworkInsightsAnalysisInput, DeleteNetworkInsightsAnalysisOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteNetworkInsightsAnalysis")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -9277,7 +10463,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteNetworkInsightsPathOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteNetworkInsightsPathOutput>(DeleteNetworkInsightsPathOutput.httpOutput(from:), DeleteNetworkInsightsPathOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteNetworkInsightsPathInput, DeleteNetworkInsightsPathOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteNetworkInsightsPath")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -9330,7 +10523,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteNetworkInterfaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteNetworkInterfaceOutput>(DeleteNetworkInterfaceOutput.httpOutput(from:), DeleteNetworkInterfaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteNetworkInterfaceInput, DeleteNetworkInterfaceOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteNetworkInterface")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -9383,7 +10583,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteNetworkInterfacePermissionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteNetworkInterfacePermissionOutput>(DeleteNetworkInterfacePermissionOutput.httpOutput(from:), DeleteNetworkInterfacePermissionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteNetworkInterfacePermissionInput, DeleteNetworkInterfacePermissionOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteNetworkInterfacePermission")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -9436,7 +10643,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePlacementGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePlacementGroupOutput>(DeletePlacementGroupOutput.httpOutput(from:), DeletePlacementGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePlacementGroupInput, DeletePlacementGroupOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeletePlacementGroup")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -9489,7 +10703,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePublicIpv4PoolOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePublicIpv4PoolOutput>(DeletePublicIpv4PoolOutput.httpOutput(from:), DeletePublicIpv4PoolOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePublicIpv4PoolInput, DeletePublicIpv4PoolOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeletePublicIpv4Pool")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -9542,7 +10763,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteQueuedReservedInstancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteQueuedReservedInstancesOutput>(DeleteQueuedReservedInstancesOutput.httpOutput(from:), DeleteQueuedReservedInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteQueuedReservedInstancesInput, DeleteQueuedReservedInstancesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteQueuedReservedInstances")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -9595,7 +10823,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRouteOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRouteOutput>(DeleteRouteOutput.httpOutput(from:), DeleteRouteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRouteInput, DeleteRouteOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteRoute")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -9648,7 +10883,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRouteTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRouteTableOutput>(DeleteRouteTableOutput.httpOutput(from:), DeleteRouteTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRouteTableInput, DeleteRouteTableOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteRouteTable")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -9701,7 +10943,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSecurityGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSecurityGroupOutput>(DeleteSecurityGroupOutput.httpOutput(from:), DeleteSecurityGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSecurityGroupInput, DeleteSecurityGroupOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteSecurityGroup")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -9754,7 +11003,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSnapshotOutput>(DeleteSnapshotOutput.httpOutput(from:), DeleteSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSnapshotInput, DeleteSnapshotOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteSnapshot")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -9807,7 +11063,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSpotDatafeedSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSpotDatafeedSubscriptionOutput>(DeleteSpotDatafeedSubscriptionOutput.httpOutput(from:), DeleteSpotDatafeedSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSpotDatafeedSubscriptionInput, DeleteSpotDatafeedSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteSpotDatafeedSubscription")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -9860,7 +11123,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSubnetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSubnetOutput>(DeleteSubnetOutput.httpOutput(from:), DeleteSubnetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSubnetInput, DeleteSubnetOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteSubnet")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -9913,7 +11183,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSubnetCidrReservationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSubnetCidrReservationOutput>(DeleteSubnetCidrReservationOutput.httpOutput(from:), DeleteSubnetCidrReservationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSubnetCidrReservationInput, DeleteSubnetCidrReservationOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteSubnetCidrReservation")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -9966,7 +11243,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTagsOutput>(DeleteTagsOutput.httpOutput(from:), DeleteTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTagsInput, DeleteTagsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteTags")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -10019,7 +11303,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTrafficMirrorFilterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTrafficMirrorFilterOutput>(DeleteTrafficMirrorFilterOutput.httpOutput(from:), DeleteTrafficMirrorFilterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTrafficMirrorFilterInput, DeleteTrafficMirrorFilterOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteTrafficMirrorFilter")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -10072,7 +11363,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTrafficMirrorFilterRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTrafficMirrorFilterRuleOutput>(DeleteTrafficMirrorFilterRuleOutput.httpOutput(from:), DeleteTrafficMirrorFilterRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTrafficMirrorFilterRuleInput, DeleteTrafficMirrorFilterRuleOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteTrafficMirrorFilterRule")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -10125,7 +11423,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTrafficMirrorSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTrafficMirrorSessionOutput>(DeleteTrafficMirrorSessionOutput.httpOutput(from:), DeleteTrafficMirrorSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTrafficMirrorSessionInput, DeleteTrafficMirrorSessionOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteTrafficMirrorSession")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -10178,7 +11483,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTrafficMirrorTargetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTrafficMirrorTargetOutput>(DeleteTrafficMirrorTargetOutput.httpOutput(from:), DeleteTrafficMirrorTargetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTrafficMirrorTargetInput, DeleteTrafficMirrorTargetOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteTrafficMirrorTarget")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -10231,7 +11543,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTransitGatewayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTransitGatewayOutput>(DeleteTransitGatewayOutput.httpOutput(from:), DeleteTransitGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTransitGatewayInput, DeleteTransitGatewayOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteTransitGateway")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -10284,7 +11603,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTransitGatewayConnectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTransitGatewayConnectOutput>(DeleteTransitGatewayConnectOutput.httpOutput(from:), DeleteTransitGatewayConnectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTransitGatewayConnectInput, DeleteTransitGatewayConnectOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteTransitGatewayConnect")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -10337,7 +11663,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTransitGatewayConnectPeerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTransitGatewayConnectPeerOutput>(DeleteTransitGatewayConnectPeerOutput.httpOutput(from:), DeleteTransitGatewayConnectPeerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTransitGatewayConnectPeerInput, DeleteTransitGatewayConnectPeerOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteTransitGatewayConnectPeer")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -10390,7 +11723,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTransitGatewayMulticastDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTransitGatewayMulticastDomainOutput>(DeleteTransitGatewayMulticastDomainOutput.httpOutput(from:), DeleteTransitGatewayMulticastDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTransitGatewayMulticastDomainInput, DeleteTransitGatewayMulticastDomainOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteTransitGatewayMulticastDomain")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -10443,7 +11783,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTransitGatewayPeeringAttachmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTransitGatewayPeeringAttachmentOutput>(DeleteTransitGatewayPeeringAttachmentOutput.httpOutput(from:), DeleteTransitGatewayPeeringAttachmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTransitGatewayPeeringAttachmentInput, DeleteTransitGatewayPeeringAttachmentOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteTransitGatewayPeeringAttachment")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -10496,7 +11843,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTransitGatewayPolicyTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTransitGatewayPolicyTableOutput>(DeleteTransitGatewayPolicyTableOutput.httpOutput(from:), DeleteTransitGatewayPolicyTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTransitGatewayPolicyTableInput, DeleteTransitGatewayPolicyTableOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteTransitGatewayPolicyTable")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -10549,7 +11903,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTransitGatewayPrefixListReferenceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTransitGatewayPrefixListReferenceOutput>(DeleteTransitGatewayPrefixListReferenceOutput.httpOutput(from:), DeleteTransitGatewayPrefixListReferenceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTransitGatewayPrefixListReferenceInput, DeleteTransitGatewayPrefixListReferenceOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteTransitGatewayPrefixListReference")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -10602,7 +11963,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTransitGatewayRouteOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTransitGatewayRouteOutput>(DeleteTransitGatewayRouteOutput.httpOutput(from:), DeleteTransitGatewayRouteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTransitGatewayRouteInput, DeleteTransitGatewayRouteOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteTransitGatewayRoute")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -10655,7 +12023,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTransitGatewayRouteTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTransitGatewayRouteTableOutput>(DeleteTransitGatewayRouteTableOutput.httpOutput(from:), DeleteTransitGatewayRouteTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTransitGatewayRouteTableInput, DeleteTransitGatewayRouteTableOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteTransitGatewayRouteTable")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -10708,7 +12083,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTransitGatewayRouteTableAnnouncementOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTransitGatewayRouteTableAnnouncementOutput>(DeleteTransitGatewayRouteTableAnnouncementOutput.httpOutput(from:), DeleteTransitGatewayRouteTableAnnouncementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTransitGatewayRouteTableAnnouncementInput, DeleteTransitGatewayRouteTableAnnouncementOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteTransitGatewayRouteTableAnnouncement")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -10761,7 +12143,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTransitGatewayVpcAttachmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTransitGatewayVpcAttachmentOutput>(DeleteTransitGatewayVpcAttachmentOutput.httpOutput(from:), DeleteTransitGatewayVpcAttachmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTransitGatewayVpcAttachmentInput, DeleteTransitGatewayVpcAttachmentOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteTransitGatewayVpcAttachment")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -10815,7 +12204,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVerifiedAccessEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVerifiedAccessEndpointOutput>(DeleteVerifiedAccessEndpointOutput.httpOutput(from:), DeleteVerifiedAccessEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVerifiedAccessEndpointInput, DeleteVerifiedAccessEndpointOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteVerifiedAccessEndpoint")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -10869,7 +12265,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVerifiedAccessGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVerifiedAccessGroupOutput>(DeleteVerifiedAccessGroupOutput.httpOutput(from:), DeleteVerifiedAccessGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVerifiedAccessGroupInput, DeleteVerifiedAccessGroupOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteVerifiedAccessGroup")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -10923,7 +12326,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVerifiedAccessInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVerifiedAccessInstanceOutput>(DeleteVerifiedAccessInstanceOutput.httpOutput(from:), DeleteVerifiedAccessInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVerifiedAccessInstanceInput, DeleteVerifiedAccessInstanceOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteVerifiedAccessInstance")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -10977,7 +12387,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVerifiedAccessTrustProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVerifiedAccessTrustProviderOutput>(DeleteVerifiedAccessTrustProviderOutput.httpOutput(from:), DeleteVerifiedAccessTrustProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVerifiedAccessTrustProviderInput, DeleteVerifiedAccessTrustProviderOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteVerifiedAccessTrustProvider")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -11030,7 +12447,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVolumeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVolumeOutput>(DeleteVolumeOutput.httpOutput(from:), DeleteVolumeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVolumeInput, DeleteVolumeOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteVolume")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -11083,7 +12507,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVpcOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVpcOutput>(DeleteVpcOutput.httpOutput(from:), DeleteVpcOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVpcInput, DeleteVpcOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteVpc")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -11136,7 +12567,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVpcEndpointConnectionNotificationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVpcEndpointConnectionNotificationsOutput>(DeleteVpcEndpointConnectionNotificationsOutput.httpOutput(from:), DeleteVpcEndpointConnectionNotificationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVpcEndpointConnectionNotificationsInput, DeleteVpcEndpointConnectionNotificationsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteVpcEndpointConnectionNotifications")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -11189,7 +12627,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVpcEndpointServiceConfigurationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVpcEndpointServiceConfigurationsOutput>(DeleteVpcEndpointServiceConfigurationsOutput.httpOutput(from:), DeleteVpcEndpointServiceConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVpcEndpointServiceConfigurationsInput, DeleteVpcEndpointServiceConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteVpcEndpointServiceConfigurations")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -11242,7 +12687,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVpcEndpointsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVpcEndpointsOutput>(DeleteVpcEndpointsOutput.httpOutput(from:), DeleteVpcEndpointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVpcEndpointsInput, DeleteVpcEndpointsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteVpcEndpoints")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -11295,7 +12747,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVpcPeeringConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVpcPeeringConnectionOutput>(DeleteVpcPeeringConnectionOutput.httpOutput(from:), DeleteVpcPeeringConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVpcPeeringConnectionInput, DeleteVpcPeeringConnectionOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteVpcPeeringConnection")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -11348,7 +12807,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVpnConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVpnConnectionOutput>(DeleteVpnConnectionOutput.httpOutput(from:), DeleteVpnConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVpnConnectionInput, DeleteVpnConnectionOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteVpnConnection")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -11401,7 +12867,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVpnConnectionRouteOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVpnConnectionRouteOutput>(DeleteVpnConnectionRouteOutput.httpOutput(from:), DeleteVpnConnectionRouteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVpnConnectionRouteInput, DeleteVpnConnectionRouteOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteVpnConnectionRoute")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -11454,7 +12927,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVpnGatewayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVpnGatewayOutput>(DeleteVpnGatewayOutput.httpOutput(from:), DeleteVpnGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVpnGatewayInput, DeleteVpnGatewayOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteVpnGateway")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -11507,7 +12987,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeprovisionByoipCidrOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeprovisionByoipCidrOutput>(DeprovisionByoipCidrOutput.httpOutput(from:), DeprovisionByoipCidrOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeprovisionByoipCidrInput, DeprovisionByoipCidrOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeprovisionByoipCidr")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -11560,7 +13047,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeprovisionIpamByoasnOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeprovisionIpamByoasnOutput>(DeprovisionIpamByoasnOutput.httpOutput(from:), DeprovisionIpamByoasnOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeprovisionIpamByoasnInput, DeprovisionIpamByoasnOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeprovisionIpamByoasn")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -11613,7 +13107,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeprovisionIpamPoolCidrOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeprovisionIpamPoolCidrOutput>(DeprovisionIpamPoolCidrOutput.httpOutput(from:), DeprovisionIpamPoolCidrOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeprovisionIpamPoolCidrInput, DeprovisionIpamPoolCidrOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeprovisionIpamPoolCidr")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -11666,7 +13167,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeprovisionPublicIpv4PoolCidrOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeprovisionPublicIpv4PoolCidrOutput>(DeprovisionPublicIpv4PoolCidrOutput.httpOutput(from:), DeprovisionPublicIpv4PoolCidrOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeprovisionPublicIpv4PoolCidrInput, DeprovisionPublicIpv4PoolCidrOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeprovisionPublicIpv4PoolCidr")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -11719,7 +13227,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterImageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterImageOutput>(DeregisterImageOutput.httpOutput(from:), DeregisterImageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterImageInput, DeregisterImageOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeregisterImage")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -11772,7 +13287,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterInstanceEventNotificationAttributesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterInstanceEventNotificationAttributesOutput>(DeregisterInstanceEventNotificationAttributesOutput.httpOutput(from:), DeregisterInstanceEventNotificationAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterInstanceEventNotificationAttributesInput, DeregisterInstanceEventNotificationAttributesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeregisterInstanceEventNotificationAttributes")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -11825,7 +13347,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterTransitGatewayMulticastGroupMembersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterTransitGatewayMulticastGroupMembersOutput>(DeregisterTransitGatewayMulticastGroupMembersOutput.httpOutput(from:), DeregisterTransitGatewayMulticastGroupMembersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterTransitGatewayMulticastGroupMembersInput, DeregisterTransitGatewayMulticastGroupMembersOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeregisterTransitGatewayMulticastGroupMembers")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -11878,7 +13407,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterTransitGatewayMulticastGroupSourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterTransitGatewayMulticastGroupSourcesOutput>(DeregisterTransitGatewayMulticastGroupSourcesOutput.httpOutput(from:), DeregisterTransitGatewayMulticastGroupSourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterTransitGatewayMulticastGroupSourcesInput, DeregisterTransitGatewayMulticastGroupSourcesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeregisterTransitGatewayMulticastGroupSources")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -11946,7 +13482,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAccountAttributesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAccountAttributesOutput>(DescribeAccountAttributesOutput.httpOutput(from:), DescribeAccountAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeAccountAttributes")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -11999,7 +13542,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAddressTransfersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAddressTransfersOutput>(DescribeAddressTransfersOutput.httpOutput(from:), DescribeAddressTransfersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAddressTransfersInput, DescribeAddressTransfersOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeAddressTransfers")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -12052,7 +13602,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAddressesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAddressesOutput>(DescribeAddressesOutput.httpOutput(from:), DescribeAddressesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAddressesInput, DescribeAddressesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeAddresses")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -12105,7 +13662,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAddressesAttributeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAddressesAttributeOutput>(DescribeAddressesAttributeOutput.httpOutput(from:), DescribeAddressesAttributeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAddressesAttributeInput, DescribeAddressesAttributeOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeAddressesAttribute")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -12158,7 +13722,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAggregateIdFormatOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAggregateIdFormatOutput>(DescribeAggregateIdFormatOutput.httpOutput(from:), DescribeAggregateIdFormatOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAggregateIdFormatInput, DescribeAggregateIdFormatOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeAggregateIdFormat")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -12211,7 +13782,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAvailabilityZonesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAvailabilityZonesOutput>(DescribeAvailabilityZonesOutput.httpOutput(from:), DescribeAvailabilityZonesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAvailabilityZonesInput, DescribeAvailabilityZonesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeAvailabilityZones")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -12264,7 +13842,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAwsNetworkPerformanceMetricSubscriptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAwsNetworkPerformanceMetricSubscriptionsOutput>(DescribeAwsNetworkPerformanceMetricSubscriptionsOutput.httpOutput(from:), DescribeAwsNetworkPerformanceMetricSubscriptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAwsNetworkPerformanceMetricSubscriptionsInput, DescribeAwsNetworkPerformanceMetricSubscriptionsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeAwsNetworkPerformanceMetricSubscriptions")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -12317,7 +13902,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeBundleTasksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBundleTasksOutput>(DescribeBundleTasksOutput.httpOutput(from:), DescribeBundleTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBundleTasksInput, DescribeBundleTasksOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeBundleTasks")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -12370,7 +13962,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeByoipCidrsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeByoipCidrsOutput>(DescribeByoipCidrsOutput.httpOutput(from:), DescribeByoipCidrsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeByoipCidrsInput, DescribeByoipCidrsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeByoipCidrs")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -12423,7 +14022,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCapacityBlockOfferingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCapacityBlockOfferingsOutput>(DescribeCapacityBlockOfferingsOutput.httpOutput(from:), DescribeCapacityBlockOfferingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCapacityBlockOfferingsInput, DescribeCapacityBlockOfferingsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeCapacityBlockOfferings")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -12476,7 +14082,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCapacityReservationFleetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCapacityReservationFleetsOutput>(DescribeCapacityReservationFleetsOutput.httpOutput(from:), DescribeCapacityReservationFleetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCapacityReservationFleetsInput, DescribeCapacityReservationFleetsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeCapacityReservationFleets")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -12529,7 +14142,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCapacityReservationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCapacityReservationsOutput>(DescribeCapacityReservationsOutput.httpOutput(from:), DescribeCapacityReservationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCapacityReservationsInput, DescribeCapacityReservationsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeCapacityReservations")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -12582,7 +14202,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCarrierGatewaysOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCarrierGatewaysOutput>(DescribeCarrierGatewaysOutput.httpOutput(from:), DescribeCarrierGatewaysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCarrierGatewaysInput, DescribeCarrierGatewaysOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeCarrierGateways")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -12635,7 +14262,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeClassicLinkInstancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeClassicLinkInstancesOutput>(DescribeClassicLinkInstancesOutput.httpOutput(from:), DescribeClassicLinkInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeClassicLinkInstancesInput, DescribeClassicLinkInstancesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeClassicLinkInstances")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -12688,7 +14322,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeClientVpnAuthorizationRulesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeClientVpnAuthorizationRulesOutput>(DescribeClientVpnAuthorizationRulesOutput.httpOutput(from:), DescribeClientVpnAuthorizationRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeClientVpnAuthorizationRulesInput, DescribeClientVpnAuthorizationRulesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeClientVpnAuthorizationRules")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -12741,7 +14382,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeClientVpnConnectionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeClientVpnConnectionsOutput>(DescribeClientVpnConnectionsOutput.httpOutput(from:), DescribeClientVpnConnectionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeClientVpnConnectionsInput, DescribeClientVpnConnectionsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeClientVpnConnections")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -12794,7 +14442,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeClientVpnEndpointsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeClientVpnEndpointsOutput>(DescribeClientVpnEndpointsOutput.httpOutput(from:), DescribeClientVpnEndpointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeClientVpnEndpointsInput, DescribeClientVpnEndpointsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeClientVpnEndpoints")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -12847,7 +14502,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeClientVpnRoutesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeClientVpnRoutesOutput>(DescribeClientVpnRoutesOutput.httpOutput(from:), DescribeClientVpnRoutesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeClientVpnRoutesInput, DescribeClientVpnRoutesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeClientVpnRoutes")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -12900,7 +14562,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeClientVpnTargetNetworksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeClientVpnTargetNetworksOutput>(DescribeClientVpnTargetNetworksOutput.httpOutput(from:), DescribeClientVpnTargetNetworksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeClientVpnTargetNetworksInput, DescribeClientVpnTargetNetworksOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeClientVpnTargetNetworks")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -12953,7 +14622,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCoipPoolsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCoipPoolsOutput>(DescribeCoipPoolsOutput.httpOutput(from:), DescribeCoipPoolsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCoipPoolsInput, DescribeCoipPoolsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeCoipPools")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -13006,7 +14682,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConversionTasksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeConversionTasksOutput>(DescribeConversionTasksOutput.httpOutput(from:), DescribeConversionTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConversionTasksInput, DescribeConversionTasksOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeConversionTasks")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -13059,7 +14742,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCustomerGatewaysOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCustomerGatewaysOutput>(DescribeCustomerGatewaysOutput.httpOutput(from:), DescribeCustomerGatewaysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCustomerGatewaysInput, DescribeCustomerGatewaysOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeCustomerGateways")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -13112,7 +14802,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDhcpOptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDhcpOptionsOutput>(DescribeDhcpOptionsOutput.httpOutput(from:), DescribeDhcpOptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDhcpOptionsInput, DescribeDhcpOptionsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeDhcpOptions")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -13165,7 +14862,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEgressOnlyInternetGatewaysOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEgressOnlyInternetGatewaysOutput>(DescribeEgressOnlyInternetGatewaysOutput.httpOutput(from:), DescribeEgressOnlyInternetGatewaysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEgressOnlyInternetGatewaysInput, DescribeEgressOnlyInternetGatewaysOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeEgressOnlyInternetGateways")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -13218,7 +14922,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeElasticGpusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeElasticGpusOutput>(DescribeElasticGpusOutput.httpOutput(from:), DescribeElasticGpusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeElasticGpusInput, DescribeElasticGpusOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeElasticGpus")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -13271,7 +14982,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeExportImageTasksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeExportImageTasksOutput>(DescribeExportImageTasksOutput.httpOutput(from:), DescribeExportImageTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeExportImageTasksInput, DescribeExportImageTasksOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeExportImageTasks")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -13324,7 +15042,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeExportTasksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeExportTasksOutput>(DescribeExportTasksOutput.httpOutput(from:), DescribeExportTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeExportTasksInput, DescribeExportTasksOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeExportTasks")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -13377,7 +15102,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFastLaunchImagesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFastLaunchImagesOutput>(DescribeFastLaunchImagesOutput.httpOutput(from:), DescribeFastLaunchImagesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFastLaunchImagesInput, DescribeFastLaunchImagesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeFastLaunchImages")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -13430,7 +15162,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFastSnapshotRestoresOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFastSnapshotRestoresOutput>(DescribeFastSnapshotRestoresOutput.httpOutput(from:), DescribeFastSnapshotRestoresOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFastSnapshotRestoresInput, DescribeFastSnapshotRestoresOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeFastSnapshotRestores")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -13483,7 +15222,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFleetHistoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFleetHistoryOutput>(DescribeFleetHistoryOutput.httpOutput(from:), DescribeFleetHistoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFleetHistoryInput, DescribeFleetHistoryOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeFleetHistory")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -13536,7 +15282,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFleetInstancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFleetInstancesOutput>(DescribeFleetInstancesOutput.httpOutput(from:), DescribeFleetInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFleetInstancesInput, DescribeFleetInstancesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeFleetInstances")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -13589,7 +15342,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFleetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFleetsOutput>(DescribeFleetsOutput.httpOutput(from:), DescribeFleetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFleetsInput, DescribeFleetsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeFleets")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -13642,7 +15402,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFlowLogsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFlowLogsOutput>(DescribeFlowLogsOutput.httpOutput(from:), DescribeFlowLogsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFlowLogsInput, DescribeFlowLogsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeFlowLogs")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -13695,7 +15462,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFpgaImageAttributeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFpgaImageAttributeOutput>(DescribeFpgaImageAttributeOutput.httpOutput(from:), DescribeFpgaImageAttributeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFpgaImageAttributeInput, DescribeFpgaImageAttributeOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeFpgaImageAttribute")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -13748,7 +15522,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFpgaImagesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFpgaImagesOutput>(DescribeFpgaImagesOutput.httpOutput(from:), DescribeFpgaImagesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFpgaImagesInput, DescribeFpgaImagesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeFpgaImages")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -13801,7 +15582,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeHostReservationOfferingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeHostReservationOfferingsOutput>(DescribeHostReservationOfferingsOutput.httpOutput(from:), DescribeHostReservationOfferingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeHostReservationOfferingsInput, DescribeHostReservationOfferingsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeHostReservationOfferings")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -13854,7 +15642,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeHostReservationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeHostReservationsOutput>(DescribeHostReservationsOutput.httpOutput(from:), DescribeHostReservationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeHostReservationsInput, DescribeHostReservationsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeHostReservations")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -13907,7 +15702,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeHostsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeHostsOutput>(DescribeHostsOutput.httpOutput(from:), DescribeHostsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeHostsInput, DescribeHostsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeHosts")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -13960,7 +15762,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeIamInstanceProfileAssociationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeIamInstanceProfileAssociationsOutput>(DescribeIamInstanceProfileAssociationsOutput.httpOutput(from:), DescribeIamInstanceProfileAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeIamInstanceProfileAssociationsInput, DescribeIamInstanceProfileAssociationsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeIamInstanceProfileAssociations")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -14013,7 +15822,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeIdFormatOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeIdFormatOutput>(DescribeIdFormatOutput.httpOutput(from:), DescribeIdFormatOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeIdFormatInput, DescribeIdFormatOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeIdFormat")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -14066,7 +15882,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeIdentityIdFormatOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeIdentityIdFormatOutput>(DescribeIdentityIdFormatOutput.httpOutput(from:), DescribeIdentityIdFormatOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeIdentityIdFormatInput, DescribeIdentityIdFormatOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeIdentityIdFormat")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -14119,7 +15942,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeImageAttributeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeImageAttributeOutput>(DescribeImageAttributeOutput.httpOutput(from:), DescribeImageAttributeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeImageAttributeInput, DescribeImageAttributeOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeImageAttribute")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -14172,7 +16002,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeImagesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeImagesOutput>(DescribeImagesOutput.httpOutput(from:), DescribeImagesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeImagesInput, DescribeImagesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeImages")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -14225,7 +16062,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeImportImageTasksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeImportImageTasksOutput>(DescribeImportImageTasksOutput.httpOutput(from:), DescribeImportImageTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeImportImageTasksInput, DescribeImportImageTasksOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeImportImageTasks")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -14278,7 +16122,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeImportSnapshotTasksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeImportSnapshotTasksOutput>(DescribeImportSnapshotTasksOutput.httpOutput(from:), DescribeImportSnapshotTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeImportSnapshotTasksInput, DescribeImportSnapshotTasksOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeImportSnapshotTasks")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -14331,7 +16182,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInstanceAttributeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeInstanceAttributeOutput>(DescribeInstanceAttributeOutput.httpOutput(from:), DescribeInstanceAttributeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInstanceAttributeInput, DescribeInstanceAttributeOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeInstanceAttribute")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -14384,7 +16242,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInstanceConnectEndpointsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeInstanceConnectEndpointsOutput>(DescribeInstanceConnectEndpointsOutput.httpOutput(from:), DescribeInstanceConnectEndpointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInstanceConnectEndpointsInput, DescribeInstanceConnectEndpointsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeInstanceConnectEndpoints")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -14437,7 +16302,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInstanceCreditSpecificationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeInstanceCreditSpecificationsOutput>(DescribeInstanceCreditSpecificationsOutput.httpOutput(from:), DescribeInstanceCreditSpecificationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInstanceCreditSpecificationsInput, DescribeInstanceCreditSpecificationsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeInstanceCreditSpecifications")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -14490,7 +16362,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInstanceEventNotificationAttributesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeInstanceEventNotificationAttributesOutput>(DescribeInstanceEventNotificationAttributesOutput.httpOutput(from:), DescribeInstanceEventNotificationAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInstanceEventNotificationAttributesInput, DescribeInstanceEventNotificationAttributesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeInstanceEventNotificationAttributes")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -14543,7 +16422,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInstanceEventWindowsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeInstanceEventWindowsOutput>(DescribeInstanceEventWindowsOutput.httpOutput(from:), DescribeInstanceEventWindowsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInstanceEventWindowsInput, DescribeInstanceEventWindowsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeInstanceEventWindows")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -14605,7 +16491,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInstanceStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeInstanceStatusOutput>(DescribeInstanceStatusOutput.httpOutput(from:), DescribeInstanceStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInstanceStatusInput, DescribeInstanceStatusOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeInstanceStatus")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -14681,7 +16574,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInstanceTopologyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeInstanceTopologyOutput>(DescribeInstanceTopologyOutput.httpOutput(from:), DescribeInstanceTopologyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInstanceTopologyInput, DescribeInstanceTopologyOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeInstanceTopology")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -14734,7 +16634,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInstanceTypeOfferingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeInstanceTypeOfferingsOutput>(DescribeInstanceTypeOfferingsOutput.httpOutput(from:), DescribeInstanceTypeOfferingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInstanceTypeOfferingsInput, DescribeInstanceTypeOfferingsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeInstanceTypeOfferings")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -14787,7 +16694,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInstanceTypesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeInstanceTypesOutput>(DescribeInstanceTypesOutput.httpOutput(from:), DescribeInstanceTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInstanceTypesInput, DescribeInstanceTypesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeInstanceTypes")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -14840,7 +16754,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInstancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeInstancesOutput>(DescribeInstancesOutput.httpOutput(from:), DescribeInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInstancesInput, DescribeInstancesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeInstances")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -14893,7 +16814,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInternetGatewaysOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeInternetGatewaysOutput>(DescribeInternetGatewaysOutput.httpOutput(from:), DescribeInternetGatewaysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInternetGatewaysInput, DescribeInternetGatewaysOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeInternetGateways")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -14946,7 +16874,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeIpamByoasnOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeIpamByoasnOutput>(DescribeIpamByoasnOutput.httpOutput(from:), DescribeIpamByoasnOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeIpamByoasnInput, DescribeIpamByoasnOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeIpamByoasn")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -14999,7 +16934,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeIpamPoolsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeIpamPoolsOutput>(DescribeIpamPoolsOutput.httpOutput(from:), DescribeIpamPoolsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeIpamPoolsInput, DescribeIpamPoolsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeIpamPools")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -15052,7 +16994,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeIpamResourceDiscoveriesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeIpamResourceDiscoveriesOutput>(DescribeIpamResourceDiscoveriesOutput.httpOutput(from:), DescribeIpamResourceDiscoveriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeIpamResourceDiscoveriesInput, DescribeIpamResourceDiscoveriesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeIpamResourceDiscoveries")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -15105,7 +17054,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeIpamResourceDiscoveryAssociationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeIpamResourceDiscoveryAssociationsOutput>(DescribeIpamResourceDiscoveryAssociationsOutput.httpOutput(from:), DescribeIpamResourceDiscoveryAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeIpamResourceDiscoveryAssociationsInput, DescribeIpamResourceDiscoveryAssociationsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeIpamResourceDiscoveryAssociations")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -15158,7 +17114,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeIpamScopesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeIpamScopesOutput>(DescribeIpamScopesOutput.httpOutput(from:), DescribeIpamScopesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeIpamScopesInput, DescribeIpamScopesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeIpamScopes")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -15211,7 +17174,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeIpamsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeIpamsOutput>(DescribeIpamsOutput.httpOutput(from:), DescribeIpamsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeIpamsInput, DescribeIpamsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeIpams")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -15264,7 +17234,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeIpv6PoolsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeIpv6PoolsOutput>(DescribeIpv6PoolsOutput.httpOutput(from:), DescribeIpv6PoolsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeIpv6PoolsInput, DescribeIpv6PoolsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeIpv6Pools")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -15317,7 +17294,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeKeyPairsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeKeyPairsOutput>(DescribeKeyPairsOutput.httpOutput(from:), DescribeKeyPairsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeKeyPairsInput, DescribeKeyPairsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeKeyPairs")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -15370,7 +17354,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLaunchTemplateVersionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeLaunchTemplateVersionsOutput>(DescribeLaunchTemplateVersionsOutput.httpOutput(from:), DescribeLaunchTemplateVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLaunchTemplateVersionsInput, DescribeLaunchTemplateVersionsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeLaunchTemplateVersions")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -15423,7 +17414,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLaunchTemplatesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeLaunchTemplatesOutput>(DescribeLaunchTemplatesOutput.httpOutput(from:), DescribeLaunchTemplatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLaunchTemplatesInput, DescribeLaunchTemplatesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeLaunchTemplates")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -15476,7 +17474,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsOutput>(DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsOutput.httpOutput(from:), DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsInput, DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociations")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -15529,7 +17534,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLocalGatewayRouteTableVpcAssociationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeLocalGatewayRouteTableVpcAssociationsOutput>(DescribeLocalGatewayRouteTableVpcAssociationsOutput.httpOutput(from:), DescribeLocalGatewayRouteTableVpcAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLocalGatewayRouteTableVpcAssociationsInput, DescribeLocalGatewayRouteTableVpcAssociationsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeLocalGatewayRouteTableVpcAssociations")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -15582,7 +17594,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLocalGatewayRouteTablesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeLocalGatewayRouteTablesOutput>(DescribeLocalGatewayRouteTablesOutput.httpOutput(from:), DescribeLocalGatewayRouteTablesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLocalGatewayRouteTablesInput, DescribeLocalGatewayRouteTablesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeLocalGatewayRouteTables")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -15635,7 +17654,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLocalGatewayVirtualInterfaceGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeLocalGatewayVirtualInterfaceGroupsOutput>(DescribeLocalGatewayVirtualInterfaceGroupsOutput.httpOutput(from:), DescribeLocalGatewayVirtualInterfaceGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLocalGatewayVirtualInterfaceGroupsInput, DescribeLocalGatewayVirtualInterfaceGroupsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeLocalGatewayVirtualInterfaceGroups")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -15688,7 +17714,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLocalGatewayVirtualInterfacesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeLocalGatewayVirtualInterfacesOutput>(DescribeLocalGatewayVirtualInterfacesOutput.httpOutput(from:), DescribeLocalGatewayVirtualInterfacesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLocalGatewayVirtualInterfacesInput, DescribeLocalGatewayVirtualInterfacesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeLocalGatewayVirtualInterfaces")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -15741,7 +17774,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLocalGatewaysOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeLocalGatewaysOutput>(DescribeLocalGatewaysOutput.httpOutput(from:), DescribeLocalGatewaysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLocalGatewaysInput, DescribeLocalGatewaysOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeLocalGateways")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -15794,7 +17834,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLockedSnapshotsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeLockedSnapshotsOutput>(DescribeLockedSnapshotsOutput.httpOutput(from:), DescribeLockedSnapshotsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLockedSnapshotsInput, DescribeLockedSnapshotsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeLockedSnapshots")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -15847,7 +17894,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMacHostsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeMacHostsOutput>(DescribeMacHostsOutput.httpOutput(from:), DescribeMacHostsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMacHostsInput, DescribeMacHostsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeMacHosts")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -15900,7 +17954,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeManagedPrefixListsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeManagedPrefixListsOutput>(DescribeManagedPrefixListsOutput.httpOutput(from:), DescribeManagedPrefixListsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeManagedPrefixListsInput, DescribeManagedPrefixListsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeManagedPrefixLists")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -15953,7 +18014,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMovingAddressesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeMovingAddressesOutput>(DescribeMovingAddressesOutput.httpOutput(from:), DescribeMovingAddressesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMovingAddressesInput, DescribeMovingAddressesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeMovingAddresses")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -16006,7 +18074,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeNatGatewaysOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeNatGatewaysOutput>(DescribeNatGatewaysOutput.httpOutput(from:), DescribeNatGatewaysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeNatGatewaysInput, DescribeNatGatewaysOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeNatGateways")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -16059,7 +18134,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeNetworkAclsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeNetworkAclsOutput>(DescribeNetworkAclsOutput.httpOutput(from:), DescribeNetworkAclsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeNetworkAclsInput, DescribeNetworkAclsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeNetworkAcls")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -16112,7 +18194,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeNetworkInsightsAccessScopeAnalysesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeNetworkInsightsAccessScopeAnalysesOutput>(DescribeNetworkInsightsAccessScopeAnalysesOutput.httpOutput(from:), DescribeNetworkInsightsAccessScopeAnalysesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeNetworkInsightsAccessScopeAnalysesInput, DescribeNetworkInsightsAccessScopeAnalysesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeNetworkInsightsAccessScopeAnalyses")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -16165,7 +18254,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeNetworkInsightsAccessScopesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeNetworkInsightsAccessScopesOutput>(DescribeNetworkInsightsAccessScopesOutput.httpOutput(from:), DescribeNetworkInsightsAccessScopesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeNetworkInsightsAccessScopesInput, DescribeNetworkInsightsAccessScopesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeNetworkInsightsAccessScopes")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -16218,7 +18314,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeNetworkInsightsAnalysesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeNetworkInsightsAnalysesOutput>(DescribeNetworkInsightsAnalysesOutput.httpOutput(from:), DescribeNetworkInsightsAnalysesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeNetworkInsightsAnalysesInput, DescribeNetworkInsightsAnalysesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeNetworkInsightsAnalyses")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -16271,7 +18374,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeNetworkInsightsPathsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeNetworkInsightsPathsOutput>(DescribeNetworkInsightsPathsOutput.httpOutput(from:), DescribeNetworkInsightsPathsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeNetworkInsightsPathsInput, DescribeNetworkInsightsPathsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeNetworkInsightsPaths")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -16324,7 +18434,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeNetworkInterfaceAttributeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeNetworkInterfaceAttributeOutput>(DescribeNetworkInterfaceAttributeOutput.httpOutput(from:), DescribeNetworkInterfaceAttributeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeNetworkInterfaceAttributeInput, DescribeNetworkInterfaceAttributeOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeNetworkInterfaceAttribute")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -16377,7 +18494,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeNetworkInterfacePermissionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeNetworkInterfacePermissionsOutput>(DescribeNetworkInterfacePermissionsOutput.httpOutput(from:), DescribeNetworkInterfacePermissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeNetworkInterfacePermissionsInput, DescribeNetworkInterfacePermissionsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeNetworkInterfacePermissions")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -16430,7 +18554,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeNetworkInterfacesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeNetworkInterfacesOutput>(DescribeNetworkInterfacesOutput.httpOutput(from:), DescribeNetworkInterfacesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeNetworkInterfacesInput, DescribeNetworkInterfacesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeNetworkInterfaces")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -16483,7 +18614,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePlacementGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePlacementGroupsOutput>(DescribePlacementGroupsOutput.httpOutput(from:), DescribePlacementGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePlacementGroupsInput, DescribePlacementGroupsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribePlacementGroups")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -16536,7 +18674,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePrefixListsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePrefixListsOutput>(DescribePrefixListsOutput.httpOutput(from:), DescribePrefixListsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePrefixListsInput, DescribePrefixListsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribePrefixLists")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -16589,7 +18734,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePrincipalIdFormatOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePrincipalIdFormatOutput>(DescribePrincipalIdFormatOutput.httpOutput(from:), DescribePrincipalIdFormatOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePrincipalIdFormatInput, DescribePrincipalIdFormatOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribePrincipalIdFormat")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -16642,7 +18794,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePublicIpv4PoolsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePublicIpv4PoolsOutput>(DescribePublicIpv4PoolsOutput.httpOutput(from:), DescribePublicIpv4PoolsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePublicIpv4PoolsInput, DescribePublicIpv4PoolsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribePublicIpv4Pools")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -16695,7 +18854,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRegionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRegionsOutput>(DescribeRegionsOutput.httpOutput(from:), DescribeRegionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRegionsInput, DescribeRegionsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeRegions")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -16748,7 +18914,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeReplaceRootVolumeTasksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeReplaceRootVolumeTasksOutput>(DescribeReplaceRootVolumeTasksOutput.httpOutput(from:), DescribeReplaceRootVolumeTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeReplaceRootVolumeTasksInput, DescribeReplaceRootVolumeTasksOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeReplaceRootVolumeTasks")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -16801,7 +18974,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeReservedInstancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeReservedInstancesOutput>(DescribeReservedInstancesOutput.httpOutput(from:), DescribeReservedInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeReservedInstancesInput, DescribeReservedInstancesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeReservedInstances")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -16854,7 +19034,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeReservedInstancesListingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeReservedInstancesListingsOutput>(DescribeReservedInstancesListingsOutput.httpOutput(from:), DescribeReservedInstancesListingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeReservedInstancesListingsInput, DescribeReservedInstancesListingsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeReservedInstancesListings")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -16907,7 +19094,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeReservedInstancesModificationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeReservedInstancesModificationsOutput>(DescribeReservedInstancesModificationsOutput.httpOutput(from:), DescribeReservedInstancesModificationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeReservedInstancesModificationsInput, DescribeReservedInstancesModificationsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeReservedInstancesModifications")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -16960,7 +19154,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeReservedInstancesOfferingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeReservedInstancesOfferingsOutput>(DescribeReservedInstancesOfferingsOutput.httpOutput(from:), DescribeReservedInstancesOfferingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeReservedInstancesOfferingsInput, DescribeReservedInstancesOfferingsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeReservedInstancesOfferings")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -17013,7 +19214,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRouteTablesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRouteTablesOutput>(DescribeRouteTablesOutput.httpOutput(from:), DescribeRouteTablesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRouteTablesInput, DescribeRouteTablesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeRouteTables")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -17066,7 +19274,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeScheduledInstanceAvailabilityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeScheduledInstanceAvailabilityOutput>(DescribeScheduledInstanceAvailabilityOutput.httpOutput(from:), DescribeScheduledInstanceAvailabilityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeScheduledInstanceAvailabilityInput, DescribeScheduledInstanceAvailabilityOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeScheduledInstanceAvailability")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -17119,7 +19334,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeScheduledInstancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeScheduledInstancesOutput>(DescribeScheduledInstancesOutput.httpOutput(from:), DescribeScheduledInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeScheduledInstancesInput, DescribeScheduledInstancesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeScheduledInstances")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -17172,7 +19394,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSecurityGroupReferencesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSecurityGroupReferencesOutput>(DescribeSecurityGroupReferencesOutput.httpOutput(from:), DescribeSecurityGroupReferencesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSecurityGroupReferencesInput, DescribeSecurityGroupReferencesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeSecurityGroupReferences")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -17225,7 +19454,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSecurityGroupRulesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSecurityGroupRulesOutput>(DescribeSecurityGroupRulesOutput.httpOutput(from:), DescribeSecurityGroupRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSecurityGroupRulesInput, DescribeSecurityGroupRulesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeSecurityGroupRules")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -17278,7 +19514,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSecurityGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSecurityGroupsOutput>(DescribeSecurityGroupsOutput.httpOutput(from:), DescribeSecurityGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSecurityGroupsInput, DescribeSecurityGroupsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeSecurityGroups")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -17331,7 +19574,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSnapshotAttributeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSnapshotAttributeOutput>(DescribeSnapshotAttributeOutput.httpOutput(from:), DescribeSnapshotAttributeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSnapshotAttributeInput, DescribeSnapshotAttributeOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeSnapshotAttribute")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -17384,7 +19634,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSnapshotTierStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSnapshotTierStatusOutput>(DescribeSnapshotTierStatusOutput.httpOutput(from:), DescribeSnapshotTierStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSnapshotTierStatusInput, DescribeSnapshotTierStatusOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeSnapshotTierStatus")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -17446,7 +19703,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSnapshotsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSnapshotsOutput>(DescribeSnapshotsOutput.httpOutput(from:), DescribeSnapshotsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSnapshotsInput, DescribeSnapshotsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeSnapshots")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -17499,7 +19763,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSpotDatafeedSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSpotDatafeedSubscriptionOutput>(DescribeSpotDatafeedSubscriptionOutput.httpOutput(from:), DescribeSpotDatafeedSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSpotDatafeedSubscriptionInput, DescribeSpotDatafeedSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeSpotDatafeedSubscription")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -17552,7 +19823,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSpotFleetInstancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSpotFleetInstancesOutput>(DescribeSpotFleetInstancesOutput.httpOutput(from:), DescribeSpotFleetInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSpotFleetInstancesInput, DescribeSpotFleetInstancesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeSpotFleetInstances")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -17605,7 +19883,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSpotFleetRequestHistoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSpotFleetRequestHistoryOutput>(DescribeSpotFleetRequestHistoryOutput.httpOutput(from:), DescribeSpotFleetRequestHistoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSpotFleetRequestHistoryInput, DescribeSpotFleetRequestHistoryOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeSpotFleetRequestHistory")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -17658,7 +19943,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSpotFleetRequestsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSpotFleetRequestsOutput>(DescribeSpotFleetRequestsOutput.httpOutput(from:), DescribeSpotFleetRequestsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSpotFleetRequestsInput, DescribeSpotFleetRequestsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeSpotFleetRequests")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -17711,7 +20003,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSpotInstanceRequestsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSpotInstanceRequestsOutput>(DescribeSpotInstanceRequestsOutput.httpOutput(from:), DescribeSpotInstanceRequestsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSpotInstanceRequestsInput, DescribeSpotInstanceRequestsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeSpotInstanceRequests")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -17764,7 +20063,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSpotPriceHistoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSpotPriceHistoryOutput>(DescribeSpotPriceHistoryOutput.httpOutput(from:), DescribeSpotPriceHistoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSpotPriceHistoryInput, DescribeSpotPriceHistoryOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeSpotPriceHistory")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -17817,7 +20123,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeStaleSecurityGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeStaleSecurityGroupsOutput>(DescribeStaleSecurityGroupsOutput.httpOutput(from:), DescribeStaleSecurityGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeStaleSecurityGroupsInput, DescribeStaleSecurityGroupsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeStaleSecurityGroups")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -17870,7 +20183,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeStoreImageTasksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeStoreImageTasksOutput>(DescribeStoreImageTasksOutput.httpOutput(from:), DescribeStoreImageTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeStoreImageTasksInput, DescribeStoreImageTasksOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeStoreImageTasks")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -17923,7 +20243,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSubnetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSubnetsOutput>(DescribeSubnetsOutput.httpOutput(from:), DescribeSubnetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSubnetsInput, DescribeSubnetsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeSubnets")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -17976,7 +20303,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTagsOutput>(DescribeTagsOutput.httpOutput(from:), DescribeTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTagsInput, DescribeTagsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeTags")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -18029,7 +20363,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTrafficMirrorFilterRulesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTrafficMirrorFilterRulesOutput>(DescribeTrafficMirrorFilterRulesOutput.httpOutput(from:), DescribeTrafficMirrorFilterRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTrafficMirrorFilterRulesInput, DescribeTrafficMirrorFilterRulesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeTrafficMirrorFilterRules")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -18082,7 +20423,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTrafficMirrorFiltersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTrafficMirrorFiltersOutput>(DescribeTrafficMirrorFiltersOutput.httpOutput(from:), DescribeTrafficMirrorFiltersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTrafficMirrorFiltersInput, DescribeTrafficMirrorFiltersOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeTrafficMirrorFilters")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -18135,7 +20483,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTrafficMirrorSessionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTrafficMirrorSessionsOutput>(DescribeTrafficMirrorSessionsOutput.httpOutput(from:), DescribeTrafficMirrorSessionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTrafficMirrorSessionsInput, DescribeTrafficMirrorSessionsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeTrafficMirrorSessions")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -18188,7 +20543,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTrafficMirrorTargetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTrafficMirrorTargetsOutput>(DescribeTrafficMirrorTargetsOutput.httpOutput(from:), DescribeTrafficMirrorTargetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTrafficMirrorTargetsInput, DescribeTrafficMirrorTargetsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeTrafficMirrorTargets")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -18241,7 +20603,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTransitGatewayAttachmentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTransitGatewayAttachmentsOutput>(DescribeTransitGatewayAttachmentsOutput.httpOutput(from:), DescribeTransitGatewayAttachmentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTransitGatewayAttachmentsInput, DescribeTransitGatewayAttachmentsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeTransitGatewayAttachments")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -18294,7 +20663,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTransitGatewayConnectPeersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTransitGatewayConnectPeersOutput>(DescribeTransitGatewayConnectPeersOutput.httpOutput(from:), DescribeTransitGatewayConnectPeersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTransitGatewayConnectPeersInput, DescribeTransitGatewayConnectPeersOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeTransitGatewayConnectPeers")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -18347,7 +20723,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTransitGatewayConnectsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTransitGatewayConnectsOutput>(DescribeTransitGatewayConnectsOutput.httpOutput(from:), DescribeTransitGatewayConnectsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTransitGatewayConnectsInput, DescribeTransitGatewayConnectsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeTransitGatewayConnects")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -18400,7 +20783,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTransitGatewayMulticastDomainsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTransitGatewayMulticastDomainsOutput>(DescribeTransitGatewayMulticastDomainsOutput.httpOutput(from:), DescribeTransitGatewayMulticastDomainsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTransitGatewayMulticastDomainsInput, DescribeTransitGatewayMulticastDomainsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeTransitGatewayMulticastDomains")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -18453,7 +20843,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTransitGatewayPeeringAttachmentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTransitGatewayPeeringAttachmentsOutput>(DescribeTransitGatewayPeeringAttachmentsOutput.httpOutput(from:), DescribeTransitGatewayPeeringAttachmentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTransitGatewayPeeringAttachmentsInput, DescribeTransitGatewayPeeringAttachmentsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeTransitGatewayPeeringAttachments")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -18506,7 +20903,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTransitGatewayPolicyTablesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTransitGatewayPolicyTablesOutput>(DescribeTransitGatewayPolicyTablesOutput.httpOutput(from:), DescribeTransitGatewayPolicyTablesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTransitGatewayPolicyTablesInput, DescribeTransitGatewayPolicyTablesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeTransitGatewayPolicyTables")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -18559,7 +20963,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTransitGatewayRouteTableAnnouncementsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTransitGatewayRouteTableAnnouncementsOutput>(DescribeTransitGatewayRouteTableAnnouncementsOutput.httpOutput(from:), DescribeTransitGatewayRouteTableAnnouncementsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTransitGatewayRouteTableAnnouncementsInput, DescribeTransitGatewayRouteTableAnnouncementsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeTransitGatewayRouteTableAnnouncements")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -18612,7 +21023,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTransitGatewayRouteTablesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTransitGatewayRouteTablesOutput>(DescribeTransitGatewayRouteTablesOutput.httpOutput(from:), DescribeTransitGatewayRouteTablesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTransitGatewayRouteTablesInput, DescribeTransitGatewayRouteTablesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeTransitGatewayRouteTables")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -18665,7 +21083,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTransitGatewayVpcAttachmentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTransitGatewayVpcAttachmentsOutput>(DescribeTransitGatewayVpcAttachmentsOutput.httpOutput(from:), DescribeTransitGatewayVpcAttachmentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTransitGatewayVpcAttachmentsInput, DescribeTransitGatewayVpcAttachmentsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeTransitGatewayVpcAttachments")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -18718,7 +21143,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTransitGatewaysOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTransitGatewaysOutput>(DescribeTransitGatewaysOutput.httpOutput(from:), DescribeTransitGatewaysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTransitGatewaysInput, DescribeTransitGatewaysOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeTransitGateways")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -18771,7 +21203,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTrunkInterfaceAssociationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTrunkInterfaceAssociationsOutput>(DescribeTrunkInterfaceAssociationsOutput.httpOutput(from:), DescribeTrunkInterfaceAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTrunkInterfaceAssociationsInput, DescribeTrunkInterfaceAssociationsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeTrunkInterfaceAssociations")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -18824,7 +21263,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVerifiedAccessEndpointsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeVerifiedAccessEndpointsOutput>(DescribeVerifiedAccessEndpointsOutput.httpOutput(from:), DescribeVerifiedAccessEndpointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVerifiedAccessEndpointsInput, DescribeVerifiedAccessEndpointsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeVerifiedAccessEndpoints")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -18877,7 +21323,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVerifiedAccessGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeVerifiedAccessGroupsOutput>(DescribeVerifiedAccessGroupsOutput.httpOutput(from:), DescribeVerifiedAccessGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVerifiedAccessGroupsInput, DescribeVerifiedAccessGroupsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeVerifiedAccessGroups")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -18930,7 +21383,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVerifiedAccessInstanceLoggingConfigurationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeVerifiedAccessInstanceLoggingConfigurationsOutput>(DescribeVerifiedAccessInstanceLoggingConfigurationsOutput.httpOutput(from:), DescribeVerifiedAccessInstanceLoggingConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVerifiedAccessInstanceLoggingConfigurationsInput, DescribeVerifiedAccessInstanceLoggingConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeVerifiedAccessInstanceLoggingConfigurations")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -18983,7 +21443,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVerifiedAccessInstancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeVerifiedAccessInstancesOutput>(DescribeVerifiedAccessInstancesOutput.httpOutput(from:), DescribeVerifiedAccessInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVerifiedAccessInstancesInput, DescribeVerifiedAccessInstancesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeVerifiedAccessInstances")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -19036,7 +21503,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVerifiedAccessTrustProvidersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeVerifiedAccessTrustProvidersOutput>(DescribeVerifiedAccessTrustProvidersOutput.httpOutput(from:), DescribeVerifiedAccessTrustProvidersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVerifiedAccessTrustProvidersInput, DescribeVerifiedAccessTrustProvidersOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeVerifiedAccessTrustProviders")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -19089,7 +21563,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVolumeAttributeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeVolumeAttributeOutput>(DescribeVolumeAttributeOutput.httpOutput(from:), DescribeVolumeAttributeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVolumeAttributeInput, DescribeVolumeAttributeOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeVolumeAttribute")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -19142,7 +21623,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVolumeStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeVolumeStatusOutput>(DescribeVolumeStatusOutput.httpOutput(from:), DescribeVolumeStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVolumeStatusInput, DescribeVolumeStatusOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeVolumeStatus")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -19195,7 +21683,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVolumesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeVolumesOutput>(DescribeVolumesOutput.httpOutput(from:), DescribeVolumesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVolumesInput, DescribeVolumesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeVolumes")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -19248,7 +21743,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVolumesModificationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeVolumesModificationsOutput>(DescribeVolumesModificationsOutput.httpOutput(from:), DescribeVolumesModificationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVolumesModificationsInput, DescribeVolumesModificationsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeVolumesModifications")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -19301,7 +21803,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVpcAttributeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeVpcAttributeOutput>(DescribeVpcAttributeOutput.httpOutput(from:), DescribeVpcAttributeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVpcAttributeInput, DescribeVpcAttributeOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeVpcAttribute")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -19354,7 +21863,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVpcClassicLinkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeVpcClassicLinkOutput>(DescribeVpcClassicLinkOutput.httpOutput(from:), DescribeVpcClassicLinkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVpcClassicLinkInput, DescribeVpcClassicLinkOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeVpcClassicLink")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -19407,7 +21923,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVpcClassicLinkDnsSupportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeVpcClassicLinkDnsSupportOutput>(DescribeVpcClassicLinkDnsSupportOutput.httpOutput(from:), DescribeVpcClassicLinkDnsSupportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVpcClassicLinkDnsSupportInput, DescribeVpcClassicLinkDnsSupportOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeVpcClassicLinkDnsSupport")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -19460,7 +21983,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVpcEndpointConnectionNotificationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeVpcEndpointConnectionNotificationsOutput>(DescribeVpcEndpointConnectionNotificationsOutput.httpOutput(from:), DescribeVpcEndpointConnectionNotificationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVpcEndpointConnectionNotificationsInput, DescribeVpcEndpointConnectionNotificationsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeVpcEndpointConnectionNotifications")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -19513,7 +22043,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVpcEndpointConnectionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeVpcEndpointConnectionsOutput>(DescribeVpcEndpointConnectionsOutput.httpOutput(from:), DescribeVpcEndpointConnectionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVpcEndpointConnectionsInput, DescribeVpcEndpointConnectionsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeVpcEndpointConnections")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -19566,7 +22103,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVpcEndpointServiceConfigurationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeVpcEndpointServiceConfigurationsOutput>(DescribeVpcEndpointServiceConfigurationsOutput.httpOutput(from:), DescribeVpcEndpointServiceConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVpcEndpointServiceConfigurationsInput, DescribeVpcEndpointServiceConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeVpcEndpointServiceConfigurations")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -19619,7 +22163,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVpcEndpointServicePermissionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeVpcEndpointServicePermissionsOutput>(DescribeVpcEndpointServicePermissionsOutput.httpOutput(from:), DescribeVpcEndpointServicePermissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVpcEndpointServicePermissionsInput, DescribeVpcEndpointServicePermissionsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeVpcEndpointServicePermissions")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -19672,7 +22223,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVpcEndpointServicesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeVpcEndpointServicesOutput>(DescribeVpcEndpointServicesOutput.httpOutput(from:), DescribeVpcEndpointServicesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVpcEndpointServicesInput, DescribeVpcEndpointServicesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeVpcEndpointServices")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -19725,7 +22283,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVpcEndpointsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeVpcEndpointsOutput>(DescribeVpcEndpointsOutput.httpOutput(from:), DescribeVpcEndpointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVpcEndpointsInput, DescribeVpcEndpointsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeVpcEndpoints")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -19778,7 +22343,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVpcPeeringConnectionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeVpcPeeringConnectionsOutput>(DescribeVpcPeeringConnectionsOutput.httpOutput(from:), DescribeVpcPeeringConnectionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVpcPeeringConnectionsInput, DescribeVpcPeeringConnectionsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeVpcPeeringConnections")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -19831,7 +22403,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVpcsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeVpcsOutput>(DescribeVpcsOutput.httpOutput(from:), DescribeVpcsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVpcsInput, DescribeVpcsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeVpcs")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -19884,7 +22463,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVpnConnectionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeVpnConnectionsOutput>(DescribeVpnConnectionsOutput.httpOutput(from:), DescribeVpnConnectionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVpnConnectionsInput, DescribeVpnConnectionsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeVpnConnections")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -19937,7 +22523,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVpnGatewaysOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeVpnGatewaysOutput>(DescribeVpnGatewaysOutput.httpOutput(from:), DescribeVpnGatewaysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVpnGatewaysInput, DescribeVpnGatewaysOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeVpnGateways")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -19990,7 +22583,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DetachClassicLinkVpcOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DetachClassicLinkVpcOutput>(DetachClassicLinkVpcOutput.httpOutput(from:), DetachClassicLinkVpcOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetachClassicLinkVpcInput, DetachClassicLinkVpcOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DetachClassicLinkVpc")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -20043,7 +22643,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DetachInternetGatewayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DetachInternetGatewayOutput>(DetachInternetGatewayOutput.httpOutput(from:), DetachInternetGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetachInternetGatewayInput, DetachInternetGatewayOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DetachInternetGateway")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -20096,7 +22703,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DetachNetworkInterfaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DetachNetworkInterfaceOutput>(DetachNetworkInterfaceOutput.httpOutput(from:), DetachNetworkInterfaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetachNetworkInterfaceInput, DetachNetworkInterfaceOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DetachNetworkInterface")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -20150,7 +22764,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DetachVerifiedAccessTrustProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DetachVerifiedAccessTrustProviderOutput>(DetachVerifiedAccessTrustProviderOutput.httpOutput(from:), DetachVerifiedAccessTrustProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetachVerifiedAccessTrustProviderInput, DetachVerifiedAccessTrustProviderOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DetachVerifiedAccessTrustProvider")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -20203,7 +22824,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DetachVolumeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DetachVolumeOutput>(DetachVolumeOutput.httpOutput(from:), DetachVolumeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetachVolumeInput, DetachVolumeOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DetachVolume")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -20256,7 +22884,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DetachVpnGatewayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DetachVpnGatewayOutput>(DetachVpnGatewayOutput.httpOutput(from:), DetachVpnGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetachVpnGatewayInput, DetachVpnGatewayOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DetachVpnGateway")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -20309,7 +22944,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableAddressTransferOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableAddressTransferOutput>(DisableAddressTransferOutput.httpOutput(from:), DisableAddressTransferOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableAddressTransferInput, DisableAddressTransferOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisableAddressTransfer")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -20362,7 +23004,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableAwsNetworkPerformanceMetricSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableAwsNetworkPerformanceMetricSubscriptionOutput>(DisableAwsNetworkPerformanceMetricSubscriptionOutput.httpOutput(from:), DisableAwsNetworkPerformanceMetricSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableAwsNetworkPerformanceMetricSubscriptionInput, DisableAwsNetworkPerformanceMetricSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisableAwsNetworkPerformanceMetricSubscription")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -20415,7 +23064,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableEbsEncryptionByDefaultOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableEbsEncryptionByDefaultOutput>(DisableEbsEncryptionByDefaultOutput.httpOutput(from:), DisableEbsEncryptionByDefaultOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableEbsEncryptionByDefaultInput, DisableEbsEncryptionByDefaultOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisableEbsEncryptionByDefault")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -20468,7 +23124,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableFastLaunchOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableFastLaunchOutput>(DisableFastLaunchOutput.httpOutput(from:), DisableFastLaunchOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableFastLaunchInput, DisableFastLaunchOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisableFastLaunch")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -20521,7 +23184,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableFastSnapshotRestoresOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableFastSnapshotRestoresOutput>(DisableFastSnapshotRestoresOutput.httpOutput(from:), DisableFastSnapshotRestoresOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableFastSnapshotRestoresInput, DisableFastSnapshotRestoresOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisableFastSnapshotRestores")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -20574,7 +23244,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableImageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableImageOutput>(DisableImageOutput.httpOutput(from:), DisableImageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableImageInput, DisableImageOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisableImage")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -20627,7 +23304,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableImageBlockPublicAccessOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableImageBlockPublicAccessOutput>(DisableImageBlockPublicAccessOutput.httpOutput(from:), DisableImageBlockPublicAccessOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableImageBlockPublicAccessInput, DisableImageBlockPublicAccessOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisableImageBlockPublicAccess")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -20680,7 +23364,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableImageDeprecationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableImageDeprecationOutput>(DisableImageDeprecationOutput.httpOutput(from:), DisableImageDeprecationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableImageDeprecationInput, DisableImageDeprecationOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisableImageDeprecation")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -20733,7 +23424,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableImageDeregistrationProtectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableImageDeregistrationProtectionOutput>(DisableImageDeregistrationProtectionOutput.httpOutput(from:), DisableImageDeregistrationProtectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableImageDeregistrationProtectionInput, DisableImageDeregistrationProtectionOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisableImageDeregistrationProtection")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -20786,7 +23484,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableIpamOrganizationAdminAccountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableIpamOrganizationAdminAccountOutput>(DisableIpamOrganizationAdminAccountOutput.httpOutput(from:), DisableIpamOrganizationAdminAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableIpamOrganizationAdminAccountInput, DisableIpamOrganizationAdminAccountOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisableIpamOrganizationAdminAccount")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -20839,7 +23544,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableSerialConsoleAccessOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableSerialConsoleAccessOutput>(DisableSerialConsoleAccessOutput.httpOutput(from:), DisableSerialConsoleAccessOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableSerialConsoleAccessInput, DisableSerialConsoleAccessOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisableSerialConsoleAccess")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -20892,7 +23604,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableSnapshotBlockPublicAccessOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableSnapshotBlockPublicAccessOutput>(DisableSnapshotBlockPublicAccessOutput.httpOutput(from:), DisableSnapshotBlockPublicAccessOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableSnapshotBlockPublicAccessInput, DisableSnapshotBlockPublicAccessOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisableSnapshotBlockPublicAccess")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -20945,7 +23664,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableTransitGatewayRouteTablePropagationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableTransitGatewayRouteTablePropagationOutput>(DisableTransitGatewayRouteTablePropagationOutput.httpOutput(from:), DisableTransitGatewayRouteTablePropagationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableTransitGatewayRouteTablePropagationInput, DisableTransitGatewayRouteTablePropagationOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisableTransitGatewayRouteTablePropagation")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -20998,7 +23724,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableVgwRoutePropagationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableVgwRoutePropagationOutput>(DisableVgwRoutePropagationOutput.httpOutput(from:), DisableVgwRoutePropagationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableVgwRoutePropagationInput, DisableVgwRoutePropagationOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisableVgwRoutePropagation")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -21051,7 +23784,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableVpcClassicLinkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableVpcClassicLinkOutput>(DisableVpcClassicLinkOutput.httpOutput(from:), DisableVpcClassicLinkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableVpcClassicLinkInput, DisableVpcClassicLinkOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisableVpcClassicLink")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -21104,7 +23844,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableVpcClassicLinkDnsSupportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableVpcClassicLinkDnsSupportOutput>(DisableVpcClassicLinkDnsSupportOutput.httpOutput(from:), DisableVpcClassicLinkDnsSupportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableVpcClassicLinkDnsSupportInput, DisableVpcClassicLinkDnsSupportOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisableVpcClassicLinkDnsSupport")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -21157,7 +23904,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateAddressOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateAddressOutput>(DisassociateAddressOutput.httpOutput(from:), DisassociateAddressOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateAddressInput, DisassociateAddressOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateAddress")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -21218,7 +23972,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateClientVpnTargetNetworkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateClientVpnTargetNetworkOutput>(DisassociateClientVpnTargetNetworkOutput.httpOutput(from:), DisassociateClientVpnTargetNetworkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateClientVpnTargetNetworkInput, DisassociateClientVpnTargetNetworkOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateClientVpnTargetNetwork")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -21271,7 +24032,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateEnclaveCertificateIamRoleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateEnclaveCertificateIamRoleOutput>(DisassociateEnclaveCertificateIamRoleOutput.httpOutput(from:), DisassociateEnclaveCertificateIamRoleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateEnclaveCertificateIamRoleInput, DisassociateEnclaveCertificateIamRoleOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateEnclaveCertificateIamRole")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -21324,7 +24092,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateIamInstanceProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateIamInstanceProfileOutput>(DisassociateIamInstanceProfileOutput.httpOutput(from:), DisassociateIamInstanceProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateIamInstanceProfileInput, DisassociateIamInstanceProfileOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateIamInstanceProfile")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -21377,7 +24152,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateInstanceEventWindowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateInstanceEventWindowOutput>(DisassociateInstanceEventWindowOutput.httpOutput(from:), DisassociateInstanceEventWindowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateInstanceEventWindowInput, DisassociateInstanceEventWindowOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateInstanceEventWindow")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -21430,7 +24212,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateIpamByoasnOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateIpamByoasnOutput>(DisassociateIpamByoasnOutput.httpOutput(from:), DisassociateIpamByoasnOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateIpamByoasnInput, DisassociateIpamByoasnOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateIpamByoasn")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -21483,7 +24272,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateIpamResourceDiscoveryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateIpamResourceDiscoveryOutput>(DisassociateIpamResourceDiscoveryOutput.httpOutput(from:), DisassociateIpamResourceDiscoveryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateIpamResourceDiscoveryInput, DisassociateIpamResourceDiscoveryOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateIpamResourceDiscovery")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -21536,7 +24332,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateNatGatewayAddressOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateNatGatewayAddressOutput>(DisassociateNatGatewayAddressOutput.httpOutput(from:), DisassociateNatGatewayAddressOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateNatGatewayAddressInput, DisassociateNatGatewayAddressOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateNatGatewayAddress")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -21589,7 +24392,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateRouteTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateRouteTableOutput>(DisassociateRouteTableOutput.httpOutput(from:), DisassociateRouteTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateRouteTableInput, DisassociateRouteTableOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateRouteTable")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -21642,7 +24452,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateSubnetCidrBlockOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateSubnetCidrBlockOutput>(DisassociateSubnetCidrBlockOutput.httpOutput(from:), DisassociateSubnetCidrBlockOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateSubnetCidrBlockInput, DisassociateSubnetCidrBlockOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateSubnetCidrBlock")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -21695,7 +24512,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateTransitGatewayMulticastDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateTransitGatewayMulticastDomainOutput>(DisassociateTransitGatewayMulticastDomainOutput.httpOutput(from:), DisassociateTransitGatewayMulticastDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateTransitGatewayMulticastDomainInput, DisassociateTransitGatewayMulticastDomainOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateTransitGatewayMulticastDomain")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -21748,7 +24572,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateTransitGatewayPolicyTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateTransitGatewayPolicyTableOutput>(DisassociateTransitGatewayPolicyTableOutput.httpOutput(from:), DisassociateTransitGatewayPolicyTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateTransitGatewayPolicyTableInput, DisassociateTransitGatewayPolicyTableOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateTransitGatewayPolicyTable")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -21801,7 +24632,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateTransitGatewayRouteTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateTransitGatewayRouteTableOutput>(DisassociateTransitGatewayRouteTableOutput.httpOutput(from:), DisassociateTransitGatewayRouteTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateTransitGatewayRouteTableInput, DisassociateTransitGatewayRouteTableOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateTransitGatewayRouteTable")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -21855,7 +24693,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateTrunkInterfaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateTrunkInterfaceOutput>(DisassociateTrunkInterfaceOutput.httpOutput(from:), DisassociateTrunkInterfaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateTrunkInterfaceInput, DisassociateTrunkInterfaceOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateTrunkInterface")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -21908,7 +24753,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateVpcCidrBlockOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateVpcCidrBlockOutput>(DisassociateVpcCidrBlockOutput.httpOutput(from:), DisassociateVpcCidrBlockOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateVpcCidrBlockInput, DisassociateVpcCidrBlockOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateVpcCidrBlock")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -21961,7 +24813,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableAddressTransferOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableAddressTransferOutput>(EnableAddressTransferOutput.httpOutput(from:), EnableAddressTransferOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableAddressTransferInput, EnableAddressTransferOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "EnableAddressTransfer")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -22014,7 +24873,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableAwsNetworkPerformanceMetricSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableAwsNetworkPerformanceMetricSubscriptionOutput>(EnableAwsNetworkPerformanceMetricSubscriptionOutput.httpOutput(from:), EnableAwsNetworkPerformanceMetricSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableAwsNetworkPerformanceMetricSubscriptionInput, EnableAwsNetworkPerformanceMetricSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "EnableAwsNetworkPerformanceMetricSubscription")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -22067,7 +24933,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableEbsEncryptionByDefaultOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableEbsEncryptionByDefaultOutput>(EnableEbsEncryptionByDefaultOutput.httpOutput(from:), EnableEbsEncryptionByDefaultOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableEbsEncryptionByDefaultInput, EnableEbsEncryptionByDefaultOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "EnableEbsEncryptionByDefault")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -22120,7 +24993,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableFastLaunchOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableFastLaunchOutput>(EnableFastLaunchOutput.httpOutput(from:), EnableFastLaunchOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableFastLaunchInput, EnableFastLaunchOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "EnableFastLaunch")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -22173,7 +25053,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableFastSnapshotRestoresOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableFastSnapshotRestoresOutput>(EnableFastSnapshotRestoresOutput.httpOutput(from:), EnableFastSnapshotRestoresOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableFastSnapshotRestoresInput, EnableFastSnapshotRestoresOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "EnableFastSnapshotRestores")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -22226,7 +25113,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableImageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableImageOutput>(EnableImageOutput.httpOutput(from:), EnableImageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableImageInput, EnableImageOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "EnableImage")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -22279,7 +25173,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableImageBlockPublicAccessOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableImageBlockPublicAccessOutput>(EnableImageBlockPublicAccessOutput.httpOutput(from:), EnableImageBlockPublicAccessOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableImageBlockPublicAccessInput, EnableImageBlockPublicAccessOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "EnableImageBlockPublicAccess")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -22332,7 +25233,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableImageDeprecationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableImageDeprecationOutput>(EnableImageDeprecationOutput.httpOutput(from:), EnableImageDeprecationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableImageDeprecationInput, EnableImageDeprecationOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "EnableImageDeprecation")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -22385,7 +25293,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableImageDeregistrationProtectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableImageDeregistrationProtectionOutput>(EnableImageDeregistrationProtectionOutput.httpOutput(from:), EnableImageDeregistrationProtectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableImageDeregistrationProtectionInput, EnableImageDeregistrationProtectionOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "EnableImageDeregistrationProtection")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -22438,7 +25353,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableIpamOrganizationAdminAccountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableIpamOrganizationAdminAccountOutput>(EnableIpamOrganizationAdminAccountOutput.httpOutput(from:), EnableIpamOrganizationAdminAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableIpamOrganizationAdminAccountInput, EnableIpamOrganizationAdminAccountOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "EnableIpamOrganizationAdminAccount")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -22491,7 +25413,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableReachabilityAnalyzerOrganizationSharingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableReachabilityAnalyzerOrganizationSharingOutput>(EnableReachabilityAnalyzerOrganizationSharingOutput.httpOutput(from:), EnableReachabilityAnalyzerOrganizationSharingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableReachabilityAnalyzerOrganizationSharingInput, EnableReachabilityAnalyzerOrganizationSharingOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "EnableReachabilityAnalyzerOrganizationSharing")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -22544,7 +25473,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableSerialConsoleAccessOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableSerialConsoleAccessOutput>(EnableSerialConsoleAccessOutput.httpOutput(from:), EnableSerialConsoleAccessOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableSerialConsoleAccessInput, EnableSerialConsoleAccessOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "EnableSerialConsoleAccess")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -22597,7 +25533,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableSnapshotBlockPublicAccessOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableSnapshotBlockPublicAccessOutput>(EnableSnapshotBlockPublicAccessOutput.httpOutput(from:), EnableSnapshotBlockPublicAccessOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableSnapshotBlockPublicAccessInput, EnableSnapshotBlockPublicAccessOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "EnableSnapshotBlockPublicAccess")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -22650,7 +25593,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableTransitGatewayRouteTablePropagationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableTransitGatewayRouteTablePropagationOutput>(EnableTransitGatewayRouteTablePropagationOutput.httpOutput(from:), EnableTransitGatewayRouteTablePropagationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableTransitGatewayRouteTablePropagationInput, EnableTransitGatewayRouteTablePropagationOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "EnableTransitGatewayRouteTablePropagation")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -22703,7 +25653,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableVgwRoutePropagationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableVgwRoutePropagationOutput>(EnableVgwRoutePropagationOutput.httpOutput(from:), EnableVgwRoutePropagationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableVgwRoutePropagationInput, EnableVgwRoutePropagationOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "EnableVgwRoutePropagation")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -22756,7 +25713,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableVolumeIOOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableVolumeIOOutput>(EnableVolumeIOOutput.httpOutput(from:), EnableVolumeIOOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableVolumeIOInput, EnableVolumeIOOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "EnableVolumeIO")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -22809,7 +25773,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableVpcClassicLinkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableVpcClassicLinkOutput>(EnableVpcClassicLinkOutput.httpOutput(from:), EnableVpcClassicLinkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableVpcClassicLinkInput, EnableVpcClassicLinkOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "EnableVpcClassicLink")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -22862,7 +25833,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableVpcClassicLinkDnsSupportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableVpcClassicLinkDnsSupportOutput>(EnableVpcClassicLinkDnsSupportOutput.httpOutput(from:), EnableVpcClassicLinkDnsSupportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableVpcClassicLinkDnsSupportInput, EnableVpcClassicLinkDnsSupportOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "EnableVpcClassicLinkDnsSupport")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -22915,7 +25893,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ExportClientVpnClientCertificateRevocationListOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ExportClientVpnClientCertificateRevocationListOutput>(ExportClientVpnClientCertificateRevocationListOutput.httpOutput(from:), ExportClientVpnClientCertificateRevocationListOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExportClientVpnClientCertificateRevocationListInput, ExportClientVpnClientCertificateRevocationListOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ExportClientVpnClientCertificateRevocationList")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -22968,7 +25953,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ExportClientVpnClientConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ExportClientVpnClientConfigurationOutput>(ExportClientVpnClientConfigurationOutput.httpOutput(from:), ExportClientVpnClientConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExportClientVpnClientConfigurationInput, ExportClientVpnClientConfigurationOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ExportClientVpnClientConfiguration")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -23022,7 +26014,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ExportImageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ExportImageOutput>(ExportImageOutput.httpOutput(from:), ExportImageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExportImageInput, ExportImageOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ExportImage")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -23075,7 +26074,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ExportTransitGatewayRoutesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ExportTransitGatewayRoutesOutput>(ExportTransitGatewayRoutesOutput.httpOutput(from:), ExportTransitGatewayRoutesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExportTransitGatewayRoutesInput, ExportTransitGatewayRoutesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ExportTransitGatewayRoutes")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -23128,7 +26134,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAssociatedEnclaveCertificateIamRolesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAssociatedEnclaveCertificateIamRolesOutput>(GetAssociatedEnclaveCertificateIamRolesOutput.httpOutput(from:), GetAssociatedEnclaveCertificateIamRolesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAssociatedEnclaveCertificateIamRolesInput, GetAssociatedEnclaveCertificateIamRolesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetAssociatedEnclaveCertificateIamRoles")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -23181,7 +26194,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAssociatedIpv6PoolCidrsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAssociatedIpv6PoolCidrsOutput>(GetAssociatedIpv6PoolCidrsOutput.httpOutput(from:), GetAssociatedIpv6PoolCidrsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAssociatedIpv6PoolCidrsInput, GetAssociatedIpv6PoolCidrsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetAssociatedIpv6PoolCidrs")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -23234,7 +26254,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAwsNetworkPerformanceDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAwsNetworkPerformanceDataOutput>(GetAwsNetworkPerformanceDataOutput.httpOutput(from:), GetAwsNetworkPerformanceDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAwsNetworkPerformanceDataInput, GetAwsNetworkPerformanceDataOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetAwsNetworkPerformanceData")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -23287,7 +26314,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCapacityReservationUsageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCapacityReservationUsageOutput>(GetCapacityReservationUsageOutput.httpOutput(from:), GetCapacityReservationUsageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCapacityReservationUsageInput, GetCapacityReservationUsageOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetCapacityReservationUsage")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -23340,7 +26374,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCoipPoolUsageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCoipPoolUsageOutput>(GetCoipPoolUsageOutput.httpOutput(from:), GetCoipPoolUsageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCoipPoolUsageInput, GetCoipPoolUsageOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetCoipPoolUsage")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -23393,7 +26434,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConsoleOutputOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConsoleOutputOutput>(GetConsoleOutputOutput.httpOutput(from:), GetConsoleOutputOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConsoleOutputInput, GetConsoleOutputOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetConsoleOutput")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -23446,7 +26494,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConsoleScreenshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConsoleScreenshotOutput>(GetConsoleScreenshotOutput.httpOutput(from:), GetConsoleScreenshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConsoleScreenshotInput, GetConsoleScreenshotOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetConsoleScreenshot")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -23499,7 +26554,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDefaultCreditSpecificationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDefaultCreditSpecificationOutput>(GetDefaultCreditSpecificationOutput.httpOutput(from:), GetDefaultCreditSpecificationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDefaultCreditSpecificationInput, GetDefaultCreditSpecificationOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetDefaultCreditSpecification")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -23552,7 +26614,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEbsDefaultKmsKeyIdOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEbsDefaultKmsKeyIdOutput>(GetEbsDefaultKmsKeyIdOutput.httpOutput(from:), GetEbsDefaultKmsKeyIdOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEbsDefaultKmsKeyIdInput, GetEbsDefaultKmsKeyIdOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetEbsDefaultKmsKeyId")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -23605,7 +26674,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEbsEncryptionByDefaultOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEbsEncryptionByDefaultOutput>(GetEbsEncryptionByDefaultOutput.httpOutput(from:), GetEbsEncryptionByDefaultOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEbsEncryptionByDefaultInput, GetEbsEncryptionByDefaultOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetEbsEncryptionByDefault")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -23669,7 +26745,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFlowLogsIntegrationTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFlowLogsIntegrationTemplateOutput>(GetFlowLogsIntegrationTemplateOutput.httpOutput(from:), GetFlowLogsIntegrationTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFlowLogsIntegrationTemplateInput, GetFlowLogsIntegrationTemplateOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetFlowLogsIntegrationTemplate")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -23722,7 +26805,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetGroupsForCapacityReservationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetGroupsForCapacityReservationOutput>(GetGroupsForCapacityReservationOutput.httpOutput(from:), GetGroupsForCapacityReservationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGroupsForCapacityReservationInput, GetGroupsForCapacityReservationOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetGroupsForCapacityReservation")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -23775,7 +26865,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetHostReservationPurchasePreviewOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetHostReservationPurchasePreviewOutput>(GetHostReservationPurchasePreviewOutput.httpOutput(from:), GetHostReservationPurchasePreviewOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetHostReservationPurchasePreviewInput, GetHostReservationPurchasePreviewOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetHostReservationPurchasePreview")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -23828,7 +26925,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetImageBlockPublicAccessStateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetImageBlockPublicAccessStateOutput>(GetImageBlockPublicAccessStateOutput.httpOutput(from:), GetImageBlockPublicAccessStateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetImageBlockPublicAccessStateInput, GetImageBlockPublicAccessStateOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetImageBlockPublicAccessState")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -23881,7 +26985,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInstanceMetadataDefaultsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetInstanceMetadataDefaultsOutput>(GetInstanceMetadataDefaultsOutput.httpOutput(from:), GetInstanceMetadataDefaultsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInstanceMetadataDefaultsInput, GetInstanceMetadataDefaultsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetInstanceMetadataDefaults")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -23934,7 +27045,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInstanceTpmEkPubOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetInstanceTpmEkPubOutput>(GetInstanceTpmEkPubOutput.httpOutput(from:), GetInstanceTpmEkPubOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInstanceTpmEkPubInput, GetInstanceTpmEkPubOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetInstanceTpmEkPub")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -23987,7 +27105,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInstanceTypesFromInstanceRequirementsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetInstanceTypesFromInstanceRequirementsOutput>(GetInstanceTypesFromInstanceRequirementsOutput.httpOutput(from:), GetInstanceTypesFromInstanceRequirementsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInstanceTypesFromInstanceRequirementsInput, GetInstanceTypesFromInstanceRequirementsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetInstanceTypesFromInstanceRequirements")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -24040,7 +27165,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInstanceUefiDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetInstanceUefiDataOutput>(GetInstanceUefiDataOutput.httpOutput(from:), GetInstanceUefiDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInstanceUefiDataInput, GetInstanceUefiDataOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetInstanceUefiData")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -24093,7 +27225,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIpamAddressHistoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIpamAddressHistoryOutput>(GetIpamAddressHistoryOutput.httpOutput(from:), GetIpamAddressHistoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIpamAddressHistoryInput, GetIpamAddressHistoryOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetIpamAddressHistory")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -24146,7 +27285,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIpamDiscoveredAccountsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIpamDiscoveredAccountsOutput>(GetIpamDiscoveredAccountsOutput.httpOutput(from:), GetIpamDiscoveredAccountsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIpamDiscoveredAccountsInput, GetIpamDiscoveredAccountsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetIpamDiscoveredAccounts")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -24199,7 +27345,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIpamDiscoveredPublicAddressesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIpamDiscoveredPublicAddressesOutput>(GetIpamDiscoveredPublicAddressesOutput.httpOutput(from:), GetIpamDiscoveredPublicAddressesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIpamDiscoveredPublicAddressesInput, GetIpamDiscoveredPublicAddressesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetIpamDiscoveredPublicAddresses")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -24252,7 +27405,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIpamDiscoveredResourceCidrsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIpamDiscoveredResourceCidrsOutput>(GetIpamDiscoveredResourceCidrsOutput.httpOutput(from:), GetIpamDiscoveredResourceCidrsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIpamDiscoveredResourceCidrsInput, GetIpamDiscoveredResourceCidrsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetIpamDiscoveredResourceCidrs")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -24305,7 +27465,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIpamPoolAllocationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIpamPoolAllocationsOutput>(GetIpamPoolAllocationsOutput.httpOutput(from:), GetIpamPoolAllocationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIpamPoolAllocationsInput, GetIpamPoolAllocationsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetIpamPoolAllocations")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -24358,7 +27525,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIpamPoolCidrsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIpamPoolCidrsOutput>(GetIpamPoolCidrsOutput.httpOutput(from:), GetIpamPoolCidrsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIpamPoolCidrsInput, GetIpamPoolCidrsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetIpamPoolCidrs")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -24411,7 +27585,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIpamResourceCidrsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIpamResourceCidrsOutput>(GetIpamResourceCidrsOutput.httpOutput(from:), GetIpamResourceCidrsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIpamResourceCidrsInput, GetIpamResourceCidrsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetIpamResourceCidrs")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -24464,7 +27645,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLaunchTemplateDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLaunchTemplateDataOutput>(GetLaunchTemplateDataOutput.httpOutput(from:), GetLaunchTemplateDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLaunchTemplateDataInput, GetLaunchTemplateDataOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetLaunchTemplateData")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -24517,7 +27705,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetManagedPrefixListAssociationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetManagedPrefixListAssociationsOutput>(GetManagedPrefixListAssociationsOutput.httpOutput(from:), GetManagedPrefixListAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetManagedPrefixListAssociationsInput, GetManagedPrefixListAssociationsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetManagedPrefixListAssociations")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -24570,7 +27765,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetManagedPrefixListEntriesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetManagedPrefixListEntriesOutput>(GetManagedPrefixListEntriesOutput.httpOutput(from:), GetManagedPrefixListEntriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetManagedPrefixListEntriesInput, GetManagedPrefixListEntriesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetManagedPrefixListEntries")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -24623,7 +27825,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetNetworkInsightsAccessScopeAnalysisFindingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetNetworkInsightsAccessScopeAnalysisFindingsOutput>(GetNetworkInsightsAccessScopeAnalysisFindingsOutput.httpOutput(from:), GetNetworkInsightsAccessScopeAnalysisFindingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetNetworkInsightsAccessScopeAnalysisFindingsInput, GetNetworkInsightsAccessScopeAnalysisFindingsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetNetworkInsightsAccessScopeAnalysisFindings")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -24676,7 +27885,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetNetworkInsightsAccessScopeContentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetNetworkInsightsAccessScopeContentOutput>(GetNetworkInsightsAccessScopeContentOutput.httpOutput(from:), GetNetworkInsightsAccessScopeContentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetNetworkInsightsAccessScopeContentInput, GetNetworkInsightsAccessScopeContentOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetNetworkInsightsAccessScopeContent")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -24729,7 +27945,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPasswordDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPasswordDataOutput>(GetPasswordDataOutput.httpOutput(from:), GetPasswordDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPasswordDataInput, GetPasswordDataOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetPasswordData")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -24782,7 +28005,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetReservedInstancesExchangeQuoteOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetReservedInstancesExchangeQuoteOutput>(GetReservedInstancesExchangeQuoteOutput.httpOutput(from:), GetReservedInstancesExchangeQuoteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetReservedInstancesExchangeQuoteInput, GetReservedInstancesExchangeQuoteOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetReservedInstancesExchangeQuote")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -24835,7 +28065,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSecurityGroupsForVpcOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSecurityGroupsForVpcOutput>(GetSecurityGroupsForVpcOutput.httpOutput(from:), GetSecurityGroupsForVpcOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSecurityGroupsForVpcInput, GetSecurityGroupsForVpcOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetSecurityGroupsForVpc")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -24888,7 +28125,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSerialConsoleAccessStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSerialConsoleAccessStatusOutput>(GetSerialConsoleAccessStatusOutput.httpOutput(from:), GetSerialConsoleAccessStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSerialConsoleAccessStatusInput, GetSerialConsoleAccessStatusOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetSerialConsoleAccessStatus")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -24941,7 +28185,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSnapshotBlockPublicAccessStateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSnapshotBlockPublicAccessStateOutput>(GetSnapshotBlockPublicAccessStateOutput.httpOutput(from:), GetSnapshotBlockPublicAccessStateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSnapshotBlockPublicAccessStateInput, GetSnapshotBlockPublicAccessStateOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetSnapshotBlockPublicAccessState")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -24994,7 +28245,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSpotPlacementScoresOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSpotPlacementScoresOutput>(GetSpotPlacementScoresOutput.httpOutput(from:), GetSpotPlacementScoresOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSpotPlacementScoresInput, GetSpotPlacementScoresOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetSpotPlacementScores")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -25047,7 +28305,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSubnetCidrReservationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSubnetCidrReservationsOutput>(GetSubnetCidrReservationsOutput.httpOutput(from:), GetSubnetCidrReservationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSubnetCidrReservationsInput, GetSubnetCidrReservationsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetSubnetCidrReservations")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -25100,7 +28365,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTransitGatewayAttachmentPropagationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTransitGatewayAttachmentPropagationsOutput>(GetTransitGatewayAttachmentPropagationsOutput.httpOutput(from:), GetTransitGatewayAttachmentPropagationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTransitGatewayAttachmentPropagationsInput, GetTransitGatewayAttachmentPropagationsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetTransitGatewayAttachmentPropagations")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -25153,7 +28425,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTransitGatewayMulticastDomainAssociationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTransitGatewayMulticastDomainAssociationsOutput>(GetTransitGatewayMulticastDomainAssociationsOutput.httpOutput(from:), GetTransitGatewayMulticastDomainAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTransitGatewayMulticastDomainAssociationsInput, GetTransitGatewayMulticastDomainAssociationsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetTransitGatewayMulticastDomainAssociations")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -25206,7 +28485,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTransitGatewayPolicyTableAssociationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTransitGatewayPolicyTableAssociationsOutput>(GetTransitGatewayPolicyTableAssociationsOutput.httpOutput(from:), GetTransitGatewayPolicyTableAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTransitGatewayPolicyTableAssociationsInput, GetTransitGatewayPolicyTableAssociationsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetTransitGatewayPolicyTableAssociations")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -25259,7 +28545,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTransitGatewayPolicyTableEntriesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTransitGatewayPolicyTableEntriesOutput>(GetTransitGatewayPolicyTableEntriesOutput.httpOutput(from:), GetTransitGatewayPolicyTableEntriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTransitGatewayPolicyTableEntriesInput, GetTransitGatewayPolicyTableEntriesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetTransitGatewayPolicyTableEntries")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -25312,7 +28605,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTransitGatewayPrefixListReferencesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTransitGatewayPrefixListReferencesOutput>(GetTransitGatewayPrefixListReferencesOutput.httpOutput(from:), GetTransitGatewayPrefixListReferencesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTransitGatewayPrefixListReferencesInput, GetTransitGatewayPrefixListReferencesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetTransitGatewayPrefixListReferences")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -25365,7 +28665,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTransitGatewayRouteTableAssociationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTransitGatewayRouteTableAssociationsOutput>(GetTransitGatewayRouteTableAssociationsOutput.httpOutput(from:), GetTransitGatewayRouteTableAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTransitGatewayRouteTableAssociationsInput, GetTransitGatewayRouteTableAssociationsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetTransitGatewayRouteTableAssociations")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -25418,7 +28725,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTransitGatewayRouteTablePropagationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTransitGatewayRouteTablePropagationsOutput>(GetTransitGatewayRouteTablePropagationsOutput.httpOutput(from:), GetTransitGatewayRouteTablePropagationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTransitGatewayRouteTablePropagationsInput, GetTransitGatewayRouteTablePropagationsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetTransitGatewayRouteTablePropagations")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -25471,7 +28785,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetVerifiedAccessEndpointPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVerifiedAccessEndpointPolicyOutput>(GetVerifiedAccessEndpointPolicyOutput.httpOutput(from:), GetVerifiedAccessEndpointPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVerifiedAccessEndpointPolicyInput, GetVerifiedAccessEndpointPolicyOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetVerifiedAccessEndpointPolicy")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -25524,7 +28845,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetVerifiedAccessGroupPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVerifiedAccessGroupPolicyOutput>(GetVerifiedAccessGroupPolicyOutput.httpOutput(from:), GetVerifiedAccessGroupPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVerifiedAccessGroupPolicyInput, GetVerifiedAccessGroupPolicyOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetVerifiedAccessGroupPolicy")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -25577,7 +28905,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetVpnConnectionDeviceSampleConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVpnConnectionDeviceSampleConfigurationOutput>(GetVpnConnectionDeviceSampleConfigurationOutput.httpOutput(from:), GetVpnConnectionDeviceSampleConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVpnConnectionDeviceSampleConfigurationInput, GetVpnConnectionDeviceSampleConfigurationOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetVpnConnectionDeviceSampleConfiguration")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -25630,7 +28965,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetVpnConnectionDeviceTypesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVpnConnectionDeviceTypesOutput>(GetVpnConnectionDeviceTypesOutput.httpOutput(from:), GetVpnConnectionDeviceTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVpnConnectionDeviceTypesInput, GetVpnConnectionDeviceTypesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetVpnConnectionDeviceTypes")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -25683,7 +29025,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetVpnTunnelReplacementStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVpnTunnelReplacementStatusOutput>(GetVpnTunnelReplacementStatusOutput.httpOutput(from:), GetVpnTunnelReplacementStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVpnTunnelReplacementStatusInput, GetVpnTunnelReplacementStatusOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetVpnTunnelReplacementStatus")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -25736,7 +29085,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportClientVpnClientCertificateRevocationListOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportClientVpnClientCertificateRevocationListOutput>(ImportClientVpnClientCertificateRevocationListOutput.httpOutput(from:), ImportClientVpnClientCertificateRevocationListOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportClientVpnClientCertificateRevocationListInput, ImportClientVpnClientCertificateRevocationListOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ImportClientVpnClientCertificateRevocationList")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -25789,7 +29145,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportImageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportImageOutput>(ImportImageOutput.httpOutput(from:), ImportImageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportImageInput, ImportImageOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ImportImage")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -25842,7 +29205,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportInstanceOutput>(ImportInstanceOutput.httpOutput(from:), ImportInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportInstanceInput, ImportInstanceOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ImportInstance")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -25895,7 +29265,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportKeyPairOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportKeyPairOutput>(ImportKeyPairOutput.httpOutput(from:), ImportKeyPairOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportKeyPairInput, ImportKeyPairOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ImportKeyPair")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -25948,7 +29325,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportSnapshotOutput>(ImportSnapshotOutput.httpOutput(from:), ImportSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportSnapshotInput, ImportSnapshotOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ImportSnapshot")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -26001,7 +29385,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportVolumeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportVolumeOutput>(ImportVolumeOutput.httpOutput(from:), ImportVolumeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportVolumeInput, ImportVolumeOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ImportVolume")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -26054,7 +29445,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListImagesInRecycleBinOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListImagesInRecycleBinOutput>(ListImagesInRecycleBinOutput.httpOutput(from:), ListImagesInRecycleBinOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListImagesInRecycleBinInput, ListImagesInRecycleBinOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListImagesInRecycleBin")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -26107,7 +29505,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSnapshotsInRecycleBinOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSnapshotsInRecycleBinOutput>(ListSnapshotsInRecycleBinOutput.httpOutput(from:), ListSnapshotsInRecycleBinOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSnapshotsInRecycleBinInput, ListSnapshotsInRecycleBinOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListSnapshotsInRecycleBin")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -26166,7 +29571,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<LockSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<LockSnapshotOutput>(LockSnapshotOutput.httpOutput(from:), LockSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<LockSnapshotInput, LockSnapshotOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "LockSnapshot")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -26219,7 +29631,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyAddressAttributeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyAddressAttributeOutput>(ModifyAddressAttributeOutput.httpOutput(from:), ModifyAddressAttributeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyAddressAttributeInput, ModifyAddressAttributeOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyAddressAttribute")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -26272,7 +29691,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyAvailabilityZoneGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyAvailabilityZoneGroupOutput>(ModifyAvailabilityZoneGroupOutput.httpOutput(from:), ModifyAvailabilityZoneGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyAvailabilityZoneGroupInput, ModifyAvailabilityZoneGroupOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyAvailabilityZoneGroup")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -26325,7 +29751,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyCapacityReservationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyCapacityReservationOutput>(ModifyCapacityReservationOutput.httpOutput(from:), ModifyCapacityReservationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyCapacityReservationInput, ModifyCapacityReservationOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyCapacityReservation")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -26378,7 +29811,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyCapacityReservationFleetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyCapacityReservationFleetOutput>(ModifyCapacityReservationFleetOutput.httpOutput(from:), ModifyCapacityReservationFleetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyCapacityReservationFleetInput, ModifyCapacityReservationFleetOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyCapacityReservationFleet")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -26431,7 +29871,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyClientVpnEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyClientVpnEndpointOutput>(ModifyClientVpnEndpointOutput.httpOutput(from:), ModifyClientVpnEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyClientVpnEndpointInput, ModifyClientVpnEndpointOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyClientVpnEndpoint")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -26484,7 +29931,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyDefaultCreditSpecificationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyDefaultCreditSpecificationOutput>(ModifyDefaultCreditSpecificationOutput.httpOutput(from:), ModifyDefaultCreditSpecificationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyDefaultCreditSpecificationInput, ModifyDefaultCreditSpecificationOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyDefaultCreditSpecification")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -26537,7 +29991,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyEbsDefaultKmsKeyIdOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyEbsDefaultKmsKeyIdOutput>(ModifyEbsDefaultKmsKeyIdOutput.httpOutput(from:), ModifyEbsDefaultKmsKeyIdOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyEbsDefaultKmsKeyIdInput, ModifyEbsDefaultKmsKeyIdOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyEbsDefaultKmsKeyId")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -26590,7 +30051,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyFleetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyFleetOutput>(ModifyFleetOutput.httpOutput(from:), ModifyFleetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyFleetInput, ModifyFleetOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyFleet")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -26643,7 +30111,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyFpgaImageAttributeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyFpgaImageAttributeOutput>(ModifyFpgaImageAttributeOutput.httpOutput(from:), ModifyFpgaImageAttributeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyFpgaImageAttributeInput, ModifyFpgaImageAttributeOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyFpgaImageAttribute")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -26696,7 +30171,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyHostsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyHostsOutput>(ModifyHostsOutput.httpOutput(from:), ModifyHostsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyHostsInput, ModifyHostsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyHosts")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -26749,7 +30231,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyIdFormatOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyIdFormatOutput>(ModifyIdFormatOutput.httpOutput(from:), ModifyIdFormatOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyIdFormatInput, ModifyIdFormatOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyIdFormat")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -26802,7 +30291,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyIdentityIdFormatOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyIdentityIdFormatOutput>(ModifyIdentityIdFormatOutput.httpOutput(from:), ModifyIdentityIdFormatOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyIdentityIdFormatInput, ModifyIdentityIdFormatOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyIdentityIdFormat")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -26855,7 +30351,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyImageAttributeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyImageAttributeOutput>(ModifyImageAttributeOutput.httpOutput(from:), ModifyImageAttributeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyImageAttributeInput, ModifyImageAttributeOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyImageAttribute")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -26908,7 +30411,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyInstanceAttributeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyInstanceAttributeOutput>(ModifyInstanceAttributeOutput.httpOutput(from:), ModifyInstanceAttributeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyInstanceAttributeInput, ModifyInstanceAttributeOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyInstanceAttribute")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -26961,7 +30471,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyInstanceCapacityReservationAttributesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyInstanceCapacityReservationAttributesOutput>(ModifyInstanceCapacityReservationAttributesOutput.httpOutput(from:), ModifyInstanceCapacityReservationAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyInstanceCapacityReservationAttributesInput, ModifyInstanceCapacityReservationAttributesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyInstanceCapacityReservationAttributes")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -27014,7 +30531,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyInstanceCreditSpecificationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyInstanceCreditSpecificationOutput>(ModifyInstanceCreditSpecificationOutput.httpOutput(from:), ModifyInstanceCreditSpecificationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyInstanceCreditSpecificationInput, ModifyInstanceCreditSpecificationOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyInstanceCreditSpecification")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -27067,7 +30591,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyInstanceEventStartTimeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyInstanceEventStartTimeOutput>(ModifyInstanceEventStartTimeOutput.httpOutput(from:), ModifyInstanceEventStartTimeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyInstanceEventStartTimeInput, ModifyInstanceEventStartTimeOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyInstanceEventStartTime")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -27120,7 +30651,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyInstanceEventWindowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyInstanceEventWindowOutput>(ModifyInstanceEventWindowOutput.httpOutput(from:), ModifyInstanceEventWindowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyInstanceEventWindowInput, ModifyInstanceEventWindowOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyInstanceEventWindow")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -27173,7 +30711,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyInstanceMaintenanceOptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyInstanceMaintenanceOptionsOutput>(ModifyInstanceMaintenanceOptionsOutput.httpOutput(from:), ModifyInstanceMaintenanceOptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyInstanceMaintenanceOptionsInput, ModifyInstanceMaintenanceOptionsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyInstanceMaintenanceOptions")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -27226,7 +30771,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyInstanceMetadataDefaultsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyInstanceMetadataDefaultsOutput>(ModifyInstanceMetadataDefaultsOutput.httpOutput(from:), ModifyInstanceMetadataDefaultsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyInstanceMetadataDefaultsInput, ModifyInstanceMetadataDefaultsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyInstanceMetadataDefaults")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -27279,7 +30831,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyInstanceMetadataOptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyInstanceMetadataOptionsOutput>(ModifyInstanceMetadataOptionsOutput.httpOutput(from:), ModifyInstanceMetadataOptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyInstanceMetadataOptionsInput, ModifyInstanceMetadataOptionsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyInstanceMetadataOptions")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -27343,7 +30902,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyInstancePlacementOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyInstancePlacementOutput>(ModifyInstancePlacementOutput.httpOutput(from:), ModifyInstancePlacementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyInstancePlacementInput, ModifyInstancePlacementOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyInstancePlacement")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -27396,7 +30962,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyIpamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyIpamOutput>(ModifyIpamOutput.httpOutput(from:), ModifyIpamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyIpamInput, ModifyIpamOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyIpam")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -27449,7 +31022,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyIpamPoolOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyIpamPoolOutput>(ModifyIpamPoolOutput.httpOutput(from:), ModifyIpamPoolOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyIpamPoolInput, ModifyIpamPoolOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyIpamPool")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -27502,7 +31082,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyIpamResourceCidrOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyIpamResourceCidrOutput>(ModifyIpamResourceCidrOutput.httpOutput(from:), ModifyIpamResourceCidrOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyIpamResourceCidrInput, ModifyIpamResourceCidrOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyIpamResourceCidr")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -27555,7 +31142,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyIpamResourceDiscoveryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyIpamResourceDiscoveryOutput>(ModifyIpamResourceDiscoveryOutput.httpOutput(from:), ModifyIpamResourceDiscoveryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyIpamResourceDiscoveryInput, ModifyIpamResourceDiscoveryOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyIpamResourceDiscovery")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -27608,7 +31202,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyIpamScopeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyIpamScopeOutput>(ModifyIpamScopeOutput.httpOutput(from:), ModifyIpamScopeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyIpamScopeInput, ModifyIpamScopeOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyIpamScope")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -27661,7 +31262,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyLaunchTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyLaunchTemplateOutput>(ModifyLaunchTemplateOutput.httpOutput(from:), ModifyLaunchTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyLaunchTemplateInput, ModifyLaunchTemplateOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyLaunchTemplate")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -27714,7 +31322,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyLocalGatewayRouteOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyLocalGatewayRouteOutput>(ModifyLocalGatewayRouteOutput.httpOutput(from:), ModifyLocalGatewayRouteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyLocalGatewayRouteInput, ModifyLocalGatewayRouteOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyLocalGatewayRoute")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -27767,7 +31382,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyManagedPrefixListOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyManagedPrefixListOutput>(ModifyManagedPrefixListOutput.httpOutput(from:), ModifyManagedPrefixListOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyManagedPrefixListInput, ModifyManagedPrefixListOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyManagedPrefixList")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -27820,7 +31442,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyNetworkInterfaceAttributeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyNetworkInterfaceAttributeOutput>(ModifyNetworkInterfaceAttributeOutput.httpOutput(from:), ModifyNetworkInterfaceAttributeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyNetworkInterfaceAttributeInput, ModifyNetworkInterfaceAttributeOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyNetworkInterfaceAttribute")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -27873,7 +31502,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyPrivateDnsNameOptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyPrivateDnsNameOptionsOutput>(ModifyPrivateDnsNameOptionsOutput.httpOutput(from:), ModifyPrivateDnsNameOptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyPrivateDnsNameOptionsInput, ModifyPrivateDnsNameOptionsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyPrivateDnsNameOptions")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -27926,7 +31562,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyReservedInstancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyReservedInstancesOutput>(ModifyReservedInstancesOutput.httpOutput(from:), ModifyReservedInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyReservedInstancesInput, ModifyReservedInstancesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyReservedInstances")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -27979,7 +31622,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifySecurityGroupRulesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifySecurityGroupRulesOutput>(ModifySecurityGroupRulesOutput.httpOutput(from:), ModifySecurityGroupRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifySecurityGroupRulesInput, ModifySecurityGroupRulesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifySecurityGroupRules")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -28032,7 +31682,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifySnapshotAttributeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifySnapshotAttributeOutput>(ModifySnapshotAttributeOutput.httpOutput(from:), ModifySnapshotAttributeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifySnapshotAttributeInput, ModifySnapshotAttributeOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifySnapshotAttribute")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -28085,7 +31742,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifySnapshotTierOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifySnapshotTierOutput>(ModifySnapshotTierOutput.httpOutput(from:), ModifySnapshotTierOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifySnapshotTierInput, ModifySnapshotTierOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifySnapshotTier")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -28138,7 +31802,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifySpotFleetRequestOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifySpotFleetRequestOutput>(ModifySpotFleetRequestOutput.httpOutput(from:), ModifySpotFleetRequestOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifySpotFleetRequestInput, ModifySpotFleetRequestOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifySpotFleetRequest")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -28202,7 +31873,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifySubnetAttributeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifySubnetAttributeOutput>(ModifySubnetAttributeOutput.httpOutput(from:), ModifySubnetAttributeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifySubnetAttributeInput, ModifySubnetAttributeOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifySubnetAttribute")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -28255,7 +31933,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyTrafficMirrorFilterNetworkServicesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyTrafficMirrorFilterNetworkServicesOutput>(ModifyTrafficMirrorFilterNetworkServicesOutput.httpOutput(from:), ModifyTrafficMirrorFilterNetworkServicesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyTrafficMirrorFilterNetworkServicesInput, ModifyTrafficMirrorFilterNetworkServicesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyTrafficMirrorFilterNetworkServices")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -28308,7 +31993,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyTrafficMirrorFilterRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyTrafficMirrorFilterRuleOutput>(ModifyTrafficMirrorFilterRuleOutput.httpOutput(from:), ModifyTrafficMirrorFilterRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyTrafficMirrorFilterRuleInput, ModifyTrafficMirrorFilterRuleOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyTrafficMirrorFilterRule")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -28361,7 +32053,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyTrafficMirrorSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyTrafficMirrorSessionOutput>(ModifyTrafficMirrorSessionOutput.httpOutput(from:), ModifyTrafficMirrorSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyTrafficMirrorSessionInput, ModifyTrafficMirrorSessionOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyTrafficMirrorSession")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -28414,7 +32113,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyTransitGatewayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyTransitGatewayOutput>(ModifyTransitGatewayOutput.httpOutput(from:), ModifyTransitGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyTransitGatewayInput, ModifyTransitGatewayOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyTransitGateway")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -28467,7 +32173,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyTransitGatewayPrefixListReferenceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyTransitGatewayPrefixListReferenceOutput>(ModifyTransitGatewayPrefixListReferenceOutput.httpOutput(from:), ModifyTransitGatewayPrefixListReferenceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyTransitGatewayPrefixListReferenceInput, ModifyTransitGatewayPrefixListReferenceOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyTransitGatewayPrefixListReference")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -28520,7 +32233,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyTransitGatewayVpcAttachmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyTransitGatewayVpcAttachmentOutput>(ModifyTransitGatewayVpcAttachmentOutput.httpOutput(from:), ModifyTransitGatewayVpcAttachmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyTransitGatewayVpcAttachmentInput, ModifyTransitGatewayVpcAttachmentOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyTransitGatewayVpcAttachment")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -28574,7 +32294,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyVerifiedAccessEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyVerifiedAccessEndpointOutput>(ModifyVerifiedAccessEndpointOutput.httpOutput(from:), ModifyVerifiedAccessEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyVerifiedAccessEndpointInput, ModifyVerifiedAccessEndpointOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyVerifiedAccessEndpoint")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -28628,7 +32355,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyVerifiedAccessEndpointPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyVerifiedAccessEndpointPolicyOutput>(ModifyVerifiedAccessEndpointPolicyOutput.httpOutput(from:), ModifyVerifiedAccessEndpointPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyVerifiedAccessEndpointPolicyInput, ModifyVerifiedAccessEndpointPolicyOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyVerifiedAccessEndpointPolicy")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -28682,7 +32416,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyVerifiedAccessGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyVerifiedAccessGroupOutput>(ModifyVerifiedAccessGroupOutput.httpOutput(from:), ModifyVerifiedAccessGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyVerifiedAccessGroupInput, ModifyVerifiedAccessGroupOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyVerifiedAccessGroup")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -28736,7 +32477,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyVerifiedAccessGroupPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyVerifiedAccessGroupPolicyOutput>(ModifyVerifiedAccessGroupPolicyOutput.httpOutput(from:), ModifyVerifiedAccessGroupPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyVerifiedAccessGroupPolicyInput, ModifyVerifiedAccessGroupPolicyOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyVerifiedAccessGroupPolicy")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -28790,7 +32538,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyVerifiedAccessInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyVerifiedAccessInstanceOutput>(ModifyVerifiedAccessInstanceOutput.httpOutput(from:), ModifyVerifiedAccessInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyVerifiedAccessInstanceInput, ModifyVerifiedAccessInstanceOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyVerifiedAccessInstance")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -28844,7 +32599,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyVerifiedAccessInstanceLoggingConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyVerifiedAccessInstanceLoggingConfigurationOutput>(ModifyVerifiedAccessInstanceLoggingConfigurationOutput.httpOutput(from:), ModifyVerifiedAccessInstanceLoggingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyVerifiedAccessInstanceLoggingConfigurationInput, ModifyVerifiedAccessInstanceLoggingConfigurationOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyVerifiedAccessInstanceLoggingConfiguration")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -28898,7 +32660,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyVerifiedAccessTrustProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyVerifiedAccessTrustProviderOutput>(ModifyVerifiedAccessTrustProviderOutput.httpOutput(from:), ModifyVerifiedAccessTrustProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyVerifiedAccessTrustProviderInput, ModifyVerifiedAccessTrustProviderOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyVerifiedAccessTrustProvider")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -28951,7 +32720,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyVolumeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyVolumeOutput>(ModifyVolumeOutput.httpOutput(from:), ModifyVolumeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyVolumeInput, ModifyVolumeOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyVolume")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -29004,7 +32780,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyVolumeAttributeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyVolumeAttributeOutput>(ModifyVolumeAttributeOutput.httpOutput(from:), ModifyVolumeAttributeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyVolumeAttributeInput, ModifyVolumeAttributeOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyVolumeAttribute")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -29057,7 +32840,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyVpcAttributeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyVpcAttributeOutput>(ModifyVpcAttributeOutput.httpOutput(from:), ModifyVpcAttributeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyVpcAttributeInput, ModifyVpcAttributeOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyVpcAttribute")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -29110,7 +32900,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyVpcEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyVpcEndpointOutput>(ModifyVpcEndpointOutput.httpOutput(from:), ModifyVpcEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyVpcEndpointInput, ModifyVpcEndpointOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyVpcEndpoint")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -29163,7 +32960,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyVpcEndpointConnectionNotificationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyVpcEndpointConnectionNotificationOutput>(ModifyVpcEndpointConnectionNotificationOutput.httpOutput(from:), ModifyVpcEndpointConnectionNotificationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyVpcEndpointConnectionNotificationInput, ModifyVpcEndpointConnectionNotificationOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyVpcEndpointConnectionNotification")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -29216,7 +33020,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyVpcEndpointServiceConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyVpcEndpointServiceConfigurationOutput>(ModifyVpcEndpointServiceConfigurationOutput.httpOutput(from:), ModifyVpcEndpointServiceConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyVpcEndpointServiceConfigurationInput, ModifyVpcEndpointServiceConfigurationOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyVpcEndpointServiceConfiguration")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -29269,7 +33080,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyVpcEndpointServicePayerResponsibilityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyVpcEndpointServicePayerResponsibilityOutput>(ModifyVpcEndpointServicePayerResponsibilityOutput.httpOutput(from:), ModifyVpcEndpointServicePayerResponsibilityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyVpcEndpointServicePayerResponsibilityInput, ModifyVpcEndpointServicePayerResponsibilityOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyVpcEndpointServicePayerResponsibility")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -29322,7 +33140,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyVpcEndpointServicePermissionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyVpcEndpointServicePermissionsOutput>(ModifyVpcEndpointServicePermissionsOutput.httpOutput(from:), ModifyVpcEndpointServicePermissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyVpcEndpointServicePermissionsInput, ModifyVpcEndpointServicePermissionsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyVpcEndpointServicePermissions")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -29375,7 +33200,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyVpcPeeringConnectionOptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyVpcPeeringConnectionOptionsOutput>(ModifyVpcPeeringConnectionOptionsOutput.httpOutput(from:), ModifyVpcPeeringConnectionOptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyVpcPeeringConnectionOptionsInput, ModifyVpcPeeringConnectionOptionsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyVpcPeeringConnectionOptions")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -29428,7 +33260,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyVpcTenancyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyVpcTenancyOutput>(ModifyVpcTenancyOutput.httpOutput(from:), ModifyVpcTenancyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyVpcTenancyInput, ModifyVpcTenancyOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyVpcTenancy")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -29492,7 +33331,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyVpnConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyVpnConnectionOutput>(ModifyVpnConnectionOutput.httpOutput(from:), ModifyVpnConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyVpnConnectionInput, ModifyVpnConnectionOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyVpnConnection")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -29545,7 +33391,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyVpnConnectionOptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyVpnConnectionOptionsOutput>(ModifyVpnConnectionOptionsOutput.httpOutput(from:), ModifyVpnConnectionOptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyVpnConnectionOptionsInput, ModifyVpnConnectionOptionsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyVpnConnectionOptions")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -29598,7 +33451,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyVpnTunnelCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyVpnTunnelCertificateOutput>(ModifyVpnTunnelCertificateOutput.httpOutput(from:), ModifyVpnTunnelCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyVpnTunnelCertificateInput, ModifyVpnTunnelCertificateOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyVpnTunnelCertificate")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -29651,7 +33511,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyVpnTunnelOptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyVpnTunnelOptionsOutput>(ModifyVpnTunnelOptionsOutput.httpOutput(from:), ModifyVpnTunnelOptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyVpnTunnelOptionsInput, ModifyVpnTunnelOptionsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyVpnTunnelOptions")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -29704,7 +33571,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<MonitorInstancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<MonitorInstancesOutput>(MonitorInstancesOutput.httpOutput(from:), MonitorInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<MonitorInstancesInput, MonitorInstancesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "MonitorInstances")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -29757,7 +33631,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<MoveAddressToVpcOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<MoveAddressToVpcOutput>(MoveAddressToVpcOutput.httpOutput(from:), MoveAddressToVpcOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<MoveAddressToVpcInput, MoveAddressToVpcOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "MoveAddressToVpc")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -29810,7 +33691,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<MoveByoipCidrToIpamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<MoveByoipCidrToIpamOutput>(MoveByoipCidrToIpamOutput.httpOutput(from:), MoveByoipCidrToIpamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<MoveByoipCidrToIpamInput, MoveByoipCidrToIpamOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "MoveByoipCidrToIpam")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -29863,7 +33751,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ProvisionByoipCidrOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ProvisionByoipCidrOutput>(ProvisionByoipCidrOutput.httpOutput(from:), ProvisionByoipCidrOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ProvisionByoipCidrInput, ProvisionByoipCidrOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ProvisionByoipCidr")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -29916,7 +33811,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ProvisionIpamByoasnOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ProvisionIpamByoasnOutput>(ProvisionIpamByoasnOutput.httpOutput(from:), ProvisionIpamByoasnOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ProvisionIpamByoasnInput, ProvisionIpamByoasnOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ProvisionIpamByoasn")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -29970,7 +33872,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ProvisionIpamPoolCidrOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ProvisionIpamPoolCidrOutput>(ProvisionIpamPoolCidrOutput.httpOutput(from:), ProvisionIpamPoolCidrOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ProvisionIpamPoolCidrInput, ProvisionIpamPoolCidrOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ProvisionIpamPoolCidr")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -30023,7 +33932,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ProvisionPublicIpv4PoolCidrOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ProvisionPublicIpv4PoolCidrOutput>(ProvisionPublicIpv4PoolCidrOutput.httpOutput(from:), ProvisionPublicIpv4PoolCidrOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ProvisionPublicIpv4PoolCidrInput, ProvisionPublicIpv4PoolCidrOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ProvisionPublicIpv4PoolCidr")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -30076,7 +33992,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<PurchaseCapacityBlockOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PurchaseCapacityBlockOutput>(PurchaseCapacityBlockOutput.httpOutput(from:), PurchaseCapacityBlockOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PurchaseCapacityBlockInput, PurchaseCapacityBlockOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PurchaseCapacityBlock")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -30129,7 +34052,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<PurchaseHostReservationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PurchaseHostReservationOutput>(PurchaseHostReservationOutput.httpOutput(from:), PurchaseHostReservationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PurchaseHostReservationInput, PurchaseHostReservationOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PurchaseHostReservation")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -30182,7 +34112,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<PurchaseReservedInstancesOfferingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PurchaseReservedInstancesOfferingOutput>(PurchaseReservedInstancesOfferingOutput.httpOutput(from:), PurchaseReservedInstancesOfferingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PurchaseReservedInstancesOfferingInput, PurchaseReservedInstancesOfferingOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PurchaseReservedInstancesOffering")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -30236,7 +34173,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<PurchaseScheduledInstancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PurchaseScheduledInstancesOutput>(PurchaseScheduledInstancesOutput.httpOutput(from:), PurchaseScheduledInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PurchaseScheduledInstancesInput, PurchaseScheduledInstancesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PurchaseScheduledInstances")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -30289,7 +34233,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<RebootInstancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RebootInstancesOutput>(RebootInstancesOutput.httpOutput(from:), RebootInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RebootInstancesInput, RebootInstancesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RebootInstances")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -30351,7 +34302,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterImageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterImageOutput>(RegisterImageOutput.httpOutput(from:), RegisterImageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterImageInput, RegisterImageOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RegisterImage")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -30404,7 +34362,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterInstanceEventNotificationAttributesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterInstanceEventNotificationAttributesOutput>(RegisterInstanceEventNotificationAttributesOutput.httpOutput(from:), RegisterInstanceEventNotificationAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterInstanceEventNotificationAttributesInput, RegisterInstanceEventNotificationAttributesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RegisterInstanceEventNotificationAttributes")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -30457,7 +34422,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterTransitGatewayMulticastGroupMembersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterTransitGatewayMulticastGroupMembersOutput>(RegisterTransitGatewayMulticastGroupMembersOutput.httpOutput(from:), RegisterTransitGatewayMulticastGroupMembersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterTransitGatewayMulticastGroupMembersInput, RegisterTransitGatewayMulticastGroupMembersOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RegisterTransitGatewayMulticastGroupMembers")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -30510,7 +34482,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterTransitGatewayMulticastGroupSourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterTransitGatewayMulticastGroupSourcesOutput>(RegisterTransitGatewayMulticastGroupSourcesOutput.httpOutput(from:), RegisterTransitGatewayMulticastGroupSourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterTransitGatewayMulticastGroupSourcesInput, RegisterTransitGatewayMulticastGroupSourcesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RegisterTransitGatewayMulticastGroupSources")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -30563,7 +34542,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<RejectTransitGatewayMulticastDomainAssociationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RejectTransitGatewayMulticastDomainAssociationsOutput>(RejectTransitGatewayMulticastDomainAssociationsOutput.httpOutput(from:), RejectTransitGatewayMulticastDomainAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RejectTransitGatewayMulticastDomainAssociationsInput, RejectTransitGatewayMulticastDomainAssociationsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RejectTransitGatewayMulticastDomainAssociations")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -30616,7 +34602,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<RejectTransitGatewayPeeringAttachmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RejectTransitGatewayPeeringAttachmentOutput>(RejectTransitGatewayPeeringAttachmentOutput.httpOutput(from:), RejectTransitGatewayPeeringAttachmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RejectTransitGatewayPeeringAttachmentInput, RejectTransitGatewayPeeringAttachmentOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RejectTransitGatewayPeeringAttachment")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -30669,7 +34662,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<RejectTransitGatewayVpcAttachmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RejectTransitGatewayVpcAttachmentOutput>(RejectTransitGatewayVpcAttachmentOutput.httpOutput(from:), RejectTransitGatewayVpcAttachmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RejectTransitGatewayVpcAttachmentInput, RejectTransitGatewayVpcAttachmentOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RejectTransitGatewayVpcAttachment")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -30722,7 +34722,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<RejectVpcEndpointConnectionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RejectVpcEndpointConnectionsOutput>(RejectVpcEndpointConnectionsOutput.httpOutput(from:), RejectVpcEndpointConnectionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RejectVpcEndpointConnectionsInput, RejectVpcEndpointConnectionsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RejectVpcEndpointConnections")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -30775,7 +34782,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<RejectVpcPeeringConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RejectVpcPeeringConnectionOutput>(RejectVpcPeeringConnectionOutput.httpOutput(from:), RejectVpcPeeringConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RejectVpcPeeringConnectionInput, RejectVpcPeeringConnectionOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RejectVpcPeeringConnection")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -30828,7 +34842,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ReleaseAddressOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ReleaseAddressOutput>(ReleaseAddressOutput.httpOutput(from:), ReleaseAddressOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ReleaseAddressInput, ReleaseAddressOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ReleaseAddress")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -30881,7 +34902,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ReleaseHostsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ReleaseHostsOutput>(ReleaseHostsOutput.httpOutput(from:), ReleaseHostsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ReleaseHostsInput, ReleaseHostsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ReleaseHosts")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -30934,7 +34962,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ReleaseIpamPoolAllocationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ReleaseIpamPoolAllocationOutput>(ReleaseIpamPoolAllocationOutput.httpOutput(from:), ReleaseIpamPoolAllocationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ReleaseIpamPoolAllocationInput, ReleaseIpamPoolAllocationOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ReleaseIpamPoolAllocation")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -30987,7 +35022,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ReplaceIamInstanceProfileAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ReplaceIamInstanceProfileAssociationOutput>(ReplaceIamInstanceProfileAssociationOutput.httpOutput(from:), ReplaceIamInstanceProfileAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ReplaceIamInstanceProfileAssociationInput, ReplaceIamInstanceProfileAssociationOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ReplaceIamInstanceProfileAssociation")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -31040,7 +35082,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ReplaceNetworkAclAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ReplaceNetworkAclAssociationOutput>(ReplaceNetworkAclAssociationOutput.httpOutput(from:), ReplaceNetworkAclAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ReplaceNetworkAclAssociationInput, ReplaceNetworkAclAssociationOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ReplaceNetworkAclAssociation")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -31093,7 +35142,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ReplaceNetworkAclEntryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ReplaceNetworkAclEntryOutput>(ReplaceNetworkAclEntryOutput.httpOutput(from:), ReplaceNetworkAclEntryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ReplaceNetworkAclEntryInput, ReplaceNetworkAclEntryOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ReplaceNetworkAclEntry")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -31146,7 +35202,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ReplaceRouteOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ReplaceRouteOutput>(ReplaceRouteOutput.httpOutput(from:), ReplaceRouteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ReplaceRouteInput, ReplaceRouteOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ReplaceRoute")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -31199,7 +35262,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ReplaceRouteTableAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ReplaceRouteTableAssociationOutput>(ReplaceRouteTableAssociationOutput.httpOutput(from:), ReplaceRouteTableAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ReplaceRouteTableAssociationInput, ReplaceRouteTableAssociationOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ReplaceRouteTableAssociation")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -31252,7 +35322,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ReplaceTransitGatewayRouteOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ReplaceTransitGatewayRouteOutput>(ReplaceTransitGatewayRouteOutput.httpOutput(from:), ReplaceTransitGatewayRouteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ReplaceTransitGatewayRouteInput, ReplaceTransitGatewayRouteOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ReplaceTransitGatewayRoute")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -31305,7 +35382,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ReplaceVpnTunnelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ReplaceVpnTunnelOutput>(ReplaceVpnTunnelOutput.httpOutput(from:), ReplaceVpnTunnelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ReplaceVpnTunnelInput, ReplaceVpnTunnelOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ReplaceVpnTunnel")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -31358,7 +35442,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ReportInstanceStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ReportInstanceStatusOutput>(ReportInstanceStatusOutput.httpOutput(from:), ReportInstanceStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ReportInstanceStatusInput, ReportInstanceStatusOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ReportInstanceStatus")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -31411,7 +35502,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<RequestSpotFleetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RequestSpotFleetOutput>(RequestSpotFleetOutput.httpOutput(from:), RequestSpotFleetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RequestSpotFleetInput, RequestSpotFleetOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RequestSpotFleet")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -31464,7 +35562,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<RequestSpotInstancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RequestSpotInstancesOutput>(RequestSpotInstancesOutput.httpOutput(from:), RequestSpotInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RequestSpotInstancesInput, RequestSpotInstancesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RequestSpotInstances")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -31517,7 +35622,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ResetAddressAttributeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ResetAddressAttributeOutput>(ResetAddressAttributeOutput.httpOutput(from:), ResetAddressAttributeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResetAddressAttributeInput, ResetAddressAttributeOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ResetAddressAttribute")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -31570,7 +35682,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ResetEbsDefaultKmsKeyIdOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ResetEbsDefaultKmsKeyIdOutput>(ResetEbsDefaultKmsKeyIdOutput.httpOutput(from:), ResetEbsDefaultKmsKeyIdOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResetEbsDefaultKmsKeyIdInput, ResetEbsDefaultKmsKeyIdOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ResetEbsDefaultKmsKeyId")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -31623,7 +35742,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ResetFpgaImageAttributeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ResetFpgaImageAttributeOutput>(ResetFpgaImageAttributeOutput.httpOutput(from:), ResetFpgaImageAttributeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResetFpgaImageAttributeInput, ResetFpgaImageAttributeOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ResetFpgaImageAttribute")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -31676,7 +35802,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ResetImageAttributeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ResetImageAttributeOutput>(ResetImageAttributeOutput.httpOutput(from:), ResetImageAttributeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResetImageAttributeInput, ResetImageAttributeOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ResetImageAttribute")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -31729,7 +35862,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ResetInstanceAttributeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ResetInstanceAttributeOutput>(ResetInstanceAttributeOutput.httpOutput(from:), ResetInstanceAttributeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResetInstanceAttributeInput, ResetInstanceAttributeOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ResetInstanceAttribute")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -31782,7 +35922,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ResetNetworkInterfaceAttributeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ResetNetworkInterfaceAttributeOutput>(ResetNetworkInterfaceAttributeOutput.httpOutput(from:), ResetNetworkInterfaceAttributeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResetNetworkInterfaceAttributeInput, ResetNetworkInterfaceAttributeOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ResetNetworkInterfaceAttribute")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -31835,7 +35982,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ResetSnapshotAttributeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ResetSnapshotAttributeOutput>(ResetSnapshotAttributeOutput.httpOutput(from:), ResetSnapshotAttributeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResetSnapshotAttributeInput, ResetSnapshotAttributeOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ResetSnapshotAttribute")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -31888,7 +36042,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<RestoreAddressToClassicOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RestoreAddressToClassicOutput>(RestoreAddressToClassicOutput.httpOutput(from:), RestoreAddressToClassicOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestoreAddressToClassicInput, RestoreAddressToClassicOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RestoreAddressToClassic")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -31941,7 +36102,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<RestoreImageFromRecycleBinOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RestoreImageFromRecycleBinOutput>(RestoreImageFromRecycleBinOutput.httpOutput(from:), RestoreImageFromRecycleBinOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestoreImageFromRecycleBinInput, RestoreImageFromRecycleBinOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RestoreImageFromRecycleBin")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -31994,7 +36162,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<RestoreManagedPrefixListVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RestoreManagedPrefixListVersionOutput>(RestoreManagedPrefixListVersionOutput.httpOutput(from:), RestoreManagedPrefixListVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestoreManagedPrefixListVersionInput, RestoreManagedPrefixListVersionOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RestoreManagedPrefixListVersion")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -32047,7 +36222,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<RestoreSnapshotFromRecycleBinOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RestoreSnapshotFromRecycleBinOutput>(RestoreSnapshotFromRecycleBinOutput.httpOutput(from:), RestoreSnapshotFromRecycleBinOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestoreSnapshotFromRecycleBinInput, RestoreSnapshotFromRecycleBinOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RestoreSnapshotFromRecycleBin")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -32100,7 +36282,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<RestoreSnapshotTierOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RestoreSnapshotTierOutput>(RestoreSnapshotTierOutput.httpOutput(from:), RestoreSnapshotTierOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestoreSnapshotTierInput, RestoreSnapshotTierOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RestoreSnapshotTier")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -32153,7 +36342,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<RevokeClientVpnIngressOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RevokeClientVpnIngressOutput>(RevokeClientVpnIngressOutput.httpOutput(from:), RevokeClientVpnIngressOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RevokeClientVpnIngressInput, RevokeClientVpnIngressOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RevokeClientVpnIngress")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -32206,7 +36402,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<RevokeSecurityGroupEgressOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RevokeSecurityGroupEgressOutput>(RevokeSecurityGroupEgressOutput.httpOutput(from:), RevokeSecurityGroupEgressOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RevokeSecurityGroupEgressInput, RevokeSecurityGroupEgressOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RevokeSecurityGroupEgress")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -32259,7 +36462,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<RevokeSecurityGroupIngressOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RevokeSecurityGroupIngressOutput>(RevokeSecurityGroupIngressOutput.httpOutput(from:), RevokeSecurityGroupIngressOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RevokeSecurityGroupIngressInput, RevokeSecurityGroupIngressOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RevokeSecurityGroupIngress")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -32326,7 +36536,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<RunInstancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RunInstancesOutput>(RunInstancesOutput.httpOutput(from:), RunInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RunInstancesInput, RunInstancesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RunInstances")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -32380,7 +36597,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<RunScheduledInstancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RunScheduledInstancesOutput>(RunScheduledInstancesOutput.httpOutput(from:), RunScheduledInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RunScheduledInstancesInput, RunScheduledInstancesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RunScheduledInstances")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -32433,7 +36657,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchLocalGatewayRoutesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchLocalGatewayRoutesOutput>(SearchLocalGatewayRoutesOutput.httpOutput(from:), SearchLocalGatewayRoutesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchLocalGatewayRoutesInput, SearchLocalGatewayRoutesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SearchLocalGatewayRoutes")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -32486,7 +36717,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchTransitGatewayMulticastGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchTransitGatewayMulticastGroupsOutput>(SearchTransitGatewayMulticastGroupsOutput.httpOutput(from:), SearchTransitGatewayMulticastGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchTransitGatewayMulticastGroupsInput, SearchTransitGatewayMulticastGroupsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SearchTransitGatewayMulticastGroups")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -32539,7 +36777,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchTransitGatewayRoutesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchTransitGatewayRoutesOutput>(SearchTransitGatewayRoutesOutput.httpOutput(from:), SearchTransitGatewayRoutesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchTransitGatewayRoutesInput, SearchTransitGatewayRoutesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SearchTransitGatewayRoutes")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -32592,7 +36837,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<SendDiagnosticInterruptOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SendDiagnosticInterruptOutput>(SendDiagnosticInterruptOutput.httpOutput(from:), SendDiagnosticInterruptOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendDiagnosticInterruptInput, SendDiagnosticInterruptOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SendDiagnosticInterrupt")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -32645,7 +36897,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<StartInstancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartInstancesOutput>(StartInstancesOutput.httpOutput(from:), StartInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartInstancesInput, StartInstancesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartInstances")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -32699,7 +36958,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<StartNetworkInsightsAccessScopeAnalysisOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartNetworkInsightsAccessScopeAnalysisOutput>(StartNetworkInsightsAccessScopeAnalysisOutput.httpOutput(from:), StartNetworkInsightsAccessScopeAnalysisOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartNetworkInsightsAccessScopeAnalysisInput, StartNetworkInsightsAccessScopeAnalysisOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartNetworkInsightsAccessScopeAnalysis")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -32753,7 +37019,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<StartNetworkInsightsAnalysisOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartNetworkInsightsAnalysisOutput>(StartNetworkInsightsAnalysisOutput.httpOutput(from:), StartNetworkInsightsAnalysisOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartNetworkInsightsAnalysisInput, StartNetworkInsightsAnalysisOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartNetworkInsightsAnalysis")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -32806,7 +37079,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<StartVpcEndpointServicePrivateDnsVerificationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartVpcEndpointServicePrivateDnsVerificationOutput>(StartVpcEndpointServicePrivateDnsVerificationOutput.httpOutput(from:), StartVpcEndpointServicePrivateDnsVerificationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartVpcEndpointServicePrivateDnsVerificationInput, StartVpcEndpointServicePrivateDnsVerificationOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartVpcEndpointServicePrivateDnsVerification")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -32859,7 +37139,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<StopInstancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopInstancesOutput>(StopInstancesOutput.httpOutput(from:), StopInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopInstancesInput, StopInstancesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StopInstances")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -32912,7 +37199,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<TerminateClientVpnConnectionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TerminateClientVpnConnectionsOutput>(TerminateClientVpnConnectionsOutput.httpOutput(from:), TerminateClientVpnConnectionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TerminateClientVpnConnectionsInput, TerminateClientVpnConnectionsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "TerminateClientVpnConnections")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -32990,7 +37284,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<TerminateInstancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TerminateInstancesOutput>(TerminateInstancesOutput.httpOutput(from:), TerminateInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TerminateInstancesInput, TerminateInstancesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "TerminateInstances")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -33043,7 +37344,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<UnassignIpv6AddressesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UnassignIpv6AddressesOutput>(UnassignIpv6AddressesOutput.httpOutput(from:), UnassignIpv6AddressesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UnassignIpv6AddressesInput, UnassignIpv6AddressesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UnassignIpv6Addresses")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -33096,7 +37404,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<UnassignPrivateIpAddressesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UnassignPrivateIpAddressesOutput>(UnassignPrivateIpAddressesOutput.httpOutput(from:), UnassignPrivateIpAddressesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UnassignPrivateIpAddressesInput, UnassignPrivateIpAddressesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UnassignPrivateIpAddresses")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -33149,7 +37464,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<UnassignPrivateNatGatewayAddressOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UnassignPrivateNatGatewayAddressOutput>(UnassignPrivateNatGatewayAddressOutput.httpOutput(from:), UnassignPrivateNatGatewayAddressOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UnassignPrivateNatGatewayAddressInput, UnassignPrivateNatGatewayAddressOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UnassignPrivateNatGatewayAddress")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -33202,7 +37524,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<UnlockSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UnlockSnapshotOutput>(UnlockSnapshotOutput.httpOutput(from:), UnlockSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UnlockSnapshotInput, UnlockSnapshotOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UnlockSnapshot")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -33255,7 +37584,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<UnmonitorInstancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UnmonitorInstancesOutput>(UnmonitorInstancesOutput.httpOutput(from:), UnmonitorInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UnmonitorInstancesInput, UnmonitorInstancesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UnmonitorInstances")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -33308,7 +37644,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSecurityGroupRuleDescriptionsEgressOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSecurityGroupRuleDescriptionsEgressOutput>(UpdateSecurityGroupRuleDescriptionsEgressOutput.httpOutput(from:), UpdateSecurityGroupRuleDescriptionsEgressOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSecurityGroupRuleDescriptionsEgressInput, UpdateSecurityGroupRuleDescriptionsEgressOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateSecurityGroupRuleDescriptionsEgress")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -33361,7 +37704,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSecurityGroupRuleDescriptionsIngressOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSecurityGroupRuleDescriptionsIngressOutput>(UpdateSecurityGroupRuleDescriptionsIngressOutput.httpOutput(from:), UpdateSecurityGroupRuleDescriptionsIngressOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSecurityGroupRuleDescriptionsIngressInput, UpdateSecurityGroupRuleDescriptionsIngressOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateSecurityGroupRuleDescriptionsIngress")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -33414,7 +37764,14 @@ extension EC2Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<WithdrawByoipCidrOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<WithdrawByoipCidrOutput>(WithdrawByoipCidrOutput.httpOutput(from:), WithdrawByoipCidrOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<WithdrawByoipCidrInput, WithdrawByoipCidrOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "WithdrawByoipCidr")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
