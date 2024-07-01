@@ -6,6 +6,9 @@ on:
   workflow_dispatch:
   pull_request:
 
+permissions:
+  id-token: write
+
 env:
   AWS_SWIFT_SDK_USE_LOCAL_DEPS: 1
   AWS_ACCESS_KEY_ID: test-key-id
