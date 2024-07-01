@@ -69,11 +69,10 @@ jobs:
         run: ./scripts/ci_steps/codegen_sdk.sh
       - name: Build SDK with Unit Tests
         run: swift build --build-tests
-      - name: Debug Environment Variables
-        run: |
-          echo "AWS_REGION: $AWS_REGION"
-          echo "AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID"
-          echo "AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY"
-          export AWS_DEFAULT_REGION=us-west-2
       - name: Run Unit Tests
+        env:
+          AWS_DEFAULT_REGION: us-west-2
+          AWS_REGION: us-west-2
+          AWS_ACCESS_KEY_ID: test-key-id
+          AWS_SECRET_ACCESS_KEY: test-secret-access-key
         run: swift test --skip-build
