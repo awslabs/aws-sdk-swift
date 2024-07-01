@@ -11,15 +11,17 @@ permissions:
 
 env:
   AWS_SWIFT_SDK_USE_LOCAL_DEPS: 1
-  AWS_ACCESS_KEY_ID: test-key-id
-  AWS_SECRET_ACCESS_KEY: test-secret-key
-  AWS_DEFAULT_REGION: us-west-2
 
 jobs:
   codegen-build-test:
     runs-on: macos-14-xlarge
     env:
       DEVELOPER_DIR: /Applications/Xcode_15.4.app/Contents/Developer
+      AWS_ACCESS_KEY_ID: test-key-id
+      AWS_SECRET_ACCESS_KEY: test-secret-key
+      AWS_DEFAULT_REGION: us-west-2
+      AWS_REGION: us-west-2
+      AWS_SESSION_TOKEN: session-token
     steps:
       - name: Checkout aws-sdk-swift
         uses: actions/checkout@v3
@@ -68,4 +70,4 @@ jobs:
       - name: Build SDK with Unit Tests
         run: swift build --build-tests
       - name: Run Unit Tests
-        run: swift test --skip-build --env AWS_ACCESS_KEY_ID=test-access-key-id --env AWS_SECRET_ACCESS_KEY=test-secret-key-id --env AWS_REGION=us-west-2 --env AWS_SESSION_TOKEN=test-session-token
+        run: swift test --skip-build
