@@ -6,6 +6,7 @@ import class ClientRuntime.ClientBuilder
 import class ClientRuntime.DefaultClientPlugin
 import class ClientRuntime.HttpClientConfiguration
 import class ClientRuntime.OrchestratorBuilder
+import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HttpResponse
@@ -15,6 +16,7 @@ import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum ClientRuntime.ClientLogMode
 import enum ClientRuntime.DefaultTelemetry
+import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
 import protocol ClientRuntime.Client
@@ -44,6 +46,7 @@ import struct ClientRuntime.QueryItemMiddleware
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
+import struct Smithy.Attributes
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
@@ -229,7 +232,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ActivateKeySigningKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ActivateKeySigningKeyOutput>(ActivateKeySigningKeyOutput.httpOutput(from:), ActivateKeySigningKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ActivateKeySigningKeyInput, ActivateKeySigningKeyOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ActivateKeySigningKey")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -310,7 +320,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateVPCWithHostedZoneOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateVPCWithHostedZoneOutput>(AssociateVPCWithHostedZoneOutput.httpOutput(from:), AssociateVPCWithHostedZoneOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateVPCWithHostedZoneInput, AssociateVPCWithHostedZoneOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateVPCWithHostedZone")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -377,7 +394,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ChangeCidrCollectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ChangeCidrCollectionOutput>(ChangeCidrCollectionOutput.httpOutput(from:), ChangeCidrCollectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ChangeCidrCollectionInput, ChangeCidrCollectionOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ChangeCidrCollection")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -449,7 +473,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ChangeResourceRecordSetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ChangeResourceRecordSetsOutput>(ChangeResourceRecordSetsOutput.httpOutput(from:), ChangeResourceRecordSetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ChangeResourceRecordSetsInput, ChangeResourceRecordSetsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ChangeResourceRecordSets")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -511,7 +542,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ChangeTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ChangeTagsForResourceOutput>(ChangeTagsForResourceOutput.httpOutput(from:), ChangeTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ChangeTagsForResourceInput, ChangeTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ChangeTagsForResource")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -572,7 +610,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCidrCollectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCidrCollectionOutput>(CreateCidrCollectionOutput.httpOutput(from:), CreateCidrCollectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCidrCollectionInput, CreateCidrCollectionOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateCidrCollection")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -642,7 +687,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateHealthCheckOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateHealthCheckOutput>(CreateHealthCheckOutput.httpOutput(from:), CreateHealthCheckOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateHealthCheckInput, CreateHealthCheckOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateHealthCheck")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -732,7 +784,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateHostedZoneOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateHostedZoneOutput>(CreateHostedZoneOutput.httpOutput(from:), CreateHostedZoneOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateHostedZoneInput, CreateHostedZoneOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateHostedZone")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -799,7 +858,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateKeySigningKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateKeySigningKeyOutput>(CreateKeySigningKeyOutput.httpOutput(from:), CreateKeySigningKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateKeySigningKeyInput, CreateKeySigningKeyOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateKeySigningKey")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -913,7 +979,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateQueryLoggingConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateQueryLoggingConfigOutput>(CreateQueryLoggingConfigOutput.httpOutput(from:), CreateQueryLoggingConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateQueryLoggingConfigInput, CreateQueryLoggingConfigOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateQueryLoggingConfig")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -998,7 +1071,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateReusableDelegationSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateReusableDelegationSetOutput>(CreateReusableDelegationSetOutput.httpOutput(from:), CreateReusableDelegationSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateReusableDelegationSetInput, CreateReusableDelegationSetOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateReusableDelegationSet")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1059,7 +1139,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTrafficPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTrafficPolicyOutput>(CreateTrafficPolicyOutput.httpOutput(from:), CreateTrafficPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTrafficPolicyInput, CreateTrafficPolicyOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateTrafficPolicy")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1121,7 +1208,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTrafficPolicyInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTrafficPolicyInstanceOutput>(CreateTrafficPolicyInstanceOutput.httpOutput(from:), CreateTrafficPolicyInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTrafficPolicyInstanceInput, CreateTrafficPolicyInstanceOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateTrafficPolicyInstance")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1183,7 +1277,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTrafficPolicyVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTrafficPolicyVersionOutput>(CreateTrafficPolicyVersionOutput.httpOutput(from:), CreateTrafficPolicyVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTrafficPolicyVersionInput, CreateTrafficPolicyVersionOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateTrafficPolicyVersion")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1246,7 +1347,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVPCAssociationAuthorizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVPCAssociationAuthorizationOutput>(CreateVPCAssociationAuthorizationOutput.httpOutput(from:), CreateVPCAssociationAuthorizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVPCAssociationAuthorizationInput, CreateVPCAssociationAuthorizationOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateVPCAssociationAuthorization")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1308,7 +1416,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeactivateKeySigningKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeactivateKeySigningKeyOutput>(DeactivateKeySigningKeyOutput.httpOutput(from:), DeactivateKeySigningKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeactivateKeySigningKeyInput, DeactivateKeySigningKeyOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeactivateKeySigningKey")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1366,7 +1481,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCidrCollectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCidrCollectionOutput>(DeleteCidrCollectionOutput.httpOutput(from:), DeleteCidrCollectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCidrCollectionInput, DeleteCidrCollectionOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteCidrCollection")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1423,7 +1545,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteHealthCheckOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteHealthCheckOutput>(DeleteHealthCheckOutput.httpOutput(from:), DeleteHealthCheckOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteHealthCheckInput, DeleteHealthCheckOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteHealthCheck")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1487,7 +1616,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteHostedZoneOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteHostedZoneOutput>(DeleteHostedZoneOutput.httpOutput(from:), DeleteHostedZoneOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteHostedZoneInput, DeleteHostedZoneOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteHostedZone")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1548,7 +1684,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteKeySigningKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteKeySigningKeyOutput>(DeleteKeySigningKeyOutput.httpOutput(from:), DeleteKeySigningKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteKeySigningKeyInput, DeleteKeySigningKeyOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteKeySigningKey")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1605,7 +1748,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteQueryLoggingConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteQueryLoggingConfigOutput>(DeleteQueryLoggingConfigOutput.httpOutput(from:), DeleteQueryLoggingConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteQueryLoggingConfigInput, DeleteQueryLoggingConfigOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteQueryLoggingConfig")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1664,7 +1814,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteReusableDelegationSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteReusableDelegationSetOutput>(DeleteReusableDelegationSetOutput.httpOutput(from:), DeleteReusableDelegationSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteReusableDelegationSetInput, DeleteReusableDelegationSetOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteReusableDelegationSet")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1728,7 +1885,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTrafficPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTrafficPolicyOutput>(DeleteTrafficPolicyOutput.httpOutput(from:), DeleteTrafficPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTrafficPolicyInput, DeleteTrafficPolicyOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteTrafficPolicy")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1785,7 +1949,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTrafficPolicyInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTrafficPolicyInstanceOutput>(DeleteTrafficPolicyInstanceOutput.httpOutput(from:), DeleteTrafficPolicyInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTrafficPolicyInstanceInput, DeleteTrafficPolicyInstanceOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteTrafficPolicyInstance")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1848,7 +2019,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVPCAssociationAuthorizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVPCAssociationAuthorizationOutput>(DeleteVPCAssociationAuthorizationOutput.httpOutput(from:), DeleteVPCAssociationAuthorizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVPCAssociationAuthorizationInput, DeleteVPCAssociationAuthorizationOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteVPCAssociationAuthorization")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1911,7 +2089,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableHostedZoneDNSSECOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableHostedZoneDNSSECOutput>(DisableHostedZoneDNSSECOutput.httpOutput(from:), DisableHostedZoneDNSSECOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableHostedZoneDNSSECInput, DisableHostedZoneDNSSECOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisableHostedZoneDNSSEC")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1994,7 +2179,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateVPCFromHostedZoneOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateVPCFromHostedZoneOutput>(DisassociateVPCFromHostedZoneOutput.httpOutput(from:), DisassociateVPCFromHostedZoneOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateVPCFromHostedZoneInput, DisassociateVPCFromHostedZoneOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateVPCFromHostedZone")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2058,7 +2250,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableHostedZoneDNSSECOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableHostedZoneDNSSECOutput>(EnableHostedZoneDNSSECOutput.httpOutput(from:), EnableHostedZoneDNSSECOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableHostedZoneDNSSECInput, EnableHostedZoneDNSSECOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "EnableHostedZoneDNSSEC")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2113,7 +2312,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccountLimitOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccountLimitOutput>(GetAccountLimitOutput.httpOutput(from:), GetAccountLimitOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccountLimitInput, GetAccountLimitOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetAccountLimit")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2173,7 +2379,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetChangeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetChangeOutput>(GetChangeOutput.httpOutput(from:), GetChangeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetChangeInput, GetChangeOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetChange")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2223,7 +2436,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCheckerIpRangesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCheckerIpRangesOutput>(GetCheckerIpRangesOutput.httpOutput(from:), GetCheckerIpRangesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCheckerIpRangesInput, GetCheckerIpRangesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetCheckerIpRanges")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2281,7 +2501,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDNSSECOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDNSSECOutput>(GetDNSSECOutput.httpOutput(from:), GetDNSSECOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDNSSECInput, GetDNSSECOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetDNSSEC")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2338,7 +2565,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetGeoLocationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetGeoLocationOutput>(GetGeoLocationOutput.httpOutput(from:), GetGeoLocationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGeoLocationInput, GetGeoLocationOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetGeoLocation")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2395,7 +2629,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetHealthCheckOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetHealthCheckOutput>(GetHealthCheckOutput.httpOutput(from:), GetHealthCheckOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetHealthCheckInput, GetHealthCheckOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetHealthCheck")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2445,7 +2686,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetHealthCheckCountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetHealthCheckCountOutput>(GetHealthCheckCountOutput.httpOutput(from:), GetHealthCheckCountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetHealthCheckCountInput, GetHealthCheckCountOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetHealthCheckCount")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2501,7 +2749,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetHealthCheckLastFailureReasonOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetHealthCheckLastFailureReasonOutput>(GetHealthCheckLastFailureReasonOutput.httpOutput(from:), GetHealthCheckLastFailureReasonOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetHealthCheckLastFailureReasonInput, GetHealthCheckLastFailureReasonOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetHealthCheckLastFailureReason")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2557,7 +2812,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetHealthCheckStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetHealthCheckStatusOutput>(GetHealthCheckStatusOutput.httpOutput(from:), GetHealthCheckStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetHealthCheckStatusInput, GetHealthCheckStatusOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetHealthCheckStatus")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2614,7 +2876,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetHostedZoneOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetHostedZoneOutput>(GetHostedZoneOutput.httpOutput(from:), GetHostedZoneOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetHostedZoneInput, GetHostedZoneOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetHostedZone")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2669,7 +2938,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetHostedZoneCountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetHostedZoneCountOutput>(GetHostedZoneCountOutput.httpOutput(from:), GetHostedZoneCountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetHostedZoneCountInput, GetHostedZoneCountOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetHostedZoneCount")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2727,7 +3003,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetHostedZoneLimitOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetHostedZoneLimitOutput>(GetHostedZoneLimitOutput.httpOutput(from:), GetHostedZoneLimitOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetHostedZoneLimitInput, GetHostedZoneLimitOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetHostedZoneLimit")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2783,7 +3066,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetQueryLoggingConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetQueryLoggingConfigOutput>(GetQueryLoggingConfigOutput.httpOutput(from:), GetQueryLoggingConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetQueryLoggingConfigInput, GetQueryLoggingConfigOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetQueryLoggingConfig")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2841,7 +3131,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetReusableDelegationSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetReusableDelegationSetOutput>(GetReusableDelegationSetOutput.httpOutput(from:), GetReusableDelegationSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetReusableDelegationSetInput, GetReusableDelegationSetOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetReusableDelegationSet")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2898,7 +3195,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetReusableDelegationSetLimitOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetReusableDelegationSetLimitOutput>(GetReusableDelegationSetLimitOutput.httpOutput(from:), GetReusableDelegationSetLimitOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetReusableDelegationSetLimitInput, GetReusableDelegationSetLimitOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetReusableDelegationSetLimit")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2954,7 +3258,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTrafficPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTrafficPolicyOutput>(GetTrafficPolicyOutput.httpOutput(from:), GetTrafficPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTrafficPolicyInput, GetTrafficPolicyOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetTrafficPolicy")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3010,7 +3321,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTrafficPolicyInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTrafficPolicyInstanceOutput>(GetTrafficPolicyInstanceOutput.httpOutput(from:), GetTrafficPolicyInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTrafficPolicyInstanceInput, GetTrafficPolicyInstanceOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetTrafficPolicyInstance")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3060,7 +3378,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTrafficPolicyInstanceCountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTrafficPolicyInstanceCountOutput>(GetTrafficPolicyInstanceCountOutput.httpOutput(from:), GetTrafficPolicyInstanceCountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTrafficPolicyInstanceCountInput, GetTrafficPolicyInstanceCountOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetTrafficPolicyInstanceCount")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3118,7 +3443,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCidrBlocksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCidrBlocksOutput>(ListCidrBlocksOutput.httpOutput(from:), ListCidrBlocksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCidrBlocksInput, ListCidrBlocksOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListCidrBlocks")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3174,7 +3506,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCidrCollectionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCidrCollectionsOutput>(ListCidrCollectionsOutput.httpOutput(from:), ListCidrCollectionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCidrCollectionsInput, ListCidrCollectionsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListCidrCollections")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3231,7 +3570,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCidrLocationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCidrLocationsOutput>(ListCidrLocationsOutput.httpOutput(from:), ListCidrLocationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCidrLocationsInput, ListCidrLocationsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListCidrLocations")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3287,7 +3633,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGeoLocationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGeoLocationsOutput>(ListGeoLocationsOutput.httpOutput(from:), ListGeoLocationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGeoLocationsInput, ListGeoLocationsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListGeoLocations")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3344,7 +3697,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListHealthChecksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListHealthChecksOutput>(ListHealthChecksOutput.httpOutput(from:), ListHealthChecksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListHealthChecksInput, ListHealthChecksOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListHealthChecks")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3402,7 +3762,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListHostedZonesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListHostedZonesOutput>(ListHostedZonesOutput.httpOutput(from:), ListHostedZonesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListHostedZonesInput, ListHostedZonesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListHostedZones")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3467,7 +3834,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListHostedZonesByNameOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListHostedZonesByNameOutput>(ListHostedZonesByNameOutput.httpOutput(from:), ListHostedZonesByNameOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListHostedZonesByNameInput, ListHostedZonesByNameOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListHostedZonesByName")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3540,7 +3914,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListHostedZonesByVPCOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListHostedZonesByVPCOutput>(ListHostedZonesByVPCOutput.httpOutput(from:), ListHostedZonesByVPCOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListHostedZonesByVPCInput, ListHostedZonesByVPCOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListHostedZonesByVPC")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3598,7 +3979,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListQueryLoggingConfigsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListQueryLoggingConfigsOutput>(ListQueryLoggingConfigsOutput.httpOutput(from:), ListQueryLoggingConfigsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListQueryLoggingConfigsInput, ListQueryLoggingConfigsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListQueryLoggingConfigs")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3656,7 +4044,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResourceRecordSetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResourceRecordSetsOutput>(ListResourceRecordSetsOutput.httpOutput(from:), ListResourceRecordSetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResourceRecordSetsInput, ListResourceRecordSetsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListResourceRecordSets")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3712,7 +4107,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListReusableDelegationSetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListReusableDelegationSetsOutput>(ListReusableDelegationSetsOutput.httpOutput(from:), ListReusableDelegationSetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListReusableDelegationSetsInput, ListReusableDelegationSetsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListReusableDelegationSets")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3771,7 +4173,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTagsForResource")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3833,7 +4242,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourcesOutput>(ListTagsForResourcesOutput.httpOutput(from:), ListTagsForResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourcesInput, ListTagsForResourcesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTagsForResources")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3889,7 +4305,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTrafficPoliciesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTrafficPoliciesOutput>(ListTrafficPoliciesOutput.httpOutput(from:), ListTrafficPoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTrafficPoliciesInput, ListTrafficPoliciesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTrafficPolicies")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3946,7 +4369,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTrafficPolicyInstancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTrafficPolicyInstancesOutput>(ListTrafficPolicyInstancesOutput.httpOutput(from:), ListTrafficPolicyInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTrafficPolicyInstancesInput, ListTrafficPolicyInstancesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTrafficPolicyInstances")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -4004,7 +4434,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTrafficPolicyInstancesByHostedZoneOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTrafficPolicyInstancesByHostedZoneOutput>(ListTrafficPolicyInstancesByHostedZoneOutput.httpOutput(from:), ListTrafficPolicyInstancesByHostedZoneOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTrafficPolicyInstancesByHostedZoneInput, ListTrafficPolicyInstancesByHostedZoneOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTrafficPolicyInstancesByHostedZone")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -4062,7 +4499,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTrafficPolicyInstancesByPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTrafficPolicyInstancesByPolicyOutput>(ListTrafficPolicyInstancesByPolicyOutput.httpOutput(from:), ListTrafficPolicyInstancesByPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTrafficPolicyInstancesByPolicyInput, ListTrafficPolicyInstancesByPolicyOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTrafficPolicyInstancesByPolicy")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -4119,7 +4563,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTrafficPolicyVersionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTrafficPolicyVersionsOutput>(ListTrafficPolicyVersionsOutput.httpOutput(from:), ListTrafficPolicyVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTrafficPolicyVersionsInput, ListTrafficPolicyVersionsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTrafficPolicyVersions")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -4178,7 +4629,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVPCAssociationAuthorizationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVPCAssociationAuthorizationsOutput>(ListVPCAssociationAuthorizationsOutput.httpOutput(from:), ListVPCAssociationAuthorizationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVPCAssociationAuthorizationsInput, ListVPCAssociationAuthorizationsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListVPCAssociationAuthorizations")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -4235,7 +4693,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<TestDNSAnswerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TestDNSAnswerOutput>(TestDNSAnswerOutput.httpOutput(from:), TestDNSAnswerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TestDNSAnswerInput, TestDNSAnswerOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "TestDNSAnswer")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -4295,7 +4760,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateHealthCheckOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateHealthCheckOutput>(UpdateHealthCheckOutput.httpOutput(from:), UpdateHealthCheckOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateHealthCheckInput, UpdateHealthCheckOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateHealthCheck")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -4356,7 +4828,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateHostedZoneCommentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateHostedZoneCommentOutput>(UpdateHostedZoneCommentOutput.httpOutput(from:), UpdateHostedZoneCommentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateHostedZoneCommentInput, UpdateHostedZoneCommentOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateHostedZoneComment")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -4416,7 +4895,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTrafficPolicyCommentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTrafficPolicyCommentOutput>(UpdateTrafficPolicyCommentOutput.httpOutput(from:), UpdateTrafficPolicyCommentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTrafficPolicyCommentInput, UpdateTrafficPolicyCommentOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateTrafficPolicyComment")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -4484,7 +4970,14 @@ extension Route53Client {
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTrafficPolicyInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTrafficPolicyInstanceOutput>(UpdateTrafficPolicyInstanceOutput.httpOutput(from:), UpdateTrafficPolicyInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTrafficPolicyInstanceInput, UpdateTrafficPolicyInstanceOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateTrafficPolicyInstance")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
