@@ -10,7 +10,26 @@
   ],
   "defaultOptions" : {
     "environmentVariableEntries" : [
-
+      {
+        "key" : "AWS_DEFAULT_REGION",
+        "value" : "us-west-2"
+      },
+      {
+        "key" : "AWS_REGION",
+        "value" : "us-west-2"
+      },
+      {
+        "key" : "AWS_ACCESS_KEY_ID",
+        "value" : "your-access-key-id"
+      },
+      {
+        "key" : "AWS_SECRET_ACCESS_KEY",
+        "value" : "your-secret-access-key"
+      },
+      {
+        "key" : "AWS_SESSION_TOKEN",
+        "value" : "your-session-token"
+      },
     ]
   },
   "testTargets" : [
