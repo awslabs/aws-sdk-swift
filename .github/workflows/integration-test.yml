@@ -26,11 +26,15 @@ jobs:
         destination:
           - 'platform=OS X'
     steps:
+      - name: Pre-credentials env
+        run: env
       - name: Configure AWS Credentials for Integration Tests
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.INTEGRATION_TEST_ROLE_ARN }}
           aws-region: us-west-2
+      - name: Post-credentials env
+        run: env
       - name: Checkout aws-sdk-swift
         uses: actions/checkout@v3
       - name: Select smithy-swift branch
