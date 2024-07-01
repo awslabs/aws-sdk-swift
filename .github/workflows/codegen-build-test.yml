@@ -75,4 +75,6 @@ jobs:
           AWS_REGION: us-west-2
           AWS_ACCESS_KEY_ID: test-key-id
           AWS_SECRET_ACCESS_KEY: test-secret-access-key
-        run: swift test --skip-build
+        run: |
+          export AWS_REGION=us-west-2
+          swift test --skip-build -c debug
