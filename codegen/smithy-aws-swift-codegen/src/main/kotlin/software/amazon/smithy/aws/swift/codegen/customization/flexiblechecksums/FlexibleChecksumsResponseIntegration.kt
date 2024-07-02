@@ -1,10 +1,10 @@
 package software.amazon.smithy.aws.swift.codegen.customization.flexiblechecksums
 
+import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.traits.HttpChecksumTrait
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.StructureShape
-import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.SwiftSettings
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
@@ -62,6 +62,12 @@ private object FlexibleChecksumResponseMiddleware : MiddlewareRenderable {
 
         // Will pass the validation mode to validation middleware
         val validationMode: Boolean = requestValidationModeEnumShape.members().map { it.memberName }.first().equals("ENABLED")
-        writer.write("${ClientRuntimeTypes.Middleware.FlexibleChecksumsResponseMiddleware}<$inputShapeName, $outputShapeName>(validationMode: $validationMode)")
+        writer.write(
+            "\$N<\$L, \$L>(validationMode: \$L)",
+            AWSClientRuntimeTypes.Core.FlexibleChecksumsResponseMiddleware,
+            inputShapeName,
+            outputShapeName,
+            validationMode,
+        )
     }
 }

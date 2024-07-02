@@ -16,12 +16,14 @@ import software.amazon.smithy.rulesengine.language.evaluation.value.RecordValue
 import software.amazon.smithy.rulesengine.language.evaluation.value.StringValue
 import software.amazon.smithy.rulesengine.language.evaluation.value.Value
 import software.amazon.smithy.rulesengine.traits.EndpointTestsTrait
-import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftWriter
-import software.amazon.smithy.swift.codegen.XCTestTypes
 import software.amazon.smithy.swift.codegen.endpoints.EndpointTypes
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
+import software.amazon.smithy.swift.codegen.swiftmodules.CRT
+import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes
+import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAPITypes
+import software.amazon.smithy.swift.codegen.swiftmodules.XCTestTypes
 import software.amazon.smithy.swift.codegen.utils.toLowerCamelCase
 
 /**
@@ -33,32 +35,26 @@ class EndpointTestGenerator(
     private val ctx: ProtocolGenerator.GenerationContext
 ) {
     fun render(writer: SwiftWriter): Int {
-        if (endpointTest.testCases.isEmpty()) {
-            return 0
-        }
+        if (endpointTest.testCases.isEmpty()) { return 0 }
 
         writer.addImport(ctx.settings.moduleName, isTestable = true)
-        writer.addImport(SwiftDependency.CLIENT_RUNTIME.target)
-        writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target)
-        writer.addImport(AWSSwiftDependency.AWS_COMMON_RUNTIME.target)
         writer.addImport(SwiftDependency.XCTest.target)
-        writer.addImport(SwiftDependency.SMITHY_TEST_UTIL.target)
 
         // used to filter out test params that are not valid
         val endpointParamsMembers = endpointRuleSet?.parameters?.toList()?.map { it.name.name.value }?.toSet() ?: emptySet()
 
         var count = 0
-        writer.openBlock("class EndpointResolverTest: \$L {", "}", XCTestTypes.XCTestCase) {
+        writer.openBlock("class EndpointResolverTest: \$N {", "}", XCTestTypes.XCTestCase) {
             writer.write("")
             writer.openBlock("override class func setUp() {", "}") {
-                writer.write("\$L.initialize()", AWSClientRuntimeTypes.CRT.CommonRuntimeKit)
+                writer.write("\$N.initialize()", CRT.CommonRuntimeKit)
             }
             writer.write("")
 
             endpointTest.testCases.forEach { testCase ->
                 writer.write("/// \$L", testCase.documentation)
                 writer.openBlock("func testResolve${++count}() throws {", "}") {
-                    writer.openBlock("let endpointParams = \$L(", ")", EndpointTypes.EndpointParams) {
+                    writer.openBlock("let endpointParams = \$N(", ")", EndpointTypes.EndpointParams) {
                         val applicableParams =
                             testCase.params.members.filter { endpointParamsMembers.contains(it.key.value) }
                                 .toSortedMap(compareBy { it.value }).map { (key, value) ->
@@ -75,14 +71,14 @@ class EndpointTestGenerator(
                             }
                         }
                     }
-                    writer.write("let resolver = try \$L()", EndpointTypes.DefaultEndpointResolver).write("")
+                    writer.write("let resolver = try \$N()", EndpointTypes.DefaultEndpointResolver).write("")
 
                     testCase.expect.error.ifPresent { error ->
                         writer.openBlock(
                             "XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in", "}"
                         ) {
                             writer.openBlock("switch error {", "}") {
-                                writer.dedent().write("case EndpointError.unresolved(let message):")
+                                writer.dedent().write("case \$N.unresolved(let message):", ClientRuntimeTypes.Core.EndpointError)
                                 writer.indent().write("XCTAssertEqual(\$S, message)", error)
                                 writer.dedent().write("default:")
                                 writer.indent().write("XCTFail()")
@@ -100,13 +96,13 @@ class EndpointTestGenerator(
                         }
 
                         val reference = if (endpoint.headers.isNotEmpty()) "var" else "let"
-                        writer.write("$reference headers = Headers()")
+                        writer.write("$reference headers = \$N()", SmithyHTTPAPITypes.Headers)
                         endpoint.headers.forEach { (name, values) ->
                             writer.write("headers.add(name: \$S, values: [\$S])", name, values.sorted().joinToString(","))
                         }
                         writer.write(
-                            "let expected = try \$L(urlString: \$S, headers: headers, properties: properties)",
-                            ClientRuntimeTypes.Core.Endpoint,
+                            "let expected = try \$N(urlString: \$S, headers: headers, properties: properties)",
+                            SmithyHTTPAPITypes.Endpoint,
                             endpoint.url
                         ).write("")
                         writer.write("XCTAssertEqual(expected, actual)")

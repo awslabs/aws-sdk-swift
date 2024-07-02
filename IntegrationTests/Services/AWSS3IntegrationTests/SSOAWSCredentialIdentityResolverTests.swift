@@ -5,12 +5,14 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import Smithy
 import Foundation
 import XCTest
 import AWSS3
 import AWSClientRuntime
 import ClientRuntime
 import AWSSSOAdmin
+import AWSSDKIdentity
 
 /* Prerequisites to run the SSO credentials provider integration test(s):
  *

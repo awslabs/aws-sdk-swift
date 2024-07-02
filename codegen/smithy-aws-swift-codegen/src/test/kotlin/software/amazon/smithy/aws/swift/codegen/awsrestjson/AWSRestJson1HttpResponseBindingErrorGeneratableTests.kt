@@ -14,13 +14,13 @@ class AWSRestJson1HttpResponseBindingErrorGeneratableTests {
         val context = setupTests("awsrestjson1/restjson-error.smithy", "aws.protocoltests.restjson1#RestJson1")
         val contents = TestUtils.getFileContents(
             context.manifest,
-            "/Example/models/GreetingWithErrorsOutputError+HttpResponseErrorBinding.swift"
+            "Sources/Example/models/GreetingWithErrorsOutputError+HttpResponseErrorBinding.swift"
         )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 enum GreetingWithErrorsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -42,7 +42,7 @@ enum GreetingWithErrorsOutputError {
         val context = setupTests("awsrestjson1/restjson-error.smithy", "aws.protocoltests.restjson1#RestJson1")
         val contents = TestUtils.getFileContents(
             context.manifest,
-            "/Example/models/RestJson1+HTTPServiceError.swift"
+            "Sources/Example/models/RestJson1+HTTPServiceError.swift"
         )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """

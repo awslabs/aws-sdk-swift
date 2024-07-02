@@ -5,10 +5,12 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import SmithyIdentityAPI
 import Foundation
 import XCTest
 import AWSS3
 import AWSClientRuntime
+import SmithyIdentity
 
 class S3ErrorTests: S3XCTestCase {
 

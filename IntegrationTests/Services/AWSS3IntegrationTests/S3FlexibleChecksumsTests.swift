@@ -5,9 +5,12 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import Smithy
 import XCTest
 import AWSS3
 @testable import ClientRuntime
+import class SmithyStreams.BufferedStream
+import class SmithyChecksums.ValidatingBufferedStream
 
 final class S3FlexibleChecksumsTests: S3XCTestCase {
     var originalData: Data!

@@ -5,10 +5,13 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import Smithy
+import SmithyHTTPAPI
 import Foundation
 import XCTest
 import AWSS3
 import AWSClientRuntime
+@_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AwsCommonRuntimeKit
 import ClientRuntime
 

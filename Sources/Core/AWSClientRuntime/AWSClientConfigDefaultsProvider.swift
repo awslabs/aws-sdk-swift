@@ -4,7 +4,20 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 //
-import ClientRuntime
+
+@_spi(FileBasedConfig) import AWSSDKCommon
+@_spi(DefaultAWSCredentialIdentityResolverChain) import AWSSDKIdentity
+import SmithyIdentity
+import SmithyIdentityAPI
+import struct ClientRuntime.DefaultSDKRuntimeConfiguration
+import enum ClientRuntime.DefaultRetryErrorInfoProvider
+import protocol SmithyHTTPAPI.HTTPClient
+import class ClientRuntime.HttpClientConfiguration
+import protocol ClientRuntime.IdempotencyTokenGenerator
+import enum ClientRuntime.ClientLogMode
+import struct SmithyRetries.DefaultRetryStrategy
+import struct SmithyRetries.ExponentialBackoffStrategy
+import struct SmithyRetriesAPI.RetryStrategyOptions
 
 typealias RuntimeConfigType = DefaultSDKRuntimeConfiguration<DefaultRetryStrategy, DefaultRetryErrorInfoProvider>
 
@@ -96,6 +109,10 @@ public class AWSClientConfigDefaultsProvider {
             resolvedRateLimitingMode = .adaptive
         }
 
-        return RetryStrategyOptions(maxRetriesBase: resolvedMaxAttempts - 1, rateLimitingMode: resolvedRateLimitingMode)
+        return RetryStrategyOptions(
+            backoffStrategy: ExponentialBackoffStrategy(),
+            maxRetriesBase: resolvedMaxAttempts - 1,
+            rateLimitingMode: resolvedRateLimitingMode
+        )
     }
 }

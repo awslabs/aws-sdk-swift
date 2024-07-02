@@ -12,12 +12,12 @@ class S3UnwrappedXMLOutputTraitTests {
     @Test
     fun `001 S3UnwrappedXmlOutputTrait`() {
         val context = setupTests("restxml/serde/s3unwrappedxmloutput.smithy", "aws.protocoltests.restxml#RestXml")
-        val contents = getFileContents(context.manifest, "/Example/models/GetBucketLocationOutput+HttpResponseBinding.swift")
+        val contents = getFileContents(context.manifest, "Sources/Example/models/GetBucketLocationOutput+HttpResponseBinding.swift")
 
         val expectedContents = """
 extension GetBucketLocationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketLocationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetBucketLocationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader.unwrap()

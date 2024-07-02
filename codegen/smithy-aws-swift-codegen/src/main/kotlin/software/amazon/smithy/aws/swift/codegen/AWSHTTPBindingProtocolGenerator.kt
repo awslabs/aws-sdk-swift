@@ -6,6 +6,7 @@ package software.amazon.smithy.aws.swift.codegen
 
 import software.amazon.smithy.aws.swift.codegen.middleware.OperationEndpointResolverMiddleware
 import software.amazon.smithy.aws.swift.codegen.middleware.UserAgentMiddleware
+import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTypes
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.rulesengine.language.EndpointRuleSet
@@ -40,7 +41,6 @@ abstract class AWSHTTPBindingProtocolGenerator(
 
     override val shouldRenderEncodableConformance = false
     override fun generateProtocolUnitTests(ctx: ProtocolGenerator.GenerationContext): Int {
-        val imports = listOf(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target)
         return HttpProtocolTestGenerator(
             ctx,
             requestTestBuilder,
@@ -49,7 +49,6 @@ abstract class AWSHTTPBindingProtocolGenerator(
             customizations,
             operationMiddleware,
             getProtocolHttpBindingResolver(ctx, defaultContentType),
-            imports,
             testsToIgnore,
             tagsToIgnore,
         ).generateProtocolTests() + renderEndpointsTests(ctx)
@@ -65,7 +64,7 @@ abstract class AWSHTTPBindingProtocolGenerator(
                 return 0
             }
 
-            ctx.delegator.useFileWriter("./${ctx.settings.testModuleName}/EndpointResolverTest.swift") { swiftWriter ->
+            ctx.delegator.useFileWriter("Tests/${ctx.settings.testModuleName}/EndpointResolverTest.swift") { swiftWriter ->
                 testCount = + EndpointTestGenerator(testsTrait, ruleSet, ctx).render(swiftWriter)
             }
         }
@@ -74,7 +73,10 @@ abstract class AWSHTTPBindingProtocolGenerator(
     }
 
     override fun addProtocolSpecificMiddleware(ctx: ProtocolGenerator.GenerationContext, operation: OperationShape) {
-        operationMiddleware.appendMiddleware(operation, OperationEndpointResolverMiddleware(ctx))
+        operationMiddleware.appendMiddleware(
+            operation,
+            OperationEndpointResolverMiddleware(ctx, customizations.endpointMiddlewareSymbol)
+        )
         operationMiddleware.appendMiddleware(operation, UserAgentMiddleware(ctx.settings))
     }
 }

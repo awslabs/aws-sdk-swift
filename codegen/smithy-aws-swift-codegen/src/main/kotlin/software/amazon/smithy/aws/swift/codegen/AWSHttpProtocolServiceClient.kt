@@ -8,7 +8,6 @@ package software.amazon.smithy.aws.swift.codegen
 import software.amazon.smithy.aws.swift.codegen.SigV4Utils.Companion.getModeledAuthSchemesSupportedBySDK
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.swift.codegen.AuthSchemeResolverGenerator
-import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.config.ConfigProperty
 import software.amazon.smithy.swift.codegen.config.DefaultProvider
@@ -16,6 +15,10 @@ import software.amazon.smithy.swift.codegen.integration.HttpProtocolServiceClien
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.ServiceConfig
 import software.amazon.smithy.swift.codegen.model.toOptional
+import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes
+import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAPITypes
+import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAuthAPITypes
+import software.amazon.smithy.swift.codegen.swiftmodules.SmithyRetriesAPITypes
 import software.amazon.smithy.swift.codegen.utils.toUpperCamelCase
 
 class AWSHttpProtocolServiceClient(
@@ -39,25 +42,46 @@ class AWSHttpProtocolServiceClient(
         return properties.map {
             when (it.name) {
                 "authSchemeResolver" -> {
-                    ConfigProperty("authSchemeResolver", ClientRuntimeTypes.Auth.AuthSchemeResolver, authSchemeResolverDefaultProvider)
+                    ConfigProperty("authSchemeResolver", SmithyHTTPAuthAPITypes.AuthSchemeResolver, authSchemeResolverDefaultProvider)
                 }
                 "authSchemes" -> {
-                    ConfigProperty("authSchemes", ClientRuntimeTypes.Auth.AuthSchemes.toOptional(), authSchemesDefaultProvider)
+                    ConfigProperty("authSchemes", SmithyHTTPAuthAPITypes.AuthSchemes.toOptional(), authSchemesDefaultProvider)
                 }
                 "retryStrategyOptions" -> {
-                    ConfigProperty("retryStrategyOptions", ClientRuntimeTypes.Core.RetryStrategyOptions, "AWSClientConfigDefaultsProvider.retryStrategyOptions()", true)
+                    ConfigProperty(
+                        "retryStrategyOptions",
+                        SmithyRetriesAPITypes.RetryStrategyOptions,
+                        { it.format("AWSClientConfigDefaultsProvider.retryStrategyOptions()") },
+                        true
+                    )
                 }
                 "clientLogMode" -> {
-                    ConfigProperty("clientLogMode", ClientRuntimeTypes.Core.ClientLogMode, "AWSClientConfigDefaultsProvider.clientLogMode")
+                    ConfigProperty(
+                        "clientLogMode",
+                        ClientRuntimeTypes.Core.ClientLogMode,
+                        { it.format("AWSClientConfigDefaultsProvider.clientLogMode") },
+                    )
                 }
                 "idempotencyTokenGenerator" -> {
-                    ConfigProperty("idempotencyTokenGenerator", ClientRuntimeTypes.Core.IdempotencyTokenGenerator, "AWSClientConfigDefaultsProvider.idempotencyTokenGenerator")
+                    ConfigProperty(
+                        "idempotencyTokenGenerator",
+                        ClientRuntimeTypes.Core.IdempotencyTokenGenerator,
+                        { it.format("AWSClientConfigDefaultsProvider.idempotencyTokenGenerator") },
+                    )
                 }
                 "httpClientEngine" -> {
-                    ConfigProperty("httpClientEngine", ClientRuntimeTypes.Http.HttpClient, "AWSClientConfigDefaultsProvider.httpClientEngine")
+                    ConfigProperty(
+                        "httpClientEngine",
+                        SmithyHTTPAPITypes.HttpClient,
+                        { it.format("AWSClientConfigDefaultsProvider.httpClientEngine") },
+                    )
                 }
                 "httpClientConfiguration" -> {
-                    ConfigProperty("httpClientConfiguration", ClientRuntimeTypes.Http.HttpClientConfiguration, "AWSClientConfigDefaultsProvider.httpClientConfiguration")
+                    ConfigProperty(
+                        "httpClientConfiguration",
+                        ClientRuntimeTypes.Http.HttpClientConfiguration,
+                        { it.format("AWSClientConfigDefaultsProvider.httpClientConfiguration") },
+                    )
                 }
                 else -> it
             }
@@ -84,7 +108,7 @@ class AWSHttpProtocolServiceClient(
                             "try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver()"
                         }
                         else -> {
-                            it.default?.render() ?: "nil"
+                            it.default?.render(writer) ?: "nil"
                         }
                     }
                 }
@@ -107,13 +131,13 @@ class AWSHttpProtocolServiceClient(
     }
 
     private val authSchemesDefaultProvider = DefaultProvider(
-        getModeledAuthSchemesSupportedBySDK(ctx),
+        { getModeledAuthSchemesSupportedBySDK(ctx, it) },
         isThrowable = false,
         isAsync = false
     )
 
     private val authSchemeResolverDefaultProvider = DefaultProvider(
-        "Default${AuthSchemeResolverGenerator.getSdkId(ctx)}AuthSchemeResolver()",
+        { "Default${AuthSchemeResolverGenerator.getSdkId(ctx)}AuthSchemeResolver()" },
         false,
         false
     )

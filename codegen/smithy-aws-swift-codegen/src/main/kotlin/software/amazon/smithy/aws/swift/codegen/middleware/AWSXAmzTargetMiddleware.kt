@@ -5,7 +5,7 @@
 
 package software.amazon.smithy.aws.swift.codegen.middleware
 
-import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes.AWSJSON.XAmzTargetMiddleware
+import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTypes.AWSJSON.XAmzTargetMiddleware
 import software.amazon.smithy.codegen.core.SymbolProvider
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.shapes.OperationShape
@@ -36,7 +36,6 @@ class AWSXAmzTargetMiddleware(
     ) {
         val inputShapeName = MiddlewareShapeUtils.inputSymbol(symbolProvider, model, op).name
         val outputShapeName = MiddlewareShapeUtils.outputSymbol(symbolProvider, model, op).name
-        writer.addImport(XAmzTargetMiddleware)
         writer.write("\$N<$inputShapeName, $outputShapeName>(${middlewareParamsString(op)})", XAmzTargetMiddleware)
     }
 

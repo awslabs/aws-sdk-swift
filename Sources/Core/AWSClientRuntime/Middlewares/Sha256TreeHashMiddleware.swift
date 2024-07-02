@@ -1,9 +1,12 @@
 // Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0.
 
+import class Smithy.Context
+import AwsCCal
 import AwsCommonRuntimeKit
 import ClientRuntime
-import AwsCCal
+import SmithyHTTPAPI
+import struct Foundation.Data
 
 public struct Sha256TreeHashMiddleware<OperationStackInput, OperationStackOutput>: Middleware {
     public let id: String = "Sha256TreeHash"
@@ -19,8 +22,7 @@ public struct Sha256TreeHashMiddleware<OperationStackInput, OperationStackOutput
                           next: H) async throws -> MOutput
     where H: Handler,
           Self.MInput == H.Input,
-          Self.MOutput == H.Output,
-          Self.Context == H.Context {
+          Self.MOutput == H.Output {
               let request = input.build()
               try await addHashes(request: request, builder: input)
               return try await next.handle(context: context, input: input)
@@ -102,16 +104,13 @@ public struct Sha256TreeHashMiddleware<OperationStackInput, OperationStackOutput
 
     public typealias MInput = SdkHttpRequestBuilder
     public typealias MOutput = OperationOutput<OperationStackOutput>
-    public typealias Context = HttpContext
 }
 
 extension Sha256TreeHashMiddleware: HttpInterceptor {
     public typealias InputType = OperationStackInput
     public typealias OutputType = OperationStackOutput
 
-    public func modifyBeforeTransmit(
-        context: some MutableRequest<Self.InputType, Self.RequestType, Self.AttributesType>
-    ) async throws {
+    public func modifyBeforeTransmit(context: some MutableRequest<Self.InputType, Self.RequestType>) async throws {
         let request = context.getRequest()
         let builder = request.toBuilder()
         try await addHashes(request: request, builder: builder)

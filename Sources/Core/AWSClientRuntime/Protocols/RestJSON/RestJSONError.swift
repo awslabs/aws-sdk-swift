@@ -7,7 +7,7 @@
 
 import protocol ClientRuntime.BaseError
 import enum ClientRuntime.BaseErrorDecodeError
-import class ClientRuntime.HttpResponse
+import class SmithyHTTPAPI.HttpResponse
 import class SmithyJSON.Reader
 
 public struct RestJSONError: BaseError {

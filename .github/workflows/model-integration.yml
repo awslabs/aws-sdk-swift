@@ -63,7 +63,6 @@ jobs:
           ./gradlew -p codegen/sdk-codegen build
           ./gradlew -p codegen/sdk-codegen stageSdks
           ./gradlew --stop
-          ./scripts/mergeModels.sh Sources/Services
       - name: Regenerate Package.swift
         run: |
           cd AWSSDKSwiftCLI

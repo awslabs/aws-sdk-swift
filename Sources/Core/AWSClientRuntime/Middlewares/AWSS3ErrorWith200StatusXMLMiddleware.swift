@@ -5,7 +5,9 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import class Smithy.Context
 import ClientRuntime
+import SmithyHTTPAPI
 
 public struct AWSS3ErrorWith200StatusXMLMiddleware<OperationStackInput, OperationStackOutput>: Middleware {
     public let id: String = "AWSS3ErrorWith200StatusXMLMiddleware"
@@ -18,8 +20,7 @@ public struct AWSS3ErrorWith200StatusXMLMiddleware<OperationStackInput, Operatio
                           next: H) async throws -> OperationOutput<OperationStackOutput>
     where H: Handler,
           Self.MInput == H.Input,
-          Self.MOutput == H.Output,
-          Self.Context == H.Context {
+          Self.MOutput == H.Output {
 
         // Let the next handler in the chain process the input
         let response = try await next.handle(context: context, input: input)
@@ -52,7 +53,6 @@ public struct AWSS3ErrorWith200StatusXMLMiddleware<OperationStackInput, Operatio
 
     public typealias MInput = SdkHttpRequest
     public typealias MOutput = OperationOutput<OperationStackOutput>
-    public typealias Context = HttpContext
 }
 
 extension AWSS3ErrorWith200StatusXMLMiddleware: HttpInterceptor {
@@ -60,7 +60,7 @@ extension AWSS3ErrorWith200StatusXMLMiddleware: HttpInterceptor {
     public typealias OutputType = OperationStackOutput
 
     public func modifyBeforeDeserialization(
-        context: some MutableResponse<Self.InputType, Self.RequestType, Self.ResponseType, Self.AttributesType>
+        context: some MutableResponse<Self.InputType, Self.RequestType, Self.ResponseType>
     ) async throws {
         let response = context.getResponse()
         if try await isErrorWith200Status(response: response) {

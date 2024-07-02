@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0.
  */
 
+import class SmithyHTTPAPI.HttpResponse
 import ClientRuntime
 
 public extension HttpResponse {

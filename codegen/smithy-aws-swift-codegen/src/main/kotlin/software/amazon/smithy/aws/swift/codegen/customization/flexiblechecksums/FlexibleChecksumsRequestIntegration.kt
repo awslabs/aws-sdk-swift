@@ -1,10 +1,10 @@
 package software.amazon.smithy.aws.swift.codegen.customization.flexiblechecksums
 
+import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.traits.HttpChecksumTrait
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.StructureShape
-import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.SwiftSettings
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
@@ -60,6 +60,12 @@ private object FlexibleChecksumRequestMiddleware : MiddlewareRenderable {
         val httpChecksumTrait = op.getTrait(HttpChecksumTrait::class.java).orElse(null)
         val inputMemberName = httpChecksumTrait?.requestAlgorithmMember?.get()?.lowercaseFirstLetter()
 
-        writer.write("${ClientRuntimeTypes.Middleware.FlexibleChecksumsRequestMiddleware}<$inputShapeName, $outputShapeName>(checksumAlgorithm: input.$inputMemberName?.rawValue)")
+        writer.write(
+            "\$N<\$L, \$L>(checksumAlgorithm: input.\$L?.rawValue)",
+            AWSClientRuntimeTypes.Core.FlexibleChecksumsRequestMiddleware,
+            inputShapeName,
+            outputShapeName,
+            inputMemberName,
+        )
     }
 }

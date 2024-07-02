@@ -17,7 +17,7 @@ class AWSRestXMLEventStreamTests {
         )
         val contents = TestUtils.getFileContents(
             context.manifest,
-            "/Example/EventStreamTestClient.swift"
+            "Sources/Example/EventStreamTestClient.swift"
         )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
@@ -34,15 +34,15 @@ class AWSRestXMLEventStreamTests {
         )
         val contents = TestUtils.getFileContents(
             context.manifest,
-            "/Example/models/TestEvents+MessageMarshallable.swift"
+            "Sources/Example/models/TestEvents+MessageMarshallable.swift"
         )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 extension EventStreamTestClientTypes.TestEvents {
-    static var marshal: ClientRuntime.MarshalClosure<EventStreamTestClientTypes.TestEvents> {
+    static var marshal: SmithyEventStreamsAPI.MarshalClosure<EventStreamTestClientTypes.TestEvents> {
         { (self) in
-            var headers: [ClientRuntime.EventStream.Header] = [.init(name: ":message-type", value: .string("event"))]
-            var payload: ClientRuntime.Data? = nil
+            var headers: [SmithyEventStreamsAPI.Header] = [.init(name: ":message-type", value: .string("event"))]
+            var payload: Foundation.Data? = nil
             switch self {
             case .messageevent(let value):
                 headers.append(.init(name: ":event-type", value: .string("MessageEvent")))
@@ -56,9 +56,9 @@ extension EventStreamTestClientTypes.TestEvents {
                 headers.append(.init(name: ":content-type", value: .string("application/xml")))
                 payload = try SmithyXML.Writer.write(value.audio, rootNodeInfo: "Audio", with: EventStreamTestClientTypes.Audio.write(value:to:))
             case .sdkUnknown(_):
-                throw ClientRuntime.ClientError.unknownError("cannot serialize the unknown event type!")
+                throw Smithy.ClientError.unknownError("cannot serialize the unknown event type!")
             }
-            return ClientRuntime.EventStream.Message(headers: headers, payload: payload ?? .init())
+            return SmithyEventStreamsAPI.Message(headers: headers, payload: payload ?? .init())
         }
     }
 }
@@ -74,7 +74,7 @@ extension EventStreamTestClientTypes.TestEvents {
         )
         val contents = TestUtils.getFileContents(
             context.manifest,
-            "/Example/models/MessageWithAudio+ReadWrite.swift"
+            "Sources/Example/models/MessageWithAudio+ReadWrite.swift"
         )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
@@ -106,7 +106,7 @@ extension EventStreamTestClientTypes.MessageWithAudio {
         )
         val contents = TestUtils.getFileContents(
             context.manifest,
-            "/Example/models/Audio+ReadWrite.swift"
+            "Sources/Example/models/Audio+ReadWrite.swift"
         )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """

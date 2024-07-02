@@ -6,13 +6,14 @@ import software.amazon.smithy.model.shapes.ListShape
 import software.amazon.smithy.model.shapes.Shape
 import software.amazon.smithy.model.shapes.ShapeId
 import software.amazon.smithy.model.shapes.TimestampShape
-import software.amazon.smithy.swift.codegen.ClientRuntimeTypes.Core.SDKURLQueryItem
 import software.amazon.smithy.swift.codegen.Middleware
-import software.amazon.smithy.swift.codegen.SwiftTypes
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.steps.OperationSerializeStep
 import software.amazon.smithy.swift.codegen.model.isEnum
+import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAPITypes
+import software.amazon.smithy.swift.codegen.swiftmodules.SmithyTypes
+import software.amazon.smithy.swift.codegen.swiftmodules.SwiftTypes
 
 class InputTypeGETQueryItemMiddleware(
     private val ctx: ProtocolGenerator.GenerationContext,
@@ -25,20 +26,24 @@ class InputTypeGETQueryItemMiddleware(
     override val typeName = "${inputSymbol.name}GETQueryItemMiddleware"
 
     override fun renderExtensions() {
-        writer.write(
-            """
-            extension $typeName: ClientRuntime.RequestMessageSerializer {
-                public typealias InputType = ${inputSymbol.name}
-                public typealias RequestType = ClientRuntime.SdkHttpRequest
-                public typealias AttributesType = ClientRuntime.HttpContext
-                
-                public func apply(input: InputType, builder: ClientRuntime.SdkHttpRequestBuilder, attributes: ClientRuntime.HttpContext) throws {
-                    ${'$'}{C|}
-                }
+        writer.openBlock(
+            "extension \$L: \$N {",
+            "}",
+            typeName,
+            SmithyTypes.RequestMessageSerializer,
+        ) {
+            writer.write("public typealias InputType = \$L", inputSymbol.name)
+            writer.write("public typealias RequestType = \$N", SmithyHTTPAPITypes.SdkHttpRequest)
+            writer.write("")
+            writer.openBlock(
+                "public func apply(input: InputType, builder: \$N, attributes: \$N) throws {",
+                "}",
+                SmithyHTTPAPITypes.SdkHttpRequestBuilder,
+                SmithyTypes.Context,
+            ) {
+                writer.write("\${C|}", Runnable { renderApplyBody() })
             }
-            """.trimIndent(),
-            Runnable { renderApplyBody() }
-        )
+        }
     }
 
     override fun generateMiddlewareClosure() {
@@ -78,7 +83,13 @@ class InputTypeGETQueryItemMiddleware(
     }
 
     private fun writeRenderItem(queryKey: String, queryValue: String) {
-        writer.write("let queryItem = \$N(name: \"${queryKey}\".urlPercentEncoding(), value: \$N($queryValue).urlPercentEncoding())", SDKURLQueryItem, SwiftTypes.String)
+        writer.write(
+            "let queryItem = \$N(name: \$S.urlPercentEncoding(), value: \$N(\$L).urlPercentEncoding())",
+            SmithyTypes.URIQueryItem,
+            queryKey,
+            SwiftTypes.String,
+            queryValue,
+        )
         writer.write("builder.withQueryItem(queryItem)")
     }
 

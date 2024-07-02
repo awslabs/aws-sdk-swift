@@ -13,7 +13,7 @@ class S3ExpiresTest {
     @Test
     fun `001 test S3 output members named expires are changed to string type`() {
         val context = setupTests("s3-expires.smithy", "com.amazonaws.s3#S3", "S3")
-        val contents = TestUtils.getFileContents(context.manifest, "/Example/models/FooOutput.swift")
+        val contents = TestUtils.getFileContents(context.manifest, "Sources/Example/models/FooOutput.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """
@@ -37,7 +37,7 @@ class S3ExpiresTest {
     @Test
     fun `002 test S3 input members named expires are changed to string type`() {
         val context = setupTests("s3-expires.smithy", "com.amazonaws.s3#S3", "S3")
-        val contents = TestUtils.getFileContents(context.manifest, "/Example/models/FooInput.swift")
+        val contents = TestUtils.getFileContents(context.manifest, "Sources/Example/models/FooInput.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """
@@ -61,24 +61,23 @@ class S3ExpiresTest {
     @Test
     fun `003 test non-S3 output members named expires are not changed`() {
         val context = setupTests("s3-expires.smithy", "com.amazonaws.s3#Bar", "Bar")
-        val contents = TestUtils.getFileContents(context.manifest, "/Example/models/FooOutput.swift")
+        val contents = TestUtils.getFileContents(context.manifest, "Sources/Example/models/FooOutput.swift")
         contents.shouldSyntacticSanityCheck()
-        val expectedContents =
-            """
-            public struct FooOutput {
-                public var expires: ClientRuntime.Date?
-                public var payload1: Swift.String?
-            
-                public init(
-                    expires: ClientRuntime.Date? = nil,
-                    payload1: Swift.String? = nil
-                )
-                {
-                    self.expires = expires
-                    self.payload1 = payload1
-                }
-            }
-            """.trimIndent()
+        val expectedContents = """
+public struct FooOutput {
+    public var expires: Foundation.Date?
+    public var payload1: Swift.String?
+
+    public init(
+        expires: Foundation.Date? = nil,
+        payload1: Swift.String? = nil
+    )
+    {
+        self.expires = expires
+        self.payload1 = payload1
+    }
+}
+"""
         contents.shouldContainOnlyOnce(expectedContents)
     }
 

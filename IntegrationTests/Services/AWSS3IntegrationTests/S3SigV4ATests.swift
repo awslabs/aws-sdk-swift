@@ -8,6 +8,8 @@
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif
+import Smithy
+import AWSSDKHTTPAuth
 import XCTest
 import AWSS3
 import AWSS3Control

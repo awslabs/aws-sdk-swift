@@ -17,24 +17,24 @@ class AWSJsonHttpInitialRequestTests {
         )
         val contents = TestUtils.getFileContents(
             context.manifest,
-            "/Example/models/TestStream+MessageMarshallable.swift"
+            "Sources/Example/models/TestStream+MessageMarshallable.swift"
         )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 extension InitialRequestTestClientTypes.TestStream {
-    static var marshal: ClientRuntime.MarshalClosure<InitialRequestTestClientTypes.TestStream> {
+    static var marshal: SmithyEventStreamsAPI.MarshalClosure<InitialRequestTestClientTypes.TestStream> {
         { (self) in
-            var headers: [ClientRuntime.EventStream.Header] = [.init(name: ":message-type", value: .string("event"))]
-            var payload: ClientRuntime.Data? = nil
+            var headers: [SmithyEventStreamsAPI.Header] = [.init(name: ":message-type", value: .string("event"))]
+            var payload: Foundation.Data? = nil
             switch self {
             case .messagewithstring(let value):
                 headers.append(.init(name: ":event-type", value: .string("MessageWithString")))
                 headers.append(.init(name: ":content-type", value: .string("text/plain")))
                 payload = value.data?.data(using: .utf8)
             case .sdkUnknown(_):
-                throw ClientRuntime.ClientError.unknownError("cannot serialize the unknown event type!")
+                throw Smithy.ClientError.unknownError("cannot serialize the unknown event type!")
             }
-            return ClientRuntime.EventStream.Message(headers: headers, payload: payload ?? .init())
+            return SmithyEventStreamsAPI.Message(headers: headers, payload: payload ?? .init())
         }
     }
 }
@@ -50,7 +50,7 @@ extension InitialRequestTestClientTypes.TestStream {
         )
         val contents = TestUtils.getFileContents(
             context.manifest,
-            "/Example/InitialRequestTestClient.swift"
+            "Sources/Example/InitialRequestTestClient.swift"
         )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
@@ -67,7 +67,7 @@ extension InitialRequestTestClientTypes.TestStream {
         )
         val contents = TestUtils.getFileContents(
             context.manifest,
-            "/Example/models/EventStreamOpInput+Write.swift"
+            "Sources/Example/models/EventStreamOpInput+Write.swift"
         )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
@@ -91,20 +91,20 @@ extension EventStreamOpInput {
         )
         val contents = TestUtils.getFileContents(
             context.manifest,
-            "/Example/models/EventStreamOpInput+MakeInitialRequestMessage.swift"
+            "Sources/Example/models/EventStreamOpInput+MakeInitialRequestMessage.swift"
         )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 extension EventStreamOpInput {
-    func makeInitialRequestMessage() throws -> EventStream.Message {
+    func makeInitialRequestMessage() throws -> SmithyEventStreamsAPI.Message {
         let writer = SmithyJSON.Writer(nodeInfo: "")
         try writer.write(self, with: EventStreamOpInput.write(value:to:))
         let initialRequestPayload = try writer.data()
-        let initialRequestMessage = EventStream.Message(
+        let initialRequestMessage = SmithyEventStreamsAPI.Message(
             headers: [
-                EventStream.Header(name: ":message-type", value: .string("event")),
-                EventStream.Header(name: ":event-type", value: .string("initial-request")),
-                EventStream.Header(name: ":content-type", value: .string("application/x-amz-json-1.0"))
+                SmithyEventStreamsAPI.Header(name: ":message-type", value: .string("event")),
+                SmithyEventStreamsAPI.Header(name: ":event-type", value: .string("initial-request")),
+                SmithyEventStreamsAPI.Header(name: ":content-type", value: .string("application/x-amz-json-1.0"))
             ],
             payload: initialRequestPayload
         )

@@ -5,7 +5,9 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import class Smithy.Context
 import ClientRuntime
+import SmithyHTTPAPI
 
 public struct UserAgentMiddleware<OperationStackInput, OperationStackOutput>: Middleware {
     public let id: String = "UserAgentHeader"
@@ -24,8 +26,7 @@ public struct UserAgentMiddleware<OperationStackInput, OperationStackOutput>: Mi
                           next: H) async throws -> OperationOutput<OperationStackOutput>
     where H: Handler,
           Self.MInput == H.Input,
-          Self.MOutput == H.Output,
-          Self.Context == H.Context {
+          Self.MOutput == H.Output {
         addHeader(builder: input)
         return try await next.handle(context: context, input: input)
     }
@@ -36,16 +37,13 @@ public struct UserAgentMiddleware<OperationStackInput, OperationStackOutput>: Mi
 
     public typealias MInput = SdkHttpRequestBuilder
     public typealias MOutput = OperationOutput<OperationStackOutput>
-    public typealias Context = HttpContext
 }
 
 extension UserAgentMiddleware: HttpInterceptor {
     public typealias InputType = OperationStackInput
     public typealias OutputType = OperationStackOutput
 
-    public func modifyBeforeRetryLoop(
-        context: some MutableRequest<Self.InputType, SdkHttpRequest, HttpContext>
-    ) async throws {
+    public func modifyBeforeRetryLoop(context: some MutableRequest<Self.InputType, SdkHttpRequest>) async throws {
         let builder = context.getRequest().toBuilder()
         addHeader(builder: builder)
         context.updateRequest(updated: builder.build())

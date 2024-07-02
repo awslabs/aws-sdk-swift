@@ -20,40 +20,40 @@ jobs:
       matrix:
         # This matrix runs tests on iOS sim & Mac, on oldest & newest supported Xcodes
         runner:
-          - macos-13-xlarge
-          - macos-14-xlarge
+          - macos-13
+          - macos-14
         xcode:
-          - Xcode_14.1
+          - Xcode_15.2
           - Xcode_15.4
         destination:
-          - 'platform=iOS Simulator,OS=16.1,name=iPhone 14'
+          - 'platform=iOS Simulator,OS=17.2,name=iPhone 15'
           - 'platform=iOS Simulator,OS=17.5,name=iPhone 15'
-          - 'platform=tvOS Simulator,OS=16.1,name=Apple TV 4K (3rd generation) (at 1080p)'
+          - 'platform=tvOS Simulator,OS=17.2,name=Apple TV 4K (3rd generation) (at 1080p)'
           - 'platform=tvOS Simulator,OS=17.5,name=Apple TV 4K (3rd generation) (at 1080p)'
           - 'platform=visionOS Simulator,OS=1.0,name=Apple Vision Pro'
           - 'platform=visionOS Simulator,OS=1.2,name=Apple Vision Pro'
           - 'platform=OS X'
         exclude:
           # Don't run old macOS with new Xcode
-          - runner: macos-13-xlarge
+          - runner: macos-13
             xcode: Xcode_15.4
           # Don't run new macOS with old Xcode
-          - runner: macos-14-xlarge
-            xcode: Xcode_14.1
+          - runner: macos-14
+            xcode: Xcode_15.2
           # Don't run old simulators with new Xcode
-          - destination: 'platform=tvOS Simulator,OS=16.1,name=Apple TV 4K (3rd generation) (at 1080p)'
+          - destination: 'platform=tvOS Simulator,OS=17.2,name=Apple TV 4K (3rd generation) (at 1080p)'
             xcode: Xcode_15.4
-          - destination: 'platform=iOS Simulator,OS=16.1,name=iPhone 14'
+          - destination: 'platform=iOS Simulator,OS=17.2,name=iPhone 15'
+            xcode: Xcode_15.4
+          - destination: 'platform=visionOS Simulator,OS=1.0,name=Apple Vision Pro'
             xcode: Xcode_15.4
           # Don't run new simulators with old Xcode
           - destination: 'platform=tvOS Simulator,OS=17.5,name=Apple TV 4K (3rd generation) (at 1080p)'
-            xcode: Xcode_14.1
+            xcode: Xcode_15.2
           - destination: 'platform=iOS Simulator,OS=17.5,name=iPhone 15'
-            xcode: Xcode_14.1
-          - destination: 'platform=visionOS Simulator,OS=1.0,name=Apple Vision Pro'
-            xcode: Xcode_14.1
+            xcode: Xcode_15.2
           - destination: 'platform=visionOS Simulator,OS=1.2,name=Apple Vision Pro'
-            xcode: Xcode_14.1
+            xcode: Xcode_15.2
     steps:
       - name: Configure AWS Credentials for Integration Tests
         uses: aws-actions/configure-aws-credentials@v4
@@ -111,12 +111,13 @@ jobs:
           TOKEN_ESCAPED=`echo -n "$AWS_SESSION_TOKEN" | jq -Rsa .`
           # Insert the credentials into the .xctestplan file, write the modified JSON
           # to a temp file, then move the temp over the original.
-          jq ".defaultOptions.environmentVariableEntries += [{\"key\": \"AWS_ACCESS_KEY_ID\", \"value\": $AKID_ESCAPED}, {\"key\": \"AWS_SECRET_ACCESS_KEY\", \"value\": $SECRET_ESCAPED}, {\"key\": \"AWS_DEFAULT_REGION\", \"value\": $REGION_ESCAPED}, {\"key\": \"AWS_SESSION_TOKEN\", \"value\": $TOKEN_ESCAPED}]" XCTestPlans/AWSIntegrationTestsOnCI.xctestplan > testplan.tmp
-          mv testplan.tmp XCTestPlans/AWSIntegrationTestsOnCI.xctestplan
+          jq ".defaultOptions.environmentVariableEntries += [{\"key\": \"AWS_ACCESS_KEY_ID\", \"value\": $AKID_ESCAPED}, {\"key\": \"AWS_SECRET_ACCESS_KEY\", \"value\": $SECRET_ESCAPED}, {\"key\": \"AWS_DEFAULT_REGION\", \"value\": $REGION_ESCAPED}, {\"key\": \"AWS_SESSION_TOKEN\", \"value\": $TOKEN_ESCAPED}]" IntegrationTests/XCTestPlans/AWSIntegrationTestsOnCI.xctestplan > testplan.tmp
+          mv testplan.tmp IntegrationTests/XCTestPlans/AWSIntegrationTestsOnCI.xctestplan
       - name: Prepare Integration Tests
         run: ./scripts/ci_steps/prepare_integration_tests.sh
       - name: Run Integration Tests
         run: |
+          cd IntegrationTests
           set -o pipefail && \
           NSUnbufferedIO=YES xcodebuild \
             -scheme AWSIntegrationTestsOnCI \
@@ -135,7 +136,7 @@ jobs:
           - jammy
           - amazonlinux2
         version:
-          - "5.7"
+          - "5.9"
           - "5.10"
     steps:
       - name: Configure AWS Credentials for Integration Tests
@@ -192,6 +193,12 @@ jobs:
       - name: Prepare Integration Tests
         run: ./scripts/ci_steps/prepare_integration_tests.sh
       - name: Build Integration Tests
-        run: swift build --build-tests
+        run: |
+          cd IntegrationTests
+          swift build --build-tests
+          cd ..
       - name: Run Integration Tests
-        run: swift test
+        run: |
+          cd IntegrationTests
+          swift test
+          cd ..
