@@ -18,11 +18,6 @@ jobs:
     env:
       DEVELOPER_DIR: /Applications/Xcode_15.4.app/Contents/Developer
     steps:
-      - name: Configure AWS Credentials for Integration Tests
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: ${{ secrets.INTEGRATION_TEST_ROLE_ARN }}
-          aws-region: us-west-2
       - name: Checkout aws-sdk-swift
         uses: actions/checkout@v3
       - name: Select smithy-swift branch
@@ -81,11 +76,4 @@ jobs:
           echo "aws_access_key_id = test-key-id" >> ~/.aws/credentials
           echo "aws_secret_access_key = test-secret-access-key" >> ~/.aws/credentials
       - name: Run Unit Tests
-        env:
-          AWS_DEFAULT_REGION: us-west-2
-          AWS_REGION: us-west-2
-          AWS_ACCESS_KEY_ID: test-key-id
-          AWS_SECRET_ACCESS_KEY: test-secret-access-key
-        run: |
-          export AWS_REGION=us-west-2
-          swift test --skip-build -c debug
+        run: swift test --skip-build
