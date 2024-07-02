@@ -473,7 +473,7 @@
                     "sdkId": "Database Migration Service",
                     "arnNamespace": "dms",
                     "cloudFormationName": "DMS",
-                    "cloudTrailEventSource": "databasemigrationservice.amazonaws.com",
+                    "cloudTrailEventSource": "dms.amazonaws.com",
                     "docId": "dms-2016-01-01",
                     "endpointPrefix": "dms"
                 },

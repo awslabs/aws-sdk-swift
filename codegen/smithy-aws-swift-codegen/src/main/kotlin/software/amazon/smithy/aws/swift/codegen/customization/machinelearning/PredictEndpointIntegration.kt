@@ -7,9 +7,8 @@ import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.swift.codegen.MiddlewareGenerator
 import software.amazon.smithy.swift.codegen.SwiftDelegator
-import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftSettings
-import software.amazon.smithy.swift.codegen.core.CodegenContext
+import software.amazon.smithy.swift.codegen.core.SwiftCodegenContext
 import software.amazon.smithy.swift.codegen.core.toProtocolGenerationContext
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
@@ -17,6 +16,7 @@ import software.amazon.smithy.swift.codegen.integration.middlewares.handlers.Mid
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 import software.amazon.smithy.swift.codegen.middleware.OperationMiddleware
 import software.amazon.smithy.swift.codegen.model.expectShape
+import software.amazon.smithy.swift.codegen.utils.ModelFileUtils
 
 internal val ENABLED_OPERATIONS: Map<String, Set<String>> = mapOf(
     "com.amazonaws.machinelearning#AmazonML_20141212" to setOf(
@@ -30,7 +30,7 @@ class PredictEndpointIntegration(private val enabledOperations: Map<String, Set<
         val currentServiceId = model.expectShape<ServiceShape>(settings.service).id.toString()
         return enabledOperations.keys.contains(currentServiceId)
     }
-    override fun writeAdditionalFiles(ctx: CodegenContext, protoCtx: ProtocolGenerator.GenerationContext, delegator: SwiftDelegator) {
+    override fun writeAdditionalFiles(ctx: SwiftCodegenContext, protoCtx: ProtocolGenerator.GenerationContext, delegator: SwiftDelegator) {
         val serviceShape = ctx.model.expectShape<ServiceShape>(ctx.settings.service)
         val protocolGeneratorContext = ctx.toProtocolGenerationContext(serviceShape, delegator)?.let { it } ?: run { return }
         val service = ctx.model.expectShape<ServiceShape>(ctx.settings.service)
@@ -43,8 +43,8 @@ class PredictEndpointIntegration(private val enabledOperations: Map<String, Set<
             val outputErrorSymbol = MiddlewareShapeUtils.outputErrorSymbol(op)
 
             val inputType = op.input.get()
-            delegator.useFileWriter("${ctx.settings.moduleName}/models/$inputType+EndpointURLHostMiddleware.swift") { writer ->
-                writer.addImport(SwiftDependency.CLIENT_RUNTIME.target)
+            val filename = ModelFileUtils.filename(ctx.settings, "$inputType+EndpointURLHostMiddleware")
+            delegator.useFileWriter(filename) { writer ->
                 val predictMiddleware = PredictInputEndpointURLHostMiddlewareHandler(writer, protocolGeneratorContext, inputSymbol, outputSymbol, outputErrorSymbol)
                 MiddlewareGenerator(writer, predictMiddleware).generate()
             }

@@ -8,8 +8,9 @@ package software.amazon.smithy.aws.swift.codegen.awsquery
 import io.kotest.matchers.string.shouldContainOnlyOnce
 import org.junit.jupiter.api.Test
 import software.amazon.smithy.aws.swift.codegen.TestContext
-import software.amazon.smithy.aws.swift.codegen.TestContextGenerator
-import software.amazon.smithy.aws.swift.codegen.TestContextGenerator.Companion.getFileContents
+import software.amazon.smithy.aws.swift.codegen.TestUtils
+import software.amazon.smithy.aws.swift.codegen.TestUtils.Companion.getFileContents
+import software.amazon.smithy.aws.swift.codegen.protocols.awsquery.AWSQueryProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.shouldSyntacticSanityCheck
 import software.amazon.smithy.aws.traits.protocols.AwsQueryTrait
 
@@ -18,34 +19,28 @@ class TimestampGeneratorTests {
     @Test
     fun `001 encode timestamps`() {
         val context = setupTests("awsquery/query-timestamp.smithy", "aws.protocoltests.query#AwsQuery")
-        val contents = getFileContents(context.manifest, "/Example/models/QueryTimestampsInput+Encodable.swift")
+        val contents = getFileContents(context.manifest, "Sources/Example/models/QueryTimestampsInput+Write.swift")
         contents.shouldSyntacticSanityCheck()
-        val expectedContents =
-            """
-            extension QueryTimestampsInput: Swift.Encodable {
-                public func encode(to encoder: Swift.Encoder) throws {
-                    var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-                    if let epochMember = epochMember {
-                        try container.encodeTimestamp(epochMember, format: .epochSeconds, forKey: ClientRuntime.Key("epochMember"))
-                    }
-                    if let epochTarget = epochTarget {
-                        try container.encodeTimestamp(epochTarget, format: .epochSeconds, forKey: ClientRuntime.Key("epochTarget"))
-                    }
-                    if let normalFormat = normalFormat {
-                        try container.encodeTimestamp(normalFormat, format: .dateTime, forKey: ClientRuntime.Key("normalFormat"))
-                    }
-                    try container.encode("QueryTimestamps", forKey:ClientRuntime.Key("Action"))
-                    try container.encode("2020-01-08", forKey:ClientRuntime.Key("Version"))
-                }
-            }
-            """.trimIndent()
+        val expectedContents = """
+extension QueryTimestampsInput {
+
+    static func write(value: QueryTimestampsInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["epochMember"].writeTimestamp(value.epochMember, format: .epochSeconds)
+        try writer["epochTarget"].writeTimestamp(value.epochTarget, format: .epochSeconds)
+        try writer["normalFormat"].writeTimestamp(value.normalFormat, format: .dateTime)
+        try writer["Action"].write("QueryTimestamps")
+        try writer["Version"].write("2020-01-08")
+    }
+}
+"""
         contents.shouldContainOnlyOnce(expectedContents)
     }
 
     private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
         val context =
-            TestContextGenerator.initContextFrom(smithyFile, serviceShapeId, AwsQueryTrait.ID)
-        val generator = AwsQueryProtocolGenerator()
+            TestUtils.executeDirectedCodegen(smithyFile, serviceShapeId, AwsQueryTrait.ID)
+        val generator = AWSQueryProtocolGenerator()
         generator.generateCodableConformanceForNestedTypes(context.ctx)
         generator.generateSerializers(context.ctx)
         context.ctx.delegator.flushWriters()

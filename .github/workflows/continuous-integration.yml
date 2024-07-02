@@ -17,44 +17,50 @@ jobs:
       matrix:
         # This matrix runs tests on iOS sim & Mac, on oldest & newest supported Xcodes
         runner:
-          - macos-12
           - macos-13
+          - macos-14
         xcode:
-          - Xcode_14.0.1
-          - Xcode_15.1
+          - Xcode_15.2
+          - Xcode_15.4
         destination:
-          - 'platform=iOS Simulator,OS=16.0,name=iPhone 14'
           - 'platform=iOS Simulator,OS=17.2,name=iPhone 15'
-          - 'platform=tvOS Simulator,OS=16.0,name=Apple TV 4K (at 1080p) (2nd generation)'
+          - 'platform=iOS Simulator,OS=17.5,name=iPhone 15'
           - 'platform=tvOS Simulator,OS=17.2,name=Apple TV 4K (3rd generation) (at 1080p)'
+          - 'platform=tvOS Simulator,OS=17.5,name=Apple TV 4K (3rd generation) (at 1080p)'
+          - 'platform=visionOS Simulator,OS=1.0,name=Apple Vision Pro'
+          - 'platform=visionOS Simulator,OS=1.2,name=Apple Vision Pro'
           - 'platform=OS X'
         exclude:
           # Don't run old macOS with new Xcode
-          - runner: macos-12
-            xcode: Xcode_15.1
-          # Don't run new macOS with old Xcode
           - runner: macos-13
-            xcode: Xcode_14.0.1
+            xcode: Xcode_15.4
+          # Don't run new macOS with old Xcode
+          - runner: macos-14
+            xcode: Xcode_15.2
           # Don't run old simulators with new Xcode
-          - destination: 'platform=tvOS Simulator,OS=16.0,name=Apple TV 4K (at 1080p) (2nd generation)'
-            xcode: Xcode_15.1
-          - destination: 'platform=iOS Simulator,OS=16.0,name=iPhone 14'
-            xcode: Xcode_15.1
-          # Don't run new simulators with old Xcode
           - destination: 'platform=tvOS Simulator,OS=17.2,name=Apple TV 4K (3rd generation) (at 1080p)'
-            xcode: Xcode_14.0.1
+            xcode: Xcode_15.4
           - destination: 'platform=iOS Simulator,OS=17.2,name=iPhone 15'
-            xcode: Xcode_14.0.1
+            xcode: Xcode_15.4
+          - destination: 'platform=visionOS Simulator,OS=1.0,name=Apple Vision Pro'
+            xcode: Xcode_15.4
+          # Don't run new simulators with old Xcode
+          - destination: 'platform=tvOS Simulator,OS=17.5,name=Apple TV 4K (3rd generation) (at 1080p)'
+            xcode: Xcode_15.2
+          - destination: 'platform=iOS Simulator,OS=17.5,name=iPhone 15'
+            xcode: Xcode_15.2
+          - destination: 'platform=visionOS Simulator,OS=1.2,name=Apple Vision Pro'
+            xcode: Xcode_15.2
     steps:
       - name: Checkout aws-sdk-swift
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Select smithy-swift branch
         run: |
           ORIGINAL_REPO_HEAD_REF="$GITHUB_HEAD_REF" \
           DEPENDENCY_REPO_URL="https://github.com/smithy-lang/smithy-swift.git" \
           ./scripts/ci_steps/select_dependency_branch.sh
       - name: Checkout smithy-swift
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: smithy-lang/smithy-swift
           ref: ${{ env.DEPENDENCY_REPO_SHA }}
@@ -62,17 +68,17 @@ jobs:
       - name: Move smithy-swift into place
         run: mv smithy-swift ..
       - name: Cache Gradle
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
-          key: 1-${{ runner.os }}-gradle-${{ hashFiles('settings.gradle.kts', 'gradle/wrapper/gradle-wrapper.properties') }}
+          key: 2-${{ runner.os }}-gradle-${{ hashFiles('*.gradle.kts', 'gradle/wrapper/gradle-wrapper.properties') }}
           restore-keys: |
-            1-${{ runner.os }}-gradle-${{ hashFiles('settings.gradle.kts', 'gradle/wrapper/gradle-wrapper.properties') }}
-            1-${{ runner.os }}-gradle-
+            2-${{ runner.os }}-gradle-${{ hashFiles('*.gradle.kts', 'gradle/wrapper/gradle-wrapper.properties') }}
+            2-${{ runner.os }}-gradle-
       - name: Cache Swift
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/Library/Caches/org.swift.swiftpm
@@ -82,7 +88,7 @@ jobs:
             1-${{ runner.os }}-${{ matrix.xcode }}-${{ hashFiles('Package.swift', 'AWSSDKSwiftCLI/Package.swift') }}
             1-${{ runner.os }}-${{ matrix.xcode }}-
       - name: Setup Java
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: corretto
           java-version: 17
@@ -91,14 +97,24 @@ jobs:
       - name: Prepare Protocol & Unit Tests
         run: |
           ./scripts/ci_steps/prepare_protocol_and_unit_tests.sh
-      - name: Build and Run Protocol & Unit Tests
+      - name: Build and Run Unit Tests
         run: |
           set -o pipefail && \
           NSUnbufferedIO=YES xcodebuild \
-            -scheme aws-sdk-swift \
+            -scheme aws-sdk-swift-Package \
             -destination '${{ matrix.destination }}' \
             test 2>&1 \
-            | xcpretty
+            | xcbeautify
+      - name: Build and Run Protocol Tests
+        run: |
+          cd codegen/
+          set -o pipefail && \
+          NSUnbufferedIO=YES xcodebuild \
+            -scheme aws-sdk-swift-protocol-tests-Package \
+            -destination '${{ matrix.destination }}' \
+            test 2>&1 \
+            | xcbeautify
+          cd ..
 
   linux:
     runs-on: ubuntu-latest
@@ -107,11 +123,11 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          - focal
+          - jammy
           - amazonlinux2
         version:
-          - 5.7
-          - 5.9
+          - "5.9"
+          - "5.10"
     steps:
       - name: Checkout aws-sdk-swift
         uses: actions/checkout@v3
@@ -134,10 +150,10 @@ jobs:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
-          key: 1-${{ runner.os }}-gradle-${{ hashFiles('settings.gradle.kts', 'gradle/wrapper/gradle-wrapper.properties') }}
+          key: 2-${{ runner.os }}-gradle-${{ hashFiles('*.gradle.kts', 'gradle/wrapper/gradle-wrapper.properties') }}
           restore-keys: |
-            1-${{ runner.os }}-gradle-${{ hashFiles('settings.gradle.kts', 'gradle/wrapper/gradle-wrapper.properties') }}
-            1-${{ runner.os }}-gradle-
+            2-${{ runner.os }}-gradle-${{ hashFiles('*.gradle.kts', 'gradle/wrapper/gradle-wrapper.properties') }}
+            2-${{ runner.os }}-gradle-
       - name: Cache Swift
         uses: actions/cache@v3
         with:
@@ -160,5 +176,10 @@ jobs:
       - name: Prepare Protocol & Unit Tests
         run: |
           ./scripts/ci_steps/prepare_protocol_and_unit_tests.sh
-      - name: Build and Run Protocol & Unit Tests on Linux
+      - name: Build and Run Unit Tests on Linux
         run: swift test
+      - name: Build and Run Protocol Tests on Linux
+        run: |
+          cd codegen/
+          swift test
+          cd ..

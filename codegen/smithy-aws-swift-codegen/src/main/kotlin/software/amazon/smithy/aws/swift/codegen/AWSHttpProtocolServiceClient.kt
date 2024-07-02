@@ -5,28 +5,140 @@
 
 package software.amazon.smithy.aws.swift.codegen
 
+import software.amazon.smithy.aws.swift.codegen.SigV4Utils.Companion.getModeledAuthSchemesSupportedBySDK
 import software.amazon.smithy.codegen.core.Symbol
+import software.amazon.smithy.swift.codegen.AuthSchemeResolverGenerator
 import software.amazon.smithy.swift.codegen.SwiftWriter
-import software.amazon.smithy.swift.codegen.integration.ClientProperty
+import software.amazon.smithy.swift.codegen.config.ConfigProperty
+import software.amazon.smithy.swift.codegen.config.DefaultProvider
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolServiceClient
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.ServiceConfig
+import software.amazon.smithy.swift.codegen.model.toOptional
+import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes
+import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAPITypes
+import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAuthAPITypes
+import software.amazon.smithy.swift.codegen.swiftmodules.SmithyRetriesAPITypes
+import software.amazon.smithy.swift.codegen.utils.toUpperCamelCase
 
 class AWSHttpProtocolServiceClient(
-    ctx: ProtocolGenerator.GenerationContext,
+    private val ctx: ProtocolGenerator.GenerationContext,
     private val writer: SwiftWriter,
-    properties: List<ClientProperty>,
     private val serviceConfig: ServiceConfig
-) : HttpProtocolServiceClient(ctx, writer, properties, serviceConfig) {
-    override fun renderConvenienceInit(serviceSymbol: Symbol) {
+) : HttpProtocolServiceClient(ctx, writer, serviceConfig) {
+    override fun renderConvenienceInitFunctions(serviceSymbol: Symbol) {
         writer.openBlock("public convenience init(region: Swift.String) throws {", "}") {
             writer.write("let config = try ${serviceConfig.typeName}(region: region)")
             writer.write("self.init(config: config)")
         }
         writer.write("")
-        writer.openBlock("public convenience init() async throws {", "}") {
+        writer.openBlock("public convenience required init() async throws {", "}") {
             writer.write("let config = try await ${serviceConfig.typeName}()")
             writer.write("self.init(config: config)")
         }
     }
+
+    override fun overrideConfigProperties(properties: List<ConfigProperty>): List<ConfigProperty> {
+        return properties.map {
+            when (it.name) {
+                "authSchemeResolver" -> {
+                    ConfigProperty("authSchemeResolver", SmithyHTTPAuthAPITypes.AuthSchemeResolver, authSchemeResolverDefaultProvider)
+                }
+                "authSchemes" -> {
+                    ConfigProperty("authSchemes", SmithyHTTPAuthAPITypes.AuthSchemes.toOptional(), authSchemesDefaultProvider)
+                }
+                "retryStrategyOptions" -> {
+                    ConfigProperty(
+                        "retryStrategyOptions",
+                        SmithyRetriesAPITypes.RetryStrategyOptions,
+                        { it.format("AWSClientConfigDefaultsProvider.retryStrategyOptions()") },
+                        true
+                    )
+                }
+                "clientLogMode" -> {
+                    ConfigProperty(
+                        "clientLogMode",
+                        ClientRuntimeTypes.Core.ClientLogMode,
+                        { it.format("AWSClientConfigDefaultsProvider.clientLogMode") },
+                    )
+                }
+                "idempotencyTokenGenerator" -> {
+                    ConfigProperty(
+                        "idempotencyTokenGenerator",
+                        ClientRuntimeTypes.Core.IdempotencyTokenGenerator,
+                        { it.format("AWSClientConfigDefaultsProvider.idempotencyTokenGenerator") },
+                    )
+                }
+                "httpClientEngine" -> {
+                    ConfigProperty(
+                        "httpClientEngine",
+                        SmithyHTTPAPITypes.HttpClient,
+                        { it.format("AWSClientConfigDefaultsProvider.httpClientEngine") },
+                    )
+                }
+                "httpClientConfiguration" -> {
+                    ConfigProperty(
+                        "httpClientConfiguration",
+                        ClientRuntimeTypes.Http.HttpClientConfiguration,
+                        { it.format("AWSClientConfigDefaultsProvider.httpClientConfiguration") },
+                    )
+                }
+                else -> it
+            }
+        }
+    }
+
+    override fun renderCustomConfigInitializer(properties: List<ConfigProperty>) {
+        renderRegionConfigInitializer(properties)
+    }
+
+    /**
+     *  AWS Amplify requires a synchronous initializer with region parameter.
+     */
+    private fun renderRegionConfigInitializer(properties: List<ConfigProperty>) {
+        writer.openBlock("public convenience init(region: String) throws {", "}") {
+            writer.write(
+                "self.init(\$L)",
+                properties.joinToString(", ") {
+                    when (it.name) {
+                        "region", "signingRegion" -> {
+                            "region"
+                        }
+                        "awsCredentialIdentityResolver" -> {
+                            "try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver()"
+                        }
+                        else -> {
+                            it.default?.render(writer) ?: "nil"
+                        }
+                    }
+                }
+            )
+        }
+        writer.write("")
+    }
+
+    private fun renderEmptyAsynchronousConfigInitializer(properties: List<ConfigProperty>) {
+        writer.openBlock("public convenience required init() async throws {", "}") {
+            writer.write("try await self.init(\$L)", properties.joinToString(", ") { "${it.name}: nil" })
+        }
+        writer.write("")
+    }
+
+    override fun renderPartitionID() {
+        writer.openBlock("public var partitionID: String? {", "}") {
+            writer.write("return \"\\(\$L.clientName) - \\(region ?? \"\")\"", serviceConfig.clientName.toUpperCamelCase())
+        }
+    }
+
+    private val authSchemesDefaultProvider = DefaultProvider(
+        { getModeledAuthSchemesSupportedBySDK(ctx, it) },
+        isThrowable = false,
+        isAsync = false
+    )
+
+    private val authSchemeResolverDefaultProvider = DefaultProvider(
+        { "Default${AuthSchemeResolverGenerator.getSdkId(ctx)}AuthSchemeResolver()" },
+        false,
+        false
+    )
 }

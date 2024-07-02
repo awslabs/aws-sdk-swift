@@ -3,14 +3,16 @@ $version: "1.0"
 namespace smithy.example
 
 use aws.api#service
+use aws.protocols#restJson1
 use smithy.rules#clientContextParams
 use smithy.rules#staticContextParams
 use smithy.rules#contextParam
 use smithy.rules#endpointRuleSet
 
+@restJson1
 @clientContextParams(
     stringFoo: {type: "string", documentation: "a client string parameter"},
-    boolFoo: {type: "boolean", documentation: "a client boolean parameter"}
+    boolFoo: {type: "boolean", documentation: "a client boolean parameter"},
 )
 @service(
     sdkId: "Json Protocol",
@@ -33,6 +35,7 @@ apply ExampleService @endpointRuleSet({
         boolFoo: {type: "boolean", required: true},
         boolBar: {type: "boolean"},
         boolBaz: {type: "string"},
+        stringArrayBar: {type: "stringArray"},
         region: {type: "string", builtIn: "AWS::Region", required: true},
     },
     rules: []
@@ -42,6 +45,7 @@ apply ExampleService @endpointRuleSet({
 @staticContextParams(
     stringBar: {value: "some value"},
     boolBar: {value: true}
+    stringArrayBar: {value: ["five", "six", "seven"]}
 )
 @http(method: "POST", uri: "/endpointtest/getthing")
 operation GetThing {
@@ -53,8 +57,8 @@ structure GetThingInput {
     fizz: String,
 
     @contextParam(name: "stringBaz")
-    buzz: String,
+    buzz: String
 
     @contextParam(name: "boolBaz")
-    fuzz: String,
+    fuzz: String
 }

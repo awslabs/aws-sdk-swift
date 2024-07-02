@@ -8,7 +8,8 @@
 import ClientRuntime
 import SmithyTestUtil
 import XCTest
-@_spi(FileBasedConfig) @testable import AWSClientRuntime
+@_spi(DefaultRegionResolver) @testable import AWSClientRuntime
+@_spi(FileBasedConfig) @testable import AWSSDKCommon
 
 class ProfileRegionProviderTests: XCTestCase {
     
@@ -23,7 +24,7 @@ class ProfileRegionProviderTests: XCTestCase {
             fileBasedConfigurationProvider: fileBasedConfigProvider,
             configFilePath: configPath
         )
-        let region = try! await provider.resolveRegion()
+        let region = try! await provider.getRegion()
         XCTAssertEqual(region, "us-east-2")
     }
     
@@ -33,7 +34,7 @@ class ProfileRegionProviderTests: XCTestCase {
             profileName: "west",
             configFilePath: configPath
         )
-        let region = try! await provider.resolveRegion()
+        let region = try! await provider.getRegion()
         XCTAssertEqual(region, "us-west-2")
     }
     
@@ -44,7 +45,7 @@ class ProfileRegionProviderTests: XCTestCase {
             },
             credentialsFilePath: configPath
         )
-        let region = try! await provider.resolveRegion()
+        let region = try! await provider.getRegion()
         XCTAssertEqual(region, "us-east-2")
     }
 }

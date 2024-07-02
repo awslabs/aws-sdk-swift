@@ -4,7 +4,9 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 //
+
 import ClientRuntime
+import SmithyHTTPAPI
 
 /**
   A structure used by the service client to determine the endpoint.
@@ -54,23 +56,5 @@ public struct AWSEndpoint: Equatable {
 
         let candidate = partitions.first { $0.canResolveEndpoint(region: region)} ?? partitions[0]
         return try candidate.resolveEndpoint(region: region)
-    }
-}
-
-/// Keys used to access auth scheme container and auth scheme properties
-private enum AuthSchemeKeys {
-    static let authSchemes = "authSchemes"
-}
-
-extension Endpoint {
-    /// Returns list of auth schemes
-    /// This is an internal API and subject to change without notice
-    /// - Returns: list of auth schemes if present
-    public func authSchemes() -> [[String: Any]]? {
-        guard let schemes = properties[AuthSchemeKeys.authSchemes] as? [[String: Any]] else {
-            return nil
-        }
-
-        return schemes
     }
 }

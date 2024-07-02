@@ -5,17 +5,20 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import Smithy
+import SmithyHTTPAPI
 import XCTest
 import ClientRuntime
 import AwsCommonRuntimeKit
 import SmithyTestUtil
 @testable import AWSClientRuntime
+import class SmithyStreams.BufferedStream
 
 class Sha256TreeHashMiddlewareTests: XCTestCase {
 
     func testTreeHashAllZeroes() async throws {
         var completed = false
-        let context = HttpContextBuilder().build()
+        let context = ContextBuilder().build()
         let bytesIn5_5MB: Int = Int(1024 * 1024 * 5.5)
         let byteArray: [UInt8] = Array(repeating: 0, count: bytesIn5_5MB)
         let byteStream = ByteStream.stream(BufferedStream(data: .init(byteArray), isClosed: true))
@@ -23,9 +26,9 @@ class Sha256TreeHashMiddlewareTests: XCTestCase {
         var stack = OperationStack<MockStreamInput, MockOutput>(id: "TreeHashMiddlewareTestStack")
         stack.serializeStep.intercept(position: .before, middleware: MockSerializeStreamMiddleware())
         let mockHttpResponse = HttpResponse(body: .noStream, statusCode: .accepted)
-        let mockOutput = try MockOutput(httpResponse: mockHttpResponse, decoder: nil)
+        let mockOutput = MockOutput()
         let output = OperationOutput<MockOutput>(httpResponse: mockHttpResponse, output: mockOutput)
-        stack.finalizeStep.intercept(position: .after, middleware: Sha256TreeHashMiddleware<MockOutput>())
+        stack.finalizeStep.intercept(position: .after, middleware: Sha256TreeHashMiddleware<MockStreamInput, MockOutput>())
         _ = try await stack.handleMiddleware(context: context, input: streamInput, next: MockHandler(handleCallback: { context, input in
             let linear = input.headers.value(for: "X-Amz-Content-Sha256")
             XCTAssertEqual(linear, "733cf513448ce6b20ad1bc5e50eb27c06aefae0c320713a5dd99f4e51bc1ca60")

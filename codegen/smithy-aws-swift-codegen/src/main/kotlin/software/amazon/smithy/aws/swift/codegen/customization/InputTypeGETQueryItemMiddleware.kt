@@ -6,17 +6,18 @@ import software.amazon.smithy.model.shapes.ListShape
 import software.amazon.smithy.model.shapes.Shape
 import software.amazon.smithy.model.shapes.ShapeId
 import software.amazon.smithy.model.shapes.TimestampShape
-import software.amazon.smithy.swift.codegen.ClientRuntimeTypes.Core.URLQueryItem
 import software.amazon.smithy.swift.codegen.Middleware
-import software.amazon.smithy.swift.codegen.SwiftTypes
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.steps.OperationSerializeStep
 import software.amazon.smithy.swift.codegen.model.isEnum
+import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAPITypes
+import software.amazon.smithy.swift.codegen.swiftmodules.SmithyTypes
+import software.amazon.smithy.swift.codegen.swiftmodules.SwiftTypes
 
 class InputTypeGETQueryItemMiddleware(
     private val ctx: ProtocolGenerator.GenerationContext,
-    inputSymbol: Symbol,
+    val inputSymbol: Symbol,
     outputSymbol: Symbol,
     outputErrorSymbol: Symbol,
     val inputShape: Shape,
@@ -24,7 +25,32 @@ class InputTypeGETQueryItemMiddleware(
 ) : Middleware(writer, inputSymbol, OperationSerializeStep(inputSymbol, outputSymbol, outputErrorSymbol)) {
     override val typeName = "${inputSymbol.name}GETQueryItemMiddleware"
 
+    override fun renderExtensions() {
+        writer.openBlock(
+            "extension \$L: \$N {",
+            "}",
+            typeName,
+            SmithyTypes.RequestMessageSerializer,
+        ) {
+            writer.write("public typealias InputType = \$L", inputSymbol.name)
+            writer.write("public typealias RequestType = \$N", SmithyHTTPAPITypes.SdkHttpRequest)
+            writer.write("")
+            writer.openBlock(
+                "public func apply(input: InputType, builder: \$N, attributes: \$N) throws {",
+                "}",
+                SmithyHTTPAPITypes.SdkHttpRequestBuilder,
+                SmithyTypes.Context,
+            ) {
+                writer.write("\${C|}", Runnable { renderApplyBody() })
+            }
+        }
+    }
+
     override fun generateMiddlewareClosure() {
+        writer.write("try self.apply(input: input.operationInput, builder: input.builder, attributes: context)")
+    }
+
+    private fun renderApplyBody() {
         for (member in inputShape.members()) {
             val memberName = ctx.symbolProvider.toMemberName(member)
             val queryKey = member.memberName
@@ -33,7 +59,7 @@ class InputTypeGETQueryItemMiddleware(
             if (memberTargetShape is IntegerShape || memberTargetShape is TimestampShape) {
                 continue
             }
-            writer.openBlock("if let $memberName = input.operationInput.$memberName {", "}") {
+            writer.openBlock("if let $memberName = input.$memberName {", "}") {
                 when (memberTargetShape) {
                     is ListShape -> {
                         val rawValueIfNeeded = rawValueIfNeeded(memberTargetShape.member.target)
@@ -57,8 +83,14 @@ class InputTypeGETQueryItemMiddleware(
     }
 
     private fun writeRenderItem(queryKey: String, queryValue: String) {
-        writer.write("let queryItem = \$N(name: \"${queryKey}\".urlPercentEncoding(), value: \$N($queryValue).urlPercentEncoding())", URLQueryItem, SwiftTypes.String)
-        writer.write("input.builder.withQueryItem(queryItem)")
+        writer.write(
+            "let queryItem = \$N(name: \$S.urlPercentEncoding(), value: \$N(\$L).urlPercentEncoding())",
+            SmithyTypes.URIQueryItem,
+            queryKey,
+            SwiftTypes.String,
+            queryValue,
+        )
+        writer.write("builder.withQueryItem(queryItem)")
     }
 
     override fun generateInit() {

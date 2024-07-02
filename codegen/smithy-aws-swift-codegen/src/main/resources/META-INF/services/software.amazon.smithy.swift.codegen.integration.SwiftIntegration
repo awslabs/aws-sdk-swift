@@ -6,6 +6,8 @@ software.amazon.smithy.aws.swift.codegen.customization.s3.TruncatablePaginationI
 software.amazon.smithy.aws.swift.codegen.customization.route53.Route53TrimHostedZone
 software.amazon.smithy.aws.swift.codegen.customization.route53.Route53InvalidBatchErrorIntegration
 software.amazon.smithy.aws.swift.codegen.customization.apigateway.ApiGatewayAddAcceptHeader
+software.amazon.smithy.aws.swift.codegen.customization.flexiblechecksums.FlexibleChecksumsRequestIntegration
+software.amazon.smithy.aws.swift.codegen.customization.flexiblechecksums.FlexibleChecksumsResponseIntegration
 software.amazon.smithy.aws.swift.codegen.customization.glacier.GlacierAddVersionHeader
 software.amazon.smithy.aws.swift.codegen.customization.glacier.GlacierAccountIdDefault
 software.amazon.smithy.aws.swift.codegen.customization.glacier.GlacierChecksum
@@ -18,4 +20,6 @@ software.amazon.smithy.aws.swift.codegen.PresignerGenerator
 software.amazon.smithy.aws.swift.codegen.model.AWSClientContextParamsTransformer
 software.amazon.smithy.aws.swift.codegen.model.AWSHttpTraitTransformer
 software.amazon.smithy.aws.swift.codegen.model.AWSEndpointTraitTransformer
-software.amazon.smithy.aws.swift.codegen.customization.MessageEncoderIntegration
+software.amazon.smithy.aws.swift.codegen.model.AWSDeprecatedShapeRemover
+software.amazon.smithy.aws.swift.codegen.AWSClientConfigurationIntegration
+software.amazon.smithy.swift.codegen.swiftintegrations.InitialRequestIntegration

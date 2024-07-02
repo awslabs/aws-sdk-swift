@@ -8,6 +8,8 @@
 import XCTest
 import AWSKinesis
 import ClientRuntime
+import AWSClientRuntime
+import SmithyWaitersAPI
 
 class KinesisTests: XCTestCase {
 

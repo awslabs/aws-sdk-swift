@@ -4,7 +4,7 @@
  */
 package software.amazon.smithy.aws.swift.codegen.customization.s3
 
-import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
+import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTypes
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
@@ -57,12 +57,18 @@ private object S3HandleError200ResponseMiddleware : MiddlewareRenderable {
 
     override val position = MiddlewarePosition.AFTER
 
-    override fun render(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, op: OperationShape, operationStackName: String) {
+    override fun renderMiddlewareInit(
+        ctx: ProtocolGenerator.GenerationContext,
+        writer: SwiftWriter,
+        op: OperationShape
+    ) {
+        val inputShape = MiddlewareShapeUtils.inputSymbol(ctx.symbolProvider, ctx.model, op)
         val outputShape = MiddlewareShapeUtils.outputSymbol(ctx.symbolProvider, ctx.model, op)
         writer.write(
-            "$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: \$N<\$N>())",
+            "\$N<\$N, \$N>()",
             AWSClientRuntimeTypes.RestXML.S3.AWSS3ErrorWith200StatusXMLMiddleware,
-            outputShape,
+            inputShape,
+            outputShape
         )
     }
 }

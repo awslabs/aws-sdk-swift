@@ -5,16 +5,17 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-
+import SmithyHTTPAPI
 import ClientRuntime
 import SmithyTestUtil
 import XCTest
+import SmithyXML
 @testable import AWSClientRuntime
 
 class Ec2ErrorRequestIdTests: XCTestCase {
 
-    func testEc2ResponseDecodesRequestID() throws {
-        let data = """
+    func testEc2ResponseDecodesRequestID() async throws {
+        let data = Data("""
         <Ec2Response>
             <Errors>
                 <Error>
@@ -24,13 +25,14 @@ class Ec2ErrorRequestIdTests: XCTestCase {
             </Errors>
             <RequestID>abcdefg12345</RequestID>
         </Ec2Response>
-        """.data(using: .utf8)!
-        let response = try XMLDecoder().decode(Ec2Response.self, from: data)
-        XCTAssertEqual(response.requestId, "abcdefg12345")
+        """.utf8)
+        let httpResponse = HttpResponse(body: .data(data), statusCode: .ok)
+        let response = try EC2QueryError(httpResponse: httpResponse, responseReader: Reader.from(data: data), noErrorWrapping: true)
+        XCTAssertEqual(response.requestID, "abcdefg12345")
     }
 
-    func testEc2ResponseDecodesRequestId() throws {
-        let data = """
+    func testEc2ResponseDecodesRequestId() async throws {
+        let data = Data("""
         <Ec2Response>
             <Errors>
                 <Error>
@@ -40,34 +42,9 @@ class Ec2ErrorRequestIdTests: XCTestCase {
             </Errors>
             <RequestId>abcdefg12345</RequestId>
         </Ec2Response>
-        """.data(using: .utf8)!
-        let response = try XMLDecoder().decode(Ec2Response.self, from: data)
-        XCTAssertEqual(response.requestId, "abcdefg12345")
-    }
-
-    func testEc2NarrowedResponseDecodesRequestID() throws {
-        let data = """
-        <Ec2NarrowedResponse>
-            <Errors>
-                <Error>Sample Error</Error>
-            </Errors>
-            <RequestID>abcdefg12345</RequestID>
-        </Ec2NarrowedResponse>
-        """.data(using: .utf8)!
-        let response = try XMLDecoder().decode(Ec2NarrowedResponse<String>.self, from: data)
-        XCTAssertEqual(response.requestId, "abcdefg12345")
-    }
-
-    func testEc2NarrowResponseDecodesRequestId() throws {
-        let data = """
-        <Ec2Response>
-            <Errors>
-                <Error>Sample Error</Error>
-            </Errors>
-            <RequestId>abcdefg12345</RequestId>
-        </Ec2Response>
-        """.data(using: .utf8)!
-        let response = try XMLDecoder().decode(Ec2NarrowedResponse<String>.self, from: data)
-        XCTAssertEqual(response.requestId, "abcdefg12345")
+        """.utf8)
+        let httpResponse = HttpResponse(body: .data(data), statusCode: .ok)
+        let response = try EC2QueryError(httpResponse: httpResponse, responseReader: Reader.from(data: data), noErrorWrapping: true)
+        XCTAssertEqual(response.requestID, "abcdefg12345")
     }
 }

@@ -5,25 +5,24 @@
 
 package software.amazon.smithy.aws.swift.codegen
 
-import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes.Core.AWSClientConfiguration
-import software.amazon.smithy.aws.swift.codegen.middleware.AWSSigningMiddleware
 import software.amazon.smithy.aws.swift.codegen.model.traits.Presignable
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
-import software.amazon.smithy.swift.codegen.ClientRuntimeTypes.Http.SdkHttpRequest
-import software.amazon.smithy.swift.codegen.ClientRuntimeTypes.Middleware.NoopHandler
-import software.amazon.smithy.swift.codegen.FoundationTypes
 import software.amazon.smithy.swift.codegen.SwiftDelegator
 import software.amazon.smithy.swift.codegen.SwiftWriter
-import software.amazon.smithy.swift.codegen.core.CodegenContext
+import software.amazon.smithy.swift.codegen.core.SwiftCodegenContext
 import software.amazon.smithy.swift.codegen.core.toProtocolGenerationContext
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareExecutionGenerator
-import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
-import software.amazon.smithy.swift.codegen.middleware.OperationMiddleware
+import software.amazon.smithy.swift.codegen.middleware.MiddlewareExecutionGenerator.Companion.ContextAttributeCodegenFlowType.PRESIGN_REQUEST
 import software.amazon.smithy.swift.codegen.model.expectShape
 import software.amazon.smithy.swift.codegen.model.toUpperCamelCase
+import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes.Middleware.NoopHandler
+import software.amazon.smithy.swift.codegen.swiftmodules.FoundationTypes
+import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAPITypes
+import software.amazon.smithy.swift.codegen.swiftmodules.SmithyTypes
+import software.amazon.smithy.swift.codegen.utils.ModelFileUtils
 
 data class PresignableOperation(
     val serviceId: String,
@@ -31,44 +30,46 @@ data class PresignableOperation(
 )
 
 class PresignerGenerator : SwiftIntegration {
-    override fun writeAdditionalFiles(ctx: CodegenContext, protoCtx: ProtocolGenerator.GenerationContext, delegator: SwiftDelegator) {
+    override fun writeAdditionalFiles(ctx: SwiftCodegenContext, protoCtx: ProtocolGenerator.GenerationContext, delegator: SwiftDelegator) {
         val service = ctx.model.expectShape<ServiceShape>(ctx.settings.service)
 
-        if (!AWSSigningMiddleware.isSupportedAuthentication(ctx.model, service)) return
+        if (!SigV4Utils.isSupportedAuthentication(ctx.model, service)) return
         val presignOperations = service.allOperations
             .map { ctx.model.expectShape<OperationShape>(it) }
             .filter { operationShape -> operationShape.hasTrait(Presignable.ID) }
             .map { operationShape ->
-                check(AWSSigningMiddleware.hasSigV4AuthScheme(ctx.model, service, operationShape)) { "Operation does not have valid auth trait" }
+                check(SigV4Utils.hasSigV4AuthScheme(ctx.model, service, operationShape)) { "Operation does not have valid auth trait" }
                 PresignableOperation(service.id.toString(), operationShape.id.toString())
             }
         presignOperations.forEach { presignableOperation ->
             val op = ctx.model.expectShape<OperationShape>(presignableOperation.operationId)
             val inputType = op.input.get().getName()
             val outputType = op.output.get().getName()
-            delegator.useFileWriter("${ctx.settings.moduleName}/models/$inputType+Presigner.swift") { writer ->
+            val filename = ModelFileUtils.filename(ctx.settings, "$inputType+Presigner")
+            delegator.useFileWriter(filename) { writer ->
                 var serviceConfig = AWSServiceConfig(writer, protoCtx)
                 renderPresigner(writer, ctx, delegator, op, inputType, outputType, serviceConfig)
             }
             // Expose presign-request as a method for service client object
             val symbol = protoCtx.symbolProvider.toSymbol(protoCtx.service)
-            protoCtx.delegator.useFileWriter("./${ctx.settings.moduleName}/${symbol.name}.swift") { writer ->
+            val clientFilename = "Sources/${ctx.settings.moduleName}/${symbol.name}.swift"
+            protoCtx.delegator.useFileWriter(clientFilename) { writer ->
                 renderPresignAPIInServiceClient(writer, symbol.name, op, inputType)
             }
         }
-        // Import FoundationeNetworking statement with preprocessor commands
-        if (presignOperations.isNotEmpty()) {
-            val symbol = protoCtx.symbolProvider.toSymbol(protoCtx.service)
-            protoCtx.delegator.useFileWriter("./${ctx.settings.moduleName}/${symbol.name}.swift") { writer ->
-                // In Linux, Foundation.URLRequest is moved to FoundationNetworking.
-                writer.addImport(packageName = "FoundationNetworking", importOnlyIfCanImport = true)
-            }
-        }
+//        // Import FoundationNetworking statement with preprocessor commands
+//        if (presignOperations.isNotEmpty()) {
+//            val symbol = protoCtx.symbolProvider.toSymbol(protoCtx.service)
+//            protoCtx.delegator.useFileWriter("Sources/${ctx.settings.moduleName}/${symbol.name}.swift") { writer ->
+//                // In Linux, Foundation.URLRequest is moved to FoundationNetworking.
+//                writer.addImport(packageName = "FoundationNetworking", importOnlyIfCanImport = true)
+//            }
+//        }
     }
 
     private fun renderPresigner(
         writer: SwiftWriter,
-        ctx: CodegenContext,
+        ctx: SwiftCodegenContext,
         delegator: SwiftDelegator,
         op: OperationShape,
         inputType: String,
@@ -78,47 +79,56 @@ class PresignerGenerator : SwiftIntegration {
         val serviceShape = ctx.model.expectShape<ServiceShape>(ctx.settings.service)
         val protocolGenerator = ctx.protocolGenerator?.let { it } ?: run { return }
         val protocolGeneratorContext = ctx.toProtocolGenerationContext(serviceShape, delegator)?.let { it } ?: run { return }
-        val operationMiddleware = resolveOperationMiddleware(protocolGenerator, op, ctx)
-
-        writer.addImport(AWSClientConfiguration)
-        writer.addImport(SdkHttpRequest)
-        writer.addIndividualTypeImport("typealias", "Foundation", "TimeInterval")
+        val operationMiddleware = protocolGenerator.operationMiddleware
 
         val httpBindingResolver = protocolGenerator.getProtocolHttpBindingResolver(protocolGeneratorContext, protocolGenerator.defaultContentType)
 
         writer.openBlock("extension $inputType {", "}") {
-            writer.openBlock("public func presign(config: \$L, expiration: \$N) async throws -> \$T {", "}", serviceConfig.typeName, FoundationTypes.TimeInterval, SdkHttpRequest) {
+            writer.openBlock("public func presign(config: \$L, expiration: \$N) async throws -> \$T {", "}", serviceConfig.typeName, FoundationTypes.TimeInterval, SmithyHTTPAPITypes.SdkHttpRequest) {
                 writer.write("let serviceName = \$S", ctx.settings.sdkId)
                 writer.write("let input = self")
-                val operationStackName = "operation"
-                for (prop in protocolGenerator.httpProtocolCustomizable.getClientProperties()) {
-                    prop.addImportsAndDependencies(writer)
-                    prop.renderInstantiation(writer)
-                    prop.renderConfiguration(writer)
+                if (protocolGeneratorContext.settings.useInterceptors) {
+                    writer.openBlock(
+                        "let client: (\$N, \$N) async throws -> \$N = { (_, _) in",
+                        "}",
+                        SmithyHTTPAPITypes.SdkHttpRequest,
+                        SmithyTypes.Context,
+                        SmithyHTTPAPITypes.HttpResponse,
+                    ) {
+                        writer.write(
+                            "throw \$N.unknownError(\"No HTTP client configured for presigned request\")",
+                            SmithyTypes.ClientError
+                        )
+                    }
                 }
-
+                val operationStackName = "operation"
                 val generator = MiddlewareExecutionGenerator(
                     protocolGeneratorContext,
                     writer,
                     httpBindingResolver,
-                    protocolGenerator.httpProtocolCustomizable,
+                    protocolGenerator.customizations,
                     operationMiddleware,
                     operationStackName
                 )
-                generator.render(serviceShape, op) { writer, _ ->
+                generator.render(serviceShape, op, PRESIGN_REQUEST) { writer, _ ->
                     writer.write("return nil")
                 }
-                val requestBuilderName = "presignedRequestBuilder"
-                val builtRequestName = "builtRequest"
-                writer.write(
-                    "let $requestBuilderName = try await $operationStackName.presignedRequest(context: context, input: input, output: \$L(), next: \$N())",
-                    outputType,
-                    NoopHandler
-                )
-                writer.openBlock("guard let $builtRequestName = $requestBuilderName?.build() else {", "}") {
-                    writer.write("return nil")
+
+                if (protocolGeneratorContext.settings.useInterceptors) {
+                    writer.write("return try await op.presignRequest(input: input)")
+                } else {
+                    val requestBuilderName = "presignedRequestBuilder"
+                    val builtRequestName = "builtRequest"
+                    writer.write(
+                        "let $requestBuilderName = try await $operationStackName.presignedRequest(context: context, input: input, output: \$L(), next: \$N())",
+                        outputType,
+                        NoopHandler
+                    )
+                    writer.openBlock("guard let $builtRequestName = $requestBuilderName?.build() else {", "}") {
+                        writer.write("return nil")
+                    }
+                    writer.write("return $builtRequestName")
                 }
-                writer.write("return $builtRequestName")
             }
         }
     }
@@ -131,15 +141,22 @@ class PresignerGenerator : SwiftIntegration {
     ) {
         writer.apply {
             openBlock("extension $clientName {", "}") {
-                val params = listOf("input: $inputType", "expiration: Foundation.TimeInterval")
-                val returnType = "URLRequest"
+                val params = listOf("input: $inputType", format("expiration: \$N", FoundationTypes.TimeInterval))
                 renderDocForPresignAPI(this, op, inputType)
-                openBlock("public func presignedRequestFor${op.toUpperCamelCase()}(${params.joinToString()}) async throws -> $returnType {", "}") {
+                writer.addImport(packageName = "FoundationNetworking", importOnlyIfCanImport = true)
+                openBlock(
+                    "public func presignedRequestFor${op.toUpperCamelCase()}(${params.joinToString()}) async throws -> \$N {",
+                    "}",
+                    FoundationTypes.URLRequest,
+                ) {
                     write("let presignedRequest = try await input.presign(config: config, expiration: expiration)")
                     openBlock("guard let presignedRequest else {", "}") {
-                        write("throw ClientError.unknownError(\"Could not presign the request for the operation ${op.toUpperCamelCase()}.\")")
+                        write("throw \$N.unknownError(\"Could not presign the request for the operation ${op.toUpperCamelCase()}.\")", SmithyTypes.ClientError)
                     }
-                    write("return try await URLRequest(sdkRequest: presignedRequest)")
+                    write(
+                        "return try await \$N.makeURLRequest(from: presignedRequest)",
+                        SmithyHTTPAPITypes.SdkHttpRequest,
+                    )
                 }
             }
         }
@@ -158,24 +175,5 @@ class PresignerGenerator : SwiftIntegration {
             write("///")
             write("/// - Returns: `URLRequest`: The presigned request for ${op.toUpperCamelCase()} operation.")
         }
-    }
-
-    private fun resolveOperationMiddleware(protocolGenerator: ProtocolGenerator, op: OperationShape, ctx: CodegenContext): OperationMiddleware {
-        val operationMiddlewareCopy = protocolGenerator.operationMiddleware.clone()
-        operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.FINALIZESTEP, "AWSSigningMiddleware")
-        val service = ctx.model.expectShape<ServiceShape>(ctx.settings.service)
-        val operation = ctx.model.expectShape<OperationShape>(op.id)
-        if (AWSSigningMiddleware.hasSigV4AuthScheme(ctx.model, service, operation)) {
-            val params = AWSSigningParams(
-                service,
-                op,
-                useSignatureTypeQueryString = false,
-                forceUnsignedBody = false,
-                useExpiration = true,
-                signingAlgorithm = SigningAlgorithm.SigV4
-            )
-            operationMiddlewareCopy.appendMiddleware(op, AWSSigningMiddleware(ctx.model, ctx.symbolProvider, params))
-        }
-        return operationMiddlewareCopy
     }
 }

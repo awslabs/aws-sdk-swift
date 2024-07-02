@@ -5,8 +5,8 @@
 
 package software.amazon.smithy.aws.swift.codegen.middleware
 
-import software.amazon.smithy.aws.swift.codegen.AWSServiceTypes
 import software.amazon.smithy.codegen.core.Symbol
+import software.amazon.smithy.model.node.Node
 import software.amazon.smithy.model.shapes.MemberShape
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.rulesengine.language.EndpointRuleSet
@@ -18,6 +18,7 @@ import software.amazon.smithy.rulesengine.traits.ContextParamTrait
 import software.amazon.smithy.rulesengine.traits.EndpointRuleSetTrait
 import software.amazon.smithy.rulesengine.traits.StaticContextParamDefinition
 import software.amazon.smithy.rulesengine.traits.StaticContextParamsTrait
+import software.amazon.smithy.swift.codegen.AuthSchemeResolverGenerator
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.middlewares.handlers.MiddlewareShapeUtils
@@ -25,6 +26,7 @@ import software.amazon.smithy.swift.codegen.middleware.MiddlewarePosition
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderable
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 import software.amazon.smithy.swift.codegen.model.getTrait
+import software.amazon.smithy.swift.codegen.swiftmodules.SmithyTypes
 import software.amazon.smithy.swift.codegen.utils.toLowerCamelCase
 
 /**
@@ -33,6 +35,7 @@ import software.amazon.smithy.swift.codegen.utils.toLowerCamelCase
  */
 class OperationEndpointResolverMiddleware(
     val ctx: ProtocolGenerator.GenerationContext,
+    val endpointResolverMiddlewareSymbol: Symbol,
 ) : MiddlewareRenderable {
 
     override val name = "EndpointResolverMiddleware"
@@ -42,7 +45,30 @@ class OperationEndpointResolverMiddleware(
     override val position = MiddlewarePosition.BEFORE
 
     override fun render(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, op: OperationShape, operationStackName: String) {
+        renderEndpointParams(ctx, writer, op)
+
+        // Write code that saves endpoint params to middleware context for use in auth scheme middleware when using rules-based auth scheme resolvers
+        if (AuthSchemeResolverGenerator.usesRulesBasedAuthResolver(ctx)) {
+            writer.write("context.attributes.set(key: \$N<EndpointParams>(name: \"EndpointParams\"), value: endpointParams)", SmithyTypes.AttributeKey)
+        }
+
+        super.renderSpecific(ctx, writer, op, operationStackName, "applyEndpoint")
+    }
+
+    override fun renderMiddlewareInit(
+        ctx: ProtocolGenerator.GenerationContext,
+        writer: SwiftWriter,
+        op: OperationShape
+    ) {
         val output = MiddlewareShapeUtils.outputSymbol(ctx.symbolProvider, ctx.model, op)
+        writer.write(
+            "\$N<\$N, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: \$\$0) }, endpointParams: endpointParams)",
+            endpointResolverMiddlewareSymbol,
+            output
+        )
+    }
+
+    private fun renderEndpointParams(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, op: OperationShape) {
         val outputError = MiddlewareShapeUtils.outputErrorSymbol(op)
         val params = mutableListOf<String>()
         ctx.service.getTrait<EndpointRuleSetTrait>()?.ruleSet?.let { node ->
@@ -69,9 +95,8 @@ class OperationEndpointResolverMiddleware(
                     }
                 }
         }
+
         writer.write("let endpointParams = EndpointParams(${params.joinToString(separator = ", ")})")
-        val middlewareParamsString = "endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams"
-        writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: \$N<\$N>($middlewareParamsString))", AWSServiceTypes.EndpointResolverMiddleware, output)
     }
 
     /**
@@ -92,15 +117,7 @@ class OperationEndpointResolverMiddleware(
     ): String? {
         return when {
             staticContextParam != null -> {
-                return when (param.type) {
-                    ParameterType.STRING -> {
-                        "\"${staticContextParam.value}\""
-                    }
-
-                    ParameterType.BOOLEAN -> {
-                        staticContextParam.value.toString()
-                    }
-                }
+                swiftParam(param.type, staticContextParam.value)
             }
             contextParam != null -> {
                 return "input.${contextParam.memberName.toLowerCamelCase()}"
@@ -108,10 +125,10 @@ class OperationEndpointResolverMiddleware(
             clientContextParam != null -> {
                 when {
                     param.default.isPresent -> {
-                        "config.serviceSpecific.${param.name.toString().toLowerCamelCase()} ?? ${param.defaultValueLiteral}"
+                        "config.${param.name.toString().toLowerCamelCase()} ?? ${param.defaultValueLiteral}"
                     }
                     else -> {
-                        return "config.serviceSpecific.${param.name.toString().toLowerCamelCase()}"
+                        return "config.${param.name.toString().toLowerCamelCase()}"
                     }
                 }
             }
@@ -125,7 +142,7 @@ class OperationEndpointResolverMiddleware(
                             else -> {
                                 // if the parameter is required, we must unwrap the optional value
                                 writer.openBlock("guard let ${param.name.toString().toLowerCamelCase()} = config.${param.name.toString().toLowerCamelCase()} else {", "}") {
-                                    writer.write("throw SdkError<\$N>.client(ClientError.unknownError((\"Missing required parameter: \$L\")))", outputError, param.name.toString())
+                                    writer.write("throw \$N.unknownError(\"Missing required parameter: \$L\")", SmithyTypes.ClientError, param.name.toString())
                                 }
                                 param.name.toString().toLowerCamelCase()
                             }
@@ -148,9 +165,12 @@ class OperationEndpointResolverMiddleware(
 }
 
 private val Parameter.defaultValueLiteral: String
-    get() {
-        return when (type) {
-            ParameterType.BOOLEAN -> default.get().toString()
-            ParameterType.STRING -> "\"${default.get()}\""
-        }
+    get() = swiftParam(type, default.get().toNode())
+
+private fun swiftParam(parameterType: ParameterType, node: Node): String {
+    return when (parameterType) {
+        ParameterType.STRING -> "\"${node}\""
+        ParameterType.BOOLEAN -> node.toString()
+        ParameterType.STRING_ARRAY -> "[${node.expectArrayNode().map { "\"$it\"" }.joinToString(", ")}]"
     }
+}

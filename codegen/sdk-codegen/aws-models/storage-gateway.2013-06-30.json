@@ -87,7 +87,7 @@
                 "GatewayTimezone": {
                     "target": "com.amazonaws.storagegateway#GatewayTimezone",
                     "traits": {
-                        "smithy.api#documentation": "<p>A value that indicates the time zone you want to set for the gateway. The time zone is\n         of the format \"GMT-hr:mm\" or \"GMT+hr:mm\". For example, GMT-4:00 indicates the time is 4\n         hours behind GMT. GMT+2:00 indicates the time is 2 hours ahead of GMT. The time zone is\n         used, for example, for scheduling snapshots and your gateway's maintenance\n         schedule.</p>",
+                        "smithy.api#documentation": "<p>A value that indicates the time zone you want to set for the gateway. The time zone is\n         of the format \"GMT\", \"GMT-hr:mm\", or \"GMT+hr:mm\". For example, GMT indicates Greenwich Mean\n         Time without any offset. GMT-4:00 indicates the time is 4 hours behind GMT. GMT+2:00\n         indicates the time is 2 hours ahead of GMT. The time zone is used, for example, for\n         scheduling snapshots and your gateway's maintenance schedule.</p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -101,7 +101,7 @@
                 "GatewayType": {
                     "target": "com.amazonaws.storagegateway#GatewayType",
                     "traits": {
-                        "smithy.api#documentation": "<p>A value that defines the type of gateway to activate. The type specified is critical to\n         all later functions of the gateway and cannot be changed after activation. The default\n         value is <code>CACHED</code>.</p>\n         <p>Valid Values: <code>STORED</code> | <code>CACHED</code> | <code>VTL</code> |\n            <code>VTL_SNOW</code> | <code>FILE_S3</code> | <code>FILE_FSX_SMB</code>\n         </p>"
+                        "smithy.api#documentation": "<p>A value that defines the type of gateway to activate. The type specified is critical to\n         all later functions of the gateway and cannot be changed after activation. The default\n         value is <code>CACHED</code>.</p>\n         <p>Valid Values: <code>STORED</code> | <code>CACHED</code> | <code>VTL</code>\n         | <code>FILE_S3</code> |\n         <code>FILE_FSX_SMB</code>\n         </p>"
                     }
                 },
                 "TapeDriveType": {
@@ -815,6 +815,23 @@
                 "smithy.api#length": {
                     "min": 1,
                     "max": 10
+                }
+            }
+        },
+        "com.amazonaws.storagegateway#AutomaticUpdatePolicy": {
+            "type": "enum",
+            "members": {
+                "ALL_VERSIONS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ALL_VERSIONS"
+                    }
+                },
+                "EMERGENCY_VERSIONS_ONLY": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "EMERGENCY_VERSIONS_ONLY"
+                    }
                 }
             }
         },
@@ -3721,7 +3738,7 @@
                 "HostEnvironment": {
                     "target": "com.amazonaws.storagegateway#HostEnvironment",
                     "traits": {
-                        "smithy.api#documentation": "<p>The type of hardware or software platform on which the gateway is running.</p>"
+                        "smithy.api#documentation": "<p>The type of hardware or software platform on which the gateway is running.</p>\n         <note>\n            <p>Tape Gateway is no longer available on Snow Family devices.</p>\n         </note>"
                     }
                 },
                 "EndpointType": {
@@ -3789,7 +3806,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Returns your gateway's weekly maintenance start time including the day and time of\n         the week. Note that values are in terms of the gateway's time zone.</p>",
+                "smithy.api#documentation": "<p>Returns your gateway's maintenance window schedule information, with values for\n         monthly or weekly cadence, specific day and time to begin maintenance, and which types of\n         updates to apply. Time values returned are for the gateway's time zone.</p>",
                 "smithy.api#examples": [
                     {
                         "title": "To describe gateway's maintenance start time",
@@ -3850,7 +3867,7 @@
                 "DayOfMonth": {
                     "target": "com.amazonaws.storagegateway#DayOfMonth",
                     "traits": {
-                        "smithy.api#documentation": "<p>The day of the month component of the maintenance start time represented as an ordinal\n         number from 1 to 28, where 1 represents the first day of the month and 28 represents the\n         last day of the month.</p>"
+                        "smithy.api#documentation": "<p>The day of the month component of the maintenance start time represented as an ordinal\n         number from 1 to 28, where 1 represents the first day of the month. It is not possible to\n         set the maintenance schedule to start on days 29 through 31.</p>"
                     }
                 },
                 "Timezone": {
@@ -3858,10 +3875,16 @@
                     "traits": {
                         "smithy.api#documentation": "<p>A value that indicates the time zone that is set for the gateway. The start time and day\n         of week specified should be in the time zone of the gateway.</p>"
                     }
+                },
+                "SoftwareUpdatePreferences": {
+                    "target": "com.amazonaws.storagegateway#SoftwareUpdatePreferences",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A set of variables indicating the software update preferences for the gateway.</p>\n         <p>Includes <code>AutomaticUpdatePolicy</code> field with the following inputs:</p>\n         <p>\n            <code>ALL_VERSIONS</code> - Enables regular gateway maintenance updates.</p>\n         <p>\n            <code>EMERGENCY_VERSIONS_ONLY</code> - Disables regular gateway maintenance\n         updates.</p>"
+                    }
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>A JSON object containing the following fields:</p>\n         <ul>\n            <li>\n               <p>\n                  <a>DescribeMaintenanceStartTimeOutput$DayOfMonth</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a>DescribeMaintenanceStartTimeOutput$DayOfWeek</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a>DescribeMaintenanceStartTimeOutput$HourOfDay</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a>DescribeMaintenanceStartTimeOutput$MinuteOfHour</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a>DescribeMaintenanceStartTimeOutput$Timezone</a>\n               </p>\n            </li>\n         </ul>",
+                "smithy.api#documentation": "<p>A JSON object containing the following fields:</p>\n         <ul>\n            <li>\n               <p>\n                  <a>DescribeMaintenanceStartTimeOutput$SoftwareUpdatePreferences</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a>DescribeMaintenanceStartTimeOutput$DayOfMonth</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a>DescribeMaintenanceStartTimeOutput$DayOfWeek</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a>DescribeMaintenanceStartTimeOutput$HourOfDay</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a>DescribeMaintenanceStartTimeOutput$MinuteOfHour</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a>DescribeMaintenanceStartTimeOutput$Timezone</a>\n               </p>\n            </li>\n         </ul>",
                 "smithy.api#output": {}
             }
         },
@@ -4028,7 +4051,7 @@
                 "SMBSecurityStrategy": {
                     "target": "com.amazonaws.storagegateway#SMBSecurityStrategy",
                     "traits": {
-                        "smithy.api#documentation": "<p>The type of security strategy that was specified for file gateway.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>ClientSpecified</code>: If you use this option, requests are established\n               based on what is negotiated by the client. This option is recommended when you want\n               to maximize compatibility across different clients in your environment. Only\n               supported for S3 File Gateways.</p>\n            </li>\n            <li>\n               <p>\n                  <code>MandatorySigning</code>: If you use this option, file gateway only allows\n               connections from SMBv2 or SMBv3 clients that have signing enabled. This option works\n               with SMB clients on Microsoft Windows Vista, Windows Server 2008 or newer.</p>\n            </li>\n            <li>\n               <p>\n                  <code>MandatoryEncryption</code>: If you use this option, file gateway only allows\n               connections from SMBv3 clients that have encryption enabled. This option is highly\n               recommended for environments that handle sensitive data. This option works with SMB\n               clients on Microsoft Windows 8, Windows Server 2012 or newer.</p>\n            </li>\n         </ul>"
+                        "smithy.api#documentation": "<p>The type of security strategy that was specified for file gateway.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>ClientSpecified</code>: If you choose this option, requests are established\n               based on what is negotiated by the client. This option is recommended when you want\n               to maximize compatibility across different clients in your environment. Supported\n               only for S3 File Gateway.</p>\n            </li>\n            <li>\n               <p>\n                  <code>MandatorySigning</code>: If you choose this option, File Gateway only allows\n               connections from SMBv2 or SMBv3 clients that have signing turned on. This option\n               works with SMB clients on Microsoft Windows Vista, Windows Server 2008, or later.\n            </p>\n            </li>\n            <li>\n               <p>\n                  <code>MandatoryEncryption</code>: If you choose this option, File Gateway only\n               allows connections from SMBv3 clients that have encryption turned on. Both 256-bit\n               and 128-bit algorithms are allowed. This option is recommended for environments that\n               handle sensitive data. It works with SMB clients on Microsoft Windows 8, Windows\n               Server 2012, or later.</p>\n            </li>\n            <li>\n               <p>\n                  <code>MandatoryEncryptionNoAes128</code>: If you choose this option, File Gateway\n               only allows connections from SMBv3 clients that use 256-bit AES encryption\n               algorithms. 128-bit algorithms are not allowed. This option is recommended for\n               environments that handle sensitive data. It works with SMB clients on Microsoft\n               Windows 8, Windows Server 2012, or later.</p>\n            </li>\n         </ul>"
                     }
                 },
                 "FileSharesVisible": {
@@ -4392,7 +4415,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Returns a description of the specified Amazon Resource Name (ARN) of virtual tapes. If a\n            <code>TapeARN</code> is not specified, returns a description of all virtual tapes\n         associated with the specified gateway. This operation is only supported in the tape gateway\n         type.</p>",
+                "smithy.api#documentation": "<p>Returns a description of virtual tapes that correspond to the specified Amazon Resource\n         Names (ARNs). If <code>TapeARN</code> is not specified, returns a description of the\n         virtual tapes associated with the specified gateway. This operation is only supported for\n         the tape gateway type.</p>\n         <p>The operation supports pagination. By default, the operation returns a maximum of up to\n         100 tapes. You can optionally specify the <code>Limit</code> field in the body to limit the\n         number of tapes in the response. If the number of tapes returned in the response is\n         truncated, the response includes a <code>Marker</code> field. You can use this\n            <code>Marker</code> value in your subsequent request to retrieve the next set of\n         tapes.</p>",
                 "smithy.api#examples": [
                     {
                         "title": "To describe virtual tape(s) associated with gateway",
@@ -4506,6 +4529,22 @@
             "traits": {
                 "smithy.api#documentation": "<p>Returns information about the upload buffer of a gateway. This operation is supported\n         for the stored volume, cached volume, and tape gateway types.</p>\n         <p>The response includes disk IDs that are configured as upload buffer space, and it\n         includes the amount of upload buffer space allocated and used.</p>",
                 "smithy.api#examples": [
+                    {
+                        "title": "To describe upload buffer of a gateway",
+                        "documentation": "Returns information about the upload buffer of a gateway including disk IDs and the amount of upload buffer space allocated and used.",
+                        "input": {
+                            "GatewayARN": "arn:aws:storagegateway:us-east-1:111122223333:gateway/sgw-12A3456B"
+                        },
+                        "output": {
+                            "GatewayARN": "arn:aws:storagegateway:us-east-1:111122223333:gateway/sgw-12A3456B",
+                            "DiskIds": [
+                                "pci-0000:03:00.0-scsi-0:0:0:0",
+                                "pci-0000:04:00.0-scsi-0:1:0:0"
+                            ],
+                            "UploadBufferUsedInBytes": 0,
+                            "UploadBufferAllocatedInBytes": 161061273600
+                        }
+                    },
                     {
                         "title": "To describe upload buffer of gateway",
                         "documentation": "Returns information about the upload buffer of a gateway including disk IDs and the amount of upload buffer space allocated/used.",
@@ -5955,13 +5994,25 @@
                 "HostEnvironment": {
                     "target": "com.amazonaws.storagegateway#HostEnvironment",
                     "traits": {
-                        "smithy.api#documentation": "<p>The type of hardware or software platform on which the gateway is running.</p>"
+                        "smithy.api#documentation": "<p>The type of hardware or software platform on which the gateway is running.</p>\n         <note>\n            <p>Tape Gateway is no longer available on Snow Family devices.</p>\n         </note>"
                     }
                 },
                 "HostEnvironmentId": {
                     "target": "com.amazonaws.storagegateway#HostEnvironmentId",
                     "traits": {
                         "smithy.api#documentation": "<p>A unique identifier for the specific instance of the host platform running the gateway.\n         This value is only available for certain host environments, and its format depends on the\n         host environment type.</p>"
+                    }
+                },
+                "DeprecationDate": {
+                    "target": "com.amazonaws.storagegateway#DeprecationDate",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Date after which this gateway will not receive software updates for new features and bug\n         fixes.</p>"
+                    }
+                },
+                "SoftwareVersion": {
+                    "target": "com.amazonaws.storagegateway#SoftwareVersion",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The version number of the software running on the gateway appliance.</p>"
                     }
                 }
             },
@@ -7448,7 +7499,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Sends you notification through CloudWatch Events when all files written to your file\n         share have been uploaded to S3. Amazon S3.</p>\n         <p>Storage Gateway can send a notification through Amazon CloudWatch Events when all\n         files written to your file share up to that point in time have been uploaded to Amazon S3. These files include files written to the file share up to the time that you\n         make a request for notification. When the upload is done, Storage Gateway sends you\n         notification through an Amazon CloudWatch Event. You can configure CloudWatch Events to\n         send the notification through event targets such as Amazon SNS or Lambda function. This operation is only supported for S3 File Gateways.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/filegateway/latest/files3/monitoring-file-gateway.html#get-notification\">Getting\n            file upload notification</a> in the <i>Amazon S3 File Gateway User\n            Guide</i>.</p>"
+                "smithy.api#documentation": "<p>Sends you notification through CloudWatch Events when all files written to your file\n         share have been uploaded to Amazon S3.</p>\n         <p>Storage Gateway can send a notification through Amazon CloudWatch Events when all\n         files written to your file share up to that point in time have been uploaded to Amazon S3. These files include files written to the file share up to the time that you\n         make a request for notification. When the upload is done, Storage Gateway sends you\n         notification through an Amazon CloudWatch Event. You can configure CloudWatch Events to\n         send the notification through event targets such as Amazon SNS or Lambda function. This operation is only supported for S3 File Gateways.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/filegateway/latest/files3/monitoring-file-gateway.html#get-notification\">Getting\n            file upload notification</a> in the <i>Amazon S3 File Gateway User\n            Guide</i>.</p>"
             }
         },
         "com.amazonaws.storagegateway#NotifyWhenUploadedInput": {
@@ -7707,7 +7758,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Refreshes the cached inventory of objects for the specified file share. This operation\n         finds objects in the Amazon S3 bucket that were added, removed, or replaced since\n         the gateway last listed the bucket's contents and cached the results. This operation\n         does not import files into the S3 File Gateway cache storage. It only updates the cached\n         inventory to reflect changes in the inventory of the objects in the S3 bucket. This\n         operation is only supported in the S3 File Gateway types.</p>\n         <p>You can subscribe to be notified through an Amazon CloudWatch event when your\n            <code>RefreshCache</code> operation completes. For more information, see <a href=\"https://docs.aws.amazon.com/storagegateway/latest/userguide/monitoring-file-gateway.html#get-notification\">Getting notified about file operations</a> in the <i>Storage Gateway\n            User Guide</i>. This operation is Only supported for S3 File Gateways.</p>\n         <p>When this API is called, it only initiates the refresh operation. When the API call\n         completes and returns a success code, it doesn't necessarily mean that the file\n         refresh has completed. You should use the refresh-complete notification to determine that\n         the operation has completed before you check for new files on the gateway file share. You\n         can subscribe to be notified through a CloudWatch event when your <code>RefreshCache</code>\n         operation completes.</p>\n         <p>Throttle limit: This API is asynchronous, so the gateway will accept no more than two\n         refreshes at any time. We recommend using the refresh-complete CloudWatch event\n         notification before issuing additional requests. For more information, see <a href=\"https://docs.aws.amazon.com/storagegateway/latest/userguide/monitoring-file-gateway.html#get-notification\">Getting notified about file operations</a> in the <i>Storage Gateway\n            User Guide</i>.</p>\n         <important>\n            <ul>\n               <li>\n                  <p>Wait at least 60 seconds between consecutive RefreshCache API requests.</p>\n               </li>\n               <li>\n                  <p>If you invoke the RefreshCache API when two requests are already being\n                  processed, any new request will cause an\n                     <code>InvalidGatewayRequestException</code> error because too many requests\n                  were sent to the server.</p>\n               </li>\n            </ul>\n         </important>\n         <note>\n            <p>The S3 bucket name does not need to be included when entering the list of folders in\n            the FolderList parameter.</p>\n         </note>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/storagegateway/latest/userguide/monitoring-file-gateway.html#get-notification\">Getting notified about file operations</a> in the <i>Storage Gateway\n            User Guide</i>.</p>"
+                "smithy.api#documentation": "<p>Refreshes the cached inventory of objects for the specified file share. This operation\n         finds objects in the Amazon S3 bucket that were added, removed, or replaced since\n         the gateway last listed the bucket's contents and cached the results. This operation\n         does not import files into the S3 File Gateway cache storage. It only updates the cached\n         inventory to reflect changes in the inventory of the objects in the S3 bucket. This\n         operation is only supported in the S3 File Gateway types.</p>\n         <p>You can subscribe to be notified through an Amazon CloudWatch event when your\n            <code>RefreshCache</code> operation completes. For more information, see <a href=\"https://docs.aws.amazon.com/filegateway/latest/files3/monitoring-file-gateway.html#get-notification\">Getting\n            notified about file operations</a> in the <i>Amazon S3 File Gateway User\n            Guide</i>. This operation is Only supported for S3 File Gateways.</p>\n         <p>When this API is called, it only initiates the refresh operation. When the API call\n         completes and returns a success code, it doesn't necessarily mean that the file\n         refresh has completed. You should use the refresh-complete notification to determine that\n         the operation has completed before you check for new files on the gateway file share. You\n         can subscribe to be notified through a CloudWatch event when your <code>RefreshCache</code>\n         operation completes.</p>\n         <p>Throttle limit: This API is asynchronous, so the gateway will accept no more than two\n         refreshes at any time. We recommend using the refresh-complete CloudWatch event\n         notification before issuing additional requests. For more information, see <a href=\"https://docs.aws.amazon.com/filegateway/latest/files3/monitoring-file-gateway.html#get-notification\">Getting\n            notified about file operations</a> in the <i>Amazon S3 File Gateway User\n            Guide</i>.</p>\n         <important>\n            <ul>\n               <li>\n                  <p>Wait at least 60 seconds between consecutive RefreshCache API requests.</p>\n               </li>\n               <li>\n                  <p>If you invoke the RefreshCache API when two requests are already being\n                  processed, any new request will cause an\n                     <code>InvalidGatewayRequestException</code> error because too many requests\n                  were sent to the server.</p>\n               </li>\n            </ul>\n         </important>\n         <note>\n            <p>The S3 bucket name does not need to be included when entering the list of folders in\n            the FolderList parameter.</p>\n         </note>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/filegateway/latest/files3/monitoring-file-gateway.html#get-notification\">Getting\n            notified about file operations</a> in the <i>Amazon S3 File Gateway User\n            Guide</i>.</p>"
             }
         },
         "com.amazonaws.storagegateway#RefreshCacheInput": {
@@ -7723,7 +7774,7 @@
                 "FolderList": {
                     "target": "com.amazonaws.storagegateway#FolderList",
                     "traits": {
-                        "smithy.api#documentation": "<p>A comma-separated list of the paths of folders to refresh in the cache. The default is\n            [<code>\"/\"</code>]. The default refreshes objects and folders at the root of the Amazon S3 bucket. If <code>Recursive</code> is set to <code>true</code>, the entire S3\n         bucket that the file share has access to is refreshed.</p>"
+                        "smithy.api#documentation": "<p>A comma-separated list of the paths of folders to refresh in the cache. The default is\n            [<code>\"/\"</code>]. The default refreshes objects and folders at the root of the Amazon S3 bucket. If <code>Recursive</code> is set to <code>true</code>, the entire S3\n         bucket that the file share has access to is refreshed.</p>\n         <p>Do not include <code>/</code> when specifying folder names. For example, you would\n         specify <code>samplefolder</code> rather than <code>samplefolder/</code>.</p>"
                     }
                 },
                 "Recursive": {
@@ -8293,6 +8344,12 @@
                     "traits": {
                         "smithy.api#enumValue": "MandatoryEncryption"
                     }
+                },
+                "MandatoryEncryptionNoAes128": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "MandatoryEncryptionNoAes128"
+                    }
                 }
             }
         },
@@ -8455,7 +8512,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Shuts down a gateway. To specify which gateway to shut down, use the Amazon Resource\n         Name (ARN) of the gateway in the body of your request.</p>\n         <p>The operation shuts down the gateway service component running in the gateway's\n         virtual machine (VM) and not the host VM.</p>\n         <note>\n            <p>If you want to shut down the VM, it is recommended that you first shut down the\n            gateway component in the VM to avoid unpredictable conditions.</p>\n         </note>\n         <p>After the gateway is shutdown, you cannot call any other API except <a>StartGateway</a>, <a>DescribeGatewayInformation</a>, and <a>ListGateways</a>. For more information, see <a>ActivateGateway</a>.\n         Your applications cannot read from or write to the gateway's storage volumes, and\n         there are no snapshots taken.</p>\n         <note>\n            <p>When you make a shutdown request, you will get a <code>200 OK</code> success response\n            immediately. However, it might take some time for the gateway to shut down. You can call\n            the <a>DescribeGatewayInformation</a> API to check the status. For more\n            information, see <a>ActivateGateway</a>.</p>\n         </note>\n         <p>If do not intend to use the gateway again, you must delete the gateway (using <a>DeleteGateway</a>) to no longer pay software charges associated with the\n         gateway.</p>",
+                "smithy.api#documentation": "<p>Shuts down a Tape Gateway or Volume Gateway. To specify which gateway to shut down, use\n         the Amazon Resource Name (ARN) of the gateway in the body of your request.</p>\n         <note>\n            <p>This API action cannot be used to shut down S3 File Gateway or FSx File\n            Gateway.</p>\n         </note>\n         <p>The operation shuts down the gateway service component running in the gateway's\n         virtual machine (VM) and not the host VM.</p>\n         <note>\n            <p>If you want to shut down the VM, it is recommended that you first shut down the\n            gateway component in the VM to avoid unpredictable conditions.</p>\n         </note>\n         <p>After the gateway is shutdown, you cannot call any other API except <a>StartGateway</a>, <a>DescribeGatewayInformation</a>, and <a>ListGateways</a>. For more information, see <a>ActivateGateway</a>.\n         Your applications cannot read from or write to the gateway's storage volumes, and\n         there are no snapshots taken.</p>\n         <note>\n            <p>When you make a shutdown request, you will get a <code>200 OK</code> success response\n            immediately. However, it might take some time for the gateway to shut down. You can call\n            the <a>DescribeGatewayInformation</a> API to check the status. For more\n            information, see <a>ActivateGateway</a>.</p>\n         </note>\n         <p>If do not intend to use the gateway again, you must delete the gateway (using <a>DeleteGateway</a>) to no longer pay software charges associated with the\n         gateway.</p>",
                 "smithy.api#examples": [
                     {
                         "title": "To shut down a gateway service",
@@ -8510,6 +8567,20 @@
             "type": "string",
             "traits": {
                 "smithy.api#pattern": "^\\Asnap-([0-9A-Fa-f]{8}|[0-9A-Fa-f]{17})\\z$"
+            }
+        },
+        "com.amazonaws.storagegateway#SoftwareUpdatePreferences": {
+            "type": "structure",
+            "members": {
+                "AutomaticUpdatePolicy": {
+                    "target": "com.amazonaws.storagegateway#AutomaticUpdatePolicy",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Indicates the automatic update policy for a gateway.</p>\n         <p>\n            <code>ALL_VERSIONS</code> - Enables regular gateway maintenance updates.</p>\n         <p>\n            <code>EMERGENCY_VERSIONS_ONLY</code> - Disables regular gateway maintenance\n         updates.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A set of variables indicating the software update preferences for the gateway.</p>"
             }
         },
         "com.amazonaws.storagegateway#SoftwareUpdatesEndDate": {
@@ -10868,7 +10939,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Updates a gateway's metadata, which includes the gateway's name and time zone.\n         To specify which gateway to update, use the Amazon Resource Name (ARN) of the gateway in\n         your request.</p>\n         <note>\n            <p>For gateways activated after September 2, 2015, the gateway's ARN contains the\n            gateway ID rather than the gateway name. However, changing the name of the gateway has\n            no effect on the gateway's ARN.</p>\n         </note>",
+                "smithy.api#documentation": "<p>Updates a gateway's metadata, which includes the gateway's name, time zone,\n         and metadata cache size. To specify which gateway to update, use the Amazon Resource Name\n         (ARN) of the gateway in your request.</p>\n         <note>\n            <p>For gateways activated after September 2, 2015, the gateway's ARN contains the\n            gateway ID rather than the gateway name. However, changing the name of the gateway has\n            no effect on the gateway's ARN.</p>\n         </note>",
                 "smithy.api#examples": [
                     {
                         "title": "To update a gateway's metadata",
@@ -10913,7 +10984,7 @@
                 "GatewayCapacity": {
                     "target": "com.amazonaws.storagegateway#GatewayCapacity",
                     "traits": {
-                        "smithy.api#documentation": "<p>Specifies the size of the gateway's metadata cache.</p>"
+                        "smithy.api#documentation": "<p>Specifies the size of the gateway's metadata cache. This setting impacts gateway\n         performance and hardware recommendations. For more information, see <a href=\"https://docs.aws.amazon.com/filegateway/latest/files3/performance-multiple-file-shares.html\">Performance guidance for gateways with multiple file shares</a>\n         in the <i>Amazon S3 File Gateway User Guide</i>.</p>"
                     }
                 }
             },
@@ -11015,7 +11086,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Updates a gateway's weekly maintenance start time information, including day and\n         time of the week. The maintenance time is the time in your gateway's time zone.</p>",
+                "smithy.api#documentation": "<p>Updates a gateway's maintenance window schedule, with settings for monthly or\n         weekly cadence, specific day and time to begin maintenance, and which types of updates to\n         apply. Time configuration uses the gateway's time zone. You can pass values for a complete\n         maintenance schedule, or update policy, or both. Previous values will persist for whichever\n         setting you choose not to modify. If an incomplete or invalid maintenance schedule is\n         passed, the entire request will be rejected with an error and no changes will occur.</p>\n         <p>A complete maintenance schedule must include values for <i>both</i>\n            <code>MinuteOfHour</code> and <code>HourOfDay</code>, and <i>either</i>\n            <code>DayOfMonth</code>\n            <i>or</i>\n            <code>DayOfWeek</code>.</p>\n         <note>\n            <p>We recommend keeping maintenance updates turned on, except in specific use cases\n            where the brief disruptions caused by updating the gateway could critically impact your\n            deployment.</p>\n         </note>",
                 "smithy.api#examples": [
                     {
                         "title": "To update a gateway's maintenance start time",
@@ -11045,32 +11116,36 @@
                 "HourOfDay": {
                     "target": "com.amazonaws.storagegateway#HourOfDay",
                     "traits": {
-                        "smithy.api#documentation": "<p>The hour component of the maintenance start time represented as <i>hh</i>,\n         where <i>hh</i> is the hour (00 to 23). The hour of the day is in the time\n         zone of the gateway.</p>",
-                        "smithy.api#required": {}
+                        "smithy.api#documentation": "<p>The hour component of the maintenance start time represented as <i>hh</i>,\n         where <i>hh</i> is the hour (00 to 23). The hour of the day is in the time\n         zone of the gateway.</p>"
                     }
                 },
                 "MinuteOfHour": {
                     "target": "com.amazonaws.storagegateway#MinuteOfHour",
                     "traits": {
-                        "smithy.api#documentation": "<p>The minute component of the maintenance start time represented as\n            <i>mm</i>, where <i>mm</i> is the minute (00 to 59). The\n         minute of the hour is in the time zone of the gateway.</p>",
-                        "smithy.api#required": {}
+                        "smithy.api#documentation": "<p>The minute component of the maintenance start time represented as\n            <i>mm</i>, where <i>mm</i> is the minute (00 to 59). The\n         minute of the hour is in the time zone of the gateway.</p>"
                     }
                 },
                 "DayOfWeek": {
                     "target": "com.amazonaws.storagegateway#DayOfWeek",
                     "traits": {
-                        "smithy.api#documentation": "<p>The day of the week component of the maintenance start time week represented as an\n         ordinal number from 0 to 6, where 0 represents Sunday and 6 Saturday.</p>"
+                        "smithy.api#documentation": "<p>The day of the week component of the maintenance start time week represented as an\n         ordinal number from 0 to 6, where 0 represents Sunday and 6 represents Saturday.</p>"
                     }
                 },
                 "DayOfMonth": {
                     "target": "com.amazonaws.storagegateway#DayOfMonth",
                     "traits": {
-                        "smithy.api#documentation": "<p>The day of the month component of the maintenance start time represented as an ordinal\n         number from 1 to 28, where 1 represents the first day of the month and 28 represents the\n         last day of the month.</p>"
+                        "smithy.api#documentation": "<p>The day of the month component of the maintenance start time represented as an ordinal\n         number from 1 to 28, where 1 represents the first day of the month. It is not possible to\n         set the maintenance schedule to start on days 29 through 31.</p>"
+                    }
+                },
+                "SoftwareUpdatePreferences": {
+                    "target": "com.amazonaws.storagegateway#SoftwareUpdatePreferences",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A set of variables indicating the software update preferences for the gateway.</p>\n         <p>Includes <code>AutomaticUpdatePolicy</code> field with the following inputs:</p>\n         <p>\n            <code>ALL_VERSIONS</code> - Enables regular gateway maintenance updates.</p>\n         <p>\n            <code>EMERGENCY_VERSIONS_ONLY</code> - Disables regular gateway maintenance\n         updates.</p>"
                     }
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>A JSON object containing the following fields:</p>\n         <ul>\n            <li>\n               <p>\n                  <a>UpdateMaintenanceStartTimeInput$DayOfMonth</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a>UpdateMaintenanceStartTimeInput$DayOfWeek</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a>UpdateMaintenanceStartTimeInput$HourOfDay</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a>UpdateMaintenanceStartTimeInput$MinuteOfHour</a>\n               </p>\n            </li>\n         </ul>",
+                "smithy.api#documentation": "<p>A JSON object containing the following fields:</p>\n         <ul>\n            <li>\n               <p>\n                  <a>UpdateMaintenanceStartTimeInput$SoftwareUpdatePreferences</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a>UpdateMaintenanceStartTimeInput$DayOfMonth</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a>UpdateMaintenanceStartTimeInput$DayOfWeek</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a>UpdateMaintenanceStartTimeInput$HourOfDay</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a>UpdateMaintenanceStartTimeInput$MinuteOfHour</a>\n               </p>\n            </li>\n         </ul>",
                 "smithy.api#input": {}
             }
         },
@@ -11501,7 +11576,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Updates the SMB security strategy on a file gateway. This action is only supported in\n         file gateways.</p>\n         <note>\n            <p>This API is called Security level in the User Guide.</p>\n            <p>A higher security level can affect performance of the gateway.</p>\n         </note>"
+                "smithy.api#documentation": "<p>Updates the SMB security strategy level for an Amazon S3 file gateway. This\n         action is only supported for Amazon S3 file gateways.</p>\n         <note>\n            <p>For information about configuring this setting using the Amazon Web Services console,\n            see <a href=\"https://docs.aws.amazon.com/filegateway/latest/files3/security-strategy.html\">Setting a security level for your gateway</a> in the <i>Amazon S3\n               File Gateway User Guide</i>.</p>\n            <p>A higher security strategy level can affect performance of the gateway.</p>\n         </note>"
             }
         },
         "com.amazonaws.storagegateway#UpdateSMBSecurityStrategyInput": {
@@ -11516,7 +11591,7 @@
                 "SMBSecurityStrategy": {
                     "target": "com.amazonaws.storagegateway#SMBSecurityStrategy",
                     "traits": {
-                        "smithy.api#documentation": "<p>Specifies the type of security strategy.</p>\n         <p>ClientSpecified: if you use this option, requests are established based on what is\n         negotiated by the client. This option is recommended when you want to maximize\n         compatibility across different clients in your environment. Supported only in S3 File\n         Gateway.</p>\n         <p>MandatorySigning: if you use this option, file gateway only allows connections from\n         SMBv2 or SMBv3 clients that have signing enabled. This option works with SMB clients on\n         Microsoft Windows Vista, Windows Server 2008 or newer.</p>\n         <p>MandatoryEncryption: if you use this option, file gateway only allows connections from\n         SMBv3 clients that have encryption enabled. This option is highly recommended for\n         environments that handle sensitive data. This option works with SMB clients on Microsoft\n         Windows 8, Windows Server 2012 or newer.</p>",
+                        "smithy.api#documentation": "<p>Specifies the type of security strategy.</p>\n         <p>\n            <code>ClientSpecified</code>: If you choose this option, requests are established based\n         on what is negotiated by the client. This option is recommended when you want to maximize\n         compatibility across different clients in your environment. Supported only for S3 File\n         Gateway.</p>\n         <p>\n            <code>MandatorySigning</code>: If you choose this option, File Gateway only allows\n         connections from SMBv2 or SMBv3 clients that have signing enabled. This option works with\n         SMB clients on Microsoft Windows Vista, Windows Server 2008 or newer.</p>\n         <p>\n            <code>MandatoryEncryption</code>: If you choose this option, File Gateway only allows\n         connections from SMBv3 clients that have encryption enabled. This option is recommended for\n         environments that handle sensitive data. This option works with SMB clients on Microsoft\n         Windows 8, Windows Server 2012 or newer.</p>\n         <p>\n            <code>MandatoryEncryptionNoAes128</code>: If you choose this option, File Gateway only\n         allows connections from SMBv3 clients that use 256-bit AES encryption algorithms. 128-bit\n         algorithms are not allowed. This option is recommended for environments that handle\n         sensitive data. It works with SMB clients on Microsoft Windows 8, Windows Server 2012, or\n         later.</p>",
                         "smithy.api#required": {}
                     }
                 }

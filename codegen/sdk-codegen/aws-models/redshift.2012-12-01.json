@@ -338,7 +338,7 @@
                     "target": "com.amazonaws.redshift#String",
                     "traits": {
                         "smithy.api#clientOptional": {},
-                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the datashare that the consumer is to use with the account or the namespace.</p>",
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the datashare that the consumer is to use.</p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -351,7 +351,7 @@
                 "ConsumerArn": {
                     "target": "com.amazonaws.redshift#String",
                     "traits": {
-                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the consumer that is associated with the\n            datashare.</p>"
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the consumer namespace associated with the\n            datashare.</p>"
                     }
                 },
                 "ConsumerRegion": {
@@ -707,7 +707,7 @@
                     "target": "com.amazonaws.redshift#String",
                     "traits": {
                         "smithy.api#clientOptional": {},
-                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the datashare that producers are to authorize\n            sharing for.</p>",
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the datashare namespace that producers are to authorize\n            sharing for.</p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -843,7 +843,7 @@
                 "SnapshotClusterIdentifier": {
                     "target": "com.amazonaws.redshift#String",
                     "traits": {
-                        "smithy.api#documentation": "<p>The identifier of the cluster the snapshot was created from. This parameter is\n            required if your IAM user has a policy containing a snapshot resource element that\n            specifies anything other than * for the cluster name.</p>"
+                        "smithy.api#documentation": "<p>The identifier of the cluster the snapshot was created from.</p>\n         <ul>\n            <li>\n               <p>\n                  <i>If the snapshot to access doesn't exist and the associated IAM policy doesn't allow access to all (*) snapshots</i> -  This parameter is required. Otherwise, permissions \n                aren't available to check if the snapshot exists.</p>\n            </li>\n            <li>\n               <p>\n                  <i>If the snapshot to access exists</i> - This parameter isn't required. Redshift can retrieve the cluster identifier and use it to \n                validate snapshot authorization.</p>\n            </li>\n         </ul>"
                     }
                 },
                 "AccountWithRestoreAccess": {
@@ -2814,7 +2814,7 @@
                     "target": "com.amazonaws.redshift#String",
                     "traits": {
                         "smithy.api#clientOptional": {},
-                        "smithy.api#documentation": "<p>The node type to be provisioned for the cluster. For information about node types,\n            go to <a href=\"https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#how-many-nodes\"> Working with\n                Clusters</a> in the <i>Amazon Redshift Cluster Management Guide</i>. </p>\n         <p>Valid Values: <code>ds2.xlarge</code> | <code>ds2.8xlarge</code> |\n                <code>dc1.large</code> | <code>dc1.8xlarge</code> | \n                <code>dc2.large</code> | <code>dc2.8xlarge</code> | \n                <code>ra3.xlplus</code> |  <code>ra3.4xlarge</code> | <code>ra3.16xlarge</code>\n         </p>",
+                        "smithy.api#documentation": "<p>The node type to be provisioned for the cluster. For information about node types,\n            go to <a href=\"https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#how-many-nodes\"> Working with\n                Clusters</a> in the <i>Amazon Redshift Cluster Management Guide</i>. </p>\n         <p>Valid Values: \n                <code>dc2.large</code> | <code>dc2.8xlarge</code> | \n                <code>ra3.xlplus</code> |  <code>ra3.4xlarge</code> | <code>ra3.16xlarge</code>\n         </p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -2883,7 +2883,7 @@
                 "Port": {
                     "target": "com.amazonaws.redshift#IntegerOptional",
                     "traits": {
-                        "smithy.api#documentation": "<p>The port number on which the cluster accepts incoming connections.</p>\n         <p>The cluster is accessible only via the JDBC and ODBC connection strings. Part of\n            the connection string requires the port on which the cluster will listen for incoming\n            connections.</p>\n         <p>Default: <code>5439</code>\n         </p>\n         <p>Valid Values: <code>1150-65535</code>\n         </p>"
+                        "smithy.api#documentation": "<p>The port number on which the cluster accepts incoming connections.</p>\n         <p>The cluster is accessible only via the JDBC and ODBC connection strings. Part of\n            the connection string requires the port on which the cluster will listen for incoming\n            connections.</p>\n         <p>Default: <code>5439</code>\n         </p>\n         <p>Valid Values:\n        </p>\n         <ul>\n            <li>\n               <p>For clusters with ra3 nodes - Select a port within the ranges <code>5431-5455</code> or <code>8191-8215</code>. (If you have an existing cluster \n                with ra3 nodes, it isn't required that you change the port to these ranges.)</p>\n            </li>\n            <li>\n               <p>For clusters with dc2 nodes - Select a port within the range <code>1150-65535</code>.</p>\n            </li>\n         </ul>"
                     }
                 },
                 "ClusterVersion": {
@@ -4406,13 +4406,13 @@
                 "DataShareArn": {
                     "target": "com.amazonaws.redshift#String",
                     "traits": {
-                        "smithy.api#documentation": "<p>An Amazon Resource Name (ARN) that references the datashare that is owned by a specific namespace of the producer cluster. A datashare ARN is in the <code>arn:aws:redshift:{region}:{account-id}:{datashare}:{namespace-guid}/{datashare-name}</code> format.</p>"
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the datashare that the consumer is to use.</p>"
                     }
                 },
                 "ProducerArn": {
                     "target": "com.amazonaws.redshift#String",
                     "traits": {
-                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the producer.</p>"
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the producer namespace.</p>"
                     }
                 },
                 "AllowPubliclyAccessibleConsumers": {
@@ -4667,7 +4667,7 @@
                     "target": "com.amazonaws.redshift#String",
                     "traits": {
                         "smithy.api#clientOptional": {},
-                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the datashare to remove authorization from.</p>",
+                        "smithy.api#documentation": "<p>The namespace Amazon Resource Name (ARN) of the datashare to remove authorization from.</p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -6502,7 +6502,7 @@
                 "ConsumerArn": {
                     "target": "com.amazonaws.redshift#String",
                     "traits": {
-                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the consumer that returns in the list of datashares.</p>"
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the consumer namespace that returns in the list of datashares.</p>"
                     }
                 },
                 "Status": {
@@ -6577,7 +6577,7 @@
                 "ProducerArn": {
                     "target": "com.amazonaws.redshift#String",
                     "traits": {
-                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the producer that returns in the list of datashares.</p>"
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the producer namespace that returns in the list of datashares.</p>"
                     }
                 },
                 "Status": {
@@ -6629,7 +6629,7 @@
                 "DataShareArn": {
                     "target": "com.amazonaws.redshift#String",
                     "traits": {
-                        "smithy.api#documentation": "<p>The identifier of the datashare to describe details of.</p>"
+                        "smithy.api#documentation": "<p>The Amazon resource name (ARN) of the datashare to describe details of.</p>"
                     }
                 },
                 "MaxRecords": {
@@ -8350,7 +8350,7 @@
                     "target": "com.amazonaws.redshift#String",
                     "traits": {
                         "smithy.api#clientOptional": {},
-                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the datashare to remove association for. </p>",
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the datashare to remove association for.</p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -8363,7 +8363,7 @@
                 "ConsumerArn": {
                     "target": "com.amazonaws.redshift#String",
                     "traits": {
-                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the consumer that association for\n            the datashare is removed from.</p>"
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the consumer namespace that association for\n            the datashare is removed from.</p>"
                     }
                 },
                 "ConsumerRegion": {
@@ -9984,6 +9984,29 @@
                 "smithy.api#pattern": "^[a-zA-Z0-9_+.#@$-]+$"
             }
         },
+        "com.amazonaws.redshift#ImpactRankingType": {
+            "type": "enum",
+            "members": {
+                "HIGH": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "HIGH"
+                    }
+                },
+                "MEDIUM": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "MEDIUM"
+                    }
+                },
+                "LOW": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "LOW"
+                    }
+                }
+            }
+        },
         "com.amazonaws.redshift#ImportTablesCompleted": {
             "type": "list",
             "member": {
@@ -10794,6 +10817,84 @@
                 "smithy.api#httpError": 400
             }
         },
+        "com.amazonaws.redshift#ListRecommendations": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.redshift#ListRecommendationsMessage"
+            },
+            "output": {
+                "target": "com.amazonaws.redshift#ListRecommendationsResult"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.redshift#ClusterNotFoundFault"
+                },
+                {
+                    "target": "com.amazonaws.redshift#UnsupportedOperationFault"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>List the Amazon Redshift Advisor recommendations for one or multiple Amazon Redshift clusters in an Amazon Web Services account.</p>",
+                "smithy.api#paginated": {
+                    "inputToken": "Marker",
+                    "outputToken": "Marker",
+                    "items": "Recommendations",
+                    "pageSize": "MaxRecords"
+                }
+            }
+        },
+        "com.amazonaws.redshift#ListRecommendationsMessage": {
+            "type": "structure",
+            "members": {
+                "ClusterIdentifier": {
+                    "target": "com.amazonaws.redshift#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The unique identifier of the Amazon Redshift cluster for which the list of Advisor recommendations is returned. \n          If the neither the cluster identifier and the cluster namespace ARN parameters are specified, then recommendations for all clusters in the account are returned.</p>"
+                    }
+                },
+                "NamespaceArn": {
+                    "target": "com.amazonaws.redshift#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Redshift cluster namespace Amazon Resource Name (ARN) for which the list of Advisor recommendations is returned.\n            If the neither the cluster identifier and the cluster namespace ARN parameters are specified, then recommendations for all clusters in the account are returned.</p>"
+                    }
+                },
+                "MaxRecords": {
+                    "target": "com.amazonaws.redshift#IntegerOptional",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The maximum number of response records to return in each call. If the number of remaining response records \n            exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve \n            the next set of records by retrying the command with the returned marker value.</p>"
+                    }
+                },
+                "Marker": {
+                    "target": "com.amazonaws.redshift#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A value that indicates the starting point for the next set of response records in a subsequent request. If a \n            value is returned in a response, you can retrieve the next set\n            of records by providing this returned marker value in the Marker parameter\n            and retrying the command. If the Marker field is empty, all response\n            records have been retrieved for the request.\n        </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.redshift#ListRecommendationsResult": {
+            "type": "structure",
+            "members": {
+                "Recommendations": {
+                    "target": "com.amazonaws.redshift#RecommendationList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Advisor recommendations for action on the Amazon Redshift cluster.</p>"
+                    }
+                },
+                "Marker": {
+                    "target": "com.amazonaws.redshift#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A value that indicates the starting point for the next set of response records in a subsequent \n            request. If a value is returned in a response, you can retrieve the next set\n            of records by providing this returned marker value in the Marker parameter\n            and retrying the command. If the Marker field is empty, all response\n            records have been retrieved for the request.\n        </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
         "com.amazonaws.redshift#LogDestinationType": {
             "type": "enum",
             "members": {
@@ -11352,7 +11453,7 @@
                 "NodeType": {
                     "target": "com.amazonaws.redshift#String",
                     "traits": {
-                        "smithy.api#documentation": "<p>The new node type of the cluster. If you specify a new node type, you must also\n            specify the number of nodes parameter.</p>\n         <p>\nFor more information about resizing clusters, go to \n<a href=\"https://docs.aws.amazon.com/redshift/latest/mgmt/rs-resize-tutorial.html\">Resizing Clusters in Amazon Redshift</a> \nin the <i>Amazon Redshift Cluster Management Guide</i>.</p>\n         <p>Valid Values: <code>ds2.xlarge</code> | <code>ds2.8xlarge</code> |\n            <code>dc1.large</code> | <code>dc1.8xlarge</code> | \n            <code>dc2.large</code> | <code>dc2.8xlarge</code> | \n            <code>ra3.xlplus</code> |  <code>ra3.4xlarge</code> | <code>ra3.16xlarge</code>\n         </p>"
+                        "smithy.api#documentation": "<p>The new node type of the cluster. If you specify a new node type, you must also\n            specify the number of nodes parameter.</p>\n         <p>\nFor more information about resizing clusters, go to \n<a href=\"https://docs.aws.amazon.com/redshift/latest/mgmt/rs-resize-tutorial.html\">Resizing Clusters in Amazon Redshift</a> \nin the <i>Amazon Redshift Cluster Management Guide</i>.</p>\n         <p>Valid Values: \n            <code>dc2.large</code> | <code>dc2.8xlarge</code> | \n            <code>ra3.xlplus</code> |  <code>ra3.4xlarge</code> | <code>ra3.16xlarge</code>\n         </p>"
                     }
                 },
                 "NumberOfNodes": {
@@ -11484,7 +11585,7 @@
                 "Port": {
                     "target": "com.amazonaws.redshift#IntegerOptional",
                     "traits": {
-                        "smithy.api#documentation": "<p>The option to change the port of an Amazon Redshift cluster.</p>"
+                        "smithy.api#documentation": "<p>The option to change the port of an Amazon Redshift cluster.</p>\n         <p>Valid Values:\n        </p>\n         <ul>\n            <li>\n               <p>For clusters with ra3 nodes - Select a port within the ranges <code>5431-5455</code> or <code>8191-8215</code>. (If you have an existing cluster \n                with ra3 nodes, it isn't required that you change the port to these ranges.)</p>\n            </li>\n            <li>\n               <p>For clusters with dc2 nodes - Select a port within the range <code>1150-65535</code>.</p>\n            </li>\n         </ul>"
                     }
                 },
                 "ManageMasterPassword": {
@@ -12407,7 +12508,7 @@
                 "NodeType": {
                     "target": "com.amazonaws.redshift#String",
                     "traits": {
-                        "smithy.api#documentation": "<p>The node type, such as, \"ds2.8xlarge\".</p>"
+                        "smithy.api#documentation": "<p>The node type, such as, \"ra3.4xlarge\".</p>"
                     }
                 },
                 "NumberOfNodes": {
@@ -13272,6 +13373,153 @@
                 "smithy.api#output": {}
             }
         },
+        "com.amazonaws.redshift#Recommendation": {
+            "type": "structure",
+            "members": {
+                "Id": {
+                    "target": "com.amazonaws.redshift#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A unique identifier of the Advisor recommendation.</p>"
+                    }
+                },
+                "ClusterIdentifier": {
+                    "target": "com.amazonaws.redshift#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The unique identifier of the cluster for which the recommendation is returned.</p>"
+                    }
+                },
+                "NamespaceArn": {
+                    "target": "com.amazonaws.redshift#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Redshift cluster namespace ARN for which the recommendations is returned.</p>"
+                    }
+                },
+                "CreatedAt": {
+                    "target": "com.amazonaws.redshift#TStamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The date and time (UTC) that the recommendation was created.</p>"
+                    }
+                },
+                "RecommendationType": {
+                    "target": "com.amazonaws.redshift#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The type of Advisor recommendation.</p>"
+                    }
+                },
+                "Title": {
+                    "target": "com.amazonaws.redshift#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The title of the recommendation.</p>"
+                    }
+                },
+                "Description": {
+                    "target": "com.amazonaws.redshift#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The description of the recommendation.</p>"
+                    }
+                },
+                "Observation": {
+                    "target": "com.amazonaws.redshift#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The description of what was observed about your cluster.</p>"
+                    }
+                },
+                "ImpactRanking": {
+                    "target": "com.amazonaws.redshift#ImpactRankingType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The scale of the impact that the Advisor recommendation has to the performance and cost of the cluster.</p>"
+                    }
+                },
+                "RecommendationText": {
+                    "target": "com.amazonaws.redshift#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The description of the recommendation.</p>"
+                    }
+                },
+                "RecommendedActions": {
+                    "target": "com.amazonaws.redshift#RecommendedActionList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>List of Amazon Redshift recommended actions.</p>"
+                    }
+                },
+                "ReferenceLinks": {
+                    "target": "com.amazonaws.redshift#ReferenceLinkList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>List of helpful links for more information about the Advisor recommendation.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>An Amazon Redshift Advisor recommended action on the Amazon Redshift cluster.</p>"
+            }
+        },
+        "com.amazonaws.redshift#RecommendationList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.redshift#Recommendation",
+                "traits": {
+                    "smithy.api#xmlName": "Recommendation"
+                }
+            }
+        },
+        "com.amazonaws.redshift#RecommendedAction": {
+            "type": "structure",
+            "members": {
+                "Text": {
+                    "target": "com.amazonaws.redshift#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The specific instruction about the command.</p>"
+                    }
+                },
+                "Database": {
+                    "target": "com.amazonaws.redshift#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The database name to perform the action on. Only applicable if the type of command is SQL.</p>"
+                    }
+                },
+                "Command": {
+                    "target": "com.amazonaws.redshift#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The command to run.</p>"
+                    }
+                },
+                "Type": {
+                    "target": "com.amazonaws.redshift#RecommendedActionType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The type of command.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The recommended action from the Amazon Redshift Advisor recommendation.</p>"
+            }
+        },
+        "com.amazonaws.redshift#RecommendedActionList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.redshift#RecommendedAction",
+                "traits": {
+                    "smithy.api#xmlName": "RecommendedAction"
+                }
+            }
+        },
+        "com.amazonaws.redshift#RecommendedActionType": {
+            "type": "enum",
+            "members": {
+                "SQL": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "SQL"
+                    }
+                },
+                "CLI": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "CLI"
+                    }
+                }
+            }
+        },
         "com.amazonaws.redshift#RecurringCharge": {
             "type": "structure",
             "members": {
@@ -13736,6 +13984,9 @@
                 },
                 {
                     "target": "com.amazonaws.redshift#GetResourcePolicy"
+                },
+                {
+                    "target": "com.amazonaws.redshift#ListRecommendations"
                 },
                 {
                     "target": "com.amazonaws.redshift#ModifyAquaConfiguration"
@@ -14886,6 +15137,35 @@
                 }
             }
         },
+        "com.amazonaws.redshift#ReferenceLink": {
+            "type": "structure",
+            "members": {
+                "Text": {
+                    "target": "com.amazonaws.redshift#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The hyperlink text that describes the link to more information.</p>"
+                    }
+                },
+                "Link": {
+                    "target": "com.amazonaws.redshift#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The URL address to find more information.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A link to an Amazon Redshift Advisor reference for more information about a recommendation.</p>"
+            }
+        },
+        "com.amazonaws.redshift#ReferenceLinkList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.redshift#ReferenceLink",
+                "traits": {
+                    "smithy.api#xmlName": "ReferenceLink"
+                }
+            }
+        },
         "com.amazonaws.redshift#RejectDataShare": {
             "type": "operation",
             "input": {
@@ -15132,7 +15412,7 @@
                 "SourceReservedNodeType": {
                     "target": "com.amazonaws.redshift#String",
                     "traits": {
-                        "smithy.api#documentation": "<p>The source reserved-node type, for example ds2.xlarge.</p>"
+                        "smithy.api#documentation": "<p>The source reserved-node type, for example ra3.4xlarge.</p>"
                     }
                 },
                 "SourceReservedNodeCount": {
@@ -15509,7 +15789,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Changes the size of the cluster. You can change the cluster's type, or change the\n            number or type of nodes. The default behavior is to use the elastic resize method. With\n            an elastic resize, your cluster is available for read and write operations more quickly\n            than with the classic resize method. </p>\n         <p>Elastic resize operations have the following restrictions:</p>\n         <ul>\n            <li>\n               <p>You can only resize clusters of the following types:</p>\n               <ul>\n                  <li>\n                     <p>dc1.large (if your cluster is in a VPC)</p>\n                  </li>\n                  <li>\n                     <p>dc1.8xlarge (if your cluster is in a VPC)</p>\n                  </li>\n                  <li>\n                     <p>dc2.large</p>\n                  </li>\n                  <li>\n                     <p>dc2.8xlarge</p>\n                  </li>\n                  <li>\n                     <p>ds2.xlarge</p>\n                  </li>\n                  <li>\n                     <p>ds2.8xlarge</p>\n                  </li>\n                  <li>\n                     <p>ra3.xlplus</p>\n                  </li>\n                  <li>\n                     <p>ra3.4xlarge</p>\n                  </li>\n                  <li>\n                     <p>ra3.16xlarge</p>\n                  </li>\n               </ul>\n            </li>\n            <li>\n               <p>The type of nodes that you add must match the node type for the\n                    cluster.</p>\n            </li>\n         </ul>"
+                "smithy.api#documentation": "<p>Changes the size of the cluster. You can change the cluster's type, or change the\n            number or type of nodes. The default behavior is to use the elastic resize method. With\n            an elastic resize, your cluster is available for read and write operations more quickly\n            than with the classic resize method. </p>\n         <p>Elastic resize operations have the following restrictions:</p>\n         <ul>\n            <li>\n               <p>You can only resize clusters of the following types:</p>\n               <ul>\n                  <li>\n                     <p>dc2.large</p>\n                  </li>\n                  <li>\n                     <p>dc2.8xlarge</p>\n                  </li>\n                  <li>\n                     <p>ra3.xlplus</p>\n                  </li>\n                  <li>\n                     <p>ra3.4xlarge</p>\n                  </li>\n                  <li>\n                     <p>ra3.16xlarge</p>\n                  </li>\n               </ul>\n            </li>\n            <li>\n               <p>The type of nodes that you add must match the node type for the\n                    cluster.</p>\n            </li>\n         </ul>"
             }
         },
         "com.amazonaws.redshift#ResizeClusterMessage": {
@@ -15907,7 +16187,7 @@
                 "Port": {
                     "target": "com.amazonaws.redshift#IntegerOptional",
                     "traits": {
-                        "smithy.api#documentation": "<p>The port number on which the cluster accepts connections.</p>\n         <p>Default: The same port as the original cluster.</p>\n         <p>Constraints: Must be between <code>1115</code> and <code>65535</code>.</p>"
+                        "smithy.api#documentation": "<p>The port number on which the cluster accepts connections.</p>\n         <p>Default: The same port as the original cluster.</p>\n         <p>Valid values: For clusters with DC2 nodes, must be within the range <code>1150</code>-<code>65535</code>. For clusters with ra3 nodes, must be \n            within the ranges <code>5431</code>-<code>5455</code> or <code>8191</code>-<code>8215</code>.</p>"
                     }
                 },
                 "AvailabilityZone": {
@@ -16003,7 +16283,7 @@
                 "NodeType": {
                     "target": "com.amazonaws.redshift#String",
                     "traits": {
-                        "smithy.api#documentation": "<p>The node type that the restored cluster will be provisioned with.</p>\n         <p>Default: The node type of the cluster from which the snapshot was taken. You can\n            modify this if you are using any DS node type. In that case, you can choose to restore\n            into another DS node type of the same size. For example, you can restore ds1.8xlarge\n            into ds2.8xlarge, or ds1.xlarge into ds2.xlarge. If you have a DC instance type, you\n            must restore into that same instance type and size. In other words, you can only restore\n            a dc1.large instance type into another dc1.large instance type or dc2.large instance\n            type. You can't restore dc1.8xlarge to dc2.8xlarge. First restore to a dc1.8xlarge\n            cluster, then resize to a dc2.8large cluster. For more information about node types, see\n                <a href=\"https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#rs-about-clusters-and-nodes\">\n                About Clusters and Nodes</a> in the <i>Amazon Redshift Cluster Management Guide</i>. </p>"
+                        "smithy.api#documentation": "<p>The node type that the restored cluster will be provisioned with.</p>\n         <p>If you have a DC instance type, you\n            must restore into that same instance type and size. In other words, you can only restore\n            a dc2.large node type into another dc2 type. For more information about node types, see \n                <a href=\"https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#rs-about-clusters-and-nodes\">\n                About Clusters and Nodes</a> in the <i>Amazon Redshift Cluster Management Guide</i>. </p>"
                     }
                 },
                 "EnhancedVpcRouting": {
@@ -16131,31 +16411,31 @@
                 "CurrentRestoreRateInMegaBytesPerSecond": {
                     "target": "com.amazonaws.redshift#Double",
                     "traits": {
-                        "smithy.api#documentation": "<p>The number of megabytes per second being transferred from the backup storage.\n            Returns the average rate for a completed backup.\n            This field is only updated when you restore to DC2 and DS2 node types. </p>"
+                        "smithy.api#documentation": "<p>The number of megabytes per second being transferred from the backup storage.\n            Returns the average rate for a completed backup.\n            This field is only updated when you restore to DC2 node types. </p>"
                     }
                 },
                 "SnapshotSizeInMegaBytes": {
                     "target": "com.amazonaws.redshift#Long",
                     "traits": {
-                        "smithy.api#documentation": "<p>The size of the set of snapshot data used to restore the cluster.\n            This field is only updated when you restore to DC2 and DS2 node types. </p>"
+                        "smithy.api#documentation": "<p>The size of the set of snapshot data used to restore the cluster.\n            This field is only updated when you restore to DC2 node types. </p>"
                     }
                 },
                 "ProgressInMegaBytes": {
                     "target": "com.amazonaws.redshift#Long",
                     "traits": {
-                        "smithy.api#documentation": "<p>The number of megabytes that have been transferred from snapshot storage.\n            This field is only updated when you restore to DC2 and DS2 node types. </p>"
+                        "smithy.api#documentation": "<p>The number of megabytes that have been transferred from snapshot storage.\n            This field is only updated when you restore to DC2 node types. </p>"
                     }
                 },
                 "ElapsedTimeInSeconds": {
                     "target": "com.amazonaws.redshift#Long",
                     "traits": {
-                        "smithy.api#documentation": "<p>The amount of time an in-progress restore has been running, or the amount of time\n            it took a completed restore to finish.\n            This field is only updated when you restore to DC2 and DS2 node types. </p>"
+                        "smithy.api#documentation": "<p>The amount of time an in-progress restore has been running, or the amount of time\n            it took a completed restore to finish.\n            This field is only updated when you restore to DC2 node types. </p>"
                     }
                 },
                 "EstimatedTimeToCompletionInSeconds": {
                     "target": "com.amazonaws.redshift#Long",
                     "traits": {
-                        "smithy.api#documentation": "<p>The estimate of the time remaining before the restore will complete. Returns 0 for\n            a completed restore.\n            This field is only updated when you restore to DC2 and DS2 node types. </p>"
+                        "smithy.api#documentation": "<p>The estimate of the time remaining before the restore will complete. Returns 0 for\n            a completed restore.\n            This field is only updated when you restore to DC2 node types. </p>"
                     }
                 }
             },
@@ -16744,7 +17024,7 @@
                 "TargetAction": {
                     "target": "com.amazonaws.redshift#ScheduledActionType",
                     "traits": {
-                        "smithy.api#documentation": "<p>A JSON format string of the Amazon Redshift API operation with input parameters. </p>\n         <p>\"<code>{\\\"ResizeCluster\\\":{\\\"NodeType\\\":\\\"ds2.8xlarge\\\",\\\"ClusterIdentifier\\\":\\\"my-test-cluster\\\",\\\"NumberOfNodes\\\":3}}</code>\". </p>"
+                        "smithy.api#documentation": "<p>A JSON format string of the Amazon Redshift API operation with input parameters. </p>\n         <p>\"<code>{\\\"ResizeCluster\\\":{\\\"NodeType\\\":\\\"ra3.4xlarge\\\",\\\"ClusterIdentifier\\\":\\\"my-test-cluster\\\",\\\"NumberOfNodes\\\":3}}</code>\". </p>"
                     }
                 },
                 "Schedule": {
@@ -17305,6 +17585,12 @@
                     "target": "com.amazonaws.redshift#String",
                     "traits": {
                         "smithy.api#documentation": "<p>The ID of the Key Management Service (KMS) key used to encrypt and store the cluster's admin credentials secret.</p>"
+                    }
+                },
+                "SnapshotArn": {
+                    "target": "com.amazonaws.redshift#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the snapshot.</p>"
                     }
                 }
             },

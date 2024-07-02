@@ -1,11 +1,14 @@
 // Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0.
 
+import class Smithy.Context
+import AwsCCal
 import AwsCommonRuntimeKit
 import ClientRuntime
-import AwsCCal
+import SmithyHTTPAPI
+import struct Foundation.Data
 
-public struct Sha256TreeHashMiddleware<OperationStackOutput>: Middleware {
+public struct Sha256TreeHashMiddleware<OperationStackInput, OperationStackOutput>: Middleware {
     public let id: String = "Sha256TreeHash"
 
     private let X_AMZ_SHA256_TREE_HASH_HEADER_NAME = "X-Amz-Sha256-Tree-Hash"
@@ -19,48 +22,47 @@ public struct Sha256TreeHashMiddleware<OperationStackOutput>: Middleware {
                           next: H) async throws -> MOutput
     where H: Handler,
           Self.MInput == H.Input,
-          Self.MOutput == H.Output,
-          Self.Context == H.Context {
+          Self.MOutput == H.Output {
               let request = input.build()
-
-              switch request.body {
-              case .data(let data):
-                  guard let data = data else {
-                      return try await next.handle(context: context, input: input)
-                  }
-                  if !request.headers.exists(name: X_AMZ_CONTENT_SHA256_HEADER_NAME) {
-                      let sha256 = try data.computeSHA256().encodeToHexString()
-                      input.withHeader(name: X_AMZ_CONTENT_SHA256_HEADER_NAME, value: sha256)
-                  }
-              case .stream(let stream):
-                  let streamBytes: Data?
-                  let currentPosition = stream.position
-                  if stream.isSeekable {
-                      streamBytes = try await stream.readToEndAsync()
-                      try stream.seek(toOffset: currentPosition)
-                  } else {
-                      // If the stream is not seekable, we need to cache the stream in memory
-                      // so we can compute the hash and still be able to send the stream to the service.
-                      // This is not ideal, but it is the best we can do.
-                      streamBytes = try await stream.readToEndAsync()
-                      input.withBody(.data(streamBytes))
-                  }
-                  guard let streamBytes = streamBytes, !streamBytes.isEmpty else {
-                      return try await next.handle(context: context, input: input)
-                  }
-                  let (linearHash, treeHash) = try computeHashes(data: streamBytes)
-                  if let treeHash = treeHash, let linearHash = linearHash {
-                      input.withHeader(name: X_AMZ_SHA256_TREE_HASH_HEADER_NAME, value: treeHash)
-                      input.withHeader(name: X_AMZ_CONTENT_SHA256_HEADER_NAME, value: linearHash)
-                  }
-              case .empty:
-                  break
-              case .noStream:
-                  break
-              }
-
+              try await addHashes(request: request, builder: input)
               return try await next.handle(context: context, input: input)
           }
+
+    private func addHashes(request: SdkHttpRequest, builder: SdkHttpRequestBuilder) async throws {
+        switch request.body {
+        case .data(let data):
+            guard let data = data else {
+                return
+            }
+            if !request.headers.exists(name: X_AMZ_CONTENT_SHA256_HEADER_NAME) {
+                let sha256 = try data.computeSHA256().encodeToHexString()
+                builder.withHeader(name: X_AMZ_CONTENT_SHA256_HEADER_NAME, value: sha256)
+            }
+        case .stream(let stream):
+            let streamBytes: Data?
+            let currentPosition = stream.position
+            if stream.isSeekable {
+                streamBytes = try await stream.readToEndAsync()
+                try stream.seek(toOffset: currentPosition)
+            } else {
+                // If the stream is not seekable, we need to cache the stream in memory
+                // so we can compute the hash and still be able to send the stream to the service.
+                // This is not ideal, but it is the best we can do.
+                streamBytes = try await stream.readToEndAsync()
+                builder.withBody(.data(streamBytes))
+            }
+            guard let streamBytes = streamBytes, !streamBytes.isEmpty else {
+                return
+            }
+            let (linearHash, treeHash) = try computeHashes(data: streamBytes)
+            if let treeHash = treeHash, let linearHash = linearHash {
+                builder.withHeader(name: X_AMZ_SHA256_TREE_HASH_HEADER_NAME, value: treeHash)
+                builder.withHeader(name: X_AMZ_CONTENT_SHA256_HEADER_NAME, value: linearHash)
+            }
+        case .noStream:
+            break
+        }
+    }
 
     /// Computes the tree-hash and linear hash of Data.
     /// See http://docs.aws.amazon.com/amazonglacier/latest/dev/checksum-calculations.html for more information.
@@ -102,5 +104,16 @@ public struct Sha256TreeHashMiddleware<OperationStackOutput>: Middleware {
 
     public typealias MInput = SdkHttpRequestBuilder
     public typealias MOutput = OperationOutput<OperationStackOutput>
-    public typealias Context = HttpContext
+}
+
+extension Sha256TreeHashMiddleware: HttpInterceptor {
+    public typealias InputType = OperationStackInput
+    public typealias OutputType = OperationStackOutput
+
+    public func modifyBeforeTransmit(context: some MutableRequest<Self.InputType, Self.RequestType>) async throws {
+        let request = context.getRequest()
+        let builder = request.toBuilder()
+        try await addHashes(request: request, builder: builder)
+        context.updateRequest(updated: builder.build())
+    }
 }

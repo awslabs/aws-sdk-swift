@@ -3,13 +3,10 @@
  * SPDX-License-Identifier: Apache-2.0.
  */
 
+import class SmithyHTTPAPI.HttpResponse
 import ClientRuntime
 
 public extension HttpResponse {
-    /// Returns true if the status code is `HttpStatusCode.notFound` and the body is empty.
-    var statusCodeIsNotFoundAndBodyIsEmpty: Bool {
-        return statusCode == .notFound && body.isEmpty
-    }
 
     /// The value of the x-amz-request-id header.
     var requestId: String? {

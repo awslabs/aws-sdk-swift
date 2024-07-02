@@ -5,37 +5,35 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import ClientRuntime
+import protocol ClientRuntime.BaseError
+import enum ClientRuntime.BaseErrorDecodeError
+import class SmithyHTTPAPI.HttpResponse
+import class SmithyXML.Reader
 
-public struct RestXMLError {
-    public let errorCode: String?
-    public let requestId: String?
+public struct RestXMLError: BaseError {
+    public let code: String
     public let message: String?
+    public let requestID: String?
+    public var requestID2: String? { httpResponse.requestId2 }
 
-    public init(httpResponse: HttpResponse) async throws {
-        guard let data = try await httpResponse.body.readData() else {
-            errorCode = nil
-            requestId = nil
-            message = nil
-            return
-        }
-        do {
-            let decoded: ErrorResponseContainer<RestXMLErrorPayload>
-            decoded = try XMLDecoder().decode(responseBody: data)
-            self.errorCode = decoded.error.errorCode
-            self.message = decoded.error.message
-            self.requestId = decoded.requestId
-        } catch {
-            let decoded: RestXMLErrorNoErrorWrappingPayload = try XMLDecoder().decode(responseBody: data)
-            self.errorCode = decoded.errorCode
-            self.message = decoded.message
-            self.requestId = decoded.requestId
-        }
+    public let httpResponse: HttpResponse
+    private let responseReader: Reader
+    public let errorBodyReader: Reader
+
+    public init(httpResponse: HttpResponse, responseReader: Reader, noErrorWrapping: Bool) throws {
+        self.errorBodyReader = Self.errorBodyReader(responseReader: responseReader, noErrorWrapping: noErrorWrapping)
+        let code: String? = try errorBodyReader["Code"].readIfPresent()
+        if code == nil && httpResponse.statusCode != .notFound { throw BaseErrorDecodeError.missingRequiredData }
+        let message: String? = try errorBodyReader["Message"].readIfPresent()
+        let requestID: String? = try responseReader["RequestId"].readIfPresent() ?? httpResponse.requestId
+        self.code = code ?? "NotFound"
+        self.message = message
+        self.requestID = requestID
+        self.httpResponse = httpResponse
+        self.responseReader = responseReader
     }
 
-    public init(errorCode: String? = nil, requestId: String? = nil, message: String? = nil) {
-        self.errorCode = errorCode
-        self.requestId = requestId
-        self.message = message
+    private static func errorBodyReader(responseReader: Reader, noErrorWrapping: Bool) -> Reader {
+        noErrorWrapping ? responseReader : responseReader["Error"]
     }
 }

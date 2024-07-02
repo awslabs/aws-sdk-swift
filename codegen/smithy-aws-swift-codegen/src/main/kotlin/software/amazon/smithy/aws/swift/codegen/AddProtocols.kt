@@ -4,12 +4,12 @@
  */
 package software.amazon.smithy.aws.swift.codegen
 
-import software.amazon.smithy.aws.swift.codegen.awsjson.AwsJson1_0_ProtocolGenerator
-import software.amazon.smithy.aws.swift.codegen.awsjson.AwsJson1_1_ProtocolGenerator
-import software.amazon.smithy.aws.swift.codegen.awsquery.AwsQueryProtocolGenerator
-import software.amazon.smithy.aws.swift.codegen.ec2query.Ec2QueryProtocolGenerator
-import software.amazon.smithy.aws.swift.codegen.restjson.AWSRestJson1ProtocolGenerator
-import software.amazon.smithy.aws.swift.codegen.restxml.RestXmlProtocolGenerator
+import software.amazon.smithy.aws.swift.codegen.protocols.awsjson.AWSJSON1_0ProtocolGenerator
+import software.amazon.smithy.aws.swift.codegen.protocols.awsjson.AWSJSON1_1ProtocolGenerator
+import software.amazon.smithy.aws.swift.codegen.protocols.awsquery.AWSQueryProtocolGenerator
+import software.amazon.smithy.aws.swift.codegen.protocols.ec2query.EC2QueryProtocolGenerator
+import software.amazon.smithy.aws.swift.codegen.protocols.restjson.AWSRestJson1ProtocolGenerator
+import software.amazon.smithy.aws.swift.codegen.protocols.restxml.RestXMLProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 
@@ -27,10 +27,10 @@ class AddProtocols : SwiftIntegration {
 
     override val protocolGenerators: List<ProtocolGenerator> = listOf(
         AWSRestJson1ProtocolGenerator(),
-        AwsJson1_0_ProtocolGenerator(),
-        AwsJson1_1_ProtocolGenerator(),
-        RestXmlProtocolGenerator(),
-        AwsQueryProtocolGenerator(),
-        Ec2QueryProtocolGenerator()
+        AWSJSON1_0ProtocolGenerator(),
+        AWSJSON1_1ProtocolGenerator(),
+        RestXMLProtocolGenerator(),
+        AWSQueryProtocolGenerator(),
+        EC2QueryProtocolGenerator()
     )
 }

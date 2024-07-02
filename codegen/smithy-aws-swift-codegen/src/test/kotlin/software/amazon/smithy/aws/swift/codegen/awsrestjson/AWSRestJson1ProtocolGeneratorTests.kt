@@ -8,10 +8,10 @@ package software.amazon.smithy.aws.swift.codegen.awsrestjson
 import io.kotest.matchers.string.shouldContainOnlyOnce
 import org.junit.jupiter.api.Test
 import software.amazon.smithy.aws.swift.codegen.TestContext
-import software.amazon.smithy.aws.swift.codegen.TestContextGenerator.Companion.getClientFileContents
-import software.amazon.smithy.aws.swift.codegen.TestContextGenerator.Companion.getModelFileContents
-import software.amazon.smithy.aws.swift.codegen.TestContextGenerator.Companion.initContextFrom
-import software.amazon.smithy.aws.swift.codegen.restjson.AWSRestJson1ProtocolGenerator
+import software.amazon.smithy.aws.swift.codegen.TestUtils.Companion.executeDirectedCodegen
+import software.amazon.smithy.aws.swift.codegen.TestUtils.Companion.getClientFileContents
+import software.amazon.smithy.aws.swift.codegen.TestUtils.Companion.getModelFileContents
+import software.amazon.smithy.aws.swift.codegen.protocols.restjson.AWSRestJson1ProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.shouldSyntacticSanityCheck
 import software.amazon.smithy.aws.traits.protocols.RestJson1Trait
 
@@ -20,134 +20,174 @@ class RestJsonProtocolGeneratorTests {
     @Test
     fun `define coding keys for unbound document payload members`() {
         val context = setupTests("http-binding-protocol-generator-test.smithy", "com.test#Example")
-        val contents = getModelFileContents("Example", "SmokeTestInput+Encodable.swift", context.manifest)
+        val contents = getModelFileContents("Sources/Example", "SmokeTestInput+Write.swift", context.manifest)
         contents.shouldSyntacticSanityCheck()
-        val expectedContents =
-            """
-            extension SmokeTestInput: Swift.Encodable {
-                enum CodingKeys: Swift.String, Swift.CodingKey {
-                    case payload1
-                    case payload2
-                    case payload3
-                }
-            
-                public func encode(to encoder: Swift.Encoder) throws {
-                    var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-                    if let payload1 = self.payload1 {
-                        try encodeContainer.encode(payload1, forKey: .payload1)
-                    }
-                    if let payload2 = self.payload2 {
-                        try encodeContainer.encode(payload2, forKey: .payload2)
-                    }
-                    if let payload3 = self.payload3 {
-                        try encodeContainer.encode(payload3, forKey: .payload3)
-                    }
-                }
-            }
-            """.trimIndent()
+        val expectedContents = """
+extension SmokeTestInput {
+
+    static func write(value: SmokeTestInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["payload1"].write(value.payload1)
+        try writer["payload2"].write(value.payload2)
+        try writer["payload3"].write(value.payload3, with: ExampleClientTypes.Nested.write(value:to:))
+    }
+}
+"""
         contents.shouldContainOnlyOnce(expectedContents)
     }
 
     @Test
     fun `define coding keys for payload member`() {
         val context = setupTests("http-binding-protocol-generator-test.smithy", "com.test#Example")
-        val contents = getModelFileContents("Example", "ExplicitBlobInput+Encodable.swift", context.manifest)
+        val contents = getModelFileContents("Sources/Example", "ExplicitBlobInput+Write.swift", context.manifest)
         contents.shouldSyntacticSanityCheck()
-        val expectedContents =
-            """
-            extension ExplicitBlobInput: Swift.Encodable {
-                enum CodingKeys: Swift.String, Swift.CodingKey {
-                    case payload1
-                }
-            
-                public func encode(to encoder: Swift.Encoder) throws {
-                    var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-                    if let payload1 = self.payload1 {
-                        try encodeContainer.encode(payload1.base64EncodedString(), forKey: .payload1)
-                    }
-                }
-            }
-            """.trimIndent()
+        val expectedContents = """
+extension ExplicitBlobInput {
+
+    static func write(value: ExplicitBlobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["payload1"].write(value.payload1)
+    }
+}
+"""
         contents.shouldContainOnlyOnce(expectedContents)
     }
 
     @Test
     fun `generated client has proper configuration`() {
         val context = setupTests("http-binding-protocol-generator-test.smithy", "com.test#Example")
-        val contents = getClientFileContents("Example", "ExampleClient.swift", context.manifest)
+        val contents = getClientFileContents("Sources/Example", "ExampleClient.swift", context.manifest)
         contents.shouldSyntacticSanityCheck()
-        val expectedContents =
-            """
-            @_spi(FileBasedConfig) import AWSClientRuntime
-            import ClientRuntime
-            import Foundation
-            import Logging
-            
-            public class ExampleClient {
-                public static let clientName = "ExampleClient"
-                let client: ClientRuntime.SdkHttpClient
-                let config: ExampleClient.ExampleClientConfiguration
-                let serviceName = "Example"
-                let encoder: ClientRuntime.RequestEncoder
-                let decoder: ClientRuntime.ResponseDecoder
-            
-                public init(config: ExampleClient.ExampleClientConfiguration) {
-                    client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
-                    let encoder = ClientRuntime.JSONEncoder()
-                    encoder.dateEncodingStrategy = .secondsSince1970
-                    encoder.nonConformingFloatEncodingStrategy = .convertToString(positiveInfinity: "Infinity", negativeInfinity: "-Infinity", nan: "NaN")
-                    self.encoder = config.encoder ?? encoder
-                    let decoder = ClientRuntime.JSONDecoder()
-                    decoder.dateDecodingStrategy = .secondsSince1970
-                    decoder.nonConformingFloatDecodingStrategy = .convertFromString(positiveInfinity: "Infinity", negativeInfinity: "-Infinity", nan: "NaN")
-                    self.decoder = config.decoder ?? decoder
-                    self.config = config
-                }
-            
-                public convenience init(region: Swift.String) throws {
-                    let config = try ExampleClient.ExampleClientConfiguration(region: region)
-                    self.init(config: config)
-                }
-            
-                public convenience init() async throws {
-                    let config = try await ExampleClient.ExampleClientConfiguration()
-                    self.init(config: config)
-                }
-            }
-            
-            extension ExampleClient {
-                public typealias ExampleClientConfiguration = AWSClientConfiguration<ServiceSpecificConfiguration>
-            
-                public struct ServiceSpecificConfiguration: AWSServiceSpecificConfiguration {
-                    public typealias AWSServiceEndpointResolver = EndpointResolver
-            
-                    public var serviceName: String { "Example" }
-                    public var clientName: String { "ExampleClient" }
-                    public var endpointResolver: EndpointResolver
-            
-                    public init(endpointResolver: EndpointResolver? = nil) throws {
-                        self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
-                    }
-                }
-            }
-            
-            public struct ExampleClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
-                public var label = "ExampleClient"
-                let logLevel: ClientRuntime.SDKLogLevel
-                public func construct(label: String) -> LogHandler {
-                    var handler = StreamLogHandler.standardOutput(label: label)
-                    handler.logLevel = logLevel.toLoggerType()
-                    return handler
-                }
-                public init(logLevel: ClientRuntime.SDKLogLevel) {
-                    self.logLevel = logLevel
-                }
-            }
-            """.trimIndent()
+        val expectedContents = """
+public class ExampleClient: ClientRuntime.Client {
+    public static let clientName = "ExampleClient"
+    let client: ClientRuntime.SdkHttpClient
+    let config: ExampleClient.ExampleClientConfiguration
+    let serviceName = "Example"
+
+    public required init(config: ExampleClient.ExampleClientConfiguration) {
+        client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
+        self.config = config
+    }
+
+    public convenience init(region: Swift.String) throws {
+        let config = try ExampleClient.ExampleClientConfiguration(region: region)
+        self.init(config: config)
+    }
+
+    public convenience required init() async throws {
+        let config = try await ExampleClient.ExampleClientConfiguration()
+        self.init(config: config)
+    }
+}
+
+extension ExampleClient {
+    public class ExampleClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+        public var useFIPS: Swift.Bool?
+
+        public var useDualStack: Swift.Bool?
+
+        public var appID: Swift.String?
+
+        public var awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver
+
+        public var awsRetryMode: AWSClientRuntime.AWSRetryMode
+
+        public var region: Swift.String?
+
+        public var signingRegion: Swift.String?
+
+        public var endpointResolver: EndpointResolver
+
+        public var telemetryProvider: ClientRuntime.TelemetryProvider
+
+        public var retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions
+
+        public var clientLogMode: ClientRuntime.ClientLogMode
+
+        public var endpoint: Swift.String?
+
+        public var idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator
+
+        public var httpClientEngine: SmithyHTTPAPI.HTTPClient
+
+        public var httpClientConfiguration: ClientRuntime.HttpClientConfiguration
+
+        public var authSchemes: SmithyHTTPAuthAPI.AuthSchemes?
+
+        public var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver
+
+        public private(set) var interceptorProviders: [ClientRuntime.InterceptorProvider]
+
+        public private(set) var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
+
+        internal let logger: Smithy.LogAgent
+
+        private init(_ useFIPS: Swift.Bool?, _ useDualStack: Swift.Bool?, _ appID: Swift.String?, _ awsCredentialIdentityResolver: any SmithyIdentity.AWSCredentialIdentityResolver, _ awsRetryMode: AWSClientRuntime.AWSRetryMode, _ region: Swift.String?, _ signingRegion: Swift.String?, _ endpointResolver: EndpointResolver, _ telemetryProvider: ClientRuntime.TelemetryProvider, _ retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions, _ clientLogMode: ClientRuntime.ClientLogMode, _ endpoint: Swift.String?, _ idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator, _ httpClientEngine: SmithyHTTPAPI.HTTPClient, _ httpClientConfiguration: ClientRuntime.HttpClientConfiguration, _ authSchemes: SmithyHTTPAuthAPI.AuthSchemes?, _ authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver, _ interceptorProviders: [ClientRuntime.InterceptorProvider], _ httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]) {
+            self.useFIPS = useFIPS
+            self.useDualStack = useDualStack
+            self.appID = appID
+            self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
+            self.awsRetryMode = awsRetryMode
+            self.region = region
+            self.signingRegion = signingRegion
+            self.endpointResolver = endpointResolver
+            self.telemetryProvider = telemetryProvider
+            self.retryStrategyOptions = retryStrategyOptions
+            self.clientLogMode = clientLogMode
+            self.endpoint = endpoint
+            self.idempotencyTokenGenerator = idempotencyTokenGenerator
+            self.httpClientEngine = httpClientEngine
+            self.httpClientConfiguration = httpClientConfiguration
+            self.authSchemes = authSchemes
+            self.authSchemeResolver = authSchemeResolver
+            self.interceptorProviders = interceptorProviders
+            self.httpInterceptorProviders = httpInterceptorProviders
+            self.logger = telemetryProvider.loggerProvider.getLogger(name: ExampleClient.clientName)
+        }
+
+        public convenience init(useFIPS: Swift.Bool? = nil, useDualStack: Swift.Bool? = nil, appID: Swift.String? = nil, awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil, awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil, region: Swift.String? = nil, signingRegion: Swift.String? = nil, endpointResolver: EndpointResolver? = nil, telemetryProvider: ClientRuntime.TelemetryProvider? = nil, retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil, clientLogMode: ClientRuntime.ClientLogMode? = nil, endpoint: Swift.String? = nil, idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil, httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil, httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil, authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil, authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil, interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil, httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil) throws {
+            self.init(useFIPS, useDualStack, try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(), try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver), try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(), region, signingRegion, try endpointResolver ?? DefaultEndpointResolver(), telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider, try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(), clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode, endpoint, idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator, httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine, httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration, authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()], authSchemeResolver ?? DefaultExampleAuthSchemeResolver(), interceptorProviders ?? [], httpInterceptorProviders ?? [])
+        }
+
+        public convenience init(useFIPS: Swift.Bool? = nil, useDualStack: Swift.Bool? = nil, appID: Swift.String? = nil, awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil, awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil, region: Swift.String? = nil, signingRegion: Swift.String? = nil, endpointResolver: EndpointResolver? = nil, telemetryProvider: ClientRuntime.TelemetryProvider? = nil, retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil, clientLogMode: ClientRuntime.ClientLogMode? = nil, endpoint: Swift.String? = nil, idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil, httpClientEngine: SmithyHTTPAPI.HTTPClient? = nil, httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil, authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil, authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver? = nil, interceptorProviders: [ClientRuntime.InterceptorProvider]? = nil, httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil) async throws {
+            self.init(useFIPS, useDualStack, try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(), try awsCredentialIdentityResolver ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver), try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(), try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region), try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region), try endpointResolver ?? DefaultEndpointResolver(), telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider, try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(), clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode, endpoint, idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator, httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine, httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration, authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()], authSchemeResolver ?? DefaultExampleAuthSchemeResolver(), interceptorProviders ?? [], httpInterceptorProviders ?? [])
+        }
+
+        public convenience required init() async throws {
+            try await self.init(useFIPS: nil, useDualStack: nil, appID: nil, awsCredentialIdentityResolver: nil, awsRetryMode: nil, region: nil, signingRegion: nil, endpointResolver: nil, telemetryProvider: nil, retryStrategyOptions: nil, clientLogMode: nil, endpoint: nil, idempotencyTokenGenerator: nil, httpClientEngine: nil, httpClientConfiguration: nil, authSchemes: nil, authSchemeResolver: nil, interceptorProviders: nil, httpInterceptorProviders: nil)
+        }
+
+        public convenience init(region: String) throws {
+            self.init(nil, nil, try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(), try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(), try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(), region, region, try DefaultEndpointResolver(), ClientRuntime.DefaultTelemetry.provider, try AWSClientConfigDefaultsProvider.retryStrategyOptions(), AWSClientConfigDefaultsProvider.clientLogMode, nil, AWSClientConfigDefaultsProvider.idempotencyTokenGenerator, AWSClientConfigDefaultsProvider.httpClientEngine, AWSClientConfigDefaultsProvider.httpClientConfiguration, [AWSSDKHTTPAuth.SigV4AuthScheme()], DefaultExampleAuthSchemeResolver(), [], [])
+        }
+
+        public var partitionID: String? {
+            return "\(ExampleClient.clientName) - \(region ?? "")"
+        }
+        public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
+            self.interceptorProviders.append(provider)
+        }
+
+        public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
+            self.httpInterceptorProviders.append(provider)
+        }
+
+    }
+
+    public static func builder() -> ClientRuntime.ClientBuilder<ExampleClient> {
+        return ClientRuntime.ClientBuilder<ExampleClient>(defaultPlugins: [
+            ClientRuntime.DefaultClientPlugin(),
+            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName),
+            DefaultAWSAuthSchemePlugin()
+        ])
+    }
+}
+"""
         contents.shouldContainOnlyOnce(expectedContents)
     }
     private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
-        val context = initContextFrom(smithyFile, serviceShapeId, RestJson1Trait.ID)
+        val context = executeDirectedCodegen(smithyFile, serviceShapeId, RestJson1Trait.ID)
 
         val generator = AWSRestJson1ProtocolGenerator()
         generator.generateProtocolUnitTests(context.ctx)

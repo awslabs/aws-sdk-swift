@@ -5,10 +5,12 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import SmithyIdentityAPI
 import Foundation
 import XCTest
 import AWSS3
 import AWSClientRuntime
+import SmithyIdentity
 
 class S3ErrorTests: S3XCTestCase {
 
@@ -72,9 +74,9 @@ class S3ErrorTests: S3XCTestCase {
 
     func test_InvalidAccessKeyID_isThrownWhenAppropriate() async throws {
         do {
-            let credentials = Credentials(accessKey: "AKIDEXAMPLE", secret: "wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY")
-            let credentialsProvider = try StaticCredentialsProvider(credentials)
-            let config = try S3Client.S3ClientConfiguration(region: region, credentialsProvider: credentialsProvider)
+            let credentials = AWSCredentialIdentity(accessKey: "AKIDEXAMPLE", secret: "wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY")
+            let awsCredentialIdentityResolver = try StaticAWSCredentialIdentityResolver(credentials)
+            let config = try await S3Client.S3ClientConfiguration(awsCredentialIdentityResolver: awsCredentialIdentityResolver, region: region)
             let input = GetObjectInput(bucket: bucketName, key: UUID().uuidString)
             _ = try await S3Client(config: config).getObject(input: input)
             XCTFail("Request should not have succeeded")

@@ -1,12 +1,13 @@
 package software.amazon.smithy.aws.swift.codegen.middleware
 
 import software.amazon.smithy.model.shapes.OperationShape
-import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
+import software.amazon.smithy.swift.codegen.integration.middlewares.handlers.MiddlewareShapeUtils
 import software.amazon.smithy.swift.codegen.middleware.MiddlewarePosition
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderable
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
+import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes
 
 class MutateHeadersMiddleware(
     private val extraHeaders: Map<String, String> = emptyMap(),
@@ -19,9 +20,19 @@ class MutateHeadersMiddleware(
 
     override val position = MiddlewarePosition.AFTER
 
-    override fun render(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, op: OperationShape, operationStackName: String) {
-        val paramsString = middlewareParamsString()
-        writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: \$N($paramsString))", ClientRuntimeTypes.Middleware.MutateHeadersMiddleware)
+    override fun renderMiddlewareInit(
+        ctx: ProtocolGenerator.GenerationContext,
+        writer: SwiftWriter,
+        op: OperationShape
+    ) {
+        val inputSymbol = MiddlewareShapeUtils.inputSymbol(ctx.symbolProvider, ctx.model, op)
+        val outputSymbol = MiddlewareShapeUtils.outputSymbol(ctx.symbolProvider, ctx.model, op)
+        writer.write(
+            "\$N<\$N, \$N>(${middlewareParamsString()})",
+            ClientRuntimeTypes.Middleware.MutateHeadersMiddleware,
+            inputSymbol,
+            outputSymbol
+        )
     }
 
     private fun middlewareParamsString(): String {

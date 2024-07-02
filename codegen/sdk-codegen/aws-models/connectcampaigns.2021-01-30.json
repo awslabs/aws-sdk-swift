@@ -820,6 +820,13 @@
                         "smithy.api#documentation": "Enable or disable answering machine detection",
                         "smithy.api#required": {}
                     }
+                },
+                "awaitAnswerMachinePrompt": {
+                    "target": "smithy.api#Boolean",
+                    "traits": {
+                        "smithy.api#default": null,
+                        "smithy.api#documentation": "Enable or disable await answer machine prompt"
+                    }
                 }
             },
             "traits": {
@@ -834,7 +841,7 @@
                     "min": 20,
                     "max": 500
                 },
-                "smithy.api#pattern": "^arn:.*"
+                "smithy.api#pattern": "^arn:.*$"
             }
         },
         "com.amazonaws.connectcampaigns#AttributeName": {
@@ -855,7 +862,8 @@
                 "smithy.api#length": {
                     "min": 0,
                     "max": 32767
-                }
+                },
+                "smithy.api#pattern": "^.*$"
             }
         },
         "com.amazonaws.connectcampaigns#Attributes": {
@@ -956,7 +964,8 @@
                 "smithy.api#length": {
                     "min": 0,
                     "max": 256
-                }
+                },
+                "smithy.api#pattern": "^[\\S]*$"
             }
         },
         "com.amazonaws.connectcampaigns#CampaignIdList": {
@@ -1058,8 +1067,9 @@
                 "smithy.api#documentation": "Client provided parameter used for idempotency. Its value must be unique for each request.",
                 "smithy.api#length": {
                     "min": 0,
-                    "max": 64
-                }
+                    "max": 200
+                },
+                "smithy.api#pattern": "^[a-zA-Z0-9_\\-.]*$"
             }
         },
         "com.amazonaws.connectcampaigns#ConflictException": {
@@ -1397,6 +1407,7 @@
                     "min": 0,
                     "max": 20
                 },
+                "smithy.api#pattern": "^[\\d\\-+]*$",
                 "smithy.api#sensitive": {}
             }
         },
@@ -1435,7 +1446,12 @@
         "com.amazonaws.connectcampaigns#DialRequestId": {
             "type": "string",
             "traits": {
-                "smithy.api#documentation": "Identifier representing a Dial request"
+                "smithy.api#documentation": "Identifier representing a Dial request",
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 256
+                },
+                "smithy.api#pattern": "^[a-zA-Z0-9_\\-.]*$"
             }
         },
         "com.amazonaws.connectcampaigns#DialRequestList": {
@@ -1893,7 +1909,8 @@
                 "smithy.api#length": {
                     "min": 0,
                     "max": 256
-                }
+                },
+                "smithy.api#pattern": "^[a-zA-Z0-9_\\-.]*$"
             }
         },
         "com.amazonaws.connectcampaigns#InstanceIdFilter": {

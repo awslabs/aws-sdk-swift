@@ -4,7 +4,9 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 //
-import ClientRuntime
+
+import struct Smithy.SwiftLogger
+@_spi(FileBasedConfig) import AWSSDKCommon
 
 struct ProfileRegionProvider: RegionProvider {
     let logger: SwiftLogger
@@ -26,7 +28,7 @@ struct ProfileRegionProvider: RegionProvider {
         self.credentialsFilePath = credentialsFilePath
     }
 
-    func resolveRegion() async throws -> String? {
+    func getRegion() async throws -> String? {
         guard let configuration = try await fileBasedConfigurationProvider(
             configFilePath,
             credentialsFilePath

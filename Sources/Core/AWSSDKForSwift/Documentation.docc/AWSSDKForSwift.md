@@ -23,8 +23,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSAccount](../../../../../swift/api/awsaccount/latest)
 
-[AWSAlexaForBusiness](../../../../../swift/api/awsalexaforbusiness/latest)
-
 [AWSAmp](../../../../../swift/api/awsamp/latest)
 
 [AWSAmplify](../../../../../swift/api/awsamplify/latest)
@@ -53,6 +51,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSAppSync](../../../../../swift/api/awsappsync/latest)
 
+[AWSAppTest](../../../../../swift/api/awsapptest/latest)
+
 [AWSAppflow](../../../../../swift/api/awsappflow/latest)
 
 [AWSApplicationAutoScaling](../../../../../swift/api/awsapplicationautoscaling/latest)
@@ -62,6 +62,10 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSApplicationDiscoveryService](../../../../../swift/api/awsapplicationdiscoveryservice/latest)
 
 [AWSApplicationInsights](../../../../../swift/api/awsapplicationinsights/latest)
+
+[AWSApplicationSignals](../../../../../swift/api/awsapplicationsignals/latest)
+
+[AWSArtifact](../../../../../swift/api/awsartifact/latest)
 
 [AWSAthena](../../../../../swift/api/awsathena/latest)
 
@@ -79,8 +83,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSBackupGateway](../../../../../swift/api/awsbackupgateway/latest)
 
-[AWSBackupStorage](../../../../../swift/api/awsbackupstorage/latest)
-
 [AWSBatch](../../../../../swift/api/awsbatch/latest)
 
 [AWSBedrock](../../../../../swift/api/awsbedrock/latest)
@@ -96,6 +98,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSBraket](../../../../../swift/api/awsbraket/latest)
 
 [AWSBudgets](../../../../../swift/api/awsbudgets/latest)
+
+[AWSChatbot](../../../../../swift/api/awschatbot/latest)
 
 [AWSChime](../../../../../swift/api/awschime/latest)
 
@@ -149,6 +153,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSCodeCommit](../../../../../swift/api/awscodecommit/latest)
 
+[AWSCodeConnections](../../../../../swift/api/awscodeconnections/latest)
+
 [AWSCodeDeploy](../../../../../swift/api/awscodedeploy/latest)
 
 [AWSCodeGuruProfiler](../../../../../swift/api/awscodeguruprofiler/latest)
@@ -191,6 +197,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSConnectParticipant](../../../../../swift/api/awsconnectparticipant/latest)
 
+[AWSControlCatalog](../../../../../swift/api/awscontrolcatalog/latest)
+
 [AWSControlTower](../../../../../swift/api/awscontroltower/latest)
 
 [AWSCostExplorer](../../../../../swift/api/awscostexplorer/latest)
@@ -216,6 +224,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSDataZone](../../../../../swift/api/awsdatazone/latest)
 
 [AWSDatabaseMigrationService](../../../../../swift/api/awsdatabasemigrationservice/latest)
+
+[AWSDeadline](../../../../../swift/api/awsdeadline/latest)
 
 [AWSDetective](../../../../../swift/api/awsdetective/latest)
 
@@ -323,8 +333,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSHealthLake](../../../../../swift/api/awshealthlake/latest)
 
-[AWSHoneycode](../../../../../swift/api/awshoneycode/latest)
-
 [AWSIAM](../../../../../swift/api/awsiam/latest)
 
 [AWSIVSRealTime](../../../../../swift/api/awsivsrealtime/latest)
@@ -360,8 +368,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSIoTFleetWise](../../../../../swift/api/awsiotfleetwise/latest)
 
 [AWSIoTJobsDataPlane](../../../../../swift/api/awsiotjobsdataplane/latest)
-
-[AWSIoTRoboRunner](../../../../../swift/api/awsiotroborunner/latest)
 
 [AWSIoTSecureTunneling](../../../../../swift/api/awsiotsecuretunneling/latest)
 
@@ -447,6 +453,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSMacie2](../../../../../swift/api/awsmacie2/latest)
 
+[AWSMailManager](../../../../../swift/api/awsmailmanager/latest)
+
 [AWSManagedBlockchain](../../../../../swift/api/awsmanagedblockchain/latest)
 
 [AWSManagedBlockchainQuery](../../../../../swift/api/awsmanagedblockchainquery/latest)
@@ -511,6 +519,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSNetworkManager](../../../../../swift/api/awsnetworkmanager/latest)
 
+[AWSNetworkMonitor](../../../../../swift/api/awsnetworkmonitor/latest)
+
 [AWSNimble](../../../../../swift/api/awsnimble/latest)
 
 [AWSOAM](../../../../../swift/api/awsoam/latest)
@@ -540,6 +550,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSPaymentCryptographyData](../../../../../swift/api/awspaymentcryptographydata/latest)
 
 [AWSPcaConnectorAd](../../../../../swift/api/awspcaconnectorad/latest)
+
+[AWSPcaConnectorScep](../../../../../swift/api/awspcaconnectorscep/latest)
 
 [AWSPersonalize](../../../../../swift/api/awspersonalize/latest)
 
@@ -610,6 +622,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSRoute53](../../../../../swift/api/awsroute53/latest)
 
 [AWSRoute53Domains](../../../../../swift/api/awsroute53domains/latest)
+
+[AWSRoute53Profiles](../../../../../swift/api/awsroute53profiles/latest)
 
 [AWSRoute53RecoveryCluster](../../../../../swift/api/awsroute53recoverycluster/latest)
 
@@ -703,13 +717,19 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSStorageGateway](../../../../../swift/api/awsstoragegateway/latest)
 
+[AWSSupplyChain](../../../../../swift/api/awssupplychain/latest)
+
 [AWSSupport](../../../../../swift/api/awssupport/latest)
 
 [AWSSupportApp](../../../../../swift/api/awssupportapp/latest)
 
 [AWSSynthetics](../../../../../swift/api/awssynthetics/latest)
 
+[AWSTaxSettings](../../../../../swift/api/awstaxsettings/latest)
+
 [AWSTextract](../../../../../swift/api/awstextract/latest)
+
+[AWSTimestreamInfluxDB](../../../../../swift/api/awstimestreaminfluxdb/latest)
 
 [AWSTimestreamQuery](../../../../../swift/api/awstimestreamquery/latest)
 

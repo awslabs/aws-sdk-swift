@@ -1,13 +1,10 @@
 package software.amazon.smithy.aws.swift.codegen.customization.presignable
 
-import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.swift.codegen.AWSServiceConfig
-import software.amazon.smithy.aws.swift.codegen.AWSSigningParams
 import software.amazon.smithy.aws.swift.codegen.PresignableOperation
-import software.amazon.smithy.aws.swift.codegen.SigningAlgorithm
+import software.amazon.smithy.aws.swift.codegen.SigV4Utils
 import software.amazon.smithy.aws.swift.codegen.customization.InputTypeGETQueryItemMiddleware
 import software.amazon.smithy.aws.swift.codegen.customization.PutObjectPresignedURLMiddleware
-import software.amazon.smithy.aws.swift.codegen.middleware.AWSSigningMiddleware
 import software.amazon.smithy.aws.swift.codegen.middleware.InputTypeGETQueryItemMiddlewareRenderable
 import software.amazon.smithy.aws.swift.codegen.middleware.PutObjectPresignedURLMiddlewareRenderable
 import software.amazon.smithy.codegen.core.Symbol
@@ -15,23 +12,26 @@ import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.knowledge.OperationIndex
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
-import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
-import software.amazon.smithy.swift.codegen.FoundationTypes
 import software.amazon.smithy.swift.codegen.MiddlewareGenerator
 import software.amazon.smithy.swift.codegen.SwiftDelegator
-import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftSettings
 import software.amazon.smithy.swift.codegen.SwiftWriter
-import software.amazon.smithy.swift.codegen.core.CodegenContext
+import software.amazon.smithy.swift.codegen.core.SwiftCodegenContext
 import software.amazon.smithy.swift.codegen.core.toProtocolGenerationContext
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 import software.amazon.smithy.swift.codegen.integration.middlewares.handlers.MiddlewareShapeUtils
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareExecutionGenerator
+import software.amazon.smithy.swift.codegen.middleware.MiddlewareExecutionGenerator.Companion.ContextAttributeCodegenFlowType.PRESIGN_URL
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 import software.amazon.smithy.swift.codegen.middleware.OperationMiddleware
 import software.amazon.smithy.swift.codegen.model.expectShape
 import software.amazon.smithy.swift.codegen.model.toUpperCamelCase
+import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes
+import software.amazon.smithy.swift.codegen.swiftmodules.FoundationTypes
+import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAPITypes
+import software.amazon.smithy.swift.codegen.swiftmodules.SmithyTypes
+import software.amazon.smithy.swift.codegen.utils.ModelFileUtils
 
 internal val PRESIGNABLE_URL_OPERATIONS: Map<String, Set<String>> = mapOf(
     "com.amazonaws.polly#Parrot_v1" to setOf(
@@ -50,10 +50,10 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
         return presignedOperations.keys.contains(currentServiceId)
     }
 
-    override fun writeAdditionalFiles(ctx: CodegenContext, protocolGenerationContext: ProtocolGenerator.GenerationContext, delegator: SwiftDelegator) {
+    override fun writeAdditionalFiles(ctx: SwiftCodegenContext, protocolGenerationContext: ProtocolGenerator.GenerationContext, delegator: SwiftDelegator) {
         val service = ctx.model.expectShape<ServiceShape>(ctx.settings.service)
 
-        if (!AWSSigningMiddleware.isSupportedAuthentication(ctx.model, service)) return
+        if (!SigV4Utils.isSupportedAuthentication(ctx.model, service)) return
 
         val operationsToGenerate = presignedOperations.getOrDefault(service.id.toString(), setOf())
 
@@ -61,20 +61,22 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
             .map { ctx.model.expectShape<OperationShape>(it) }
             .filter { operationShape -> operationsToGenerate.contains(operationShape.id.toString()) }
             .map { operationShape ->
-                check(AWSSigningMiddleware.hasSigV4AuthScheme(ctx.model, service, operationShape)) { "Operation does not have valid auth trait" }
+                check(SigV4Utils.hasSigV4AuthScheme(ctx.model, service, operationShape)) { "Operation does not have valid auth trait" }
                 PresignableOperation(service.id.toString(), operationShape.id.toString())
             }
         presignOperations.forEach { presignableOperation ->
             val op = ctx.model.expectShape<OperationShape>(presignableOperation.operationId)
             val inputType = op.input.get().getName()
             val outputType = op.output.get().getName()
-            delegator.useFileWriter("${ctx.settings.moduleName}/models/$inputType+Presigner.swift") { writer ->
+            val filename = ModelFileUtils.filename(ctx.settings, "$inputType+Presigner")
+            delegator.useFileWriter(filename) { writer ->
                 val serviceConfig = AWSServiceConfig(writer, protocolGenerationContext)
                 renderPresigner(writer, ctx, delegator, op, inputType, outputType, serviceConfig)
             }
             // Expose presign-URL as a method for service client object
             val symbol = protocolGenerationContext.symbolProvider.toSymbol(protocolGenerationContext.service)
-            protocolGenerationContext.delegator.useFileWriter("./${ctx.settings.moduleName}/${symbol.name}.swift") { writer ->
+            val clientFilename = "Sources/${ctx.settings.moduleName}/${symbol.name}.swift"
+            protocolGenerationContext.delegator.useFileWriter(clientFilename) { writer ->
                 renderPresignURLAPIInServiceClient(writer, symbol.name, op, inputType)
             }
             when (presignableOperation.operationId) {
@@ -90,7 +92,7 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
 
     private fun renderPresigner(
         writer: SwiftWriter,
-        ctx: CodegenContext,
+        ctx: SwiftCodegenContext,
         delegator: SwiftDelegator,
         op: OperationShape,
         inputType: String,
@@ -102,10 +104,6 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
         val protocolGeneratorContext = ctx.toProtocolGenerationContext(serviceShape, delegator)?.let { it } ?: run { return }
         val operationMiddleware = resolveOperationMiddleware(protocolGenerator, protocolGeneratorContext, op)
 
-        writer.addImport(AWSClientRuntimeTypes.Core.AWSClientConfiguration)
-        writer.addImport(ClientRuntimeTypes.Http.SdkHttpRequest)
-        writer.addIndividualTypeImport("typealias", "Foundation", "TimeInterval")
-
         val httpBindingResolver = protocolGenerator.getProtocolHttpBindingResolver(protocolGeneratorContext, protocolGenerator.defaultContentType)
 
         writer.openBlock("extension $inputType {", "}") {
@@ -113,42 +111,55 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
                 "public func presignURL(config: \$L, expiration: \$N) async throws -> \$T {", "}",
                 serviceConfig.typeName,
                 FoundationTypes.TimeInterval,
-                ClientRuntimeTypes.Core.URL
+                FoundationTypes.URL,
             ) {
                 writer.write("let serviceName = \"${ctx.settings.sdkId}\"")
                 writer.write("let input = self")
-                val operationStackName = "operation"
-                for (prop in protocolGenerator.httpProtocolCustomizable.getClientProperties()) {
-                    prop.addImportsAndDependencies(writer)
-                    prop.renderInstantiation(writer)
-                    prop.renderConfiguration(writer)
+                if (protocolGeneratorContext.settings.useInterceptors) {
+                    writer.openBlock(
+                        "let client: (\$N, \$N) async throws -> \$N = { (_, _) in",
+                        "}",
+                        SmithyHTTPAPITypes.SdkHttpRequest,
+                        SmithyTypes.Context,
+                        SmithyHTTPAPITypes.HttpResponse,
+                    ) {
+                        writer.write("throw \$N.unknownError(\"No HTTP client configured for presigned request\")", SmithyTypes.ClientError)
+                    }
                 }
-
+                val operationStackName = "operation"
                 val generator = MiddlewareExecutionGenerator(
                     protocolGeneratorContext,
                     writer,
                     httpBindingResolver,
-                    protocolGenerator.httpProtocolCustomizable,
+                    protocolGenerator.customizations,
                     operationMiddleware,
                     operationStackName,
                     ::overrideHttpMethod
                 )
-                generator.render(serviceShape, op) { writer, _ ->
+                generator.render(serviceShape, op, PRESIGN_URL) { writer, _ ->
                     writer.write("return nil")
                 }
 
-                val requestBuilderName = "presignedRequestBuilder"
-                val builtRequestName = "builtRequest"
-                val presignedURL = "presignedURL"
-                writer.write(
-                    "let $requestBuilderName = try await $operationStackName.presignedRequest(context: context, input: input, output: \$L(), next: \$N())",
-                    outputType,
-                    ClientRuntimeTypes.Middleware.NoopHandler
-                )
-                writer.openBlock("guard let $builtRequestName = $requestBuilderName?.build(), let $presignedURL = $builtRequestName.endpoint.url else {", "}") {
-                    writer.write("return nil")
+                if (protocolGeneratorContext.settings.useInterceptors) {
+                    writer.write(
+                        """
+                        return try await op.presignRequest(input: input).endpoint.url
+                        """.trimIndent()
+                    )
+                } else {
+                    val requestBuilderName = "presignedRequestBuilder"
+                    val builtRequestName = "builtRequest"
+                    val presignedURL = "presignedURL"
+                    writer.write(
+                        "let $requestBuilderName = try await $operationStackName.presignedRequest(context: context, input: input, output: \$L(), next: \$N())",
+                        outputType,
+                        ClientRuntimeTypes.Middleware.NoopHandler
+                    )
+                    writer.openBlock("guard let $builtRequestName = $requestBuilderName?.build(), let $presignedURL = $builtRequestName.endpoint.url else {", "}") {
+                        writer.write("return nil")
+                    }
+                    writer.write("return $presignedURL")
                 }
-                writer.write("return $presignedURL")
             }
         }
     }
@@ -161,13 +172,16 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
     ) {
         writer.apply {
             openBlock("extension $clientName {", "}") {
-                val params = listOf("input: $inputType", "expiration: Foundation.TimeInterval")
-                val returnType = "Foundation.URL"
+                val params = listOf("input: $inputType", format("expiration: \$N", FoundationTypes.TimeInterval))
                 renderDocForPresignURLAPI(this, op, inputType)
-                openBlock("public func presignedURLFor${op.toUpperCamelCase()}(${params.joinToString()}) async throws -> $returnType {", "}") {
+                openBlock(
+                    "public func presignedURLFor${op.toUpperCamelCase()}(${params.joinToString()}) async throws -> \$N {",
+                    "}",
+                    FoundationTypes.URL,
+                ) {
                     write("let presignedURL = try await input.presignURL(config: config, expiration: expiration)")
                     openBlock("guard let presignedURL else {", "}") {
-                        write("throw ClientError.unknownError(\"Could not generate presigned URL for the operation ${op.toUpperCamelCase()}.\")")
+                        write("throw \$N.unknownError(\"Could not generate presigned URL for the operation ${op.toUpperCamelCase()}.\")", SmithyTypes.ClientError)
                     }
                     write("return presignedURL")
                 }
@@ -198,21 +212,6 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
         operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.SERIALIZESTEP, "OperationInputQueryItemMiddleware")
         operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.SERIALIZESTEP, "OperationInputHeadersMiddleware")
         operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.FINALIZESTEP, "ContentLengthMiddleware")
-        operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.FINALIZESTEP, "AWSSigningMiddleware")
-        val opID = op.id.toString()
-        if (AWSSigningMiddleware.hasSigV4AuthScheme(context.model, context.service, op)) {
-            val params = AWSSigningParams(
-                context.service,
-                op,
-                true,
-                // The S3 presigned URLs require an unsigned body setting of true while Polly requires the opposite.
-                // If more presigned URL types are added, this logic should be refactored to scale with more presigned URLs.
-                listOf("com.amazonaws.s3#PutObject", "com.amazonaws.s3#GetObject").contains(opID),
-                true,
-                signingAlgorithm = SigningAlgorithm.SigV4
-            )
-            operationMiddlewareCopy.appendMiddleware(op, AWSSigningMiddleware(context.model, context.symbolProvider, params))
-        }
         when (op.id.toString()) {
             "com.amazonaws.s3#GetObject", "com.amazonaws.polly#SynthesizeSpeech" -> {
                 operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.SERIALIZESTEP, "OperationInputBodyMiddleware")
@@ -227,7 +226,7 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
         return operationMiddlewareCopy
     }
 
-    private fun renderMiddlewareClassForQueryString(codegenContext: CodegenContext, delegator: SwiftDelegator, op: OperationShape) {
+    private fun renderMiddlewareClassForQueryString(codegenContext: SwiftCodegenContext, delegator: SwiftDelegator, op: OperationShape) {
 
         val serviceShape = codegenContext.model.expectShape<ServiceShape>(codegenContext.settings.service)
         val ctx = codegenContext.toProtocolGenerationContext(serviceShape, delegator)?.let { it } ?: run { return }
@@ -239,14 +238,12 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
         val inputSymbol = ctx.symbolProvider.toSymbol(inputShape)
         val outputSymbol = ctx.symbolProvider.toSymbol(outputShape)
         val outputErrorSymbol = Symbol.builder().name(operationErrorName).build()
-
-        val rootNamespace = ctx.settings.moduleName
+        val filename = ModelFileUtils.filename(ctx.settings, "${inputSymbol.name}+QueryItemMiddlewareForPresignUrl")
         val headerMiddlewareSymbol = Symbol.builder()
-            .definitionFile("./$rootNamespace/models/${inputSymbol.name}+QueryItemMiddlewareForPresignUrl.swift")
+            .definitionFile(filename)
             .name(inputSymbol.name)
             .build()
         delegator.useShapeWriter(headerMiddlewareSymbol) { writer ->
-            writer.addImport(SwiftDependency.CLIENT_RUNTIME.target)
             val queryItemMiddleware = InputTypeGETQueryItemMiddleware(
                 ctx,
                 inputSymbol,
@@ -259,7 +256,7 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
         }
     }
 
-    private fun renderMiddlewareClassForPutObject(codegenContext: CodegenContext, delegator: SwiftDelegator, op: OperationShape) {
+    private fun renderMiddlewareClassForPutObject(codegenContext: SwiftCodegenContext, delegator: SwiftDelegator, op: OperationShape) {
 
         val serviceShape = codegenContext.model.expectShape<ServiceShape>(codegenContext.settings.service)
         val ctx = codegenContext.toProtocolGenerationContext(serviceShape, delegator)?.let { it } ?: run { return }
@@ -271,14 +268,12 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
         val inputSymbol = ctx.symbolProvider.toSymbol(inputShape)
         val outputSymbol = ctx.symbolProvider.toSymbol(outputShape)
         val outputErrorSymbol = Symbol.builder().name(operationErrorName).build()
-
-        val rootNamespace = ctx.settings.moduleName
+        val filename = ModelFileUtils.filename(ctx.settings, "${inputSymbol.name}+QueryItemMiddlewareForPresignUrl")
         val headerMiddlewareSymbol = Symbol.builder()
-            .definitionFile("./$rootNamespace/models/${inputSymbol.name}+QueryItemMiddlewareForPresignUrl.swift")
+            .definitionFile(filename)
             .name(inputSymbol.name)
             .build()
         delegator.useShapeWriter(headerMiddlewareSymbol) { writer ->
-            writer.addImport(SwiftDependency.CLIENT_RUNTIME.target)
             val queryItemMiddleware = PutObjectPresignedURLMiddleware(
                 inputSymbol,
                 outputSymbol,

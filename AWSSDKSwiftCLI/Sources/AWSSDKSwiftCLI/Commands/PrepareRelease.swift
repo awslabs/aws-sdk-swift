@@ -81,7 +81,16 @@ struct PrepareRelease {
         try FileManager.default.changeWorkingDirectory(repoPath)
         
         let previousVersion = try getPreviousVersion()
-        guard try repoHasChanges(previousVersion) else { return }
+        guard try repoHasChanges(previousVersion) else {
+            /// If repo has no changes, create an empty release-manifest.json file.
+            /// Empty manifest file makes GitHubReleasePublisher be no-op.
+            /// The manifest file is required regardless of whether there should
+            /// be a release or not.
+            try createEmptyReleaseManifest()
+            /// Return without creating new commit or tag in local repos.
+            /// This makes GitPublisher be no-op.
+            return
+        }
         let newVersion = try createNewVersion(previousVersion)
         
         try stageFiles()
@@ -95,7 +104,16 @@ struct PrepareRelease {
     }
     
     // MARK: - Helpers
-    
+
+    /// Creates an empty release-manifest.json file.
+    func createEmptyReleaseManifest() throws {
+        let savedReleaseManifest = FileManager.default.createFile(atPath: "release-manifest.json", contents: nil)
+
+        guard savedReleaseManifest else {
+            throw Error("Failed to save release manifest to release_manifest.json")
+        }
+    }
+
     /// Returns the version of the previous release.
     /// This version is read from the version defined in the `Package.version` file.
     ///
@@ -146,7 +164,6 @@ struct PrepareRelease {
                 "Package.version",
                 "packageDependencies.plist",
                 "Sources/Services",
-                "Tests/Services",
                 "Sources/Core/AWSSDKForSwift/Documentation.docc/AWSSDKForSwift.md"
             ]
         case .smithySwift:

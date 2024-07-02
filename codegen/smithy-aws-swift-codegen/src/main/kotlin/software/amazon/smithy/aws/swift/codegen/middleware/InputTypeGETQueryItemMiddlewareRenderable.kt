@@ -16,7 +16,20 @@ class InputTypeGETQueryItemMiddlewareRenderable(inputSymbol: Symbol) : Middlewar
 
     override val position = MiddlewarePosition.AFTER
 
-    override fun render(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, op: OperationShape, operationStackName: String) {
-        writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: $name())")
+    override fun render(
+        ctx: ProtocolGenerator.GenerationContext,
+        writer: SwiftWriter,
+        op: OperationShape,
+        operationStackName: String
+    ) {
+        super.renderSpecific(ctx, writer, op, operationStackName, "serialize")
+    }
+
+    override fun renderMiddlewareInit(
+        ctx: ProtocolGenerator.GenerationContext,
+        writer: SwiftWriter,
+        op: OperationShape
+    ) {
+        writer.write("$name()")
     }
 }

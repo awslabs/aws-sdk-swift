@@ -3,10 +3,15 @@
  * SPDX-License-Identifier: Apache-2.0.
  */
 
+import Smithy
+import SmithyHTTPAPI
+import SmithyReadWrite
+import SmithyJSON
 import ClientRuntime
 import SmithyTestUtil
 import XCTest
 @testable import AWSClientRuntime
+@_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 
 class RestJSONErrorTests: HttpResponseTestBase {
     let host = "myapi.host.com"
@@ -27,9 +32,7 @@ class RestJSONErrorTests: HttpResponseTestBase {
                 return
         }
 
-        let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .secondsSince1970
-        let greetingWithErrorsError = try await GreetingWithErrorsError.makeError(httpResponse: httpResponse, decoder: decoder)
+        let greetingWithErrorsError = try await GreetingWithErrorsError.httpError(from:)(httpResponse)
 
         if let actual = greetingWithErrorsError as? ComplexError {
             let expected = ComplexError(
@@ -53,7 +56,7 @@ class RestJSONErrorTests: HttpResponseTestBase {
         ]
 
         for errorName in errorNames {
-            XCTAssertEqual(RestJSONError.sanitizeErrorType(errorName), "FooError")
+            XCTAssertEqual(sanitizeErrorType(errorName), "FooError")
         }
     }
 }
@@ -79,47 +82,34 @@ struct ComplexErrorBody {
     public let topLevel: String?
 }
 
-extension ComplexErrorBody: Decodable {
-    private enum CodingKeys: String, CodingKey {
-        case TopLevel
-    }
-
-    public init (from decoder: Decoder) throws {
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        topLevel = try values.decodeIfPresent(String.self, forKey: .TopLevel)
-    }
-}
-
 extension ComplexError {
 
-    public init (httpResponse: HttpResponse, decoder: ResponseDecoder? = nil, message: String? = nil, requestID: String? = nil) async throws {
-        if let Header = httpResponse.headers.value(for: "X-Header") {
-            self.header = Header
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ComplexError {
+        let reader = baseError.errorBodyReader
+        var value = ComplexError()
+        if let Header = baseError.httpResponse.headers.value(for: "X-Header") {
+            value.header = Header
         } else {
-            self.header = nil
+            value.header = nil
         }
-
-        if case .data(let data) = httpResponse.body,
-            let unwrappedData = data,
-            let responseDecoder = decoder {
-            let output: ComplexErrorBody = try responseDecoder.decode(responseBody: unwrappedData)
-            self.topLevel = output.topLevel
-        } else {
-            self.topLevel = nil
-        }
-        self.httpResponse = httpResponse
-        self.message = message
-        self.requestID = requestID
+        value.topLevel = try reader["TopLevel"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.message = baseError.message
+        value.requestID = baseError.requestID
+        return value
     }
 }
 
-public enum GreetingWithErrorsError: HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder?) async throws -> Error {
-        let errorDetails = try await RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch errorDetails.errorType {
-        case "ComplexError": return try await ComplexError(httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-        default: return UnknownAWSHTTPServiceError(message: errorDetails.errorMessage, httpResponse: httpResponse)
+public enum GreetingWithErrorsError {
+    
+    static func httpError(from httpResponse: HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+        case "ComplexError": return try ComplexError.makeError(baseError: baseError)
+        default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }

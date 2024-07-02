@@ -4,16 +4,18 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 //
+
+import struct Smithy.SwiftLogger
+@_spi(FileBasedConfig) import AWSSDKCommon
 import ClientRuntime
 
-@_spi(FileBasedConfig)
+@_spi(DefaultRegionResolver)
 public struct DefaultRegionResolver: RegionResolver {
     public let providers: [RegionProvider]
     let logger: SwiftLogger
 
     public init(fileBasedConfigurationProvider: @escaping FileBasedConfigurationProviding) throws {
         self.providers = [
-            BundleRegionProvider(),
             EnvironmentRegionProvider(),
             ProfileRegionProvider(fileBasedConfigurationProvider: fileBasedConfigurationProvider),
             try IMDSRegionProvider()
@@ -21,11 +23,11 @@ public struct DefaultRegionResolver: RegionResolver {
         self.logger = SwiftLogger(label: "DefaultRegionProvider")
     }
 
-    public func resolveRegion() async -> String? {
+    public func getRegion() async -> String? {
         for provider in providers {
             logger.debug("Attempting to resolve region with: \(String(describing: type(of: provider)))")
             do {
-                if let region = try await provider.resolveRegion() {
+                if let region = try await provider.getRegion() {
                     logger.debug("Resolved region with: \(String(describing: type(of: provider)))")
                     return region
                 }
@@ -49,7 +51,7 @@ public struct StaticRegionResolver: RegionResolver {
         self.region = region
     }
 
-    public func resolveRegion() async -> String? {
+    public func getRegion() async -> String? {
         return region
     }
 }
