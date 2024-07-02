@@ -310,6 +310,7 @@ extension AuditManagerClient {
 extension ListControlsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListControlsInput {
         return ListControlsInput(
+            controlCatalogId: self.controlCatalogId,
             controlType: self.controlType,
             maxResults: self.maxResults,
             nextToken: token

@@ -60,7 +60,7 @@ extension AWSS3ErrorWith200StatusXMLMiddleware: HttpInterceptor {
     public typealias OutputType = OperationStackOutput
 
     public func modifyBeforeDeserialization(
-        context: some MutableResponse<Self.InputType, Self.RequestType, Self.ResponseType, Self.AttributesType>
+        context: some MutableResponse<Self.InputType, Self.RequestType, Self.ResponseType>
     ) async throws {
         let response = context.getResponse()
         if try await isErrorWith200Status(response: response) {

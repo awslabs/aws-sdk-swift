@@ -706,6 +706,8 @@ public struct ListReportsInput {
 extension ArtifactClientTypes {
     /// Summary for report resource.
     public struct ReportSummary {
+        /// Acceptance type for report.
+        public var acceptanceType: ArtifactClientTypes.AcceptanceType?
         /// ARN for the report resource.
         public var arn: Swift.String?
         /// Category for the report resource.
@@ -736,6 +738,7 @@ extension ArtifactClientTypes {
         public var version: Swift.Int?
 
         public init(
+            acceptanceType: ArtifactClientTypes.AcceptanceType? = nil,
             arn: Swift.String? = nil,
             category: Swift.String? = nil,
             companyName: Swift.String? = nil,
@@ -752,6 +755,7 @@ extension ArtifactClientTypes {
             version: Swift.Int? = nil
         )
         {
+            self.acceptanceType = acceptanceType
             self.arn = arn
             self.category = category
             self.companyName = companyName
@@ -1274,6 +1278,7 @@ extension ArtifactClientTypes.ReportSummary {
         value.companyName = try reader["companyName"].readIfPresent()
         value.productName = try reader["productName"].readIfPresent()
         value.statusMessage = try reader["statusMessage"].readIfPresent()
+        value.acceptanceType = try reader["acceptanceType"].readIfPresent()
         return value
     }
 }

@@ -4929,7 +4929,7 @@ extension PredictInputEndpointURLHostMiddleware: ClientRuntime.HttpInterceptor {
     public typealias InputType = PredictInput
     public typealias OutputType = PredictOutput
 
-    public func modifyBeforeSerialization(context: some ClientRuntime.MutableInput<InputType, Smithy.Context>) async throws {
+    public func modifyBeforeSerialization(context: some ClientRuntime.MutableInput<InputType>) async throws {
         if let endpoint = context.getInput().predictEndpoint, let url = Foundation.URL(string: endpoint), let host = url.host {
             context.getAttributes().host = host
         }

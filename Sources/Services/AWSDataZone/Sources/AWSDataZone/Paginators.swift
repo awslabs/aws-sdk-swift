@@ -70,6 +70,38 @@ extension PaginatorSequence where OperationStackInput == ListDataSourceRunActivi
     }
 }
 extension DataZoneClient {
+    /// Paginate over `[ListEnvironmentActionsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListEnvironmentActionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListEnvironmentActionsOutput`
+    public func listEnvironmentActionsPaginated(input: ListEnvironmentActionsInput) -> ClientRuntime.PaginatorSequence<ListEnvironmentActionsInput, ListEnvironmentActionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListEnvironmentActionsInput, ListEnvironmentActionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEnvironmentActions(input:))
+    }
+}
+
+extension ListEnvironmentActionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListEnvironmentActionsInput {
+        return ListEnvironmentActionsInput(
+            domainIdentifier: self.domainIdentifier,
+            environmentIdentifier: self.environmentIdentifier,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListEnvironmentActionsInput, OperationStackOutput == ListEnvironmentActionsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listEnvironmentActionsPaginated`
+    /// to access the nested member `[DataZoneClientTypes.EnvironmentActionSummary]`
+    /// - Returns: `[DataZoneClientTypes.EnvironmentActionSummary]`
+    public func items() async throws -> [DataZoneClientTypes.EnvironmentActionSummary] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
+extension DataZoneClient {
     /// Paginate over `[ListEnvironmentBlueprintsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

@@ -1750,18 +1750,18 @@
                 "smithy.api#documentation": "<p>Attaches a policy to a root, an organizational unit (OU), or an individual account.\n            How the policy affects accounts depends on the type of policy. Refer to the\n                <i>Organizations User Guide</i> for information about each policy type:</p>\n         <ul>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html\">AISERVICES_OPT_OUT_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html\">BACKUP_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html\">SERVICE_CONTROL_POLICY</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html\">TAG_POLICY</a>\n               </p>\n            </li>\n         </ul>\n         <p>This operation can be called only from the organization's\nmanagement account or by a member account that is a delegated administrator for an Amazon Web Services service.</p>",
                 "smithy.api#examples": [
                     {
-                        "title": "To attach a policy to an OU",
-                        "documentation": "The following example shows how to attach a service control policy (SCP) to an OU:\n",
-                        "input": {
-                            "TargetId": "ou-examplerootid111-exampleouid111",
-                            "PolicyId": "p-examplepolicyid111"
-                        }
-                    },
-                    {
                         "title": "To attach a policy to an account",
                         "documentation": "The following example shows how to attach a service control policy (SCP) to an account:\n",
                         "input": {
                             "TargetId": "333333333333",
+                            "PolicyId": "p-examplepolicyid111"
+                        }
+                    },
+                    {
+                        "title": "To attach a policy to an OU",
+                        "documentation": "The following example shows how to attach a service control policy (SCP) to an OU:\n",
+                        "input": {
+                            "TargetId": "ou-examplerootid111-exampleouid111",
                             "PolicyId": "p-examplepolicyid111"
                         }
                     }
@@ -6015,6 +6015,25 @@
                 "smithy.api#documentation": "<p>Lists the account creation requests that match the specified status that is currently\n            being tracked for the organization.</p>\n         <note>\n            <p>Always check the <code>NextToken</code> response parameter \nfor a <code>null</code> value when calling a <code>List*</code> operation. These operations can \noccasionally return an empty set of results even when there are more results available. The \n<code>NextToken</code> response parameter value is <code>null</code>\n               <i>only</i> \nwhen there are no more results to display.</p>\n         </note>\n         <p>This operation can be called only from the organization's\nmanagement account or by a member account that is a delegated administrator for an Amazon Web Services service.</p>",
                 "smithy.api#examples": [
                     {
+                        "title": "To get a list of all account creation requests made in the organization",
+                        "documentation": "The following example shows a user requesting a list of only the in-progress account creation requests made for the current organization:",
+                        "input": {
+                            "States": [
+                                "IN_PROGRESS"
+                            ]
+                        },
+                        "output": {
+                            "CreateAccountStatuses": [
+                                {
+                                    "State": "IN_PROGRESS",
+                                    "Id": "car-exampleaccountcreationrequestid2",
+                                    "RequestedTimestamp": "2017-01-15T13:45:23.01Z",
+                                    "AccountName": "Production Account"
+                                }
+                            ]
+                        }
+                    },
+                    {
                         "title": "To get a list of completed account creation requests made in the organization",
                         "documentation": "The following example shows a user requesting a list of only the completed account creation requests made for the current organization:",
                         "input": {
@@ -6031,25 +6050,6 @@
                                     "RequestedTimestamp": "2017-01-15T13:45:23.01Z",
                                     "State": "SUCCEEDED",
                                     "CompletedTimestamp": "2017-01-15T13:45:23.6Z"
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        "title": "To get a list of all account creation requests made in the organization",
-                        "documentation": "The following example shows a user requesting a list of only the in-progress account creation requests made for the current organization:",
-                        "input": {
-                            "States": [
-                                "IN_PROGRESS"
-                            ]
-                        },
-                        "output": {
-                            "CreateAccountStatuses": [
-                                {
-                                    "State": "IN_PROGRESS",
-                                    "Id": "car-exampleaccountcreationrequestid2",
-                                    "RequestedTimestamp": "2017-01-15T13:45:23.01Z",
-                                    "AccountName": "Production Account"
                                 }
                             ]
                         }
@@ -8843,16 +8843,15 @@
                 "smithy.api#documentation": "<p>Updates an existing policy with a new name, description, or content. If you don't\n            supply any parameter, that value remains unchanged. You can't change a policy's\n            type.</p>\n         <p>This operation can be called only from the organization's\nmanagement account or by a member account that is a delegated administrator for an Amazon Web Services service.</p>",
                 "smithy.api#examples": [
                     {
-                        "title": "To update the details of a policy",
-                        "documentation": "The following example shows how to rename a policy and give it a new description and new content. The output confirms the new name and description text:/n/n",
+                        "title": "To update the content of a policy",
+                        "documentation": "The following example shows how to replace the JSON text of the SCP from the preceding example with a new JSON policy text string that allows S3 actions instead of EC2 actions:/n/n",
                         "input": {
                             "PolicyId": "p-examplepolicyid111",
-                            "Name": "Renamed-Policy",
-                            "Description": "This description replaces the original."
+                            "Content": "{ \\\"Version\\\": \\\"2012-10-17\\\", \\\"Statement\\\": {\\\"Effect\\\": \\\"Allow\\\", \\\"Action\\\": \\\"s3:*\\\", \\\"Resource\\\": \\\"*\\\" } }"
                         },
                         "output": {
                             "Policy": {
-                                "Content": "{ \"Version\": \"2012-10-17\", \"Statement\": { \"Effect\": \"Allow\", \"Action\": \"ec2:*\", \"Resource\": \"*\" } }",
+                                "Content": "{ \\\"Version\\\": \\\"2012-10-17\\\", \\\"Statement\\\": { \\\"Effect\\\": \\\"Allow\\\", \\\"Action\\\": \\\"s3:*\\\", \\\"Resource\\\": \\\"*\\\" } }",
                                 "PolicySummary": {
                                     "Id": "p-examplepolicyid111",
                                     "AwsManaged": false,
@@ -8865,15 +8864,16 @@
                         }
                     },
                     {
-                        "title": "To update the content of a policy",
-                        "documentation": "The following example shows how to replace the JSON text of the SCP from the preceding example with a new JSON policy text string that allows S3 actions instead of EC2 actions:/n/n",
+                        "title": "To update the details of a policy",
+                        "documentation": "The following example shows how to rename a policy and give it a new description and new content. The output confirms the new name and description text:/n/n",
                         "input": {
                             "PolicyId": "p-examplepolicyid111",
-                            "Content": "{ \\\"Version\\\": \\\"2012-10-17\\\", \\\"Statement\\\": {\\\"Effect\\\": \\\"Allow\\\", \\\"Action\\\": \\\"s3:*\\\", \\\"Resource\\\": \\\"*\\\" } }"
+                            "Name": "Renamed-Policy",
+                            "Description": "This description replaces the original."
                         },
                         "output": {
                             "Policy": {
-                                "Content": "{ \\\"Version\\\": \\\"2012-10-17\\\", \\\"Statement\\\": { \\\"Effect\\\": \\\"Allow\\\", \\\"Action\\\": \\\"s3:*\\\", \\\"Resource\\\": \\\"*\\\" } }",
+                                "Content": "{ \"Version\": \"2012-10-17\", \"Statement\": { \"Effect\": \"Allow\", \"Action\": \"ec2:*\", \"Resource\": \"*\" } }",
                                 "PolicySummary": {
                                     "Id": "p-examplepolicyid111",
                                     "AwsManaged": false,

@@ -398,6 +398,56 @@ public struct CreateParticipantTokenOutput {
 }
 
 extension IVSRealTimeClientTypes {
+
+    public enum ParticipantRecordingMediaType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case audioOnly
+        case audioVideo
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ParticipantRecordingMediaType] {
+            return [
+                .audioOnly,
+                .audioVideo
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .audioOnly: return "AUDIO_ONLY"
+            case .audioVideo: return "AUDIO_VIDEO"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IVSRealTimeClientTypes {
+    /// Object specifying an auto-participant-recording configuration.
+    public struct AutoParticipantRecordingConfiguration {
+        /// Types of media to be recorded. Default: AUDIO_VIDEO.
+        public var mediaTypes: [IVSRealTimeClientTypes.ParticipantRecordingMediaType]?
+        /// ARN of the [StorageConfiguration] resource to use for auto participant recording. Default: "" (empty string, no storage configuration is specified). Individual participant recording cannot be started unless a storage configuration is specified, when a [Stage] is created or updated.
+        /// This member is required.
+        public var storageConfigurationArn: Swift.String?
+
+        public init(
+            mediaTypes: [IVSRealTimeClientTypes.ParticipantRecordingMediaType]? = nil,
+            storageConfigurationArn: Swift.String? = nil
+        )
+        {
+            self.mediaTypes = mediaTypes
+            self.storageConfigurationArn = storageConfigurationArn
+        }
+    }
+
+}
+
+extension IVSRealTimeClientTypes {
     /// Object specifying a participant token configuration in a stage.
     public struct ParticipantTokenConfiguration {
         /// Application-provided attributes to encode into the corresponding participant token and attach to a stage. Map keys and values can contain UTF-8 encoded text. The maximum length of this field is 1 KB total. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.
@@ -426,6 +476,8 @@ extension IVSRealTimeClientTypes {
 }
 
 public struct CreateStageInput {
+    /// Auto participant recording configuration object attached to the stage.
+    public var autoParticipantRecordingConfiguration: IVSRealTimeClientTypes.AutoParticipantRecordingConfiguration?
     /// Optional name that can be specified for the stage being created.
     public var name: Swift.String?
     /// Array of participant token configuration objects to attach to the new stage.
@@ -434,11 +486,13 @@ public struct CreateStageInput {
     public var tags: [Swift.String: Swift.String]?
 
     public init(
+        autoParticipantRecordingConfiguration: IVSRealTimeClientTypes.AutoParticipantRecordingConfiguration? = nil,
         name: Swift.String? = nil,
         participantTokenConfigurations: [IVSRealTimeClientTypes.ParticipantTokenConfiguration]? = nil,
         tags: [Swift.String: Swift.String]? = nil
     )
     {
+        self.autoParticipantRecordingConfiguration = autoParticipantRecordingConfiguration
         self.name = name
         self.participantTokenConfigurations = participantTokenConfigurations
         self.tags = tags
@@ -453,6 +507,8 @@ extension IVSRealTimeClientTypes {
         /// Stage ARN.
         /// This member is required.
         public var arn: Swift.String?
+        /// Auto-participant-recording configuration object attached to the stage.
+        public var autoParticipantRecordingConfiguration: IVSRealTimeClientTypes.AutoParticipantRecordingConfiguration?
         /// Stage name.
         public var name: Swift.String?
         /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
@@ -461,12 +517,14 @@ extension IVSRealTimeClientTypes {
         public init(
             activeSessionId: Swift.String? = nil,
             arn: Swift.String? = nil,
+            autoParticipantRecordingConfiguration: IVSRealTimeClientTypes.AutoParticipantRecordingConfiguration? = nil,
             name: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
         )
         {
             self.activeSessionId = activeSessionId
             self.arn = arn
+            self.autoParticipantRecordingConfiguration = autoParticipantRecordingConfiguration
             self.name = name
             self.tags = tags
         }
@@ -1273,6 +1331,47 @@ public struct GetParticipantInput {
 
 extension IVSRealTimeClientTypes {
 
+    public enum ParticipantRecordingState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case disabled
+        case failed
+        case starting
+        case stopped
+        case stopping
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ParticipantRecordingState] {
+            return [
+                .active,
+                .disabled,
+                .failed,
+                .starting,
+                .stopped,
+                .stopping
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .disabled: return "DISABLED"
+            case .failed: return "FAILED"
+            case .starting: return "STARTING"
+            case .stopped: return "STOPPED"
+            case .stopping: return "STOPPING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IVSRealTimeClientTypes {
+
     public enum ParticipantState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case connected
         case disconnected
@@ -1321,6 +1420,12 @@ extension IVSRealTimeClientTypes {
         public var participantId: Swift.String?
         /// Whether the participant ever published to the stage session.
         public var published: Swift.Bool
+        /// Name of the S3 bucket to where the participant is being recorded, if individual participant recording is enabled, or "" (empty string), if recording is not enabled.
+        public var recordingS3BucketName: Swift.String?
+        /// S3 prefix of the S3 bucket to where the participant is being recorded, if individual participant recording is enabled, or "" (empty string), if recording is not enabled.
+        public var recordingS3Prefix: Swift.String?
+        /// Participant’s recording state.
+        public var recordingState: IVSRealTimeClientTypes.ParticipantRecordingState?
         /// The participant’s SDK version.
         public var sdkVersion: Swift.String?
         /// Whether the participant is connected to or disconnected from the stage.
@@ -1338,6 +1443,9 @@ extension IVSRealTimeClientTypes {
             osVersion: Swift.String? = nil,
             participantId: Swift.String? = nil,
             published: Swift.Bool = false,
+            recordingS3BucketName: Swift.String? = nil,
+            recordingS3Prefix: Swift.String? = nil,
+            recordingState: IVSRealTimeClientTypes.ParticipantRecordingState? = nil,
             sdkVersion: Swift.String? = nil,
             state: IVSRealTimeClientTypes.ParticipantState? = nil,
             userId: Swift.String? = nil
@@ -1352,6 +1460,9 @@ extension IVSRealTimeClientTypes {
             self.osVersion = osVersion
             self.participantId = participantId
             self.published = published
+            self.recordingS3BucketName = recordingS3BucketName
+            self.recordingS3Prefix = recordingS3Prefix
+            self.recordingState = recordingState
             self.sdkVersion = sdkVersion
             self.state = state
             self.userId = userId
@@ -1811,12 +1922,52 @@ public struct ListParticipantEventsOutput {
     }
 }
 
+extension IVSRealTimeClientTypes {
+
+    public enum ParticipantRecordingFilterByRecordingState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case failed
+        case starting
+        case stopped
+        case stopping
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ParticipantRecordingFilterByRecordingState] {
+            return [
+                .active,
+                .failed,
+                .starting,
+                .stopped,
+                .stopping
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .failed: return "FAILED"
+            case .starting: return "STARTING"
+            case .stopped: return "STOPPED"
+            case .stopping: return "STOPPING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct ListParticipantsInput {
-    /// Filters the response list to only show participants who published during the stage session. Only one of filterByUserId, filterByPublished, or filterByState can be provided per request.
+    /// Filters the response list to only show participants who published during the stage session. Only one of filterByUserId, filterByPublished, filterByState, or filterByRecordingState can be provided per request.
     public var filterByPublished: Swift.Bool?
-    /// Filters the response list to only show participants in the specified state. Only one of filterByUserId, filterByPublished, or filterByState can be provided per request.
+    /// Filters the response list to only show participants with the specified recording state. Only one of filterByUserId, filterByPublished, filterByState, or filterByRecordingState can be provided per request.
+    public var filterByRecordingState: IVSRealTimeClientTypes.ParticipantRecordingFilterByRecordingState?
+    /// Filters the response list to only show participants in the specified state. Only one of filterByUserId, filterByPublished, filterByState, or filterByRecordingState can be provided per request.
     public var filterByState: IVSRealTimeClientTypes.ParticipantState?
-    /// Filters the response list to match the specified user ID. Only one of filterByUserId, filterByPublished, or filterByState can be provided per request. A userId is a customer-assigned name to help identify the token; this can be used to link a participant to a user in the customer’s own systems.
+    /// Filters the response list to match the specified user ID. Only one of filterByUserId, filterByPublished, filterByState, or filterByRecordingState can be provided per request. A userId is a customer-assigned name to help identify the token; this can be used to link a participant to a user in the customer’s own systems.
     public var filterByUserId: Swift.String?
     /// Maximum number of results to return. Default: 50.
     public var maxResults: Swift.Int?
@@ -1831,6 +1982,7 @@ public struct ListParticipantsInput {
 
     public init(
         filterByPublished: Swift.Bool? = nil,
+        filterByRecordingState: IVSRealTimeClientTypes.ParticipantRecordingFilterByRecordingState? = nil,
         filterByState: IVSRealTimeClientTypes.ParticipantState? = nil,
         filterByUserId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
@@ -1840,6 +1992,7 @@ public struct ListParticipantsInput {
     )
     {
         self.filterByPublished = filterByPublished
+        self.filterByRecordingState = filterByRecordingState
         self.filterByState = filterByState
         self.filterByUserId = filterByUserId
         self.maxResults = maxResults
@@ -1858,6 +2011,8 @@ extension IVSRealTimeClientTypes {
         public var participantId: Swift.String?
         /// Whether the participant ever published to the stage session.
         public var published: Swift.Bool
+        /// Participant’s recording state.
+        public var recordingState: IVSRealTimeClientTypes.ParticipantRecordingState?
         /// Whether the participant is connected to or disconnected from the stage.
         public var state: IVSRealTimeClientTypes.ParticipantState?
         /// Customer-assigned name to help identify the token; this can be used to link a participant to a user in the customer’s own systems. This can be any UTF-8 encoded text. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.
@@ -1867,6 +2022,7 @@ extension IVSRealTimeClientTypes {
             firstJoinTime: Foundation.Date? = nil,
             participantId: Swift.String? = nil,
             published: Swift.Bool = false,
+            recordingState: IVSRealTimeClientTypes.ParticipantRecordingState? = nil,
             state: IVSRealTimeClientTypes.ParticipantState? = nil,
             userId: Swift.String? = nil
         )
@@ -1874,6 +2030,7 @@ extension IVSRealTimeClientTypes {
             self.firstJoinTime = firstJoinTime
             self.participantId = participantId
             self.published = published
+            self.recordingState = recordingState
             self.state = state
             self.userId = userId
         }
@@ -2220,15 +2377,19 @@ public struct UpdateStageInput {
     /// ARN of the stage to be updated.
     /// This member is required.
     public var arn: Swift.String?
+    /// Auto-participant-recording configuration object to attach to the stage. Auto-participant-recording configuration cannot be updated while recording is active.
+    public var autoParticipantRecordingConfiguration: IVSRealTimeClientTypes.AutoParticipantRecordingConfiguration?
     /// Name of the stage to be updated.
     public var name: Swift.String?
 
     public init(
         arn: Swift.String? = nil,
+        autoParticipantRecordingConfiguration: IVSRealTimeClientTypes.AutoParticipantRecordingConfiguration? = nil,
         name: Swift.String? = nil
     )
     {
         self.arn = arn
+        self.autoParticipantRecordingConfiguration = autoParticipantRecordingConfiguration
         self.name = name
     }
 }
@@ -2485,6 +2646,7 @@ extension CreateStageInput {
 
     static func write(value: CreateStageInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["autoParticipantRecordingConfiguration"].write(value.autoParticipantRecordingConfiguration, with: IVSRealTimeClientTypes.AutoParticipantRecordingConfiguration.write(value:to:))
         try writer["name"].write(value.name)
         try writer["participantTokenConfigurations"].writeList(value.participantTokenConfigurations, memberWritingClosure: IVSRealTimeClientTypes.ParticipantTokenConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -2623,6 +2785,7 @@ extension ListParticipantsInput {
     static func write(value: ListParticipantsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["filterByPublished"].write(value.filterByPublished)
+        try writer["filterByRecordingState"].write(value.filterByRecordingState)
         try writer["filterByState"].write(value.filterByState)
         try writer["filterByUserId"].write(value.filterByUserId)
         try writer["maxResults"].write(value.maxResults)
@@ -2693,6 +2856,7 @@ extension UpdateStageInput {
     static func write(value: UpdateStageInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["arn"].write(value.arn)
+        try writer["autoParticipantRecordingConfiguration"].write(value.autoParticipantRecordingConfiguration, with: IVSRealTimeClientTypes.AutoParticipantRecordingConfiguration.write(value:to:))
         try writer["name"].write(value.name)
     }
 }
@@ -3618,6 +3782,24 @@ extension IVSRealTimeClientTypes.Stage {
         value.name = try reader["name"].readIfPresent()
         value.activeSessionId = try reader["activeSessionId"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.autoParticipantRecordingConfiguration = try reader["autoParticipantRecordingConfiguration"].readIfPresent(with: IVSRealTimeClientTypes.AutoParticipantRecordingConfiguration.read(from:))
+        return value
+    }
+}
+
+extension IVSRealTimeClientTypes.AutoParticipantRecordingConfiguration {
+
+    static func write(value: IVSRealTimeClientTypes.AutoParticipantRecordingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["mediaTypes"].writeList(value.mediaTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<IVSRealTimeClientTypes.ParticipantRecordingMediaType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["storageConfigurationArn"].write(value.storageConfigurationArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.AutoParticipantRecordingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IVSRealTimeClientTypes.AutoParticipantRecordingConfiguration()
+        value.storageConfigurationArn = try reader["storageConfigurationArn"].readIfPresent()
+        value.mediaTypes = try reader["mediaTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<IVSRealTimeClientTypes.ParticipantRecordingMediaType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -3862,6 +4044,9 @@ extension IVSRealTimeClientTypes.Participant {
         value.browserName = try reader["browserName"].readIfPresent()
         value.browserVersion = try reader["browserVersion"].readIfPresent()
         value.sdkVersion = try reader["sdkVersion"].readIfPresent()
+        value.recordingS3BucketName = try reader["recordingS3BucketName"].readIfPresent()
+        value.recordingS3Prefix = try reader["recordingS3Prefix"].readIfPresent()
+        value.recordingState = try reader["recordingState"].readIfPresent()
         return value
     }
 }
@@ -3943,6 +4128,7 @@ extension IVSRealTimeClientTypes.ParticipantSummary {
         value.state = try reader["state"].readIfPresent()
         value.firstJoinTime = try reader["firstJoinTime"].readTimestampIfPresent(format: .dateTime)
         value.published = try reader["published"].readIfPresent() ?? false
+        value.recordingState = try reader["recordingState"].readIfPresent()
         return value
     }
 }

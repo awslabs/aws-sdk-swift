@@ -674,7 +674,7 @@ extension ComputeOptimizerClientTypes {
 }
 
 extension ComputeOptimizerClientTypes {
-    /// The preference to control the resource’s CPU utilization thresholds - threshold and headroom. This preference is only available for the Amazon EC2 instance resource type.
+    /// The preference to control the resource’s CPU utilization threshold, CPU utilization headroom, and memory utilization headroom. This preference is only available for the Amazon EC2 instance resource type.
     public struct UtilizationPreference {
         /// The name of the resource utilization metric name to customize.
         public var metricName: ComputeOptimizerClientTypes.CustomizableMetricName?
@@ -698,11 +698,11 @@ extension ComputeOptimizerClientTypes {
     public struct EffectiveRecommendationPreferences {
         /// Describes the CPU vendor and architecture for an instance or Auto Scaling group recommendations. For example, when you specify AWS_ARM64 with:
         ///
-        /// * A [GetEC2InstanceRecommendations] or [GetAutoScalingGroupRecommendations] request, Compute Optimizer returns recommendations that consist of Graviton2 instance types only.
+        /// * A [GetEC2InstanceRecommendations] or [GetAutoScalingGroupRecommendations] request, Compute Optimizer returns recommendations that consist of Graviton instance types only.
         ///
-        /// * A [GetEC2RecommendationProjectedMetrics] request, Compute Optimizer returns projected utilization metrics for Graviton2 instance type recommendations only.
+        /// * A [GetEC2RecommendationProjectedMetrics] request, Compute Optimizer returns projected utilization metrics for Graviton instance type recommendations only.
         ///
-        /// * A [ExportEC2InstanceRecommendations] or [ExportAutoScalingGroupRecommendations] request, Compute Optimizer exports recommendations that consist of Graviton2 instance types only.
+        /// * A [ExportEC2InstanceRecommendations] or [ExportAutoScalingGroupRecommendations] request, Compute Optimizer exports recommendations that consist of Graviton instance types only.
         public var cpuVendorArchitectures: [ComputeOptimizerClientTypes.CpuVendorArchitecture]?
         /// Describes the activation status of the enhanced infrastructure metrics preference. A status of Active confirms that the preference is applied in the latest recommendation refresh, and a status of Inactive confirms that it's not yet applied to recommendations. For more information, see [Enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html) in the Compute Optimizer User Guide.
         public var enhancedInfrastructureMetrics: ComputeOptimizerClientTypes.EnhancedInfrastructureMetrics?
@@ -1429,6 +1429,7 @@ extension ComputeOptimizerClientTypes {
         case lambdaFunction
         case license
         case notApplicable
+        case rdsDbInstance
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ResourceType] {
@@ -1439,7 +1440,8 @@ extension ComputeOptimizerClientTypes {
                 .ecsService,
                 .lambdaFunction,
                 .license,
-                .notApplicable
+                .notApplicable,
+                .rdsDbInstance
             ]
         }
 
@@ -1457,6 +1459,7 @@ extension ComputeOptimizerClientTypes {
             case .lambdaFunction: return "LambdaFunction"
             case .license: return "License"
             case .notApplicable: return "NotApplicable"
+            case .rdsDbInstance: return "RdsDBInstance"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1534,7 +1537,7 @@ public struct DeleteRecommendationPreferencesInput {
     /// The name of the recommendation preference to delete.
     /// This member is required.
     public var recommendationPreferenceNames: [ComputeOptimizerClientTypes.RecommendationPreferenceName]?
-    /// The target resource type of the recommendation preference to delete. The Ec2Instance option encompasses standalone instances and instances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group. The valid values for this parameter are Ec2Instance and AutoScalingGroup.
+    /// The target resource type of the recommendation preference to delete. The Ec2Instance option encompasses standalone instances and instances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group.
     /// This member is required.
     public var resourceType: ComputeOptimizerClientTypes.ResourceType?
     /// An object that describes the scope of the recommendation preference to delete. You can delete recommendation preferences that are created at the organization level (for management accounts of an organization only), account level, and resource level. For more information, see [Activating enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html) in the Compute Optimizer User Guide.
@@ -2132,15 +2135,15 @@ extension ComputeOptimizerClientTypes {
 }
 
 extension ComputeOptimizerClientTypes {
-    /// Describes the recommendation preferences to return in the response of a [GetAutoScalingGroupRecommendations], [GetEC2InstanceRecommendations], and [GetEC2RecommendationProjectedMetrics] request.
+    /// Describes the recommendation preferences to return in the response of a [GetAutoScalingGroupRecommendations], [GetEC2InstanceRecommendations], [GetEC2RecommendationProjectedMetrics], [GetRDSDatabaseRecommendations], and [GetRDSDatabaseRecommendationProjectedMetrics] request.
     public struct RecommendationPreferences {
         /// Specifies the CPU vendor and architecture for Amazon EC2 instance and Auto Scaling group recommendations. For example, when you specify AWS_ARM64 with:
         ///
-        /// * A [GetEC2InstanceRecommendations] or [GetAutoScalingGroupRecommendations] request, Compute Optimizer returns recommendations that consist of Graviton2 instance types only.
+        /// * A [GetEC2InstanceRecommendations] or [GetAutoScalingGroupRecommendations] request, Compute Optimizer returns recommendations that consist of Graviton instance types only.
         ///
-        /// * A [GetEC2RecommendationProjectedMetrics] request, Compute Optimizer returns projected utilization metrics for Graviton2 instance type recommendations only.
+        /// * A [GetEC2RecommendationProjectedMetrics] request, Compute Optimizer returns projected utilization metrics for Graviton instance type recommendations only.
         ///
-        /// * A [ExportEC2InstanceRecommendations] or [ExportAutoScalingGroupRecommendations] request, Compute Optimizer exports recommendations that consist of Graviton2 instance types only.
+        /// * A [ExportEC2InstanceRecommendations] or [ExportAutoScalingGroupRecommendations] request, Compute Optimizer exports recommendations that consist of Graviton instance types only.
         public var cpuVendorArchitectures: [ComputeOptimizerClientTypes.CpuVendorArchitecture]?
 
         public init(
@@ -3356,6 +3359,317 @@ public struct ExportLicenseRecommendationsOutput {
     }
 }
 
+extension ComputeOptimizerClientTypes {
+
+    public enum ExportableRDSDBField: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accountId
+        case currentDbInstanceClass
+        case currentInstanceOnDemandHourlyPrice
+        case currentStorageConfigurationAllocatedStorage
+        case currentStorageConfigurationIops
+        case currentStorageConfigurationMaxAllocatedStorage
+        case currentStorageConfigurationStorageThroughput
+        case currentStorageConfigurationStorageType
+        case currentStorageOnDemandMonthlyPrice
+        case effectiveRecommendationPreferencesCpuVendorArchitectures
+        case effectiveRecommendationPreferencesEnhancedInfrastructureMetrics
+        case effectiveRecommendationPreferencesLookbackPeriod
+        case effectiveRecommendationPreferencesSavingsEstimationMode
+        case engine
+        case engineVersion
+        case idle
+        case instanceFinding
+        case instanceFindingReasonCodes
+        case instanceRecommendationOptionsDbInstanceClass
+        case instanceRecommendationOptionsEstimatedMonthlySavingsCurrency
+        case instanceRecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts
+        case instanceRecommendationOptionsEstimatedMonthlySavingsValue
+        case instanceRecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts
+        case instanceRecommendationOptionsInstanceOnDemandHourlyPrice
+        case instanceRecommendationOptionsPerformanceRisk
+        case instanceRecommendationOptionsProjectedUtilizationMetricsCpuMaximum
+        case instanceRecommendationOptionsRank
+        case instanceRecommendationOptionsSavingsOpportunityAfterDiscountsPercentage
+        case instanceRecommendationOptionsSavingsOpportunityPercentage
+        case lastRefreshTimestamp
+        case lookbackPeriodInDays
+        case multiAzDbInstance
+        case resourceArn
+        case storageFinding
+        case storageFindingReasonCodes
+        case storageRecommendationOptionsAllocatedStorage
+        case storageRecommendationOptionsEstimatedMonthlySavingsCurrency
+        case storageRecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts
+        case storageRecommendationOptionsEstimatedMonthlySavingsValue
+        case storageRecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts
+        case storageRecommendationOptionsIops
+        case storageRecommendationOptionsMaxAllocatedStorage
+        case storageRecommendationOptionsOnDemandMonthlyPrice
+        case storageRecommendationOptionsRank
+        case storageRecommendationOptionsSavingsOpportunityAfterDiscountsPercentage
+        case storageRecommendationOptionsSavingsOpportunityPercentage
+        case storageRecommendationOptionsStorageThroughput
+        case storageRecommendationOptionsStorageType
+        case tags
+        case utilizationMetricsCpuMaximum
+        case utilizationMetricsDatabaseConnectionsMaximum
+        case utilizationMetricsEbsVolumeReadIopsMaximum
+        case utilizationMetricsEbsVolumeReadThroughputMaximum
+        case utilizationMetricsEbsVolumeStorageSpaceUtilizationMaximum
+        case utilizationMetricsEbsVolumeWriteIopsMaximum
+        case utilizationMetricsEbsVolumeWriteThroughputMaximum
+        case utilizationMetricsMemoryMaximum
+        case utilizationMetricsNetworkReceiveThroughputMaximum
+        case utilizationMetricsNetworkTransmitThroughputMaximum
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExportableRDSDBField] {
+            return [
+                .accountId,
+                .currentDbInstanceClass,
+                .currentInstanceOnDemandHourlyPrice,
+                .currentStorageConfigurationAllocatedStorage,
+                .currentStorageConfigurationIops,
+                .currentStorageConfigurationMaxAllocatedStorage,
+                .currentStorageConfigurationStorageThroughput,
+                .currentStorageConfigurationStorageType,
+                .currentStorageOnDemandMonthlyPrice,
+                .effectiveRecommendationPreferencesCpuVendorArchitectures,
+                .effectiveRecommendationPreferencesEnhancedInfrastructureMetrics,
+                .effectiveRecommendationPreferencesLookbackPeriod,
+                .effectiveRecommendationPreferencesSavingsEstimationMode,
+                .engine,
+                .engineVersion,
+                .idle,
+                .instanceFinding,
+                .instanceFindingReasonCodes,
+                .instanceRecommendationOptionsDbInstanceClass,
+                .instanceRecommendationOptionsEstimatedMonthlySavingsCurrency,
+                .instanceRecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts,
+                .instanceRecommendationOptionsEstimatedMonthlySavingsValue,
+                .instanceRecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts,
+                .instanceRecommendationOptionsInstanceOnDemandHourlyPrice,
+                .instanceRecommendationOptionsPerformanceRisk,
+                .instanceRecommendationOptionsProjectedUtilizationMetricsCpuMaximum,
+                .instanceRecommendationOptionsRank,
+                .instanceRecommendationOptionsSavingsOpportunityAfterDiscountsPercentage,
+                .instanceRecommendationOptionsSavingsOpportunityPercentage,
+                .lastRefreshTimestamp,
+                .lookbackPeriodInDays,
+                .multiAzDbInstance,
+                .resourceArn,
+                .storageFinding,
+                .storageFindingReasonCodes,
+                .storageRecommendationOptionsAllocatedStorage,
+                .storageRecommendationOptionsEstimatedMonthlySavingsCurrency,
+                .storageRecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts,
+                .storageRecommendationOptionsEstimatedMonthlySavingsValue,
+                .storageRecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts,
+                .storageRecommendationOptionsIops,
+                .storageRecommendationOptionsMaxAllocatedStorage,
+                .storageRecommendationOptionsOnDemandMonthlyPrice,
+                .storageRecommendationOptionsRank,
+                .storageRecommendationOptionsSavingsOpportunityAfterDiscountsPercentage,
+                .storageRecommendationOptionsSavingsOpportunityPercentage,
+                .storageRecommendationOptionsStorageThroughput,
+                .storageRecommendationOptionsStorageType,
+                .tags,
+                .utilizationMetricsCpuMaximum,
+                .utilizationMetricsDatabaseConnectionsMaximum,
+                .utilizationMetricsEbsVolumeReadIopsMaximum,
+                .utilizationMetricsEbsVolumeReadThroughputMaximum,
+                .utilizationMetricsEbsVolumeStorageSpaceUtilizationMaximum,
+                .utilizationMetricsEbsVolumeWriteIopsMaximum,
+                .utilizationMetricsEbsVolumeWriteThroughputMaximum,
+                .utilizationMetricsMemoryMaximum,
+                .utilizationMetricsNetworkReceiveThroughputMaximum,
+                .utilizationMetricsNetworkTransmitThroughputMaximum
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accountId: return "AccountId"
+            case .currentDbInstanceClass: return "CurrentDBInstanceClass"
+            case .currentInstanceOnDemandHourlyPrice: return "CurrentInstanceOnDemandHourlyPrice"
+            case .currentStorageConfigurationAllocatedStorage: return "CurrentStorageConfigurationAllocatedStorage"
+            case .currentStorageConfigurationIops: return "CurrentStorageConfigurationIOPS"
+            case .currentStorageConfigurationMaxAllocatedStorage: return "CurrentStorageConfigurationMaxAllocatedStorage"
+            case .currentStorageConfigurationStorageThroughput: return "CurrentStorageConfigurationStorageThroughput"
+            case .currentStorageConfigurationStorageType: return "CurrentStorageConfigurationStorageType"
+            case .currentStorageOnDemandMonthlyPrice: return "CurrentStorageOnDemandMonthlyPrice"
+            case .effectiveRecommendationPreferencesCpuVendorArchitectures: return "EffectiveRecommendationPreferencesCpuVendorArchitectures"
+            case .effectiveRecommendationPreferencesEnhancedInfrastructureMetrics: return "EffectiveRecommendationPreferencesEnhancedInfrastructureMetrics"
+            case .effectiveRecommendationPreferencesLookbackPeriod: return "EffectiveRecommendationPreferencesLookBackPeriod"
+            case .effectiveRecommendationPreferencesSavingsEstimationMode: return "EffectiveRecommendationPreferencesSavingsEstimationMode"
+            case .engine: return "Engine"
+            case .engineVersion: return "EngineVersion"
+            case .idle: return "Idle"
+            case .instanceFinding: return "InstanceFinding"
+            case .instanceFindingReasonCodes: return "InstanceFindingReasonCodes"
+            case .instanceRecommendationOptionsDbInstanceClass: return "InstanceRecommendationOptionsDBInstanceClass"
+            case .instanceRecommendationOptionsEstimatedMonthlySavingsCurrency: return "InstanceRecommendationOptionsEstimatedMonthlySavingsCurrency"
+            case .instanceRecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts: return "InstanceRecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts"
+            case .instanceRecommendationOptionsEstimatedMonthlySavingsValue: return "InstanceRecommendationOptionsEstimatedMonthlySavingsValue"
+            case .instanceRecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts: return "InstanceRecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts"
+            case .instanceRecommendationOptionsInstanceOnDemandHourlyPrice: return "InstanceRecommendationOptionsInstanceOnDemandHourlyPrice"
+            case .instanceRecommendationOptionsPerformanceRisk: return "InstanceRecommendationOptionsPerformanceRisk"
+            case .instanceRecommendationOptionsProjectedUtilizationMetricsCpuMaximum: return "InstanceRecommendationOptionsProjectedUtilizationMetricsCpuMaximum"
+            case .instanceRecommendationOptionsRank: return "InstanceRecommendationOptionsRank"
+            case .instanceRecommendationOptionsSavingsOpportunityAfterDiscountsPercentage: return "InstanceRecommendationOptionsSavingsOpportunityAfterDiscountsPercentage"
+            case .instanceRecommendationOptionsSavingsOpportunityPercentage: return "InstanceRecommendationOptionsSavingsOpportunityPercentage"
+            case .lastRefreshTimestamp: return "LastRefreshTimestamp"
+            case .lookbackPeriodInDays: return "LookbackPeriodInDays"
+            case .multiAzDbInstance: return "MultiAZDBInstance"
+            case .resourceArn: return "ResourceArn"
+            case .storageFinding: return "StorageFinding"
+            case .storageFindingReasonCodes: return "StorageFindingReasonCodes"
+            case .storageRecommendationOptionsAllocatedStorage: return "StorageRecommendationOptionsAllocatedStorage"
+            case .storageRecommendationOptionsEstimatedMonthlySavingsCurrency: return "StorageRecommendationOptionsEstimatedMonthlySavingsCurrency"
+            case .storageRecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts: return "StorageRecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts"
+            case .storageRecommendationOptionsEstimatedMonthlySavingsValue: return "StorageRecommendationOptionsEstimatedMonthlySavingsValue"
+            case .storageRecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts: return "StorageRecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts"
+            case .storageRecommendationOptionsIops: return "StorageRecommendationOptionsIOPS"
+            case .storageRecommendationOptionsMaxAllocatedStorage: return "StorageRecommendationOptionsMaxAllocatedStorage"
+            case .storageRecommendationOptionsOnDemandMonthlyPrice: return "StorageRecommendationOptionsOnDemandMonthlyPrice"
+            case .storageRecommendationOptionsRank: return "StorageRecommendationOptionsRank"
+            case .storageRecommendationOptionsSavingsOpportunityAfterDiscountsPercentage: return "StorageRecommendationOptionsSavingsOpportunityAfterDiscountsPercentage"
+            case .storageRecommendationOptionsSavingsOpportunityPercentage: return "StorageRecommendationOptionsSavingsOpportunityPercentage"
+            case .storageRecommendationOptionsStorageThroughput: return "StorageRecommendationOptionsStorageThroughput"
+            case .storageRecommendationOptionsStorageType: return "StorageRecommendationOptionsStorageType"
+            case .tags: return "Tags"
+            case .utilizationMetricsCpuMaximum: return "UtilizationMetricsCpuMaximum"
+            case .utilizationMetricsDatabaseConnectionsMaximum: return "UtilizationMetricsDatabaseConnectionsMaximum"
+            case .utilizationMetricsEbsVolumeReadIopsMaximum: return "UtilizationMetricsEBSVolumeReadIOPSMaximum"
+            case .utilizationMetricsEbsVolumeReadThroughputMaximum: return "UtilizationMetricsEBSVolumeReadThroughputMaximum"
+            case .utilizationMetricsEbsVolumeStorageSpaceUtilizationMaximum: return "UtilizationMetricsEBSVolumeStorageSpaceUtilizationMaximum"
+            case .utilizationMetricsEbsVolumeWriteIopsMaximum: return "UtilizationMetricsEBSVolumeWriteIOPSMaximum"
+            case .utilizationMetricsEbsVolumeWriteThroughputMaximum: return "UtilizationMetricsEBSVolumeWriteThroughputMaximum"
+            case .utilizationMetricsMemoryMaximum: return "UtilizationMetricsMemoryMaximum"
+            case .utilizationMetricsNetworkReceiveThroughputMaximum: return "UtilizationMetricsNetworkReceiveThroughputMaximum"
+            case .utilizationMetricsNetworkTransmitThroughputMaximum: return "UtilizationMetricsNetworkTransmitThroughputMaximum"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+
+    public enum RDSDBRecommendationFilterName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case idle
+        case instanceFinding
+        case instanceFindingReasonCode
+        case storageFinding
+        case storageFindingReasonCode
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RDSDBRecommendationFilterName] {
+            return [
+                .idle,
+                .instanceFinding,
+                .instanceFindingReasonCode,
+                .storageFinding,
+                .storageFindingReasonCode
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .idle: return "Idle"
+            case .instanceFinding: return "InstanceFinding"
+            case .instanceFindingReasonCode: return "InstanceFindingReasonCode"
+            case .storageFinding: return "StorageFinding"
+            case .storageFindingReasonCode: return "StorageFindingReasonCode"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes a filter that returns a more specific list of Amazon RDS recommendations. Use this filter with the [GetECSServiceRecommendations] action.
+    public struct RDSDBRecommendationFilter {
+        /// The name of the filter. Specify Finding to return recommendations with a specific finding classification. You can filter your Amazon RDS recommendations by tag:key and tag-key tags. A tag:key is a key and value combination of a tag assigned to your Amazon RDS recommendations. Use the tag key in the filter name and the tag value as the filter value. For example, to find all Amazon RDS service recommendations that have a tag with the key of Owner and the value of TeamA, specify tag:Owner for the filter name and TeamA for the filter value. A tag-key is the key of a tag assigned to your Amazon RDS recommendations. Use this filter to find all of your Amazon RDS recommendations that have a tag with a specific key. This doesn’t consider the tag value. For example, you can find your Amazon RDS service recommendations with a tag key value of Owner or without any tag keys assigned.
+        public var name: ComputeOptimizerClientTypes.RDSDBRecommendationFilterName?
+        /// The value of the filter.
+        public var values: [Swift.String]?
+
+        public init(
+            name: ComputeOptimizerClientTypes.RDSDBRecommendationFilterName? = nil,
+            values: [Swift.String]? = nil
+        )
+        {
+            self.name = name
+            self.values = values
+        }
+    }
+
+}
+
+public struct ExportRDSDatabaseRecommendationsInput {
+    /// The Amazon Web Services account IDs for the export Amazon RDS recommendations. If your account is the management account or the delegated administrator of an organization, use this parameter to specify the member account you want to export recommendations to. This parameter can't be specified together with the include member accounts parameter. The parameters are mutually exclusive. If this parameter or the include member accounts parameter is omitted, the recommendations for member accounts aren't included in the export. You can specify multiple account IDs per request.
+    public var accountIds: [Swift.String]?
+    /// The recommendations data to include in the export file. For more information about the fields that can be exported, see [Exported files](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html#exported-files) in the Compute Optimizer User Guide.
+    public var fieldsToExport: [ComputeOptimizerClientTypes.ExportableRDSDBField]?
+    /// The format of the export file. The CSV file is the only export file format currently supported.
+    public var fileFormat: ComputeOptimizerClientTypes.FileFormat?
+    /// An array of objects to specify a filter that exports a more specific set of Amazon RDS recommendations.
+    public var filters: [ComputeOptimizerClientTypes.RDSDBRecommendationFilter]?
+    /// If your account is the management account or the delegated administrator of an organization, this parameter indicates whether to include recommendations for resources in all member accounts of the organization. The member accounts must also be opted in to Compute Optimizer, and trusted access for Compute Optimizer must be enabled in the organization account. For more information, see [Compute Optimizer and Amazon Web Services Organizations trusted access](https://docs.aws.amazon.com/compute-optimizer/latest/ug/security-iam.html#trusted-service-access) in the Compute Optimizer User Guide. If this parameter is omitted, recommendations for member accounts of the organization aren't included in the export file. If this parameter or the account ID parameter is omitted, recommendations for member accounts aren't included in the export.
+    public var includeMemberAccounts: Swift.Bool?
+    /// Describes the recommendation preferences to return in the response of a [GetAutoScalingGroupRecommendations], [GetEC2InstanceRecommendations], [GetEC2RecommendationProjectedMetrics], [GetRDSDatabaseRecommendations], and [GetRDSDatabaseRecommendationProjectedMetrics] request.
+    public var recommendationPreferences: ComputeOptimizerClientTypes.RecommendationPreferences?
+    /// Describes the destination Amazon Simple Storage Service (Amazon S3) bucket name and key prefix for a recommendations export job. You must create the destination Amazon S3 bucket for your recommendations export before you create the export job. Compute Optimizer does not create the S3 bucket for you. After you create the S3 bucket, ensure that it has the required permission policy to allow Compute Optimizer to write the export file to it. If you plan to specify an object prefix when you create the export job, you must include the object prefix in the policy that you add to the S3 bucket. For more information, see [Amazon S3 Bucket Policy for Compute Optimizer](https://docs.aws.amazon.com/compute-optimizer/latest/ug/create-s3-bucket-policy-for-compute-optimizer.html) in the Compute Optimizer User Guide.
+    /// This member is required.
+    public var s3DestinationConfig: ComputeOptimizerClientTypes.S3DestinationConfig?
+
+    public init(
+        accountIds: [Swift.String]? = nil,
+        fieldsToExport: [ComputeOptimizerClientTypes.ExportableRDSDBField]? = nil,
+        fileFormat: ComputeOptimizerClientTypes.FileFormat? = nil,
+        filters: [ComputeOptimizerClientTypes.RDSDBRecommendationFilter]? = nil,
+        includeMemberAccounts: Swift.Bool? = nil,
+        recommendationPreferences: ComputeOptimizerClientTypes.RecommendationPreferences? = nil,
+        s3DestinationConfig: ComputeOptimizerClientTypes.S3DestinationConfig? = nil
+    )
+    {
+        self.accountIds = accountIds
+        self.fieldsToExport = fieldsToExport
+        self.fileFormat = fileFormat
+        self.filters = filters
+        self.includeMemberAccounts = includeMemberAccounts
+        self.recommendationPreferences = recommendationPreferences
+        self.s3DestinationConfig = s3DestinationConfig
+    }
+}
+
+public struct ExportRDSDatabaseRecommendationsOutput {
+    /// The identification number of the export job. To view the status of an export job, use the [DescribeRecommendationExportJobs] action and specify the job ID.
+    public var jobId: Swift.String?
+    /// Describes the destination Amazon Simple Storage Service (Amazon S3) bucket name and object keys of a recommendations export file, and its associated metadata file.
+    public var s3Destination: ComputeOptimizerClientTypes.S3Destination?
+
+    public init(
+        jobId: Swift.String? = nil,
+        s3Destination: ComputeOptimizerClientTypes.S3Destination? = nil
+    )
+    {
+        self.jobId = jobId
+        self.s3Destination = s3Destination
+    }
+}
+
 public struct GetAutoScalingGroupRecommendationsInput {
     /// The ID of the Amazon Web Services account for which to return Auto Scaling group recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to return Auto Scaling group recommendations. Only one account ID can be specified per request.
     public var accountIds: [Swift.String]?
@@ -4240,6 +4554,8 @@ extension ComputeOptimizerClientTypes {
         case ecsService
         case lambdaFunction
         case license
+        case rdsDbInstance
+        case rdsDbInstanceStorage
         case sdkUnknown(Swift.String)
 
         public static var allCases: [RecommendationSourceType] {
@@ -4249,7 +4565,9 @@ extension ComputeOptimizerClientTypes {
                 .ec2Instance,
                 .ecsService,
                 .lambdaFunction,
-                .license
+                .license,
+                .rdsDbInstance,
+                .rdsDbInstanceStorage
             ]
         }
 
@@ -4266,6 +4584,8 @@ extension ComputeOptimizerClientTypes {
             case .ecsService: return "EcsService"
             case .lambdaFunction: return "LambdaFunction"
             case .license: return "License"
+            case .rdsDbInstance: return "RdsDBInstance"
+            case .rdsDbInstanceStorage: return "RdsDBInstanceStorage"
             case let .sdkUnknown(s): return s
             }
         }
@@ -4314,6 +4634,9 @@ extension ComputeOptimizerClientTypes {
         /// * Overprovisioned —An instance is considered over-provisioned when at least one specification of your instance, such as CPU, memory, or network, can be sized down while still meeting the performance requirements of your workload, and no specification is under-provisioned. Over-provisioned instances may lead to unnecessary infrastructure cost.
         ///
         /// * Optimized —An instance is considered optimized when all specifications of your instance, such as CPU, memory, and network, meet the performance requirements of your workload and is not over provisioned. For optimized resources, Compute Optimizer might recommend a new generation instance type.
+        ///
+        ///
+        /// The valid values in your API responses appear as OVER_PROVISIONED, UNDER_PROVISIONED, or OPTIMIZED.
         public var finding: ComputeOptimizerClientTypes.Finding?
         /// The reason for the finding classification of the instance. Finding reason codes for instances include:
         ///
@@ -6294,12 +6617,799 @@ public struct GetLicenseRecommendationsOutput {
     }
 }
 
+public struct GetRDSDatabaseRecommendationProjectedMetricsInput {
+    /// The timestamp of the last projected metrics data point to return.
+    /// This member is required.
+    public var endTime: Foundation.Date?
+    /// The granularity, in seconds, of the projected metrics data points.
+    /// This member is required.
+    public var period: Swift.Int?
+    /// Describes the recommendation preferences to return in the response of a [GetAutoScalingGroupRecommendations], [GetEC2InstanceRecommendations], [GetEC2RecommendationProjectedMetrics], [GetRDSDatabaseRecommendations], and [GetRDSDatabaseRecommendationProjectedMetrics] request.
+    public var recommendationPreferences: ComputeOptimizerClientTypes.RecommendationPreferences?
+    /// The ARN that identifies the Amazon RDS. The following is the format of the ARN: arn:aws:rds:{region}:{accountId}:db:{resourceName}
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// The timestamp of the first projected metrics data point to return.
+    /// This member is required.
+    public var startTime: Foundation.Date?
+    /// The statistic of the projected metrics.
+    /// This member is required.
+    public var stat: ComputeOptimizerClientTypes.MetricStatistic?
+
+    public init(
+        endTime: Foundation.Date? = nil,
+        period: Swift.Int? = nil,
+        recommendationPreferences: ComputeOptimizerClientTypes.RecommendationPreferences? = nil,
+        resourceArn: Swift.String? = nil,
+        startTime: Foundation.Date? = nil,
+        stat: ComputeOptimizerClientTypes.MetricStatistic? = nil
+    )
+    {
+        self.endTime = endTime
+        self.period = period
+        self.recommendationPreferences = recommendationPreferences
+        self.resourceArn = resourceArn
+        self.startTime = startTime
+        self.stat = stat
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+
+    public enum RDSDBMetricName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cpu
+        case databaseConnections
+        case ebsVolumeReadIops
+        case ebsVolumeReadThroughput
+        case ebsVolumeStorageSpaceUtilization
+        case ebsVolumeWriteIops
+        case ebsVolumeWriteThroughput
+        case memory
+        case networkReceiveThroughput
+        case networkTransmitThroughput
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RDSDBMetricName] {
+            return [
+                .cpu,
+                .databaseConnections,
+                .ebsVolumeReadIops,
+                .ebsVolumeReadThroughput,
+                .ebsVolumeStorageSpaceUtilization,
+                .ebsVolumeWriteIops,
+                .ebsVolumeWriteThroughput,
+                .memory,
+                .networkReceiveThroughput,
+                .networkTransmitThroughput
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cpu: return "CPU"
+            case .databaseConnections: return "DatabaseConnections"
+            case .ebsVolumeReadIops: return "EBSVolumeReadIOPS"
+            case .ebsVolumeReadThroughput: return "EBSVolumeReadThroughput"
+            case .ebsVolumeStorageSpaceUtilization: return "EBSVolumeStorageSpaceUtilization"
+            case .ebsVolumeWriteIops: return "EBSVolumeWriteIOPS"
+            case .ebsVolumeWriteThroughput: return "EBSVolumeWriteThroughput"
+            case .memory: return "Memory"
+            case .networkReceiveThroughput: return "NetworkReceiveThroughput"
+            case .networkTransmitThroughput: return "NetworkTransmitThroughput"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the projected metrics of an Amazon RDS recommendation option. To determine the performance difference between your current Amazon RDS and the recommended option, compare the metric data of your service against its projected metric data.
+    public struct RDSDatabaseProjectedMetric {
+        /// The name of the projected metric.
+        public var name: ComputeOptimizerClientTypes.RDSDBMetricName?
+        /// The timestamps of the projected metric.
+        public var timestamps: [Foundation.Date]?
+        /// The values for the projected metric.
+        public var values: [Swift.Double]?
+
+        public init(
+            name: ComputeOptimizerClientTypes.RDSDBMetricName? = nil,
+            timestamps: [Foundation.Date]? = nil,
+            values: [Swift.Double]? = nil
+        )
+        {
+            self.name = name
+            self.timestamps = timestamps
+            self.values = values
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the projected metrics of an Amazon RDS recommendation option. To determine the performance difference between your current Amazon RDS and the recommended option, compare the metric data of your service against its projected metric data.
+    public struct RDSDatabaseRecommendedOptionProjectedMetric {
+        /// An array of objects that describe the projected metric.
+        public var projectedMetrics: [ComputeOptimizerClientTypes.RDSDatabaseProjectedMetric]?
+        /// The rank identifier of the RDS instance recommendation option.
+        public var rank: Swift.Int
+        /// The recommended DB instance class for the Amazon RDS.
+        public var recommendedDBInstanceClass: Swift.String?
+
+        public init(
+            projectedMetrics: [ComputeOptimizerClientTypes.RDSDatabaseProjectedMetric]? = nil,
+            rank: Swift.Int = 0,
+            recommendedDBInstanceClass: Swift.String? = nil
+        )
+        {
+            self.projectedMetrics = projectedMetrics
+            self.rank = rank
+            self.recommendedDBInstanceClass = recommendedDBInstanceClass
+        }
+    }
+
+}
+
+public struct GetRDSDatabaseRecommendationProjectedMetricsOutput {
+    /// An array of objects that describes the projected metrics.
+    public var recommendedOptionProjectedMetrics: [ComputeOptimizerClientTypes.RDSDatabaseRecommendedOptionProjectedMetric]?
+
+    public init(
+        recommendedOptionProjectedMetrics: [ComputeOptimizerClientTypes.RDSDatabaseRecommendedOptionProjectedMetric]? = nil
+    )
+    {
+        self.recommendedOptionProjectedMetrics = recommendedOptionProjectedMetrics
+    }
+}
+
+public struct GetRDSDatabaseRecommendationsInput {
+    /// Return the Amazon RDS recommendations to the specified Amazon Web Services account IDs. If your account is the management account or the delegated administrator of an organization, use this parameter to return the Amazon RDS recommendations to specific member accounts. You can only specify one account ID per request.
+    public var accountIds: [Swift.String]?
+    /// An array of objects to specify a filter that returns a more specific list of Amazon RDS recommendations.
+    public var filters: [ComputeOptimizerClientTypes.RDSDBRecommendationFilter]?
+    /// The maximum number of Amazon RDS recommendations to return with a single request. To retrieve the remaining results, make another request with the returned nextToken value.
+    public var maxResults: Swift.Int?
+    /// The token to advance to the next page of Amazon RDS recommendations.
+    public var nextToken: Swift.String?
+    /// Describes the recommendation preferences to return in the response of a [GetAutoScalingGroupRecommendations], [GetEC2InstanceRecommendations], [GetEC2RecommendationProjectedMetrics], [GetRDSDatabaseRecommendations], and [GetRDSDatabaseRecommendationProjectedMetrics] request.
+    public var recommendationPreferences: ComputeOptimizerClientTypes.RecommendationPreferences?
+    /// The ARN that identifies the Amazon RDS. The following is the format of the ARN: arn:aws:rds:{region}:{accountId}:db:{resourceName} The following is the format of a DB Cluster ARN: arn:aws:rds:{region}:{accountId}:cluster:{resourceName}
+    public var resourceArns: [Swift.String]?
+
+    public init(
+        accountIds: [Swift.String]? = nil,
+        filters: [ComputeOptimizerClientTypes.RDSDBRecommendationFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        recommendationPreferences: ComputeOptimizerClientTypes.RecommendationPreferences? = nil,
+        resourceArns: [Swift.String]? = nil
+    )
+    {
+        self.accountIds = accountIds
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.recommendationPreferences = recommendationPreferences
+        self.resourceArns = resourceArns
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// The configuration of the recommended RDS storage.
+    public struct DBStorageConfiguration {
+        /// The size of the RDS storage in gigabytes (GB).
+        public var allocatedStorage: Swift.Int
+        /// The provisioned IOPs of the RDS storage.
+        public var iops: Swift.Int?
+        /// The maximum limit in gibibytes (GiB) to which Amazon RDS can automatically scale the storage of the RDS instance.
+        public var maxAllocatedStorage: Swift.Int?
+        /// The storage throughput of the RDS storage.
+        public var storageThroughput: Swift.Int?
+        /// The type of RDS storage.
+        public var storageType: Swift.String?
+
+        public init(
+            allocatedStorage: Swift.Int = 0,
+            iops: Swift.Int? = nil,
+            maxAllocatedStorage: Swift.Int? = nil,
+            storageThroughput: Swift.Int? = nil,
+            storageType: Swift.String? = nil
+        )
+        {
+            self.allocatedStorage = allocatedStorage
+            self.iops = iops
+            self.maxAllocatedStorage = maxAllocatedStorage
+            self.storageThroughput = storageThroughput
+            self.storageType = storageType
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes {
+
+    public enum RDSSavingsEstimationModeSource: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case costExplorerRightsizing
+        case costOptimizationHub
+        case publicPricing
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RDSSavingsEstimationModeSource] {
+            return [
+                .costExplorerRightsizing,
+                .costOptimizationHub,
+                .publicPricing
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .costExplorerRightsizing: return "CostExplorerRightsizing"
+            case .costOptimizationHub: return "CostOptimizationHub"
+            case .publicPricing: return "PublicPricing"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the savings estimation mode used for calculating savings opportunity for Amazon RDS.
+    public struct RDSSavingsEstimationMode {
+        /// Describes the source for calculating the savings opportunity for Amazon RDS.
+        public var source: ComputeOptimizerClientTypes.RDSSavingsEstimationModeSource?
+
+        public init(
+            source: ComputeOptimizerClientTypes.RDSSavingsEstimationModeSource? = nil
+        )
+        {
+            self.source = source
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the effective recommendation preferences for Amazon RDS.
+    public struct RDSEffectiveRecommendationPreferences {
+        /// Describes the CPU vendor and architecture for Amazon RDS recommendations.
+        public var cpuVendorArchitectures: [ComputeOptimizerClientTypes.CpuVendorArchitecture]?
+        /// Describes the activation status of the enhanced infrastructure metrics preference. A status of Active confirms that the preference is applied in the latest recommendation refresh, and a status of Inactive confirms that it's not yet applied to recommendations. For more information, see [Enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html) in the Compute Optimizer User Guide.
+        public var enhancedInfrastructureMetrics: ComputeOptimizerClientTypes.EnhancedInfrastructureMetrics?
+        /// The number of days the utilization metrics of the Amazon RDS are analyzed.
+        public var lookBackPeriod: ComputeOptimizerClientTypes.LookBackPeriodPreference?
+        /// Describes the savings estimation mode preference applied for calculating savings opportunity for Amazon RDS.
+        public var savingsEstimationMode: ComputeOptimizerClientTypes.RDSSavingsEstimationMode?
+
+        public init(
+            cpuVendorArchitectures: [ComputeOptimizerClientTypes.CpuVendorArchitecture]? = nil,
+            enhancedInfrastructureMetrics: ComputeOptimizerClientTypes.EnhancedInfrastructureMetrics? = nil,
+            lookBackPeriod: ComputeOptimizerClientTypes.LookBackPeriodPreference? = nil,
+            savingsEstimationMode: ComputeOptimizerClientTypes.RDSSavingsEstimationMode? = nil
+        )
+        {
+            self.cpuVendorArchitectures = cpuVendorArchitectures
+            self.enhancedInfrastructureMetrics = enhancedInfrastructureMetrics
+            self.lookBackPeriod = lookBackPeriod
+            self.savingsEstimationMode = savingsEstimationMode
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes {
+
+    public enum Idle: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `false`
+        case `true`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Idle] {
+            return [
+                .false,
+                .true
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .false: return "False"
+            case .true: return "True"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+
+    public enum RDSInstanceFinding: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case optimized
+        case overProvisioned
+        case underProvisioned
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RDSInstanceFinding] {
+            return [
+                .optimized,
+                .overProvisioned,
+                .underProvisioned
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .optimized: return "Optimized"
+            case .overProvisioned: return "Overprovisioned"
+            case .underProvisioned: return "Underprovisioned"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+
+    public enum RDSInstanceFindingReasonCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cpuOverProvisioned
+        case cpuUnderProvisioned
+        case ebsIopsOverProvisioned
+        case ebsThroughputOverProvisioned
+        case ebsThroughputUnderProvisioned
+        case networkBandwidthOverProvisioned
+        case networkBandwidthUnderProvisioned
+        case newEngineVersionAvailable
+        case newGenerationDbInstanceClassAvailable
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RDSInstanceFindingReasonCode] {
+            return [
+                .cpuOverProvisioned,
+                .cpuUnderProvisioned,
+                .ebsIopsOverProvisioned,
+                .ebsThroughputOverProvisioned,
+                .ebsThroughputUnderProvisioned,
+                .networkBandwidthOverProvisioned,
+                .networkBandwidthUnderProvisioned,
+                .newEngineVersionAvailable,
+                .newGenerationDbInstanceClassAvailable
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cpuOverProvisioned: return "CPUOverprovisioned"
+            case .cpuUnderProvisioned: return "CPUUnderprovisioned"
+            case .ebsIopsOverProvisioned: return "EBSIOPSOverprovisioned"
+            case .ebsThroughputOverProvisioned: return "EBSThroughputOverprovisioned"
+            case .ebsThroughputUnderProvisioned: return "EBSThroughputUnderprovisioned"
+            case .networkBandwidthOverProvisioned: return "NetworkBandwidthOverprovisioned"
+            case .networkBandwidthUnderProvisioned: return "NetworkBandwidthUnderprovisioned"
+            case .newEngineVersionAvailable: return "NewEngineVersionAvailable"
+            case .newGenerationDbInstanceClassAvailable: return "NewGenerationDBInstanceClassAvailable"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+
+    public enum RDSDBMetricStatistic: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case average
+        case maximum
+        case minimum
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RDSDBMetricStatistic] {
+            return [
+                .average,
+                .maximum,
+                .minimum
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .average: return "Average"
+            case .maximum: return "Maximum"
+            case .minimum: return "Minimum"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the utilization metric of an Amazon RDS. To determine the performance difference between your current Amazon RDS and the recommended option, compare the utilization metric data of your service against its projected utilization metric data.
+    public struct RDSDBUtilizationMetric {
+        /// The name of the utilization metric.
+        public var name: ComputeOptimizerClientTypes.RDSDBMetricName?
+        /// The statistic of the utilization metric. The Compute Optimizer API, Command Line Interface (CLI), and SDKs return utilization metrics using only the Maximum statistic, which is the highest value observed during the specified period. The Compute Optimizer console displays graphs for some utilization metrics using the Average statistic, which is the value of Sum / SampleCount during the specified period. For more information, see [Viewing resource recommendations](https://docs.aws.amazon.com/compute-optimizer/latest/ug/viewing-recommendations.html) in the Compute Optimizer User Guide. You can also get averaged utilization metric data for your resources using Amazon CloudWatch. For more information, see the [Amazon CloudWatch User Guide](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html).
+        public var statistic: ComputeOptimizerClientTypes.RDSDBMetricStatistic?
+        /// The value of the utilization metric.
+        public var value: Swift.Double
+
+        public init(
+            name: ComputeOptimizerClientTypes.RDSDBMetricName? = nil,
+            statistic: ComputeOptimizerClientTypes.RDSDBMetricStatistic? = nil,
+            value: Swift.Double = 0.0
+        )
+        {
+            self.name = name
+            self.statistic = statistic
+            self.value = value
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the estimated monthly savings possible for Amazon RDS instances by adopting Compute Optimizer recommendations. This is based on Amazon RDS pricing after applying Savings Plans discounts.
+    public struct RDSInstanceEstimatedMonthlySavings {
+        /// The currency of the estimated monthly savings.
+        public var currency: ComputeOptimizerClientTypes.Currency?
+        /// The value of the estimated monthly savings for Amazon RDS instances.
+        public var value: Swift.Double
+
+        public init(
+            currency: ComputeOptimizerClientTypes.Currency? = nil,
+            value: Swift.Double = 0.0
+        )
+        {
+            self.currency = currency
+            self.value = value
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the savings opportunity for Amazon RDS instance recommendations after applying Savings Plans discounts. Savings opportunity represents the estimated monthly savings after applying Savings Plans discounts. You can achieve this by implementing a given Compute Optimizer recommendation.
+    public struct RDSInstanceSavingsOpportunityAfterDiscounts {
+        /// The estimated monthly savings possible by adopting Compute Optimizer’s Amazon RDS instance recommendations. This includes any applicable Savings Plans discounts.
+        public var estimatedMonthlySavings: ComputeOptimizerClientTypes.RDSInstanceEstimatedMonthlySavings?
+        /// The estimated monthly savings possible as a percentage of monthly cost by adopting Compute Optimizer’s Amazon RDS instance recommendations. This includes any applicable Savings Plans discounts.
+        public var savingsOpportunityPercentage: Swift.Double
+
+        public init(
+            estimatedMonthlySavings: ComputeOptimizerClientTypes.RDSInstanceEstimatedMonthlySavings? = nil,
+            savingsOpportunityPercentage: Swift.Double = 0.0
+        )
+        {
+            self.estimatedMonthlySavings = estimatedMonthlySavings
+            self.savingsOpportunityPercentage = savingsOpportunityPercentage
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the recommendation options for an Amazon RDS instance.
+    public struct RDSDBInstanceRecommendationOption {
+        /// Describes the DB instance class recommendation option for your Amazon RDS instance.
+        public var dbInstanceClass: Swift.String?
+        /// The performance risk of the RDS instance recommendation option.
+        public var performanceRisk: Swift.Double
+        /// An array of objects that describe the projected utilization metrics of the RDS instance recommendation option.
+        public var projectedUtilizationMetrics: [ComputeOptimizerClientTypes.RDSDBUtilizationMetric]?
+        /// The rank identifier of the RDS instance recommendation option.
+        public var rank: Swift.Int
+        /// Describes the savings opportunity for recommendations of a given resource type or for the recommendation option of an individual resource. Savings opportunity represents the estimated monthly savings you can achieve by implementing a given Compute Optimizer recommendation. Savings opportunity data requires that you opt in to Cost Explorer, as well as activate Receive Amazon EC2 resource recommendations in the Cost Explorer preferences page. That creates a connection between Cost Explorer and Compute Optimizer. With this connection, Cost Explorer generates savings estimates considering the price of existing resources, the price of recommended resources, and historical usage data. Estimated monthly savings reflects the projected dollar savings associated with each of the recommendations generated. For more information, see [Enabling Cost Explorer](https://docs.aws.amazon.com/cost-management/latest/userguide/ce-enable.html) and [Optimizing your cost with Rightsizing Recommendations](https://docs.aws.amazon.com/cost-management/latest/userguide/ce-rightsizing.html) in the Cost Management User Guide.
+        public var savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity?
+        /// Describes the savings opportunity for Amazon RDS recommendations or for the recommendation option. Savings opportunity represents the estimated monthly savings after applying Savings Plans discounts. You can achieve this by implementing a given Compute Optimizer recommendation.
+        public var savingsOpportunityAfterDiscounts: ComputeOptimizerClientTypes.RDSInstanceSavingsOpportunityAfterDiscounts?
+
+        public init(
+            dbInstanceClass: Swift.String? = nil,
+            performanceRisk: Swift.Double = 0.0,
+            projectedUtilizationMetrics: [ComputeOptimizerClientTypes.RDSDBUtilizationMetric]? = nil,
+            rank: Swift.Int = 0,
+            savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity? = nil,
+            savingsOpportunityAfterDiscounts: ComputeOptimizerClientTypes.RDSInstanceSavingsOpportunityAfterDiscounts? = nil
+        )
+        {
+            self.dbInstanceClass = dbInstanceClass
+            self.performanceRisk = performanceRisk
+            self.projectedUtilizationMetrics = projectedUtilizationMetrics
+            self.rank = rank
+            self.savingsOpportunity = savingsOpportunity
+            self.savingsOpportunityAfterDiscounts = savingsOpportunityAfterDiscounts
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes {
+
+    public enum RDSStorageFinding: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case optimized
+        case overProvisioned
+        case underProvisioned
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RDSStorageFinding] {
+            return [
+                .optimized,
+                .overProvisioned,
+                .underProvisioned
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .optimized: return "Optimized"
+            case .overProvisioned: return "Overprovisioned"
+            case .underProvisioned: return "Underprovisioned"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+
+    public enum RDSStorageFindingReasonCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ebsVolumeAllocatedStorageUnderProvisioned
+        case ebsVolumeIopsOverProvisioned
+        case ebsVolumeThroughputOverProvisioned
+        case ebsVolumeThroughputUnderProvisioned
+        case newGenerationStorageTypeAvailable
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RDSStorageFindingReasonCode] {
+            return [
+                .ebsVolumeAllocatedStorageUnderProvisioned,
+                .ebsVolumeIopsOverProvisioned,
+                .ebsVolumeThroughputOverProvisioned,
+                .ebsVolumeThroughputUnderProvisioned,
+                .newGenerationStorageTypeAvailable
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ebsVolumeAllocatedStorageUnderProvisioned: return "EBSVolumeAllocatedStorageUnderprovisioned"
+            case .ebsVolumeIopsOverProvisioned: return "EBSVolumeIOPSOverprovisioned"
+            case .ebsVolumeThroughputOverProvisioned: return "EBSVolumeThroughputOverprovisioned"
+            case .ebsVolumeThroughputUnderProvisioned: return "EBSVolumeThroughputUnderprovisioned"
+            case .newGenerationStorageTypeAvailable: return "NewGenerationStorageTypeAvailable"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the estimated monthly savings possible for Amazon RDS storage by adopting Compute Optimizer recommendations. This is based on Amazon RDS pricing after applying Savings Plans discounts.
+    public struct RDSStorageEstimatedMonthlySavings {
+        /// The currency of the estimated monthly savings.
+        public var currency: ComputeOptimizerClientTypes.Currency?
+        /// The value of the estimated monthly savings for Amazon RDS storage.
+        public var value: Swift.Double
+
+        public init(
+            currency: ComputeOptimizerClientTypes.Currency? = nil,
+            value: Swift.Double = 0.0
+        )
+        {
+            self.currency = currency
+            self.value = value
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the savings opportunity for Amazon RDS storage recommendations after applying Savings Plans discounts. Savings opportunity represents the estimated monthly savings after applying Savings Plans discounts. You can achieve this by implementing a given Compute Optimizer recommendation.
+    public struct RDSStorageSavingsOpportunityAfterDiscounts {
+        /// The estimated monthly savings possible by adopting Compute Optimizer’s Amazon RDS storage recommendations. This includes any applicable Savings Plans discounts.
+        public var estimatedMonthlySavings: ComputeOptimizerClientTypes.RDSStorageEstimatedMonthlySavings?
+        /// The estimated monthly savings possible as a percentage of monthly cost by adopting Compute Optimizer’s Amazon RDS storage recommendations. This includes any applicable Savings Plans discounts.
+        public var savingsOpportunityPercentage: Swift.Double
+
+        public init(
+            estimatedMonthlySavings: ComputeOptimizerClientTypes.RDSStorageEstimatedMonthlySavings? = nil,
+            savingsOpportunityPercentage: Swift.Double = 0.0
+        )
+        {
+            self.estimatedMonthlySavings = estimatedMonthlySavings
+            self.savingsOpportunityPercentage = savingsOpportunityPercentage
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the recommendation options for Amazon RDS storage.
+    public struct RDSDBStorageRecommendationOption {
+        /// The rank identifier of the RDS storage recommendation option.
+        public var rank: Swift.Int
+        /// Describes the savings opportunity for recommendations of a given resource type or for the recommendation option of an individual resource. Savings opportunity represents the estimated monthly savings you can achieve by implementing a given Compute Optimizer recommendation. Savings opportunity data requires that you opt in to Cost Explorer, as well as activate Receive Amazon EC2 resource recommendations in the Cost Explorer preferences page. That creates a connection between Cost Explorer and Compute Optimizer. With this connection, Cost Explorer generates savings estimates considering the price of existing resources, the price of recommended resources, and historical usage data. Estimated monthly savings reflects the projected dollar savings associated with each of the recommendations generated. For more information, see [Enabling Cost Explorer](https://docs.aws.amazon.com/cost-management/latest/userguide/ce-enable.html) and [Optimizing your cost with Rightsizing Recommendations](https://docs.aws.amazon.com/cost-management/latest/userguide/ce-rightsizing.html) in the Cost Management User Guide.
+        public var savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity?
+        /// Describes the savings opportunity for Amazon RDS storage recommendations or for the recommendation option. Savings opportunity represents the estimated monthly savings after applying Savings Plans discounts. You can achieve this by implementing a given Compute Optimizer recommendation.
+        public var savingsOpportunityAfterDiscounts: ComputeOptimizerClientTypes.RDSStorageSavingsOpportunityAfterDiscounts?
+        /// The recommended storage configuration.
+        public var storageConfiguration: ComputeOptimizerClientTypes.DBStorageConfiguration?
+
+        public init(
+            rank: Swift.Int = 0,
+            savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity? = nil,
+            savingsOpportunityAfterDiscounts: ComputeOptimizerClientTypes.RDSStorageSavingsOpportunityAfterDiscounts? = nil,
+            storageConfiguration: ComputeOptimizerClientTypes.DBStorageConfiguration? = nil
+        )
+        {
+            self.rank = rank
+            self.savingsOpportunity = savingsOpportunity
+            self.savingsOpportunityAfterDiscounts = savingsOpportunityAfterDiscounts
+            self.storageConfiguration = storageConfiguration
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes an Amazon RDS recommendation.
+    public struct RDSDBRecommendation {
+        /// The Amazon Web Services account ID of the Amazon RDS.
+        public var accountId: Swift.String?
+        /// The DB instance class of the current RDS instance.
+        public var currentDBInstanceClass: Swift.String?
+        /// The configuration of the current RDS storage.
+        public var currentStorageConfiguration: ComputeOptimizerClientTypes.DBStorageConfiguration?
+        /// Describes the effective recommendation preferences for Amazon RDS.
+        public var effectiveRecommendationPreferences: ComputeOptimizerClientTypes.RDSEffectiveRecommendationPreferences?
+        /// The engine of the RDS instance.
+        public var engine: Swift.String?
+        /// The database engine version.
+        public var engineVersion: Swift.String?
+        /// This indicates if the RDS instance is idle or not.
+        public var idle: ComputeOptimizerClientTypes.Idle?
+        /// The finding classification of an Amazon RDS instance. Findings for Amazon RDS instance include:
+        ///
+        /// * Underprovisioned — When Compute Optimizer detects that there’s not enough resource specifications, an Amazon RDS is considered under-provisioned.
+        ///
+        /// * Overprovisioned — When Compute Optimizer detects that there’s excessive resource specifications, an Amazon RDS is considered over-provisioned.
+        ///
+        /// * Optimized — When the specifications of your Amazon RDS instance meet the performance requirements of your workload, the service is considered optimized.
+        public var instanceFinding: ComputeOptimizerClientTypes.RDSInstanceFinding?
+        /// The reason for the finding classification of an Amazon RDS instance.
+        public var instanceFindingReasonCodes: [ComputeOptimizerClientTypes.RDSInstanceFindingReasonCode]?
+        /// An array of objects that describe the recommendation options for the Amazon RDS instance.
+        public var instanceRecommendationOptions: [ComputeOptimizerClientTypes.RDSDBInstanceRecommendationOption]?
+        /// The timestamp of when the Amazon RDS recommendation was last generated.
+        public var lastRefreshTimestamp: Foundation.Date?
+        /// The number of days the Amazon RDS utilization metrics were analyzed.
+        public var lookbackPeriodInDays: Swift.Double
+        /// The ARN of the current Amazon RDS. The following is the format of the ARN: arn:aws:rds:{region}:{accountId}:db:{resourceName}
+        public var resourceArn: Swift.String?
+        /// The finding classification of Amazon RDS storage. Findings for Amazon RDS instance include:
+        ///
+        /// * Underprovisioned — When Compute Optimizer detects that there’s not enough storage, an Amazon RDS is considered under-provisioned.
+        ///
+        /// * Overprovisioned — When Compute Optimizer detects that there’s excessive storage, an Amazon RDS is considered over-provisioned.
+        ///
+        /// * Optimized — When the storage of your Amazon RDS meet the performance requirements of your workload, the service is considered optimized.
+        public var storageFinding: ComputeOptimizerClientTypes.RDSStorageFinding?
+        /// The reason for the finding classification of Amazon RDS storage.
+        public var storageFindingReasonCodes: [ComputeOptimizerClientTypes.RDSStorageFindingReasonCode]?
+        /// An array of objects that describe the recommendation options for Amazon RDS storage.
+        public var storageRecommendationOptions: [ComputeOptimizerClientTypes.RDSDBStorageRecommendationOption]?
+        /// A list of tags assigned to your Amazon RDS recommendations.
+        public var tags: [ComputeOptimizerClientTypes.Tag]?
+        /// An array of objects that describe the utilization metrics of the Amazon RDS.
+        public var utilizationMetrics: [ComputeOptimizerClientTypes.RDSDBUtilizationMetric]?
+
+        public init(
+            accountId: Swift.String? = nil,
+            currentDBInstanceClass: Swift.String? = nil,
+            currentStorageConfiguration: ComputeOptimizerClientTypes.DBStorageConfiguration? = nil,
+            effectiveRecommendationPreferences: ComputeOptimizerClientTypes.RDSEffectiveRecommendationPreferences? = nil,
+            engine: Swift.String? = nil,
+            engineVersion: Swift.String? = nil,
+            idle: ComputeOptimizerClientTypes.Idle? = nil,
+            instanceFinding: ComputeOptimizerClientTypes.RDSInstanceFinding? = nil,
+            instanceFindingReasonCodes: [ComputeOptimizerClientTypes.RDSInstanceFindingReasonCode]? = nil,
+            instanceRecommendationOptions: [ComputeOptimizerClientTypes.RDSDBInstanceRecommendationOption]? = nil,
+            lastRefreshTimestamp: Foundation.Date? = nil,
+            lookbackPeriodInDays: Swift.Double = 0.0,
+            resourceArn: Swift.String? = nil,
+            storageFinding: ComputeOptimizerClientTypes.RDSStorageFinding? = nil,
+            storageFindingReasonCodes: [ComputeOptimizerClientTypes.RDSStorageFindingReasonCode]? = nil,
+            storageRecommendationOptions: [ComputeOptimizerClientTypes.RDSDBStorageRecommendationOption]? = nil,
+            tags: [ComputeOptimizerClientTypes.Tag]? = nil,
+            utilizationMetrics: [ComputeOptimizerClientTypes.RDSDBUtilizationMetric]? = nil
+        )
+        {
+            self.accountId = accountId
+            self.currentDBInstanceClass = currentDBInstanceClass
+            self.currentStorageConfiguration = currentStorageConfiguration
+            self.effectiveRecommendationPreferences = effectiveRecommendationPreferences
+            self.engine = engine
+            self.engineVersion = engineVersion
+            self.idle = idle
+            self.instanceFinding = instanceFinding
+            self.instanceFindingReasonCodes = instanceFindingReasonCodes
+            self.instanceRecommendationOptions = instanceRecommendationOptions
+            self.lastRefreshTimestamp = lastRefreshTimestamp
+            self.lookbackPeriodInDays = lookbackPeriodInDays
+            self.resourceArn = resourceArn
+            self.storageFinding = storageFinding
+            self.storageFindingReasonCodes = storageFindingReasonCodes
+            self.storageRecommendationOptions = storageRecommendationOptions
+            self.tags = tags
+            self.utilizationMetrics = utilizationMetrics
+        }
+    }
+
+}
+
+public struct GetRDSDatabaseRecommendationsOutput {
+    /// An array of objects that describe errors of the request.
+    public var errors: [ComputeOptimizerClientTypes.GetRecommendationError]?
+    /// The token to advance to the next page of Amazon RDS recommendations.
+    public var nextToken: Swift.String?
+    /// An array of objects that describe the Amazon RDS recommendations.
+    public var rdsDBRecommendations: [ComputeOptimizerClientTypes.RDSDBRecommendation]?
+
+    public init(
+        errors: [ComputeOptimizerClientTypes.GetRecommendationError]? = nil,
+        nextToken: Swift.String? = nil,
+        rdsDBRecommendations: [ComputeOptimizerClientTypes.RDSDBRecommendation]? = nil
+    )
+    {
+        self.errors = errors
+        self.nextToken = nextToken
+        self.rdsDBRecommendations = rdsDBRecommendations
+    }
+}
+
 public struct GetRecommendationPreferencesInput {
     /// The maximum number of recommendation preferences to return with a single request. To retrieve the remaining results, make another request with the returned nextToken value.
     public var maxResults: Swift.Int?
     /// The token to advance to the next page of recommendation preferences.
     public var nextToken: Swift.String?
-    /// The target resource type of the recommendation preference for which to return preferences. The Ec2Instance option encompasses standalone instances and instances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group. The valid values for this parameter are Ec2Instance and AutoScalingGroup.
+    /// The target resource type of the recommendation preference for which to return preferences. The Ec2Instance option encompasses standalone instances and instances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group.
     /// This member is required.
     public var resourceType: ComputeOptimizerClientTypes.ResourceType?
     /// An object that describes the scope of the recommendation preference to return. You can return recommendation preferences that are created at the organization level (for management accounts of an organization only), account level, and resource level. For more information, see [Activating enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html) in the Compute Optimizer User Guide.
@@ -6662,7 +7772,7 @@ public struct PutRecommendationPreferencesInput {
     public var lookBackPeriod: ComputeOptimizerClientTypes.LookBackPeriodPreference?
     /// The preference to control which resource type values are considered when generating rightsizing recommendations. You can specify this preference as a combination of include and exclude lists. You must specify either an includeList or excludeList. If the preference is an empty set of resource type values, an error occurs. You can only set this preference for the Amazon EC2 instance and Auto Scaling group resource types.
     public var preferredResources: [ComputeOptimizerClientTypes.PreferredResource]?
-    /// The target resource type of the recommendation preference to create. The Ec2Instance option encompasses standalone instances and instances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group. The valid values for this parameter are Ec2Instance and AutoScalingGroup.
+    /// The target resource type of the recommendation preference to create. The Ec2Instance option encompasses standalone instances and instances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group.
     /// This member is required.
     public var resourceType: ComputeOptimizerClientTypes.ResourceType?
     /// The status of the savings estimation mode preference to create or update. Specify the AfterDiscounts status to activate the preference, or specify BeforeDiscounts to deactivate the preference. Only the account manager or delegated administrator of your organization can activate this preference. For more information, see [ Savings estimation mode](https://docs.aws.amazon.com/compute-optimizer/latest/ug/savings-estimation-mode.html) in the Compute Optimizer User Guide.
@@ -6813,6 +7923,13 @@ extension ExportLicenseRecommendationsInput {
     }
 }
 
+extension ExportRDSDatabaseRecommendationsInput {
+
+    static func urlPathProvider(_ value: ExportRDSDatabaseRecommendationsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension GetAutoScalingGroupRecommendationsInput {
 
     static func urlPathProvider(_ value: GetAutoScalingGroupRecommendationsInput) -> Swift.String? {
@@ -6886,6 +8003,20 @@ extension GetLambdaFunctionRecommendationsInput {
 extension GetLicenseRecommendationsInput {
 
     static func urlPathProvider(_ value: GetLicenseRecommendationsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetRDSDatabaseRecommendationProjectedMetricsInput {
+
+    static func urlPathProvider(_ value: GetRDSDatabaseRecommendationProjectedMetricsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetRDSDatabaseRecommendationsInput {
+
+    static func urlPathProvider(_ value: GetRDSDatabaseRecommendationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7019,6 +8150,20 @@ extension ExportLicenseRecommendationsInput {
     }
 }
 
+extension ExportRDSDatabaseRecommendationsInput {
+
+    static func write(value: ExportRDSDatabaseRecommendationsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accountIds"].writeList(value.accountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["fieldsToExport"].writeList(value.fieldsToExport, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ComputeOptimizerClientTypes.ExportableRDSDBField>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["fileFormat"].write(value.fileFormat)
+        try writer["filters"].writeList(value.filters, memberWritingClosure: ComputeOptimizerClientTypes.RDSDBRecommendationFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["includeMemberAccounts"].write(value.includeMemberAccounts)
+        try writer["recommendationPreferences"].write(value.recommendationPreferences, with: ComputeOptimizerClientTypes.RecommendationPreferences.write(value:to:))
+        try writer["s3DestinationConfig"].write(value.s3DestinationConfig, with: ComputeOptimizerClientTypes.S3DestinationConfig.write(value:to:))
+    }
+}
+
 extension GetAutoScalingGroupRecommendationsInput {
 
     static func write(value: GetAutoScalingGroupRecommendationsInput?, to writer: SmithyJSON.Writer) throws {
@@ -7140,6 +8285,32 @@ extension GetLicenseRecommendationsInput {
         try writer["filters"].writeList(value.filters, memberWritingClosure: ComputeOptimizerClientTypes.LicenseRecommendationFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
+        try writer["resourceArns"].writeList(value.resourceArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GetRDSDatabaseRecommendationProjectedMetricsInput {
+
+    static func write(value: GetRDSDatabaseRecommendationProjectedMetricsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["endTime"].writeTimestamp(value.endTime, format: .epochSeconds)
+        try writer["period"].write(value.period)
+        try writer["recommendationPreferences"].write(value.recommendationPreferences, with: ComputeOptimizerClientTypes.RecommendationPreferences.write(value:to:))
+        try writer["resourceArn"].write(value.resourceArn)
+        try writer["startTime"].writeTimestamp(value.startTime, format: .epochSeconds)
+        try writer["stat"].write(value.stat)
+    }
+}
+
+extension GetRDSDatabaseRecommendationsInput {
+
+    static func write(value: GetRDSDatabaseRecommendationsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accountIds"].writeList(value.accountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["filters"].writeList(value.filters, memberWritingClosure: ComputeOptimizerClientTypes.RDSDBRecommendationFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["recommendationPreferences"].write(value.recommendationPreferences, with: ComputeOptimizerClientTypes.RecommendationPreferences.write(value:to:))
         try writer["resourceArns"].writeList(value.resourceArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -7282,6 +8453,19 @@ extension ExportLicenseRecommendationsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ExportLicenseRecommendationsOutput()
+        value.jobId = try reader["jobId"].readIfPresent()
+        value.s3Destination = try reader["s3Destination"].readIfPresent(with: ComputeOptimizerClientTypes.S3Destination.read(from:))
+        return value
+    }
+}
+
+extension ExportRDSDatabaseRecommendationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ExportRDSDatabaseRecommendationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ExportRDSDatabaseRecommendationsOutput()
         value.jobId = try reader["jobId"].readIfPresent()
         value.s3Destination = try reader["s3Destination"].readIfPresent(with: ComputeOptimizerClientTypes.S3Destination.read(from:))
         return value
@@ -7436,6 +8620,32 @@ extension GetLicenseRecommendationsOutput {
         value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.GetRecommendationError.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.licenseRecommendations = try reader["licenseRecommendations"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.LicenseRecommendation.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension GetRDSDatabaseRecommendationProjectedMetricsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetRDSDatabaseRecommendationProjectedMetricsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetRDSDatabaseRecommendationProjectedMetricsOutput()
+        value.recommendedOptionProjectedMetrics = try reader["recommendedOptionProjectedMetrics"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.RDSDatabaseRecommendedOptionProjectedMetric.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GetRDSDatabaseRecommendationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetRDSDatabaseRecommendationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetRDSDatabaseRecommendationsOutput()
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.GetRecommendationError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.rdsDBRecommendations = try reader["rdsDBRecommendations"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.RDSDBRecommendation.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -7634,6 +8844,27 @@ enum ExportLambdaFunctionRecommendationsOutputError {
 }
 
 enum ExportLicenseRecommendationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "MissingAuthenticationToken": return try MissingAuthenticationToken.makeError(baseError: baseError)
+            case "OptInRequiredException": return try OptInRequiredException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ExportRDSDatabaseRecommendationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -7861,6 +9092,48 @@ enum GetLambdaFunctionRecommendationsOutputError {
 }
 
 enum GetLicenseRecommendationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "MissingAuthenticationToken": return try MissingAuthenticationToken.makeError(baseError: baseError)
+            case "OptInRequiredException": return try OptInRequiredException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetRDSDatabaseRecommendationProjectedMetricsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "MissingAuthenticationToken": return try MissingAuthenticationToken.makeError(baseError: baseError)
+            case "OptInRequiredException": return try OptInRequiredException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetRDSDatabaseRecommendationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -8129,33 +9402,12 @@ extension ComputeOptimizerClientTypes.AutoScalingGroupRecommendation {
         value.utilizationMetrics = try reader["utilizationMetrics"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.UtilizationMetric.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.lookBackPeriodInDays = try reader["lookBackPeriodInDays"].readIfPresent() ?? 0
         value.currentConfiguration = try reader["currentConfiguration"].readIfPresent(with: ComputeOptimizerClientTypes.AutoScalingGroupConfiguration.read(from:))
+        value.currentInstanceGpuInfo = try reader["currentInstanceGpuInfo"].readIfPresent(with: ComputeOptimizerClientTypes.GpuInfo.read(from:))
         value.recommendationOptions = try reader["recommendationOptions"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.AutoScalingGroupRecommendationOption.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.lastRefreshTimestamp = try reader["lastRefreshTimestamp"].readTimestampIfPresent(format: .epochSeconds)
         value.currentPerformanceRisk = try reader["currentPerformanceRisk"].readIfPresent()
         value.effectiveRecommendationPreferences = try reader["effectiveRecommendationPreferences"].readIfPresent(with: ComputeOptimizerClientTypes.EffectiveRecommendationPreferences.read(from:))
         value.inferredWorkloadTypes = try reader["inferredWorkloadTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ComputeOptimizerClientTypes.InferredWorkloadType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.currentInstanceGpuInfo = try reader["currentInstanceGpuInfo"].readIfPresent(with: ComputeOptimizerClientTypes.GpuInfo.read(from:))
-        return value
-    }
-}
-
-extension ComputeOptimizerClientTypes.GpuInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.GpuInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.GpuInfo()
-        value.gpus = try reader["gpus"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.Gpu.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ComputeOptimizerClientTypes.Gpu {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.Gpu {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.Gpu()
-        value.gpuCount = try reader["gpuCount"].readIfPresent() ?? 0
-        value.gpuMemorySizeInMiB = try reader["gpuMemorySizeInMiB"].readIfPresent() ?? 0
         return value
     }
 }
@@ -8255,13 +9507,13 @@ extension ComputeOptimizerClientTypes.AutoScalingGroupRecommendationOption {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.AutoScalingGroupRecommendationOption()
         value.configuration = try reader["configuration"].readIfPresent(with: ComputeOptimizerClientTypes.AutoScalingGroupConfiguration.read(from:))
+        value.instanceGpuInfo = try reader["instanceGpuInfo"].readIfPresent(with: ComputeOptimizerClientTypes.GpuInfo.read(from:))
         value.projectedUtilizationMetrics = try reader["projectedUtilizationMetrics"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.UtilizationMetric.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.performanceRisk = try reader["performanceRisk"].readIfPresent() ?? 0
         value.rank = try reader["rank"].readIfPresent() ?? 0
         value.savingsOpportunity = try reader["savingsOpportunity"].readIfPresent(with: ComputeOptimizerClientTypes.SavingsOpportunity.read(from:))
-        value.migrationEffort = try reader["migrationEffort"].readIfPresent()
-        value.instanceGpuInfo = try reader["instanceGpuInfo"].readIfPresent(with: ComputeOptimizerClientTypes.GpuInfo.read(from:))
         value.savingsOpportunityAfterDiscounts = try reader["savingsOpportunityAfterDiscounts"].readIfPresent(with: ComputeOptimizerClientTypes.AutoScalingGroupSavingsOpportunityAfterDiscounts.read(from:))
+        value.migrationEffort = try reader["migrationEffort"].readIfPresent()
         return value
     }
 }
@@ -8322,6 +9574,27 @@ extension ComputeOptimizerClientTypes.UtilizationMetric {
     }
 }
 
+extension ComputeOptimizerClientTypes.GpuInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.GpuInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.GpuInfo()
+        value.gpus = try reader["gpus"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.Gpu.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.Gpu {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.Gpu {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.Gpu()
+        value.gpuCount = try reader["gpuCount"].readIfPresent() ?? 0
+        value.gpuMemorySizeInMiB = try reader["gpuMemorySizeInMiB"].readIfPresent() ?? 0
+        return value
+    }
+}
+
 extension ComputeOptimizerClientTypes.AutoScalingGroupConfiguration {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.AutoScalingGroupConfiguration {
@@ -8361,8 +9634,19 @@ extension ComputeOptimizerClientTypes.VolumeRecommendation {
         value.volumeRecommendationOptions = try reader["volumeRecommendationOptions"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.VolumeRecommendationOption.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.lastRefreshTimestamp = try reader["lastRefreshTimestamp"].readTimestampIfPresent(format: .epochSeconds)
         value.currentPerformanceRisk = try reader["currentPerformanceRisk"].readIfPresent()
-        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.effectiveRecommendationPreferences = try reader["effectiveRecommendationPreferences"].readIfPresent(with: ComputeOptimizerClientTypes.EBSEffectiveRecommendationPreferences.read(from:))
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.Tag {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.Tag()
+        value.key = try reader["key"].readIfPresent()
+        value.value = try reader["value"].readIfPresent()
         return value
     }
 }
@@ -8383,17 +9667,6 @@ extension ComputeOptimizerClientTypes.EBSSavingsEstimationMode {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.EBSSavingsEstimationMode()
         value.source = try reader["source"].readIfPresent()
-        return value
-    }
-}
-
-extension ComputeOptimizerClientTypes.Tag {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.Tag()
-        value.key = try reader["key"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
         return value
     }
 }
@@ -8518,14 +9791,14 @@ extension ComputeOptimizerClientTypes.InstanceRecommendationOption {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.InstanceRecommendationOption()
         value.instanceType = try reader["instanceType"].readIfPresent()
+        value.instanceGpuInfo = try reader["instanceGpuInfo"].readIfPresent(with: ComputeOptimizerClientTypes.GpuInfo.read(from:))
         value.projectedUtilizationMetrics = try reader["projectedUtilizationMetrics"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.UtilizationMetric.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.platformDifferences = try reader["platformDifferences"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ComputeOptimizerClientTypes.PlatformDifference>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.performanceRisk = try reader["performanceRisk"].readIfPresent() ?? 0
         value.rank = try reader["rank"].readIfPresent() ?? 0
         value.savingsOpportunity = try reader["savingsOpportunity"].readIfPresent(with: ComputeOptimizerClientTypes.SavingsOpportunity.read(from:))
-        value.migrationEffort = try reader["migrationEffort"].readIfPresent()
-        value.instanceGpuInfo = try reader["instanceGpuInfo"].readIfPresent(with: ComputeOptimizerClientTypes.GpuInfo.read(from:))
         value.savingsOpportunityAfterDiscounts = try reader["savingsOpportunityAfterDiscounts"].readIfPresent(with: ComputeOptimizerClientTypes.InstanceSavingsOpportunityAfterDiscounts.read(from:))
+        value.migrationEffort = try reader["migrationEffort"].readIfPresent()
         return value
     }
 }
@@ -8617,8 +9890,8 @@ extension ComputeOptimizerClientTypes.ECSServiceRecommendation {
         value.findingReasonCodes = try reader["findingReasonCodes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ComputeOptimizerClientTypes.ECSServiceRecommendationFindingReasonCode>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.serviceRecommendationOptions = try reader["serviceRecommendationOptions"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.ECSServiceRecommendationOption.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.currentPerformanceRisk = try reader["currentPerformanceRisk"].readIfPresent()
-        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.effectiveRecommendationPreferences = try reader["effectiveRecommendationPreferences"].readIfPresent(with: ComputeOptimizerClientTypes.ECSEffectiveRecommendationPreferences.read(from:))
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -8651,31 +9924,9 @@ extension ComputeOptimizerClientTypes.ECSServiceRecommendationOption {
         value.memory = try reader["memory"].readIfPresent()
         value.cpu = try reader["cpu"].readIfPresent()
         value.savingsOpportunity = try reader["savingsOpportunity"].readIfPresent(with: ComputeOptimizerClientTypes.SavingsOpportunity.read(from:))
+        value.savingsOpportunityAfterDiscounts = try reader["savingsOpportunityAfterDiscounts"].readIfPresent(with: ComputeOptimizerClientTypes.ECSSavingsOpportunityAfterDiscounts.read(from:))
         value.projectedUtilizationMetrics = try reader["projectedUtilizationMetrics"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.ECSServiceProjectedUtilizationMetric.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.containerRecommendations = try reader["containerRecommendations"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.ContainerRecommendation.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.savingsOpportunityAfterDiscounts = try reader["savingsOpportunityAfterDiscounts"].readIfPresent(with: ComputeOptimizerClientTypes.ECSSavingsOpportunityAfterDiscounts.read(from:))
-        return value
-    }
-}
-
-extension ComputeOptimizerClientTypes.ECSSavingsOpportunityAfterDiscounts {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ECSSavingsOpportunityAfterDiscounts {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.ECSSavingsOpportunityAfterDiscounts()
-        value.savingsOpportunityPercentage = try reader["savingsOpportunityPercentage"].readIfPresent() ?? 0
-        value.estimatedMonthlySavings = try reader["estimatedMonthlySavings"].readIfPresent(with: ComputeOptimizerClientTypes.ECSEstimatedMonthlySavings.read(from:))
-        return value
-    }
-}
-
-extension ComputeOptimizerClientTypes.ECSEstimatedMonthlySavings {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ECSEstimatedMonthlySavings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.ECSEstimatedMonthlySavings()
-        value.currency = try reader["currency"].readIfPresent()
-        value.value = try reader["value"].readIfPresent() ?? 0
         return value
     }
 }
@@ -8712,6 +9963,28 @@ extension ComputeOptimizerClientTypes.ECSServiceProjectedUtilizationMetric {
         value.statistic = try reader["statistic"].readIfPresent()
         value.lowerBoundValue = try reader["lowerBoundValue"].readIfPresent() ?? 0
         value.upperBoundValue = try reader["upperBoundValue"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.ECSSavingsOpportunityAfterDiscounts {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ECSSavingsOpportunityAfterDiscounts {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.ECSSavingsOpportunityAfterDiscounts()
+        value.savingsOpportunityPercentage = try reader["savingsOpportunityPercentage"].readIfPresent() ?? 0
+        value.estimatedMonthlySavings = try reader["estimatedMonthlySavings"].readIfPresent(with: ComputeOptimizerClientTypes.ECSEstimatedMonthlySavings.read(from:))
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.ECSEstimatedMonthlySavings {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ECSEstimatedMonthlySavings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.ECSEstimatedMonthlySavings()
+        value.currency = try reader["currency"].readIfPresent()
+        value.value = try reader["value"].readIfPresent() ?? 0
         return value
     }
 }
@@ -8784,8 +10057,8 @@ extension ComputeOptimizerClientTypes.LambdaFunctionRecommendation {
         value.findingReasonCodes = try reader["findingReasonCodes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ComputeOptimizerClientTypes.LambdaFunctionRecommendationFindingReasonCode>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.memorySizeRecommendationOptions = try reader["memorySizeRecommendationOptions"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.LambdaFunctionMemoryRecommendationOption.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.currentPerformanceRisk = try reader["currentPerformanceRisk"].readIfPresent()
-        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.effectiveRecommendationPreferences = try reader["effectiveRecommendationPreferences"].readIfPresent(with: ComputeOptimizerClientTypes.LambdaEffectiveRecommendationPreferences.read(from:))
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -8926,6 +10199,178 @@ extension ComputeOptimizerClientTypes.MetricSource {
         var value = ComputeOptimizerClientTypes.MetricSource()
         value.provider = try reader["provider"].readIfPresent()
         value.providerArn = try reader["providerArn"].readIfPresent()
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.RDSDatabaseRecommendedOptionProjectedMetric {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.RDSDatabaseRecommendedOptionProjectedMetric {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.RDSDatabaseRecommendedOptionProjectedMetric()
+        value.recommendedDBInstanceClass = try reader["recommendedDBInstanceClass"].readIfPresent()
+        value.rank = try reader["rank"].readIfPresent() ?? 0
+        value.projectedMetrics = try reader["projectedMetrics"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.RDSDatabaseProjectedMetric.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.RDSDatabaseProjectedMetric {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.RDSDatabaseProjectedMetric {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.RDSDatabaseProjectedMetric()
+        value.name = try reader["name"].readIfPresent()
+        value.timestamps = try reader["timestamps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.timestampReadingClosure(format: .epochSeconds), memberNodeInfo: "member", isFlattened: false)
+        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.RDSDBRecommendation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.RDSDBRecommendation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.RDSDBRecommendation()
+        value.resourceArn = try reader["resourceArn"].readIfPresent()
+        value.accountId = try reader["accountId"].readIfPresent()
+        value.engine = try reader["engine"].readIfPresent()
+        value.engineVersion = try reader["engineVersion"].readIfPresent()
+        value.currentDBInstanceClass = try reader["currentDBInstanceClass"].readIfPresent()
+        value.currentStorageConfiguration = try reader["currentStorageConfiguration"].readIfPresent(with: ComputeOptimizerClientTypes.DBStorageConfiguration.read(from:))
+        value.idle = try reader["idle"].readIfPresent()
+        value.instanceFinding = try reader["instanceFinding"].readIfPresent()
+        value.storageFinding = try reader["storageFinding"].readIfPresent()
+        value.instanceFindingReasonCodes = try reader["instanceFindingReasonCodes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ComputeOptimizerClientTypes.RDSInstanceFindingReasonCode>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.storageFindingReasonCodes = try reader["storageFindingReasonCodes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ComputeOptimizerClientTypes.RDSStorageFindingReasonCode>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.instanceRecommendationOptions = try reader["instanceRecommendationOptions"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.RDSDBInstanceRecommendationOption.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.storageRecommendationOptions = try reader["storageRecommendationOptions"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.RDSDBStorageRecommendationOption.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.utilizationMetrics = try reader["utilizationMetrics"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.RDSDBUtilizationMetric.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.effectiveRecommendationPreferences = try reader["effectiveRecommendationPreferences"].readIfPresent(with: ComputeOptimizerClientTypes.RDSEffectiveRecommendationPreferences.read(from:))
+        value.lookbackPeriodInDays = try reader["lookbackPeriodInDays"].readIfPresent() ?? 0
+        value.lastRefreshTimestamp = try reader["lastRefreshTimestamp"].readTimestampIfPresent(format: .epochSeconds)
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.RDSEffectiveRecommendationPreferences {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.RDSEffectiveRecommendationPreferences {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.RDSEffectiveRecommendationPreferences()
+        value.cpuVendorArchitectures = try reader["cpuVendorArchitectures"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ComputeOptimizerClientTypes.CpuVendorArchitecture>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.enhancedInfrastructureMetrics = try reader["enhancedInfrastructureMetrics"].readIfPresent()
+        value.lookBackPeriod = try reader["lookBackPeriod"].readIfPresent()
+        value.savingsEstimationMode = try reader["savingsEstimationMode"].readIfPresent(with: ComputeOptimizerClientTypes.RDSSavingsEstimationMode.read(from:))
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.RDSSavingsEstimationMode {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.RDSSavingsEstimationMode {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.RDSSavingsEstimationMode()
+        value.source = try reader["source"].readIfPresent()
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.RDSDBUtilizationMetric {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.RDSDBUtilizationMetric {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.RDSDBUtilizationMetric()
+        value.name = try reader["name"].readIfPresent()
+        value.statistic = try reader["statistic"].readIfPresent()
+        value.value = try reader["value"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.RDSDBStorageRecommendationOption {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.RDSDBStorageRecommendationOption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.RDSDBStorageRecommendationOption()
+        value.storageConfiguration = try reader["storageConfiguration"].readIfPresent(with: ComputeOptimizerClientTypes.DBStorageConfiguration.read(from:))
+        value.rank = try reader["rank"].readIfPresent() ?? 0
+        value.savingsOpportunity = try reader["savingsOpportunity"].readIfPresent(with: ComputeOptimizerClientTypes.SavingsOpportunity.read(from:))
+        value.savingsOpportunityAfterDiscounts = try reader["savingsOpportunityAfterDiscounts"].readIfPresent(with: ComputeOptimizerClientTypes.RDSStorageSavingsOpportunityAfterDiscounts.read(from:))
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.RDSStorageSavingsOpportunityAfterDiscounts {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.RDSStorageSavingsOpportunityAfterDiscounts {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.RDSStorageSavingsOpportunityAfterDiscounts()
+        value.savingsOpportunityPercentage = try reader["savingsOpportunityPercentage"].readIfPresent() ?? 0
+        value.estimatedMonthlySavings = try reader["estimatedMonthlySavings"].readIfPresent(with: ComputeOptimizerClientTypes.RDSStorageEstimatedMonthlySavings.read(from:))
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.RDSStorageEstimatedMonthlySavings {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.RDSStorageEstimatedMonthlySavings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.RDSStorageEstimatedMonthlySavings()
+        value.currency = try reader["currency"].readIfPresent()
+        value.value = try reader["value"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.DBStorageConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.DBStorageConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.DBStorageConfiguration()
+        value.storageType = try reader["storageType"].readIfPresent()
+        value.allocatedStorage = try reader["allocatedStorage"].readIfPresent() ?? 0
+        value.iops = try reader["iops"].readIfPresent()
+        value.maxAllocatedStorage = try reader["maxAllocatedStorage"].readIfPresent()
+        value.storageThroughput = try reader["storageThroughput"].readIfPresent()
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.RDSDBInstanceRecommendationOption {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.RDSDBInstanceRecommendationOption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.RDSDBInstanceRecommendationOption()
+        value.dbInstanceClass = try reader["dbInstanceClass"].readIfPresent()
+        value.projectedUtilizationMetrics = try reader["projectedUtilizationMetrics"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.RDSDBUtilizationMetric.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.performanceRisk = try reader["performanceRisk"].readIfPresent() ?? 0
+        value.rank = try reader["rank"].readIfPresent() ?? 0
+        value.savingsOpportunity = try reader["savingsOpportunity"].readIfPresent(with: ComputeOptimizerClientTypes.SavingsOpportunity.read(from:))
+        value.savingsOpportunityAfterDiscounts = try reader["savingsOpportunityAfterDiscounts"].readIfPresent(with: ComputeOptimizerClientTypes.RDSInstanceSavingsOpportunityAfterDiscounts.read(from:))
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.RDSInstanceSavingsOpportunityAfterDiscounts {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.RDSInstanceSavingsOpportunityAfterDiscounts {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.RDSInstanceSavingsOpportunityAfterDiscounts()
+        value.savingsOpportunityPercentage = try reader["savingsOpportunityPercentage"].readIfPresent() ?? 0
+        value.estimatedMonthlySavings = try reader["estimatedMonthlySavings"].readIfPresent(with: ComputeOptimizerClientTypes.RDSInstanceEstimatedMonthlySavings.read(from:))
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.RDSInstanceEstimatedMonthlySavings {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.RDSInstanceEstimatedMonthlySavings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.RDSInstanceEstimatedMonthlySavings()
+        value.currency = try reader["currency"].readIfPresent()
+        value.value = try reader["value"].readIfPresent() ?? 0
         return value
     }
 }
@@ -9092,6 +10537,15 @@ extension ComputeOptimizerClientTypes.LambdaFunctionRecommendationFilter {
 extension ComputeOptimizerClientTypes.LicenseRecommendationFilter {
 
     static func write(value: ComputeOptimizerClientTypes.LicenseRecommendationFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ComputeOptimizerClientTypes.RDSDBRecommendationFilter {
+
+    static func write(value: ComputeOptimizerClientTypes.RDSDBRecommendationFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["name"].write(value.name)
         try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)

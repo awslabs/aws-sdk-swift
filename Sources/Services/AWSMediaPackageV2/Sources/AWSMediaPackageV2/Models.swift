@@ -288,10 +288,12 @@ extension MediaPackageV2ClientTypes {
         case noneModeWithTimingSource
         case numManifestsHigh
         case numManifestsLow
+        case onlyCmafInputTypeAllowForceEndpointErrorConfiguration
         case periodTriggersNoneSpecifiedWithAdditionalValues
         case roleArnInvalidFormat
         case roleArnLengthOutOfRange
         case roleArnNotAssumable
+        case sourceDisruptionsEnabledIncorrectly
         case timingSourceMissing
         case tsContainerTypeWithDashManifest
         case updatePeriodSmallerThanSegmentDuration
@@ -337,10 +339,12 @@ extension MediaPackageV2ClientTypes {
                 .noneModeWithTimingSource,
                 .numManifestsHigh,
                 .numManifestsLow,
+                .onlyCmafInputTypeAllowForceEndpointErrorConfiguration,
                 .periodTriggersNoneSpecifiedWithAdditionalValues,
                 .roleArnInvalidFormat,
                 .roleArnLengthOutOfRange,
                 .roleArnNotAssumable,
+                .sourceDisruptionsEnabledIncorrectly,
                 .timingSourceMissing,
                 .tsContainerTypeWithDashManifest,
                 .updatePeriodSmallerThanSegmentDuration,
@@ -392,10 +396,12 @@ extension MediaPackageV2ClientTypes {
             case .noneModeWithTimingSource: return "NONE_MODE_WITH_TIMING_SOURCE"
             case .numManifestsHigh: return "NUM_MANIFESTS_HIGH"
             case .numManifestsLow: return "NUM_MANIFESTS_LOW"
+            case .onlyCmafInputTypeAllowForceEndpointErrorConfiguration: return "ONLY_CMAF_INPUT_TYPE_ALLOW_FORCE_ENDPOINT_ERROR_CONFIGURATION"
             case .periodTriggersNoneSpecifiedWithAdditionalValues: return "PERIOD_TRIGGERS_NONE_SPECIFIED_WITH_ADDITIONAL_VALUES"
             case .roleArnInvalidFormat: return "ROLE_ARN_INVALID_FORMAT"
             case .roleArnLengthOutOfRange: return "ROLE_ARN_LENGTH_OUT_OF_RANGE"
             case .roleArnNotAssumable: return "ROLE_ARN_NOT_ASSUMABLE"
+            case .sourceDisruptionsEnabledIncorrectly: return "SOURCE_DISRUPTIONS_ENABLED_INCORRECTLY"
             case .timingSourceMissing: return "TIMING_SOURCE_MISSING"
             case .tsContainerTypeWithDashManifest: return "TS_CONTAINER_TYPE_WITH_DASH_MANIFEST"
             case .updatePeriodSmallerThanSegmentDuration: return "UPDATE_PERIOD_SMALLER_THAN_SEGMENT_DURATION"
@@ -618,6 +624,35 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
+extension MediaPackageV2ClientTypes {
+
+    public enum InputType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cmaf
+        case hls
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InputType] {
+            return [
+                .cmaf,
+                .hls
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cmaf: return "CMAF"
+            case .hls: return "HLS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct CreateChannelInput {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
@@ -629,6 +664,12 @@ public struct CreateChannelInput {
     public var clientToken: Swift.String?
     /// Enter any descriptive text that helps you to identify the channel.
     public var description: Swift.String?
+    /// The input type will be an immutable field which will be used to define whether the channel will allow CMAF ingest or HLS ingest. If unprovided, it will default to HLS to preserve current behavior. The allowed values are:
+    ///
+    /// * HLS - The HLS streaming specification (which defines M3U8 manifests and TS segments).
+    ///
+    /// * CMAF - The DASH-IF CMAF Ingest specification (which defines CMAF segments with optional DASH manifests).
+    public var inputType: MediaPackageV2ClientTypes.InputType?
     /// A comma-separated list of tag key:value pairs that you define. For example: "Key1": "Value1",
     ///     "Key2": "Value2"
     public var tags: [Swift.String: Swift.String]?
@@ -638,6 +679,7 @@ public struct CreateChannelInput {
         channelName: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
+        inputType: MediaPackageV2ClientTypes.InputType? = nil,
         tags: [Swift.String: Swift.String]? = nil
     )
     {
@@ -645,6 +687,7 @@ public struct CreateChannelInput {
         self.channelName = channelName
         self.clientToken = clientToken
         self.description = description
+        self.inputType = inputType
         self.tags = tags
     }
 }
@@ -688,6 +731,12 @@ public struct CreateChannelOutput {
     public var eTag: Swift.String?
     /// The list of ingest endpoints.
     public var ingestEndpoints: [MediaPackageV2ClientTypes.IngestEndpoint]?
+    /// The input type will be an immutable field which will be used to define whether the channel will allow CMAF ingest or HLS ingest. If unprovided, it will default to HLS to preserve current behavior. The allowed values are:
+    ///
+    /// * HLS - The HLS streaming specification (which defines M3U8 manifests and TS segments).
+    ///
+    /// * CMAF - The DASH-IF CMAF Ingest specification (which defines CMAF segments with optional DASH manifests).
+    public var inputType: MediaPackageV2ClientTypes.InputType?
     /// The date and time the channel was modified.
     /// This member is required.
     public var modifiedAt: Foundation.Date?
@@ -702,6 +751,7 @@ public struct CreateChannelOutput {
         description: Swift.String? = nil,
         eTag: Swift.String? = nil,
         ingestEndpoints: [MediaPackageV2ClientTypes.IngestEndpoint]? = nil,
+        inputType: MediaPackageV2ClientTypes.InputType? = nil,
         modifiedAt: Foundation.Date? = nil,
         tags: [Swift.String: Swift.String]? = nil
     )
@@ -713,6 +763,7 @@ public struct CreateChannelOutput {
         self.description = description
         self.eTag = eTag
         self.ingestEndpoints = ingestEndpoints
+        self.inputType = inputType
         self.modifiedAt = modifiedAt
         self.tags = tags
     }
@@ -778,6 +829,12 @@ public struct GetChannelOutput {
     public var eTag: Swift.String?
     /// The list of ingest endpoints.
     public var ingestEndpoints: [MediaPackageV2ClientTypes.IngestEndpoint]?
+    /// The input type will be an immutable field which will be used to define whether the channel will allow CMAF ingest or HLS ingest. If unprovided, it will default to HLS to preserve current behavior. The allowed values are:
+    ///
+    /// * HLS - The HLS streaming specification (which defines M3U8 manifests and TS segments).
+    ///
+    /// * CMAF - The DASH-IF CMAF Ingest specification (which defines CMAF segments with optional DASH manifests).
+    public var inputType: MediaPackageV2ClientTypes.InputType?
     /// The date and time the channel was modified.
     /// This member is required.
     public var modifiedAt: Foundation.Date?
@@ -792,6 +849,7 @@ public struct GetChannelOutput {
         description: Swift.String? = nil,
         eTag: Swift.String? = nil,
         ingestEndpoints: [MediaPackageV2ClientTypes.IngestEndpoint]? = nil,
+        inputType: MediaPackageV2ClientTypes.InputType? = nil,
         modifiedAt: Foundation.Date? = nil,
         tags: [Swift.String: Swift.String]? = nil
     )
@@ -803,6 +861,7 @@ public struct GetChannelOutput {
         self.description = description
         self.eTag = eTag
         self.ingestEndpoints = ingestEndpoints
+        self.inputType = inputType
         self.modifiedAt = modifiedAt
         self.tags = tags
     }
@@ -846,6 +905,12 @@ extension MediaPackageV2ClientTypes {
         public var createdAt: Foundation.Date?
         /// Any descriptive information that you want to add to the channel for future identification purposes.
         public var description: Swift.String?
+        /// The input type will be an immutable field which will be used to define whether the channel will allow CMAF ingest or HLS ingest. If unprovided, it will default to HLS to preserve current behavior. The allowed values are:
+        ///
+        /// * HLS - The HLS streaming specification (which defines M3U8 manifests and TS segments).
+        ///
+        /// * CMAF - The DASH-IF CMAF Ingest specification (which defines CMAF segments with optional DASH manifests).
+        public var inputType: MediaPackageV2ClientTypes.InputType?
         /// The date and time the channel was modified.
         /// This member is required.
         public var modifiedAt: Foundation.Date?
@@ -856,6 +921,7 @@ extension MediaPackageV2ClientTypes {
             channelName: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
+            inputType: MediaPackageV2ClientTypes.InputType? = nil,
             modifiedAt: Foundation.Date? = nil
         )
         {
@@ -864,6 +930,7 @@ extension MediaPackageV2ClientTypes {
             self.channelName = channelName
             self.createdAt = createdAt
             self.description = description
+            self.inputType = inputType
             self.modifiedAt = modifiedAt
         }
     }
@@ -1165,6 +1232,65 @@ extension MediaPackageV2ClientTypes {
             self.segmentTemplateFormat = segmentTemplateFormat
             self.suggestedPresentationDelaySeconds = suggestedPresentationDelaySeconds
             self.utcTiming = utcTiming
+        }
+    }
+
+}
+
+extension MediaPackageV2ClientTypes {
+
+    public enum EndpointErrorCondition: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case incompleteManifest
+        case missingDrmKey
+        case slateInput
+        case staleManifest
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EndpointErrorCondition] {
+            return [
+                .incompleteManifest,
+                .missingDrmKey,
+                .slateInput,
+                .staleManifest
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .incompleteManifest: return "INCOMPLETE_MANIFEST"
+            case .missingDrmKey: return "MISSING_DRM_KEY"
+            case .slateInput: return "SLATE_INPUT"
+            case .staleManifest: return "STALE_MANIFEST"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+    /// The failover settings for the endpoint.
+    public struct ForceEndpointErrorConfiguration {
+        /// The failover conditions for the endpoint. The options are:
+        ///
+        /// * STALE_MANIFEST - The manifest stalled and there are no new segments or parts.
+        ///
+        /// * INCOMPLETE_MANIFEST - There is a gap in the manifest.
+        ///
+        /// * MISSING_DRM_KEY - Key rotation is enabled but we're unable to fetch the key for the current key period.
+        ///
+        /// * SLATE_INPUT - The segments which contain slate content are considered to be missing content.
+        public var endpointErrorConditions: [MediaPackageV2ClientTypes.EndpointErrorCondition]?
+
+        public init(
+            endpointErrorConditions: [MediaPackageV2ClientTypes.EndpointErrorCondition]? = nil
+        )
+        {
+            self.endpointErrorConditions = endpointErrorConditions
         }
     }
 
@@ -1707,6 +1833,8 @@ public struct CreateOriginEndpointInput {
     public var dashManifests: [MediaPackageV2ClientTypes.CreateDashManifestConfiguration]?
     /// Enter any descriptive text that helps you to identify the origin endpoint.
     public var description: Swift.String?
+    /// The failover settings for the endpoint.
+    public var forceEndpointErrorConfiguration: MediaPackageV2ClientTypes.ForceEndpointErrorConfiguration?
     /// An HTTP live streaming (HLS) manifest configuration.
     public var hlsManifests: [MediaPackageV2ClientTypes.CreateHlsManifestConfiguration]?
     /// A low-latency HLS manifest configuration.
@@ -1729,6 +1857,7 @@ public struct CreateOriginEndpointInput {
         containerType: MediaPackageV2ClientTypes.ContainerType? = nil,
         dashManifests: [MediaPackageV2ClientTypes.CreateDashManifestConfiguration]? = nil,
         description: Swift.String? = nil,
+        forceEndpointErrorConfiguration: MediaPackageV2ClientTypes.ForceEndpointErrorConfiguration? = nil,
         hlsManifests: [MediaPackageV2ClientTypes.CreateHlsManifestConfiguration]? = nil,
         lowLatencyHlsManifests: [MediaPackageV2ClientTypes.CreateLowLatencyHlsManifestConfiguration]? = nil,
         originEndpointName: Swift.String? = nil,
@@ -1743,6 +1872,7 @@ public struct CreateOriginEndpointInput {
         self.containerType = containerType
         self.dashManifests = dashManifests
         self.description = description
+        self.forceEndpointErrorConfiguration = forceEndpointErrorConfiguration
         self.hlsManifests = hlsManifests
         self.lowLatencyHlsManifests = lowLatencyHlsManifests
         self.originEndpointName = originEndpointName
@@ -1922,6 +2052,8 @@ public struct CreateOriginEndpointOutput {
     public var description: Swift.String?
     /// The current Entity Tag (ETag) associated with this resource. The entity tag can be used to safely make concurrent updates to the resource.
     public var eTag: Swift.String?
+    /// The failover settings for the endpoint.
+    public var forceEndpointErrorConfiguration: MediaPackageV2ClientTypes.ForceEndpointErrorConfiguration?
     /// An HTTP live streaming (HLS) manifest configuration.
     public var hlsManifests: [MediaPackageV2ClientTypes.GetHlsManifestConfiguration]?
     /// A low-latency HLS manifest configuration.
@@ -1949,6 +2081,7 @@ public struct CreateOriginEndpointOutput {
         dashManifests: [MediaPackageV2ClientTypes.GetDashManifestConfiguration]? = nil,
         description: Swift.String? = nil,
         eTag: Swift.String? = nil,
+        forceEndpointErrorConfiguration: MediaPackageV2ClientTypes.ForceEndpointErrorConfiguration? = nil,
         hlsManifests: [MediaPackageV2ClientTypes.GetHlsManifestConfiguration]? = nil,
         lowLatencyHlsManifests: [MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration]? = nil,
         modifiedAt: Foundation.Date? = nil,
@@ -1966,6 +2099,7 @@ public struct CreateOriginEndpointOutput {
         self.dashManifests = dashManifests
         self.description = description
         self.eTag = eTag
+        self.forceEndpointErrorConfiguration = forceEndpointErrorConfiguration
         self.hlsManifests = hlsManifests
         self.lowLatencyHlsManifests = lowLatencyHlsManifests
         self.modifiedAt = modifiedAt
@@ -2049,6 +2183,8 @@ public struct GetOriginEndpointOutput {
     public var description: Swift.String?
     /// The current Entity Tag (ETag) associated with this resource. The entity tag can be used to safely make concurrent updates to the resource.
     public var eTag: Swift.String?
+    /// The failover settings for the endpoint.
+    public var forceEndpointErrorConfiguration: MediaPackageV2ClientTypes.ForceEndpointErrorConfiguration?
     /// An HTTP live streaming (HLS) manifest configuration.
     public var hlsManifests: [MediaPackageV2ClientTypes.GetHlsManifestConfiguration]?
     /// A low-latency HLS manifest configuration.
@@ -2076,6 +2212,7 @@ public struct GetOriginEndpointOutput {
         dashManifests: [MediaPackageV2ClientTypes.GetDashManifestConfiguration]? = nil,
         description: Swift.String? = nil,
         eTag: Swift.String? = nil,
+        forceEndpointErrorConfiguration: MediaPackageV2ClientTypes.ForceEndpointErrorConfiguration? = nil,
         hlsManifests: [MediaPackageV2ClientTypes.GetHlsManifestConfiguration]? = nil,
         lowLatencyHlsManifests: [MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration]? = nil,
         modifiedAt: Foundation.Date? = nil,
@@ -2093,6 +2230,7 @@ public struct GetOriginEndpointOutput {
         self.dashManifests = dashManifests
         self.description = description
         self.eTag = eTag
+        self.forceEndpointErrorConfiguration = forceEndpointErrorConfiguration
         self.hlsManifests = hlsManifests
         self.lowLatencyHlsManifests = lowLatencyHlsManifests
         self.modifiedAt = modifiedAt
@@ -2221,6 +2359,8 @@ extension MediaPackageV2ClientTypes {
         public var dashManifests: [MediaPackageV2ClientTypes.ListDashManifestConfiguration]?
         /// Any descriptive information that you want to add to the origin endpoint for future identification purposes.
         public var description: Swift.String?
+        /// The failover settings for the endpoint.
+        public var forceEndpointErrorConfiguration: MediaPackageV2ClientTypes.ForceEndpointErrorConfiguration?
         /// An HTTP live streaming (HLS) manifest configuration.
         public var hlsManifests: [MediaPackageV2ClientTypes.ListHlsManifestConfiguration]?
         /// A low-latency HLS manifest configuration.
@@ -2239,6 +2379,7 @@ extension MediaPackageV2ClientTypes {
             createdAt: Foundation.Date? = nil,
             dashManifests: [MediaPackageV2ClientTypes.ListDashManifestConfiguration]? = nil,
             description: Swift.String? = nil,
+            forceEndpointErrorConfiguration: MediaPackageV2ClientTypes.ForceEndpointErrorConfiguration? = nil,
             hlsManifests: [MediaPackageV2ClientTypes.ListHlsManifestConfiguration]? = nil,
             lowLatencyHlsManifests: [MediaPackageV2ClientTypes.ListLowLatencyHlsManifestConfiguration]? = nil,
             modifiedAt: Foundation.Date? = nil,
@@ -2252,6 +2393,7 @@ extension MediaPackageV2ClientTypes {
             self.createdAt = createdAt
             self.dashManifests = dashManifests
             self.description = description
+            self.forceEndpointErrorConfiguration = forceEndpointErrorConfiguration
             self.hlsManifests = hlsManifests
             self.lowLatencyHlsManifests = lowLatencyHlsManifests
             self.modifiedAt = modifiedAt
@@ -2405,6 +2547,8 @@ public struct UpdateOriginEndpointInput {
     public var description: Swift.String?
     /// The expected current Entity Tag (ETag) for the resource. If the specified ETag does not match the resource's current entity tag, the update request will be rejected.
     public var eTag: Swift.String?
+    /// The failover settings for the endpoint.
+    public var forceEndpointErrorConfiguration: MediaPackageV2ClientTypes.ForceEndpointErrorConfiguration?
     /// An HTTP live streaming (HLS) manifest configuration.
     public var hlsManifests: [MediaPackageV2ClientTypes.CreateHlsManifestConfiguration]?
     /// A low-latency HLS manifest configuration.
@@ -2424,6 +2568,7 @@ public struct UpdateOriginEndpointInput {
         dashManifests: [MediaPackageV2ClientTypes.CreateDashManifestConfiguration]? = nil,
         description: Swift.String? = nil,
         eTag: Swift.String? = nil,
+        forceEndpointErrorConfiguration: MediaPackageV2ClientTypes.ForceEndpointErrorConfiguration? = nil,
         hlsManifests: [MediaPackageV2ClientTypes.CreateHlsManifestConfiguration]? = nil,
         lowLatencyHlsManifests: [MediaPackageV2ClientTypes.CreateLowLatencyHlsManifestConfiguration]? = nil,
         originEndpointName: Swift.String? = nil,
@@ -2437,6 +2582,7 @@ public struct UpdateOriginEndpointInput {
         self.dashManifests = dashManifests
         self.description = description
         self.eTag = eTag
+        self.forceEndpointErrorConfiguration = forceEndpointErrorConfiguration
         self.hlsManifests = hlsManifests
         self.lowLatencyHlsManifests = lowLatencyHlsManifests
         self.originEndpointName = originEndpointName
@@ -2467,6 +2613,8 @@ public struct UpdateOriginEndpointOutput {
     public var description: Swift.String?
     /// The current Entity Tag (ETag) associated with this resource. The entity tag can be used to safely make concurrent updates to the resource.
     public var eTag: Swift.String?
+    /// The failover settings for the endpoint.
+    public var forceEndpointErrorConfiguration: MediaPackageV2ClientTypes.ForceEndpointErrorConfiguration?
     /// An HTTP live streaming (HLS) manifest configuration.
     public var hlsManifests: [MediaPackageV2ClientTypes.GetHlsManifestConfiguration]?
     /// A low-latency HLS manifest configuration.
@@ -2494,6 +2642,7 @@ public struct UpdateOriginEndpointOutput {
         dashManifests: [MediaPackageV2ClientTypes.GetDashManifestConfiguration]? = nil,
         description: Swift.String? = nil,
         eTag: Swift.String? = nil,
+        forceEndpointErrorConfiguration: MediaPackageV2ClientTypes.ForceEndpointErrorConfiguration? = nil,
         hlsManifests: [MediaPackageV2ClientTypes.GetHlsManifestConfiguration]? = nil,
         lowLatencyHlsManifests: [MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration]? = nil,
         modifiedAt: Foundation.Date? = nil,
@@ -2511,6 +2660,7 @@ public struct UpdateOriginEndpointOutput {
         self.dashManifests = dashManifests
         self.description = description
         self.eTag = eTag
+        self.forceEndpointErrorConfiguration = forceEndpointErrorConfiguration
         self.hlsManifests = hlsManifests
         self.lowLatencyHlsManifests = lowLatencyHlsManifests
         self.modifiedAt = modifiedAt
@@ -2566,6 +2716,12 @@ public struct UpdateChannelOutput {
     public var eTag: Swift.String?
     /// The list of ingest endpoints.
     public var ingestEndpoints: [MediaPackageV2ClientTypes.IngestEndpoint]?
+    /// The input type will be an immutable field which will be used to define whether the channel will allow CMAF ingest or HLS ingest. If unprovided, it will default to HLS to preserve current behavior. The allowed values are:
+    ///
+    /// * HLS - The HLS streaming specification (which defines M3U8 manifests and TS segments).
+    ///
+    /// * CMAF - The DASH-IF CMAF Ingest specification (which defines CMAF segments with optional DASH manifests).
+    public var inputType: MediaPackageV2ClientTypes.InputType?
     /// The date and time the channel was modified.
     /// This member is required.
     public var modifiedAt: Foundation.Date?
@@ -2580,6 +2736,7 @@ public struct UpdateChannelOutput {
         description: Swift.String? = nil,
         eTag: Swift.String? = nil,
         ingestEndpoints: [MediaPackageV2ClientTypes.IngestEndpoint]? = nil,
+        inputType: MediaPackageV2ClientTypes.InputType? = nil,
         modifiedAt: Foundation.Date? = nil,
         tags: [Swift.String: Swift.String]? = nil
     )
@@ -2591,6 +2748,7 @@ public struct UpdateChannelOutput {
         self.description = description
         self.eTag = eTag
         self.ingestEndpoints = ingestEndpoints
+        self.inputType = inputType
         self.modifiedAt = modifiedAt
         self.tags = tags
     }
@@ -3332,6 +3490,7 @@ extension CreateChannelInput {
         guard let value else { return }
         try writer["ChannelName"].write(value.channelName)
         try writer["Description"].write(value.description)
+        try writer["InputType"].write(value.inputType)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -3353,6 +3512,7 @@ extension CreateOriginEndpointInput {
         try writer["ContainerType"].write(value.containerType)
         try writer["DashManifests"].writeList(value.dashManifests, memberWritingClosure: MediaPackageV2ClientTypes.CreateDashManifestConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Description"].write(value.description)
+        try writer["ForceEndpointErrorConfiguration"].write(value.forceEndpointErrorConfiguration, with: MediaPackageV2ClientTypes.ForceEndpointErrorConfiguration.write(value:to:))
         try writer["HlsManifests"].writeList(value.hlsManifests, memberWritingClosure: MediaPackageV2ClientTypes.CreateHlsManifestConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["LowLatencyHlsManifests"].writeList(value.lowLatencyHlsManifests, memberWritingClosure: MediaPackageV2ClientTypes.CreateLowLatencyHlsManifestConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["OriginEndpointName"].write(value.originEndpointName)
@@ -3409,6 +3569,7 @@ extension UpdateOriginEndpointInput {
         try writer["ContainerType"].write(value.containerType)
         try writer["DashManifests"].writeList(value.dashManifests, memberWritingClosure: MediaPackageV2ClientTypes.CreateDashManifestConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Description"].write(value.description)
+        try writer["ForceEndpointErrorConfiguration"].write(value.forceEndpointErrorConfiguration, with: MediaPackageV2ClientTypes.ForceEndpointErrorConfiguration.write(value:to:))
         try writer["HlsManifests"].writeList(value.hlsManifests, memberWritingClosure: MediaPackageV2ClientTypes.CreateHlsManifestConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["LowLatencyHlsManifests"].writeList(value.lowLatencyHlsManifests, memberWritingClosure: MediaPackageV2ClientTypes.CreateLowLatencyHlsManifestConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Segment"].write(value.segment, with: MediaPackageV2ClientTypes.Segment.write(value:to:))
@@ -3430,6 +3591,7 @@ extension CreateChannelOutput {
         value.description = try reader["Description"].readIfPresent()
         value.eTag = try reader["ETag"].readIfPresent()
         value.ingestEndpoints = try reader["IngestEndpoints"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.IngestEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.inputType = try reader["InputType"].readIfPresent()
         value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: .epochSeconds)
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
@@ -3470,6 +3632,7 @@ extension CreateOriginEndpointOutput {
         value.dashManifests = try reader["DashManifests"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.GetDashManifestConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.description = try reader["Description"].readIfPresent()
         value.eTag = try reader["ETag"].readIfPresent()
+        value.forceEndpointErrorConfiguration = try reader["ForceEndpointErrorConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.ForceEndpointErrorConfiguration.read(from:))
         value.hlsManifests = try reader["HlsManifests"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.GetHlsManifestConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.lowLatencyHlsManifests = try reader["LowLatencyHlsManifests"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: .epochSeconds)
@@ -3530,6 +3693,7 @@ extension GetChannelOutput {
         value.description = try reader["Description"].readIfPresent()
         value.eTag = try reader["ETag"].readIfPresent()
         value.ingestEndpoints = try reader["IngestEndpoints"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.IngestEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.inputType = try reader["InputType"].readIfPresent()
         value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: .epochSeconds)
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
@@ -3584,6 +3748,7 @@ extension GetOriginEndpointOutput {
         value.dashManifests = try reader["DashManifests"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.GetDashManifestConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.description = try reader["Description"].readIfPresent()
         value.eTag = try reader["ETag"].readIfPresent()
+        value.forceEndpointErrorConfiguration = try reader["ForceEndpointErrorConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.ForceEndpointErrorConfiguration.read(from:))
         value.hlsManifests = try reader["HlsManifests"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.GetHlsManifestConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.lowLatencyHlsManifests = try reader["LowLatencyHlsManifests"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: .epochSeconds)
@@ -3703,6 +3868,7 @@ extension UpdateChannelOutput {
         value.description = try reader["Description"].readIfPresent()
         value.eTag = try reader["ETag"].readIfPresent()
         value.ingestEndpoints = try reader["IngestEndpoints"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.IngestEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.inputType = try reader["InputType"].readIfPresent()
         value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: .epochSeconds)
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
@@ -3743,6 +3909,7 @@ extension UpdateOriginEndpointOutput {
         value.dashManifests = try reader["DashManifests"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.GetDashManifestConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.description = try reader["Description"].readIfPresent()
         value.eTag = try reader["ETag"].readIfPresent()
+        value.forceEndpointErrorConfiguration = try reader["ForceEndpointErrorConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.ForceEndpointErrorConfiguration.read(from:))
         value.hlsManifests = try reader["HlsManifests"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.GetHlsManifestConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.lowLatencyHlsManifests = try reader["LowLatencyHlsManifests"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: .epochSeconds)
@@ -4530,6 +4697,21 @@ extension MediaPackageV2ClientTypes.ScteDash {
     }
 }
 
+extension MediaPackageV2ClientTypes.ForceEndpointErrorConfiguration {
+
+    static func write(value: MediaPackageV2ClientTypes.ForceEndpointErrorConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EndpointErrorConditions"].writeList(value.endpointErrorConditions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaPackageV2ClientTypes.EndpointErrorCondition>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.ForceEndpointErrorConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.ForceEndpointErrorConfiguration()
+        value.endpointErrorConditions = try reader["EndpointErrorConditions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaPackageV2ClientTypes.EndpointErrorCondition>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension MediaPackageV2ClientTypes.ChannelGroupListConfiguration {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.ChannelGroupListConfiguration {
@@ -4555,6 +4737,7 @@ extension MediaPackageV2ClientTypes.ChannelListConfiguration {
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: .epochSeconds)
         value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: .epochSeconds)
         value.description = try reader["Description"].readIfPresent()
+        value.inputType = try reader["InputType"].readIfPresent()
         return value
     }
 }
@@ -4575,6 +4758,7 @@ extension MediaPackageV2ClientTypes.OriginEndpointListConfiguration {
         value.hlsManifests = try reader["HlsManifests"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.ListHlsManifestConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.lowLatencyHlsManifests = try reader["LowLatencyHlsManifests"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.ListLowLatencyHlsManifestConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.dashManifests = try reader["DashManifests"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.ListDashManifestConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.forceEndpointErrorConfiguration = try reader["ForceEndpointErrorConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.ForceEndpointErrorConfiguration.read(from:))
         return value
     }
 }

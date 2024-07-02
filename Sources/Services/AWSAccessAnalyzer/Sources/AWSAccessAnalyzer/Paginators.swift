@@ -5,6 +5,38 @@ import protocol ClientRuntime.PaginateToken
 import struct ClientRuntime.PaginatorSequence
 
 extension AccessAnalyzerClient {
+    /// Paginate over `[GetFindingRecommendationOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetFindingRecommendationInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetFindingRecommendationOutput`
+    public func getFindingRecommendationPaginated(input: GetFindingRecommendationInput) -> ClientRuntime.PaginatorSequence<GetFindingRecommendationInput, GetFindingRecommendationOutput> {
+        return ClientRuntime.PaginatorSequence<GetFindingRecommendationInput, GetFindingRecommendationOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getFindingRecommendation(input:))
+    }
+}
+
+extension GetFindingRecommendationInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> GetFindingRecommendationInput {
+        return GetFindingRecommendationInput(
+            analyzerArn: self.analyzerArn,
+            id: self.id,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == GetFindingRecommendationInput, OperationStackOutput == GetFindingRecommendationOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `getFindingRecommendationPaginated`
+    /// to access the nested member `[AccessAnalyzerClientTypes.RecommendedStep]`
+    /// - Returns: `[AccessAnalyzerClientTypes.RecommendedStep]`
+    public func recommendedSteps() async throws -> [AccessAnalyzerClientTypes.RecommendedStep] {
+        return try await self.asyncCompactMap { item in item.recommendedSteps }
+    }
+}
+extension AccessAnalyzerClient {
     /// Paginate over `[GetFindingV2Output]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

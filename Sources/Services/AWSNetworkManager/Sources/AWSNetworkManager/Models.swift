@@ -9,6 +9,7 @@ import enum Smithy.ClientError
 import enum SmithyReadWrite.ReaderError
 import enum SmithyReadWrite.ReadingClosures
 import enum SmithyReadWrite.WritingClosures
+import func SmithyReadWrite.listReadingClosure
 import func SmithyReadWrite.listWritingClosure
 import protocol AWSClientRuntime.AWSServiceError
 import protocol ClientRuntime.HTTPError
@@ -334,6 +335,30 @@ extension NetworkManagerClientTypes {
 }
 
 extension NetworkManagerClientTypes {
+    /// Describes proposed changes to a network function group.
+    public struct ProposedNetworkFunctionGroupChange {
+        /// The proposed new attachment policy rule number for the network function group.
+        public var attachmentPolicyRuleNumber: Swift.Int?
+        /// The proposed name change for the network function group name.
+        public var networkFunctionGroupName: Swift.String?
+        /// The list of proposed changes to the key-value tags associated with the network function group.
+        public var tags: [NetworkManagerClientTypes.Tag]?
+
+        public init(
+            attachmentPolicyRuleNumber: Swift.Int? = nil,
+            networkFunctionGroupName: Swift.String? = nil,
+            tags: [NetworkManagerClientTypes.Tag]? = nil
+        )
+        {
+            self.attachmentPolicyRuleNumber = attachmentPolicyRuleNumber
+            self.networkFunctionGroupName = networkFunctionGroupName
+            self.tags = tags
+        }
+    }
+
+}
+
+extension NetworkManagerClientTypes {
     /// Describes a proposed segment change. In some cases, the segment change must first be evaluated and accepted.
     public struct ProposedSegmentChange {
         /// The rule number in the policy document that applies to this change.
@@ -424,8 +449,12 @@ extension NetworkManagerClientTypes {
         public var createdAt: Foundation.Date?
         /// The Region where the edge is located.
         public var edgeLocation: Swift.String?
+        /// The name of the network function group.
+        public var networkFunctionGroupName: Swift.String?
         /// The ID of the attachment account owner.
         public var ownerAccountId: Swift.String?
+        /// Describes a proposed change to a network function group associated with the attachment.
+        public var proposedNetworkFunctionGroupChange: NetworkManagerClientTypes.ProposedNetworkFunctionGroupChange?
         /// The attachment to move from one segment to another.
         public var proposedSegmentChange: NetworkManagerClientTypes.ProposedSegmentChange?
         /// The attachment resource ARN.
@@ -447,7 +476,9 @@ extension NetworkManagerClientTypes {
             coreNetworkId: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
             edgeLocation: Swift.String? = nil,
+            networkFunctionGroupName: Swift.String? = nil,
             ownerAccountId: Swift.String? = nil,
+            proposedNetworkFunctionGroupChange: NetworkManagerClientTypes.ProposedNetworkFunctionGroupChange? = nil,
             proposedSegmentChange: NetworkManagerClientTypes.ProposedSegmentChange? = nil,
             resourceArn: Swift.String? = nil,
             segmentName: Swift.String? = nil,
@@ -463,7 +494,9 @@ extension NetworkManagerClientTypes {
             self.coreNetworkId = coreNetworkId
             self.createdAt = createdAt
             self.edgeLocation = edgeLocation
+            self.networkFunctionGroupName = networkFunctionGroupName
             self.ownerAccountId = ownerAccountId
+            self.proposedNetworkFunctionGroupChange = proposedNetworkFunctionGroupChange
             self.proposedSegmentChange = proposedSegmentChange
             self.resourceArn = resourceArn
             self.segmentName = segmentName
@@ -1141,6 +1174,7 @@ extension NetworkManagerClientTypes {
         case coreNetworkConfiguration
         case coreNetworkEdge
         case coreNetworkSegment
+        case networkFunctionGroup
         case segmentsConfiguration
         case segmentActionsConfiguration
         case sdkUnknown(Swift.String)
@@ -1154,6 +1188,7 @@ extension NetworkManagerClientTypes {
                 .coreNetworkConfiguration,
                 .coreNetworkEdge,
                 .coreNetworkSegment,
+                .networkFunctionGroup,
                 .segmentsConfiguration,
                 .segmentActionsConfiguration
             ]
@@ -1173,6 +1208,7 @@ extension NetworkManagerClientTypes {
             case .coreNetworkConfiguration: return "CORE_NETWORK_CONFIGURATION"
             case .coreNetworkEdge: return "CORE_NETWORK_EDGE"
             case .coreNetworkSegment: return "CORE_NETWORK_SEGMENT"
+            case .networkFunctionGroup: return "NETWORK_FUNCTION_GROUP"
             case .segmentsConfiguration: return "SEGMENTS_CONFIGURATION"
             case .segmentActionsConfiguration: return "SEGMENT_ACTIONS_CONFIGURATION"
             case let .sdkUnknown(s): return s
@@ -1535,7 +1571,7 @@ extension NetworkManagerClientTypes {
         public var edgeLocation: Swift.String?
         /// The state of the Connect peer.
         public var state: NetworkManagerClientTypes.ConnectPeerState?
-        /// The subnet ARN for the Connect peer.
+        /// The subnet ARN for the Connect peer. This only applies only when the protocol is NO_ENCAP.
         public var subnetArn: Swift.String?
         /// The list of key-value tags associated with the Connect peer.
         public var tags: [NetworkManagerClientTypes.Tag]?
@@ -1635,6 +1671,50 @@ extension NetworkManagerClientTypes {
 }
 
 extension NetworkManagerClientTypes {
+    /// Describes the segments associated with the service insertion action.
+    public struct ServiceInsertionSegments {
+        /// The list of segments associated with the send-to action.
+        public var sendTo: [Swift.String]?
+        /// The list of segments associated with the send-via action.
+        public var sendVia: [Swift.String]?
+
+        public init(
+            sendTo: [Swift.String]? = nil,
+            sendVia: [Swift.String]? = nil
+        )
+        {
+            self.sendTo = sendTo
+            self.sendVia = sendVia
+        }
+    }
+
+}
+
+extension NetworkManagerClientTypes {
+    /// Describes a network function group.
+    public struct CoreNetworkNetworkFunctionGroup {
+        /// The core network edge locations.
+        public var edgeLocations: [Swift.String]?
+        /// The name of the network function group.
+        public var name: Swift.String?
+        /// The segments associated with the network function group.
+        public var segments: NetworkManagerClientTypes.ServiceInsertionSegments?
+
+        public init(
+            edgeLocations: [Swift.String]? = nil,
+            name: Swift.String? = nil,
+            segments: NetworkManagerClientTypes.ServiceInsertionSegments? = nil
+        )
+        {
+            self.edgeLocations = edgeLocations
+            self.name = name
+            self.segments = segments
+        }
+    }
+
+}
+
+extension NetworkManagerClientTypes {
     /// Describes a core network segment, which are dedicated routes. Only attachments within this segment can communicate with each other.
     public struct CoreNetworkSegment {
         /// The Regions where the edges are located.
@@ -1708,6 +1788,8 @@ extension NetworkManagerClientTypes {
         public var edges: [NetworkManagerClientTypes.CoreNetworkEdge]?
         /// The ID of the global network that your core network is a part of.
         public var globalNetworkId: Swift.String?
+        /// The network function groups associated with a core network.
+        public var networkFunctionGroups: [NetworkManagerClientTypes.CoreNetworkNetworkFunctionGroup]?
         /// The segments within a core network.
         public var segments: [NetworkManagerClientTypes.CoreNetworkSegment]?
         /// The current state of a core network.
@@ -1722,6 +1804,7 @@ extension NetworkManagerClientTypes {
             description: Swift.String? = nil,
             edges: [NetworkManagerClientTypes.CoreNetworkEdge]? = nil,
             globalNetworkId: Swift.String? = nil,
+            networkFunctionGroups: [NetworkManagerClientTypes.CoreNetworkNetworkFunctionGroup]? = nil,
             segments: [NetworkManagerClientTypes.CoreNetworkSegment]? = nil,
             state: NetworkManagerClientTypes.CoreNetworkState? = nil,
             tags: [NetworkManagerClientTypes.Tag]? = nil
@@ -1733,9 +1816,168 @@ extension NetworkManagerClientTypes {
             self.description = description
             self.edges = edges
             self.globalNetworkId = globalNetworkId
+            self.networkFunctionGroups = networkFunctionGroups
             self.segments = segments
             self.state = state
             self.tags = tags
+        }
+    }
+
+}
+
+extension NetworkManagerClientTypes {
+
+    public enum SegmentActionServiceInsertion: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case sendTo
+        case sendVia
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SegmentActionServiceInsertion] {
+            return [
+                .sendTo,
+                .sendVia
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .sendTo: return "send-to"
+            case .sendVia: return "send-via"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension NetworkManagerClientTypes {
+
+    public enum SendViaMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dualHop
+        case singleHop
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SendViaMode] {
+            return [
+                .dualHop,
+                .singleHop
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dualHop: return "dual-hop"
+            case .singleHop: return "single-hop"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension NetworkManagerClientTypes {
+    /// Describes a network function group for service insertion.
+    public struct NetworkFunctionGroup {
+        /// The name of the network function group.
+        public var name: Swift.String?
+
+        public init(
+            name: Swift.String? = nil
+        )
+        {
+            self.name = name
+        }
+    }
+
+}
+
+extension NetworkManagerClientTypes {
+    /// Describes the edge that's used for the override.
+    public struct EdgeOverride {
+        /// The list of edge locations.
+        public var edgeSets: [[Swift.String]]?
+        /// The edge that should be used when overriding the current edge order.
+        public var useEdge: Swift.String?
+
+        public init(
+            edgeSets: [[Swift.String]]? = nil,
+            useEdge: Swift.String? = nil
+        )
+        {
+            self.edgeSets = edgeSets
+            self.useEdge = useEdge
+        }
+    }
+
+}
+
+extension NetworkManagerClientTypes {
+    /// The list of network function groups and edge overrides for the service insertion action. Used for both the send-to and send-via actions.
+    public struct Via {
+        /// The list of network function groups associated with the service insertion action.
+        public var networkFunctionGroups: [NetworkManagerClientTypes.NetworkFunctionGroup]?
+        /// Describes any edge overrides. An edge override is a specific edge to be used for traffic.
+        public var withEdgeOverrides: [NetworkManagerClientTypes.EdgeOverride]?
+
+        public init(
+            networkFunctionGroups: [NetworkManagerClientTypes.NetworkFunctionGroup]? = nil,
+            withEdgeOverrides: [NetworkManagerClientTypes.EdgeOverride]? = nil
+        )
+        {
+            self.networkFunctionGroups = networkFunctionGroups
+            self.withEdgeOverrides = withEdgeOverrides
+        }
+    }
+
+}
+
+extension NetworkManagerClientTypes {
+    /// Displays a list of the destination segments. Used only when the service insertion action is send-to.
+    public struct WhenSentTo {
+        /// The list of destination segments when the service insertion action is send-to.
+        public var whenSentToSegmentsList: [Swift.String]?
+
+        public init(
+            whenSentToSegmentsList: [Swift.String]? = nil
+        )
+        {
+            self.whenSentToSegmentsList = whenSentToSegmentsList
+        }
+    }
+
+}
+
+extension NetworkManagerClientTypes {
+    /// Describes the action that the service insertion will take for any segments associated with it.
+    public struct ServiceInsertionAction {
+        /// The action the service insertion takes for traffic. send-via sends east-west traffic between attachments. send-to sends north-south traffic to the security appliance, and then from that to either the Internet or to an on-premesis location.
+        public var action: NetworkManagerClientTypes.SegmentActionServiceInsertion?
+        /// Describes the mode packets take for the send-via action. This is not used when the action is send-to. dual-hop packets traverse attachments in both the source to the destination core network edges. This mode requires that an inspection attachment must be present in all Regions of the service insertion-enabled segments. For single-hop, packets traverse a single intermediate inserted attachment. You can use EdgeOverride to specify a specific edge to use.
+        public var mode: NetworkManagerClientTypes.SendViaMode?
+        /// The list of network function groups and any edge overrides for the chosen service insertion action. Used for both send-to or send-via.
+        public var via: NetworkManagerClientTypes.Via?
+        /// The list of destination segments if the service insertion action is send-via.
+        public var whenSentTo: NetworkManagerClientTypes.WhenSentTo?
+
+        public init(
+            action: NetworkManagerClientTypes.SegmentActionServiceInsertion? = nil,
+            mode: NetworkManagerClientTypes.SendViaMode? = nil,
+            via: NetworkManagerClientTypes.Via? = nil,
+            whenSentTo: NetworkManagerClientTypes.WhenSentTo? = nil
+        )
+        {
+            self.action = action
+            self.mode = mode
+            self.via = via
+            self.whenSentTo = whenSentTo
         }
     }
 
@@ -1754,8 +1996,12 @@ extension NetworkManagerClientTypes {
         public var edgeLocations: [Swift.String]?
         /// The inside IP addresses used for core network change values.
         public var insideCidrBlocks: [Swift.String]?
+        /// The network function group name if the change event is associated with a network function group.
+        public var networkFunctionGroupName: Swift.String?
         /// The names of the segments in a core network.
         public var segmentName: Swift.String?
+        /// Describes the service insertion action.
+        public var serviceInsertionActions: [NetworkManagerClientTypes.ServiceInsertionAction]?
         /// The shared segments for a core network change value.
         public var sharedSegments: [Swift.String]?
 
@@ -1765,7 +2011,9 @@ extension NetworkManagerClientTypes {
             destinationIdentifier: Swift.String? = nil,
             edgeLocations: [Swift.String]? = nil,
             insideCidrBlocks: [Swift.String]? = nil,
+            networkFunctionGroupName: Swift.String? = nil,
             segmentName: Swift.String? = nil,
+            serviceInsertionActions: [NetworkManagerClientTypes.ServiceInsertionAction]? = nil,
             sharedSegments: [Swift.String]? = nil
         )
         {
@@ -1774,7 +2022,9 @@ extension NetworkManagerClientTypes {
             self.destinationIdentifier = destinationIdentifier
             self.edgeLocations = edgeLocations
             self.insideCidrBlocks = insideCidrBlocks
+            self.networkFunctionGroupName = networkFunctionGroupName
             self.segmentName = segmentName
+            self.serviceInsertionActions = serviceInsertionActions
             self.sharedSegments = sharedSegments
         }
     }
@@ -1826,6 +2076,8 @@ extension NetworkManagerClientTypes {
         public var cidr: Swift.String?
         /// The edge location for the core network change event.
         public var edgeLocation: Swift.String?
+        /// The changed network function group name.
+        public var networkFunctionGroupName: Swift.String?
         /// The segment name if the change event is associated with a segment.
         public var segmentName: Swift.String?
 
@@ -1833,12 +2085,14 @@ extension NetworkManagerClientTypes {
             attachmentId: Swift.String? = nil,
             cidr: Swift.String? = nil,
             edgeLocation: Swift.String? = nil,
+            networkFunctionGroupName: Swift.String? = nil,
             segmentName: Swift.String? = nil
         )
         {
             self.attachmentId = attachmentId
             self.cidr = cidr
             self.edgeLocation = edgeLocation
+            self.networkFunctionGroupName = networkFunctionGroupName
             self.segmentName = segmentName
         }
     }
@@ -1876,6 +2130,30 @@ extension NetworkManagerClientTypes {
             self.status = status
             self.type = type
             self.values = values
+        }
+    }
+
+}
+
+extension NetworkManagerClientTypes {
+    /// Describes a core network
+    public struct CoreNetworkNetworkFunctionGroupIdentifier {
+        /// The ID of the core network.
+        public var coreNetworkId: Swift.String?
+        /// The location for the core network edge.
+        public var edgeLocation: Swift.String?
+        /// The network function group name.
+        public var networkFunctionGroupName: Swift.String?
+
+        public init(
+            coreNetworkId: Swift.String? = nil,
+            edgeLocation: Swift.String? = nil,
+            networkFunctionGroupName: Swift.String? = nil
+        )
+        {
+            self.coreNetworkId = coreNetworkId
+            self.edgeLocation = edgeLocation
+            self.networkFunctionGroupName = networkFunctionGroupName
         }
     }
 
@@ -2209,21 +2487,21 @@ public struct CreateConnectionOutput {
 }
 
 public struct CreateConnectPeerInput {
-    /// The Connect peer BGP options.
+    /// The Connect peer BGP options. This only applies only when the protocol is GRE.
     public var bgpOptions: NetworkManagerClientTypes.BgpOptions?
     /// The client token associated with the request.
     public var clientToken: Swift.String?
     /// The ID of the connection attachment.
     /// This member is required.
     public var connectAttachmentId: Swift.String?
-    /// A Connect peer core network address.
+    /// A Connect peer core network address. This only applies only when the protocol is GRE.
     public var coreNetworkAddress: Swift.String?
     /// The inside IP addresses used for BGP peering.
     public var insideCidrBlocks: [Swift.String]?
     /// The Connect peer address.
     /// This member is required.
     public var peerAddress: Swift.String?
-    /// The subnet ARN for the Connect peer.
+    /// The subnet ARN for the Connect peer. This only applies only when the protocol is NO_ENCAP.
     public var subnetArn: Swift.String?
     /// The tags associated with the peer request.
     public var tags: [NetworkManagerClientTypes.Tag]?
@@ -4336,11 +4614,19 @@ public struct GetNetworkResourceCountsInput {
     ///
     /// The following are the supported resource types for Network Manager:
     ///
+    /// * attachment
+    ///
+    /// * connect-peer
+    ///
     /// * connection
+    ///
+    /// * core-network
     ///
     /// * device
     ///
     /// * link
+    ///
+    /// * peering
     ///
     /// * site
     ///
@@ -4439,11 +4725,19 @@ public struct GetNetworkResourceRelationshipsInput {
     ///
     /// The following are the supported resource types for Network Manager:
     ///
+    /// * attachment
+    ///
+    /// * connect-peer
+    ///
     /// * connection
+    ///
+    /// * core-network
     ///
     /// * device
     ///
     /// * link
+    ///
+    /// * peering
     ///
     /// * site
     ///
@@ -4543,37 +4837,45 @@ public struct GetNetworkResourcesInput {
     public var resourceArn: Swift.String?
     /// The resource type. The following are the supported resource types for Direct Connect:
     ///
-    /// * dxcon - The definition model is [Connection](https://docs.aws.amazon.com/directconnect/latest/APIReference/API_Connection.html).
+    /// * dxcon
     ///
-    /// * dx-gateway - The definition model is [DirectConnectGateway](https://docs.aws.amazon.com/directconnect/latest/APIReference/API_DirectConnectGateway.html).
+    /// * dx-gateway
     ///
-    /// * dx-vif - The definition model is [VirtualInterface](https://docs.aws.amazon.com/directconnect/latest/APIReference/API_VirtualInterface.html).
+    /// * dx-vif
     ///
     ///
     /// The following are the supported resource types for Network Manager:
     ///
-    /// * connection - The definition model is [Connection](https://docs.aws.amazon.com/networkmanager/latest/APIReference/API_Connection.html).
+    /// * attachment
     ///
-    /// * device - The definition model is [Device](https://docs.aws.amazon.com/networkmanager/latest/APIReference/API_Device.html).
+    /// * connect-peer
     ///
-    /// * link - The definition model is [Link](https://docs.aws.amazon.com/networkmanager/latest/APIReference/API_Link.html).
+    /// * connection
     ///
-    /// * site - The definition model is [Site](https://docs.aws.amazon.com/networkmanager/latest/APIReference/API_Site.html).
+    /// * core-network
+    ///
+    /// * device
+    ///
+    /// * link
+    ///
+    /// * peering
+    ///
+    /// * site
     ///
     ///
     /// The following are the supported resource types for Amazon VPC:
     ///
-    /// * customer-gateway - The definition model is [CustomerGateway](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CustomerGateway.html).
+    /// * customer-gateway
     ///
-    /// * transit-gateway - The definition model is [TransitGateway](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_TransitGateway.html).
+    /// * transit-gateway
     ///
-    /// * transit-gateway-attachment - The definition model is [TransitGatewayAttachment](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_TransitGatewayAttachment.html).
+    /// * transit-gateway-attachment
     ///
-    /// * transit-gateway-connect-peer - The definition model is [TransitGatewayConnectPeer](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_TransitGatewayConnectPeer.html).
+    /// * transit-gateway-connect-peer
     ///
-    /// * transit-gateway-route-table - The definition model is [TransitGatewayRouteTable](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_TransitGatewayRouteTable.html).
+    /// * transit-gateway-route-table
     ///
-    /// * vpn-connection - The definition model is [VpnConnection](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_VpnConnection.html).
+    /// * vpn-connection
     public var resourceType: Swift.String?
 
     public init(
@@ -4632,11 +4934,19 @@ extension NetworkManagerClientTypes {
         ///
         /// The following are the supported resource types for Network Manager:
         ///
+        /// * attachment
+        ///
+        /// * connect-peer
+        ///
         /// * connection
+        ///
+        /// * core-network
         ///
         /// * device
         ///
         /// * link
+        ///
+        /// * peering
         ///
         /// * site
         ///
@@ -4707,16 +5017,20 @@ public struct GetNetworkResourcesOutput {
 extension NetworkManagerClientTypes {
     /// Describes a route table.
     public struct RouteTableIdentifier {
+        /// The route table identifier associated with the network function group.
+        public var coreNetworkNetworkFunctionGroup: NetworkManagerClientTypes.CoreNetworkNetworkFunctionGroupIdentifier?
         /// The segment edge in a core network.
         public var coreNetworkSegmentEdge: NetworkManagerClientTypes.CoreNetworkSegmentEdgeIdentifier?
         /// The ARN of the transit gateway route table for the attachment request. For example, "TransitGatewayRouteTableArn": "arn:aws:ec2:us-west-2:123456789012:transit-gateway-route-table/tgw-rtb-9876543210123456".
         public var transitGatewayRouteTableArn: Swift.String?
 
         public init(
+            coreNetworkNetworkFunctionGroup: NetworkManagerClientTypes.CoreNetworkNetworkFunctionGroupIdentifier? = nil,
             coreNetworkSegmentEdge: NetworkManagerClientTypes.CoreNetworkSegmentEdgeIdentifier? = nil,
             transitGatewayRouteTableArn: Swift.String? = nil
         )
         {
+            self.coreNetworkNetworkFunctionGroup = coreNetworkNetworkFunctionGroup
             self.coreNetworkSegmentEdge = coreNetworkSegmentEdge
             self.transitGatewayRouteTableArn = transitGatewayRouteTableArn
         }
@@ -4839,6 +5153,8 @@ extension NetworkManagerClientTypes {
         public var coreNetworkAttachmentId: Swift.String?
         /// The edge location for the network destination.
         public var edgeLocation: Swift.String?
+        /// The network function group name associated with the destination.
+        public var networkFunctionGroupName: Swift.String?
         /// The ID of the resource.
         public var resourceId: Swift.String?
         /// The resource type.
@@ -4851,6 +5167,7 @@ extension NetworkManagerClientTypes {
         public init(
             coreNetworkAttachmentId: Swift.String? = nil,
             edgeLocation: Swift.String? = nil,
+            networkFunctionGroupName: Swift.String? = nil,
             resourceId: Swift.String? = nil,
             resourceType: Swift.String? = nil,
             segmentName: Swift.String? = nil,
@@ -4859,6 +5176,7 @@ extension NetworkManagerClientTypes {
         {
             self.coreNetworkAttachmentId = coreNetworkAttachmentId
             self.edgeLocation = edgeLocation
+            self.networkFunctionGroupName = networkFunctionGroupName
             self.resourceId = resourceId
             self.resourceType = resourceType
             self.segmentName = segmentName
@@ -4904,12 +5222,14 @@ extension NetworkManagerClientTypes {
 
     public enum RouteTableType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case coreNetworkSegment
+        case networkFunctionGroup
         case transitGatewayRouteTable
         case sdkUnknown(Swift.String)
 
         public static var allCases: [RouteTableType] {
             return [
                 .coreNetworkSegment,
+                .networkFunctionGroup,
                 .transitGatewayRouteTable
             ]
         }
@@ -4922,6 +5242,7 @@ extension NetworkManagerClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .coreNetworkSegment: return "CORE_NETWORK_SEGMENT"
+            case .networkFunctionGroup: return "NETWORK_FUNCTION_GROUP"
             case .transitGatewayRouteTable: return "TRANSIT_GATEWAY_ROUTE_TABLE"
             case let .sdkUnknown(s): return s
             }
@@ -4975,37 +5296,11 @@ public struct GetNetworkTelemetryInput {
     public var registeredGatewayArn: Swift.String?
     /// The ARN of the resource.
     public var resourceArn: Swift.String?
-    /// The resource type. The following are the supported resource types for Direct Connect:
+    /// The resource type. The following are the supported resource types:
     ///
-    /// * dxcon
-    ///
-    /// * dx-gateway
-    ///
-    /// * dx-vif
-    ///
-    ///
-    /// The following are the supported resource types for Network Manager:
-    ///
-    /// * connection
-    ///
-    /// * device
-    ///
-    /// * link
-    ///
-    /// * site
-    ///
-    ///
-    /// The following are the supported resource types for Amazon VPC:
-    ///
-    /// * customer-gateway
-    ///
-    /// * transit-gateway
-    ///
-    /// * transit-gateway-attachment
+    /// * connect-peer
     ///
     /// * transit-gateway-connect-peer
-    ///
-    /// * transit-gateway-route-table
     ///
     /// * vpn-connection
     public var resourceType: Swift.String?
@@ -11150,22 +11445,24 @@ extension NetworkManagerClientTypes.Attachment {
         value.resourceArn = try reader["ResourceArn"].readIfPresent()
         value.attachmentPolicyRuleNumber = try reader["AttachmentPolicyRuleNumber"].readIfPresent()
         value.segmentName = try reader["SegmentName"].readIfPresent()
+        value.networkFunctionGroupName = try reader["NetworkFunctionGroupName"].readIfPresent()
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.proposedSegmentChange = try reader["ProposedSegmentChange"].readIfPresent(with: NetworkManagerClientTypes.ProposedSegmentChange.read(from:))
+        value.proposedNetworkFunctionGroupChange = try reader["ProposedNetworkFunctionGroupChange"].readIfPresent(with: NetworkManagerClientTypes.ProposedNetworkFunctionGroupChange.read(from:))
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: .epochSeconds)
         value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: .epochSeconds)
         return value
     }
 }
 
-extension NetworkManagerClientTypes.ProposedSegmentChange {
+extension NetworkManagerClientTypes.ProposedNetworkFunctionGroupChange {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.ProposedSegmentChange {
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.ProposedNetworkFunctionGroupChange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkManagerClientTypes.ProposedSegmentChange()
+        var value = NetworkManagerClientTypes.ProposedNetworkFunctionGroupChange()
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.attachmentPolicyRuleNumber = try reader["AttachmentPolicyRuleNumber"].readIfPresent()
-        value.segmentName = try reader["SegmentName"].readIfPresent()
+        value.networkFunctionGroupName = try reader["NetworkFunctionGroupName"].readIfPresent()
         return value
     }
 }
@@ -11183,6 +11480,18 @@ extension NetworkManagerClientTypes.Tag {
         var value = NetworkManagerClientTypes.Tag()
         value.key = try reader["Key"].readIfPresent()
         value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.ProposedSegmentChange {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.ProposedSegmentChange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.ProposedSegmentChange()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.attachmentPolicyRuleNumber = try reader["AttachmentPolicyRuleNumber"].readIfPresent()
+        value.segmentName = try reader["SegmentName"].readIfPresent()
         return value
     }
 }
@@ -11346,6 +11655,7 @@ extension NetworkManagerClientTypes.CoreNetwork {
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: .epochSeconds)
         value.state = try reader["State"].readIfPresent()
         value.segments = try reader["Segments"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.CoreNetworkSegment.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.networkFunctionGroups = try reader["NetworkFunctionGroups"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.CoreNetworkNetworkFunctionGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.edges = try reader["Edges"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.CoreNetworkEdge.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -11360,6 +11670,29 @@ extension NetworkManagerClientTypes.CoreNetworkEdge {
         value.edgeLocation = try reader["EdgeLocation"].readIfPresent()
         value.asn = try reader["Asn"].readIfPresent()
         value.insideCidrBlocks = try reader["InsideCidrBlocks"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.CoreNetworkNetworkFunctionGroup {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.CoreNetworkNetworkFunctionGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.CoreNetworkNetworkFunctionGroup()
+        value.name = try reader["Name"].readIfPresent()
+        value.edgeLocations = try reader["EdgeLocations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.segments = try reader["Segments"].readIfPresent(with: NetworkManagerClientTypes.ServiceInsertionSegments.read(from:))
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.ServiceInsertionSegments {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.ServiceInsertionSegments {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.ServiceInsertionSegments()
+        value.sendVia = try reader["SendVia"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sendTo = try reader["SendTo"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -11661,6 +11994,7 @@ extension NetworkManagerClientTypes.CoreNetworkChangeEventValues {
         var value = NetworkManagerClientTypes.CoreNetworkChangeEventValues()
         value.edgeLocation = try reader["EdgeLocation"].readIfPresent()
         value.segmentName = try reader["SegmentName"].readIfPresent()
+        value.networkFunctionGroupName = try reader["NetworkFunctionGroupName"].readIfPresent()
         value.attachmentId = try reader["AttachmentId"].readIfPresent()
         value.cidr = try reader["Cidr"].readIfPresent()
         return value
@@ -11688,12 +12022,69 @@ extension NetworkManagerClientTypes.CoreNetworkChangeValues {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NetworkManagerClientTypes.CoreNetworkChangeValues()
         value.segmentName = try reader["SegmentName"].readIfPresent()
+        value.networkFunctionGroupName = try reader["NetworkFunctionGroupName"].readIfPresent()
         value.edgeLocations = try reader["EdgeLocations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.asn = try reader["Asn"].readIfPresent()
         value.cidr = try reader["Cidr"].readIfPresent()
         value.destinationIdentifier = try reader["DestinationIdentifier"].readIfPresent()
         value.insideCidrBlocks = try reader["InsideCidrBlocks"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.sharedSegments = try reader["SharedSegments"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.serviceInsertionActions = try reader["ServiceInsertionActions"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.ServiceInsertionAction.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.ServiceInsertionAction {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.ServiceInsertionAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.ServiceInsertionAction()
+        value.action = try reader["Action"].readIfPresent()
+        value.mode = try reader["Mode"].readIfPresent()
+        value.whenSentTo = try reader["WhenSentTo"].readIfPresent(with: NetworkManagerClientTypes.WhenSentTo.read(from:))
+        value.via = try reader["Via"].readIfPresent(with: NetworkManagerClientTypes.Via.read(from:))
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.Via {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.Via {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.Via()
+        value.networkFunctionGroups = try reader["NetworkFunctionGroups"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.NetworkFunctionGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.withEdgeOverrides = try reader["WithEdgeOverrides"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.EdgeOverride.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.EdgeOverride {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.EdgeOverride {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.EdgeOverride()
+        value.edgeSets = try reader["EdgeSets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        value.useEdge = try reader["UseEdge"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.NetworkFunctionGroup {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.NetworkFunctionGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.NetworkFunctionGroup()
+        value.name = try reader["Name"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.WhenSentTo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.WhenSentTo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.WhenSentTo()
+        value.whenSentToSegmentsList = try reader["WhenSentToSegmentsList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -11781,6 +12172,7 @@ extension NetworkManagerClientTypes.NetworkRouteDestination {
         value.coreNetworkAttachmentId = try reader["CoreNetworkAttachmentId"].readIfPresent()
         value.transitGatewayAttachmentId = try reader["TransitGatewayAttachmentId"].readIfPresent()
         value.segmentName = try reader["SegmentName"].readIfPresent()
+        value.networkFunctionGroupName = try reader["NetworkFunctionGroupName"].readIfPresent()
         value.edgeLocation = try reader["EdgeLocation"].readIfPresent()
         value.resourceType = try reader["ResourceType"].readIfPresent()
         value.resourceId = try reader["ResourceId"].readIfPresent()
@@ -11995,8 +12387,19 @@ extension NetworkManagerClientTypes.RouteTableIdentifier {
 
     static func write(value: NetworkManagerClientTypes.RouteTableIdentifier?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["CoreNetworkNetworkFunctionGroup"].write(value.coreNetworkNetworkFunctionGroup, with: NetworkManagerClientTypes.CoreNetworkNetworkFunctionGroupIdentifier.write(value:to:))
         try writer["CoreNetworkSegmentEdge"].write(value.coreNetworkSegmentEdge, with: NetworkManagerClientTypes.CoreNetworkSegmentEdgeIdentifier.write(value:to:))
         try writer["TransitGatewayRouteTableArn"].write(value.transitGatewayRouteTableArn)
+    }
+}
+
+extension NetworkManagerClientTypes.CoreNetworkNetworkFunctionGroupIdentifier {
+
+    static func write(value: NetworkManagerClientTypes.CoreNetworkNetworkFunctionGroupIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CoreNetworkId"].write(value.coreNetworkId)
+        try writer["EdgeLocation"].write(value.edgeLocation)
+        try writer["NetworkFunctionGroupName"].write(value.networkFunctionGroupName)
     }
 }
 
