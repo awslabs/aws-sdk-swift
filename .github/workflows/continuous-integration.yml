@@ -7,6 +7,9 @@ on:
 env:
   AWS_SWIFT_SDK_USE_LOCAL_DEPS: 1
 
+permissions:
+  id-token: write
+
 jobs:
   apple:
     runs-on: ${{ matrix.runner }}
@@ -109,8 +112,10 @@ jobs:
         run: |
           cd codegen/
           set -o pipefail && \
-          NSUnbufferedIO=YES xcodebuild \
+          xcodebuild -showTestPlans -scheme aws-sdk-swift-protocol-tests-Package && \
+          xcodebuild \
             -scheme aws-sdk-swift-protocol-tests-Package \
+            -testPlan ProtocolTestPlan \
             -destination '${{ matrix.destination }}' \
             test 2>&1 \
             | xcbeautify
@@ -173,6 +178,11 @@ jobs:
         run: ./scripts/ci_steps/install_native_linux_dependencies.sh
       - name: Tools Versions
         run: ./scripts/ci_steps/log_tool_versions.sh
+      - name: Configure AWS Credentials for Integration Tests
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          role-to-assume: ${{ secrets.INTEGRATION_TEST_ROLE_ARN }}
+          aws-region: us-west-2
       - name: Prepare Protocol & Unit Tests
         run: |
           ./scripts/ci_steps/prepare_protocol_and_unit_tests.sh

@@ -6,6 +6,9 @@ on:
   workflow_dispatch:
   pull_request:
 
+permissions:
+  id-token: write
+
 env:
   AWS_SWIFT_SDK_USE_LOCAL_DEPS: 1
 
@@ -61,5 +64,16 @@ jobs:
         run: ./scripts/ci_steps/codegen_sdk.sh
       - name: Build SDK with Unit Tests
         run: swift build --build-tests
+      - name: Create AWS config directory
+        run: mkdir -p ~/.aws
+      - name: Create AWS config file
+        run: |
+          echo "[default]" > ~/.aws/config
+          echo "region=us-west-2" >> ~/.aws/config
+      - name: Create AWS credentials file
+        run: |
+          echo "[default]" > ~/.aws/credentials
+          echo "aws_access_key_id = test-key-id" >> ~/.aws/credentials
+          echo "aws_secret_access_key = test-secret-access-key" >> ~/.aws/credentials
       - name: Run Unit Tests
         run: swift test --skip-build
