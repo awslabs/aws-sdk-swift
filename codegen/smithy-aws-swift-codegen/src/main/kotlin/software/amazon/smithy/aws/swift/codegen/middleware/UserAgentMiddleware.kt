@@ -28,7 +28,7 @@ class UserAgentMiddleware(val settings: SwiftSettings) : MiddlewareRenderable {
         writer: SwiftWriter,
         op: OperationShape
     ) {
-        val params = middlewareParamsString(writer)
+        val params = middlewareParamsString(ctx, writer)
         val input = MiddlewareShapeUtils.inputSymbol(ctx.symbolProvider, ctx.model, op)
         val output = MiddlewareShapeUtils.outputSymbol(ctx.symbolProvider, ctx.model, op)
         writer.write(
@@ -39,11 +39,11 @@ class UserAgentMiddleware(val settings: SwiftSettings) : MiddlewareRenderable {
         )
     }
 
-    private fun middlewareParamsString(writer: SwiftWriter): String {
+    private fun middlewareParamsString(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter): String {
         return writer.format(
-            "metadata: \$N.fromConfig(serviceID: serviceName, version: \$S, config: config)",
+            "metadata: \$N.fromConfig(serviceID: serviceName, version: \$L.version, config: config)",
             AWSClientRuntimeTypes.Core.AWSUserAgentMetadata,
-            settings.moduleVersion,
+            ctx.symbolProvider.toSymbol(ctx.service).name,
         )
     }
 }
