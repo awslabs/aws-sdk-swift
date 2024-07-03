@@ -14,7 +14,7 @@ let package = Package(
         .library(name: "AWSSDKCommon", targets: ["AWSSDKCommon"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/awslabs/aws-crt-swift", exact: "0.30.0"),
+        .package(url: "https://github.com/awslabs/aws-crt-swift", exact: "0.32.0"),
     ],
     targets: [
         .target(

@@ -15,25 +15,25 @@ let package = Package(
     ],
     dependencies: [
         .package(id: "aws-sdk-swift.AWSSDKHTTPAuth", from: "0.0.1"),
-        .package(url: "https://github.com/awslabs/aws-crt-swift", exact: "0.30.0"),
-        .package(id: "aws-sdk-swift.smithy-swift", from: "0.0.1"),
+        .package(url: "https://github.com/awslabs/aws-crt-swift", exact: "0.32.0"),
+        .package(url: "https://github.com/smithy-lang/smithy-swift", exact: "0.51.0"),
     ],
     targets: [
         .target(
             name: "AWSSDKEventStreamsAuth",
             dependencies: [
                 .product(name: "AwsCommonRuntimeKit", package: "aws-crt-swift"),
-                .product(name: "ClientRuntime", package: "aws-sdk-swift.smithy-swift"),
-                .product(name: "SmithyEventStreamsAPI", package: "aws-sdk-swift.smithy-swift"),
-                .product(name: "SmithyEventStreamsAuthAPI", package: "aws-sdk-swift.smithy-swift"),
-                .product(name: "SmithyEventStreams", package: "aws-sdk-swift.smithy-swift"),
+                .product(name: "ClientRuntime", package: "smithy-swift"),
+                .product(name: "SmithyEventStreamsAPI", package: "smithy-swift"),
+                .product(name: "SmithyEventStreamsAuthAPI", package: "smithy-swift"),
+                .product(name: "SmithyEventStreams", package: "smithy-swift"),
                 .product(name: "AWSSDKHTTPAuth", package: "aws-sdk-swift.AWSSDKHTTPAuth"),
             ]
         ),
         .testTarget(name: "AWSSDKEventStreamsAuthTests", dependencies: [
             "AWSSDKEventStreamsAuth",
-            .product(name: "SmithyStreams", package: "aws-sdk-swift.smithy-swift"),
-            .product(name: "SmithyTestUtil", package: "aws-sdk-swift.smithy-swift"),
+            .product(name: "SmithyStreams", package: "smithy-swift"),
+            .product(name: "SmithyTestUtil", package: "smithy-swift"),
         ]),
     ]
 )

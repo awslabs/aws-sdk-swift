@@ -16,17 +16,17 @@ let package = Package(
     dependencies: [
         .package(id: "aws-sdk-swift.AWSSDKIdentity", from: "0.0.1"),
         .package(id: "aws-sdk-swift.AWSSDKChecksums", from: "0.0.1"),
-        .package(url: "https://github.com/awslabs/aws-crt-swift", exact: "0.30.0"),
-        .package(id: "aws-sdk-swift.smithy-swift", from: "0.0.1"),
+        .package(url: "https://github.com/awslabs/aws-crt-swift", exact: "0.32.0"),
+        .package(url: "https://github.com/smithy-lang/smithy-swift", exact: "0.51.0"),
     ],
     targets: [
         .target(
             name: "AWSSDKHTTPAuth",
             dependencies: [
                 .product(name: "AwsCommonRuntimeKit", package: "aws-crt-swift"),
-                .product(name: "ClientRuntime", package: "aws-sdk-swift.smithy-swift"),
-                .product(name: "Smithy", package: "aws-sdk-swift.smithy-swift"),
-                .product(name: "SmithyHTTPAuth", package: "aws-sdk-swift.smithy-swift"),
+                .product(name: "ClientRuntime", package: "smithy-swift"),
+                .product(name: "Smithy", package: "smithy-swift"),
+                .product(name: "SmithyHTTPAuth", package: "smithy-swift"),
                 .product(name: "AWSSDKIdentity", package: "aws-sdk-swift.AWSSDKIdentity"),
                 .product(name: "AWSSDKChecksums", package: "aws-sdk-swift.AWSSDKChecksums"),
             ]
@@ -36,8 +36,8 @@ let package = Package(
             dependencies: [
                 "AWSSDKHTTPAuth",
                 .product(name: "AwsCommonRuntimeKit", package: "aws-crt-swift"),
-                .product(name: "ClientRuntime", package: "aws-sdk-swift.smithy-swift"),
-                .product(name: "SmithyTestUtil", package: "aws-sdk-swift.smithy-swift"),
+                .product(name: "ClientRuntime", package: "smithy-swift"),
+                .product(name: "SmithyTestUtil", package: "smithy-swift"),
             ]
         ),
     ]

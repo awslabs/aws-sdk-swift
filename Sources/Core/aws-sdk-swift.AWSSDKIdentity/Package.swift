@@ -15,19 +15,19 @@ let package = Package(
     ],
     dependencies: [
         .package(id: "aws-sdk-swift.AWSSDKCommon", from: "0.0.1"),
-        .package(url: "https://github.com/awslabs/aws-crt-swift", exact: "0.30.0"),
-        .package(id: "aws-sdk-swift.smithy-swift", from: "0.0.1"),
+        .package(url: "https://github.com/awslabs/aws-crt-swift", exact: "0.32.0"),
+        .package(url: "https://github.com/smithy-lang/smithy-swift", exact: "0.51.0"),
     ],
     targets: [
         .target(
             name: "AWSSDKIdentity",
             dependencies: [
                 .product(name: "AwsCommonRuntimeKit", package: "aws-crt-swift"),
-                .product(name: "ClientRuntime", package: "aws-sdk-swift.smithy-swift"),
-                .product(name: "Smithy", package: "aws-sdk-swift.smithy-swift"),
-                .product(name: "SmithyHTTPAPI", package: "aws-sdk-swift.smithy-swift"),
-                .product(name: "SmithyIdentityAPI", package: "aws-sdk-swift.smithy-swift"),
-                .product(name: "SmithyIdentity", package: "aws-sdk-swift.smithy-swift"),
+                .product(name: "ClientRuntime", package: "smithy-swift"),
+                .product(name: "Smithy", package: "smithy-swift"),
+                .product(name: "SmithyHTTPAPI", package: "smithy-swift"),
+                .product(name: "SmithyIdentityAPI", package: "smithy-swift"),
+                .product(name: "SmithyIdentity", package: "smithy-swift"),
                 .product(name: "AWSSDKCommon", package: "aws-sdk-swift.AWSSDKCommon"),
             ]
         ),
@@ -35,8 +35,8 @@ let package = Package(
             name: "AWSSDKIdentityTests",
             dependencies: [
                 "AWSSDKIdentity",
-                .product(name: "Smithy", package: "aws-sdk-swift.smithy-swift"),
-                .product(name: "SmithyIdentity", package: "aws-sdk-swift.smithy-swift"),
+                .product(name: "Smithy", package: "smithy-swift"),
+                .product(name: "SmithyIdentity", package: "smithy-swift"),
             ]
         ),
     ]
