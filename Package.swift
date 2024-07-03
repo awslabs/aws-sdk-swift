@@ -228,58 +228,12 @@ func addServiceUnitTestTarget(_ name: String) {
     ]
 }
 
-func addIntegrationTestTarget(_ name: String) {
-    let integrationTestName = "\(name)IntegrationTests"
-    var additionalDependencies: [String] = []
-    var exclusions: [String] = []
-    switch name {
-    case "AWSEC2":
-        additionalDependencies = ["AWSIAM", "AWSSTS", "AWSCloudWatchLogs"]
-        exclusions = [
-            "Resources/IMDSIntegTestApp"
-        ]
-    case "AWSECS":
-        additionalDependencies = ["AWSCloudWatchLogs", "AWSEC2",  "AWSIAM", "AWSSTS"]
-        exclusions = [
-            "README.md",
-            "Resources/ECSIntegTestApp/"
-        ]
-    case "AWSS3":
-        additionalDependencies = ["AWSSSOAdmin", "AWSS3Control", "AWSSTS"]
-    case "AWSEventBridge":
-        additionalDependencies = ["AWSRoute53"]
-    case "AWSCloudFrontKeyValueStore":
-        additionalDependencies = ["AWSCloudFront"]
-    case "AWSSTS":
-        additionalDependencies = ["AWSIAM", "AWSCognitoIdentity"]
-    default:
-        break
-    }
-    integrationTestServices.insert(name)
-    additionalDependencies.forEach { integrationTestServices.insert($0) }
-    package.targets += [
-        .testTarget(
-            name: integrationTestName,
-            dependencies: [.crt, .clientRuntime, .awsClientRuntime, .byName(name: name), .smithyTestUtils, .awsSDKIdentity, .smithyIdentity, .awsSDKCommon] + additionalDependencies.map { Target.Dependency.target(name: $0, condition: nil) },
-            path: "./IntegrationTests/Services/\(integrationTestName)",
-            exclude: exclusions,
-            resources: [.process("Resources")]
-        )
-    ]
-}
-
 var enabledServices = Set<String>()
 var enabledServiceUnitTests = Set<String>()
 
 func addAllServices() {
     enabledServices = Set(serviceTargets)
     enabledServiceUnitTests = Set(serviceTargets)
-}
-
-var integrationTestServices = Set<String>()
-
-func addIntegrationTests() {
-    servicesWithIntegrationTests.forEach { addIntegrationTestTarget($0) }
 }
 
 func excludeRuntimeUnitTests() {
@@ -291,60 +245,8 @@ func excludeRuntimeUnitTests() {
     }
 }
 
-func addProtocolTests() {
-    struct ProtocolTest {
-        let name: String
-        let sourcePath: String
-        let testPath: String?
-        let buildOnly: Bool
-
-        init(name: String, sourcePath: String, testPath: String? = nil, buildOnly: Bool = false) {
-            self.name = name
-            self.sourcePath = sourcePath
-            self.testPath = testPath
-            self.buildOnly = buildOnly
-        }
-    }
-
-    let baseDir = "codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen"
-    let baseDirLocal = "codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-codegen-local"
-
-    let protocolTests: [ProtocolTest] = [
-        .init(name: "AWSRestJsonTestSDK", sourcePath: "\(baseDir)/aws-restjson"),
-        .init(name: "AWSRestJsonValidationTestSDK", sourcePath: "\(baseDir)/aws-restjson-validation"),
-        .init(name: "AWSJson1_0TestSDK", sourcePath: "\(baseDir)/aws-json-10"),
-        .init(name: "AWSJson1_1TestSDK", sourcePath: "\(baseDir)/aws-json-11"),
-        .init(name: "RestXmlTestSDK", sourcePath: "\(baseDir)/rest-xml"),
-        .init(name: "RestXmlWithNamespaceTestSDK", sourcePath: "\(baseDir)/rest-xml-xmlns"),
-        .init(name: "Ec2QueryTestSDK", sourcePath: "\(baseDir)/ec2-query"),
-        .init(name: "AWSQueryTestSDK", sourcePath: "\(baseDir)/aws-query"),
-        .init(name: "APIGatewayTestSDK", sourcePath: "\(baseDir)/apigateway"),
-        .init(name: "GlacierTestSDK", sourcePath: "\(baseDir)/glacier"),
-        .init(name: "MachineLearningTestSDK", sourcePath: "\(baseDir)/machinelearning"),
-        .init(name: "S3TestSDK", sourcePath: "\(baseDir)/s3"),
-        .init(name: "rest_json_extras", sourcePath: "\(baseDirLocal)/rest_json_extras"),
-        .init(name: "AwsQueryExtras", sourcePath: "\(baseDirLocal)/AwsQueryExtras"),
-        .init(name: "EventStream", sourcePath: "\(baseDirLocal)/EventStream", buildOnly: true),
-        .init(name: "RPCEventStream", sourcePath: "\(baseDirLocal)/RPCEventStream", buildOnly: true),
-        .init(name: "Waiters", sourcePath: "\(baseDirLocal)/Waiters", testPath: "codegen/protocol-test-codegen-local/Tests"),
-    ]
-    for protocolTest in protocolTests {
-        let target = Target.target(
-            name: protocolTest.name,
-            dependencies: serviceTargetDependencies,
-            path: "\(protocolTest.sourcePath)/swift-codegen/Sources/\(protocolTest.name)"
-        )
-        let testTarget = protocolTest.buildOnly ? nil : Target.testTarget(
-            name: "\(protocolTest.name)Tests",
-            dependencies: [.smithyTestUtils, .smithyStreams, .smithyWaitersAPI, .byNameItem(name: protocolTest.name, condition: nil)],
-            path: "\(protocolTest.testPath ?? protocolTest.sourcePath)/swift-codegen/Tests/\(protocolTest.name)Tests"
-        )
-        package.targets += [target, testTarget].compactMap { $0 }
-    }
-}
-
 func addResolvedTargets() {
-    enabledServices.union(integrationTestServices).forEach(addServiceTarget)
+    enabledServices.forEach(addServiceTarget)
     enabledServiceUnitTests.forEach(addServiceUnitTestTarget)
 }
 
@@ -353,7 +255,7 @@ func addResolvedTargets() {
 
 addDependencies(
     clientRuntimeVersion: "0.51.0",
-    crtVersion: "0.31.0"
+    crtVersion: "0.32.0"
 )
 
 // Uncomment this line to exclude runtime unit tests
@@ -748,26 +650,6 @@ let serviceTargets: [String] = [
 
 // Uncomment this line to enable all services
 addAllServices()
-
-let servicesWithIntegrationTests: [String] = [
-    "AWSCloudFrontKeyValueStore",
-    "AWSEC2",
-    "AWSECS",
-    "AWSEventBridge",
-    "AWSKinesis",
-    "AWSMediaConvert",
-    "AWSRoute53",
-    "AWSS3",
-    "AWSSQS",
-    "AWSSTS",
-    "AWSTranscribeStreaming",
-]
-
-// Uncomment this line to enable integration tests
-// addIntegrationTests()
-
-// Uncomment this line to enable protocol tests
-// addProtocolTests()
 
 addResolvedTargets()
 
