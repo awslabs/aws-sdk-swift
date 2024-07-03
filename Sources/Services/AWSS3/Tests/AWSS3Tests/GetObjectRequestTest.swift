@@ -16,9 +16,6 @@ class GetObjectRequestTest: HttpRequestTestBase {
         let expected = buildExpectedHttpRequest(
             method: .get,
             path: "/../key.txt",
-            queryParams: [
-                "tagging"
-            ],
             body: nil,
             host: "s3.us-west-2.amazonaws.com",
             resolvedHost: "mybucket.s3.us-west-2.amazonaws.com"
@@ -47,9 +44,6 @@ class GetObjectRequestTest: HttpRequestTestBase {
         let expected = buildExpectedHttpRequest(
             method: .get,
             path: "/foo/../key.txt",
-            queryParams: [
-                "tagging"
-            ],
             body: nil,
             host: "s3.us-west-2.amazonaws.com",
             resolvedHost: "mybucket.s3.us-west-2.amazonaws.com"

@@ -15,8 +15,8 @@ class DeleteObjectTaggingRequestTest: HttpRequestTestBase {
         let expected = buildExpectedHttpRequest(
             method: .delete,
             path: "/my%20key.txt",
-            headers: [
-                "Content-Type": "application/json"
+            queryParams: [
+                "tagging"
             ],
             body: nil,
             host: "s3.us-west-2.amazonaws.com",
@@ -46,8 +46,8 @@ class DeleteObjectTaggingRequestTest: HttpRequestTestBase {
         let expected = buildExpectedHttpRequest(
             method: .delete,
             path: "/foo/bar/my%20key.txt",
-            headers: [
-                "Content-Type": "application/json"
+            queryParams: [
+                "tagging"
             ],
             body: nil,
             host: "s3.us-west-2.amazonaws.com",
