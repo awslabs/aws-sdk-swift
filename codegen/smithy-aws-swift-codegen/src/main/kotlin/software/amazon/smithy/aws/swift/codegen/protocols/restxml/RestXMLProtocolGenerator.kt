@@ -14,19 +14,18 @@ class RestXMLProtocolGenerator : AWSHTTPBindingProtocolGenerator(RestXMLCustomiz
     override val defaultContentType: String = "application/xml"
     override val protocol: ShapeId = RestXmlTrait.ID
     override val testsToIgnore: Set<String> = setOf(
-        "S3DefaultAddressing",
-        "S3VirtualHostAddressing",
-        "S3VirtualHostDualstackAddressing",
-        "S3VirtualHostAccelerateAddressing",
-        "S3VirtualHostDualstackAccelerateAddressing",
-        "S3OperationAddressingPreferred",
-        "S3EscapeObjectKeyInUriLabel",
-        "S3EscapePathObjectKeyInUriLabel",
-        "SDKAppliedContentEncoding_restXml",
-        "SDKAppendedGzipAfterProvidedEncoding_restXml",
-        "S3OperationNoErrorWrappingResponse",
-        "S3PreservesEmbeddedDotSegmentInUriLabel",
-        "S3PreservesLeadingDotSegmentInUriLabel",
+        "S3DefaultAddressing", // can leave disabled, pre-endpoints 2.0
+        "S3VirtualHostAddressing", // can leave disabled, pre-endpoints 2.0
+        "S3VirtualHostDualstackAddressing", // can leave disabled, pre-endpoints 2.0
+        "S3VirtualHostAccelerateAddressing", // can leave disabled, pre-endpoints 2.0
+        "S3VirtualHostDualstackAccelerateAddressing", // can leave disabled, pre-endpoints 2.0
+        "S3OperationAddressingPreferred", // can leave disabled, pre-endpoints 2.0
+        "S3EscapeObjectKeyInUriLabel", // moved to s3-tests.smithy
+        "S3EscapePathObjectKeyInUriLabel", // moved to s3-tests.smithy
+        "SDKAppliedContentEncoding_restXml", // not implemented yet (request compression)
+        "SDKAppendedGzipAfterProvidedEncoding_restXml", // not implemented yet (request compression)
+        "S3PreservesEmbeddedDotSegmentInUriLabel", // moved to s3-tests.smithy
+        "S3PreservesLeadingDotSegmentInUriLabel", // moved to s3-tests.smithy
     )
     override val tagsToIgnore = setOf("defaults")
 
