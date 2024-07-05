@@ -11,6 +11,7 @@ import class ClientRuntime.EndpointsRequestContext
 import let AWSClientRuntime.awsPartitionJSON
 import protocol ClientRuntime.EndpointsRequestContextProviding
 import struct ClientRuntime.DefaultEndpointResolver
+import struct ClientRuntime.StaticEndpointResolver
 import struct SmithyHTTPAPI.Endpoint
 
 public struct EndpointParams {
@@ -71,3 +72,7 @@ extension DefaultEndpointResolver {
 }
 
 extension DefaultEndpointResolver: EndpointResolver {}
+
+typealias StaticEndpointResolver = ClientRuntime.StaticEndpointResolver<EndpointParams>
+
+extension StaticEndpointResolver: EndpointResolver {}
