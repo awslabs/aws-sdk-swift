@@ -62,11 +62,39 @@ class AWSRoute53Tests: XCTestCase {
             ]
         )
         let input1 = ChangeResourceRecordSetsInput(changeBatch: createBatch, hostedZoneId: hostedZoneID)
-        let output1 = try await client.changeResourceRecordSets(input: input1)
+        _ = try await client.changeResourceRecordSets(input: input1)
+
+        // Send a malformed request that deletes the A record that was just created more than once
+        // to test for InvalidBatchError handling.
+        let deleteBatch1 = Route53ClientTypes.ChangeBatch(changes:
+            [
+                Route53ClientTypes.Change(
+                    action: .delete,
+                    resourceRecordSet: Route53ClientTypes.ResourceRecordSet(
+                        name: "abc.\(hostedZoneName)", resourceRecords: [Route53ClientTypes.ResourceRecord(value: "1.1.1.1")], ttl: 3600, type: .a
+                    )
+                ),
+                Route53ClientTypes.Change(
+                    action: .delete,
+                    resourceRecordSet: Route53ClientTypes.ResourceRecordSet(
+                        name: "abc.\(hostedZoneName)", resourceRecords: [Route53ClientTypes.ResourceRecord(value: "1.1.1.1")], ttl: 3600, type: .a
+                    )
+                ),
+            ]
+        )
+        let input2 = ChangeResourceRecordSetsInput(changeBatch: deleteBatch1, hostedZoneId: hostedZoneID)
+        do {
+            _ = try await client.changeResourceRecordSets(input: input2)
+            XCTFail("Expected InvalidChangeBatch error, but it was not thrown.")
+        } catch is InvalidChangeBatch {
+            // no-op
+        } catch {
+            XCTFail("Expected InvalidChangeBatch error, but it was not thrown.")
+        }
 
         // Now delete the A record that was just created; this is necessary for the
         // hosted zone to be deleted in test teardown.
-        let deleteBatch = Route53ClientTypes.ChangeBatch(changes:
+        let deleteBatch2 = Route53ClientTypes.ChangeBatch(changes:
             [
                 Route53ClientTypes.Change(
                     action: .delete,
@@ -76,7 +104,7 @@ class AWSRoute53Tests: XCTestCase {
                 ),
             ]
         )
-        let input2 = ChangeResourceRecordSetsInput(changeBatch: deleteBatch, hostedZoneId: hostedZoneID)
-        let output2 = try await client.changeResourceRecordSets(input: input2)
+        let input3 = ChangeResourceRecordSetsInput(changeBatch: deleteBatch2, hostedZoneId: hostedZoneID)
+        _ = try await client.changeResourceRecordSets(input: input3)
     }
 }
