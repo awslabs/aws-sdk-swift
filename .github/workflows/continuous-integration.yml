@@ -132,6 +132,8 @@ jobs:
         version:
           - "5.9"
           - "5.10"
+    env:
+      ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
     steps:
       - name: Checkout aws-sdk-swift
         uses: actions/checkout@v3
