@@ -112,7 +112,7 @@ jobs:
         run: |
           cd codegen/
           set -o pipefail && \
-          xcodebuild \
+          NSUnbufferedIO=YES xcodebuild \
             -scheme aws-sdk-swift-protocol-tests-Package \
             -testPlan ProtocolTestPlan \
             -destination '${{ matrix.destination }}' \
