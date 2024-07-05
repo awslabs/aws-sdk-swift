@@ -19,7 +19,7 @@ final class TranscribeStreamingTests: XCTestCase {
         let audioURL = Bundle.module.url(forResource: "hello-swift", withExtension: "wav")!
         let audioData = try Data(contentsOf: audioURL)
 
-        // A delay will be imposed between chunks to keep the audio streaming to the Teranscribe
+        // A delay will be imposed between chunks to keep the audio streaming to the Transcribe
         // service at approximately real-time.
         let duration = 2.976
         let chunkSize = 4096
@@ -70,6 +70,16 @@ final class TranscribeStreamingTests: XCTestCase {
             }
         }
 
-        XCTAssertEqual("Hello transcribed streaming from swift sdk.", fullMessage)
+        // All of the following are acceptable results for the transcription, without
+        // regard to capitalization.
+        //
+        // Due to changes to the transcription logic, all of these have been returned
+        // as the transcription at some point.
+        let candidates = [
+            "Hello transcribed streaming from Swift S. D. K.",
+            "Hello transcribed streaming from swift sdk.",
+            "Hello transcribes streaming from Swift SDK.",
+        ]
+        XCTAssertTrue(candidates.contains(where: { $0.lowercased() == fullMessage.lowercased() }))
     }
 }
