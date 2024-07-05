@@ -7,9 +7,6 @@ on:
 env:
   AWS_SWIFT_SDK_USE_LOCAL_DEPS: 1
 
-permissions:
-  id-token: write
-
 jobs:
   apple:
     runs-on: ${{ matrix.runner }}
@@ -179,12 +176,12 @@ jobs:
         run: ./scripts/ci_steps/install_native_linux_dependencies.sh
       - name: Tools Versions
         run: ./scripts/ci_steps/log_tool_versions.sh
-      - name: Configure AWS Credentials for Integration Tests
-        uses: aws-actions/configure-aws-credentials@v3
-        with:
-          role-to-assume: ${{ secrets.INTEGRATION_TEST_ROLE_ARN }}
-          aws-region: us-west-2
       - name: Prepare Protocol & Unit Tests
+        env:
+          AWS_ACCESS_KEY_ID: AKIAIOSFODNN7EXAMPLE
+          AWS_SECRET_ACCESS_KEY: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+          AWS_DEFAULT_REGION: us-west-2
+          AWS_REGION: us-west-2
         run: |
           ./scripts/ci_steps/prepare_protocol_and_unit_tests.sh
       - name: Build and Run Unit Tests on Linux
