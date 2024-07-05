@@ -46,9 +46,7 @@ extension Route53TrimHostedZoneMiddleware: HttpInterceptor {
     public typealias InputType = Input
     public typealias OutputType = Output
 
-    public func modifyBeforeSerialization(
-        context: some MutableInput<Self.InputType, Self.AttributesType>
-    ) async throws {
+    public func modifyBeforeSerialization(context: some MutableInput<Self.InputType>) async throws {
         context.updateInput(updated: getUpdatedInput(input: context.getInput()))
     }
 }
