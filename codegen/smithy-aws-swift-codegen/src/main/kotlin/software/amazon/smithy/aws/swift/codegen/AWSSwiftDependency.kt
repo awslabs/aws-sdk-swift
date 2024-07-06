@@ -18,7 +18,7 @@ class AWSSwiftDependency {
             return SwiftDependency(
                 name,
                 "main",
-                "0.0.12",
+                "0.0.14",
                 "aws-sdk-swift",
                 "../../../aws-sdk-swift",
                 name,

@@ -11,7 +11,7 @@ import SPR
 import AWSCLIUtils
 
 @main
-struct SPRMultiPublish: AsyncParsableCommand {
+struct SPRMultiPublish: AsyncParsableCommand, Configurable {
 
     static var configuration = CommandConfiguration(
         commandName: "spr-multi-publish",
@@ -29,7 +29,7 @@ struct SPRMultiPublish: AsyncParsableCommand {
     var region: String = ""
 
     @Option(help: "The bucket name for the S3 bucket hosting the Registry. Alternate to this option, the bucket may be obtained from environment var AWS_SDK_SPR_BUCKET.")
-    var bucket: String?
+    var bucket: String = ""
 
     @Option(help: "The base URL for the registry.")
     var url: String
@@ -41,6 +41,7 @@ struct SPRMultiPublish: AsyncParsableCommand {
     var replace = false
 
     mutating func run() async throws {
+        try await setOptions()
         let start = Date()
         let allPackages = try runtimePackages + serviceClientPackages
         var allInvalidations = [String]()
