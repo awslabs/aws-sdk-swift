@@ -80,13 +80,13 @@ struct SPRMultiPublish: AsyncParsableCommand {
 
     private var runtimePackages: [(String, String)] {
         return [
-            ("smithy-swift", "../../smithy-swift/"),
-            awsRuntimePackage("AWSClientRuntime"),
-            awsRuntimePackage("AWSSDKChecksums"),
-            awsRuntimePackage("AWSSDKCommon"),
-            awsRuntimePackage("AWSSDKEventStreamsAuth"),
-            awsRuntimePackage("AWSSDKHTTPAuth"),
-            awsRuntimePackage("AWSSDKIdentity"),
+//            ("smithy-swift", "../../smithy-swift/"),
+            awsRuntimePackage("aws-sdk-swift.AWSClientRuntime"),
+            awsRuntimePackage("aws-sdk-swift.AWSSDKChecksums"),
+            awsRuntimePackage("aws-sdk-swift.AWSSDKCommon"),
+            awsRuntimePackage("aws-sdk-swift.AWSSDKEventStreamsAuth"),
+            awsRuntimePackage("aws-sdk-swift.AWSSDKHTTPAuth"),
+            awsRuntimePackage("aws-sdk-swift.AWSSDKIdentity"),
         ]
     }
 
@@ -100,11 +100,11 @@ struct SPRMultiPublish: AsyncParsableCommand {
         }
     }
 
-    private func awsRuntimePackage(_ name: String) -> (String, String) {
-        return (name, "../Sources/Core/\(name)/")
+    private func awsRuntimePackage(_ directory: String) -> (String, String) {
+        return (directory.removePrefix("\(scope)."), "../Sources/Core/\(directory)/")
     }
 
-    private func serviceClientPackage(_ name: String) -> (String, String) {
-        return (name, "../Sources/Services/\(name)/")
+    private func serviceClientPackage(_ directory: String) -> (String, String) {
+        return (directory.removePrefix("\(scope)."), "../Sources/Services/\(directory)/")
     }
 }

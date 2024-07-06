@@ -3,7 +3,7 @@
 import PackageDescription
 
 let sdkVersion: Version = "0.0.12"
-let smithySwiftVersion: Version = "0.51.0"
+let smithySwiftVersion: Version = "0.100.0"
 let crtVersion: Version = "0.32.0"
 
 let package = Package(
@@ -20,7 +20,7 @@ let package = Package(
     dependencies: [
         .package(id: "aws-sdk-swift.AWSSDKHTTPAuth", exact: sdkVersion),
         .package(url: "https://github.com/awslabs/aws-crt-swift", exact: crtVersion),
-        .package(url: "https://github.com/smithy-lang/smithy-swift", exact: smithySwiftVersion),
+        .package(url: "https://github.com/jbelkins/smithy-swift", exact: smithySwiftVersion),
     ],
     targets: [
         .target(
