@@ -2,6 +2,10 @@
 
 import PackageDescription
 
+let sdkVersion: Version = "0.0.12"
+let smithySwiftVersion: Version = "0.51.0"
+let crtVersion: Version = "0.32.0"
+
 let package = Package(
     name: "AWSSDKIdentity",
     platforms: [
@@ -14,9 +18,9 @@ let package = Package(
         .library(name: "AWSSDKIdentity", targets: ["AWSSDKIdentity"]),
     ],
     dependencies: [
-        .package(id: "aws-sdk-swift.AWSSDKCommon", from: "0.0.1"),
-        .package(url: "https://github.com/awslabs/aws-crt-swift", exact: "0.32.0"),
-        .package(url: "https://github.com/smithy-lang/smithy-swift", exact: "0.51.0"),
+        .package(id: "aws-sdk-swift.AWSSDKCommon", exact: sdkVersion),
+        .package(url: "https://github.com/awslabs/aws-crt-swift", exact: crtVersion),
+        .package(url: "https://github.com/smithy-lang/smithy-swift", exact: smithySwiftVersion),
     ],
     targets: [
         .target(

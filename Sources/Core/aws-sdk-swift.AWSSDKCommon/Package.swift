@@ -2,6 +2,10 @@
 
 import PackageDescription
 
+let sdkVersion: Version = "0.0.12"
+let smithySwiftVersion: Version = "0.51.0"
+let crtVersion: Version = "0.32.0"
+
 let package = Package(
     name: "AWSSDKCommon",
     platforms: [
@@ -14,7 +18,7 @@ let package = Package(
         .library(name: "AWSSDKCommon", targets: ["AWSSDKCommon"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/awslabs/aws-crt-swift", exact: "0.32.0"),
+        .package(url: "https://github.com/awslabs/aws-crt-swift", exact: crtVersion),
     ],
     targets: [
         .target(
