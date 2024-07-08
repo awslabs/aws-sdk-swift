@@ -19,7 +19,8 @@ class S3ConcurrentTests: S3XCTestCase {
         try await super.setUp()
         // Generate a file in temp dir to use for tests
         let directoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        fileURL = URL(fileURLWithPath: "50MiB", relativeTo: directoryURL).appendingPathExtension("txt")
+        let uuid = UUID().uuidString.split(separator: "-").first!.lowercased()
+        fileURL = URL(fileURLWithPath: "50MiB-\(uuid)", relativeTo: directoryURL).appendingPathExtension("txt")
         let stringSegment = "1234567890abcdefghijklmnopqrstABCDEFGHIJKLMNOPQRST" // 50 char long string
         guard let segmentData = stringSegment.data(using: .utf8) else {
             XCTFail("Unable to convert string to data")
