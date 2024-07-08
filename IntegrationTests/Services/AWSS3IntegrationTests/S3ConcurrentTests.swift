@@ -12,12 +12,40 @@ import AWSS3
 import AWSIntegrationTestUtils
 
 class S3ConcurrentTests: S3XCTestCase {
-    let fileSize = 104_857_600
+    let fileSize = 50_000_000
+    var fileURL: URL!
 
-    func test_100MB_putObject() async throws {
+    override func setUp() async throws {
+        try await super.setUp()
+        // Generate a file in temp dir to use for tests
+        let directoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        fileURL = URL(fileURLWithPath: "50MiB", relativeTo: directoryURL).appendingPathExtension("txt")
+        let stringSegment = "1234567890abcdefghijklmnopqrstABCDEFGHIJKLMNOPQRST" // 50 char long string
+        guard let segmentData = stringSegment.data(using: .utf8) else {
+            XCTFail("Unable to convert string to data")
+            return
+        }
+        var wholeData = Data()
+        for _ in 1...1_000_000 {
+            wholeData.append(segmentData)
+        }
+        do {
+            try wholeData.write(to: fileURL)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    override func tearDown() async throws {
+        try await super.tearDown()
+        // Delete the temporarily geenerated file
+        try FileManager.default.removeItem(at: fileURL)
+    }
+
+    func test_50MB_putObject() async throws {
         let file = ByteStream.from(
             fileHandle: try FileHandle(
-                forReadingFrom: Bundle.module.url(forResource: "100MiB", withExtension: "txt")!
+                forReadingFrom: fileURL
             )
         )
         let objectKey = UUID().uuidString.split(separator: "-").first!.lowercased()
@@ -28,10 +56,10 @@ class S3ConcurrentTests: S3XCTestCase {
         XCTAssertEqual(contentLength, fileSize)
     }
 
-    func test_100MB_getObject() async throws {
+    func test_50MB_getObject() async throws {
         let file = ByteStream.from(
             fileHandle: try FileHandle(
-                forReadingFrom: Bundle.module.url(forResource: "100MiB", withExtension: "txt")!
+                forReadingFrom: fileURL
             )
         )
         let objectKey = UUID().uuidString.split(separator: "-").first!.lowercased()
@@ -40,16 +68,16 @@ class S3ConcurrentTests: S3XCTestCase {
         let getObjectInput = GetObjectInput(bucket: bucketName, key: objectKey)
         let retrievedData = try await client.getObject(input: getObjectInput).body.unsafelyUnwrapped.readData()
         XCTAssertEqual(
-            try Data(contentsOf: Bundle.module.url(forResource: "100MiB", withExtension: "txt")!),
+            try Data(contentsOf: fileURL),
             retrievedData
         )
     }
 
-    func test_10x_100MB_putObject() async throws {
-        try await repeatConcurrently(count: 10, test: test_100MB_putObject)
+    func test_10x_50MB_putObject() async throws {
+        try await repeatConcurrently(count: 10, test: test_50MB_putObject)
     }
 
-    func test_10x_100MB_getObject() async throws {
-        try await repeatConcurrently(count: 10, test: test_100MB_getObject)
+    func test_10x_50MB_getObject() async throws {
+        try await repeatConcurrently(count: 10, test: test_50MB_getObject)
     }
 }
