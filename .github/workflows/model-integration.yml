@@ -70,6 +70,14 @@ jobs:
           cd ..
           echo "Manifest contents:"
           cat Package.swift
+      - name: Create dummy AWS credentials
+        run: |
+          mkdir -p ~/.aws
+          echo "[default]" > ~/.aws/config
+          echo "region=us-west-2" >> ~/.aws/config
+          echo "[default]" > ~/.aws/credentials
+          echo "aws_access_key_id = test-key-id" >> ~/.aws/credentials
+          echo "aws_secret_access_key = test-secret-access-key" >> ~/.aws/credentials
       - name: Build and Test SDK
         run: |
           cd AWSSDKSwiftCLI
