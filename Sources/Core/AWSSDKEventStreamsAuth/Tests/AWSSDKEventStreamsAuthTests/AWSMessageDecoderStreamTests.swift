@@ -15,7 +15,9 @@ final class AWSMessageDecoderStreamTests: XCTestCase {
 
     func testIterator() async throws {
         let bufferedStream = BufferedStream(
-            data: validMessageDataWithAllHeaders + validMessageDataEmptyPayload + validMessageDataNoHeaders,
+            data: EventStreamTestData.validMessageDataWithAllHeaders() +
+            EventStreamTestData.validMessageDataEmptyPayload() +
+            EventStreamTestData.validMessageDataNoHeaders(),
             isClosed: true
         )
         let messageDecoder = DefaultMessageDecoder()

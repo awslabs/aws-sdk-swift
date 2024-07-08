@@ -59,28 +59,28 @@ class AWSHttpProtocolServiceClient(
                     ConfigProperty(
                         "clientLogMode",
                         ClientRuntimeTypes.Core.ClientLogMode,
-                        { it.format("AWSClientConfigDefaultsProvider.clientLogMode") },
+                        { it.format("AWSClientConfigDefaultsProvider.clientLogMode()") },
                     )
                 }
                 "idempotencyTokenGenerator" -> {
                     ConfigProperty(
                         "idempotencyTokenGenerator",
                         ClientRuntimeTypes.Core.IdempotencyTokenGenerator,
-                        { it.format("AWSClientConfigDefaultsProvider.idempotencyTokenGenerator") },
+                        { it.format("AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()") },
                     )
                 }
                 "httpClientEngine" -> {
                     ConfigProperty(
                         "httpClientEngine",
                         SmithyHTTPAPITypes.HttpClient,
-                        { it.format("AWSClientConfigDefaultsProvider.httpClientEngine") },
+                        { it.format("AWSClientConfigDefaultsProvider.httpClientEngine()") },
                     )
                 }
                 "httpClientConfiguration" -> {
                     ConfigProperty(
                         "httpClientConfiguration",
                         ClientRuntimeTypes.Http.HttpClientConfiguration,
-                        { it.format("AWSClientConfigDefaultsProvider.httpClientConfiguration") },
+                        { it.format("AWSClientConfigDefaultsProvider.httpClientConfiguration()") },
                     )
                 }
                 else -> it
