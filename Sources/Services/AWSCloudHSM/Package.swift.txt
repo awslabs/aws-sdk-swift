@@ -1,0 +1,99 @@
+// swift-tools-version: 5.9.0
+
+import PackageDescription
+
+let package = Package(
+    name: "AWSCloudHSM",
+    platforms: [
+        .macOS(.v10_15), .iOS(.v13)
+    ],
+    products: [
+        .library(name: "AWSCloudHSM", targets: ["AWSCloudHSM"])
+    ],
+    dependencies: [
+        .package(
+            id: "aws-sdk-swift.smithy-swift",
+            from: "0.0.1"
+        ),
+        .package(
+            id: "aws-sdk-swift.AWSClientRuntime",
+            from: "0.0.1"
+        ),
+        .package(
+            id: "aws-sdk-swift.AWSSDKHTTPAuth",
+            from: "0.0.1"
+        ),
+        .package(
+            url: "https://github.com/awslabs/aws-crt-swift",
+            from: "0.31.0"
+        ),
+    ],
+    targets: [
+        .target(
+            name: "AWSCloudHSM",
+            dependencies: [
+                .product(
+                    name: "SmithyHTTPAuthAPI",
+                    package: "aws-sdk-swift.smithy-swift"
+                ),
+                .product(
+                    name: "Smithy",
+                    package: "aws-sdk-swift.smithy-swift"
+                ),
+                .product(
+                    name: "ClientRuntime",
+                    package: "aws-sdk-swift.smithy-swift"
+                ),
+                .product(
+                    name: "AWSClientRuntime",
+                    package: "aws-sdk-swift.AWSClientRuntime"
+                ),
+                .product(
+                    name: "SmithyIdentity",
+                    package: "aws-sdk-swift.smithy-swift"
+                ),
+                .product(
+                    name: "SmithyRetriesAPI",
+                    package: "aws-sdk-swift.smithy-swift"
+                ),
+                .product(
+                    name: "SmithyHTTPAPI",
+                    package: "aws-sdk-swift.smithy-swift"
+                ),
+                .product(
+                    name: "AWSSDKHTTPAuth",
+                    package: "aws-sdk-swift.AWSSDKHTTPAuth"
+                ),
+                .product(
+                    name: "SmithyJSON",
+                    package: "aws-sdk-swift.smithy-swift"
+                ),
+                .product(
+                    name: "SmithyRetries",
+                    package: "aws-sdk-swift.smithy-swift"
+                ),
+                .product(
+                    name: "SmithyReadWrite",
+                    package: "aws-sdk-swift.smithy-swift"
+                ),
+                .product(
+                    name: "AwsCommonRuntimeKit",
+                    package: "aws-crt-swift"
+                ),
+            ],
+            resources: [
+                .process("Resources")
+            ]
+        ),
+        .testTarget(
+            name: "AWSCloudHSMTests",
+            dependencies: [
+                "AWSCloudHSM",
+                .product(
+                    name: "SmithyTestUtil",
+                    package: "aws-sdk-swift.smithy-swift"
+                ),
+            ]
+        )
+    ]
+)
