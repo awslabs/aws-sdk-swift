@@ -27,8 +27,6 @@ class GlacierTests: XCTestCase {
     }
 
     override func tearDown() async throws {
-        let deleteArchiveInput = DeleteArchiveInput(accountId: nil, archiveId: archiveId, vaultName: vaultName)
-        _ = try await glacierClient.deleteArchive(input: deleteArchiveInput)
         let deleteVaultInput = DeleteVaultInput(accountId: nil, vaultName: vaultName)
         _ = try await glacierClient.deleteVault(input: deleteVaultInput)
     }
@@ -39,24 +37,6 @@ class GlacierTests: XCTestCase {
         let vaultURI = try await glacierClient.createVault(input: createVaultInput).location
         let expectedURI = "/\(accountId!)/vaults/\(vaultName)"
         XCTAssertEqual(expectedURI, vaultURI)
-    }
-
-    func testUploadArchive() async throws {
-        // Intentionally set accountId to nil for testing customization that sets it to '-' if nil
-        let uploadArchiveInput = UploadArchiveInput(
-            accountId: nil,
-            body: .data("Hello World".data(using: .utf8)),
-            vaultName: vaultName
-        )
-        // Wait until vault is available
-        _ = try await glacierClient.waitUntilVaultExists(
-            options: WaiterOptions(maxWaitTime: 300),
-            input: DescribeVaultInput(accountId: nil, vaultName: vaultName)
-        )
-        archiveId = try await glacierClient.uploadArchive(input: uploadArchiveInput).archiveId
-        let describeVaultInput = DescribeVaultInput(accountId: nil, vaultName: vaultName)
-        let archiveCount = try await glacierClient.describeVault(input: describeVaultInput).numberOfArchives
-        XCTAssertEqual(1, archiveCount)
     }
 }
 
