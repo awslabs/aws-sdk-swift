@@ -34,9 +34,6 @@ let serviceTargets: [String] = [
 // Uncomment this line to enable all services
 addAllServices()
 
-// Uncomment this line to enable protocol tests
-// addProtocolTests()
-
 addResolvedTargets()
 
 
@@ -47,7 +44,6 @@ addResolvedTargets()
             clientRuntimeVersion: .init("1.2.3"),
             crtVersion: .init("4.5.6"),
             services: ["A","B","C","D","E"].map { PackageManifestBuilder.Service(name: $0) },
-            includeProtocolTests: false,
             excludeAWSServices: false,
             excludeRuntimeTests: false,
             basePackageContents: { "<contents of base package>" }

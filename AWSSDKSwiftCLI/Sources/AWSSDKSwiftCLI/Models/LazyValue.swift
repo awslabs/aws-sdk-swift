@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AWSCLIUtils
 
 /// A class that enables lazy loading a value.
 /// This is useful when you want to lazy load a value within a local scope.
