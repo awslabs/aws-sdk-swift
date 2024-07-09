@@ -18,8 +18,6 @@ import XCTest
 class GetObjectRequestTest: HttpRequestTestBase {
     /// S3 clients should not remove dot segments from request paths.
     func testProtocol_S3PreservesLeadingDotSegmentInUriLabel() async throws {
-        let urlPrefix = urlPrefixFromHost(host: "s3.us-west-2.amazonaws.com")
-        let hostOnly = hostOnlyFromHost(host: "s3.us-west-2.amazonaws.com")
         let expected = buildExpectedHttpRequest(
             method: .get,
             path: "/../key.txt",
@@ -46,8 +44,6 @@ class GetObjectRequestTest: HttpRequestTestBase {
     }
     /// S3 clients should not remove dot segments from request paths.
     func testProtocol_S3PreservesEmbeddedDotSegmentInUriLabel() async throws {
-        let urlPrefix = urlPrefixFromHost(host: "s3.us-west-2.amazonaws.com")
-        let hostOnly = hostOnlyFromHost(host: "s3.us-west-2.amazonaws.com")
         let expected = buildExpectedHttpRequest(
             method: .get,
             path: "/foo/../key.txt",

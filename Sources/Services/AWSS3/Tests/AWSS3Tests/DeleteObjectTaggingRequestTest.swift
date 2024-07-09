@@ -17,8 +17,6 @@ import XCTest
 class DeleteObjectTaggingRequestTest: HttpRequestTestBase {
     /// S3 clients should escape special characters in Object Keys when the Object Key is used as a URI label binding.
     func testProtocol_S3EscapeObjectKeyInUriLabel() async throws {
-        let urlPrefix = urlPrefixFromHost(host: "s3.us-west-2.amazonaws.com")
-        let hostOnly = hostOnlyFromHost(host: "s3.us-west-2.amazonaws.com")
         let expected = buildExpectedHttpRequest(
             method: .delete,
             path: "/my%20key.txt",
@@ -48,8 +46,6 @@ class DeleteObjectTaggingRequestTest: HttpRequestTestBase {
     }
     /// S3 clients should preserve an Object Key representing a path when the Object Key is used as a URI label binding, but still escape special characters.
     func testProtocol_S3EscapePathObjectKeyInUriLabel() async throws {
-        let urlPrefix = urlPrefixFromHost(host: "s3.us-west-2.amazonaws.com")
-        let hostOnly = hostOnlyFromHost(host: "s3.us-west-2.amazonaws.com")
         let expected = buildExpectedHttpRequest(
             method: .delete,
             path: "/foo/bar/my%20key.txt",
