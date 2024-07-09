@@ -99,6 +99,9 @@ fun generateSmithyBuild(services: List<AwsService>): String {
         // escape windows paths for valid json
         val absModelPath = service.modelFile.absolutePath.replace("\\", "\\\\")
         val importPaths = mutableListOf(absModelPath)
+        if (file(service.modelExtrasDir).exists()) {
+            importPaths.add(service.modelExtrasDir)
+        }
         val imports = importPaths.joinToString { "\"$it\"" }
         """
             "${service.projectionName}": {
@@ -186,6 +189,12 @@ val AwsService.sourcesDir: String
     get(){
         return rootProject.file("Sources/Services/$packageName").absolutePath
     }
+
+/**
+ * Service specific model extras
+ */
+val AwsService.modelExtrasDir: String
+    get() = rootProject.file("Tests/AdditionalServiceTests/$packageName/models").absolutePath
 
 task("stageSdks") {
     group = "codegen"
