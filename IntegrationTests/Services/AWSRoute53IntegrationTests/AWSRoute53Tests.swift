@@ -85,11 +85,11 @@ class AWSRoute53Tests: XCTestCase {
         let input2 = ChangeResourceRecordSetsInput(changeBatch: deleteBatch1, hostedZoneId: hostedZoneID)
         do {
             _ = try await client.changeResourceRecordSets(input: input2)
-            XCTFail("Expected InvalidChangeBatch error, but it was not thrown.")
+            XCTFail("Expected InvalidChangeBatch error, but no error thrown.")
         } catch is InvalidChangeBatch {
             // no-op
         } catch {
-            XCTFail("Expected InvalidChangeBatch error, but it was not thrown.")
+            XCTFail("Expected InvalidChangeBatch error, but [\(error.localizedDescription)] was thrown instead.")
         }
 
         // Now delete the A record that was just created; this is necessary for the
