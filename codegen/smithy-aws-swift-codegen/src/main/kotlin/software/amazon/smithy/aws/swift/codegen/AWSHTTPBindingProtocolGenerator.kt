@@ -47,7 +47,6 @@ abstract class AWSHTTPBindingProtocolGenerator(
             responseTestBuilder,
             errorTestBuilder,
             customizations,
-            operationMiddleware,
             getProtocolHttpBindingResolver(ctx, defaultContentType),
             testsToIgnore,
             tagsToIgnore,
