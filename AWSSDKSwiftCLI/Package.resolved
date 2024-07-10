@@ -1,33 +1,6 @@
 {
   "pins" : [
     {
-      "identity" : "aws-crt-swift",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/awslabs/aws-crt-swift",
-      "state" : {
-        "revision" : "b6380f683b31072d77b601c88674461c11bcad5a",
-        "version" : "0.30.0"
-      }
-    },
-    {
-      "identity" : "aws-sdk-swift",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/awslabs/aws-sdk-swift",
-      "state" : {
-        "revision" : "3c20e0be8c8246de8b8e04372404ef1f90be71b6",
-        "version" : "0.46.0"
-      }
-    },
-    {
-      "identity" : "smithy-swift",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/smithy-lang/smithy-swift",
-      "state" : {
-        "revision" : "b2322a067f85c230f17c80be8a67dd543454b081",
-        "version" : "0.51.0"
-      }
-    },
-    {
       "identity" : "swift-algorithms",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-algorithms",

@@ -12,7 +12,6 @@ rm -rf Tests/Services/*
 ./gradlew --stop
 
 # Regenerate the SDK Package.swift with all services
-unset AWS_SWIFT_SDK_USE_LOCAL_DEPS
 cd AWSSDKSwiftCLI
 swift run AWSSDKSwiftCLI generate-package-manifest ..
 cd ..
