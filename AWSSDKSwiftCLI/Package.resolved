@@ -1,15 +1,6 @@
 {
   "pins" : [
     {
-      "identity" : "aws-crt-swift",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/awslabs/aws-crt-swift.git",
-      "state" : {
-        "revision" : "0829d20f252018e776319a0691e715bedb8d9b22",
-        "version" : "0.32.0"
-      }
-    },
-    {
       "identity" : "swift-algorithms",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-algorithms",
