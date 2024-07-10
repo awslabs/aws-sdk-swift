@@ -15,7 +15,6 @@ rm -rf Sources/Services/*
 
 # Regenerate the SDK Package.swift to run only integration tests
 cd AWSSDKSwiftCLI
-unset AWS_SWIFT_SDK_USE_LOCAL_DEPS
 swift run AWSSDKSwiftCLI generate-package-manifest --exclude-runtime-tests ..
 cd ..
 
