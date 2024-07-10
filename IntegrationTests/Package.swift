@@ -106,6 +106,8 @@ func addIntegrationTestTarget(_ name: String) {
             "README.md",
             "Resources/ECSIntegTestApp/"
         ]
+    case "AWSGlacier":
+        additionalDependencies = ["AWSSTS"]
     case "AWSS3":
         additionalDependencies = ["AWSSSOAdmin", "AWSS3Control", "AWSSTS"]
     case "AWSEventBridge":
@@ -145,6 +147,7 @@ let servicesWithIntegrationTests: [String] = [
     "AWSEC2",
     "AWSECS",
     "AWSEventBridge",
+    "AWSGlacier",
     "AWSKinesis",
     "AWSMediaConvert",
     "AWSRoute53",

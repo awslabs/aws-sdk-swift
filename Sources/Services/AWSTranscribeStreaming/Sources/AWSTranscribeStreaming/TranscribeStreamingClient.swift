@@ -13,6 +13,7 @@ import class ClientRuntime.ClientBuilder
 import class ClientRuntime.DefaultClientPlugin
 import class ClientRuntime.HttpClientConfiguration
 import class ClientRuntime.OrchestratorBuilder
+import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HttpResponse
@@ -21,6 +22,7 @@ import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum ClientRuntime.ClientLogMode
 import enum ClientRuntime.DefaultTelemetry
+import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import func AWSSDKEventStreamsAuth.setupBidirectionalStreaming
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
@@ -50,6 +52,7 @@ import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
+import struct Smithy.Attributes
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
@@ -247,7 +250,14 @@ extension TranscribeStreamingClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<StartCallAnalyticsStreamTranscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartCallAnalyticsStreamTranscriptionOutput>(StartCallAnalyticsStreamTranscriptionOutput.httpOutput(from:), StartCallAnalyticsStreamTranscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartCallAnalyticsStreamTranscriptionInput, StartCallAnalyticsStreamTranscriptionOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TranscribeStreaming")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartCallAnalyticsStreamTranscription")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -320,7 +330,14 @@ extension TranscribeStreamingClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<StartMedicalStreamTranscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartMedicalStreamTranscriptionOutput>(StartMedicalStreamTranscriptionOutput.httpOutput(from:), StartMedicalStreamTranscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMedicalStreamTranscriptionInput, StartMedicalStreamTranscriptionOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TranscribeStreaming")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartMedicalStreamTranscription")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -393,7 +410,14 @@ extension TranscribeStreamingClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<StartStreamTranscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartStreamTranscriptionOutput>(StartStreamTranscriptionOutput.httpOutput(from:), StartStreamTranscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartStreamTranscriptionInput, StartStreamTranscriptionOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TranscribeStreaming")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartStreamTranscription")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)

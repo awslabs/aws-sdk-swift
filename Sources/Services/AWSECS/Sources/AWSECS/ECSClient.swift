@@ -14,6 +14,7 @@ import class ClientRuntime.ClientBuilder
 import class ClientRuntime.DefaultClientPlugin
 import class ClientRuntime.HttpClientConfiguration
 import class ClientRuntime.OrchestratorBuilder
+import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HttpResponse
@@ -23,6 +24,7 @@ import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum ClientRuntime.ClientLogMode
 import enum ClientRuntime.DefaultTelemetry
+import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
 import protocol ClientRuntime.Client
@@ -52,6 +54,7 @@ import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
+import struct Smithy.Attributes
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
@@ -239,7 +242,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCapacityProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCapacityProviderOutput>(CreateCapacityProviderOutput.httpOutput(from:), CreateCapacityProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCapacityProviderInput, CreateCapacityProviderOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateCapacityProvider")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -301,7 +311,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateClusterOutput>(CreateClusterOutput.httpOutput(from:), CreateClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateClusterInput, CreateClusterOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateCluster")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -375,7 +392,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateServiceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateServiceOutput>(CreateServiceOutput.httpOutput(from:), CreateServiceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateServiceInput, CreateServiceOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateService")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -444,7 +468,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTaskSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTaskSetOutput>(CreateTaskSetOutput.httpOutput(from:), CreateTaskSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTaskSetInput, CreateTaskSetOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateTaskSet")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -505,7 +536,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAccountSettingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAccountSettingOutput>(DeleteAccountSettingOutput.httpOutput(from:), DeleteAccountSettingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccountSettingInput, DeleteAccountSettingOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteAccountSetting")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -566,7 +604,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAttributesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAttributesOutput>(DeleteAttributesOutput.httpOutput(from:), DeleteAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAttributesInput, DeleteAttributesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteAttributes")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -627,7 +672,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCapacityProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCapacityProviderOutput>(DeleteCapacityProviderOutput.httpOutput(from:), DeleteCapacityProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCapacityProviderInput, DeleteCapacityProviderOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteCapacityProvider")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -693,7 +745,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteClusterOutput>(DeleteClusterOutput.httpOutput(from:), DeleteClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteClusterInput, DeleteClusterOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteCluster")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -756,7 +815,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteServiceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteServiceOutput>(DeleteServiceOutput.httpOutput(from:), DeleteServiceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteServiceInput, DeleteServiceOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteService")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -818,7 +884,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTaskDefinitionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTaskDefinitionsOutput>(DeleteTaskDefinitionsOutput.httpOutput(from:), DeleteTaskDefinitionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTaskDefinitionsInput, DeleteTaskDefinitionsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteTaskDefinitions")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -885,7 +958,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTaskSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTaskSetOutput>(DeleteTaskSetOutput.httpOutput(from:), DeleteTaskSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTaskSetInput, DeleteTaskSetOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteTaskSet")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -947,7 +1027,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterContainerInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterContainerInstanceOutput>(DeregisterContainerInstanceOutput.httpOutput(from:), DeregisterContainerInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterContainerInstanceInput, DeregisterContainerInstanceOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeregisterContainerInstance")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1008,7 +1095,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterTaskDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterTaskDefinitionOutput>(DeregisterTaskDefinitionOutput.httpOutput(from:), DeregisterTaskDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterTaskDefinitionInput, DeregisterTaskDefinitionOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeregisterTaskDefinition")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1069,7 +1163,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCapacityProvidersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCapacityProvidersOutput>(DescribeCapacityProvidersOutput.httpOutput(from:), DescribeCapacityProvidersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCapacityProvidersInput, DescribeCapacityProvidersOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeCapacityProviders")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1130,7 +1231,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeClustersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeClustersOutput>(DescribeClustersOutput.httpOutput(from:), DescribeClustersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeClustersInput, DescribeClustersOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeClusters")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1192,7 +1300,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeContainerInstancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeContainerInstancesOutput>(DescribeContainerInstancesOutput.httpOutput(from:), DescribeContainerInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeContainerInstancesInput, DescribeContainerInstancesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeContainerInstances")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1254,7 +1369,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeServicesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeServicesOutput>(DescribeServicesOutput.httpOutput(from:), DescribeServicesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeServicesInput, DescribeServicesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeServices")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1315,7 +1437,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTaskDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTaskDefinitionOutput>(DescribeTaskDefinitionOutput.httpOutput(from:), DescribeTaskDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTaskDefinitionInput, DescribeTaskDefinitionOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeTaskDefinition")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1381,7 +1510,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTaskSetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTaskSetsOutput>(DescribeTaskSetsOutput.httpOutput(from:), DescribeTaskSetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTaskSetsInput, DescribeTaskSetsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeTaskSets")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1443,7 +1579,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTasksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTasksOutput>(DescribeTasksOutput.httpOutput(from:), DescribeTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTasksInput, DescribeTasksOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeTasks")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1503,7 +1646,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DiscoverPollEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DiscoverPollEndpointOutput>(DiscoverPollEndpointOutput.httpOutput(from:), DiscoverPollEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DiscoverPollEndpointInput, DiscoverPollEndpointOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DiscoverPollEndpoint")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1576,7 +1726,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ExecuteCommandOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ExecuteCommandOutput>(ExecuteCommandOutput.httpOutput(from:), ExecuteCommandOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExecuteCommandInput, ExecuteCommandOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ExecuteCommand")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1641,7 +1798,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTaskProtectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTaskProtectionOutput>(GetTaskProtectionOutput.httpOutput(from:), GetTaskProtectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTaskProtectionInput, GetTaskProtectionOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetTaskProtection")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1702,7 +1866,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAccountSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccountSettingsOutput>(ListAccountSettingsOutput.httpOutput(from:), ListAccountSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccountSettingsInput, ListAccountSettingsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListAccountSettings")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1762,7 +1933,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAttributesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAttributesOutput>(ListAttributesOutput.httpOutput(from:), ListAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAttributesInput, ListAttributesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListAttributes")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1823,7 +2001,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListClustersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListClustersOutput>(ListClustersOutput.httpOutput(from:), ListClustersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListClustersInput, ListClustersOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListClusters")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1885,7 +2070,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListContainerInstancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListContainerInstancesOutput>(ListContainerInstancesOutput.httpOutput(from:), ListContainerInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListContainerInstancesInput, ListContainerInstancesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListContainerInstances")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1947,7 +2139,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListServicesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServicesOutput>(ListServicesOutput.httpOutput(from:), ListServicesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServicesInput, ListServicesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListServices")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2009,7 +2208,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListServicesByNamespaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServicesByNamespaceOutput>(ListServicesByNamespaceOutput.httpOutput(from:), ListServicesByNamespaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServicesByNamespaceInput, ListServicesByNamespaceOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListServicesByNamespace")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2071,7 +2277,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTagsForResource")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2132,7 +2345,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTaskDefinitionFamiliesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTaskDefinitionFamiliesOutput>(ListTaskDefinitionFamiliesOutput.httpOutput(from:), ListTaskDefinitionFamiliesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTaskDefinitionFamiliesInput, ListTaskDefinitionFamiliesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTaskDefinitionFamilies")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2193,7 +2413,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTaskDefinitionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTaskDefinitionsOutput>(ListTaskDefinitionsOutput.httpOutput(from:), ListTaskDefinitionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTaskDefinitionsInput, ListTaskDefinitionsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTaskDefinitions")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2256,7 +2483,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTasksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTasksOutput>(ListTasksOutput.httpOutput(from:), ListTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTasksInput, ListTasksOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTasks")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2317,7 +2551,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<PutAccountSettingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAccountSettingOutput>(PutAccountSettingOutput.httpOutput(from:), PutAccountSettingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAccountSettingInput, PutAccountSettingOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutAccountSetting")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2378,7 +2619,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<PutAccountSettingDefaultOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAccountSettingDefaultOutput>(PutAccountSettingDefaultOutput.httpOutput(from:), PutAccountSettingDefaultOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAccountSettingDefaultInput, PutAccountSettingDefaultOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutAccountSettingDefault")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2440,7 +2688,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<PutAttributesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAttributesOutput>(PutAttributesOutput.httpOutput(from:), PutAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAttributesInput, PutAttributesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutAttributes")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2504,7 +2759,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<PutClusterCapacityProvidersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutClusterCapacityProvidersOutput>(PutClusterCapacityProvidersOutput.httpOutput(from:), PutClusterCapacityProvidersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutClusterCapacityProvidersInput, PutClusterCapacityProvidersOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutClusterCapacityProviders")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2565,7 +2827,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterContainerInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterContainerInstanceOutput>(RegisterContainerInstanceOutput.httpOutput(from:), RegisterContainerInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterContainerInstanceInput, RegisterContainerInstanceOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RegisterContainerInstance")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2626,7 +2895,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterTaskDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterTaskDefinitionOutput>(RegisterTaskDefinitionOutput.httpOutput(from:), RegisterTaskDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterTaskDefinitionInput, RegisterTaskDefinitionOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RegisterTaskDefinition")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2703,7 +2979,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<RunTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RunTaskOutput>(RunTaskOutput.httpOutput(from:), RunTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RunTaskInput, RunTaskOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RunTask")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2766,7 +3049,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<StartTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartTaskOutput>(StartTaskOutput.httpOutput(from:), StartTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartTaskInput, StartTaskOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartTask")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2828,7 +3118,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<StopTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopTaskOutput>(StopTaskOutput.httpOutput(from:), StopTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopTaskInput, StopTaskOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StopTask")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2890,7 +3187,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<SubmitAttachmentStateChangesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SubmitAttachmentStateChangesOutput>(SubmitAttachmentStateChangesOutput.httpOutput(from:), SubmitAttachmentStateChangesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SubmitAttachmentStateChangesInput, SubmitAttachmentStateChangesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SubmitAttachmentStateChanges")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2951,7 +3255,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<SubmitContainerStateChangeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SubmitContainerStateChangeOutput>(SubmitContainerStateChangeOutput.httpOutput(from:), SubmitContainerStateChangeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SubmitContainerStateChangeInput, SubmitContainerStateChangeOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SubmitContainerStateChange")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3013,7 +3324,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<SubmitTaskStateChangeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SubmitTaskStateChangeOutput>(SubmitTaskStateChangeOutput.httpOutput(from:), SubmitTaskStateChangeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SubmitTaskStateChangeInput, SubmitTaskStateChangeOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SubmitTaskStateChange")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3076,7 +3394,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "TagResource")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3139,7 +3464,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UntagResource")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3200,7 +3532,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCapacityProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCapacityProviderOutput>(UpdateCapacityProviderOutput.httpOutput(from:), UpdateCapacityProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCapacityProviderInput, UpdateCapacityProviderOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateCapacityProvider")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3263,7 +3602,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateClusterOutput>(UpdateClusterOutput.httpOutput(from:), UpdateClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateClusterInput, UpdateClusterOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateCluster")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3325,7 +3671,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateClusterSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateClusterSettingsOutput>(UpdateClusterSettingsOutput.httpOutput(from:), UpdateClusterSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateClusterSettingsInput, UpdateClusterSettingsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateClusterSettings")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3390,7 +3743,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateContainerAgentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateContainerAgentOutput>(UpdateContainerAgentOutput.httpOutput(from:), UpdateContainerAgentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateContainerAgentInput, UpdateContainerAgentOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateContainerAgent")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3459,7 +3819,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateContainerInstancesStateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateContainerInstancesStateOutput>(UpdateContainerInstancesStateOutput.httpOutput(from:), UpdateContainerInstancesStateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateContainerInstancesStateInput, UpdateContainerInstancesStateOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateContainerInstancesState")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3563,7 +3930,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateServiceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateServiceOutput>(UpdateServiceOutput.httpOutput(from:), UpdateServiceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateServiceInput, UpdateServiceOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateService")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3630,7 +4004,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateServicePrimaryTaskSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateServicePrimaryTaskSetOutput>(UpdateServicePrimaryTaskSetOutput.httpOutput(from:), UpdateServicePrimaryTaskSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateServicePrimaryTaskSetInput, UpdateServicePrimaryTaskSetOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateServicePrimaryTaskSet")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3695,7 +4076,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTaskProtectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTaskProtectionOutput>(UpdateTaskProtectionOutput.httpOutput(from:), UpdateTaskProtectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTaskProtectionInput, UpdateTaskProtectionOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateTaskProtection")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3762,7 +4150,14 @@ extension ECSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTaskSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTaskSetOutput>(UpdateTaskSetOutput.httpOutput(from:), UpdateTaskSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTaskSetInput, UpdateTaskSetOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateTaskSet")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)

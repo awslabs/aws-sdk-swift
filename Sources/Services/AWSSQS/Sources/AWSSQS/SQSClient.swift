@@ -13,6 +13,7 @@ import class ClientRuntime.ClientBuilder
 import class ClientRuntime.DefaultClientPlugin
 import class ClientRuntime.HttpClientConfiguration
 import class ClientRuntime.OrchestratorBuilder
+import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HttpResponse
@@ -22,6 +23,7 @@ import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum ClientRuntime.ClientLogMode
 import enum ClientRuntime.DefaultTelemetry
+import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
 import protocol ClientRuntime.Client
@@ -50,6 +52,7 @@ import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
+import struct Smithy.Attributes
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
@@ -255,7 +258,14 @@ extension SQSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<AddPermissionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddPermissionOutput>(AddPermissionOutput.httpOutput(from:), AddPermissionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddPermissionInput, AddPermissionOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AddPermission")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -328,7 +338,14 @@ extension SQSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelMessageMoveTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelMessageMoveTaskOutput>(CancelMessageMoveTaskOutput.httpOutput(from:), CancelMessageMoveTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelMessageMoveTaskInput, CancelMessageMoveTaskOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CancelMessageMoveTask")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -408,7 +425,14 @@ extension SQSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ChangeMessageVisibilityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ChangeMessageVisibilityOutput>(ChangeMessageVisibilityOutput.httpOutput(from:), ChangeMessageVisibilityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ChangeMessageVisibilityInput, ChangeMessageVisibilityOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ChangeMessageVisibility")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -481,7 +505,14 @@ extension SQSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ChangeMessageVisibilityBatchOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ChangeMessageVisibilityBatchOutput>(ChangeMessageVisibilityBatchOutput.httpOutput(from:), ChangeMessageVisibilityBatchOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ChangeMessageVisibilityBatchInput, ChangeMessageVisibilityBatchOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ChangeMessageVisibilityBatch")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -569,7 +600,14 @@ extension SQSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateQueueOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateQueueOutput>(CreateQueueOutput.httpOutput(from:), CreateQueueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateQueueInput, CreateQueueOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateQueue")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -640,7 +678,14 @@ extension SQSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMessageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMessageOutput>(DeleteMessageOutput.httpOutput(from:), DeleteMessageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMessageInput, DeleteMessageOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteMessage")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -713,7 +758,14 @@ extension SQSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMessageBatchOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMessageBatchOutput>(DeleteMessageBatchOutput.httpOutput(from:), DeleteMessageBatchOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMessageBatchInput, DeleteMessageBatchOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteMessageBatch")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -782,7 +834,14 @@ extension SQSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteQueueOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteQueueOutput>(DeleteQueueOutput.httpOutput(from:), DeleteQueueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteQueueInput, DeleteQueueOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteQueue")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -852,7 +911,14 @@ extension SQSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetQueueAttributesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetQueueAttributesOutput>(GetQueueAttributesOutput.httpOutput(from:), GetQueueAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetQueueAttributesInput, GetQueueAttributesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetQueueAttributes")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -921,7 +987,14 @@ extension SQSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetQueueUrlOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetQueueUrlOutput>(GetQueueUrlOutput.httpOutput(from:), GetQueueUrlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetQueueUrlInput, GetQueueUrlOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetQueueUrl")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -990,7 +1063,14 @@ extension SQSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDeadLetterSourceQueuesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDeadLetterSourceQueuesOutput>(ListDeadLetterSourceQueuesOutput.httpOutput(from:), ListDeadLetterSourceQueuesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDeadLetterSourceQueuesInput, ListDeadLetterSourceQueuesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListDeadLetterSourceQueues")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1063,7 +1143,14 @@ extension SQSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMessageMoveTasksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMessageMoveTasksOutput>(ListMessageMoveTasksOutput.httpOutput(from:), ListMessageMoveTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMessageMoveTasksInput, ListMessageMoveTasksOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListMessageMoveTasks")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1132,7 +1219,14 @@ extension SQSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListQueueTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListQueueTagsOutput>(ListQueueTagsOutput.httpOutput(from:), ListQueueTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListQueueTagsInput, ListQueueTagsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListQueueTags")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1200,7 +1294,14 @@ extension SQSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListQueuesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListQueuesOutput>(ListQueuesOutput.httpOutput(from:), ListQueuesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListQueuesInput, ListQueuesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListQueues")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1270,7 +1371,14 @@ extension SQSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<PurgeQueueOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PurgeQueueOutput>(PurgeQueueOutput.httpOutput(from:), PurgeQueueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PurgeQueueInput, PurgeQueueOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PurgeQueue")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1366,7 +1474,14 @@ extension SQSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ReceiveMessageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ReceiveMessageOutput>(ReceiveMessageOutput.httpOutput(from:), ReceiveMessageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ReceiveMessageInput, ReceiveMessageOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ReceiveMessage")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1441,7 +1556,14 @@ extension SQSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<RemovePermissionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemovePermissionOutput>(RemovePermissionOutput.httpOutput(from:), RemovePermissionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemovePermissionInput, RemovePermissionOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RemovePermission")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1522,7 +1644,14 @@ extension SQSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<SendMessageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SendMessageOutput>(SendMessageOutput.httpOutput(from:), SendMessageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendMessageInput, SendMessageOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SendMessage")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1607,7 +1736,14 @@ extension SQSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<SendMessageBatchOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SendMessageBatchOutput>(SendMessageBatchOutput.httpOutput(from:), SendMessageBatchOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendMessageBatchInput, SendMessageBatchOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SendMessageBatch")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1685,7 +1821,14 @@ extension SQSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<SetQueueAttributesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SetQueueAttributesOutput>(SetQueueAttributesOutput.httpOutput(from:), SetQueueAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetQueueAttributesInput, SetQueueAttributesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SetQueueAttributes")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1760,7 +1903,14 @@ extension SQSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<StartMessageMoveTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartMessageMoveTaskOutput>(StartMessageMoveTaskOutput.httpOutput(from:), StartMessageMoveTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMessageMoveTaskInput, StartMessageMoveTaskOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartMessageMoveTask")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1840,7 +1990,14 @@ extension SQSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<TagQueueOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagQueueOutput>(TagQueueOutput.httpOutput(from:), TagQueueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagQueueInput, TagQueueOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "TagQueue")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1909,7 +2066,14 @@ extension SQSClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagQueueOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagQueueOutput>(UntagQueueOutput.httpOutput(from:), UntagQueueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagQueueInput, UntagQueueOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SQS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UntagQueue")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)

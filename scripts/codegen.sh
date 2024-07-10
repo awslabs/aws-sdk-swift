@@ -32,6 +32,7 @@ rm -rf Tests/Services/*
 
 # Regenerate the package manifest and doc index, with args passed into this script
 cd AWSSDKSwiftCLI
+unset AWS_SWIFT_SDK_USE_LOCAL_DEPS
 swift run AWSSDKSwiftCLI generate-package-manifest "$@" ..
 swift run AWSSDKSwiftCLI generate-doc-index ..
 cd ..

@@ -14,6 +14,7 @@ import class ClientRuntime.ClientBuilder
 import class ClientRuntime.DefaultClientPlugin
 import class ClientRuntime.HttpClientConfiguration
 import class ClientRuntime.OrchestratorBuilder
+import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HttpResponse
@@ -23,6 +24,7 @@ import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum ClientRuntime.ClientLogMode
 import enum ClientRuntime.DefaultTelemetry
+import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
 import protocol ClientRuntime.Client
@@ -51,6 +53,7 @@ import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
+import struct Smithy.Attributes
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
@@ -238,7 +241,14 @@ extension KinesisClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<AddTagsToStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddTagsToStreamOutput>(AddTagsToStreamOutput.httpOutput(from:), AddTagsToStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddTagsToStreamInput, AddTagsToStreamOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AddTagsToStream")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -306,7 +316,14 @@ extension KinesisClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateStreamOutput>(CreateStreamOutput.httpOutput(from:), CreateStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateStreamInput, CreateStreamOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateStream")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -369,7 +386,14 @@ extension KinesisClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DecreaseStreamRetentionPeriodOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DecreaseStreamRetentionPeriodOutput>(DecreaseStreamRetentionPeriodOutput.httpOutput(from:), DecreaseStreamRetentionPeriodOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DecreaseStreamRetentionPeriodInput, DecreaseStreamRetentionPeriodOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DecreaseStreamRetentionPeriod")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -436,7 +460,14 @@ extension KinesisClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResourcePolicyOutput>(DeleteResourcePolicyOutput.httpOutput(from:), DeleteResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteResourcePolicy")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -499,7 +530,14 @@ extension KinesisClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteStreamOutput>(DeleteStreamOutput.httpOutput(from:), DeleteStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteStreamInput, DeleteStreamOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteStream")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -560,7 +598,14 @@ extension KinesisClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterStreamConsumerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterStreamConsumerOutput>(DeregisterStreamConsumerOutput.httpOutput(from:), DeregisterStreamConsumerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterStreamConsumerInput, DeregisterStreamConsumerOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeregisterStreamConsumer")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -619,7 +664,14 @@ extension KinesisClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLimitsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeLimitsOutput>(DescribeLimitsOutput.httpOutput(from:), DescribeLimitsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLimitsInput, DescribeLimitsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeLimits")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -681,7 +733,14 @@ extension KinesisClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeStreamOutput>(DescribeStreamOutput.httpOutput(from:), DescribeStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeStreamInput, DescribeStreamOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeStream")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -742,7 +801,14 @@ extension KinesisClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeStreamConsumerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeStreamConsumerOutput>(DescribeStreamConsumerOutput.httpOutput(from:), DescribeStreamConsumerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeStreamConsumerInput, DescribeStreamConsumerOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeStreamConsumer")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -804,7 +870,14 @@ extension KinesisClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeStreamSummaryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeStreamSummaryOutput>(DescribeStreamSummaryOutput.httpOutput(from:), DescribeStreamSummaryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeStreamSummaryInput, DescribeStreamSummaryOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeStreamSummary")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -867,7 +940,14 @@ extension KinesisClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableEnhancedMonitoringOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableEnhancedMonitoringOutput>(DisableEnhancedMonitoringOutput.httpOutput(from:), DisableEnhancedMonitoringOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableEnhancedMonitoringInput, DisableEnhancedMonitoringOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisableEnhancedMonitoring")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -930,7 +1010,14 @@ extension KinesisClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableEnhancedMonitoringOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableEnhancedMonitoringOutput>(EnableEnhancedMonitoringOutput.httpOutput(from:), EnableEnhancedMonitoringOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableEnhancedMonitoringInput, EnableEnhancedMonitoringOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "EnableEnhancedMonitoring")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -999,7 +1086,14 @@ extension KinesisClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRecordsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRecordsOutput>(GetRecordsOutput.httpOutput(from:), GetRecordsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRecordsInput, GetRecordsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetRecords")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1065,7 +1159,14 @@ extension KinesisClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourcePolicyOutput>(GetResourcePolicyOutput.httpOutput(from:), GetResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetResourcePolicy")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1127,7 +1228,14 @@ extension KinesisClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetShardIteratorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetShardIteratorOutput>(GetShardIteratorOutput.httpOutput(from:), GetShardIteratorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetShardIteratorInput, GetShardIteratorOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetShardIterator")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1190,7 +1298,14 @@ extension KinesisClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<IncreaseStreamRetentionPeriodOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<IncreaseStreamRetentionPeriodOutput>(IncreaseStreamRetentionPeriodOutput.httpOutput(from:), IncreaseStreamRetentionPeriodOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<IncreaseStreamRetentionPeriodInput, IncreaseStreamRetentionPeriodOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "IncreaseStreamRetentionPeriod")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1254,7 +1369,14 @@ extension KinesisClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListShardsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListShardsOutput>(ListShardsOutput.httpOutput(from:), ListShardsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListShardsInput, ListShardsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListShards")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1317,7 +1439,14 @@ extension KinesisClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStreamConsumersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStreamConsumersOutput>(ListStreamConsumersOutput.httpOutput(from:), ListStreamConsumersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStreamConsumersInput, ListStreamConsumersOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListStreamConsumers")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1378,7 +1507,14 @@ extension KinesisClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStreamsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStreamsOutput>(ListStreamsOutput.httpOutput(from:), ListStreamsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStreamsInput, ListStreamsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListStreams")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1440,7 +1576,14 @@ extension KinesisClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForStreamOutput>(ListTagsForStreamOutput.httpOutput(from:), ListTagsForStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForStreamInput, ListTagsForStreamOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTagsForStream")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1504,7 +1647,14 @@ extension KinesisClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<MergeShardsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<MergeShardsOutput>(MergeShardsOutput.httpOutput(from:), MergeShardsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<MergeShardsInput, MergeShardsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "MergeShards")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1572,7 +1722,14 @@ extension KinesisClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<PutRecordOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutRecordOutput>(PutRecordOutput.httpOutput(from:), PutRecordOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutRecordInput, PutRecordOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutRecord")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1640,7 +1797,14 @@ extension KinesisClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<PutRecordsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutRecordsOutput>(PutRecordsOutput.httpOutput(from:), PutRecordsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutRecordsInput, PutRecordsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutRecords")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1710,7 +1874,14 @@ extension KinesisClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<PutResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutResourcePolicyOutput>(PutResourcePolicyOutput.httpOutput(from:), PutResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutResourcePolicy")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1772,7 +1943,14 @@ extension KinesisClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterStreamConsumerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterStreamConsumerOutput>(RegisterStreamConsumerOutput.httpOutput(from:), RegisterStreamConsumerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterStreamConsumerInput, RegisterStreamConsumerOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RegisterStreamConsumer")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1835,7 +2013,14 @@ extension KinesisClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveTagsFromStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveTagsFromStreamOutput>(RemoveTagsFromStreamOutput.httpOutput(from:), RemoveTagsFromStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveTagsFromStreamInput, RemoveTagsFromStreamOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RemoveTagsFromStream")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1899,7 +2084,14 @@ extension KinesisClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<SplitShardOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SplitShardOutput>(SplitShardOutput.httpOutput(from:), SplitShardOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SplitShardInput, SplitShardOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SplitShard")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1968,7 +2160,14 @@ extension KinesisClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<StartStreamEncryptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartStreamEncryptionOutput>(StartStreamEncryptionOutput.httpOutput(from:), StartStreamEncryptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartStreamEncryptionInput, StartStreamEncryptionOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartStreamEncryption")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2031,7 +2230,14 @@ extension KinesisClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<StopStreamEncryptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopStreamEncryptionOutput>(StopStreamEncryptionOutput.httpOutput(from:), StopStreamEncryptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopStreamEncryptionInput, StopStreamEncryptionOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StopStreamEncryption")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2094,7 +2300,14 @@ extension KinesisClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<SubscribeToShardOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SubscribeToShardOutput>(SubscribeToShardOutput.httpOutput(from:), SubscribeToShardOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SubscribeToShardInput, SubscribeToShardOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SubscribeToShard")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2175,7 +2388,14 @@ extension KinesisClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateShardCountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateShardCountOutput>(UpdateShardCountOutput.httpOutput(from:), UpdateShardCountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateShardCountInput, UpdateShardCountOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateShardCount")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2237,7 +2457,14 @@ extension KinesisClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateStreamModeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateStreamModeOutput>(UpdateStreamModeOutput.httpOutput(from:), UpdateStreamModeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateStreamModeInput, UpdateStreamModeOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateStreamMode")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)

@@ -14,6 +14,7 @@ import class ClientRuntime.ClientBuilder
 import class ClientRuntime.DefaultClientPlugin
 import class ClientRuntime.HttpClientConfiguration
 import class ClientRuntime.OrchestratorBuilder
+import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HttpResponse
@@ -23,6 +24,7 @@ import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum ClientRuntime.ClientLogMode
 import enum ClientRuntime.DefaultTelemetry
+import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
 import protocol ClientRuntime.Client
@@ -53,6 +55,7 @@ import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.AttributeKey
+import struct Smithy.Attributes
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
@@ -241,7 +244,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ActivateEventSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ActivateEventSourceOutput>(ActivateEventSourceOutput.httpOutput(from:), ActivateEventSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ActivateEventSourceInput, ActivateEventSourceOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ActivateEventSource")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -304,7 +314,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelReplayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelReplayOutput>(CancelReplayOutput.httpOutput(from:), CancelReplayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelReplayInput, CancelReplayOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CancelReplay")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -367,7 +384,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateApiDestinationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateApiDestinationOutput>(CreateApiDestinationOutput.httpOutput(from:), CreateApiDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateApiDestinationInput, CreateApiDestinationOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateApiDestination")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -441,7 +465,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateArchiveOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateArchiveOutput>(CreateArchiveOutput.httpOutput(from:), CreateArchiveOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateArchiveInput, CreateArchiveOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateArchive")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -503,7 +534,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConnectionOutput>(CreateConnectionOutput.httpOutput(from:), CreateConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConnectionInput, CreateConnectionOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateConnection")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -565,7 +603,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEndpointOutput>(CreateEndpointOutput.httpOutput(from:), CreateEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEndpointInput, CreateEndpointOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateEndpoint")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -631,7 +676,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEventBusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEventBusOutput>(CreateEventBusOutput.httpOutput(from:), CreateEventBusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEventBusInput, CreateEventBusOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateEventBus")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -704,7 +756,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePartnerEventSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePartnerEventSourceOutput>(CreatePartnerEventSourceOutput.httpOutput(from:), CreatePartnerEventSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePartnerEventSourceInput, CreatePartnerEventSourceOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreatePartnerEventSource")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -768,7 +827,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeactivateEventSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeactivateEventSourceOutput>(DeactivateEventSourceOutput.httpOutput(from:), DeactivateEventSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeactivateEventSourceInput, DeactivateEventSourceOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeactivateEventSource")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -830,7 +896,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeauthorizeConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeauthorizeConnectionOutput>(DeauthorizeConnectionOutput.httpOutput(from:), DeauthorizeConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeauthorizeConnectionInput, DeauthorizeConnectionOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeauthorizeConnection")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -892,7 +965,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteApiDestinationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteApiDestinationOutput>(DeleteApiDestinationOutput.httpOutput(from:), DeleteApiDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteApiDestinationInput, DeleteApiDestinationOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteApiDestination")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -954,7 +1034,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteArchiveOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteArchiveOutput>(DeleteArchiveOutput.httpOutput(from:), DeleteArchiveOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteArchiveInput, DeleteArchiveOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteArchive")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1016,7 +1103,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConnectionOutput>(DeleteConnectionOutput.httpOutput(from:), DeleteConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConnectionInput, DeleteConnectionOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteConnection")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1078,7 +1172,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEndpointOutput>(DeleteEndpointOutput.httpOutput(from:), DeleteEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEndpointInput, DeleteEndpointOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteEndpoint")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1139,7 +1240,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEventBusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEventBusOutput>(DeleteEventBusOutput.httpOutput(from:), DeleteEventBusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEventBusInput, DeleteEventBusOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteEventBus")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1201,7 +1309,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePartnerEventSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePartnerEventSourceOutput>(DeletePartnerEventSourceOutput.httpOutput(from:), DeletePartnerEventSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePartnerEventSourceInput, DeletePartnerEventSourceOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeletePartnerEventSource")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1264,7 +1379,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRuleOutput>(DeleteRuleOutput.httpOutput(from:), DeleteRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRuleInput, DeleteRuleOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteRule")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1325,7 +1447,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeApiDestinationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeApiDestinationOutput>(DescribeApiDestinationOutput.httpOutput(from:), DescribeApiDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeApiDestinationInput, DescribeApiDestinationOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeApiDestination")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1387,7 +1516,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeArchiveOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeArchiveOutput>(DescribeArchiveOutput.httpOutput(from:), DescribeArchiveOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeArchiveInput, DescribeArchiveOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeArchive")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1448,7 +1584,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeConnectionOutput>(DescribeConnectionOutput.httpOutput(from:), DescribeConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConnectionInput, DescribeConnectionOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeConnection")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1509,7 +1652,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEndpointOutput>(DescribeEndpointOutput.httpOutput(from:), DescribeEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEndpointInput, DescribeEndpointOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeEndpoint")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1570,7 +1720,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEventBusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEventBusOutput>(DescribeEventBusOutput.httpOutput(from:), DescribeEventBusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEventBusInput, DescribeEventBusOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeEventBus")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1632,7 +1789,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEventSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEventSourceOutput>(DescribeEventSourceOutput.httpOutput(from:), DescribeEventSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEventSourceInput, DescribeEventSourceOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeEventSource")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1694,7 +1858,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePartnerEventSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePartnerEventSourceOutput>(DescribePartnerEventSourceOutput.httpOutput(from:), DescribePartnerEventSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePartnerEventSourceInput, DescribePartnerEventSourceOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribePartnerEventSource")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1755,7 +1926,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeReplayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeReplayOutput>(DescribeReplayOutput.httpOutput(from:), DescribeReplayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeReplayInput, DescribeReplayOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeReplay")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1816,7 +1994,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRuleOutput>(DescribeRuleOutput.httpOutput(from:), DescribeRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRuleInput, DescribeRuleOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeRule")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1879,7 +2064,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableRuleOutput>(DisableRuleOutput.httpOutput(from:), DisableRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableRuleInput, DisableRuleOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisableRule")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -1942,7 +2134,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableRuleOutput>(EnableRuleOutput.httpOutput(from:), EnableRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableRuleInput, EnableRuleOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "EnableRule")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2002,7 +2201,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListApiDestinationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListApiDestinationsOutput>(ListApiDestinationsOutput.httpOutput(from:), ListApiDestinationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListApiDestinationsInput, ListApiDestinationsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListApiDestinations")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2063,7 +2269,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListArchivesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListArchivesOutput>(ListArchivesOutput.httpOutput(from:), ListArchivesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListArchivesInput, ListArchivesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListArchives")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2123,7 +2336,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListConnectionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConnectionsOutput>(ListConnectionsOutput.httpOutput(from:), ListConnectionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConnectionsInput, ListConnectionsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListConnections")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2183,7 +2403,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEndpointsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEndpointsOutput>(ListEndpointsOutput.httpOutput(from:), ListEndpointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEndpointsInput, ListEndpointsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListEndpoints")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2243,7 +2470,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEventBusesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEventBusesOutput>(ListEventBusesOutput.httpOutput(from:), ListEventBusesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEventBusesInput, ListEventBusesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListEventBuses")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2304,7 +2538,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEventSourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEventSourcesOutput>(ListEventSourcesOutput.httpOutput(from:), ListEventSourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEventSourcesInput, ListEventSourcesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListEventSources")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2366,7 +2607,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPartnerEventSourceAccountsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPartnerEventSourceAccountsOutput>(ListPartnerEventSourceAccountsOutput.httpOutput(from:), ListPartnerEventSourceAccountsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPartnerEventSourceAccountsInput, ListPartnerEventSourceAccountsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListPartnerEventSourceAccounts")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2427,7 +2675,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPartnerEventSourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPartnerEventSourcesOutput>(ListPartnerEventSourcesOutput.httpOutput(from:), ListPartnerEventSourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPartnerEventSourcesInput, ListPartnerEventSourcesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListPartnerEventSources")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2487,7 +2742,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListReplaysOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListReplaysOutput>(ListReplaysOutput.httpOutput(from:), ListReplaysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListReplaysInput, ListReplaysOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListReplays")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2548,7 +2810,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRuleNamesByTargetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRuleNamesByTargetOutput>(ListRuleNamesByTargetOutput.httpOutput(from:), ListRuleNamesByTargetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRuleNamesByTargetInput, ListRuleNamesByTargetOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListRuleNamesByTarget")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2609,7 +2878,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRulesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRulesOutput>(ListRulesOutput.httpOutput(from:), ListRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRulesInput, ListRulesOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListRules")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2670,7 +2946,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTagsForResource")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2731,7 +3014,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTargetsByRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTargetsByRuleOutput>(ListTargetsByRuleOutput.httpOutput(from:), ListTargetsByRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTargetsByRuleInput, ListTargetsByRuleOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTargetsByRule")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2791,7 +3081,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<PutEventsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutEventsOutput>(PutEventsOutput.httpOutput(from:), PutEventsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutEventsInput, PutEventsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutEvents")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2852,7 +3149,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<PutPartnerEventsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutPartnerEventsOutput>(PutPartnerEventsOutput.httpOutput(from:), PutPartnerEventsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutPartnerEventsInput, PutPartnerEventsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutPartnerEvents")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2916,7 +3220,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<PutPermissionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutPermissionOutput>(PutPermissionOutput.httpOutput(from:), PutPermissionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutPermissionInput, PutPermissionOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutPermission")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -2981,7 +3292,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<PutRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutRuleOutput>(PutRuleOutput.httpOutput(from:), PutRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutRuleInput, PutRuleOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutRule")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3074,7 +3392,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<PutTargetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutTargetsOutput>(PutTargetsOutput.httpOutput(from:), PutTargetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutTargetsInput, PutTargetsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutTargets")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3137,7 +3462,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<RemovePermissionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemovePermissionOutput>(RemovePermissionOutput.httpOutput(from:), RemovePermissionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemovePermissionInput, RemovePermissionOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RemovePermission")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3200,7 +3532,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveTargetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveTargetsOutput>(RemoveTargetsOutput.httpOutput(from:), RemoveTargetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveTargetsInput, RemoveTargetsOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RemoveTargets")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3264,7 +3603,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<StartReplayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartReplayOutput>(StartReplayOutput.httpOutput(from:), StartReplayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartReplayInput, StartReplayOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartReplay")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3327,7 +3673,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "TagResource")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3388,7 +3741,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<TestEventPatternOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TestEventPatternOutput>(TestEventPatternOutput.httpOutput(from:), TestEventPatternOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TestEventPatternInput, TestEventPatternOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "TestEventPattern")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3451,7 +3811,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UntagResource")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3514,7 +3881,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateApiDestinationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateApiDestinationOutput>(UpdateApiDestinationOutput.httpOutput(from:), UpdateApiDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateApiDestinationInput, UpdateApiDestinationOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateApiDestination")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3578,7 +3952,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateArchiveOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateArchiveOutput>(UpdateArchiveOutput.httpOutput(from:), UpdateArchiveOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateArchiveInput, UpdateArchiveOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateArchive")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3641,7 +4022,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConnectionOutput>(UpdateConnectionOutput.httpOutput(from:), UpdateConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConnectionInput, UpdateConnectionOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateConnection")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3703,7 +4091,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEndpointOutput>(UpdateEndpointOutput.httpOutput(from:), UpdateEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEndpointInput, UpdateEndpointOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateEndpoint")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)
@@ -3766,7 +4161,14 @@ extension EventBridgeClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEventBusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEventBusOutput>(UpdateEventBusOutput.httpOutput(from:), UpdateEventBusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEventBusInput, UpdateEventBusOutput>(clientLogMode: config.clientLogMode))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EventBridge")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateEventBus")
         let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes
+            ))
             .executeRequest(client)
             .build()
         return try await op.execute(input: input)

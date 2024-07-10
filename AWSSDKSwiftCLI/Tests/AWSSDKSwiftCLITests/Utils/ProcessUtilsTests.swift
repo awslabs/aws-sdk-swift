@@ -9,6 +9,7 @@
 import PackageDescription
 import ArgumentParser
 import XCTest
+import AWSCLIUtils
 
 class ProcessUtilsTests: XCTestCase {
 
