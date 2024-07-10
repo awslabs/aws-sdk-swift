@@ -3,7 +3,6 @@
 set -e
 
 cd AWSSDKSwiftCLI
-unset AWS_SWIFT_SDK_USE_LOCAL_DEPS
 swift run AWSSDKSwiftCLI generate-package-manifest --exclude-aws-services ..
 cd ..
 
