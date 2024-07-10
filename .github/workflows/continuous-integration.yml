@@ -22,6 +22,7 @@ jobs:
         xcode:
           - Xcode_15.2
           - Xcode_15.4
+          - Xcode_16.0
         destination:
           - 'platform=iOS Simulator,OS=17.2,name=iPhone 15'
           - 'platform=iOS Simulator,OS=17.5,name=iPhone 15'
@@ -34,6 +35,8 @@ jobs:
           # Don't run old macOS with new Xcode
           - runner: macos-13
             xcode: Xcode_15.4
+          - runner: macos-13
+            xcode: Xcode_16.0
           # Don't run new macOS with old Xcode
           - runner: macos-14
             xcode: Xcode_15.2
@@ -51,6 +54,19 @@ jobs:
             xcode: Xcode_15.2
           - destination: 'platform=visionOS Simulator,OS=1.2,name=Apple Vision Pro'
             xcode: Xcode_15.2
+          # Don't run any sims with Xcode 16, only macOS
+          - destination: 'platform=tvOS Simulator,OS=17.2,name=Apple TV 4K (3rd generation) (at 1080p)'
+            xcode: Xcode_16.0
+          - destination: 'platform=iOS Simulator,OS=17.2,name=iPhone 15'
+            xcode: Xcode_16.0
+          - destination: 'platform=visionOS Simulator,OS=1.0,name=Apple Vision Pro'
+            xcode: Xcode_16.0
+          - destination: 'platform=tvOS Simulator,OS=17.5,name=Apple TV 4K (3rd generation) (at 1080p)'
+            xcode: Xcode_16.0
+          - destination: 'platform=iOS Simulator,OS=17.5,name=iPhone 15'
+            xcode: Xcode_16.0
+          - destination: 'platform=visionOS Simulator,OS=1.2,name=Apple Vision Pro'
+            xcode: Xcode_16.0
     steps:
       - name: Checkout aws-sdk-swift
         uses: actions/checkout@v4
