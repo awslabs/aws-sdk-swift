@@ -12,7 +12,7 @@ let package = Package(
         .package(url: "https://github.com/apple/swift-package-manager", from: "0.6.0"),
         .package(url: "https://github.com/apple/swift-algorithms", from: "1.0.0"),
         .package(url: "https://github.com/apple/swift-log.git", from: "1.0.0"),
-        .package(url: "https://github.com/awslabs/aws-sdk-swift", from: "0.46.0"),
+        .package(path: "../../aws-sdk-swift"),
     ],
     targets: [
         .executableTarget(
