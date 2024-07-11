@@ -205,25 +205,27 @@ let serviceTargetDependencies: [Target.Dependency] = [
 ]
 
 func addServiceTarget(_ name: String) {
+    let targetName = "\(name.trimmingPrefix("aws-sdk-swift."))"
     package.products += [
-        .library(name: name, targets: [name]),
+        .library(name: targetName, targets: [targetName]),
     ]
     package.targets += [
         .target(
-            name: name,
+            name: targetName,
             dependencies: serviceTargetDependencies,
-            path: "Sources/Services/\(name)/Sources/\(name)",
+            path: "Sources/Services/\(name)/Sources/\(targetName)",
             resources: [.process("Resources")]
         )
     ]
 }
 
 func addServiceUnitTestTarget(_ name: String) {
-    let testName = "\(name)Tests"
+    let targetName = "\(name.trimmingPrefix("aws-sdk-swift."))"
+    let testName = "\(targetName)Tests"
     package.targets += [
         .testTarget(
             name: "\(testName)",
-            dependencies: [.clientRuntime, .awsClientRuntime, .byName(name: name), .smithyTestUtils],
+            dependencies: [.clientRuntime, .awsClientRuntime, .byName(name: targetName), .smithyTestUtils],
             path: "Sources/Services/\(name)/Tests/\(testName)"
         )
     ]
