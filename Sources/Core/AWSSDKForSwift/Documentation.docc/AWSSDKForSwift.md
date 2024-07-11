@@ -11,771 +11,771 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 ## Service Documentation
 
 
-[aws-sdk-swift.AWSACM](../../../../../swift/api/aws-sdk-swift.awsacm/latest)
+[AWSACM](../../../../../swift/api/awsacm/latest)
 
-[aws-sdk-swift.AWSACMPCA](../../../../../swift/api/aws-sdk-swift.awsacmpca/latest)
+[AWSACMPCA](../../../../../swift/api/awsacmpca/latest)
 
-[aws-sdk-swift.AWSAPIGateway](../../../../../swift/api/aws-sdk-swift.awsapigateway/latest)
+[AWSAPIGateway](../../../../../swift/api/awsapigateway/latest)
 
-[aws-sdk-swift.AWSARCZonalShift](../../../../../swift/api/aws-sdk-swift.awsarczonalshift/latest)
+[AWSARCZonalShift](../../../../../swift/api/awsarczonalshift/latest)
 
-[aws-sdk-swift.AWSAccessAnalyzer](../../../../../swift/api/aws-sdk-swift.awsaccessanalyzer/latest)
+[AWSAccessAnalyzer](../../../../../swift/api/awsaccessanalyzer/latest)
 
-[aws-sdk-swift.AWSAccount](../../../../../swift/api/aws-sdk-swift.awsaccount/latest)
+[AWSAccount](../../../../../swift/api/awsaccount/latest)
 
-[aws-sdk-swift.AWSAmp](../../../../../swift/api/aws-sdk-swift.awsamp/latest)
+[AWSAmp](../../../../../swift/api/awsamp/latest)
 
-[aws-sdk-swift.AWSAmplify](../../../../../swift/api/aws-sdk-swift.awsamplify/latest)
+[AWSAmplify](../../../../../swift/api/awsamplify/latest)
 
-[aws-sdk-swift.AWSAmplifyBackend](../../../../../swift/api/aws-sdk-swift.awsamplifybackend/latest)
+[AWSAmplifyBackend](../../../../../swift/api/awsamplifybackend/latest)
 
-[aws-sdk-swift.AWSAmplifyUIBuilder](../../../../../swift/api/aws-sdk-swift.awsamplifyuibuilder/latest)
+[AWSAmplifyUIBuilder](../../../../../swift/api/awsamplifyuibuilder/latest)
 
-[aws-sdk-swift.AWSApiGatewayManagementApi](../../../../../swift/api/aws-sdk-swift.awsapigatewaymanagementapi/latest)
+[AWSApiGatewayManagementApi](../../../../../swift/api/awsapigatewaymanagementapi/latest)
 
-[aws-sdk-swift.AWSApiGatewayV2](../../../../../swift/api/aws-sdk-swift.awsapigatewayv2/latest)
+[AWSApiGatewayV2](../../../../../swift/api/awsapigatewayv2/latest)
 
-[aws-sdk-swift.AWSAppConfig](../../../../../swift/api/aws-sdk-swift.awsappconfig/latest)
+[AWSAppConfig](../../../../../swift/api/awsappconfig/latest)
 
-[aws-sdk-swift.AWSAppConfigData](../../../../../swift/api/aws-sdk-swift.awsappconfigdata/latest)
+[AWSAppConfigData](../../../../../swift/api/awsappconfigdata/latest)
 
-[aws-sdk-swift.AWSAppFabric](../../../../../swift/api/aws-sdk-swift.awsappfabric/latest)
+[AWSAppFabric](../../../../../swift/api/awsappfabric/latest)
 
-[aws-sdk-swift.AWSAppIntegrations](../../../../../swift/api/aws-sdk-swift.awsappintegrations/latest)
+[AWSAppIntegrations](../../../../../swift/api/awsappintegrations/latest)
 
-[aws-sdk-swift.AWSAppMesh](../../../../../swift/api/aws-sdk-swift.awsappmesh/latest)
+[AWSAppMesh](../../../../../swift/api/awsappmesh/latest)
 
-[aws-sdk-swift.AWSAppRunner](../../../../../swift/api/aws-sdk-swift.awsapprunner/latest)
+[AWSAppRunner](../../../../../swift/api/awsapprunner/latest)
 
-[aws-sdk-swift.AWSAppStream](../../../../../swift/api/aws-sdk-swift.awsappstream/latest)
+[AWSAppStream](../../../../../swift/api/awsappstream/latest)
 
-[aws-sdk-swift.AWSAppSync](../../../../../swift/api/aws-sdk-swift.awsappsync/latest)
+[AWSAppSync](../../../../../swift/api/awsappsync/latest)
 
-[aws-sdk-swift.AWSAppTest](../../../../../swift/api/aws-sdk-swift.awsapptest/latest)
+[AWSAppTest](../../../../../swift/api/awsapptest/latest)
 
-[aws-sdk-swift.AWSAppflow](../../../../../swift/api/aws-sdk-swift.awsappflow/latest)
+[AWSAppflow](../../../../../swift/api/awsappflow/latest)
 
-[aws-sdk-swift.AWSApplicationAutoScaling](../../../../../swift/api/aws-sdk-swift.awsapplicationautoscaling/latest)
+[AWSApplicationAutoScaling](../../../../../swift/api/awsapplicationautoscaling/latest)
 
-[aws-sdk-swift.AWSApplicationCostProfiler](../../../../../swift/api/aws-sdk-swift.awsapplicationcostprofiler/latest)
+[AWSApplicationCostProfiler](../../../../../swift/api/awsapplicationcostprofiler/latest)
 
-[aws-sdk-swift.AWSApplicationDiscoveryService](../../../../../swift/api/aws-sdk-swift.awsapplicationdiscoveryservice/latest)
+[AWSApplicationDiscoveryService](../../../../../swift/api/awsapplicationdiscoveryservice/latest)
 
-[aws-sdk-swift.AWSApplicationInsights](../../../../../swift/api/aws-sdk-swift.awsapplicationinsights/latest)
+[AWSApplicationInsights](../../../../../swift/api/awsapplicationinsights/latest)
 
-[aws-sdk-swift.AWSApplicationSignals](../../../../../swift/api/aws-sdk-swift.awsapplicationsignals/latest)
+[AWSApplicationSignals](../../../../../swift/api/awsapplicationsignals/latest)
 
-[aws-sdk-swift.AWSArtifact](../../../../../swift/api/aws-sdk-swift.awsartifact/latest)
+[AWSArtifact](../../../../../swift/api/awsartifact/latest)
 
-[aws-sdk-swift.AWSAthena](../../../../../swift/api/aws-sdk-swift.awsathena/latest)
+[AWSAthena](../../../../../swift/api/awsathena/latest)
 
-[aws-sdk-swift.AWSAuditManager](../../../../../swift/api/aws-sdk-swift.awsauditmanager/latest)
+[AWSAuditManager](../../../../../swift/api/awsauditmanager/latest)
 
-[aws-sdk-swift.AWSAutoScaling](../../../../../swift/api/aws-sdk-swift.awsautoscaling/latest)
+[AWSAutoScaling](../../../../../swift/api/awsautoscaling/latest)
 
-[aws-sdk-swift.AWSAutoScalingPlans](../../../../../swift/api/aws-sdk-swift.awsautoscalingplans/latest)
+[AWSAutoScalingPlans](../../../../../swift/api/awsautoscalingplans/latest)
 
-[aws-sdk-swift.AWSB2bi](../../../../../swift/api/aws-sdk-swift.awsb2bi/latest)
+[AWSB2bi](../../../../../swift/api/awsb2bi/latest)
 
-[aws-sdk-swift.AWSBCMDataExports](../../../../../swift/api/aws-sdk-swift.awsbcmdataexports/latest)
+[AWSBCMDataExports](../../../../../swift/api/awsbcmdataexports/latest)
 
-[aws-sdk-swift.AWSBackup](../../../../../swift/api/aws-sdk-swift.awsbackup/latest)
+[AWSBackup](../../../../../swift/api/awsbackup/latest)
 
-[aws-sdk-swift.AWSBackupGateway](../../../../../swift/api/aws-sdk-swift.awsbackupgateway/latest)
+[AWSBackupGateway](../../../../../swift/api/awsbackupgateway/latest)
 
-[aws-sdk-swift.AWSBatch](../../../../../swift/api/aws-sdk-swift.awsbatch/latest)
+[AWSBatch](../../../../../swift/api/awsbatch/latest)
 
-[aws-sdk-swift.AWSBedrock](../../../../../swift/api/aws-sdk-swift.awsbedrock/latest)
+[AWSBedrock](../../../../../swift/api/awsbedrock/latest)
 
-[aws-sdk-swift.AWSBedrockAgent](../../../../../swift/api/aws-sdk-swift.awsbedrockagent/latest)
+[AWSBedrockAgent](../../../../../swift/api/awsbedrockagent/latest)
 
-[aws-sdk-swift.AWSBedrockAgentRuntime](../../../../../swift/api/aws-sdk-swift.awsbedrockagentruntime/latest)
+[AWSBedrockAgentRuntime](../../../../../swift/api/awsbedrockagentruntime/latest)
 
-[aws-sdk-swift.AWSBedrockRuntime](../../../../../swift/api/aws-sdk-swift.awsbedrockruntime/latest)
+[AWSBedrockRuntime](../../../../../swift/api/awsbedrockruntime/latest)
 
-[aws-sdk-swift.AWSBillingconductor](../../../../../swift/api/aws-sdk-swift.awsbillingconductor/latest)
+[AWSBillingconductor](../../../../../swift/api/awsbillingconductor/latest)
 
-[aws-sdk-swift.AWSBraket](../../../../../swift/api/aws-sdk-swift.awsbraket/latest)
+[AWSBraket](../../../../../swift/api/awsbraket/latest)
 
-[aws-sdk-swift.AWSBudgets](../../../../../swift/api/aws-sdk-swift.awsbudgets/latest)
+[AWSBudgets](../../../../../swift/api/awsbudgets/latest)
 
-[aws-sdk-swift.AWSChatbot](../../../../../swift/api/aws-sdk-swift.awschatbot/latest)
+[AWSChatbot](../../../../../swift/api/awschatbot/latest)
 
-[aws-sdk-swift.AWSChime](../../../../../swift/api/aws-sdk-swift.awschime/latest)
+[AWSChime](../../../../../swift/api/awschime/latest)
 
-[aws-sdk-swift.AWSChimeSDKIdentity](../../../../../swift/api/aws-sdk-swift.awschimesdkidentity/latest)
+[AWSChimeSDKIdentity](../../../../../swift/api/awschimesdkidentity/latest)
 
-[aws-sdk-swift.AWSChimeSDKMediaPipelines](../../../../../swift/api/aws-sdk-swift.awschimesdkmediapipelines/latest)
+[AWSChimeSDKMediaPipelines](../../../../../swift/api/awschimesdkmediapipelines/latest)
 
-[aws-sdk-swift.AWSChimeSDKMeetings](../../../../../swift/api/aws-sdk-swift.awschimesdkmeetings/latest)
+[AWSChimeSDKMeetings](../../../../../swift/api/awschimesdkmeetings/latest)
 
-[aws-sdk-swift.AWSChimeSDKMessaging](../../../../../swift/api/aws-sdk-swift.awschimesdkmessaging/latest)
+[AWSChimeSDKMessaging](../../../../../swift/api/awschimesdkmessaging/latest)
 
-[aws-sdk-swift.AWSChimeSDKVoice](../../../../../swift/api/aws-sdk-swift.awschimesdkvoice/latest)
+[AWSChimeSDKVoice](../../../../../swift/api/awschimesdkvoice/latest)
 
-[aws-sdk-swift.AWSCleanRooms](../../../../../swift/api/aws-sdk-swift.awscleanrooms/latest)
+[AWSCleanRooms](../../../../../swift/api/awscleanrooms/latest)
 
-[aws-sdk-swift.AWSCleanRoomsML](../../../../../swift/api/aws-sdk-swift.awscleanroomsml/latest)
+[AWSCleanRoomsML](../../../../../swift/api/awscleanroomsml/latest)
 
-[aws-sdk-swift.AWSCloud9](../../../../../swift/api/aws-sdk-swift.awscloud9/latest)
+[AWSCloud9](../../../../../swift/api/awscloud9/latest)
 
-[aws-sdk-swift.AWSCloudControl](../../../../../swift/api/aws-sdk-swift.awscloudcontrol/latest)
+[AWSCloudControl](../../../../../swift/api/awscloudcontrol/latest)
 
-[aws-sdk-swift.AWSCloudDirectory](../../../../../swift/api/aws-sdk-swift.awsclouddirectory/latest)
+[AWSCloudDirectory](../../../../../swift/api/awsclouddirectory/latest)
 
-[aws-sdk-swift.AWSCloudFormation](../../../../../swift/api/aws-sdk-swift.awscloudformation/latest)
+[AWSCloudFormation](../../../../../swift/api/awscloudformation/latest)
 
-[aws-sdk-swift.AWSCloudFront](../../../../../swift/api/aws-sdk-swift.awscloudfront/latest)
+[AWSCloudFront](../../../../../swift/api/awscloudfront/latest)
 
-[aws-sdk-swift.AWSCloudFrontKeyValueStore](../../../../../swift/api/aws-sdk-swift.awscloudfrontkeyvaluestore/latest)
+[AWSCloudFrontKeyValueStore](../../../../../swift/api/awscloudfrontkeyvaluestore/latest)
 
-[aws-sdk-swift.AWSCloudHSM](../../../../../swift/api/aws-sdk-swift.awscloudhsm/latest)
+[AWSCloudHSM](../../../../../swift/api/awscloudhsm/latest)
 
-[aws-sdk-swift.AWSCloudHSMV2](../../../../../swift/api/aws-sdk-swift.awscloudhsmv2/latest)
+[AWSCloudHSMV2](../../../../../swift/api/awscloudhsmv2/latest)
 
-[aws-sdk-swift.AWSCloudSearch](../../../../../swift/api/aws-sdk-swift.awscloudsearch/latest)
+[AWSCloudSearch](../../../../../swift/api/awscloudsearch/latest)
 
-[aws-sdk-swift.AWSCloudSearchDomain](../../../../../swift/api/aws-sdk-swift.awscloudsearchdomain/latest)
+[AWSCloudSearchDomain](../../../../../swift/api/awscloudsearchdomain/latest)
 
-[aws-sdk-swift.AWSCloudTrail](../../../../../swift/api/aws-sdk-swift.awscloudtrail/latest)
+[AWSCloudTrail](../../../../../swift/api/awscloudtrail/latest)
 
-[aws-sdk-swift.AWSCloudTrailData](../../../../../swift/api/aws-sdk-swift.awscloudtraildata/latest)
+[AWSCloudTrailData](../../../../../swift/api/awscloudtraildata/latest)
 
-[aws-sdk-swift.AWSCloudWatch](../../../../../swift/api/aws-sdk-swift.awscloudwatch/latest)
+[AWSCloudWatch](../../../../../swift/api/awscloudwatch/latest)
 
-[aws-sdk-swift.AWSCloudWatchEvents](../../../../../swift/api/aws-sdk-swift.awscloudwatchevents/latest)
+[AWSCloudWatchEvents](../../../../../swift/api/awscloudwatchevents/latest)
 
-[aws-sdk-swift.AWSCloudWatchLogs](../../../../../swift/api/aws-sdk-swift.awscloudwatchlogs/latest)
+[AWSCloudWatchLogs](../../../../../swift/api/awscloudwatchlogs/latest)
 
-[aws-sdk-swift.AWSCodeBuild](../../../../../swift/api/aws-sdk-swift.awscodebuild/latest)
+[AWSCodeBuild](../../../../../swift/api/awscodebuild/latest)
 
-[aws-sdk-swift.AWSCodeCatalyst](../../../../../swift/api/aws-sdk-swift.awscodecatalyst/latest)
+[AWSCodeCatalyst](../../../../../swift/api/awscodecatalyst/latest)
 
-[aws-sdk-swift.AWSCodeCommit](../../../../../swift/api/aws-sdk-swift.awscodecommit/latest)
+[AWSCodeCommit](../../../../../swift/api/awscodecommit/latest)
 
-[aws-sdk-swift.AWSCodeConnections](../../../../../swift/api/aws-sdk-swift.awscodeconnections/latest)
+[AWSCodeConnections](../../../../../swift/api/awscodeconnections/latest)
 
-[aws-sdk-swift.AWSCodeDeploy](../../../../../swift/api/aws-sdk-swift.awscodedeploy/latest)
+[AWSCodeDeploy](../../../../../swift/api/awscodedeploy/latest)
 
-[aws-sdk-swift.AWSCodeGuruProfiler](../../../../../swift/api/aws-sdk-swift.awscodeguruprofiler/latest)
+[AWSCodeGuruProfiler](../../../../../swift/api/awscodeguruprofiler/latest)
 
-[aws-sdk-swift.AWSCodeGuruReviewer](../../../../../swift/api/aws-sdk-swift.awscodegurureviewer/latest)
+[AWSCodeGuruReviewer](../../../../../swift/api/awscodegurureviewer/latest)
 
-[aws-sdk-swift.AWSCodeGuruSecurity](../../../../../swift/api/aws-sdk-swift.awscodegurusecurity/latest)
+[AWSCodeGuruSecurity](../../../../../swift/api/awscodegurusecurity/latest)
 
-[aws-sdk-swift.AWSCodePipeline](../../../../../swift/api/aws-sdk-swift.awscodepipeline/latest)
+[AWSCodePipeline](../../../../../swift/api/awscodepipeline/latest)
 
-[aws-sdk-swift.AWSCodeStar](../../../../../swift/api/aws-sdk-swift.awscodestar/latest)
+[AWSCodeStar](../../../../../swift/api/awscodestar/latest)
 
-[aws-sdk-swift.AWSCodeStarconnections](../../../../../swift/api/aws-sdk-swift.awscodestarconnections/latest)
+[AWSCodeStarconnections](../../../../../swift/api/awscodestarconnections/latest)
 
-[aws-sdk-swift.AWSCodeartifact](../../../../../swift/api/aws-sdk-swift.awscodeartifact/latest)
+[AWSCodeartifact](../../../../../swift/api/awscodeartifact/latest)
 
-[aws-sdk-swift.AWSCodestarnotifications](../../../../../swift/api/aws-sdk-swift.awscodestarnotifications/latest)
+[AWSCodestarnotifications](../../../../../swift/api/awscodestarnotifications/latest)
 
-[aws-sdk-swift.AWSCognitoIdentity](../../../../../swift/api/aws-sdk-swift.awscognitoidentity/latest)
+[AWSCognitoIdentity](../../../../../swift/api/awscognitoidentity/latest)
 
-[aws-sdk-swift.AWSCognitoIdentityProvider](../../../../../swift/api/aws-sdk-swift.awscognitoidentityprovider/latest)
+[AWSCognitoIdentityProvider](../../../../../swift/api/awscognitoidentityprovider/latest)
 
-[aws-sdk-swift.AWSCognitoSync](../../../../../swift/api/aws-sdk-swift.awscognitosync/latest)
+[AWSCognitoSync](../../../../../swift/api/awscognitosync/latest)
 
-[aws-sdk-swift.AWSComprehend](../../../../../swift/api/aws-sdk-swift.awscomprehend/latest)
+[AWSComprehend](../../../../../swift/api/awscomprehend/latest)
 
-[aws-sdk-swift.AWSComprehendMedical](../../../../../swift/api/aws-sdk-swift.awscomprehendmedical/latest)
+[AWSComprehendMedical](../../../../../swift/api/awscomprehendmedical/latest)
 
-[aws-sdk-swift.AWSComputeOptimizer](../../../../../swift/api/aws-sdk-swift.awscomputeoptimizer/latest)
+[AWSComputeOptimizer](../../../../../swift/api/awscomputeoptimizer/latest)
 
-[aws-sdk-swift.AWSConfigService](../../../../../swift/api/aws-sdk-swift.awsconfigservice/latest)
+[AWSConfigService](../../../../../swift/api/awsconfigservice/latest)
 
-[aws-sdk-swift.AWSConnect](../../../../../swift/api/aws-sdk-swift.awsconnect/latest)
+[AWSConnect](../../../../../swift/api/awsconnect/latest)
 
-[aws-sdk-swift.AWSConnectCampaigns](../../../../../swift/api/aws-sdk-swift.awsconnectcampaigns/latest)
+[AWSConnectCampaigns](../../../../../swift/api/awsconnectcampaigns/latest)
 
-[aws-sdk-swift.AWSConnectCases](../../../../../swift/api/aws-sdk-swift.awsconnectcases/latest)
+[AWSConnectCases](../../../../../swift/api/awsconnectcases/latest)
 
-[aws-sdk-swift.AWSConnectContactLens](../../../../../swift/api/aws-sdk-swift.awsconnectcontactlens/latest)
+[AWSConnectContactLens](../../../../../swift/api/awsconnectcontactlens/latest)
 
-[aws-sdk-swift.AWSConnectParticipant](../../../../../swift/api/aws-sdk-swift.awsconnectparticipant/latest)
+[AWSConnectParticipant](../../../../../swift/api/awsconnectparticipant/latest)
 
-[aws-sdk-swift.AWSControlCatalog](../../../../../swift/api/aws-sdk-swift.awscontrolcatalog/latest)
+[AWSControlCatalog](../../../../../swift/api/awscontrolcatalog/latest)
 
-[aws-sdk-swift.AWSControlTower](../../../../../swift/api/aws-sdk-swift.awscontroltower/latest)
+[AWSControlTower](../../../../../swift/api/awscontroltower/latest)
 
-[aws-sdk-swift.AWSCostExplorer](../../../../../swift/api/aws-sdk-swift.awscostexplorer/latest)
+[AWSCostExplorer](../../../../../swift/api/awscostexplorer/latest)
 
-[aws-sdk-swift.AWSCostOptimizationHub](../../../../../swift/api/aws-sdk-swift.awscostoptimizationhub/latest)
+[AWSCostOptimizationHub](../../../../../swift/api/awscostoptimizationhub/latest)
 
-[aws-sdk-swift.AWSCostandUsageReportService](../../../../../swift/api/aws-sdk-swift.awscostandusagereportservice/latest)
+[AWSCostandUsageReportService](../../../../../swift/api/awscostandusagereportservice/latest)
 
-[aws-sdk-swift.AWSCustomerProfiles](../../../../../swift/api/aws-sdk-swift.awscustomerprofiles/latest)
+[AWSCustomerProfiles](../../../../../swift/api/awscustomerprofiles/latest)
 
-[aws-sdk-swift.AWSDAX](../../../../../swift/api/aws-sdk-swift.awsdax/latest)
+[AWSDAX](../../../../../swift/api/awsdax/latest)
 
-[aws-sdk-swift.AWSDLM](../../../../../swift/api/aws-sdk-swift.awsdlm/latest)
+[AWSDLM](../../../../../swift/api/awsdlm/latest)
 
-[aws-sdk-swift.AWSDataBrew](../../../../../swift/api/aws-sdk-swift.awsdatabrew/latest)
+[AWSDataBrew](../../../../../swift/api/awsdatabrew/latest)
 
-[aws-sdk-swift.AWSDataExchange](../../../../../swift/api/aws-sdk-swift.awsdataexchange/latest)
+[AWSDataExchange](../../../../../swift/api/awsdataexchange/latest)
 
-[aws-sdk-swift.AWSDataPipeline](../../../../../swift/api/aws-sdk-swift.awsdatapipeline/latest)
+[AWSDataPipeline](../../../../../swift/api/awsdatapipeline/latest)
 
-[aws-sdk-swift.AWSDataSync](../../../../../swift/api/aws-sdk-swift.awsdatasync/latest)
+[AWSDataSync](../../../../../swift/api/awsdatasync/latest)
 
-[aws-sdk-swift.AWSDataZone](../../../../../swift/api/aws-sdk-swift.awsdatazone/latest)
+[AWSDataZone](../../../../../swift/api/awsdatazone/latest)
 
-[aws-sdk-swift.AWSDatabaseMigrationService](../../../../../swift/api/aws-sdk-swift.awsdatabasemigrationservice/latest)
+[AWSDatabaseMigrationService](../../../../../swift/api/awsdatabasemigrationservice/latest)
 
-[aws-sdk-swift.AWSDeadline](../../../../../swift/api/aws-sdk-swift.awsdeadline/latest)
+[AWSDeadline](../../../../../swift/api/awsdeadline/latest)
 
-[aws-sdk-swift.AWSDetective](../../../../../swift/api/aws-sdk-swift.awsdetective/latest)
+[AWSDetective](../../../../../swift/api/awsdetective/latest)
 
-[aws-sdk-swift.AWSDevOpsGuru](../../../../../swift/api/aws-sdk-swift.awsdevopsguru/latest)
+[AWSDevOpsGuru](../../../../../swift/api/awsdevopsguru/latest)
 
-[aws-sdk-swift.AWSDeviceFarm](../../../../../swift/api/aws-sdk-swift.awsdevicefarm/latest)
+[AWSDeviceFarm](../../../../../swift/api/awsdevicefarm/latest)
 
-[aws-sdk-swift.AWSDirectConnect](../../../../../swift/api/aws-sdk-swift.awsdirectconnect/latest)
+[AWSDirectConnect](../../../../../swift/api/awsdirectconnect/latest)
 
-[aws-sdk-swift.AWSDirectoryService](../../../../../swift/api/aws-sdk-swift.awsdirectoryservice/latest)
+[AWSDirectoryService](../../../../../swift/api/awsdirectoryservice/latest)
 
-[aws-sdk-swift.AWSDocDB](../../../../../swift/api/aws-sdk-swift.awsdocdb/latest)
+[AWSDocDB](../../../../../swift/api/awsdocdb/latest)
 
-[aws-sdk-swift.AWSDocDBElastic](../../../../../swift/api/aws-sdk-swift.awsdocdbelastic/latest)
+[AWSDocDBElastic](../../../../../swift/api/awsdocdbelastic/latest)
 
-[aws-sdk-swift.AWSDrs](../../../../../swift/api/aws-sdk-swift.awsdrs/latest)
+[AWSDrs](../../../../../swift/api/awsdrs/latest)
 
-[aws-sdk-swift.AWSDynamoDB](../../../../../swift/api/aws-sdk-swift.awsdynamodb/latest)
+[AWSDynamoDB](../../../../../swift/api/awsdynamodb/latest)
 
-[aws-sdk-swift.AWSDynamoDBStreams](../../../../../swift/api/aws-sdk-swift.awsdynamodbstreams/latest)
+[AWSDynamoDBStreams](../../../../../swift/api/awsdynamodbstreams/latest)
 
-[aws-sdk-swift.AWSEBS](../../../../../swift/api/aws-sdk-swift.awsebs/latest)
+[AWSEBS](../../../../../swift/api/awsebs/latest)
 
-[aws-sdk-swift.AWSEC2](../../../../../swift/api/aws-sdk-swift.awsec2/latest)
+[AWSEC2](../../../../../swift/api/awsec2/latest)
 
-[aws-sdk-swift.AWSEC2InstanceConnect](../../../../../swift/api/aws-sdk-swift.awsec2instanceconnect/latest)
+[AWSEC2InstanceConnect](../../../../../swift/api/awsec2instanceconnect/latest)
 
-[aws-sdk-swift.AWSECR](../../../../../swift/api/aws-sdk-swift.awsecr/latest)
+[AWSECR](../../../../../swift/api/awsecr/latest)
 
-[aws-sdk-swift.AWSECRPUBLIC](../../../../../swift/api/aws-sdk-swift.awsecrpublic/latest)
+[AWSECRPUBLIC](../../../../../swift/api/awsecrpublic/latest)
 
-[aws-sdk-swift.AWSECS](../../../../../swift/api/aws-sdk-swift.awsecs/latest)
+[AWSECS](../../../../../swift/api/awsecs/latest)
 
-[aws-sdk-swift.AWSEFS](../../../../../swift/api/aws-sdk-swift.awsefs/latest)
+[AWSEFS](../../../../../swift/api/awsefs/latest)
 
-[aws-sdk-swift.AWSEKS](../../../../../swift/api/aws-sdk-swift.awseks/latest)
+[AWSEKS](../../../../../swift/api/awseks/latest)
 
-[aws-sdk-swift.AWSEKSAuth](../../../../../swift/api/aws-sdk-swift.awseksauth/latest)
+[AWSEKSAuth](../../../../../swift/api/awseksauth/latest)
 
-[aws-sdk-swift.AWSEMR](../../../../../swift/api/aws-sdk-swift.awsemr/latest)
+[AWSEMR](../../../../../swift/api/awsemr/latest)
 
-[aws-sdk-swift.AWSEMRServerless](../../../../../swift/api/aws-sdk-swift.awsemrserverless/latest)
+[AWSEMRServerless](../../../../../swift/api/awsemrserverless/latest)
 
-[aws-sdk-swift.AWSEMRcontainers](../../../../../swift/api/aws-sdk-swift.awsemrcontainers/latest)
+[AWSEMRcontainers](../../../../../swift/api/awsemrcontainers/latest)
 
-[aws-sdk-swift.AWSElastiCache](../../../../../swift/api/aws-sdk-swift.awselasticache/latest)
+[AWSElastiCache](../../../../../swift/api/awselasticache/latest)
 
-[aws-sdk-swift.AWSElasticBeanstalk](../../../../../swift/api/aws-sdk-swift.awselasticbeanstalk/latest)
+[AWSElasticBeanstalk](../../../../../swift/api/awselasticbeanstalk/latest)
 
-[aws-sdk-swift.AWSElasticInference](../../../../../swift/api/aws-sdk-swift.awselasticinference/latest)
+[AWSElasticInference](../../../../../swift/api/awselasticinference/latest)
 
-[aws-sdk-swift.AWSElasticLoadBalancing](../../../../../swift/api/aws-sdk-swift.awselasticloadbalancing/latest)
+[AWSElasticLoadBalancing](../../../../../swift/api/awselasticloadbalancing/latest)
 
-[aws-sdk-swift.AWSElasticLoadBalancingv2](../../../../../swift/api/aws-sdk-swift.awselasticloadbalancingv2/latest)
+[AWSElasticLoadBalancingv2](../../../../../swift/api/awselasticloadbalancingv2/latest)
 
-[aws-sdk-swift.AWSElasticTranscoder](../../../../../swift/api/aws-sdk-swift.awselastictranscoder/latest)
+[AWSElasticTranscoder](../../../../../swift/api/awselastictranscoder/latest)
 
-[aws-sdk-swift.AWSElasticsearchService](../../../../../swift/api/aws-sdk-swift.awselasticsearchservice/latest)
+[AWSElasticsearchService](../../../../../swift/api/awselasticsearchservice/latest)
 
-[aws-sdk-swift.AWSEntityResolution](../../../../../swift/api/aws-sdk-swift.awsentityresolution/latest)
+[AWSEntityResolution](../../../../../swift/api/awsentityresolution/latest)
 
-[aws-sdk-swift.AWSEventBridge](../../../../../swift/api/aws-sdk-swift.awseventbridge/latest)
+[AWSEventBridge](../../../../../swift/api/awseventbridge/latest)
 
-[aws-sdk-swift.AWSEvidently](../../../../../swift/api/aws-sdk-swift.awsevidently/latest)
+[AWSEvidently](../../../../../swift/api/awsevidently/latest)
 
-[aws-sdk-swift.AWSFMS](../../../../../swift/api/aws-sdk-swift.awsfms/latest)
+[AWSFMS](../../../../../swift/api/awsfms/latest)
 
-[aws-sdk-swift.AWSFSx](../../../../../swift/api/aws-sdk-swift.awsfsx/latest)
+[AWSFSx](../../../../../swift/api/awsfsx/latest)
 
-[aws-sdk-swift.AWSFinspace](../../../../../swift/api/aws-sdk-swift.awsfinspace/latest)
+[AWSFinspace](../../../../../swift/api/awsfinspace/latest)
 
-[aws-sdk-swift.AWSFinspacedata](../../../../../swift/api/aws-sdk-swift.awsfinspacedata/latest)
+[AWSFinspacedata](../../../../../swift/api/awsfinspacedata/latest)
 
-[aws-sdk-swift.AWSFirehose](../../../../../swift/api/aws-sdk-swift.awsfirehose/latest)
+[AWSFirehose](../../../../../swift/api/awsfirehose/latest)
 
-[aws-sdk-swift.AWSFis](../../../../../swift/api/aws-sdk-swift.awsfis/latest)
+[AWSFis](../../../../../swift/api/awsfis/latest)
 
-[aws-sdk-swift.AWSForecast](../../../../../swift/api/aws-sdk-swift.awsforecast/latest)
+[AWSForecast](../../../../../swift/api/awsforecast/latest)
 
-[aws-sdk-swift.AWSForecastquery](../../../../../swift/api/aws-sdk-swift.awsforecastquery/latest)
+[AWSForecastquery](../../../../../swift/api/awsforecastquery/latest)
 
-[aws-sdk-swift.AWSFraudDetector](../../../../../swift/api/aws-sdk-swift.awsfrauddetector/latest)
+[AWSFraudDetector](../../../../../swift/api/awsfrauddetector/latest)
 
-[aws-sdk-swift.AWSFreeTier](../../../../../swift/api/aws-sdk-swift.awsfreetier/latest)
+[AWSFreeTier](../../../../../swift/api/awsfreetier/latest)
 
-[aws-sdk-swift.AWSGameLift](../../../../../swift/api/aws-sdk-swift.awsgamelift/latest)
+[AWSGameLift](../../../../../swift/api/awsgamelift/latest)
 
-[aws-sdk-swift.AWSGlacier](../../../../../swift/api/aws-sdk-swift.awsglacier/latest)
+[AWSGlacier](../../../../../swift/api/awsglacier/latest)
 
-[aws-sdk-swift.AWSGlobalAccelerator](../../../../../swift/api/aws-sdk-swift.awsglobalaccelerator/latest)
+[AWSGlobalAccelerator](../../../../../swift/api/awsglobalaccelerator/latest)
 
-[aws-sdk-swift.AWSGlue](../../../../../swift/api/aws-sdk-swift.awsglue/latest)
+[AWSGlue](../../../../../swift/api/awsglue/latest)
 
-[aws-sdk-swift.AWSGrafana](../../../../../swift/api/aws-sdk-swift.awsgrafana/latest)
+[AWSGrafana](../../../../../swift/api/awsgrafana/latest)
 
-[aws-sdk-swift.AWSGreengrass](../../../../../swift/api/aws-sdk-swift.awsgreengrass/latest)
+[AWSGreengrass](../../../../../swift/api/awsgreengrass/latest)
 
-[aws-sdk-swift.AWSGreengrassV2](../../../../../swift/api/aws-sdk-swift.awsgreengrassv2/latest)
+[AWSGreengrassV2](../../../../../swift/api/awsgreengrassv2/latest)
 
-[aws-sdk-swift.AWSGroundStation](../../../../../swift/api/aws-sdk-swift.awsgroundstation/latest)
+[AWSGroundStation](../../../../../swift/api/awsgroundstation/latest)
 
-[aws-sdk-swift.AWSGuardDuty](../../../../../swift/api/aws-sdk-swift.awsguardduty/latest)
+[AWSGuardDuty](../../../../../swift/api/awsguardduty/latest)
 
-[aws-sdk-swift.AWSHealth](../../../../../swift/api/aws-sdk-swift.awshealth/latest)
+[AWSHealth](../../../../../swift/api/awshealth/latest)
 
-[aws-sdk-swift.AWSHealthLake](../../../../../swift/api/aws-sdk-swift.awshealthlake/latest)
+[AWSHealthLake](../../../../../swift/api/awshealthlake/latest)
 
-[aws-sdk-swift.AWSIAM](../../../../../swift/api/aws-sdk-swift.awsiam/latest)
+[AWSIAM](../../../../../swift/api/awsiam/latest)
 
-[aws-sdk-swift.AWSIVSRealTime](../../../../../swift/api/aws-sdk-swift.awsivsrealtime/latest)
+[AWSIVSRealTime](../../../../../swift/api/awsivsrealtime/latest)
 
-[aws-sdk-swift.AWSIdentitystore](../../../../../swift/api/aws-sdk-swift.awsidentitystore/latest)
+[AWSIdentitystore](../../../../../swift/api/awsidentitystore/latest)
 
-[aws-sdk-swift.AWSImagebuilder](../../../../../swift/api/aws-sdk-swift.awsimagebuilder/latest)
+[AWSImagebuilder](../../../../../swift/api/awsimagebuilder/latest)
 
-[aws-sdk-swift.AWSInspector](../../../../../swift/api/aws-sdk-swift.awsinspector/latest)
+[AWSInspector](../../../../../swift/api/awsinspector/latest)
 
-[aws-sdk-swift.AWSInspector2](../../../../../swift/api/aws-sdk-swift.awsinspector2/latest)
+[AWSInspector2](../../../../../swift/api/awsinspector2/latest)
 
-[aws-sdk-swift.AWSInspectorScan](../../../../../swift/api/aws-sdk-swift.awsinspectorscan/latest)
+[AWSInspectorScan](../../../../../swift/api/awsinspectorscan/latest)
 
-[aws-sdk-swift.AWSInternetMonitor](../../../../../swift/api/aws-sdk-swift.awsinternetmonitor/latest)
+[AWSInternetMonitor](../../../../../swift/api/awsinternetmonitor/latest)
 
-[aws-sdk-swift.AWSIoT](../../../../../swift/api/aws-sdk-swift.awsiot/latest)
+[AWSIoT](../../../../../swift/api/awsiot/latest)
 
-[aws-sdk-swift.AWSIoT1ClickDevicesService](../../../../../swift/api/aws-sdk-swift.awsiot1clickdevicesservice/latest)
+[AWSIoT1ClickDevicesService](../../../../../swift/api/awsiot1clickdevicesservice/latest)
 
-[aws-sdk-swift.AWSIoT1ClickProjects](../../../../../swift/api/aws-sdk-swift.awsiot1clickprojects/latest)
+[AWSIoT1ClickProjects](../../../../../swift/api/awsiot1clickprojects/latest)
 
-[aws-sdk-swift.AWSIoTAnalytics](../../../../../swift/api/aws-sdk-swift.awsiotanalytics/latest)
+[AWSIoTAnalytics](../../../../../swift/api/awsiotanalytics/latest)
 
-[aws-sdk-swift.AWSIoTDataPlane](../../../../../swift/api/aws-sdk-swift.awsiotdataplane/latest)
+[AWSIoTDataPlane](../../../../../swift/api/awsiotdataplane/latest)
 
-[aws-sdk-swift.AWSIoTEvents](../../../../../swift/api/aws-sdk-swift.awsiotevents/latest)
+[AWSIoTEvents](../../../../../swift/api/awsiotevents/latest)
 
-[aws-sdk-swift.AWSIoTEventsData](../../../../../swift/api/aws-sdk-swift.awsioteventsdata/latest)
+[AWSIoTEventsData](../../../../../swift/api/awsioteventsdata/latest)
 
-[aws-sdk-swift.AWSIoTFleetHub](../../../../../swift/api/aws-sdk-swift.awsiotfleethub/latest)
+[AWSIoTFleetHub](../../../../../swift/api/awsiotfleethub/latest)
 
-[aws-sdk-swift.AWSIoTFleetWise](../../../../../swift/api/aws-sdk-swift.awsiotfleetwise/latest)
+[AWSIoTFleetWise](../../../../../swift/api/awsiotfleetwise/latest)
 
-[aws-sdk-swift.AWSIoTJobsDataPlane](../../../../../swift/api/aws-sdk-swift.awsiotjobsdataplane/latest)
+[AWSIoTJobsDataPlane](../../../../../swift/api/awsiotjobsdataplane/latest)
 
-[aws-sdk-swift.AWSIoTSecureTunneling](../../../../../swift/api/aws-sdk-swift.awsiotsecuretunneling/latest)
+[AWSIoTSecureTunneling](../../../../../swift/api/awsiotsecuretunneling/latest)
 
-[aws-sdk-swift.AWSIoTSiteWise](../../../../../swift/api/aws-sdk-swift.awsiotsitewise/latest)
+[AWSIoTSiteWise](../../../../../swift/api/awsiotsitewise/latest)
 
-[aws-sdk-swift.AWSIoTThingsGraph](../../../../../swift/api/aws-sdk-swift.awsiotthingsgraph/latest)
+[AWSIoTThingsGraph](../../../../../swift/api/awsiotthingsgraph/latest)
 
-[aws-sdk-swift.AWSIoTTwinMaker](../../../../../swift/api/aws-sdk-swift.awsiottwinmaker/latest)
+[AWSIoTTwinMaker](../../../../../swift/api/awsiottwinmaker/latest)
 
-[aws-sdk-swift.AWSIoTWireless](../../../../../swift/api/aws-sdk-swift.awsiotwireless/latest)
+[AWSIoTWireless](../../../../../swift/api/awsiotwireless/latest)
 
-[aws-sdk-swift.AWSIotDeviceAdvisor](../../../../../swift/api/aws-sdk-swift.awsiotdeviceadvisor/latest)
+[AWSIotDeviceAdvisor](../../../../../swift/api/awsiotdeviceadvisor/latest)
 
-[aws-sdk-swift.AWSIvs](../../../../../swift/api/aws-sdk-swift.awsivs/latest)
+[AWSIvs](../../../../../swift/api/awsivs/latest)
 
-[aws-sdk-swift.AWSIvschat](../../../../../swift/api/aws-sdk-swift.awsivschat/latest)
+[AWSIvschat](../../../../../swift/api/awsivschat/latest)
 
-[aws-sdk-swift.AWSKMS](../../../../../swift/api/aws-sdk-swift.awskms/latest)
+[AWSKMS](../../../../../swift/api/awskms/latest)
 
-[aws-sdk-swift.AWSKafka](../../../../../swift/api/aws-sdk-swift.awskafka/latest)
+[AWSKafka](../../../../../swift/api/awskafka/latest)
 
-[aws-sdk-swift.AWSKafkaConnect](../../../../../swift/api/aws-sdk-swift.awskafkaconnect/latest)
+[AWSKafkaConnect](../../../../../swift/api/awskafkaconnect/latest)
 
-[aws-sdk-swift.AWSKendra](../../../../../swift/api/aws-sdk-swift.awskendra/latest)
+[AWSKendra](../../../../../swift/api/awskendra/latest)
 
-[aws-sdk-swift.AWSKendraRanking](../../../../../swift/api/aws-sdk-swift.awskendraranking/latest)
+[AWSKendraRanking](../../../../../swift/api/awskendraranking/latest)
 
-[aws-sdk-swift.AWSKeyspaces](../../../../../swift/api/aws-sdk-swift.awskeyspaces/latest)
+[AWSKeyspaces](../../../../../swift/api/awskeyspaces/latest)
 
-[aws-sdk-swift.AWSKinesis](../../../../../swift/api/aws-sdk-swift.awskinesis/latest)
+[AWSKinesis](../../../../../swift/api/awskinesis/latest)
 
-[aws-sdk-swift.AWSKinesisAnalytics](../../../../../swift/api/aws-sdk-swift.awskinesisanalytics/latest)
+[AWSKinesisAnalytics](../../../../../swift/api/awskinesisanalytics/latest)
 
-[aws-sdk-swift.AWSKinesisAnalyticsV2](../../../../../swift/api/aws-sdk-swift.awskinesisanalyticsv2/latest)
+[AWSKinesisAnalyticsV2](../../../../../swift/api/awskinesisanalyticsv2/latest)
 
-[aws-sdk-swift.AWSKinesisVideo](../../../../../swift/api/aws-sdk-swift.awskinesisvideo/latest)
+[AWSKinesisVideo](../../../../../swift/api/awskinesisvideo/latest)
 
-[aws-sdk-swift.AWSKinesisVideoArchivedMedia](../../../../../swift/api/aws-sdk-swift.awskinesisvideoarchivedmedia/latest)
+[AWSKinesisVideoArchivedMedia](../../../../../swift/api/awskinesisvideoarchivedmedia/latest)
 
-[aws-sdk-swift.AWSKinesisVideoMedia](../../../../../swift/api/aws-sdk-swift.awskinesisvideomedia/latest)
+[AWSKinesisVideoMedia](../../../../../swift/api/awskinesisvideomedia/latest)
 
-[aws-sdk-swift.AWSKinesisVideoSignaling](../../../../../swift/api/aws-sdk-swift.awskinesisvideosignaling/latest)
+[AWSKinesisVideoSignaling](../../../../../swift/api/awskinesisvideosignaling/latest)
 
-[aws-sdk-swift.AWSKinesisVideoWebRTCStorage](../../../../../swift/api/aws-sdk-swift.awskinesisvideowebrtcstorage/latest)
+[AWSKinesisVideoWebRTCStorage](../../../../../swift/api/awskinesisvideowebrtcstorage/latest)
 
-[aws-sdk-swift.AWSLakeFormation](../../../../../swift/api/aws-sdk-swift.awslakeformation/latest)
+[AWSLakeFormation](../../../../../swift/api/awslakeformation/latest)
 
-[aws-sdk-swift.AWSLambda](../../../../../swift/api/aws-sdk-swift.awslambda/latest)
+[AWSLambda](../../../../../swift/api/awslambda/latest)
 
-[aws-sdk-swift.AWSLaunchWizard](../../../../../swift/api/aws-sdk-swift.awslaunchwizard/latest)
+[AWSLaunchWizard](../../../../../swift/api/awslaunchwizard/latest)
 
-[aws-sdk-swift.AWSLexModelBuildingService](../../../../../swift/api/aws-sdk-swift.awslexmodelbuildingservice/latest)
+[AWSLexModelBuildingService](../../../../../swift/api/awslexmodelbuildingservice/latest)
 
-[aws-sdk-swift.AWSLexModelsV2](../../../../../swift/api/aws-sdk-swift.awslexmodelsv2/latest)
+[AWSLexModelsV2](../../../../../swift/api/awslexmodelsv2/latest)
 
-[aws-sdk-swift.AWSLexRuntimeService](../../../../../swift/api/aws-sdk-swift.awslexruntimeservice/latest)
+[AWSLexRuntimeService](../../../../../swift/api/awslexruntimeservice/latest)
 
-[aws-sdk-swift.AWSLexRuntimeV2](../../../../../swift/api/aws-sdk-swift.awslexruntimev2/latest)
+[AWSLexRuntimeV2](../../../../../swift/api/awslexruntimev2/latest)
 
-[aws-sdk-swift.AWSLicenseManager](../../../../../swift/api/aws-sdk-swift.awslicensemanager/latest)
+[AWSLicenseManager](../../../../../swift/api/awslicensemanager/latest)
 
-[aws-sdk-swift.AWSLicenseManagerLinuxSubscriptions](../../../../../swift/api/aws-sdk-swift.awslicensemanagerlinuxsubscriptions/latest)
+[AWSLicenseManagerLinuxSubscriptions](../../../../../swift/api/awslicensemanagerlinuxsubscriptions/latest)
 
-[aws-sdk-swift.AWSLicenseManagerUserSubscriptions](../../../../../swift/api/aws-sdk-swift.awslicensemanagerusersubscriptions/latest)
+[AWSLicenseManagerUserSubscriptions](../../../../../swift/api/awslicensemanagerusersubscriptions/latest)
 
-[aws-sdk-swift.AWSLightsail](../../../../../swift/api/aws-sdk-swift.awslightsail/latest)
+[AWSLightsail](../../../../../swift/api/awslightsail/latest)
 
-[aws-sdk-swift.AWSLocation](../../../../../swift/api/aws-sdk-swift.awslocation/latest)
+[AWSLocation](../../../../../swift/api/awslocation/latest)
 
-[aws-sdk-swift.AWSLookoutEquipment](../../../../../swift/api/aws-sdk-swift.awslookoutequipment/latest)
+[AWSLookoutEquipment](../../../../../swift/api/awslookoutequipment/latest)
 
-[aws-sdk-swift.AWSLookoutMetrics](../../../../../swift/api/aws-sdk-swift.awslookoutmetrics/latest)
+[AWSLookoutMetrics](../../../../../swift/api/awslookoutmetrics/latest)
 
-[aws-sdk-swift.AWSLookoutVision](../../../../../swift/api/aws-sdk-swift.awslookoutvision/latest)
+[AWSLookoutVision](../../../../../swift/api/awslookoutvision/latest)
 
-[aws-sdk-swift.AWSM2](../../../../../swift/api/aws-sdk-swift.awsm2/latest)
+[AWSM2](../../../../../swift/api/awsm2/latest)
 
-[aws-sdk-swift.AWSMTurk](../../../../../swift/api/aws-sdk-swift.awsmturk/latest)
+[AWSMTurk](../../../../../swift/api/awsmturk/latest)
 
-[aws-sdk-swift.AWSMWAA](../../../../../swift/api/aws-sdk-swift.awsmwaa/latest)
+[AWSMWAA](../../../../../swift/api/awsmwaa/latest)
 
-[aws-sdk-swift.AWSMachineLearning](../../../../../swift/api/aws-sdk-swift.awsmachinelearning/latest)
+[AWSMachineLearning](../../../../../swift/api/awsmachinelearning/latest)
 
-[aws-sdk-swift.AWSMacie2](../../../../../swift/api/aws-sdk-swift.awsmacie2/latest)
+[AWSMacie2](../../../../../swift/api/awsmacie2/latest)
 
-[aws-sdk-swift.AWSMailManager](../../../../../swift/api/aws-sdk-swift.awsmailmanager/latest)
+[AWSMailManager](../../../../../swift/api/awsmailmanager/latest)
 
-[aws-sdk-swift.AWSManagedBlockchain](../../../../../swift/api/aws-sdk-swift.awsmanagedblockchain/latest)
+[AWSManagedBlockchain](../../../../../swift/api/awsmanagedblockchain/latest)
 
-[aws-sdk-swift.AWSManagedBlockchainQuery](../../../../../swift/api/aws-sdk-swift.awsmanagedblockchainquery/latest)
+[AWSManagedBlockchainQuery](../../../../../swift/api/awsmanagedblockchainquery/latest)
 
-[aws-sdk-swift.AWSMarketplaceAgreement](../../../../../swift/api/aws-sdk-swift.awsmarketplaceagreement/latest)
+[AWSMarketplaceAgreement](../../../../../swift/api/awsmarketplaceagreement/latest)
 
-[aws-sdk-swift.AWSMarketplaceCatalog](../../../../../swift/api/aws-sdk-swift.awsmarketplacecatalog/latest)
+[AWSMarketplaceCatalog](../../../../../swift/api/awsmarketplacecatalog/latest)
 
-[aws-sdk-swift.AWSMarketplaceCommerceAnalytics](../../../../../swift/api/aws-sdk-swift.awsmarketplacecommerceanalytics/latest)
+[AWSMarketplaceCommerceAnalytics](../../../../../swift/api/awsmarketplacecommerceanalytics/latest)
 
-[aws-sdk-swift.AWSMarketplaceDeployment](../../../../../swift/api/aws-sdk-swift.awsmarketplacedeployment/latest)
+[AWSMarketplaceDeployment](../../../../../swift/api/awsmarketplacedeployment/latest)
 
-[aws-sdk-swift.AWSMarketplaceEntitlementService](../../../../../swift/api/aws-sdk-swift.awsmarketplaceentitlementservice/latest)
+[AWSMarketplaceEntitlementService](../../../../../swift/api/awsmarketplaceentitlementservice/latest)
 
-[aws-sdk-swift.AWSMarketplaceMetering](../../../../../swift/api/aws-sdk-swift.awsmarketplacemetering/latest)
+[AWSMarketplaceMetering](../../../../../swift/api/awsmarketplacemetering/latest)
 
-[aws-sdk-swift.AWSMediaConnect](../../../../../swift/api/aws-sdk-swift.awsmediaconnect/latest)
+[AWSMediaConnect](../../../../../swift/api/awsmediaconnect/latest)
 
-[aws-sdk-swift.AWSMediaConvert](../../../../../swift/api/aws-sdk-swift.awsmediaconvert/latest)
+[AWSMediaConvert](../../../../../swift/api/awsmediaconvert/latest)
 
-[aws-sdk-swift.AWSMediaLive](../../../../../swift/api/aws-sdk-swift.awsmedialive/latest)
+[AWSMediaLive](../../../../../swift/api/awsmedialive/latest)
 
-[aws-sdk-swift.AWSMediaPackage](../../../../../swift/api/aws-sdk-swift.awsmediapackage/latest)
+[AWSMediaPackage](../../../../../swift/api/awsmediapackage/latest)
 
-[aws-sdk-swift.AWSMediaPackageV2](../../../../../swift/api/aws-sdk-swift.awsmediapackagev2/latest)
+[AWSMediaPackageV2](../../../../../swift/api/awsmediapackagev2/latest)
 
-[aws-sdk-swift.AWSMediaPackageVod](../../../../../swift/api/aws-sdk-swift.awsmediapackagevod/latest)
+[AWSMediaPackageVod](../../../../../swift/api/awsmediapackagevod/latest)
 
-[aws-sdk-swift.AWSMediaStore](../../../../../swift/api/aws-sdk-swift.awsmediastore/latest)
+[AWSMediaStore](../../../../../swift/api/awsmediastore/latest)
 
-[aws-sdk-swift.AWSMediaStoreData](../../../../../swift/api/aws-sdk-swift.awsmediastoredata/latest)
+[AWSMediaStoreData](../../../../../swift/api/awsmediastoredata/latest)
 
-[aws-sdk-swift.AWSMediaTailor](../../../../../swift/api/aws-sdk-swift.awsmediatailor/latest)
+[AWSMediaTailor](../../../../../swift/api/awsmediatailor/latest)
 
-[aws-sdk-swift.AWSMedicalImaging](../../../../../swift/api/aws-sdk-swift.awsmedicalimaging/latest)
+[AWSMedicalImaging](../../../../../swift/api/awsmedicalimaging/latest)
 
-[aws-sdk-swift.AWSMemoryDB](../../../../../swift/api/aws-sdk-swift.awsmemorydb/latest)
+[AWSMemoryDB](../../../../../swift/api/awsmemorydb/latest)
 
-[aws-sdk-swift.AWSMgn](../../../../../swift/api/aws-sdk-swift.awsmgn/latest)
+[AWSMgn](../../../../../swift/api/awsmgn/latest)
 
-[aws-sdk-swift.AWSMigrationHub](../../../../../swift/api/aws-sdk-swift.awsmigrationhub/latest)
+[AWSMigrationHub](../../../../../swift/api/awsmigrationhub/latest)
 
-[aws-sdk-swift.AWSMigrationHubConfig](../../../../../swift/api/aws-sdk-swift.awsmigrationhubconfig/latest)
+[AWSMigrationHubConfig](../../../../../swift/api/awsmigrationhubconfig/latest)
 
-[aws-sdk-swift.AWSMigrationHubOrchestrator](../../../../../swift/api/aws-sdk-swift.awsmigrationhuborchestrator/latest)
+[AWSMigrationHubOrchestrator](../../../../../swift/api/awsmigrationhuborchestrator/latest)
 
-[aws-sdk-swift.AWSMigrationHubRefactorSpaces](../../../../../swift/api/aws-sdk-swift.awsmigrationhubrefactorspaces/latest)
+[AWSMigrationHubRefactorSpaces](../../../../../swift/api/awsmigrationhubrefactorspaces/latest)
 
-[aws-sdk-swift.AWSMigrationHubStrategy](../../../../../swift/api/aws-sdk-swift.awsmigrationhubstrategy/latest)
+[AWSMigrationHubStrategy](../../../../../swift/api/awsmigrationhubstrategy/latest)
 
-[aws-sdk-swift.AWSMobile](../../../../../swift/api/aws-sdk-swift.awsmobile/latest)
+[AWSMobile](../../../../../swift/api/awsmobile/latest)
 
-[aws-sdk-swift.AWSMq](../../../../../swift/api/aws-sdk-swift.awsmq/latest)
+[AWSMq](../../../../../swift/api/awsmq/latest)
 
-[aws-sdk-swift.AWSNeptune](../../../../../swift/api/aws-sdk-swift.awsneptune/latest)
+[AWSNeptune](../../../../../swift/api/awsneptune/latest)
 
-[aws-sdk-swift.AWSNeptuneGraph](../../../../../swift/api/aws-sdk-swift.awsneptunegraph/latest)
+[AWSNeptuneGraph](../../../../../swift/api/awsneptunegraph/latest)
 
-[aws-sdk-swift.AWSNeptunedata](../../../../../swift/api/aws-sdk-swift.awsneptunedata/latest)
+[AWSNeptunedata](../../../../../swift/api/awsneptunedata/latest)
 
-[aws-sdk-swift.AWSNetworkFirewall](../../../../../swift/api/aws-sdk-swift.awsnetworkfirewall/latest)
+[AWSNetworkFirewall](../../../../../swift/api/awsnetworkfirewall/latest)
 
-[aws-sdk-swift.AWSNetworkManager](../../../../../swift/api/aws-sdk-swift.awsnetworkmanager/latest)
+[AWSNetworkManager](../../../../../swift/api/awsnetworkmanager/latest)
 
-[aws-sdk-swift.AWSNetworkMonitor](../../../../../swift/api/aws-sdk-swift.awsnetworkmonitor/latest)
+[AWSNetworkMonitor](../../../../../swift/api/awsnetworkmonitor/latest)
 
-[aws-sdk-swift.AWSNimble](../../../../../swift/api/aws-sdk-swift.awsnimble/latest)
+[AWSNimble](../../../../../swift/api/awsnimble/latest)
 
-[aws-sdk-swift.AWSOAM](../../../../../swift/api/aws-sdk-swift.awsoam/latest)
+[AWSOAM](../../../../../swift/api/awsoam/latest)
 
-[aws-sdk-swift.AWSOSIS](../../../../../swift/api/aws-sdk-swift.awsosis/latest)
+[AWSOSIS](../../../../../swift/api/awsosis/latest)
 
-[aws-sdk-swift.AWSOmics](../../../../../swift/api/aws-sdk-swift.awsomics/latest)
+[AWSOmics](../../../../../swift/api/awsomics/latest)
 
-[aws-sdk-swift.AWSOpenSearch](../../../../../swift/api/aws-sdk-swift.awsopensearch/latest)
+[AWSOpenSearch](../../../../../swift/api/awsopensearch/latest)
 
-[aws-sdk-swift.AWSOpenSearchServerless](../../../../../swift/api/aws-sdk-swift.awsopensearchserverless/latest)
+[AWSOpenSearchServerless](../../../../../swift/api/awsopensearchserverless/latest)
 
-[aws-sdk-swift.AWSOpsWorks](../../../../../swift/api/aws-sdk-swift.awsopsworks/latest)
+[AWSOpsWorks](../../../../../swift/api/awsopsworks/latest)
 
-[aws-sdk-swift.AWSOpsWorksCM](../../../../../swift/api/aws-sdk-swift.awsopsworkscm/latest)
+[AWSOpsWorksCM](../../../../../swift/api/awsopsworkscm/latest)
 
-[aws-sdk-swift.AWSOrganizations](../../../../../swift/api/aws-sdk-swift.awsorganizations/latest)
+[AWSOrganizations](../../../../../swift/api/awsorganizations/latest)
 
-[aws-sdk-swift.AWSOutposts](../../../../../swift/api/aws-sdk-swift.awsoutposts/latest)
+[AWSOutposts](../../../../../swift/api/awsoutposts/latest)
 
-[aws-sdk-swift.AWSPI](../../../../../swift/api/aws-sdk-swift.awspi/latest)
+[AWSPI](../../../../../swift/api/awspi/latest)
 
-[aws-sdk-swift.AWSPanorama](../../../../../swift/api/aws-sdk-swift.awspanorama/latest)
+[AWSPanorama](../../../../../swift/api/awspanorama/latest)
 
-[aws-sdk-swift.AWSPaymentCryptography](../../../../../swift/api/aws-sdk-swift.awspaymentcryptography/latest)
+[AWSPaymentCryptography](../../../../../swift/api/awspaymentcryptography/latest)
 
-[aws-sdk-swift.AWSPaymentCryptographyData](../../../../../swift/api/aws-sdk-swift.awspaymentcryptographydata/latest)
+[AWSPaymentCryptographyData](../../../../../swift/api/awspaymentcryptographydata/latest)
 
-[aws-sdk-swift.AWSPcaConnectorAd](../../../../../swift/api/aws-sdk-swift.awspcaconnectorad/latest)
+[AWSPcaConnectorAd](../../../../../swift/api/awspcaconnectorad/latest)
 
-[aws-sdk-swift.AWSPcaConnectorScep](../../../../../swift/api/aws-sdk-swift.awspcaconnectorscep/latest)
+[AWSPcaConnectorScep](../../../../../swift/api/awspcaconnectorscep/latest)
 
-[aws-sdk-swift.AWSPersonalize](../../../../../swift/api/aws-sdk-swift.awspersonalize/latest)
+[AWSPersonalize](../../../../../swift/api/awspersonalize/latest)
 
-[aws-sdk-swift.AWSPersonalizeEvents](../../../../../swift/api/aws-sdk-swift.awspersonalizeevents/latest)
+[AWSPersonalizeEvents](../../../../../swift/api/awspersonalizeevents/latest)
 
-[aws-sdk-swift.AWSPersonalizeRuntime](../../../../../swift/api/aws-sdk-swift.awspersonalizeruntime/latest)
+[AWSPersonalizeRuntime](../../../../../swift/api/awspersonalizeruntime/latest)
 
-[aws-sdk-swift.AWSPinpoint](../../../../../swift/api/aws-sdk-swift.awspinpoint/latest)
+[AWSPinpoint](../../../../../swift/api/awspinpoint/latest)
 
-[aws-sdk-swift.AWSPinpointEmail](../../../../../swift/api/aws-sdk-swift.awspinpointemail/latest)
+[AWSPinpointEmail](../../../../../swift/api/awspinpointemail/latest)
 
-[aws-sdk-swift.AWSPinpointSMSVoice](../../../../../swift/api/aws-sdk-swift.awspinpointsmsvoice/latest)
+[AWSPinpointSMSVoice](../../../../../swift/api/awspinpointsmsvoice/latest)
 
-[aws-sdk-swift.AWSPinpointSMSVoiceV2](../../../../../swift/api/aws-sdk-swift.awspinpointsmsvoicev2/latest)
+[AWSPinpointSMSVoiceV2](../../../../../swift/api/awspinpointsmsvoicev2/latest)
 
-[aws-sdk-swift.AWSPipes](../../../../../swift/api/aws-sdk-swift.awspipes/latest)
+[AWSPipes](../../../../../swift/api/awspipes/latest)
 
-[aws-sdk-swift.AWSPolly](../../../../../swift/api/aws-sdk-swift.awspolly/latest)
+[AWSPolly](../../../../../swift/api/awspolly/latest)
 
-[aws-sdk-swift.AWSPricing](../../../../../swift/api/aws-sdk-swift.awspricing/latest)
+[AWSPricing](../../../../../swift/api/awspricing/latest)
 
-[aws-sdk-swift.AWSPrivateNetworks](../../../../../swift/api/aws-sdk-swift.awsprivatenetworks/latest)
+[AWSPrivateNetworks](../../../../../swift/api/awsprivatenetworks/latest)
 
-[aws-sdk-swift.AWSProton](../../../../../swift/api/aws-sdk-swift.awsproton/latest)
+[AWSProton](../../../../../swift/api/awsproton/latest)
 
-[aws-sdk-swift.AWSQBusiness](../../../../../swift/api/aws-sdk-swift.awsqbusiness/latest)
+[AWSQBusiness](../../../../../swift/api/awsqbusiness/latest)
 
-[aws-sdk-swift.AWSQConnect](../../../../../swift/api/aws-sdk-swift.awsqconnect/latest)
+[AWSQConnect](../../../../../swift/api/awsqconnect/latest)
 
-[aws-sdk-swift.AWSQLDB](../../../../../swift/api/aws-sdk-swift.awsqldb/latest)
+[AWSQLDB](../../../../../swift/api/awsqldb/latest)
 
-[aws-sdk-swift.AWSQLDBSession](../../../../../swift/api/aws-sdk-swift.awsqldbsession/latest)
+[AWSQLDBSession](../../../../../swift/api/awsqldbsession/latest)
 
-[aws-sdk-swift.AWSQuickSight](../../../../../swift/api/aws-sdk-swift.awsquicksight/latest)
+[AWSQuickSight](../../../../../swift/api/awsquicksight/latest)
 
-[aws-sdk-swift.AWSRAM](../../../../../swift/api/aws-sdk-swift.awsram/latest)
+[AWSRAM](../../../../../swift/api/awsram/latest)
 
-[aws-sdk-swift.AWSRDS](../../../../../swift/api/aws-sdk-swift.awsrds/latest)
+[AWSRDS](../../../../../swift/api/awsrds/latest)
 
-[aws-sdk-swift.AWSRDSData](../../../../../swift/api/aws-sdk-swift.awsrdsdata/latest)
+[AWSRDSData](../../../../../swift/api/awsrdsdata/latest)
 
-[aws-sdk-swift.AWSRUM](../../../../../swift/api/aws-sdk-swift.awsrum/latest)
+[AWSRUM](../../../../../swift/api/awsrum/latest)
 
-[aws-sdk-swift.AWSRbin](../../../../../swift/api/aws-sdk-swift.awsrbin/latest)
+[AWSRbin](../../../../../swift/api/awsrbin/latest)
 
-[aws-sdk-swift.AWSRedshift](../../../../../swift/api/aws-sdk-swift.awsredshift/latest)
+[AWSRedshift](../../../../../swift/api/awsredshift/latest)
 
-[aws-sdk-swift.AWSRedshiftData](../../../../../swift/api/aws-sdk-swift.awsredshiftdata/latest)
+[AWSRedshiftData](../../../../../swift/api/awsredshiftdata/latest)
 
-[aws-sdk-swift.AWSRedshiftServerless](../../../../../swift/api/aws-sdk-swift.awsredshiftserverless/latest)
+[AWSRedshiftServerless](../../../../../swift/api/awsredshiftserverless/latest)
 
-[aws-sdk-swift.AWSRekognition](../../../../../swift/api/aws-sdk-swift.awsrekognition/latest)
+[AWSRekognition](../../../../../swift/api/awsrekognition/latest)
 
-[aws-sdk-swift.AWSRepostspace](../../../../../swift/api/aws-sdk-swift.awsrepostspace/latest)
+[AWSRepostspace](../../../../../swift/api/awsrepostspace/latest)
 
-[aws-sdk-swift.AWSResiliencehub](../../../../../swift/api/aws-sdk-swift.awsresiliencehub/latest)
+[AWSResiliencehub](../../../../../swift/api/awsresiliencehub/latest)
 
-[aws-sdk-swift.AWSResourceExplorer2](../../../../../swift/api/aws-sdk-swift.awsresourceexplorer2/latest)
+[AWSResourceExplorer2](../../../../../swift/api/awsresourceexplorer2/latest)
 
-[aws-sdk-swift.AWSResourceGroups](../../../../../swift/api/aws-sdk-swift.awsresourcegroups/latest)
+[AWSResourceGroups](../../../../../swift/api/awsresourcegroups/latest)
 
-[aws-sdk-swift.AWSResourceGroupsTaggingAPI](../../../../../swift/api/aws-sdk-swift.awsresourcegroupstaggingapi/latest)
+[AWSResourceGroupsTaggingAPI](../../../../../swift/api/awsresourcegroupstaggingapi/latest)
 
-[aws-sdk-swift.AWSRoboMaker](../../../../../swift/api/aws-sdk-swift.awsrobomaker/latest)
+[AWSRoboMaker](../../../../../swift/api/awsrobomaker/latest)
 
-[aws-sdk-swift.AWSRolesAnywhere](../../../../../swift/api/aws-sdk-swift.awsrolesanywhere/latest)
+[AWSRolesAnywhere](../../../../../swift/api/awsrolesanywhere/latest)
 
-[aws-sdk-swift.AWSRoute53](../../../../../swift/api/aws-sdk-swift.awsroute53/latest)
+[AWSRoute53](../../../../../swift/api/awsroute53/latest)
 
-[aws-sdk-swift.AWSRoute53Domains](../../../../../swift/api/aws-sdk-swift.awsroute53domains/latest)
+[AWSRoute53Domains](../../../../../swift/api/awsroute53domains/latest)
 
-[aws-sdk-swift.AWSRoute53Profiles](../../../../../swift/api/aws-sdk-swift.awsroute53profiles/latest)
+[AWSRoute53Profiles](../../../../../swift/api/awsroute53profiles/latest)
 
-[aws-sdk-swift.AWSRoute53RecoveryCluster](../../../../../swift/api/aws-sdk-swift.awsroute53recoverycluster/latest)
+[AWSRoute53RecoveryCluster](../../../../../swift/api/awsroute53recoverycluster/latest)
 
-[aws-sdk-swift.AWSRoute53RecoveryControlConfig](../../../../../swift/api/aws-sdk-swift.awsroute53recoverycontrolconfig/latest)
+[AWSRoute53RecoveryControlConfig](../../../../../swift/api/awsroute53recoverycontrolconfig/latest)
 
-[aws-sdk-swift.AWSRoute53RecoveryReadiness](../../../../../swift/api/aws-sdk-swift.awsroute53recoveryreadiness/latest)
+[AWSRoute53RecoveryReadiness](../../../../../swift/api/awsroute53recoveryreadiness/latest)
 
-[aws-sdk-swift.AWSRoute53Resolver](../../../../../swift/api/aws-sdk-swift.awsroute53resolver/latest)
+[AWSRoute53Resolver](../../../../../swift/api/awsroute53resolver/latest)
 
-[aws-sdk-swift.AWSS3](../../../../../swift/api/aws-sdk-swift.awss3/latest)
+[AWSS3](../../../../../swift/api/awss3/latest)
 
-[aws-sdk-swift.AWSS3Control](../../../../../swift/api/aws-sdk-swift.awss3control/latest)
+[AWSS3Control](../../../../../swift/api/awss3control/latest)
 
-[aws-sdk-swift.AWSS3Outposts](../../../../../swift/api/aws-sdk-swift.awss3outposts/latest)
+[AWSS3Outposts](../../../../../swift/api/awss3outposts/latest)
 
-[aws-sdk-swift.AWSSES](../../../../../swift/api/aws-sdk-swift.awsses/latest)
+[AWSSES](../../../../../swift/api/awsses/latest)
 
-[aws-sdk-swift.AWSSESv2](../../../../../swift/api/aws-sdk-swift.awssesv2/latest)
+[AWSSESv2](../../../../../swift/api/awssesv2/latest)
 
-[aws-sdk-swift.AWSSFN](../../../../../swift/api/aws-sdk-swift.awssfn/latest)
+[AWSSFN](../../../../../swift/api/awssfn/latest)
 
-[aws-sdk-swift.AWSSMS](../../../../../swift/api/aws-sdk-swift.awssms/latest)
+[AWSSMS](../../../../../swift/api/awssms/latest)
 
-[aws-sdk-swift.AWSSNS](../../../../../swift/api/aws-sdk-swift.awssns/latest)
+[AWSSNS](../../../../../swift/api/awssns/latest)
 
-[aws-sdk-swift.AWSSQS](../../../../../swift/api/aws-sdk-swift.awssqs/latest)
+[AWSSQS](../../../../../swift/api/awssqs/latest)
 
-[aws-sdk-swift.AWSSSM](../../../../../swift/api/aws-sdk-swift.awsssm/latest)
+[AWSSSM](../../../../../swift/api/awsssm/latest)
 
-[aws-sdk-swift.AWSSSMContacts](../../../../../swift/api/aws-sdk-swift.awsssmcontacts/latest)
+[AWSSSMContacts](../../../../../swift/api/awsssmcontacts/latest)
 
-[aws-sdk-swift.AWSSSMIncidents](../../../../../swift/api/aws-sdk-swift.awsssmincidents/latest)
+[AWSSSMIncidents](../../../../../swift/api/awsssmincidents/latest)
 
-[aws-sdk-swift.AWSSSO](../../../../../swift/api/aws-sdk-swift.awssso/latest)
+[AWSSSO](../../../../../swift/api/awssso/latest)
 
-[aws-sdk-swift.AWSSSOAdmin](../../../../../swift/api/aws-sdk-swift.awsssoadmin/latest)
+[AWSSSOAdmin](../../../../../swift/api/awsssoadmin/latest)
 
-[aws-sdk-swift.AWSSSOOIDC](../../../../../swift/api/aws-sdk-swift.awsssooidc/latest)
+[AWSSSOOIDC](../../../../../swift/api/awsssooidc/latest)
 
-[aws-sdk-swift.AWSSTS](../../../../../swift/api/aws-sdk-swift.awssts/latest)
+[AWSSTS](../../../../../swift/api/awssts/latest)
 
-[aws-sdk-swift.AWSSWF](../../../../../swift/api/aws-sdk-swift.awsswf/latest)
+[AWSSWF](../../../../../swift/api/awsswf/latest)
 
-[aws-sdk-swift.AWSSageMaker](../../../../../swift/api/aws-sdk-swift.awssagemaker/latest)
+[AWSSageMaker](../../../../../swift/api/awssagemaker/latest)
 
-[aws-sdk-swift.AWSSageMakerA2IRuntime](../../../../../swift/api/aws-sdk-swift.awssagemakera2iruntime/latest)
+[AWSSageMakerA2IRuntime](../../../../../swift/api/awssagemakera2iruntime/latest)
 
-[aws-sdk-swift.AWSSageMakerFeatureStoreRuntime](../../../../../swift/api/aws-sdk-swift.awssagemakerfeaturestoreruntime/latest)
+[AWSSageMakerFeatureStoreRuntime](../../../../../swift/api/awssagemakerfeaturestoreruntime/latest)
 
-[aws-sdk-swift.AWSSageMakerGeospatial](../../../../../swift/api/aws-sdk-swift.awssagemakergeospatial/latest)
+[AWSSageMakerGeospatial](../../../../../swift/api/awssagemakergeospatial/latest)
 
-[aws-sdk-swift.AWSSageMakerMetrics](../../../../../swift/api/aws-sdk-swift.awssagemakermetrics/latest)
+[AWSSageMakerMetrics](../../../../../swift/api/awssagemakermetrics/latest)
 
-[aws-sdk-swift.AWSSageMakerRuntime](../../../../../swift/api/aws-sdk-swift.awssagemakerruntime/latest)
+[AWSSageMakerRuntime](../../../../../swift/api/awssagemakerruntime/latest)
 
-[aws-sdk-swift.AWSSagemakerEdge](../../../../../swift/api/aws-sdk-swift.awssagemakeredge/latest)
+[AWSSagemakerEdge](../../../../../swift/api/awssagemakeredge/latest)
 
-[aws-sdk-swift.AWSSavingsplans](../../../../../swift/api/aws-sdk-swift.awssavingsplans/latest)
+[AWSSavingsplans](../../../../../swift/api/awssavingsplans/latest)
 
-[aws-sdk-swift.AWSScheduler](../../../../../swift/api/aws-sdk-swift.awsscheduler/latest)
+[AWSScheduler](../../../../../swift/api/awsscheduler/latest)
 
-[aws-sdk-swift.AWSSchemas](../../../../../swift/api/aws-sdk-swift.awsschemas/latest)
+[AWSSchemas](../../../../../swift/api/awsschemas/latest)
 
-[aws-sdk-swift.AWSSecretsManager](../../../../../swift/api/aws-sdk-swift.awssecretsmanager/latest)
+[AWSSecretsManager](../../../../../swift/api/awssecretsmanager/latest)
 
-[aws-sdk-swift.AWSSecurityHub](../../../../../swift/api/aws-sdk-swift.awssecurityhub/latest)
+[AWSSecurityHub](../../../../../swift/api/awssecurityhub/latest)
 
-[aws-sdk-swift.AWSSecurityLake](../../../../../swift/api/aws-sdk-swift.awssecuritylake/latest)
+[AWSSecurityLake](../../../../../swift/api/awssecuritylake/latest)
 
-[aws-sdk-swift.AWSServerlessApplicationRepository](../../../../../swift/api/aws-sdk-swift.awsserverlessapplicationrepository/latest)
+[AWSServerlessApplicationRepository](../../../../../swift/api/awsserverlessapplicationrepository/latest)
 
-[aws-sdk-swift.AWSServiceCatalog](../../../../../swift/api/aws-sdk-swift.awsservicecatalog/latest)
+[AWSServiceCatalog](../../../../../swift/api/awsservicecatalog/latest)
 
-[aws-sdk-swift.AWSServiceCatalogAppRegistry](../../../../../swift/api/aws-sdk-swift.awsservicecatalogappregistry/latest)
+[AWSServiceCatalogAppRegistry](../../../../../swift/api/awsservicecatalogappregistry/latest)
 
-[aws-sdk-swift.AWSServiceDiscovery](../../../../../swift/api/aws-sdk-swift.awsservicediscovery/latest)
+[AWSServiceDiscovery](../../../../../swift/api/awsservicediscovery/latest)
 
-[aws-sdk-swift.AWSServiceQuotas](../../../../../swift/api/aws-sdk-swift.awsservicequotas/latest)
+[AWSServiceQuotas](../../../../../swift/api/awsservicequotas/latest)
 
-[aws-sdk-swift.AWSShield](../../../../../swift/api/aws-sdk-swift.awsshield/latest)
+[AWSShield](../../../../../swift/api/awsshield/latest)
 
-[aws-sdk-swift.AWSSigner](../../../../../swift/api/aws-sdk-swift.awssigner/latest)
+[AWSSigner](../../../../../swift/api/awssigner/latest)
 
-[aws-sdk-swift.AWSSimSpaceWeaver](../../../../../swift/api/aws-sdk-swift.awssimspaceweaver/latest)
+[AWSSimSpaceWeaver](../../../../../swift/api/awssimspaceweaver/latest)
 
-[aws-sdk-swift.AWSSnowDeviceManagement](../../../../../swift/api/aws-sdk-swift.awssnowdevicemanagement/latest)
+[AWSSnowDeviceManagement](../../../../../swift/api/awssnowdevicemanagement/latest)
 
-[aws-sdk-swift.AWSSnowball](../../../../../swift/api/aws-sdk-swift.awssnowball/latest)
+[AWSSnowball](../../../../../swift/api/awssnowball/latest)
 
-[aws-sdk-swift.AWSSsmSap](../../../../../swift/api/aws-sdk-swift.awsssmsap/latest)
+[AWSSsmSap](../../../../../swift/api/awsssmsap/latest)
 
-[aws-sdk-swift.AWSStorageGateway](../../../../../swift/api/aws-sdk-swift.awsstoragegateway/latest)
+[AWSStorageGateway](../../../../../swift/api/awsstoragegateway/latest)
 
-[aws-sdk-swift.AWSSupplyChain](../../../../../swift/api/aws-sdk-swift.awssupplychain/latest)
+[AWSSupplyChain](../../../../../swift/api/awssupplychain/latest)
 
-[aws-sdk-swift.AWSSupport](../../../../../swift/api/aws-sdk-swift.awssupport/latest)
+[AWSSupport](../../../../../swift/api/awssupport/latest)
 
-[aws-sdk-swift.AWSSupportApp](../../../../../swift/api/aws-sdk-swift.awssupportapp/latest)
+[AWSSupportApp](../../../../../swift/api/awssupportapp/latest)
 
-[aws-sdk-swift.AWSSynthetics](../../../../../swift/api/aws-sdk-swift.awssynthetics/latest)
+[AWSSynthetics](../../../../../swift/api/awssynthetics/latest)
 
-[aws-sdk-swift.AWSTaxSettings](../../../../../swift/api/aws-sdk-swift.awstaxsettings/latest)
+[AWSTaxSettings](../../../../../swift/api/awstaxsettings/latest)
 
-[aws-sdk-swift.AWSTextract](../../../../../swift/api/aws-sdk-swift.awstextract/latest)
+[AWSTextract](../../../../../swift/api/awstextract/latest)
 
-[aws-sdk-swift.AWSTimestreamInfluxDB](../../../../../swift/api/aws-sdk-swift.awstimestreaminfluxdb/latest)
+[AWSTimestreamInfluxDB](../../../../../swift/api/awstimestreaminfluxdb/latest)
 
-[aws-sdk-swift.AWSTimestreamQuery](../../../../../swift/api/aws-sdk-swift.awstimestreamquery/latest)
+[AWSTimestreamQuery](../../../../../swift/api/awstimestreamquery/latest)
 
-[aws-sdk-swift.AWSTimestreamWrite](../../../../../swift/api/aws-sdk-swift.awstimestreamwrite/latest)
+[AWSTimestreamWrite](../../../../../swift/api/awstimestreamwrite/latest)
 
-[aws-sdk-swift.AWSTnb](../../../../../swift/api/aws-sdk-swift.awstnb/latest)
+[AWSTnb](../../../../../swift/api/awstnb/latest)
 
-[aws-sdk-swift.AWSTranscribe](../../../../../swift/api/aws-sdk-swift.awstranscribe/latest)
+[AWSTranscribe](../../../../../swift/api/awstranscribe/latest)
 
-[aws-sdk-swift.AWSTranscribeStreaming](../../../../../swift/api/aws-sdk-swift.awstranscribestreaming/latest)
+[AWSTranscribeStreaming](../../../../../swift/api/awstranscribestreaming/latest)
 
-[aws-sdk-swift.AWSTransfer](../../../../../swift/api/aws-sdk-swift.awstransfer/latest)
+[AWSTransfer](../../../../../swift/api/awstransfer/latest)
 
-[aws-sdk-swift.AWSTranslate](../../../../../swift/api/aws-sdk-swift.awstranslate/latest)
+[AWSTranslate](../../../../../swift/api/awstranslate/latest)
 
-[aws-sdk-swift.AWSTrustedAdvisor](../../../../../swift/api/aws-sdk-swift.awstrustedadvisor/latest)
+[AWSTrustedAdvisor](../../../../../swift/api/awstrustedadvisor/latest)
 
-[aws-sdk-swift.AWSVPCLattice](../../../../../swift/api/aws-sdk-swift.awsvpclattice/latest)
+[AWSVPCLattice](../../../../../swift/api/awsvpclattice/latest)
 
-[aws-sdk-swift.AWSVerifiedPermissions](../../../../../swift/api/aws-sdk-swift.awsverifiedpermissions/latest)
+[AWSVerifiedPermissions](../../../../../swift/api/awsverifiedpermissions/latest)
 
-[aws-sdk-swift.AWSVoiceID](../../../../../swift/api/aws-sdk-swift.awsvoiceid/latest)
+[AWSVoiceID](../../../../../swift/api/awsvoiceid/latest)
 
-[aws-sdk-swift.AWSWAF](../../../../../swift/api/aws-sdk-swift.awswaf/latest)
+[AWSWAF](../../../../../swift/api/awswaf/latest)
 
-[aws-sdk-swift.AWSWAFRegional](../../../../../swift/api/aws-sdk-swift.awswafregional/latest)
+[AWSWAFRegional](../../../../../swift/api/awswafregional/latest)
 
-[aws-sdk-swift.AWSWAFV2](../../../../../swift/api/aws-sdk-swift.awswafv2/latest)
+[AWSWAFV2](../../../../../swift/api/awswafv2/latest)
 
-[aws-sdk-swift.AWSWellArchitected](../../../../../swift/api/aws-sdk-swift.awswellarchitected/latest)
+[AWSWellArchitected](../../../../../swift/api/awswellarchitected/latest)
 
-[aws-sdk-swift.AWSWisdom](../../../../../swift/api/aws-sdk-swift.awswisdom/latest)
+[AWSWisdom](../../../../../swift/api/awswisdom/latest)
 
-[aws-sdk-swift.AWSWorkDocs](../../../../../swift/api/aws-sdk-swift.awsworkdocs/latest)
+[AWSWorkDocs](../../../../../swift/api/awsworkdocs/latest)
 
-[aws-sdk-swift.AWSWorkLink](../../../../../swift/api/aws-sdk-swift.awsworklink/latest)
+[AWSWorkLink](../../../../../swift/api/awsworklink/latest)
 
-[aws-sdk-swift.AWSWorkMail](../../../../../swift/api/aws-sdk-swift.awsworkmail/latest)
+[AWSWorkMail](../../../../../swift/api/awsworkmail/latest)
 
-[aws-sdk-swift.AWSWorkMailMessageFlow](../../../../../swift/api/aws-sdk-swift.awsworkmailmessageflow/latest)
+[AWSWorkMailMessageFlow](../../../../../swift/api/awsworkmailmessageflow/latest)
 
-[aws-sdk-swift.AWSWorkSpaces](../../../../../swift/api/aws-sdk-swift.awsworkspaces/latest)
+[AWSWorkSpaces](../../../../../swift/api/awsworkspaces/latest)
 
-[aws-sdk-swift.AWSWorkSpacesThinClient](../../../../../swift/api/aws-sdk-swift.awsworkspacesthinclient/latest)
+[AWSWorkSpacesThinClient](../../../../../swift/api/awsworkspacesthinclient/latest)
 
-[aws-sdk-swift.AWSWorkSpacesWeb](../../../../../swift/api/aws-sdk-swift.awsworkspacesweb/latest)
+[AWSWorkSpacesWeb](../../../../../swift/api/awsworkspacesweb/latest)
 
-[aws-sdk-swift.AWSXRay](../../../../../swift/api/aws-sdk-swift.awsxray/latest)
+[AWSXRay](../../../../../swift/api/awsxray/latest)
 

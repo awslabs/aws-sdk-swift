@@ -64,7 +64,9 @@ struct GenerateDocIndexCommand: ParsableCommand {
         log("Resolving services...")
         let resolvedServices: [String]
         log("Using list of services that exist within Sources/Services")
-        resolvedServices = try FileManager.default.enabledServices()
+        resolvedServices = try FileManager.default
+            .enabledServices()
+            .map { "\($0.trimmingPrefix("aws-sdk-swift."))" }
         log("Resolved list of services: \(resolvedServices.count)")
         return resolvedServices
     }
