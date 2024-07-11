@@ -212,14 +212,14 @@ func addServiceTarget(_ name: String) {
         .target(
             name: name,
             dependencies: serviceTargetDependencies,
-            path: "Sources/Services/\(name)/Sources/\(name)",
+            path: "Sources/Services/\(name)/Sources/\(name.trimmingPrefix("aws-sdk-swift."))",
             resources: [.process("Resources")]
         )
     ]
 }
 
 func addServiceUnitTestTarget(_ name: String) {
-    let testName = "\(name)Tests"
+    let testName = "\(name)Tests".trimmingPrefix("aws-sdk-swift.")
     package.targets += [
         .testTarget(
             name: "\(testName)",

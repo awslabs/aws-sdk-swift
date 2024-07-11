@@ -20,7 +20,6 @@ import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.endpoints.EndpointTypes
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
-import software.amazon.smithy.swift.codegen.swiftmodules.CRT
 import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAPITypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyTestUtilTypes
@@ -48,7 +47,7 @@ class EndpointTestGenerator(
         writer.openBlock("class EndpointResolverTest: \$N {", "}", XCTestTypes.XCTestCase) {
             writer.write("")
             writer.openBlock("override class func setUp() {", "}") {
-                writer.write("\$N.initialize()", CRT.CommonRuntimeKit)
+                writer.write("\$N.initialize()", SmithyTestUtilTypes.TestInitializer)
             }
             writer.write("")
 
