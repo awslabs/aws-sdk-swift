@@ -81,7 +81,6 @@ struct SPRMultiPublish: AsyncParsableCommand, Configurable {
 
     private var runtimePackages: [(String, String)] {
         return [
-//            ("smithy-swift", "../../smithy-swift/"),
             awsRuntimePackage("aws-sdk-swift.AWSClientRuntime"),
             awsRuntimePackage("aws-sdk-swift.AWSSDKChecksums"),
             awsRuntimePackage("aws-sdk-swift.AWSSDKCommon"),
