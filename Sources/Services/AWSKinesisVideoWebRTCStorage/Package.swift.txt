@@ -13,19 +13,15 @@ let package = Package(
     dependencies: [
         .package(
             id: "aws-sdk-swift.smithy-swift",
-            from: "0.0.1"
+            exact: "0.0.1"
         ),
         .package(
             id: "aws-sdk-swift.AWSClientRuntime",
-            from: "0.0.1"
+            exact: "0.0.1"
         ),
         .package(
             id: "aws-sdk-swift.AWSSDKHTTPAuth",
-            from: "0.0.1"
-        ),
-        .package(
-            url: "https://github.com/awslabs/aws-crt-swift",
-            from: "0.31.0"
+            exact: "0.0.1"
         ),
     ],
     targets: [
@@ -73,8 +69,8 @@ let package = Package(
                     package: "aws-sdk-swift.smithy-swift"
                 ),
                 .product(
-                    name: "AwsCommonRuntimeKit",
-                    package: "aws-crt-swift"
+                    name: "SmithyTestUtil",
+                    package: "aws-sdk-swift.smithy-swift"
                 ),
             ],
             resources: [
