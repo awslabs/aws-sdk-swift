@@ -1,8 +1,8 @@
 package software.amazon.smithy.aws.swift.codegen.customization.presignable
 
+import software.amazon.smithy.aws.swift.codegen.AWSAuthUtils
 import software.amazon.smithy.aws.swift.codegen.AWSServiceConfig
 import software.amazon.smithy.aws.swift.codegen.PresignableOperation
-import software.amazon.smithy.aws.swift.codegen.AWSAuthUtils
 import software.amazon.smithy.aws.swift.codegen.customization.InputTypeGETQueryItemMiddleware
 import software.amazon.smithy.aws.swift.codegen.customization.PutObjectPresignedURLMiddleware
 import software.amazon.smithy.aws.swift.codegen.middleware.InputTypeGETQueryItemMiddlewareRenderable

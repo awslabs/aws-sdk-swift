@@ -22,7 +22,7 @@ import software.amazon.smithy.swift.codegen.utils.AuthUtils
 
 open class AWSAuthUtils(
     private val ctx: ProtocolGenerator.GenerationContext
-): AuthUtils(ctx) {
+) : AuthUtils(ctx) {
     companion object {
         /**
          * Returns if the SigV4Trait is a auth scheme supported by the service.
