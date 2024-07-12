@@ -6,14 +6,12 @@
 // This build file has been adapted from the Go v2 SDK, here:
 // https://github.com/aws/aws-sdk-go-v2/blob/master/codegen/sdk-codegen/build.gradle.kts
 
-import org.jetbrains.kotlin.com.google.common.primitives.Chars
 import software.amazon.smithy.gradle.tasks.SmithyBuild
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.node.Node
 import software.amazon.smithy.model.shapes.ServiceShape
 import java.nio.charset.Charset
 import java.util.Properties
-import kotlin.streams.toList
 
 plugins {
     id("software.amazon.smithy") version "0.5.3"
@@ -207,11 +205,15 @@ task("stageSdks") {
     group = "codegen"
     description = "relocate generated SDK(s) from build directory to Sources and Tests directories"
     doLast {
+        val withManifests = project.properties["withManifests"] != null
         discoveredServices.forEach {
             logger.info("copying ${it.outputDir} source to ${it.sourcesDir}")
             copy {
                 from("${it.outputDir}")
                 into("${it.sourcesDir}")
+                if (!withManifests) {
+                    exclude("Package.swift")
+                }
             }
         }
     }
