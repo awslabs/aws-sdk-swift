@@ -2,7 +2,7 @@ package software.amazon.smithy.aws.swift.codegen.customization.presignable
 
 import software.amazon.smithy.aws.swift.codegen.AWSServiceConfig
 import software.amazon.smithy.aws.swift.codegen.PresignableOperation
-import software.amazon.smithy.aws.swift.codegen.SigV4Utils
+import software.amazon.smithy.aws.swift.codegen.AWSAuthUtils
 import software.amazon.smithy.aws.swift.codegen.customization.InputTypeGETQueryItemMiddleware
 import software.amazon.smithy.aws.swift.codegen.customization.PutObjectPresignedURLMiddleware
 import software.amazon.smithy.aws.swift.codegen.middleware.InputTypeGETQueryItemMiddlewareRenderable
@@ -53,7 +53,7 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
     override fun writeAdditionalFiles(ctx: SwiftCodegenContext, protocolGenerationContext: ProtocolGenerator.GenerationContext, delegator: SwiftDelegator) {
         val service = ctx.model.expectShape<ServiceShape>(ctx.settings.service)
 
-        if (!SigV4Utils.isSupportedAuthentication(ctx.model, service)) return
+        if (!AWSAuthUtils.isSupportedAuthentication(ctx.model, service)) return
 
         val operationsToGenerate = presignedOperations.getOrDefault(service.id.toString(), setOf())
 
@@ -61,7 +61,7 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
             .map { ctx.model.expectShape<OperationShape>(it) }
             .filter { operationShape -> operationsToGenerate.contains(operationShape.id.toString()) }
             .map { operationShape ->
-                check(SigV4Utils.hasSigV4AuthScheme(ctx.model, service, operationShape)) { "Operation does not have valid auth trait" }
+                check(AWSAuthUtils.hasSigV4AuthScheme(ctx.model, service, operationShape)) { "Operation does not have valid auth trait" }
                 PresignableOperation(service.id.toString(), operationShape.id.toString())
             }
         presignOperations.forEach { presignableOperation ->

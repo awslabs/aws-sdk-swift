@@ -5,7 +5,6 @@
 
 package software.amazon.smithy.aws.swift.codegen
 
-import software.amazon.smithy.aws.swift.codegen.SigV4Utils.Companion.getModeledAuthSchemesSupportedBySDK
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.swift.codegen.AuthSchemeResolverGenerator
 import software.amazon.smithy.swift.codegen.SwiftWriter
@@ -45,7 +44,7 @@ class AWSHttpProtocolServiceClient(
                     ConfigProperty("authSchemeResolver", SmithyHTTPAuthAPITypes.AuthSchemeResolver, authSchemeResolverDefaultProvider)
                 }
                 "authSchemes" -> {
-                    ConfigProperty("authSchemes", SmithyHTTPAuthAPITypes.AuthSchemes.toOptional(), authSchemesDefaultProvider)
+                    ConfigProperty("authSchemes", SmithyHTTPAuthAPITypes.AuthSchemes.toOptional(), AWSAuthUtils(ctx).authSchemesDefaultProvider)
                 }
                 "retryStrategyOptions" -> {
                     ConfigProperty(
@@ -129,12 +128,6 @@ class AWSHttpProtocolServiceClient(
             writer.write("return \"\\(\$L.clientName) - \\(region ?? \"\")\"", serviceConfig.clientName.toUpperCamelCase())
         }
     }
-
-    private val authSchemesDefaultProvider = DefaultProvider(
-        { getModeledAuthSchemesSupportedBySDK(ctx, it) },
-        isThrowable = false,
-        isAsync = false
-    )
 
     private val authSchemeResolverDefaultProvider = DefaultProvider(
         { "Default${AuthSchemeResolverGenerator.getSdkId(ctx)}AuthSchemeResolver()" },
