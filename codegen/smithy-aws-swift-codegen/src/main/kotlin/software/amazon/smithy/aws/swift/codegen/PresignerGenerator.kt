@@ -18,7 +18,6 @@ import software.amazon.smithy.swift.codegen.middleware.MiddlewareExecutionGenera
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareExecutionGenerator.Companion.ContextAttributeCodegenFlowType.PRESIGN_REQUEST
 import software.amazon.smithy.swift.codegen.model.expectShape
 import software.amazon.smithy.swift.codegen.model.toUpperCamelCase
-import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes.Middleware.NoopHandler
 import software.amazon.smithy.swift.codegen.swiftmodules.FoundationTypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAPITypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyTypes
@@ -87,20 +86,19 @@ class PresignerGenerator : SwiftIntegration {
             writer.openBlock("public func presign(config: \$L, expiration: \$N) async throws -> \$T {", "}", serviceConfig.typeName, FoundationTypes.TimeInterval, SmithyHTTPAPITypes.SdkHttpRequest) {
                 writer.write("let serviceName = \$S", ctx.settings.sdkId)
                 writer.write("let input = self")
-                if (protocolGeneratorContext.settings.useInterceptors) {
-                    writer.openBlock(
-                        "let client: (\$N, \$N) async throws -> \$N = { (_, _) in",
-                        "}",
-                        SmithyHTTPAPITypes.SdkHttpRequest,
-                        SmithyTypes.Context,
-                        SmithyHTTPAPITypes.HttpResponse,
-                    ) {
-                        writer.write(
-                            "throw \$N.unknownError(\"No HTTP client configured for presigned request\")",
-                            SmithyTypes.ClientError
-                        )
-                    }
+                writer.openBlock(
+                    "let client: (\$N, \$N) async throws -> \$N = { (_, _) in",
+                    "}",
+                    SmithyHTTPAPITypes.SdkHttpRequest,
+                    SmithyTypes.Context,
+                    SmithyHTTPAPITypes.HttpResponse,
+                ) {
+                    writer.write(
+                        "throw \$N.unknownError(\"No HTTP client configured for presigned request\")",
+                        SmithyTypes.ClientError
+                    )
                 }
+
                 val operationStackName = "operation"
                 val generator = MiddlewareExecutionGenerator(
                     protocolGeneratorContext,
@@ -114,21 +112,7 @@ class PresignerGenerator : SwiftIntegration {
                     writer.write("return nil")
                 }
 
-                if (protocolGeneratorContext.settings.useInterceptors) {
-                    writer.write("return try await op.presignRequest(input: input)")
-                } else {
-                    val requestBuilderName = "presignedRequestBuilder"
-                    val builtRequestName = "builtRequest"
-                    writer.write(
-                        "let $requestBuilderName = try await $operationStackName.presignedRequest(context: context, input: input, output: \$L(), next: \$N())",
-                        outputType,
-                        NoopHandler
-                    )
-                    writer.openBlock("guard let $builtRequestName = $requestBuilderName?.build() else {", "}") {
-                        writer.write("return nil")
-                    }
-                    writer.write("return $builtRequestName")
-                }
+                writer.write("return try await op.presignRequest(input: input)")
             }
         }
     }

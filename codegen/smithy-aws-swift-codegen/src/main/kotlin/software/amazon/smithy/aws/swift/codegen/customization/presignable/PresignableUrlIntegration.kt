@@ -23,11 +23,9 @@ import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 import software.amazon.smithy.swift.codegen.integration.middlewares.handlers.MiddlewareShapeUtils
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareExecutionGenerator
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareExecutionGenerator.Companion.ContextAttributeCodegenFlowType.PRESIGN_URL
-import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 import software.amazon.smithy.swift.codegen.middleware.OperationMiddleware
 import software.amazon.smithy.swift.codegen.model.expectShape
 import software.amazon.smithy.swift.codegen.model.toUpperCamelCase
-import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.swiftmodules.FoundationTypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAPITypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyTypes
@@ -115,17 +113,16 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
             ) {
                 writer.write("let serviceName = \"${ctx.settings.sdkId}\"")
                 writer.write("let input = self")
-                if (protocolGeneratorContext.settings.useInterceptors) {
-                    writer.openBlock(
-                        "let client: (\$N, \$N) async throws -> \$N = { (_, _) in",
-                        "}",
-                        SmithyHTTPAPITypes.SdkHttpRequest,
-                        SmithyTypes.Context,
-                        SmithyHTTPAPITypes.HttpResponse,
-                    ) {
-                        writer.write("throw \$N.unknownError(\"No HTTP client configured for presigned request\")", SmithyTypes.ClientError)
-                    }
+                writer.openBlock(
+                    "let client: (\$N, \$N) async throws -> \$N = { (_, _) in",
+                    "}",
+                    SmithyHTTPAPITypes.SdkHttpRequest,
+                    SmithyTypes.Context,
+                    SmithyHTTPAPITypes.HttpResponse,
+                ) {
+                    writer.write("throw \$N.unknownError(\"No HTTP client configured for presigned request\")", SmithyTypes.ClientError)
                 }
+
                 val operationStackName = "operation"
                 val generator = MiddlewareExecutionGenerator(
                     protocolGeneratorContext,
@@ -140,26 +137,7 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
                     writer.write("return nil")
                 }
 
-                if (protocolGeneratorContext.settings.useInterceptors) {
-                    writer.write(
-                        """
-                        return try await op.presignRequest(input: input).endpoint.url
-                        """.trimIndent()
-                    )
-                } else {
-                    val requestBuilderName = "presignedRequestBuilder"
-                    val builtRequestName = "builtRequest"
-                    val presignedURL = "presignedURL"
-                    writer.write(
-                        "let $requestBuilderName = try await $operationStackName.presignedRequest(context: context, input: input, output: \$L(), next: \$N())",
-                        outputType,
-                        ClientRuntimeTypes.Middleware.NoopHandler
-                    )
-                    writer.openBlock("guard let $builtRequestName = $requestBuilderName?.build(), let $presignedURL = $builtRequestName.endpoint.url else {", "}") {
-                        writer.write("return nil")
-                    }
-                    writer.write("return $presignedURL")
-                }
+                writer.write("return try await op.presignRequest(input: input).endpoint.url")
             }
         }
     }
@@ -207,18 +185,18 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
     private fun resolveOperationMiddleware(protocolGenerator: ProtocolGenerator, context: ProtocolGenerator.GenerationContext, op: OperationShape): OperationMiddleware {
         val inputSymbol = MiddlewareShapeUtils.inputSymbol(context.symbolProvider, context.model, op)
         val operationMiddlewareCopy = protocolGenerator.operationMiddleware.clone()
-        operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.BUILDSTEP, "UserAgentMiddleware")
-        operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.SERIALIZESTEP, "ContentTypeMiddleware")
-        operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.SERIALIZESTEP, "OperationInputQueryItemMiddleware")
-        operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.SERIALIZESTEP, "OperationInputHeadersMiddleware")
-        operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.FINALIZESTEP, "ContentLengthMiddleware")
+        operationMiddlewareCopy.removeMiddleware(op, "UserAgentMiddleware")
+        operationMiddlewareCopy.removeMiddleware(op, "ContentTypeMiddleware")
+        operationMiddlewareCopy.removeMiddleware(op, "OperationInputQueryItemMiddleware")
+        operationMiddlewareCopy.removeMiddleware(op, "OperationInputHeadersMiddleware")
+        operationMiddlewareCopy.removeMiddleware(op, "ContentLengthMiddleware")
         when (op.id.toString()) {
             "com.amazonaws.s3#GetObject", "com.amazonaws.polly#SynthesizeSpeech" -> {
-                operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.SERIALIZESTEP, "OperationInputBodyMiddleware")
+                operationMiddlewareCopy.removeMiddleware(op, "OperationInputBodyMiddleware")
                 operationMiddlewareCopy.appendMiddleware(op, InputTypeGETQueryItemMiddlewareRenderable(inputSymbol))
             }
             "com.amazonaws.s3#PutObject" -> {
-                operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.SERIALIZESTEP, "OperationInputBodyMiddleware")
+                operationMiddlewareCopy.removeMiddleware(op, "OperationInputBodyMiddleware")
                 operationMiddlewareCopy.appendMiddleware(op, PutObjectPresignedURLMiddlewareRenderable())
             }
         }

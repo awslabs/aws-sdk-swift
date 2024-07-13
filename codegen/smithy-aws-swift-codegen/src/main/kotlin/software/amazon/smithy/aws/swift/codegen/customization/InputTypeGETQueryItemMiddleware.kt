@@ -9,7 +9,6 @@ import software.amazon.smithy.model.shapes.TimestampShape
 import software.amazon.smithy.swift.codegen.Middleware
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
-import software.amazon.smithy.swift.codegen.integration.steps.OperationSerializeStep
 import software.amazon.smithy.swift.codegen.model.isEnum
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAPITypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyTypes
@@ -22,7 +21,7 @@ class InputTypeGETQueryItemMiddleware(
     outputErrorSymbol: Symbol,
     val inputShape: Shape,
     private val writer: SwiftWriter
-) : Middleware(writer, inputSymbol, OperationSerializeStep(inputSymbol, outputSymbol, outputErrorSymbol)) {
+) : Middleware(writer, inputSymbol) {
     override val typeName = "${inputSymbol.name}GETQueryItemMiddleware"
 
     override fun renderExtensions() {
@@ -44,10 +43,6 @@ class InputTypeGETQueryItemMiddleware(
                 writer.write("\${C|}", Runnable { renderApplyBody() })
             }
         }
-    }
-
-    override fun generateMiddlewareClosure() {
-        writer.write("try self.apply(input: input.operationInput, builder: input.builder, attributes: context)")
     }
 
     private fun renderApplyBody() {

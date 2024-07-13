@@ -7,7 +7,7 @@ import enum SmithyChecksumsAPI.ChecksumAlgorithm
 import enum SmithyChecksums.ChecksumMismatchException
 import ClientRuntime
 
-public struct FlexibleChecksumsResponseMiddleware<OperationStackInput, OperationStackOutput>: Middleware {
+public struct FlexibleChecksumsResponseMiddleware<OperationStackInput, OperationStackOutput> {
 
     public let id: String = "FlexibleChecksumsResponseMiddleware"
 
@@ -27,27 +27,6 @@ public struct FlexibleChecksumsResponseMiddleware<OperationStackInput, Operation
         self.priorityList = !priorityList.isEmpty
             ? withPriority(checksums: priorityList)
             : CHECKSUM_HEADER_VALIDATION_PRIORITY_LIST
-    }
-
-    public func handle<H>(context: Context,
-                          input: SdkHttpRequest,
-                          next: H) async throws -> OperationOutput<OperationStackOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output {
-
-        // The name of the checksum header which was validated. If `null`, validation was not performed.
-        context.attributes.set(key: AttributeKey<String>(name: "ChecksumHeaderValidated"), value: nil)
-
-        // Initialize logger
-        guard let logger = context.getLogger() else { throw ClientError.unknownError("No logger found!") }
-
-        // Get the response
-        let output = try await next.handle(context: context, input: input)
-
-        try await validateChecksum(response: output.httpResponse, logger: logger, attributes: context)
-
-        return output
     }
 
     private func validateChecksum(response: HttpResponse, logger: any LogAgent, attributes: Context) async throws {
@@ -111,9 +90,6 @@ public struct FlexibleChecksumsResponseMiddleware<OperationStackInput, Operation
             throw ClientError.dataNotFound("Cannot calculate the checksum of an empty body!")
         }
     }
-
-    public typealias MInput = SdkHttpRequest
-    public typealias MOutput = OperationOutput<OperationStackOutput>
 }
 
 extension FlexibleChecksumsResponseMiddleware: HttpInterceptor {

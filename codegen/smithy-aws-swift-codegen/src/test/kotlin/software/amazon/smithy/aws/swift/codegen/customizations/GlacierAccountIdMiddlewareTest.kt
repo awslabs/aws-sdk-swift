@@ -55,14 +55,16 @@ class GlacierAccountIdMiddlewareTest {
 
         val contents = writer.toString()
         val expectedContents = """
-stack.initializeStep.intercept(position: .before, id: "GlacierAccountIdAutoFill") { (context, input, next) -> ClientRuntime.OperationOutput<TestOutputShapeName> in
+builder.interceptors.addModifyBeforeSerialization { context in
+    let input = context.getInput()
     guard let accountId = input.accountId, !accountId.isEmpty else {
         var copiedInput = input
         copiedInput.accountId = "-"
-        return try await next.handle(context: context, input: copiedInput)
+        context.updateInput(updated: copiedInput)
+        return
     }
-    return try await next.handle(context: context, input: input)
-}"""
+}
+"""
         contents.shouldContainOnlyOnce(expectedContents)
     }
 }

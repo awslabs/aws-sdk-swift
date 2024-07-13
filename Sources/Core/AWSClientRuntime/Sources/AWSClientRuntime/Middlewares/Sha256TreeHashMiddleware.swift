@@ -9,7 +9,7 @@ import SmithyHTTPAPI
 import struct Foundation.Data
 import struct Smithy.AttributeKey
 
-public struct Sha256TreeHashMiddleware<OperationStackInput, OperationStackOutput>: Middleware {
+public struct Sha256TreeHashMiddleware<OperationStackInput, OperationStackOutput> {
     public let id: String = "Sha256TreeHash"
 
     private let X_AMZ_SHA256_TREE_HASH_HEADER_NAME = "X-Amz-Sha256-Tree-Hash"
@@ -17,17 +17,6 @@ public struct Sha256TreeHashMiddleware<OperationStackInput, OperationStackOutput
     private let X_AMZ_CONTENT_SHA256_HEADER_NAME = "X-Amz-Content-Sha256"
 
     public init() {}
-
-    public func handle<H>(context: Context,
-                          input: MInput,
-                          next: H) async throws -> MOutput
-    where H: Handler,
-          Self.MInput == H.Input,
-          Self.MOutput == H.Output {
-              let request = input.build()
-              try await addHashes(request: request, builder: input, context: context)
-              return try await next.handle(context: context, input: input)
-          }
 
     private func addHashes(request: SdkHttpRequest, builder: SdkHttpRequestBuilder, context: Context) async throws {
         switch request.body {
@@ -103,9 +92,6 @@ public struct Sha256TreeHashMiddleware<OperationStackInput, OperationStackOutput
         let data = Data(previousLevelHashes[0])
         return data.encodeToHexString()
     }
-
-    public typealias MInput = SdkHttpRequestBuilder
-    public typealias MOutput = OperationOutput<OperationStackOutput>
 }
 
 extension Sha256TreeHashMiddleware: HttpInterceptor {

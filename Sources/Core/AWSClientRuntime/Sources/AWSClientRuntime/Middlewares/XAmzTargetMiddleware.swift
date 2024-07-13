@@ -5,7 +5,7 @@ import class Smithy.Context
 import ClientRuntime
 import SmithyHTTPAPI
 
-public struct XAmzTargetMiddleware<OperationStackInput, OperationStackOutput>: Middleware {
+public struct XAmzTargetMiddleware<OperationStackInput, OperationStackOutput> {
     public let id: String = "XAmzTargetHeader"
 
     let xAmzTarget: String
@@ -14,23 +14,9 @@ public struct XAmzTargetMiddleware<OperationStackInput, OperationStackOutput>: M
         self.xAmzTarget = xAmzTarget
     }
 
-    public func handle<H>(context: Context,
-                          input: SerializeStepInput<OperationStackInput>,
-                          next: H) async throws -> OperationOutput<OperationStackOutput>
-    where H: Handler,
-          Self.MInput == H.Input,
-          Self.MOutput == H.Output {
-
-        addHeader(builder: input.builder)
-        return try await next.handle(context: context, input: input)
-    }
-
     private func addHeader(builder: SdkHttpRequestBuilder) {
         builder.withHeader(name: "X-Amz-Target", value: xAmzTarget)
     }
-
-    public typealias MInput = SerializeStepInput<OperationStackInput>
-    public typealias MOutput = OperationOutput<OperationStackOutput>
 }
 
 extension XAmzTargetMiddleware: HttpInterceptor {
