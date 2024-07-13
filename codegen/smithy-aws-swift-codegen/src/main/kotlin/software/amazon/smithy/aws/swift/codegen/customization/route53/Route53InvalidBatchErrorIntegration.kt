@@ -81,7 +81,7 @@ class Route53InvalidBatchErrorIntegration : SwiftIntegration {
                 writer.write("return value")
             }
             writer.write("")
-            writer.openBlock("static func makeFromHttpResponse(_ httpResponse: ClientRuntime.HttpResponse) async throws -> CustomInvalidBatchError? {", "}") {
+            writer.openBlock("static func makeFromHttpResponse(_ httpResponse: ClientRuntime.HTTPResponse) async throws -> CustomInvalidBatchError? {", "}") {
                 writer.write("guard let data = try await httpResponse.body.readData() else { return nil }")
                 writer.write("let reader = try \$N.from(data: data)", SmithyXMLTypes.Reader)
                 writer.write("return try Self.readingClosure(from: reader)")
@@ -92,7 +92,7 @@ class Route53InvalidBatchErrorIntegration : SwiftIntegration {
     private fun renderInvalidChangeBatch(writer: SwiftWriter) {
         writer.write("")
         writer.openBlock("extension InvalidChangeBatch {", "}") {
-            writer.openBlock("init(customError: CustomInvalidBatchError, httpResponse: ClientRuntime.HttpResponse) {", "}") {
+            writer.openBlock("init(customError: CustomInvalidBatchError, httpResponse: ClientRuntime.HTTPResponse) {", "}") {
                 writer.write("self.init(messages: customError.messages)")
                 writer.write("self.message = customError.message")
                 writer.write("self.requestID = customError.requestID")

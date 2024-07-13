@@ -6,7 +6,7 @@
 import class SmithyHTTPAPI.HTTPResponse
 import ClientRuntime
 
-/// AWS specific Service Error structure used when exact error could not be deduced from the `HttpResponse`
+/// AWS specific Service Error structure used when exact error could not be deduced from the `HTTPResponse`
 /// Developers should catch unknown errors by the interface `AWSServiceError`, then use the `errorCode` to determine & handle each type of error.
 @_spi(UnknownAWSHTTPServiceError) public struct UnknownAWSHTTPServiceError: AWSServiceError, HTTPError, Error {
 
@@ -26,9 +26,9 @@ import ClientRuntime
 
 extension UnknownAWSHTTPServiceError {
 
-    /// Creates an `UnknownAWSHttpServiceError` from a `HttpResponse` and associated parameters.
+    /// Creates an `UnknownAWSHttpServiceError` from a `HTTPResponse` and associated parameters.
     /// - Parameters:
-    ///   - httpResponse: The `HttpResponse` for this error.
+    ///   - httpResponse: The `HTTPResponse` for this error.
     ///   - message: The message associated with this error.
     ///   - requestID: The request ID associated with this error.
     ///   - requestID2: The request ID2 associated with this error (defined on S3 only.)  Defaults to `nil`.
