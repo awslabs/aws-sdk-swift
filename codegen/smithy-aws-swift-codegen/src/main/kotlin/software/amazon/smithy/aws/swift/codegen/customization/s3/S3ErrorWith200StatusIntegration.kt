@@ -48,7 +48,7 @@ class S3ErrorWith200StatusIntegration : SwiftIntegration {
             isBlob && isStreaming
         }
 
-        if (outputIsNotStreaming) {
+        if (outputIsNotStreamingAndBlobShape) {
             operationMiddleware.appendMiddleware(operationShape, S3HandleError200ResponseMiddleware)
         }
     }
