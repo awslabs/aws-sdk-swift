@@ -62,18 +62,20 @@ open class AWSAuthUtils(
         }
     }
 
-    override fun addAdditionalSchemes(writer: SwiftWriter, authSchemeList: Array<String>) {
+    override fun addAdditionalSchemes(writer: SwiftWriter, authSchemeList: Array<String>): Array<String> {
         val effectiveAuthSchemes = ServiceIndex(ctx.model).getEffectiveAuthSchemes(ctx.service)
-        var authSchemeList = arrayOf<String>()
 
         val sdkId = AuthSchemeResolverGenerator.getSdkId(ctx)
         val servicesUsingSigV4A = arrayOf("S3", "EventBridge", "CloudFrontKeyValueStore")
+        var updatedAuthSchemeList = authSchemeList
 
         if (effectiveAuthSchemes.contains(SigV4Trait.ID)) {
-            authSchemeList += writer.format("\$N()", AWSSDKHTTPAuthTypes.SigV4AuthScheme)
+            updatedAuthSchemeList += writer.format("\$N()", AWSSDKHTTPAuthTypes.SigV4AuthScheme)
         }
         if (effectiveAuthSchemes.contains(SigV4ATrait.ID) || servicesUsingSigV4A.contains(sdkId)) {
-            authSchemeList += writer.format("\$N()", AWSSDKHTTPAuthTypes.SigV4AAuthScheme)
+            updatedAuthSchemeList += writer.format("\$N()", AWSSDKHTTPAuthTypes.SigV4AAuthScheme)
         }
+
+        return updatedAuthSchemeList
     }
 }
