@@ -39,14 +39,7 @@ rm -rf $OUTPUT_DIR/*
 
 for model in ${JSON_MODEL_FILES}; do
     SDKID=`cat ${model} |grep \"sdkId\": | sed 's/.*: \(.*\)/\1/g' | tr -d "\"" | tr -d "," | tr '[:upper:]' '[:lower:]' | tr " " "-"`
-    NUM_VERSIONS=`cat "${model}" | grep -e "\"version\": \"[0-9]*-[0-9]*-[0-9]*\"" |wc -l |awk '{print $1}'`
-    if [ ${NUM_VERSIONS} -ne 1 ]; then
-	echo "FAIL: ${model} does not have 1: ${NUM_VERSIONS}"
-	cleanup
-	exit 1
-    fi
-    VERSION=`cat "${model}" | grep -e "\"version\": \"[0-9]*-[0-9]*-[0-9]*\"" |awk '{print $2}' | tr -d "\"" |tr -d ","`
-    FILENAME="${SDKID}.${VERSION}.json"
+    FILENAME="${SDKID}.json"
 
     cp -v $model ${OUTPUT_DIR}/${FILENAME}
 done
