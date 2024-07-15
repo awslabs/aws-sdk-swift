@@ -41,9 +41,13 @@ class S3ErrorWith200StatusIntegration : SwiftIntegration {
         // Instead of playing whack-a-mole broadly apply this interceptor to everything but streaming responses
         // which adds a small amount of overhead to response processing.
         val output = ctx.model.expectShape(operationShape.output.get())
-        val outputIsNotStreaming = output.members().none {
-            it.hasTrait<StreamingTrait>() || ctx.model.expectShape(it.target).hasTrait<StreamingTrait>()
+        val outputIsNotStreamingAndBlobShape = output.members().none {
+            val targetShape = ctx.model.expectShape(it.target)
+            val isBlob = it.isBlobShape || targetShape.isBlobShape
+            val isStreaming = it.isStreaming || targetShape.isStreaming
+            isBlob && isStreaming
         }
+
         if (outputIsNotStreaming) {
             operationMiddleware.appendMiddleware(operationShape, S3HandleError200ResponseMiddleware)
         }
