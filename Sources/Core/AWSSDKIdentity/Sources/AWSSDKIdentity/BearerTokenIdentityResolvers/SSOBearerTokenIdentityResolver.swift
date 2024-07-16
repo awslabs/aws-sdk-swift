@@ -1,0 +1,84 @@
+//
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
+//
+// SPDX-License-Identifier: Apache-2.0
+//
+
+import protocol SmithyIdentity.BearerTokenIdentityResolver
+import struct SmithyIdentity.BearerTokenIdentity
+import struct Smithy.Attributes
+@_spi(FileBasedConfig) import AWSSDKCommon
+import class AwsCommonRuntimeKit.FileBasedConfiguration
+import CryptoKit
+import Foundation
+import enum Smithy.ClientError
+
+public struct SSOBearerTokenIdentityResolver: BearerTokenIdentityResolver {
+    private let profileName: String?
+    private let configFilePath: String?
+    private let fileBasedConfig: CRTFileBasedConfiguration
+
+    public init(
+        profileName: String? = nil,
+        configFilePath: String? = nil
+    ) throws {
+        self.profileName = profileName
+        self.configFilePath = configFilePath
+        self.fileBasedConfig = try CRTFileBasedConfiguration(configFilePath: configFilePath)
+    }
+
+    public func getIdentity(
+        identityProperties: Smithy.Attributes?
+    ) async throws -> SmithyIdentity.BearerTokenIdentity {
+        return BearerTokenIdentity(token: try getCachedTokenString())
+    }
+
+    private func getCachedTokenString() throws -> String {
+        // Get sso session name connected to given profile name; or to default profile name, if no profile name was given.
+        let ssoSessionName = fileBasedConfig.getSection(
+            name: profileName ?? FileBasedConfiguration.defaultProfileName, sectionType: .profile
+        )?.getProperty(name: "sso_session")?.value
+        // Get SHA1 hash of the name
+        guard let ssoSessionName else {
+            throw ClientError.dataNotFound("Failed to retrieve name of sso-session name in the config file.")
+        }
+        let tokenFileName = ssoSessionName.data(using: .utf8)!.sha1 + ".json"
+        // Get the access token file URL
+        let homeDir = FileManager.default.homeDirectoryForCurrentUser
+        let relativePath = ".aws/sso/cache/\(tokenFileName)"
+        let tokenFileURL = homeDir.appendingPathComponent(relativePath)
+        // Load & return the access token
+        return try loadTokenFile(fileURL: tokenFileURL)
+    }
+}
+
+fileprivate extension Data {
+    var sha1: String { return hexString(Insecure.SHA1.hash(data: self).makeIterator()) }
+}
+
+private func hexString(_ iterator: Array<UInt8>.Iterator) -> String {
+    return iterator.map { String(format: "%02x", $0) }.joined()
+}
+
+private struct TokenFile: Decodable {
+    var startUrl: String
+    var region: String
+    var accessToken: String
+    var expiresAt: String
+    var clientId: String
+    var clientSecret: String
+    var registrationExpiresAt: String
+    var refreshToken: String
+}
+
+private func loadTokenFile(fileURL: URL) throws -> String {
+    do {
+        let data = try Data(contentsOf: fileURL)
+        let decoder = JSONDecoder()
+        let jsonData = try decoder.decode(TokenFile.self, from: data)
+        return jsonData.accessToken
+    } catch {
+        throw ClientError.dataNotFound("Failed to load token file.")
+    }
+}
