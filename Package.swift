@@ -548,6 +548,7 @@ let serviceTargets: [String] = [
     "aws-sdk-swift.AWSPricing",
     "aws-sdk-swift.AWSPrivateNetworks",
     "aws-sdk-swift.AWSProton",
+    "aws-sdk-swift.AWSQApps",
     "aws-sdk-swift.AWSQBusiness",
     "aws-sdk-swift.AWSQConnect",
     "aws-sdk-swift.AWSQLDB",
