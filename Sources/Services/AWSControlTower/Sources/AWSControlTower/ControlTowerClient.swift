@@ -340,7 +340,7 @@ extension ControlTowerClient {
 
     /// Performs the `DisableControl` operation on the `AWSControlTowerApis` service.
     ///
-    /// This API call turns off a control. It starts an asynchronous operation that deletes AWS resources on the specified organizational unit and the accounts it contains. The resources will vary according to the control that you specify. For usage examples, see [ the Amazon Web Services Control Tower User Guide ](https://docs.aws.amazon.com/controltower/latest/userguide/control-api-examples-short.html).
+    /// This API call turns off a control. It starts an asynchronous operation that deletes Amazon Web Services resources on the specified organizational unit and the accounts it contains. The resources will vary according to the control that you specify. For usage examples, see the [ Controls Reference Guide ](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
     ///
     /// - Parameter DisableControlInput : [no documentation found]
     ///
@@ -448,7 +448,7 @@ extension ControlTowerClient {
 
     /// Performs the `EnableControl` operation on the `AWSControlTowerApis` service.
     ///
-    /// This API call activates a control. It starts an asynchronous operation that creates Amazon Web Services resources on the specified organizational unit and the accounts it contains. The resources created will vary according to the control that you specify. For usage examples, see [ the Amazon Web Services Control Tower User Guide ](https://docs.aws.amazon.com/controltower/latest/userguide/control-api-examples-short.html).
+    /// This API call activates a control. It starts an asynchronous operation that creates Amazon Web Services resources on the specified organizational unit and the accounts it contains. The resources created will vary according to the control that you specify. For usage examples, see the [ Controls Reference Guide ](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
     ///
     /// - Parameter EnableControlInput : [no documentation found]
     ///
@@ -606,7 +606,7 @@ extension ControlTowerClient {
 
     /// Performs the `GetControlOperation` operation on the `AWSControlTowerApis` service.
     ///
-    /// Returns the status of a particular EnableControl or DisableControl operation. Displays a message in case of error. Details for an operation are available for 90 days. For usage examples, see [ the Amazon Web Services Control Tower User Guide ](https://docs.aws.amazon.com/controltower/latest/userguide/control-api-examples-short.html).
+    /// Returns the status of a particular EnableControl or DisableControl operation. Displays a message in case of error. Details for an operation are available for 90 days. For usage examples, see the [ Controls Reference Guide ](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
     ///
     /// - Parameter GetControlOperationInput : [no documentation found]
     ///
@@ -710,7 +710,7 @@ extension ControlTowerClient {
 
     /// Performs the `GetEnabledControl` operation on the `AWSControlTowerApis` service.
     ///
-    /// Retrieves details about an enabled control. For usage examples, see [ the Amazon Web Services Control Tower User Guide ](https://docs.aws.amazon.com/controltower/latest/userguide/control-api-examples-short.html).
+    /// Retrieves details about an enabled control. For usage examples, see the [ Controls Reference Guide ](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
     ///
     /// - Parameter GetEnabledControlInput : [no documentation found]
     ///
@@ -917,7 +917,7 @@ extension ControlTowerClient {
 
     /// Performs the `ListControlOperations` operation on the `AWSControlTowerApis` service.
     ///
-    /// Provides a list of operations in progress or queued.
+    /// Provides a list of operations in progress or queued. For usage examples, see [ListControlOperation examples](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html#list-control-operations-api-examples).
     ///
     /// - Parameter ListControlOperationsInput : [no documentation found]
     ///
@@ -1019,7 +1019,7 @@ extension ControlTowerClient {
 
     /// Performs the `ListEnabledControls` operation on the `AWSControlTowerApis` service.
     ///
-    /// Lists the controls enabled by Amazon Web Services Control Tower on the specified organizational unit and the accounts it contains. For usage examples, see [ the Amazon Web Services Control Tower User Guide ](https://docs.aws.amazon.com/controltower/latest/userguide/control-api-examples-short.html).
+    /// Lists the controls enabled by Amazon Web Services Control Tower on the specified organizational unit and the accounts it contains. For usage examples, see the [ Controls Reference Guide ](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
     ///
     /// - Parameter ListEnabledControlsInput : [no documentation found]
     ///
@@ -1065,6 +1065,57 @@ extension ControlTowerClient {
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListEnabledControlsOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEnabledControlsOutput>(ListEnabledControlsOutput.httpOutput(from:), ListEnabledControlsOutputError.httpError(from:)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListEnabledControlsInput, ListEnabledControlsOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `ListLandingZoneOperations` operation on the `AWSControlTowerApis` service.
+    ///
+    /// Lists all landing zone operations from the past 90 days. Results are sorted by time, with the most recent operation first.
+    ///
+    /// - Parameter ListLandingZoneOperationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListLandingZoneOperationsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred during processing of a request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
+    public func listLandingZoneOperations(input: ListLandingZoneOperationsInput) async throws -> ListLandingZoneOperationsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listLandingZoneOperations")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "controltower")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ListLandingZoneOperationsInput, ListLandingZoneOperationsOutput>(id: "listLandingZoneOperations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLandingZoneOperationsInput, ListLandingZoneOperationsOutput>(ListLandingZoneOperationsInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLandingZoneOperationsInput, ListLandingZoneOperationsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ListLandingZoneOperationsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListLandingZoneOperationsInput, ListLandingZoneOperationsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListLandingZoneOperationsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ListLandingZoneOperationsInput, ListLandingZoneOperationsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListLandingZoneOperationsInput, ListLandingZoneOperationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListLandingZoneOperationsInput.write(value:to:)))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ListLandingZoneOperationsInput, ListLandingZoneOperationsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListLandingZoneOperationsOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListLandingZoneOperationsOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLandingZoneOperationsOutput>(ListLandingZoneOperationsOutput.httpOutput(from:), ListLandingZoneOperationsOutputError.httpError(from:)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListLandingZoneOperationsInput, ListLandingZoneOperationsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1122,7 +1173,7 @@ extension ControlTowerClient {
 
     /// Performs the `ListTagsForResource` operation on the `AWSControlTowerApis` service.
     ///
-    /// Returns a list of tags associated with the resource. For usage examples, see [ the Amazon Web Services Control Tower User Guide ](https://docs.aws.amazon.com/controltower/latest/userguide/control-api-examples-short.html).
+    /// Returns a list of tags associated with the resource. For usage examples, see the [ Controls Reference Guide ](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
@@ -1223,7 +1274,7 @@ extension ControlTowerClient {
 
     /// Performs the `ResetLandingZone` operation on the `AWSControlTowerApis` service.
     ///
-    /// This API call resets a landing zone. It starts an asynchronous operation that resets the landing zone to the parameters specified in its original configuration.
+    /// This API call resets a landing zone. It starts an asynchronous operation that resets the landing zone to the parameters specified in the original configuration, which you specified in the manifest file. Nothing in the manifest file's original landing zone configuration is changed during the reset process, by default. This API is not the same as a rollback of a landing zone version, which is not a supported operation.
     ///
     /// - Parameter ResetLandingZoneInput : [no documentation found]
     ///
@@ -1276,7 +1327,7 @@ extension ControlTowerClient {
 
     /// Performs the `TagResource` operation on the `AWSControlTowerApis` service.
     ///
-    /// Applies tags to a resource. For usage examples, see [ the Amazon Web Services Control Tower User Guide ](https://docs.aws.amazon.com/controltower/latest/userguide/control-api-examples-short.html).
+    /// Applies tags to a resource. For usage examples, see the [ Controls Reference Guide ](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
@@ -1326,7 +1377,7 @@ extension ControlTowerClient {
 
     /// Performs the `UntagResource` operation on the `AWSControlTowerApis` service.
     ///
-    /// Removes tags from a resource. For usage examples, see [ the Amazon Web Services Control Tower User Guide ](https://docs.aws.amazon.com/controltower/latest/userguide/control-api-examples-short.html).
+    /// Removes tags from a resource. For usage examples, see the [ Controls Reference Guide ](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
@@ -1428,7 +1479,7 @@ extension ControlTowerClient {
 
     /// Performs the `UpdateEnabledControl` operation on the `AWSControlTowerApis` service.
     ///
-    /// Updates the configuration of an already enabled control. If the enabled control shows an EnablementStatus of SUCCEEDED, supply parameters that are different from the currently configured parameters. Otherwise, Amazon Web Services Control Tower will not accept the request. If the enabled control shows an EnablementStatus of FAILED, Amazon Web Services Control Tower will update the control to match any valid parameters that you supply. If the DriftSummary status for the control shows as DRIFTED, you cannot call this API. Instead, you can update the control by calling DisableControl and again calling EnableControl, or you can run an extending governance operation. For usage examples, see [ the Amazon Web Services Control Tower User Guide ](https://docs.aws.amazon.com/controltower/latest/userguide/control-api-examples-short.html)
+    /// Updates the configuration of an already enabled control. If the enabled control shows an EnablementStatus of SUCCEEDED, supply parameters that are different from the currently configured parameters. Otherwise, Amazon Web Services Control Tower will not accept the request. If the enabled control shows an EnablementStatus of FAILED, Amazon Web Services Control Tower updates the control to match any valid parameters that you supply. If the DriftSummary status for the control shows as DRIFTED, you cannot call this API. Instead, you can update the control by calling DisableControl and again calling EnableControl, or you can run an extending governance operation. For usage examples, see the [ Controls Reference Guide ](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
     ///
     /// - Parameter UpdateEnabledControlInput : [no documentation found]
     ///

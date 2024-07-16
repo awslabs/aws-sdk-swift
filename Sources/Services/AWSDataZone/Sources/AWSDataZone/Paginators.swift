@@ -217,6 +217,42 @@ extension PaginatorSequence where OperationStackInput == ListEnvironmentsInput, 
     }
 }
 extension DataZoneClient {
+    /// Paginate over `[ListLineageNodeHistoryOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListLineageNodeHistoryInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListLineageNodeHistoryOutput`
+    public func listLineageNodeHistoryPaginated(input: ListLineageNodeHistoryInput) -> ClientRuntime.PaginatorSequence<ListLineageNodeHistoryInput, ListLineageNodeHistoryOutput> {
+        return ClientRuntime.PaginatorSequence<ListLineageNodeHistoryInput, ListLineageNodeHistoryOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listLineageNodeHistory(input:))
+    }
+}
+
+extension ListLineageNodeHistoryInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListLineageNodeHistoryInput {
+        return ListLineageNodeHistoryInput(
+            direction: self.direction,
+            domainIdentifier: self.domainIdentifier,
+            eventTimestampGTE: self.eventTimestampGTE,
+            eventTimestampLTE: self.eventTimestampLTE,
+            identifier: self.identifier,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortOrder: self.sortOrder
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListLineageNodeHistoryInput, OperationStackOutput == ListLineageNodeHistoryOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listLineageNodeHistoryPaginated`
+    /// to access the nested member `[DataZoneClientTypes.LineageNodeSummary]`
+    /// - Returns: `[DataZoneClientTypes.LineageNodeSummary]`
+    public func nodes() async throws -> [DataZoneClientTypes.LineageNodeSummary] {
+        return try await self.asyncCompactMap { item in item.nodes }
+    }
+}
+extension DataZoneClient {
     /// Paginate over `[ListNotificationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

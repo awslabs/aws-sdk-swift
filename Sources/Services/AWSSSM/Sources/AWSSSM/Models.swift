@@ -7099,6 +7099,11 @@ extension SSMClientTypes {
 
 }
 
+extension SSMClientTypes.InstanceInformation: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "InstanceInformation(activationId: \(Swift.String(describing: activationId)), agentVersion: \(Swift.String(describing: agentVersion)), associationOverview: \(Swift.String(describing: associationOverview)), associationStatus: \(Swift.String(describing: associationStatus)), computerName: \(Swift.String(describing: computerName)), iamRole: \(Swift.String(describing: iamRole)), instanceId: \(Swift.String(describing: instanceId)), isLatestVersion: \(Swift.String(describing: isLatestVersion)), lastAssociationExecutionDate: \(Swift.String(describing: lastAssociationExecutionDate)), lastPingDateTime: \(Swift.String(describing: lastPingDateTime)), lastSuccessfulAssociationExecutionDate: \(Swift.String(describing: lastSuccessfulAssociationExecutionDate)), name: \(Swift.String(describing: name)), pingStatus: \(Swift.String(describing: pingStatus)), platformName: \(Swift.String(describing: platformName)), platformType: \(Swift.String(describing: platformType)), platformVersion: \(Swift.String(describing: platformVersion)), registrationDate: \(Swift.String(describing: registrationDate)), resourceType: \(Swift.String(describing: resourceType)), sourceId: \(Swift.String(describing: sourceId)), sourceType: \(Swift.String(describing: sourceType)), ipAddress: \"CONTENT_REDACTED\")"}
+}
+
 public struct DescribeInstanceInformationOutput {
     /// The managed node information list.
     public var instanceInformationList: [SSMClientTypes.InstanceInformation]?
@@ -7911,6 +7916,11 @@ extension SSMClientTypes {
         }
     }
 
+}
+
+extension SSMClientTypes.InstanceProperty: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "InstanceProperty(activationId: \(Swift.String(describing: activationId)), agentVersion: \(Swift.String(describing: agentVersion)), architecture: \(Swift.String(describing: architecture)), associationOverview: \(Swift.String(describing: associationOverview)), associationStatus: \(Swift.String(describing: associationStatus)), computerName: \(Swift.String(describing: computerName)), iamRole: \(Swift.String(describing: iamRole)), instanceId: \(Swift.String(describing: instanceId)), instanceRole: \(Swift.String(describing: instanceRole)), instanceState: \(Swift.String(describing: instanceState)), instanceType: \(Swift.String(describing: instanceType)), keyName: \(Swift.String(describing: keyName)), lastAssociationExecutionDate: \(Swift.String(describing: lastAssociationExecutionDate)), lastPingDateTime: \(Swift.String(describing: lastPingDateTime)), lastSuccessfulAssociationExecutionDate: \(Swift.String(describing: lastSuccessfulAssociationExecutionDate)), launchTime: \(Swift.String(describing: launchTime)), name: \(Swift.String(describing: name)), pingStatus: \(Swift.String(describing: pingStatus)), platformName: \(Swift.String(describing: platformName)), platformType: \(Swift.String(describing: platformType)), platformVersion: \(Swift.String(describing: platformVersion)), registrationDate: \(Swift.String(describing: registrationDate)), resourceType: \(Swift.String(describing: resourceType)), sourceId: \(Swift.String(describing: sourceId)), sourceType: \(Swift.String(describing: sourceType)), ipAddress: \"CONTENT_REDACTED\")"}
 }
 
 public struct DescribeInstancePropertiesOutput {

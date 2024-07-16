@@ -284,11 +284,13 @@ extension EMRClientTypes {
 
     public enum OnDemandProvisioningAllocationStrategy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case lowestPrice
+        case prioritized
         case sdkUnknown(Swift.String)
 
         public static var allCases: [OnDemandProvisioningAllocationStrategy] {
             return [
-                .lowestPrice
+                .lowestPrice,
+                .prioritized
             ]
         }
 
@@ -300,6 +302,7 @@ extension EMRClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .lowestPrice: return "lowest-price"
+            case .prioritized: return "prioritized"
             case let .sdkUnknown(s): return s
             }
         }
@@ -392,7 +395,7 @@ extension EMRClientTypes {
 extension EMRClientTypes {
     /// The launch specification for On-Demand Instances in the instance fleet, which determines the allocation strategy. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x versions. On-Demand Instances allocation strategy is available in Amazon EMR releases 5.12.1 and later.
     public struct OnDemandProvisioningSpecification {
-        /// Specifies the strategy to use in launching On-Demand instance fleets. Currently, the only option is lowest-price (the default), which launches the lowest price first.
+        /// Specifies the strategy to use in launching On-Demand instance fleets. Available options are lowest-price and prioritized. lowest-price specifies to launch the instances with the lowest price first, and prioritized specifies that Amazon EMR should launch the instances with the highest priority first. The default is lowest-price.
         /// This member is required.
         public var allocationStrategy: EMRClientTypes.OnDemandProvisioningAllocationStrategy?
         /// The launch specification for On-Demand instances in the instance fleet, which determines the allocation strategy.
@@ -414,6 +417,7 @@ extension EMRClientTypes {
 
     public enum SpotProvisioningAllocationStrategy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case capacityOptimized
+        case capacityOptimizedPrioritized
         case diversified
         case lowestPrice
         case priceCapacityOptimized
@@ -422,6 +426,7 @@ extension EMRClientTypes {
         public static var allCases: [SpotProvisioningAllocationStrategy] {
             return [
                 .capacityOptimized,
+                .capacityOptimizedPrioritized,
                 .diversified,
                 .lowestPrice,
                 .priceCapacityOptimized
@@ -436,6 +441,7 @@ extension EMRClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .capacityOptimized: return "capacity-optimized"
+            case .capacityOptimizedPrioritized: return "capacity-optimized-prioritized"
             case .diversified: return "diversified"
             case .lowestPrice: return "lowest-price"
             case .priceCapacityOptimized: return "price-capacity-optimized"
@@ -477,7 +483,7 @@ extension EMRClientTypes {
 extension EMRClientTypes {
     /// The launch specification for Spot Instances in the instance fleet, which determines the defined duration, provisioning timeout behavior, and allocation strategy. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x versions. Spot Instance allocation strategy is available in Amazon EMR releases 5.12.1 and later. Spot Instances with a defined duration (also known as Spot blocks) are no longer available to new customers from July 1, 2021. For customers who have previously used the feature, we will continue to support Spot Instances with a defined duration until December 31, 2022.
     public struct SpotProvisioningSpecification {
-        /// Specifies one of the following strategies to launch Spot Instance fleets: price-capacity-optimized, capacity-optimized, lowest-price, or diversified. For more information on the provisioning strategies, see [Allocation strategies for Spot Instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-allocation-strategy.html) in the Amazon EC2 User Guide for Linux Instances. When you launch a Spot Instance fleet with the old console, it automatically launches with the capacity-optimized strategy. You can't change the allocation strategy from the old console.
+        /// Specifies one of the following strategies to launch Spot Instance fleets: capacity-optimized, price-capacity-optimized, lowest-price, or diversified, and capacity-optimized-prioritized. For more information on the provisioning strategies, see [Allocation strategies for Spot Instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-allocation-strategy.html) in the Amazon EC2 User Guide for Linux Instances. When you launch a Spot Instance fleet with the old console, it automatically launches with the capacity-optimized strategy. You can't change the allocation strategy from the old console.
         public var allocationStrategy: EMRClientTypes.SpotProvisioningAllocationStrategy?
         /// The defined duration for Spot Instances (also known as Spot blocks) in minutes. When specified, the Spot Instance does not terminate before the defined duration expires, and defined duration pricing for Spot Instances applies. Valid values are 60, 120, 180, 240, 300, or 360. The duration period starts as soon as a Spot Instance receives its instance ID. At the end of the duration, Amazon EC2 marks the Spot Instance for termination and provides a Spot Instance termination notice, which gives the instance a two-minute warning before it terminates. Spot Instances with a defined duration (also known as Spot blocks) are no longer available to new customers from July 1, 2021. For customers who have previously used the feature, we will continue to support Spot Instances with a defined duration until December 31, 2022.
         public var blockDurationMinutes: Swift.Int?
@@ -6293,6 +6299,8 @@ extension EMRClientTypes {
         /// An Amazon EC2 instance type, such as m3.xlarge.
         /// This member is required.
         public var instanceType: Swift.String?
+        /// The priority at which Amazon EMR launches the Amazon EC2 instances with this instance type. Priority starts at 0, which is the highest priority. Amazon EMR considers the highest priority first.
+        public var priority: Swift.Double?
         /// The number of units that a provisioned instance of this type provides toward fulfilling the target capacities defined in [InstanceFleetConfig]. This value is 1 for a master instance fleet, and must be 1 or greater for core and task instance fleets. Defaults to 1 if not specified.
         public var weightedCapacity: Swift.Int?
 
@@ -6303,6 +6311,7 @@ extension EMRClientTypes {
             customAmiId: Swift.String? = nil,
             ebsConfiguration: EMRClientTypes.EbsConfiguration? = nil,
             instanceType: Swift.String? = nil,
+            priority: Swift.Double? = nil,
             weightedCapacity: Swift.Int? = nil
         )
         {
@@ -6312,6 +6321,7 @@ extension EMRClientTypes {
             self.customAmiId = customAmiId
             self.ebsConfiguration = ebsConfiguration
             self.instanceType = instanceType
+            self.priority = priority
             self.weightedCapacity = weightedCapacity
         }
     }
@@ -6335,6 +6345,8 @@ extension EMRClientTypes {
         public var ebsOptimized: Swift.Bool?
         /// The Amazon EC2 instance type, for example m3.xlarge.
         public var instanceType: Swift.String?
+        /// The priority at which Amazon EMR launches the Amazon EC2 instances with this instance type. Priority starts at 0, which is the highest priority. Amazon EMR considers the highest priority first.
+        public var priority: Swift.Double?
         /// The number of units that a provisioned instance of this type provides toward fulfilling the target capacities defined in [InstanceFleetConfig]. Capacity values represent performance characteristics such as vCPUs, memory, or I/O. If not specified, the default value is 1.
         public var weightedCapacity: Swift.Int?
 
@@ -6346,6 +6358,7 @@ extension EMRClientTypes {
             ebsBlockDevices: [EMRClientTypes.EbsBlockDevice]? = nil,
             ebsOptimized: Swift.Bool? = nil,
             instanceType: Swift.String? = nil,
+            priority: Swift.Double? = nil,
             weightedCapacity: Swift.Int? = nil
         )
         {
@@ -6356,6 +6369,7 @@ extension EMRClientTypes {
             self.ebsBlockDevices = ebsBlockDevices
             self.ebsOptimized = ebsOptimized
             self.instanceType = instanceType
+            self.priority = priority
             self.weightedCapacity = weightedCapacity
         }
     }
@@ -10296,6 +10310,7 @@ extension EMRClientTypes.InstanceTypeSpecification {
         value.ebsBlockDevices = try reader["EbsBlockDevices"].readListIfPresent(memberReadingClosure: EMRClientTypes.EbsBlockDevice.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.ebsOptimized = try reader["EbsOptimized"].readIfPresent()
         value.customAmiId = try reader["CustomAmiId"].readIfPresent()
+        value.priority = try reader["Priority"].readIfPresent()
         return value
     }
 }
@@ -10820,6 +10835,7 @@ extension EMRClientTypes.InstanceTypeConfig {
         try writer["CustomAmiId"].write(value.customAmiId)
         try writer["EbsConfiguration"].write(value.ebsConfiguration, with: EMRClientTypes.EbsConfiguration.write(value:to:))
         try writer["InstanceType"].write(value.instanceType)
+        try writer["Priority"].write(value.priority)
         try writer["WeightedCapacity"].write(value.weightedCapacity)
     }
 }

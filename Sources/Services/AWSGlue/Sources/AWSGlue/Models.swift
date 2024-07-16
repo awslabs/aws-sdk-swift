@@ -5420,6 +5420,74 @@ extension GlueClientTypes {
 }
 
 extension GlueClientTypes {
+    /// Actions defined in the Glue Studio data preparation recipe node.
+    public struct RecipeAction {
+        /// The operation of the recipe action.
+        /// This member is required.
+        public var operation: Swift.String?
+        /// The parameters of the recipe action.
+        public var parameters: [Swift.String: Swift.String]?
+
+        public init(
+            operation: Swift.String? = nil,
+            parameters: [Swift.String: Swift.String]? = nil
+        )
+        {
+            self.operation = operation
+            self.parameters = parameters
+        }
+    }
+
+}
+
+extension GlueClientTypes {
+    /// Condition expression defined in the Glue Studio data preparation recipe node.
+    public struct ConditionExpression {
+        /// The condition of the condition expression.
+        /// This member is required.
+        public var condition: Swift.String?
+        /// The target column of the condition expressions.
+        /// This member is required.
+        public var targetColumn: Swift.String?
+        /// The value of the condition expression.
+        public var value: Swift.String?
+
+        public init(
+            condition: Swift.String? = nil,
+            targetColumn: Swift.String? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.condition = condition
+            self.targetColumn = targetColumn
+            self.value = value
+        }
+    }
+
+}
+
+extension GlueClientTypes {
+    /// A recipe step used in a Glue Studio data preparation recipe node.
+    public struct RecipeStep {
+        /// The transformation action of the recipe step.
+        /// This member is required.
+        public var action: GlueClientTypes.RecipeAction?
+        /// The condition expressions for the recipe step.
+        public var conditionExpressions: [GlueClientTypes.ConditionExpression]?
+
+        public init(
+            action: GlueClientTypes.RecipeAction? = nil,
+            conditionExpressions: [GlueClientTypes.ConditionExpression]? = nil
+        )
+        {
+            self.action = action
+            self.conditionExpressions = conditionExpressions
+        }
+    }
+
+}
+
+extension GlueClientTypes {
     /// A Glue Studio node that uses a Glue DataBrew recipe in Glue jobs.
     public struct Recipe {
         /// The nodes that are inputs to the recipe node, identified by id.
@@ -5429,18 +5497,21 @@ extension GlueClientTypes {
         /// This member is required.
         public var name: Swift.String?
         /// A reference to the DataBrew recipe used by the node.
-        /// This member is required.
         public var recipeReference: GlueClientTypes.RecipeReference?
+        /// Transform steps used in the recipe node.
+        public var recipeSteps: [GlueClientTypes.RecipeStep]?
 
         public init(
             inputs: [Swift.String]? = nil,
             name: Swift.String? = nil,
-            recipeReference: GlueClientTypes.RecipeReference? = nil
+            recipeReference: GlueClientTypes.RecipeReference? = nil,
+            recipeSteps: [GlueClientTypes.RecipeStep]? = nil
         )
         {
             self.inputs = inputs
             self.name = name
             self.recipeReference = recipeReference
+            self.recipeSteps = recipeSteps
         }
     }
 
@@ -14990,6 +15061,32 @@ public struct GetDatabaseOutput {
 
 extension GlueClientTypes {
 
+    public enum DatabaseAttributes: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case name
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DatabaseAttributes] {
+            return [
+                .name
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .name: return "NAME"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
     public enum ResourceShareType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case all
         case federated
@@ -15021,6 +15118,8 @@ extension GlueClientTypes {
 }
 
 public struct GetDatabasesInput {
+    /// Specifies the database fields returned by the GetDatabases call. This parameter doesn’t accept an empty list. The request must include the NAME.
+    public var attributesToGet: [GlueClientTypes.DatabaseAttributes]?
     /// The ID of the Data Catalog from which to retrieve Databases. If none is provided, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
     /// The maximum number of databases to return in one response.
@@ -15037,12 +15136,14 @@ public struct GetDatabasesInput {
     public var resourceShareType: GlueClientTypes.ResourceShareType?
 
     public init(
+        attributesToGet: [GlueClientTypes.DatabaseAttributes]? = nil,
         catalogId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceShareType: GlueClientTypes.ResourceShareType? = nil
     )
     {
+        self.attributesToGet = attributesToGet
         self.catalogId = catalogId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -26771,6 +26872,7 @@ extension GetDatabasesInput {
 
     static func write(value: GetDatabasesInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AttributesToGet"].writeList(value.attributesToGet, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GlueClientTypes.DatabaseAttributes>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["CatalogId"].write(value.catalogId)
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
@@ -36019,6 +36121,7 @@ extension GlueClientTypes.Recipe {
         try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Name"].write(value.name)
         try writer["RecipeReference"].write(value.recipeReference, with: GlueClientTypes.RecipeReference.write(value:to:))
+        try writer["RecipeSteps"].writeList(value.recipeSteps, memberWritingClosure: GlueClientTypes.RecipeStep.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Recipe {
@@ -36027,6 +36130,60 @@ extension GlueClientTypes.Recipe {
         value.name = try reader["Name"].readIfPresent()
         value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.recipeReference = try reader["RecipeReference"].readIfPresent(with: GlueClientTypes.RecipeReference.read(from:))
+        value.recipeSteps = try reader["RecipeSteps"].readListIfPresent(memberReadingClosure: GlueClientTypes.RecipeStep.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.RecipeStep {
+
+    static func write(value: GlueClientTypes.RecipeStep?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Action"].write(value.action, with: GlueClientTypes.RecipeAction.write(value:to:))
+        try writer["ConditionExpressions"].writeList(value.conditionExpressions, memberWritingClosure: GlueClientTypes.ConditionExpression.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.RecipeStep {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.RecipeStep()
+        value.action = try reader["Action"].readIfPresent(with: GlueClientTypes.RecipeAction.read(from:))
+        value.conditionExpressions = try reader["ConditionExpressions"].readListIfPresent(memberReadingClosure: GlueClientTypes.ConditionExpression.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.ConditionExpression {
+
+    static func write(value: GlueClientTypes.ConditionExpression?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Condition"].write(value.condition)
+        try writer["TargetColumn"].write(value.targetColumn)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ConditionExpression {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.ConditionExpression()
+        value.condition = try reader["Condition"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        value.targetColumn = try reader["TargetColumn"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.RecipeAction {
+
+    static func write(value: GlueClientTypes.RecipeAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Operation"].write(value.operation)
+        try writer["Parameters"].writeMap(value.parameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.RecipeAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.RecipeAction()
+        value.operation = try reader["Operation"].readIfPresent()
+        value.parameters = try reader["Parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }

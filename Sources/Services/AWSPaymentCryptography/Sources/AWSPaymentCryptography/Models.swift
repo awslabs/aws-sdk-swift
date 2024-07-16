@@ -1553,6 +1553,11 @@ extension PaymentCryptographyClientTypes {
 
 }
 
+extension PaymentCryptographyClientTypes.ImportTr31KeyBlock: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ImportTr31KeyBlock(wrappingKeyIdentifier: \(Swift.String(describing: wrappingKeyIdentifier)), wrappedKeyBlock: \"CONTENT_REDACTED\")"}
+}
+
 extension PaymentCryptographyClientTypes {
     /// Parameter information for key material import using the asymmetric TR-34 key exchange method.
     public struct ImportTr34KeyBlock {

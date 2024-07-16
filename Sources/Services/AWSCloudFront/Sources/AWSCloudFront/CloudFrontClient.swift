@@ -4839,7 +4839,7 @@ extension CloudFrontClient {
 
     /// Performs the `ListTagsForResource` operation on the `Cloudfront2020_05_31` service.
     ///
-    /// List tags for a CloudFront resource.
+    /// List tags for a CloudFront resource. For more information, see [Tagging a distribution](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/tagging.html) in the Amazon CloudFront Developer Guide.
     ///
     /// - Parameter ListTagsForResourceInput : The request to list tags for a CloudFront resource.
     ///
@@ -4938,7 +4938,7 @@ extension CloudFrontClient {
 
     /// Performs the `TagResource` operation on the `Cloudfront2020_05_31` service.
     ///
-    /// Add tags to a CloudFront resource.
+    /// Add tags to a CloudFront resource. For more information, see [Tagging a distribution](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/tagging.html) in the Amazon CloudFront Developer Guide.
     ///
     /// - Parameter TagResourceInput : The request to add tags to a CloudFront resource.
     ///
@@ -5043,7 +5043,7 @@ extension CloudFrontClient {
 
     /// Performs the `UntagResource` operation on the `Cloudfront2020_05_31` service.
     ///
-    /// Remove tags from a CloudFront resource.
+    /// Remove tags from a CloudFront resource. For more information, see [Tagging a distribution](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/tagging.html) in the Amazon CloudFront Developer Guide.
     ///
     /// - Parameter UntagResourceInput : The request to remove tags from a CloudFront resource.
     ///

@@ -813,6 +813,35 @@ extension MediaConnectClientTypes {
 }
 
 extension MediaConnectClientTypes {
+
+    public enum OutputStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OutputStatus] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
     /// The output that you want to add to this flow.
     public struct AddOutputRequest {
         /// The range of IP addresses that should be allowed to initiate output requests to this flow. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
@@ -831,6 +860,8 @@ extension MediaConnectClientTypes {
         public var minLatency: Swift.Int?
         /// The name of the output. This value must be unique within the current flow.
         public var name: Swift.String?
+        /// An indication of whether the new output should be enabled or disabled as soon as it is created. If you don't specify the outputStatus field in your request, MediaConnect sets it to ENABLED.
+        public var outputStatus: MediaConnectClientTypes.OutputStatus?
         /// The port to use when content is distributed to this output.
         public var port: Swift.Int?
         /// The protocol to use for the output.
@@ -856,6 +887,7 @@ extension MediaConnectClientTypes {
             mediaStreamOutputConfigurations: [MediaConnectClientTypes.MediaStreamOutputConfigurationRequest]? = nil,
             minLatency: Swift.Int? = nil,
             name: Swift.String? = nil,
+            outputStatus: MediaConnectClientTypes.OutputStatus? = nil,
             port: Swift.Int? = nil,
             `protocol`: MediaConnectClientTypes.ModelProtocol? = nil,
             remoteId: Swift.String? = nil,
@@ -873,6 +905,7 @@ extension MediaConnectClientTypes {
             self.mediaStreamOutputConfigurations = mediaStreamOutputConfigurations
             self.minLatency = minLatency
             self.name = name
+            self.outputStatus = outputStatus
             self.port = port
             self.`protocol` = `protocol`
             self.remoteId = remoteId
@@ -2224,6 +2257,8 @@ extension MediaConnectClientTypes {
         /// The ARN of the output.
         /// This member is required.
         public var outputArn: Swift.String?
+        /// An indication of whether the output is transmitting data or not.
+        public var outputStatus: MediaConnectClientTypes.OutputStatus?
         /// The port to use when content is distributed to this output.
         public var port: Swift.Int?
         /// Attributes related to the transport stream that are used in the output.
@@ -2244,6 +2279,7 @@ extension MediaConnectClientTypes {
             mediaStreamOutputConfigurations: [MediaConnectClientTypes.MediaStreamOutputConfiguration]? = nil,
             name: Swift.String? = nil,
             outputArn: Swift.String? = nil,
+            outputStatus: MediaConnectClientTypes.OutputStatus? = nil,
             port: Swift.Int? = nil,
             transport: MediaConnectClientTypes.Transport? = nil,
             vpcInterfaceAttachment: MediaConnectClientTypes.VpcInterfaceAttachment? = nil
@@ -2261,6 +2297,7 @@ extension MediaConnectClientTypes {
             self.mediaStreamOutputConfigurations = mediaStreamOutputConfigurations
             self.name = name
             self.outputArn = outputArn
+            self.outputStatus = outputStatus
             self.port = port
             self.transport = transport
             self.vpcInterfaceAttachment = vpcInterfaceAttachment
@@ -5502,6 +5539,8 @@ public struct UpdateFlowOutputInput {
     /// The ARN of the output that you want to update.
     /// This member is required.
     public var outputArn: Swift.String?
+    /// An indication of whether the output should transmit data or not. If you don't specify the outputStatus field in your request, MediaConnect leaves the value unchanged.
+    public var outputStatus: MediaConnectClientTypes.OutputStatus?
     /// The port to use when content is distributed to this output.
     public var port: Swift.Int?
     /// The protocol to use for the output.
@@ -5529,6 +5568,7 @@ public struct UpdateFlowOutputInput {
         mediaStreamOutputConfigurations: [MediaConnectClientTypes.MediaStreamOutputConfigurationRequest]? = nil,
         minLatency: Swift.Int? = nil,
         outputArn: Swift.String? = nil,
+        outputStatus: MediaConnectClientTypes.OutputStatus? = nil,
         port: Swift.Int? = nil,
         `protocol`: MediaConnectClientTypes.ModelProtocol? = nil,
         remoteId: Swift.String? = nil,
@@ -5548,6 +5588,7 @@ public struct UpdateFlowOutputInput {
         self.mediaStreamOutputConfigurations = mediaStreamOutputConfigurations
         self.minLatency = minLatency
         self.outputArn = outputArn
+        self.outputStatus = outputStatus
         self.port = port
         self.`protocol` = `protocol`
         self.remoteId = remoteId
@@ -6595,6 +6636,7 @@ extension UpdateFlowOutputInput {
         try writer["maxLatency"].write(value.maxLatency)
         try writer["mediaStreamOutputConfigurations"].writeList(value.mediaStreamOutputConfigurations, memberWritingClosure: MediaConnectClientTypes.MediaStreamOutputConfigurationRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["minLatency"].write(value.minLatency)
+        try writer["outputStatus"].write(value.outputStatus)
         try writer["port"].write(value.port)
         try writer["protocol"].write(value.`protocol`)
         try writer["remoteId"].write(value.remoteId)
@@ -8556,6 +8598,7 @@ extension MediaConnectClientTypes.Output {
         value.vpcInterfaceAttachment = try reader["vpcInterfaceAttachment"].readIfPresent(with: MediaConnectClientTypes.VpcInterfaceAttachment.read(from:))
         value.bridgeArn = try reader["bridgeArn"].readIfPresent()
         value.bridgePorts = try reader["bridgePorts"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        value.outputStatus = try reader["outputStatus"].readIfPresent()
         return value
     }
 }
@@ -9205,6 +9248,7 @@ extension MediaConnectClientTypes.AddOutputRequest {
         try writer["mediaStreamOutputConfigurations"].writeList(value.mediaStreamOutputConfigurations, memberWritingClosure: MediaConnectClientTypes.MediaStreamOutputConfigurationRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["minLatency"].write(value.minLatency)
         try writer["name"].write(value.name)
+        try writer["outputStatus"].write(value.outputStatus)
         try writer["port"].write(value.port)
         try writer["protocol"].write(value.`protocol`)
         try writer["remoteId"].write(value.remoteId)

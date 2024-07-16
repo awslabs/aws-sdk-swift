@@ -923,13 +923,16 @@ public struct CreateIdentityProviderInput {
     /// The ARN of the web portal.
     /// This member is required.
     public var portalArn: Swift.String?
+    /// The tags to add to the identity provider resource. A tag is a key-value pair.
+    public var tags: [WorkSpacesWebClientTypes.Tag]?
 
     public init(
         clientToken: Swift.String? = nil,
         identityProviderDetails: [Swift.String: Swift.String]? = nil,
         identityProviderName: Swift.String? = nil,
         identityProviderType: WorkSpacesWebClientTypes.IdentityProviderType? = nil,
-        portalArn: Swift.String? = nil
+        portalArn: Swift.String? = nil,
+        tags: [WorkSpacesWebClientTypes.Tag]? = nil
     )
     {
         self.clientToken = clientToken
@@ -937,12 +940,13 @@ public struct CreateIdentityProviderInput {
         self.identityProviderName = identityProviderName
         self.identityProviderType = identityProviderType
         self.portalArn = portalArn
+        self.tags = tags
     }
 }
 
 extension CreateIdentityProviderInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateIdentityProviderInput(clientToken: \(Swift.String(describing: clientToken)), identityProviderType: \(Swift.String(describing: identityProviderType)), portalArn: \(Swift.String(describing: portalArn)), identityProviderDetails: \"CONTENT_REDACTED\", identityProviderName: \"CONTENT_REDACTED\")"}
+        "CreateIdentityProviderInput(clientToken: \(Swift.String(describing: clientToken)), identityProviderType: \(Swift.String(describing: identityProviderType)), portalArn: \(Swift.String(describing: portalArn)), tags: \(Swift.String(describing: tags)), identityProviderDetails: \"CONTENT_REDACTED\", identityProviderName: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateIdentityProviderOutput {
@@ -1337,7 +1341,7 @@ public struct CreateIpAccessSettingsInput {
     /// The IP rules of the IP access settings.
     /// This member is required.
     public var ipRules: [WorkSpacesWebClientTypes.IpRule]?
-    /// The tags to add to the browser settings resource. A tag is a key-value pair.
+    /// The tags to add to the IP access settings resource. A tag is a key-value pair.
     public var tags: [WorkSpacesWebClientTypes.Tag]?
 
     public init(
@@ -3132,6 +3136,8 @@ public struct CreateUserSettingsInput {
     public var copyAllowed: WorkSpacesWebClientTypes.EnabledType?
     /// The customer managed key used to encrypt sensitive information in the user settings.
     public var customerManagedKey: Swift.String?
+    /// Specifies whether the user can use deep links that open automatically when connecting to a session.
+    public var deepLinkAllowed: WorkSpacesWebClientTypes.EnabledType?
     /// The amount of time that a streaming session remains active after users disconnect.
     public var disconnectTimeoutInMinutes: Swift.Int?
     /// Specifies whether the user can download files from the streaming session to the local device.
@@ -3157,6 +3163,7 @@ public struct CreateUserSettingsInput {
         cookieSynchronizationConfiguration: WorkSpacesWebClientTypes.CookieSynchronizationConfiguration? = nil,
         copyAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
         customerManagedKey: Swift.String? = nil,
+        deepLinkAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
         disconnectTimeoutInMinutes: Swift.Int? = nil,
         downloadAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
         idleDisconnectTimeoutInMinutes: Swift.Int? = nil,
@@ -3171,6 +3178,7 @@ public struct CreateUserSettingsInput {
         self.cookieSynchronizationConfiguration = cookieSynchronizationConfiguration
         self.copyAllowed = copyAllowed
         self.customerManagedKey = customerManagedKey
+        self.deepLinkAllowed = deepLinkAllowed
         self.disconnectTimeoutInMinutes = disconnectTimeoutInMinutes
         self.downloadAllowed = downloadAllowed
         self.idleDisconnectTimeoutInMinutes = idleDisconnectTimeoutInMinutes
@@ -3183,7 +3191,7 @@ public struct CreateUserSettingsInput {
 
 extension CreateUserSettingsInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateUserSettingsInput(additionalEncryptionContext: \(Swift.String(describing: additionalEncryptionContext)), clientToken: \(Swift.String(describing: clientToken)), copyAllowed: \(Swift.String(describing: copyAllowed)), customerManagedKey: \(Swift.String(describing: customerManagedKey)), disconnectTimeoutInMinutes: \(Swift.String(describing: disconnectTimeoutInMinutes)), downloadAllowed: \(Swift.String(describing: downloadAllowed)), idleDisconnectTimeoutInMinutes: \(Swift.String(describing: idleDisconnectTimeoutInMinutes)), pasteAllowed: \(Swift.String(describing: pasteAllowed)), printAllowed: \(Swift.String(describing: printAllowed)), tags: \(Swift.String(describing: tags)), uploadAllowed: \(Swift.String(describing: uploadAllowed)), cookieSynchronizationConfiguration: \"CONTENT_REDACTED\")"}
+        "CreateUserSettingsInput(additionalEncryptionContext: \(Swift.String(describing: additionalEncryptionContext)), clientToken: \(Swift.String(describing: clientToken)), copyAllowed: \(Swift.String(describing: copyAllowed)), customerManagedKey: \(Swift.String(describing: customerManagedKey)), deepLinkAllowed: \(Swift.String(describing: deepLinkAllowed)), disconnectTimeoutInMinutes: \(Swift.String(describing: disconnectTimeoutInMinutes)), downloadAllowed: \(Swift.String(describing: downloadAllowed)), idleDisconnectTimeoutInMinutes: \(Swift.String(describing: idleDisconnectTimeoutInMinutes)), pasteAllowed: \(Swift.String(describing: pasteAllowed)), printAllowed: \(Swift.String(describing: printAllowed)), tags: \(Swift.String(describing: tags)), uploadAllowed: \(Swift.String(describing: uploadAllowed)), cookieSynchronizationConfiguration: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateUserSettingsOutput {
@@ -3243,6 +3251,8 @@ extension WorkSpacesWebClientTypes {
         public var copyAllowed: WorkSpacesWebClientTypes.EnabledType?
         /// The customer managed key used to encrypt sensitive information in the user settings.
         public var customerManagedKey: Swift.String?
+        /// Specifies whether the user can use deep links that open automatically when connecting to a session.
+        public var deepLinkAllowed: WorkSpacesWebClientTypes.EnabledType?
         /// The amount of time that a streaming session remains active after users disconnect.
         public var disconnectTimeoutInMinutes: Swift.Int?
         /// Specifies whether the user can download files from the streaming session to the local device.
@@ -3265,6 +3275,7 @@ extension WorkSpacesWebClientTypes {
             cookieSynchronizationConfiguration: WorkSpacesWebClientTypes.CookieSynchronizationConfiguration? = nil,
             copyAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
             customerManagedKey: Swift.String? = nil,
+            deepLinkAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
             disconnectTimeoutInMinutes: Swift.Int? = nil,
             downloadAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
             idleDisconnectTimeoutInMinutes: Swift.Int? = nil,
@@ -3279,6 +3290,7 @@ extension WorkSpacesWebClientTypes {
             self.cookieSynchronizationConfiguration = cookieSynchronizationConfiguration
             self.copyAllowed = copyAllowed
             self.customerManagedKey = customerManagedKey
+            self.deepLinkAllowed = deepLinkAllowed
             self.disconnectTimeoutInMinutes = disconnectTimeoutInMinutes
             self.downloadAllowed = downloadAllowed
             self.idleDisconnectTimeoutInMinutes = idleDisconnectTimeoutInMinutes
@@ -3293,7 +3305,7 @@ extension WorkSpacesWebClientTypes {
 
 extension WorkSpacesWebClientTypes.UserSettings: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UserSettings(additionalEncryptionContext: \(Swift.String(describing: additionalEncryptionContext)), associatedPortalArns: \(Swift.String(describing: associatedPortalArns)), copyAllowed: \(Swift.String(describing: copyAllowed)), customerManagedKey: \(Swift.String(describing: customerManagedKey)), disconnectTimeoutInMinutes: \(Swift.String(describing: disconnectTimeoutInMinutes)), downloadAllowed: \(Swift.String(describing: downloadAllowed)), idleDisconnectTimeoutInMinutes: \(Swift.String(describing: idleDisconnectTimeoutInMinutes)), pasteAllowed: \(Swift.String(describing: pasteAllowed)), printAllowed: \(Swift.String(describing: printAllowed)), uploadAllowed: \(Swift.String(describing: uploadAllowed)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), cookieSynchronizationConfiguration: \"CONTENT_REDACTED\")"}
+        "UserSettings(additionalEncryptionContext: \(Swift.String(describing: additionalEncryptionContext)), associatedPortalArns: \(Swift.String(describing: associatedPortalArns)), copyAllowed: \(Swift.String(describing: copyAllowed)), customerManagedKey: \(Swift.String(describing: customerManagedKey)), deepLinkAllowed: \(Swift.String(describing: deepLinkAllowed)), disconnectTimeoutInMinutes: \(Swift.String(describing: disconnectTimeoutInMinutes)), downloadAllowed: \(Swift.String(describing: downloadAllowed)), idleDisconnectTimeoutInMinutes: \(Swift.String(describing: idleDisconnectTimeoutInMinutes)), pasteAllowed: \(Swift.String(describing: pasteAllowed)), printAllowed: \(Swift.String(describing: printAllowed)), uploadAllowed: \(Swift.String(describing: uploadAllowed)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), cookieSynchronizationConfiguration: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetUserSettingsOutput {
@@ -3331,6 +3343,8 @@ extension WorkSpacesWebClientTypes {
         public var cookieSynchronizationConfiguration: WorkSpacesWebClientTypes.CookieSynchronizationConfiguration?
         /// Specifies whether the user can copy text from the streaming session to the local device.
         public var copyAllowed: WorkSpacesWebClientTypes.EnabledType?
+        /// Specifies whether the user can use deep links that open automatically when connecting to a session.
+        public var deepLinkAllowed: WorkSpacesWebClientTypes.EnabledType?
         /// The amount of time that a streaming session remains active after users disconnect.
         public var disconnectTimeoutInMinutes: Swift.Int?
         /// Specifies whether the user can download files from the streaming session to the local device.
@@ -3350,6 +3364,7 @@ extension WorkSpacesWebClientTypes {
         public init(
             cookieSynchronizationConfiguration: WorkSpacesWebClientTypes.CookieSynchronizationConfiguration? = nil,
             copyAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
+            deepLinkAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
             disconnectTimeoutInMinutes: Swift.Int? = nil,
             downloadAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
             idleDisconnectTimeoutInMinutes: Swift.Int? = nil,
@@ -3361,6 +3376,7 @@ extension WorkSpacesWebClientTypes {
         {
             self.cookieSynchronizationConfiguration = cookieSynchronizationConfiguration
             self.copyAllowed = copyAllowed
+            self.deepLinkAllowed = deepLinkAllowed
             self.disconnectTimeoutInMinutes = disconnectTimeoutInMinutes
             self.downloadAllowed = downloadAllowed
             self.idleDisconnectTimeoutInMinutes = idleDisconnectTimeoutInMinutes
@@ -3375,7 +3391,7 @@ extension WorkSpacesWebClientTypes {
 
 extension WorkSpacesWebClientTypes.UserSettingsSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UserSettingsSummary(copyAllowed: \(Swift.String(describing: copyAllowed)), disconnectTimeoutInMinutes: \(Swift.String(describing: disconnectTimeoutInMinutes)), downloadAllowed: \(Swift.String(describing: downloadAllowed)), idleDisconnectTimeoutInMinutes: \(Swift.String(describing: idleDisconnectTimeoutInMinutes)), pasteAllowed: \(Swift.String(describing: pasteAllowed)), printAllowed: \(Swift.String(describing: printAllowed)), uploadAllowed: \(Swift.String(describing: uploadAllowed)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), cookieSynchronizationConfiguration: \"CONTENT_REDACTED\")"}
+        "UserSettingsSummary(copyAllowed: \(Swift.String(describing: copyAllowed)), deepLinkAllowed: \(Swift.String(describing: deepLinkAllowed)), disconnectTimeoutInMinutes: \(Swift.String(describing: disconnectTimeoutInMinutes)), downloadAllowed: \(Swift.String(describing: downloadAllowed)), idleDisconnectTimeoutInMinutes: \(Swift.String(describing: idleDisconnectTimeoutInMinutes)), pasteAllowed: \(Swift.String(describing: pasteAllowed)), printAllowed: \(Swift.String(describing: printAllowed)), uploadAllowed: \(Swift.String(describing: uploadAllowed)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), cookieSynchronizationConfiguration: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListUserSettingsOutput {
@@ -3401,6 +3417,8 @@ public struct UpdateUserSettingsInput {
     public var cookieSynchronizationConfiguration: WorkSpacesWebClientTypes.CookieSynchronizationConfiguration?
     /// Specifies whether the user can copy text from the streaming session to the local device.
     public var copyAllowed: WorkSpacesWebClientTypes.EnabledType?
+    /// Specifies whether the user can use deep links that open automatically when connecting to a session.
+    public var deepLinkAllowed: WorkSpacesWebClientTypes.EnabledType?
     /// The amount of time that a streaming session remains active after users disconnect.
     public var disconnectTimeoutInMinutes: Swift.Int?
     /// Specifies whether the user can download files from the streaming session to the local device.
@@ -3421,6 +3439,7 @@ public struct UpdateUserSettingsInput {
         clientToken: Swift.String? = nil,
         cookieSynchronizationConfiguration: WorkSpacesWebClientTypes.CookieSynchronizationConfiguration? = nil,
         copyAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
+        deepLinkAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
         disconnectTimeoutInMinutes: Swift.Int? = nil,
         downloadAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
         idleDisconnectTimeoutInMinutes: Swift.Int? = nil,
@@ -3433,6 +3452,7 @@ public struct UpdateUserSettingsInput {
         self.clientToken = clientToken
         self.cookieSynchronizationConfiguration = cookieSynchronizationConfiguration
         self.copyAllowed = copyAllowed
+        self.deepLinkAllowed = deepLinkAllowed
         self.disconnectTimeoutInMinutes = disconnectTimeoutInMinutes
         self.downloadAllowed = downloadAllowed
         self.idleDisconnectTimeoutInMinutes = idleDisconnectTimeoutInMinutes
@@ -3445,7 +3465,7 @@ public struct UpdateUserSettingsInput {
 
 extension UpdateUserSettingsInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateUserSettingsInput(clientToken: \(Swift.String(describing: clientToken)), copyAllowed: \(Swift.String(describing: copyAllowed)), disconnectTimeoutInMinutes: \(Swift.String(describing: disconnectTimeoutInMinutes)), downloadAllowed: \(Swift.String(describing: downloadAllowed)), idleDisconnectTimeoutInMinutes: \(Swift.String(describing: idleDisconnectTimeoutInMinutes)), pasteAllowed: \(Swift.String(describing: pasteAllowed)), printAllowed: \(Swift.String(describing: printAllowed)), uploadAllowed: \(Swift.String(describing: uploadAllowed)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), cookieSynchronizationConfiguration: \"CONTENT_REDACTED\")"}
+        "UpdateUserSettingsInput(clientToken: \(Swift.String(describing: clientToken)), copyAllowed: \(Swift.String(describing: copyAllowed)), deepLinkAllowed: \(Swift.String(describing: deepLinkAllowed)), disconnectTimeoutInMinutes: \(Swift.String(describing: disconnectTimeoutInMinutes)), downloadAllowed: \(Swift.String(describing: downloadAllowed)), idleDisconnectTimeoutInMinutes: \(Swift.String(describing: idleDisconnectTimeoutInMinutes)), pasteAllowed: \(Swift.String(describing: pasteAllowed)), printAllowed: \(Swift.String(describing: printAllowed)), uploadAllowed: \(Swift.String(describing: uploadAllowed)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), cookieSynchronizationConfiguration: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateUserSettingsOutput {
@@ -4275,6 +4295,7 @@ extension CreateIdentityProviderInput {
         try writer["identityProviderName"].write(value.identityProviderName)
         try writer["identityProviderType"].write(value.identityProviderType)
         try writer["portalArn"].write(value.portalArn)
+        try writer["tags"].writeList(value.tags, memberWritingClosure: WorkSpacesWebClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -4348,6 +4369,7 @@ extension CreateUserSettingsInput {
         try writer["cookieSynchronizationConfiguration"].write(value.cookieSynchronizationConfiguration, with: WorkSpacesWebClientTypes.CookieSynchronizationConfiguration.write(value:to:))
         try writer["copyAllowed"].write(value.copyAllowed)
         try writer["customerManagedKey"].write(value.customerManagedKey)
+        try writer["deepLinkAllowed"].write(value.deepLinkAllowed)
         try writer["disconnectTimeoutInMinutes"].write(value.disconnectTimeoutInMinutes)
         try writer["downloadAllowed"].write(value.downloadAllowed)
         try writer["idleDisconnectTimeoutInMinutes"].write(value.idleDisconnectTimeoutInMinutes)
@@ -4446,6 +4468,7 @@ extension UpdateUserSettingsInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["cookieSynchronizationConfiguration"].write(value.cookieSynchronizationConfiguration, with: WorkSpacesWebClientTypes.CookieSynchronizationConfiguration.write(value:to:))
         try writer["copyAllowed"].write(value.copyAllowed)
+        try writer["deepLinkAllowed"].write(value.deepLinkAllowed)
         try writer["disconnectTimeoutInMinutes"].write(value.disconnectTimeoutInMinutes)
         try writer["downloadAllowed"].write(value.downloadAllowed)
         try writer["idleDisconnectTimeoutInMinutes"].write(value.idleDisconnectTimeoutInMinutes)
@@ -5156,6 +5179,7 @@ enum AssociateTrustStoreOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -5511,6 +5535,7 @@ enum DisassociateBrowserSettingsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -5529,6 +5554,7 @@ enum DisassociateIpAccessSettingsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -5547,6 +5573,7 @@ enum DisassociateNetworkSettingsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -5565,6 +5592,7 @@ enum DisassociateTrustStoreOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -5583,6 +5611,7 @@ enum DisassociateUserAccessLoggingSettingsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -5601,6 +5630,7 @@ enum DisassociateUserSettingsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -6429,6 +6459,7 @@ extension WorkSpacesWebClientTypes.UserSettings {
         value.cookieSynchronizationConfiguration = try reader["cookieSynchronizationConfiguration"].readIfPresent(with: WorkSpacesWebClientTypes.CookieSynchronizationConfiguration.read(from:))
         value.customerManagedKey = try reader["customerManagedKey"].readIfPresent()
         value.additionalEncryptionContext = try reader["additionalEncryptionContext"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.deepLinkAllowed = try reader["deepLinkAllowed"].readIfPresent()
         return value
     }
 }
@@ -6606,6 +6637,7 @@ extension WorkSpacesWebClientTypes.UserSettingsSummary {
         value.disconnectTimeoutInMinutes = try reader["disconnectTimeoutInMinutes"].readIfPresent()
         value.idleDisconnectTimeoutInMinutes = try reader["idleDisconnectTimeoutInMinutes"].readIfPresent()
         value.cookieSynchronizationConfiguration = try reader["cookieSynchronizationConfiguration"].readIfPresent(with: WorkSpacesWebClientTypes.CookieSynchronizationConfiguration.read(from:))
+        value.deepLinkAllowed = try reader["deepLinkAllowed"].readIfPresent()
         return value
     }
 }

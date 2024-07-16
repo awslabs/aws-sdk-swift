@@ -2403,16 +2403,20 @@ public struct CreateDatasetInput {
     /// The ARN of the Amazon Rekognition Custom Labels project to which you want to asssign the dataset.
     /// This member is required.
     public var projectArn: Swift.String?
+    /// A set of tags (key-value pairs) that you want to attach to the dataset.
+    public var tags: [Swift.String: Swift.String]?
 
     public init(
         datasetSource: RekognitionClientTypes.DatasetSource? = nil,
         datasetType: RekognitionClientTypes.DatasetType? = nil,
-        projectArn: Swift.String? = nil
+        projectArn: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
     )
     {
         self.datasetSource = datasetSource
         self.datasetType = datasetType
         self.projectArn = projectArn
+        self.tags = tags
     }
 }
 
@@ -2568,16 +2572,20 @@ public struct CreateProjectInput {
     /// The name of the project to create.
     /// This member is required.
     public var projectName: Swift.String?
+    /// A set of tags (key-value pairs) that you want to attach to the project.
+    public var tags: [Swift.String: Swift.String]?
 
     public init(
         autoUpdate: RekognitionClientTypes.ProjectAutoUpdate? = nil,
         feature: RekognitionClientTypes.CustomizationFeature? = nil,
-        projectName: Swift.String? = nil
+        projectName: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
     )
     {
         self.autoUpdate = autoUpdate
         self.feature = feature
         self.projectName = projectName
+        self.tags = tags
     }
 }
 
@@ -4853,7 +4861,7 @@ public struct DetectModerationLabelsOutput {
     public var contentTypes: [RekognitionClientTypes.ContentType]?
     /// Shows the results of the human in the loop evaluation.
     public var humanLoopActivationOutput: RekognitionClientTypes.HumanLoopActivationOutput?
-    /// Array of detected Moderation labels and the time, in milliseconds from the start of the video, they were detected.
+    /// Array of detected Moderation labels. For video operations, this includes the time, in milliseconds from the start of the video, they were detected.
     public var moderationLabels: [RekognitionClientTypes.ModerationLabel]?
     /// Version number of the base moderation detection model that was used to detect unsafe content.
     public var moderationModelVersion: Swift.String?
@@ -9550,6 +9558,7 @@ extension CreateDatasetInput {
         try writer["DatasetSource"].write(value.datasetSource, with: RekognitionClientTypes.DatasetSource.write(value:to:))
         try writer["DatasetType"].write(value.datasetType)
         try writer["ProjectArn"].write(value.projectArn)
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -9570,6 +9579,7 @@ extension CreateProjectInput {
         try writer["AutoUpdate"].write(value.autoUpdate)
         try writer["Feature"].write(value.feature)
         try writer["ProjectName"].write(value.projectName)
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 

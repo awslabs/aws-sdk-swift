@@ -186,6 +186,11 @@ public struct DeleteNotebookInstanceOutput {
     public init() { }
 }
 
+public struct DeleteOptimizationJobOutput {
+
+    public init() { }
+}
+
 public struct DeleteProjectOutput {
 
     public init() { }
@@ -272,6 +277,11 @@ public struct StopMonitoringScheduleOutput {
 }
 
 public struct StopNotebookInstanceOutput {
+
+    public init() { }
+}
+
+public struct StopOptimizationJobOutput {
 
     public init() { }
 }
@@ -1802,6 +1812,28 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes {
+    /// Data sources that are available to your model in addition to the one that you specify for ModelDataSource when you use the CreateModel action.
+    public struct AdditionalModelDataSource {
+        /// A custom name for this AdditionalModelDataSource object.
+        /// This member is required.
+        public var channelName: Swift.String?
+        /// Specifies the S3 location of ML model data to deploy.
+        /// This member is required.
+        public var s3DataSource: SageMakerClientTypes.S3ModelDataSource?
+
+        public init(
+            channelName: Swift.String? = nil,
+            s3DataSource: SageMakerClientTypes.S3ModelDataSource? = nil
+        )
+        {
+            self.channelName = channelName
+            self.s3DataSource = s3DataSource
+        }
+    }
+
+}
+
+extension SageMakerClientTypes {
     /// A tag object that consists of a key and an optional value, used to manage metadata for SageMaker Amazon Web Services resources. You can add tags to notebook instances, training jobs, hyperparameter tuning jobs, batch transform jobs, models, labeling jobs, work teams, endpoint configurations, and endpoints. For more information on adding tags to SageMaker resources, see [AddTags](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AddTags.html). For more information on adding metadata to your Amazon Web Services resources with tagging, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html). For advice on best practices for managing Amazon Web Services resources with tagging, see [Tagging Best Practices: Implement an Effective Amazon Web Services Resource Tagging Strategy](https://d1.awsstatic.com/whitepapers/aws-tagging-best-practices.pdf).
     public struct Tag {
         /// The tag key. Tag keys must be unique per resource.
@@ -2966,7 +2998,7 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes {
-    /// Specifies a limit to how long a model training job or model compilation job can run. It also specifies how long a managed spot training job has to complete. When the job reaches the time limit, SageMaker ends the training or compilation job. Use this API to cap model training costs. To stop a training job, SageMaker sends the algorithm the SIGTERM signal, which delays job termination for 120 seconds. Algorithms can use this 120-second window to save the model artifacts, so the results of training are not lost. The training algorithms provided by SageMaker automatically save the intermediate results of a model training job when possible. This attempt to save artifacts is only a best effort case as model might not be in a state from which it can be saved. For example, if training has just started, the model might not be ready to save. When saved, this intermediate data is a valid model artifact. You can use it to create a model with CreateModel. The Neural Topic Model (NTM) currently does not support saving intermediate model artifacts. When training NTMs, make sure that the maximum runtime is sufficient for the training job to complete.
+    /// Specifies a limit to how long a job can run. When the job reaches the time limit, SageMaker ends the job. Use this API to cap costs. To stop a training job, SageMaker sends the algorithm the SIGTERM signal, which delays job termination for 120 seconds. Algorithms can use this 120-second window to save the model artifacts, so the results of training are not lost. The training algorithms provided by SageMaker automatically save the intermediate results of a model training job when possible. This attempt to save artifacts is only a best effort case as model might not be in a state from which it can be saved. For example, if training has just started, the model might not be ready to save. When saved, this intermediate data is a valid model artifact. You can use it to create a model with CreateModel. The Neural Topic Model (NTM) currently does not support saving intermediate model artifacts. When training NTMs, make sure that the maximum runtime is sufficient for the training job to complete.
     public struct StoppingCondition {
         /// The maximum length of time, in seconds, that a training or compilation job can be pending before it is stopped.
         public var maxPendingTimeInSeconds: Swift.Int?
@@ -3362,6 +3394,55 @@ extension SageMakerClientTypes {
         {
             self.validationProfiles = validationProfiles
             self.validationRole = validationRole
+        }
+    }
+
+}
+
+extension SageMakerClientTypes {
+
+    public enum FeatureStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FeatureStatus] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+    /// A collection of settings that configure the Amazon Q experience within the domain.
+    public struct AmazonQSettings {
+        /// The ARN of the Amazon Q profile used within the domain.
+        public var qProfileArn: Swift.String?
+        /// Whether Amazon Q has been enabled within the domain.
+        public var status: SageMakerClientTypes.FeatureStatus?
+
+        public init(
+            qProfileArn: Swift.String? = nil,
+            status: SageMakerClientTypes.FeatureStatus? = nil
+        )
+        {
+            self.qProfileArn = qProfileArn
+            self.status = status
         }
     }
 
@@ -8296,35 +8377,6 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes {
-
-    public enum FeatureStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case disabled
-        case enabled
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [FeatureStatus] {
-            return [
-                .disabled,
-                .enabled
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .disabled: return "DISABLED"
-            case .enabled: return "ENABLED"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension SageMakerClientTypes {
     /// The model deployment settings for the SageMaker Canvas application. In order to enable model deployment for Canvas, the SageMaker Domain's or user profile's Amazon Web Services IAM execution role must have the AmazonSageMakerCanvasDirectDeployAccess policy attached. You can also turn on model deployment permissions through the SageMaker Domain's or user profile's settings in the SageMaker console.
     public struct DirectDeploySettings {
         /// Describes whether model deployment permissions are enabled or disabled in the Canvas application.
@@ -9220,7 +9272,7 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes {
-    /// Defines the configuration for attaching an additional Amazon Elastic Block Store (EBS) volume to each instance of the SageMaker HyperPod cluster instance group.
+    /// Defines the configuration for attaching an additional Amazon Elastic Block Store (EBS) volume to each instance of the SageMaker HyperPod cluster instance group. To learn more, see [SageMaker HyperPod release notes: June 20, 2024](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod-release-notes.html#sagemaker-hyperpod-release-notes-20240620).
     public struct ClusterEbsVolumeConfig {
         /// The size in gigabytes (GB) of the additional EBS volume to be attached to the instances in the SageMaker HyperPod cluster instance group. The additional EBS volume is attached to each instance within the SageMaker HyperPod cluster instance group and mounted to /opt/sagemaker.
         /// This member is required.
@@ -9237,7 +9289,7 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes {
-    /// Defines the configuration for attaching additional storage to the instances in the SageMaker HyperPod cluster instance group.
+    /// Defines the configuration for attaching additional storage to the instances in the SageMaker HyperPod cluster instance group. To learn more, see [SageMaker HyperPod release notes: June 20, 2024](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod-release-notes.html#sagemaker-hyperpod-release-notes-20240620).
     public enum ClusterInstanceStorageConfig {
         /// Defines the configuration for attaching additional Amazon Elastic Block Store (EBS) volumes to the instances in the SageMaker HyperPod cluster instance group. The additional EBS volume is attached to each instance within the SageMaker HyperPod cluster instance group and mounted to /opt/sagemaker.
         case ebsvolumeconfig(SageMakerClientTypes.ClusterEbsVolumeConfig)
@@ -10673,6 +10725,8 @@ extension SageMakerClientTypes {
 extension SageMakerClientTypes {
     /// Describes the container, as part of model definition.
     public struct ContainerDefinition {
+        /// Data sources that are available to your model in addition to the one that you specify for ModelDataSource when you use the CreateModel action.
+        public var additionalModelDataSources: [SageMakerClientTypes.AdditionalModelDataSource]?
         /// This parameter is ignored for models that contain only a PrimaryContainer. When a ContainerDefinition is part of an inference pipeline, the value of the parameter uniquely identifies the container for the purposes of logging and metrics. For information, see [Use Logs and Metrics to Monitor an Inference Pipeline](https://docs.aws.amazon.com/sagemaker/latest/dg/inference-pipeline-logs-metrics.html). If you don't specify a value for this parameter for a ContainerDefinition that is part of an inference pipeline, a unique name is automatically assigned based on the position of the ContainerDefinition in the pipeline. If you specify a value for the ContainerHostName for any ContainerDefinition that is part of an inference pipeline, you must specify a value for the ContainerHostName parameter of every ContainerDefinition in that pipeline.
         public var containerHostname: Swift.String?
         /// The environment variables to set in the Docker container. The maximum length of each key and value in the Environment map is 1024 bytes. The maximum length of all keys and values in the map, combined, is 32 KB. If you pass multiple containers to a CreateModel request, then the maximum length of all of their maps, combined, is also 32 KB.
@@ -10695,6 +10749,7 @@ extension SageMakerClientTypes {
         public var multiModelConfig: SageMakerClientTypes.MultiModelConfig?
 
         public init(
+            additionalModelDataSources: [SageMakerClientTypes.AdditionalModelDataSource]? = nil,
             containerHostname: Swift.String? = nil,
             environment: [Swift.String: Swift.String]? = nil,
             image: Swift.String? = nil,
@@ -10707,6 +10762,7 @@ extension SageMakerClientTypes {
             multiModelConfig: SageMakerClientTypes.MultiModelConfig? = nil
         )
         {
+            self.additionalModelDataSources = additionalModelDataSources
             self.containerHostname = containerHostname
             self.environment = environment
             self.image = image
@@ -13316,6 +13372,88 @@ extension SageMakerClientTypes {
 }
 
 extension SageMakerClientTypes {
+
+    public enum MlTools: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case autoMl
+        case dataWrangler
+        case emrClusters
+        case endpoints
+        case experiments
+        case featureStore
+        case inferenceRecommender
+        case jumpStart
+        case models
+        case modelEvaluation
+        case pipelines
+        case projects
+        case training
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MlTools] {
+            return [
+                .autoMl,
+                .dataWrangler,
+                .emrClusters,
+                .endpoints,
+                .experiments,
+                .featureStore,
+                .inferenceRecommender,
+                .jumpStart,
+                .models,
+                .modelEvaluation,
+                .pipelines,
+                .projects,
+                .training
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .autoMl: return "AutoMl"
+            case .dataWrangler: return "DataWrangler"
+            case .emrClusters: return "EmrClusters"
+            case .endpoints: return "Endpoints"
+            case .experiments: return "Experiments"
+            case .featureStore: return "FeatureStore"
+            case .inferenceRecommender: return "InferenceRecommender"
+            case .jumpStart: return "JumpStart"
+            case .models: return "Models"
+            case .modelEvaluation: return "ModelEvaluation"
+            case .pipelines: return "Pipelines"
+            case .projects: return "Projects"
+            case .training: return "Training"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+    /// Studio settings. If these settings are applied on a user level, they take priority over the settings applied on a domain level.
+    public struct StudioWebPortalSettings {
+        /// The [Applications supported in Studio](https://docs.aws.amazon.com/sagemaker/latest/dg/studio-updated-apps.html) that are hidden from the Studio left navigation pane.
+        public var hiddenAppTypes: [SageMakerClientTypes.AppType]?
+        /// The machine learning tools that are hidden from the Studio left navigation pane.
+        public var hiddenMlTools: [SageMakerClientTypes.MlTools]?
+
+        public init(
+            hiddenAppTypes: [SageMakerClientTypes.AppType]? = nil,
+            hiddenMlTools: [SageMakerClientTypes.MlTools]? = nil
+        )
+        {
+            self.hiddenAppTypes = hiddenAppTypes
+            self.hiddenMlTools = hiddenMlTools
+        }
+    }
+
+}
+
+extension SageMakerClientTypes {
     /// The TensorBoard app settings.
     public struct TensorBoardAppSettings {
         /// The default instance type and the Amazon Resource Name (ARN) of the SageMaker image created on the instance.
@@ -13368,6 +13506,8 @@ extension SageMakerClientTypes {
         public var spaceStorageSettings: SageMakerClientTypes.DefaultSpaceStorageSettings?
         /// Whether the user can access Studio. If this value is set to DISABLED, the user cannot access Studio, even if that is the default experience for the domain.
         public var studioWebPortal: SageMakerClientTypes.StudioWebPortal?
+        /// Studio settings. If these settings are applied on a user level, they take priority over the settings applied on a domain level.
+        public var studioWebPortalSettings: SageMakerClientTypes.StudioWebPortalSettings?
         /// The TensorBoard app settings.
         public var tensorBoardAppSettings: SageMakerClientTypes.TensorBoardAppSettings?
 
@@ -13387,6 +13527,7 @@ extension SageMakerClientTypes {
             sharingSettings: SageMakerClientTypes.SharingSettings? = nil,
             spaceStorageSettings: SageMakerClientTypes.DefaultSpaceStorageSettings? = nil,
             studioWebPortal: SageMakerClientTypes.StudioWebPortal? = nil,
+            studioWebPortalSettings: SageMakerClientTypes.StudioWebPortalSettings? = nil,
             tensorBoardAppSettings: SageMakerClientTypes.TensorBoardAppSettings? = nil
         )
         {
@@ -13405,6 +13546,7 @@ extension SageMakerClientTypes {
             self.sharingSettings = sharingSettings
             self.spaceStorageSettings = spaceStorageSettings
             self.studioWebPortal = studioWebPortal
+            self.studioWebPortalSettings = studioWebPortalSettings
             self.tensorBoardAppSettings = tensorBoardAppSettings
         }
     }
@@ -13492,6 +13634,8 @@ extension SageMakerClientTypes {
 extension SageMakerClientTypes {
     /// A collection of settings that apply to the SageMaker Domain. These settings are specified through the CreateDomain API call.
     public struct DomainSettings {
+        /// A collection of settings that configure the Amazon Q experience within the domain. The AuthMode that you use to create the domain must be SSO.
+        public var amazonQSettings: SageMakerClientTypes.AmazonQSettings?
         /// A collection of settings that configure the domain's Docker interaction.
         public var dockerSettings: SageMakerClientTypes.DockerSettings?
         /// The configuration for attaching a SageMaker user profile name to the execution role as a [sts:SourceIdentity key](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_control-access_monitor.html).
@@ -13502,12 +13646,14 @@ extension SageMakerClientTypes {
         public var securityGroupIds: [Swift.String]?
 
         public init(
+            amazonQSettings: SageMakerClientTypes.AmazonQSettings? = nil,
             dockerSettings: SageMakerClientTypes.DockerSettings? = nil,
             executionRoleIdentityConfig: SageMakerClientTypes.ExecutionRoleIdentityConfig? = nil,
             rStudioServerProDomainSettings: SageMakerClientTypes.RStudioServerProDomainSettings? = nil,
             securityGroupIds: [Swift.String]? = nil
         )
         {
+            self.amazonQSettings = amazonQSettings
             self.dockerSettings = dockerSettings
             self.executionRoleIdentityConfig = executionRoleIdentityConfig
             self.rStudioServerProDomainSettings = rStudioServerProDomainSettings
@@ -21049,6 +21195,334 @@ public struct CreateNotebookInstanceLifecycleConfigOutput {
 }
 
 extension SageMakerClientTypes {
+
+    public enum OptimizationJobDeploymentInstanceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case mlG512xlarge
+        case mlG516xlarge
+        case mlG524xlarge
+        case mlG52xlarge
+        case mlG548xlarge
+        case mlG54xlarge
+        case mlG58xlarge
+        case mlG5Xlarge
+        case mlG612xlarge
+        case mlG616xlarge
+        case mlG624xlarge
+        case mlG62xlarge
+        case mlG648xlarge
+        case mlG64xlarge
+        case mlG68xlarge
+        case mlG6Xlarge
+        case mlInf224xlarge
+        case mlInf248xlarge
+        case mlInf28xlarge
+        case mlInf2Xlarge
+        case mlP4de24xlarge
+        case mlP4d24xlarge
+        case mlP548xlarge
+        case mlTrn1n32xlarge
+        case mlTrn12xlarge
+        case mlTrn132xlarge
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OptimizationJobDeploymentInstanceType] {
+            return [
+                .mlG512xlarge,
+                .mlG516xlarge,
+                .mlG524xlarge,
+                .mlG52xlarge,
+                .mlG548xlarge,
+                .mlG54xlarge,
+                .mlG58xlarge,
+                .mlG5Xlarge,
+                .mlG612xlarge,
+                .mlG616xlarge,
+                .mlG624xlarge,
+                .mlG62xlarge,
+                .mlG648xlarge,
+                .mlG64xlarge,
+                .mlG68xlarge,
+                .mlG6Xlarge,
+                .mlInf224xlarge,
+                .mlInf248xlarge,
+                .mlInf28xlarge,
+                .mlInf2Xlarge,
+                .mlP4de24xlarge,
+                .mlP4d24xlarge,
+                .mlP548xlarge,
+                .mlTrn1n32xlarge,
+                .mlTrn12xlarge,
+                .mlTrn132xlarge
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .mlG512xlarge: return "ml.g5.12xlarge"
+            case .mlG516xlarge: return "ml.g5.16xlarge"
+            case .mlG524xlarge: return "ml.g5.24xlarge"
+            case .mlG52xlarge: return "ml.g5.2xlarge"
+            case .mlG548xlarge: return "ml.g5.48xlarge"
+            case .mlG54xlarge: return "ml.g5.4xlarge"
+            case .mlG58xlarge: return "ml.g5.8xlarge"
+            case .mlG5Xlarge: return "ml.g5.xlarge"
+            case .mlG612xlarge: return "ml.g6.12xlarge"
+            case .mlG616xlarge: return "ml.g6.16xlarge"
+            case .mlG624xlarge: return "ml.g6.24xlarge"
+            case .mlG62xlarge: return "ml.g6.2xlarge"
+            case .mlG648xlarge: return "ml.g6.48xlarge"
+            case .mlG64xlarge: return "ml.g6.4xlarge"
+            case .mlG68xlarge: return "ml.g6.8xlarge"
+            case .mlG6Xlarge: return "ml.g6.xlarge"
+            case .mlInf224xlarge: return "ml.inf2.24xlarge"
+            case .mlInf248xlarge: return "ml.inf2.48xlarge"
+            case .mlInf28xlarge: return "ml.inf2.8xlarge"
+            case .mlInf2Xlarge: return "ml.inf2.xlarge"
+            case .mlP4de24xlarge: return "ml.p4de.24xlarge"
+            case .mlP4d24xlarge: return "ml.p4d.24xlarge"
+            case .mlP548xlarge: return "ml.p5.48xlarge"
+            case .mlTrn1n32xlarge: return "ml.trn1n.32xlarge"
+            case .mlTrn12xlarge: return "ml.trn1.2xlarge"
+            case .mlTrn132xlarge: return "ml.trn1.32xlarge"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+    /// The access configuration settings for the source ML model for an optimization job, where you can accept the model end-user license agreement (EULA).
+    public struct OptimizationModelAccessConfig {
+        /// Specifies agreement to the model end-user license agreement (EULA). The AcceptEula value must be explicitly defined as True in order to accept the EULA that this model requires. You are responsible for reviewing and complying with any applicable license terms and making sure they are acceptable for your use case before downloading or using a model.
+        /// This member is required.
+        public var acceptEula: Swift.Bool?
+
+        public init(
+            acceptEula: Swift.Bool? = nil
+        )
+        {
+            self.acceptEula = acceptEula
+        }
+    }
+
+}
+
+extension SageMakerClientTypes {
+    /// The Amazon S3 location of a source model to optimize with an optimization job.
+    public struct OptimizationJobModelSourceS3 {
+        /// The access configuration settings for the source ML model for an optimization job, where you can accept the model end-user license agreement (EULA).
+        public var modelAccessConfig: SageMakerClientTypes.OptimizationModelAccessConfig?
+        /// An Amazon S3 URI that locates a source model to optimize with an optimization job.
+        public var s3Uri: Swift.String?
+
+        public init(
+            modelAccessConfig: SageMakerClientTypes.OptimizationModelAccessConfig? = nil,
+            s3Uri: Swift.String? = nil
+        )
+        {
+            self.modelAccessConfig = modelAccessConfig
+            self.s3Uri = s3Uri
+        }
+    }
+
+}
+
+extension SageMakerClientTypes {
+    /// The location of the source model to optimize with an optimization job.
+    public struct OptimizationJobModelSource {
+        /// The Amazon S3 location of a source model to optimize with an optimization job.
+        public var s3: SageMakerClientTypes.OptimizationJobModelSourceS3?
+
+        public init(
+            s3: SageMakerClientTypes.OptimizationJobModelSourceS3? = nil
+        )
+        {
+            self.s3 = s3
+        }
+    }
+
+}
+
+extension SageMakerClientTypes {
+    /// Settings for the model compilation technique that's applied by a model optimization job.
+    public struct ModelCompilationConfig {
+        /// The URI of an LMI DLC in Amazon ECR. SageMaker uses this image to run the optimization.
+        public var image: Swift.String?
+        /// Environment variables that override the default ones in the model container.
+        public var overrideEnvironment: [Swift.String: Swift.String]?
+
+        public init(
+            image: Swift.String? = nil,
+            overrideEnvironment: [Swift.String: Swift.String]? = nil
+        )
+        {
+            self.image = image
+            self.overrideEnvironment = overrideEnvironment
+        }
+    }
+
+}
+
+extension SageMakerClientTypes {
+    /// Settings for the model quantization technique that's applied by a model optimization job.
+    public struct ModelQuantizationConfig {
+        /// The URI of an LMI DLC in Amazon ECR. SageMaker uses this image to run the optimization.
+        public var image: Swift.String?
+        /// Environment variables that override the default ones in the model container.
+        public var overrideEnvironment: [Swift.String: Swift.String]?
+
+        public init(
+            image: Swift.String? = nil,
+            overrideEnvironment: [Swift.String: Swift.String]? = nil
+        )
+        {
+            self.image = image
+            self.overrideEnvironment = overrideEnvironment
+        }
+    }
+
+}
+
+extension SageMakerClientTypes {
+    /// Settings for an optimization technique that you apply with a model optimization job.
+    public enum OptimizationConfig {
+        /// Settings for the model quantization technique that's applied by a model optimization job.
+        case modelquantizationconfig(SageMakerClientTypes.ModelQuantizationConfig)
+        /// Settings for the model compilation technique that's applied by a model optimization job.
+        case modelcompilationconfig(SageMakerClientTypes.ModelCompilationConfig)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension SageMakerClientTypes {
+    /// Details for where to store the optimized model that you create with the optimization job.
+    public struct OptimizationJobOutputConfig {
+        /// The Amazon Resource Name (ARN) of a key in Amazon Web Services KMS. SageMaker uses they key to encrypt the artifacts of the optimized model when SageMaker uploads the model to Amazon S3.
+        public var kmsKeyId: Swift.String?
+        /// The Amazon S3 URI for where to store the optimized model that you create with an optimization job.
+        /// This member is required.
+        public var s3OutputLocation: Swift.String?
+
+        public init(
+            kmsKeyId: Swift.String? = nil,
+            s3OutputLocation: Swift.String? = nil
+        )
+        {
+            self.kmsKeyId = kmsKeyId
+            self.s3OutputLocation = s3OutputLocation
+        }
+    }
+
+}
+
+extension SageMakerClientTypes {
+    /// A VPC in Amazon VPC that's accessible to an optimized that you create with an optimization job. You can control access to and from your resources by configuring a VPC. For more information, see [Give SageMaker Access to Resources in your Amazon VPC](https://docs.aws.amazon.com/sagemaker/latest/dg/infrastructure-give-access.html).
+    public struct OptimizationVpcConfig {
+        /// The VPC security group IDs, in the form sg-xxxxxxxx. Specify the security groups for the VPC that is specified in the Subnets field.
+        /// This member is required.
+        public var securityGroupIds: [Swift.String]?
+        /// The ID of the subnets in the VPC to which you want to connect your optimized model.
+        /// This member is required.
+        public var subnets: [Swift.String]?
+
+        public init(
+            securityGroupIds: [Swift.String]? = nil,
+            subnets: [Swift.String]? = nil
+        )
+        {
+            self.securityGroupIds = securityGroupIds
+            self.subnets = subnets
+        }
+    }
+
+}
+
+public struct CreateOptimizationJobInput {
+    /// The type of instance that hosts the optimized model that you create with the optimization job.
+    /// This member is required.
+    public var deploymentInstanceType: SageMakerClientTypes.OptimizationJobDeploymentInstanceType?
+    /// The location of the source model to optimize with an optimization job.
+    /// This member is required.
+    public var modelSource: SageMakerClientTypes.OptimizationJobModelSource?
+    /// Settings for each of the optimization techniques that the job applies.
+    /// This member is required.
+    public var optimizationConfigs: [SageMakerClientTypes.OptimizationConfig]?
+    /// The environment variables to set in the model container.
+    public var optimizationEnvironment: [Swift.String: Swift.String]?
+    /// A custom name for the new optimization job.
+    /// This member is required.
+    public var optimizationJobName: Swift.String?
+    /// Details for where to store the optimized model that you create with the optimization job.
+    /// This member is required.
+    public var outputConfig: SageMakerClientTypes.OptimizationJobOutputConfig?
+    /// The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker to perform tasks on your behalf. During model optimization, Amazon SageMaker needs your permission to:
+    ///
+    /// * Read input data from an S3 bucket
+    ///
+    /// * Write model artifacts to an S3 bucket
+    ///
+    /// * Write logs to Amazon CloudWatch Logs
+    ///
+    /// * Publish metrics to Amazon CloudWatch
+    ///
+    ///
+    /// You grant permissions for all of these tasks to an IAM role. To pass this role to Amazon SageMaker, the caller of this API must have the iam:PassRole permission. For more information, see [Amazon SageMaker Roles.](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html)
+    /// This member is required.
+    public var roleArn: Swift.String?
+    /// Specifies a limit to how long a job can run. When the job reaches the time limit, SageMaker ends the job. Use this API to cap costs. To stop a training job, SageMaker sends the algorithm the SIGTERM signal, which delays job termination for 120 seconds. Algorithms can use this 120-second window to save the model artifacts, so the results of training are not lost. The training algorithms provided by SageMaker automatically save the intermediate results of a model training job when possible. This attempt to save artifacts is only a best effort case as model might not be in a state from which it can be saved. For example, if training has just started, the model might not be ready to save. When saved, this intermediate data is a valid model artifact. You can use it to create a model with CreateModel. The Neural Topic Model (NTM) currently does not support saving intermediate model artifacts. When training NTMs, make sure that the maximum runtime is sufficient for the training job to complete.
+    /// This member is required.
+    public var stoppingCondition: SageMakerClientTypes.StoppingCondition?
+    /// A list of key-value pairs associated with the optimization job. For more information, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference Guide.
+    public var tags: [SageMakerClientTypes.Tag]?
+    /// A VPC in Amazon VPC that your optimized model has access to.
+    public var vpcConfig: SageMakerClientTypes.OptimizationVpcConfig?
+
+    public init(
+        deploymentInstanceType: SageMakerClientTypes.OptimizationJobDeploymentInstanceType? = nil,
+        modelSource: SageMakerClientTypes.OptimizationJobModelSource? = nil,
+        optimizationConfigs: [SageMakerClientTypes.OptimizationConfig]? = nil,
+        optimizationEnvironment: [Swift.String: Swift.String]? = nil,
+        optimizationJobName: Swift.String? = nil,
+        outputConfig: SageMakerClientTypes.OptimizationJobOutputConfig? = nil,
+        roleArn: Swift.String? = nil,
+        stoppingCondition: SageMakerClientTypes.StoppingCondition? = nil,
+        tags: [SageMakerClientTypes.Tag]? = nil,
+        vpcConfig: SageMakerClientTypes.OptimizationVpcConfig? = nil
+    )
+    {
+        self.deploymentInstanceType = deploymentInstanceType
+        self.modelSource = modelSource
+        self.optimizationConfigs = optimizationConfigs
+        self.optimizationEnvironment = optimizationEnvironment
+        self.optimizationJobName = optimizationJobName
+        self.outputConfig = outputConfig
+        self.roleArn = roleArn
+        self.stoppingCondition = stoppingCondition
+        self.tags = tags
+        self.vpcConfig = vpcConfig
+    }
+}
+
+public struct CreateOptimizationJobOutput {
+    /// The Amazon Resource Name (ARN) of the optimization job.
+    /// This member is required.
+    public var optimizationJobArn: Swift.String?
+
+    public init(
+        optimizationJobArn: Swift.String? = nil
+    )
+    {
+        self.optimizationJobArn = optimizationJobArn
+    }
+}
+
+extension SageMakerClientTypes {
     /// Configuration that controls the parallelism of the pipeline. By default, the parallelism configuration specified applies to all executions of the pipeline unless overridden.
     public struct ParallelismConfiguration {
         /// The max number of steps that can be executed in parallel.
@@ -24079,7 +24553,7 @@ public struct DeleteHubContentReferenceInput {
     /// The name of the hub content to delete.
     /// This member is required.
     public var hubContentName: Swift.String?
-    /// The type of hub content to delete.
+    /// The type of hub content reference to delete. The only supported type of hub content reference to delete is ModelReference.
     /// This member is required.
     public var hubContentType: SageMakerClientTypes.HubContentType?
     /// The name of the hub to delete the hub content reference from.
@@ -24377,6 +24851,19 @@ public struct DeleteNotebookInstanceLifecycleConfigInput {
     )
     {
         self.notebookInstanceLifecycleConfigName = notebookInstanceLifecycleConfigName
+    }
+}
+
+public struct DeleteOptimizationJobInput {
+    /// The name that you assigned to the optimization job.
+    /// This member is required.
+    public var optimizationJobName: Swift.String?
+
+    public init(
+        optimizationJobName: Swift.String? = nil
+    )
+    {
+        self.optimizationJobName = optimizationJobName
     }
 }
 
@@ -31027,6 +31514,163 @@ public struct DescribeNotebookInstanceLifecycleConfigOutput {
     }
 }
 
+public struct DescribeOptimizationJobInput {
+    /// The name that you assigned to the optimization job.
+    /// This member is required.
+    public var optimizationJobName: Swift.String?
+
+    public init(
+        optimizationJobName: Swift.String? = nil
+    )
+    {
+        self.optimizationJobName = optimizationJobName
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum OptimizationJobStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case failed
+        case inprogress
+        case starting
+        case stopped
+        case stopping
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OptimizationJobStatus] {
+            return [
+                .completed,
+                .failed,
+                .inprogress,
+                .starting,
+                .stopped,
+                .stopping
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case .inprogress: return "INPROGRESS"
+            case .starting: return "STARTING"
+            case .stopped: return "STOPPED"
+            case .stopping: return "STOPPING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+    /// Output values produced by an optimization job.
+    public struct OptimizationOutput {
+        /// The image that SageMaker recommends that you use to host the optimized model that you created with an optimization job.
+        public var recommendedInferenceImage: Swift.String?
+
+        public init(
+            recommendedInferenceImage: Swift.String? = nil
+        )
+        {
+            self.recommendedInferenceImage = recommendedInferenceImage
+        }
+    }
+
+}
+
+public struct DescribeOptimizationJobOutput {
+    /// The time when you created the optimization job.
+    /// This member is required.
+    public var creationTime: Foundation.Date?
+    /// The type of instance that hosts the optimized model that you create with the optimization job.
+    /// This member is required.
+    public var deploymentInstanceType: SageMakerClientTypes.OptimizationJobDeploymentInstanceType?
+    /// If the optimization job status is FAILED, the reason for the failure.
+    public var failureReason: Swift.String?
+    /// The time when the optimization job was last updated.
+    /// This member is required.
+    public var lastModifiedTime: Foundation.Date?
+    /// The location of the source model to optimize with an optimization job.
+    /// This member is required.
+    public var modelSource: SageMakerClientTypes.OptimizationJobModelSource?
+    /// Settings for each of the optimization techniques that the job applies.
+    /// This member is required.
+    public var optimizationConfigs: [SageMakerClientTypes.OptimizationConfig]?
+    /// The time when the optimization job finished processing.
+    public var optimizationEndTime: Foundation.Date?
+    /// The environment variables to set in the model container.
+    public var optimizationEnvironment: [Swift.String: Swift.String]?
+    /// The Amazon Resource Name (ARN) of the optimization job.
+    /// This member is required.
+    public var optimizationJobArn: Swift.String?
+    /// The name that you assigned to the optimization job.
+    /// This member is required.
+    public var optimizationJobName: Swift.String?
+    /// The current status of the optimization job.
+    /// This member is required.
+    public var optimizationJobStatus: SageMakerClientTypes.OptimizationJobStatus?
+    /// Output values produced by an optimization job.
+    public var optimizationOutput: SageMakerClientTypes.OptimizationOutput?
+    /// The time when the optimization job started.
+    public var optimizationStartTime: Foundation.Date?
+    /// Details for where to store the optimized model that you create with the optimization job.
+    /// This member is required.
+    public var outputConfig: SageMakerClientTypes.OptimizationJobOutputConfig?
+    /// The ARN of the IAM role that you assigned to the optimization job.
+    /// This member is required.
+    public var roleArn: Swift.String?
+    /// Specifies a limit to how long a job can run. When the job reaches the time limit, SageMaker ends the job. Use this API to cap costs. To stop a training job, SageMaker sends the algorithm the SIGTERM signal, which delays job termination for 120 seconds. Algorithms can use this 120-second window to save the model artifacts, so the results of training are not lost. The training algorithms provided by SageMaker automatically save the intermediate results of a model training job when possible. This attempt to save artifacts is only a best effort case as model might not be in a state from which it can be saved. For example, if training has just started, the model might not be ready to save. When saved, this intermediate data is a valid model artifact. You can use it to create a model with CreateModel. The Neural Topic Model (NTM) currently does not support saving intermediate model artifacts. When training NTMs, make sure that the maximum runtime is sufficient for the training job to complete.
+    /// This member is required.
+    public var stoppingCondition: SageMakerClientTypes.StoppingCondition?
+    /// A VPC in Amazon VPC that your optimized model has access to.
+    public var vpcConfig: SageMakerClientTypes.OptimizationVpcConfig?
+
+    public init(
+        creationTime: Foundation.Date? = nil,
+        deploymentInstanceType: SageMakerClientTypes.OptimizationJobDeploymentInstanceType? = nil,
+        failureReason: Swift.String? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
+        modelSource: SageMakerClientTypes.OptimizationJobModelSource? = nil,
+        optimizationConfigs: [SageMakerClientTypes.OptimizationConfig]? = nil,
+        optimizationEndTime: Foundation.Date? = nil,
+        optimizationEnvironment: [Swift.String: Swift.String]? = nil,
+        optimizationJobArn: Swift.String? = nil,
+        optimizationJobName: Swift.String? = nil,
+        optimizationJobStatus: SageMakerClientTypes.OptimizationJobStatus? = nil,
+        optimizationOutput: SageMakerClientTypes.OptimizationOutput? = nil,
+        optimizationStartTime: Foundation.Date? = nil,
+        outputConfig: SageMakerClientTypes.OptimizationJobOutputConfig? = nil,
+        roleArn: Swift.String? = nil,
+        stoppingCondition: SageMakerClientTypes.StoppingCondition? = nil,
+        vpcConfig: SageMakerClientTypes.OptimizationVpcConfig? = nil
+    )
+    {
+        self.creationTime = creationTime
+        self.deploymentInstanceType = deploymentInstanceType
+        self.failureReason = failureReason
+        self.lastModifiedTime = lastModifiedTime
+        self.modelSource = modelSource
+        self.optimizationConfigs = optimizationConfigs
+        self.optimizationEndTime = optimizationEndTime
+        self.optimizationEnvironment = optimizationEnvironment
+        self.optimizationJobArn = optimizationJobArn
+        self.optimizationJobName = optimizationJobName
+        self.optimizationJobStatus = optimizationJobStatus
+        self.optimizationOutput = optimizationOutput
+        self.optimizationStartTime = optimizationStartTime
+        self.outputConfig = outputConfig
+        self.roleArn = roleArn
+        self.stoppingCondition = stoppingCondition
+        self.vpcConfig = vpcConfig
+    }
+}
+
 public struct DescribePipelineInput {
     /// The name or Amazon Resource Name (ARN) of the pipeline to describe.
     /// This member is required.
@@ -33701,6 +34345,8 @@ extension SageMakerClientTypes {
 extension SageMakerClientTypes {
     /// A collection of Domain configuration settings to update.
     public struct DomainSettingsForUpdate {
+        /// A collection of settings that configure the Amazon Q experience within the domain.
+        public var amazonQSettings: SageMakerClientTypes.AmazonQSettings?
         /// A collection of settings that configure the domain's Docker interaction.
         public var dockerSettings: SageMakerClientTypes.DockerSettings?
         /// The configuration for attaching a SageMaker user profile name to the execution role as a [sts:SourceIdentity key](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_control-access_monitor.html). This configuration can only be modified if there are no apps in the InService or Pending state.
@@ -33711,12 +34357,14 @@ extension SageMakerClientTypes {
         public var securityGroupIds: [Swift.String]?
 
         public init(
+            amazonQSettings: SageMakerClientTypes.AmazonQSettings? = nil,
             dockerSettings: SageMakerClientTypes.DockerSettings? = nil,
             executionRoleIdentityConfig: SageMakerClientTypes.ExecutionRoleIdentityConfig? = nil,
             rStudioServerProDomainSettingsForUpdate: SageMakerClientTypes.RStudioServerProDomainSettingsForUpdate? = nil,
             securityGroupIds: [Swift.String]? = nil
         )
         {
+            self.amazonQSettings = amazonQSettings
             self.dockerSettings = dockerSettings
             self.executionRoleIdentityConfig = executionRoleIdentityConfig
             self.rStudioServerProDomainSettingsForUpdate = rStudioServerProDomainSettingsForUpdate
@@ -41507,6 +42155,161 @@ public struct ListNotebookInstancesOutput {
 
 extension SageMakerClientTypes {
 
+    public enum ListOptimizationJobsSortBy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case creationTime
+        case name
+        case status
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ListOptimizationJobsSortBy] {
+            return [
+                .creationTime,
+                .name,
+                .status
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .creationTime: return "CreationTime"
+            case .name: return "Name"
+            case .status: return "Status"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct ListOptimizationJobsInput {
+    /// Filters the results to only those optimization jobs that were created after the specified time.
+    public var creationTimeAfter: Foundation.Date?
+    /// Filters the results to only those optimization jobs that were created before the specified time.
+    public var creationTimeBefore: Foundation.Date?
+    /// Filters the results to only those optimization jobs that were updated after the specified time.
+    public var lastModifiedTimeAfter: Foundation.Date?
+    /// Filters the results to only those optimization jobs that were updated before the specified time.
+    public var lastModifiedTimeBefore: Foundation.Date?
+    /// The maximum number of optimization jobs to return in the response. The default is 50.
+    public var maxResults: Swift.Int?
+    /// Filters the results to only those optimization jobs with a name that contains the specified string.
+    public var nameContains: Swift.String?
+    /// A token that you use to get the next set of results following a truncated response. If the response to the previous request was truncated, that response provides the value for this token.
+    public var nextToken: Swift.String?
+    /// Filters the results to only those optimization jobs that apply the specified optimization techniques. You can specify either Quantization or Compilation.
+    public var optimizationContains: Swift.String?
+    /// The field by which to sort the optimization jobs in the response. The default is CreationTime
+    public var sortBy: SageMakerClientTypes.ListOptimizationJobsSortBy?
+    /// The sort order for results. The default is Ascending
+    public var sortOrder: SageMakerClientTypes.SortOrder?
+    /// Filters the results to only those optimization jobs with the specified status.
+    public var statusEquals: SageMakerClientTypes.OptimizationJobStatus?
+
+    public init(
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
+        lastModifiedTimeAfter: Foundation.Date? = nil,
+        lastModifiedTimeBefore: Foundation.Date? = nil,
+        maxResults: Swift.Int? = nil,
+        nameContains: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        optimizationContains: Swift.String? = nil,
+        sortBy: SageMakerClientTypes.ListOptimizationJobsSortBy? = nil,
+        sortOrder: SageMakerClientTypes.SortOrder? = nil,
+        statusEquals: SageMakerClientTypes.OptimizationJobStatus? = nil
+    )
+    {
+        self.creationTimeAfter = creationTimeAfter
+        self.creationTimeBefore = creationTimeBefore
+        self.lastModifiedTimeAfter = lastModifiedTimeAfter
+        self.lastModifiedTimeBefore = lastModifiedTimeBefore
+        self.maxResults = maxResults
+        self.nameContains = nameContains
+        self.nextToken = nextToken
+        self.optimizationContains = optimizationContains
+        self.sortBy = sortBy
+        self.sortOrder = sortOrder
+        self.statusEquals = statusEquals
+    }
+}
+
+extension SageMakerClientTypes {
+    /// Summarizes an optimization job by providing some of its key properties.
+    public struct OptimizationJobSummary {
+        /// The time when you created the optimization job.
+        /// This member is required.
+        public var creationTime: Foundation.Date?
+        /// The type of instance that hosts the optimized model that you create with the optimization job.
+        /// This member is required.
+        public var deploymentInstanceType: SageMakerClientTypes.OptimizationJobDeploymentInstanceType?
+        /// The time when the optimization job was last updated.
+        public var lastModifiedTime: Foundation.Date?
+        /// The time when the optimization job finished processing.
+        public var optimizationEndTime: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the optimization job.
+        /// This member is required.
+        public var optimizationJobArn: Swift.String?
+        /// The name that you assigned to the optimization job.
+        /// This member is required.
+        public var optimizationJobName: Swift.String?
+        /// The current status of the optimization job.
+        /// This member is required.
+        public var optimizationJobStatus: SageMakerClientTypes.OptimizationJobStatus?
+        /// The time when the optimization job started.
+        public var optimizationStartTime: Foundation.Date?
+        /// The optimization techniques that are applied by the optimization job.
+        /// This member is required.
+        public var optimizationTypes: [Swift.String]?
+
+        public init(
+            creationTime: Foundation.Date? = nil,
+            deploymentInstanceType: SageMakerClientTypes.OptimizationJobDeploymentInstanceType? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            optimizationEndTime: Foundation.Date? = nil,
+            optimizationJobArn: Swift.String? = nil,
+            optimizationJobName: Swift.String? = nil,
+            optimizationJobStatus: SageMakerClientTypes.OptimizationJobStatus? = nil,
+            optimizationStartTime: Foundation.Date? = nil,
+            optimizationTypes: [Swift.String]? = nil
+        )
+        {
+            self.creationTime = creationTime
+            self.deploymentInstanceType = deploymentInstanceType
+            self.lastModifiedTime = lastModifiedTime
+            self.optimizationEndTime = optimizationEndTime
+            self.optimizationJobArn = optimizationJobArn
+            self.optimizationJobName = optimizationJobName
+            self.optimizationJobStatus = optimizationJobStatus
+            self.optimizationStartTime = optimizationStartTime
+            self.optimizationTypes = optimizationTypes
+        }
+    }
+
+}
+
+public struct ListOptimizationJobsOutput {
+    /// The token to use in a subsequent request to get the next set of results following a truncated response.
+    public var nextToken: Swift.String?
+    /// A list of optimization jobs and their properties that matches any of the filters you specified in the request.
+    /// This member is required.
+    public var optimizationJobSummaries: [SageMakerClientTypes.OptimizationJobSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        optimizationJobSummaries: [SageMakerClientTypes.OptimizationJobSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.optimizationJobSummaries = optimizationJobSummaries
+    }
+}
+
+extension SageMakerClientTypes {
+
     public enum SortPipelineExecutionsBy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case creationTime
         case pipelineExecutionArn
@@ -46255,6 +47058,19 @@ public struct StopNotebookInstanceInput {
     }
 }
 
+public struct StopOptimizationJobInput {
+    /// The name that you assigned to the optimization job.
+    /// This member is required.
+    public var optimizationJobName: Swift.String?
+
+    public init(
+        optimizationJobName: Swift.String? = nil
+    )
+    {
+        self.optimizationJobName = optimizationJobName
+    }
+}
+
 public struct StopPipelineExecutionInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than once.
     /// This member is required.
@@ -48371,6 +49187,13 @@ extension CreateNotebookInstanceLifecycleConfigInput {
     }
 }
 
+extension CreateOptimizationJobInput {
+
+    static func urlPathProvider(_ value: CreateOptimizationJobInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CreatePipelineInput {
 
     static func urlPathProvider(_ value: CreatePipelineInput) -> Swift.String? {
@@ -48759,6 +49582,13 @@ extension DeleteNotebookInstanceInput {
 extension DeleteNotebookInstanceLifecycleConfigInput {
 
     static func urlPathProvider(_ value: DeleteNotebookInstanceLifecycleConfigInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteOptimizationJobInput {
+
+    static func urlPathProvider(_ value: DeleteOptimizationJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -49165,6 +49995,13 @@ extension DescribeNotebookInstanceInput {
 extension DescribeNotebookInstanceLifecycleConfigInput {
 
     static func urlPathProvider(_ value: DescribeNotebookInstanceLifecycleConfigInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeOptimizationJobInput {
+
+    static func urlPathProvider(_ value: DescribeOptimizationJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -49736,6 +50573,13 @@ extension ListNotebookInstancesInput {
     }
 }
 
+extension ListOptimizationJobsInput {
+
+    static func urlPathProvider(_ value: ListOptimizationJobsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListPipelineExecutionsInput {
 
     static func urlPathProvider(_ value: ListPipelineExecutionsInput) -> Swift.String? {
@@ -50047,6 +50891,13 @@ extension StopMonitoringScheduleInput {
 extension StopNotebookInstanceInput {
 
     static func urlPathProvider(_ value: StopNotebookInstanceInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension StopOptimizationJobInput {
+
+    static func urlPathProvider(_ value: StopOptimizationJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -51016,6 +51867,23 @@ extension CreateNotebookInstanceLifecycleConfigInput {
     }
 }
 
+extension CreateOptimizationJobInput {
+
+    static func write(value: CreateOptimizationJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DeploymentInstanceType"].write(value.deploymentInstanceType)
+        try writer["ModelSource"].write(value.modelSource, with: SageMakerClientTypes.OptimizationJobModelSource.write(value:to:))
+        try writer["OptimizationConfigs"].writeList(value.optimizationConfigs, memberWritingClosure: SageMakerClientTypes.OptimizationConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["OptimizationEnvironment"].writeMap(value.optimizationEnvironment, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["OptimizationJobName"].write(value.optimizationJobName)
+        try writer["OutputConfig"].write(value.outputConfig, with: SageMakerClientTypes.OptimizationJobOutputConfig.write(value:to:))
+        try writer["RoleArn"].write(value.roleArn)
+        try writer["StoppingCondition"].write(value.stoppingCondition, with: SageMakerClientTypes.StoppingCondition.write(value:to:))
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["VpcConfig"].write(value.vpcConfig, with: SageMakerClientTypes.OptimizationVpcConfig.write(value:to:))
+    }
+}
+
 extension CreatePipelineInput {
 
     static func write(value: CreatePipelineInput?, to writer: SmithyJSON.Writer) throws {
@@ -51583,6 +52451,14 @@ extension DeleteNotebookInstanceLifecycleConfigInput {
     }
 }
 
+extension DeleteOptimizationJobInput {
+
+    static func write(value: DeleteOptimizationJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["OptimizationJobName"].write(value.optimizationJobName)
+    }
+}
+
 extension DeletePipelineInput {
 
     static func write(value: DeletePipelineInput?, to writer: SmithyJSON.Writer) throws {
@@ -52066,6 +52942,14 @@ extension DescribeNotebookInstanceLifecycleConfigInput {
     static func write(value: DescribeNotebookInstanceLifecycleConfigInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["NotebookInstanceLifecycleConfigName"].write(value.notebookInstanceLifecycleConfigName)
+    }
+}
+
+extension DescribeOptimizationJobInput {
+
+    static func write(value: DescribeOptimizationJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["OptimizationJobName"].write(value.optimizationJobName)
     }
 }
 
@@ -53150,6 +54034,24 @@ extension ListNotebookInstancesInput {
     }
 }
 
+extension ListOptimizationJobsInput {
+
+    static func write(value: ListOptimizationJobsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CreationTimeAfter"].writeTimestamp(value.creationTimeAfter, format: .epochSeconds)
+        try writer["CreationTimeBefore"].writeTimestamp(value.creationTimeBefore, format: .epochSeconds)
+        try writer["LastModifiedTimeAfter"].writeTimestamp(value.lastModifiedTimeAfter, format: .epochSeconds)
+        try writer["LastModifiedTimeBefore"].writeTimestamp(value.lastModifiedTimeBefore, format: .epochSeconds)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NameContains"].write(value.nameContains)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["OptimizationContains"].write(value.optimizationContains)
+        try writer["SortBy"].write(value.sortBy)
+        try writer["SortOrder"].write(value.sortOrder)
+        try writer["StatusEquals"].write(value.statusEquals)
+    }
+}
+
 extension ListPipelineExecutionsInput {
 
     static func write(value: ListPipelineExecutionsInput?, to writer: SmithyJSON.Writer) throws {
@@ -53656,6 +54558,14 @@ extension StopNotebookInstanceInput {
     static func write(value: StopNotebookInstanceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["NotebookInstanceName"].write(value.notebookInstanceName)
+    }
+}
+
+extension StopOptimizationJobInput {
+
+    static func write(value: StopOptimizationJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["OptimizationJobName"].write(value.optimizationJobName)
     }
 }
 
@@ -54701,6 +55611,18 @@ extension CreateNotebookInstanceLifecycleConfigOutput {
     }
 }
 
+extension CreateOptimizationJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateOptimizationJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateOptimizationJobOutput()
+        value.optimizationJobArn = try reader["OptimizationJobArn"].readIfPresent()
+        return value
+    }
+}
+
 extension CreatePipelineOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreatePipelineOutput {
@@ -55207,6 +56129,13 @@ extension DeleteNotebookInstanceLifecycleConfigOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteNotebookInstanceLifecycleConfigOutput {
         return DeleteNotebookInstanceLifecycleConfigOutput()
+    }
+}
+
+extension DeleteOptimizationJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteOptimizationJobOutput {
+        return DeleteOptimizationJobOutput()
     }
 }
 
@@ -56404,6 +57333,34 @@ extension DescribeNotebookInstanceLifecycleConfigOutput {
         value.notebookInstanceLifecycleConfigName = try reader["NotebookInstanceLifecycleConfigName"].readIfPresent()
         value.onCreate = try reader["OnCreate"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.NotebookInstanceLifecycleHook.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.onStart = try reader["OnStart"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.NotebookInstanceLifecycleHook.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DescribeOptimizationJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeOptimizationJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeOptimizationJobOutput()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: .epochSeconds)
+        value.deploymentInstanceType = try reader["DeploymentInstanceType"].readIfPresent()
+        value.failureReason = try reader["FailureReason"].readIfPresent()
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: .epochSeconds)
+        value.modelSource = try reader["ModelSource"].readIfPresent(with: SageMakerClientTypes.OptimizationJobModelSource.read(from:))
+        value.optimizationConfigs = try reader["OptimizationConfigs"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.OptimizationConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.optimizationEndTime = try reader["OptimizationEndTime"].readTimestampIfPresent(format: .epochSeconds)
+        value.optimizationEnvironment = try reader["OptimizationEnvironment"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.optimizationJobArn = try reader["OptimizationJobArn"].readIfPresent()
+        value.optimizationJobName = try reader["OptimizationJobName"].readIfPresent()
+        value.optimizationJobStatus = try reader["OptimizationJobStatus"].readIfPresent()
+        value.optimizationOutput = try reader["OptimizationOutput"].readIfPresent(with: SageMakerClientTypes.OptimizationOutput.read(from:))
+        value.optimizationStartTime = try reader["OptimizationStartTime"].readTimestampIfPresent(format: .epochSeconds)
+        value.outputConfig = try reader["OutputConfig"].readIfPresent(with: SageMakerClientTypes.OptimizationJobOutputConfig.read(from:))
+        value.roleArn = try reader["RoleArn"].readIfPresent()
+        value.stoppingCondition = try reader["StoppingCondition"].readIfPresent(with: SageMakerClientTypes.StoppingCondition.read(from:))
+        value.vpcConfig = try reader["VpcConfig"].readIfPresent(with: SageMakerClientTypes.OptimizationVpcConfig.read(from:))
         return value
     }
 }
@@ -57612,6 +58569,19 @@ extension ListNotebookInstancesOutput {
     }
 }
 
+extension ListOptimizationJobsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListOptimizationJobsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListOptimizationJobsOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.optimizationJobSummaries = try reader["OptimizationJobSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.OptimizationJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension ListPipelineExecutionsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPipelineExecutionsOutput {
@@ -58108,6 +59078,13 @@ extension StopNotebookInstanceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopNotebookInstanceOutput {
         return StopNotebookInstanceOutput()
+    }
+}
+
+extension StopOptimizationJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopOptimizationJobOutput {
+        return StopOptimizationJobOutput()
     }
 }
 
@@ -59275,6 +60252,21 @@ enum CreateNotebookInstanceLifecycleConfigOutputError {
     }
 }
 
+enum CreateOptimizationJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceInUse": return try ResourceInUse.makeError(baseError: baseError)
+            case "ResourceLimitExceeded": return try ResourceLimitExceeded.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreatePipelineOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
@@ -60065,6 +61057,20 @@ enum DeleteNotebookInstanceLifecycleConfigOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteOptimizationJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -60868,6 +61874,20 @@ enum DescribeNotebookInstanceLifecycleConfigOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeOptimizationJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -61959,6 +62979,19 @@ enum ListNotebookInstancesOutputError {
     }
 }
 
+enum ListOptimizationJobsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListPipelineExecutionsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
@@ -62578,6 +63611,20 @@ enum StopNotebookInstanceOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StopOptimizationJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -65582,6 +66629,7 @@ extension SageMakerClientTypes.UserSettings {
         try writer["SharingSettings"].write(value.sharingSettings, with: SageMakerClientTypes.SharingSettings.write(value:to:))
         try writer["SpaceStorageSettings"].write(value.spaceStorageSettings, with: SageMakerClientTypes.DefaultSpaceStorageSettings.write(value:to:))
         try writer["StudioWebPortal"].write(value.studioWebPortal)
+        try writer["StudioWebPortalSettings"].write(value.studioWebPortalSettings, with: SageMakerClientTypes.StudioWebPortalSettings.write(value:to:))
         try writer["TensorBoardAppSettings"].write(value.tensorBoardAppSettings, with: SageMakerClientTypes.TensorBoardAppSettings.write(value:to:))
     }
 
@@ -65604,6 +66652,24 @@ extension SageMakerClientTypes.UserSettings {
         value.studioWebPortal = try reader["StudioWebPortal"].readIfPresent()
         value.customPosixUserConfig = try reader["CustomPosixUserConfig"].readIfPresent(with: SageMakerClientTypes.CustomPosixUserConfig.read(from:))
         value.customFileSystemConfigs = try reader["CustomFileSystemConfigs"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.CustomFileSystemConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.studioWebPortalSettings = try reader["StudioWebPortalSettings"].readIfPresent(with: SageMakerClientTypes.StudioWebPortalSettings.read(from:))
+        return value
+    }
+}
+
+extension SageMakerClientTypes.StudioWebPortalSettings {
+
+    static func write(value: SageMakerClientTypes.StudioWebPortalSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["HiddenAppTypes"].writeList(value.hiddenAppTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SageMakerClientTypes.AppType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["HiddenMlTools"].writeList(value.hiddenMlTools, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SageMakerClientTypes.MlTools>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.StudioWebPortalSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.StudioWebPortalSettings()
+        value.hiddenMlTools = try reader["HiddenMlTools"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SageMakerClientTypes.MlTools>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.hiddenAppTypes = try reader["HiddenAppTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SageMakerClientTypes.AppType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -66024,6 +67090,7 @@ extension SageMakerClientTypes.DomainSettings {
 
     static func write(value: SageMakerClientTypes.DomainSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AmazonQSettings"].write(value.amazonQSettings, with: SageMakerClientTypes.AmazonQSettings.write(value:to:))
         try writer["DockerSettings"].write(value.dockerSettings, with: SageMakerClientTypes.DockerSettings.write(value:to:))
         try writer["ExecutionRoleIdentityConfig"].write(value.executionRoleIdentityConfig)
         try writer["RStudioServerProDomainSettings"].write(value.rStudioServerProDomainSettings, with: SageMakerClientTypes.RStudioServerProDomainSettings.write(value:to:))
@@ -66037,6 +67104,24 @@ extension SageMakerClientTypes.DomainSettings {
         value.rStudioServerProDomainSettings = try reader["RStudioServerProDomainSettings"].readIfPresent(with: SageMakerClientTypes.RStudioServerProDomainSettings.read(from:))
         value.executionRoleIdentityConfig = try reader["ExecutionRoleIdentityConfig"].readIfPresent()
         value.dockerSettings = try reader["DockerSettings"].readIfPresent(with: SageMakerClientTypes.DockerSettings.read(from:))
+        value.amazonQSettings = try reader["AmazonQSettings"].readIfPresent(with: SageMakerClientTypes.AmazonQSettings.read(from:))
+        return value
+    }
+}
+
+extension SageMakerClientTypes.AmazonQSettings {
+
+    static func write(value: SageMakerClientTypes.AmazonQSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["QProfileArn"].write(value.qProfileArn)
+        try writer["Status"].write(value.status)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.AmazonQSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.AmazonQSettings()
+        value.status = try reader["Status"].readIfPresent()
+        value.qProfileArn = try reader["QProfileArn"].readIfPresent()
         return value
     }
 }
@@ -68511,6 +69596,7 @@ extension SageMakerClientTypes.ContainerDefinition {
 
     static func write(value: SageMakerClientTypes.ContainerDefinition?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AdditionalModelDataSources"].writeList(value.additionalModelDataSources, memberWritingClosure: SageMakerClientTypes.AdditionalModelDataSource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ContainerHostname"].write(value.containerHostname)
         try writer["Environment"].writeMap(value.environment, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["Image"].write(value.image)
@@ -68532,6 +69618,7 @@ extension SageMakerClientTypes.ContainerDefinition {
         value.mode = try reader["Mode"].readIfPresent()
         value.modelDataUrl = try reader["ModelDataUrl"].readIfPresent()
         value.modelDataSource = try reader["ModelDataSource"].readIfPresent(with: SageMakerClientTypes.ModelDataSource.read(from:))
+        value.additionalModelDataSources = try reader["AdditionalModelDataSources"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.AdditionalModelDataSource.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.environment = try reader["Environment"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.modelPackageName = try reader["ModelPackageName"].readIfPresent()
         value.inferenceSpecificationName = try reader["InferenceSpecificationName"].readIfPresent()
@@ -68551,6 +69638,23 @@ extension SageMakerClientTypes.MultiModelConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.MultiModelConfig()
         value.modelCacheSetting = try reader["ModelCacheSetting"].readIfPresent()
+        return value
+    }
+}
+
+extension SageMakerClientTypes.AdditionalModelDataSource {
+
+    static func write(value: SageMakerClientTypes.AdditionalModelDataSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ChannelName"].write(value.channelName)
+        try writer["S3DataSource"].write(value.s3DataSource, with: SageMakerClientTypes.S3ModelDataSource.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.AdditionalModelDataSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.AdditionalModelDataSource()
+        value.channelName = try reader["ChannelName"].readIfPresent()
+        value.s3DataSource = try reader["S3DataSource"].readIfPresent(with: SageMakerClientTypes.S3ModelDataSource.read(from:))
         return value
     }
 }
@@ -69413,6 +70517,159 @@ extension SageMakerClientTypes.NotebookInstanceLifecycleHook {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.NotebookInstanceLifecycleHook()
         value.content = try reader["Content"].readIfPresent()
+        return value
+    }
+}
+
+extension SageMakerClientTypes.OptimizationJobModelSource {
+
+    static func write(value: SageMakerClientTypes.OptimizationJobModelSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["S3"].write(value.s3, with: SageMakerClientTypes.OptimizationJobModelSourceS3.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.OptimizationJobModelSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.OptimizationJobModelSource()
+        value.s3 = try reader["S3"].readIfPresent(with: SageMakerClientTypes.OptimizationJobModelSourceS3.read(from:))
+        return value
+    }
+}
+
+extension SageMakerClientTypes.OptimizationJobModelSourceS3 {
+
+    static func write(value: SageMakerClientTypes.OptimizationJobModelSourceS3?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ModelAccessConfig"].write(value.modelAccessConfig, with: SageMakerClientTypes.OptimizationModelAccessConfig.write(value:to:))
+        try writer["S3Uri"].write(value.s3Uri)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.OptimizationJobModelSourceS3 {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.OptimizationJobModelSourceS3()
+        value.s3Uri = try reader["S3Uri"].readIfPresent()
+        value.modelAccessConfig = try reader["ModelAccessConfig"].readIfPresent(with: SageMakerClientTypes.OptimizationModelAccessConfig.read(from:))
+        return value
+    }
+}
+
+extension SageMakerClientTypes.OptimizationModelAccessConfig {
+
+    static func write(value: SageMakerClientTypes.OptimizationModelAccessConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AcceptEula"].write(value.acceptEula)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.OptimizationModelAccessConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.OptimizationModelAccessConfig()
+        value.acceptEula = try reader["AcceptEula"].readIfPresent()
+        return value
+    }
+}
+
+extension SageMakerClientTypes.OptimizationConfig {
+
+    static func write(value: SageMakerClientTypes.OptimizationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .modelcompilationconfig(modelcompilationconfig):
+                try writer["ModelCompilationConfig"].write(modelcompilationconfig, with: SageMakerClientTypes.ModelCompilationConfig.write(value:to:))
+            case let .modelquantizationconfig(modelquantizationconfig):
+                try writer["ModelQuantizationConfig"].write(modelquantizationconfig, with: SageMakerClientTypes.ModelQuantizationConfig.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.OptimizationConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "ModelQuantizationConfig":
+                return .modelquantizationconfig(try reader["ModelQuantizationConfig"].read(with: SageMakerClientTypes.ModelQuantizationConfig.read(from:)))
+            case "ModelCompilationConfig":
+                return .modelcompilationconfig(try reader["ModelCompilationConfig"].read(with: SageMakerClientTypes.ModelCompilationConfig.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension SageMakerClientTypes.ModelCompilationConfig {
+
+    static func write(value: SageMakerClientTypes.ModelCompilationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Image"].write(value.image)
+        try writer["OverrideEnvironment"].writeMap(value.overrideEnvironment, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelCompilationConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.ModelCompilationConfig()
+        value.image = try reader["Image"].readIfPresent()
+        value.overrideEnvironment = try reader["OverrideEnvironment"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension SageMakerClientTypes.ModelQuantizationConfig {
+
+    static func write(value: SageMakerClientTypes.ModelQuantizationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Image"].write(value.image)
+        try writer["OverrideEnvironment"].writeMap(value.overrideEnvironment, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelQuantizationConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.ModelQuantizationConfig()
+        value.image = try reader["Image"].readIfPresent()
+        value.overrideEnvironment = try reader["OverrideEnvironment"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension SageMakerClientTypes.OptimizationJobOutputConfig {
+
+    static func write(value: SageMakerClientTypes.OptimizationJobOutputConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KmsKeyId"].write(value.kmsKeyId)
+        try writer["S3OutputLocation"].write(value.s3OutputLocation)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.OptimizationJobOutputConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.OptimizationJobOutputConfig()
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        value.s3OutputLocation = try reader["S3OutputLocation"].readIfPresent()
+        return value
+    }
+}
+
+extension SageMakerClientTypes.OptimizationOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.OptimizationOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.OptimizationOutput()
+        value.recommendedInferenceImage = try reader["RecommendedInferenceImage"].readIfPresent()
+        return value
+    }
+}
+
+extension SageMakerClientTypes.OptimizationVpcConfig {
+
+    static func write(value: SageMakerClientTypes.OptimizationVpcConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Subnets"].writeList(value.subnets, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.OptimizationVpcConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.OptimizationVpcConfig()
+        value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -71631,6 +72888,24 @@ extension SageMakerClientTypes.NotebookInstanceSummary {
     }
 }
 
+extension SageMakerClientTypes.OptimizationJobSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.OptimizationJobSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.OptimizationJobSummary()
+        value.optimizationJobName = try reader["OptimizationJobName"].readIfPresent()
+        value.optimizationJobArn = try reader["OptimizationJobArn"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: .epochSeconds)
+        value.optimizationJobStatus = try reader["OptimizationJobStatus"].readIfPresent()
+        value.optimizationStartTime = try reader["OptimizationStartTime"].readTimestampIfPresent(format: .epochSeconds)
+        value.optimizationEndTime = try reader["OptimizationEndTime"].readTimestampIfPresent(format: .epochSeconds)
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: .epochSeconds)
+        value.deploymentInstanceType = try reader["DeploymentInstanceType"].readIfPresent()
+        value.optimizationTypes = try reader["OptimizationTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension SageMakerClientTypes.PipelineExecutionSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.PipelineExecutionSummary {
@@ -73018,6 +74293,7 @@ extension SageMakerClientTypes.DomainSettingsForUpdate {
 
     static func write(value: SageMakerClientTypes.DomainSettingsForUpdate?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AmazonQSettings"].write(value.amazonQSettings, with: SageMakerClientTypes.AmazonQSettings.write(value:to:))
         try writer["DockerSettings"].write(value.dockerSettings, with: SageMakerClientTypes.DockerSettings.write(value:to:))
         try writer["ExecutionRoleIdentityConfig"].write(value.executionRoleIdentityConfig)
         try writer["RStudioServerProDomainSettingsForUpdate"].write(value.rStudioServerProDomainSettingsForUpdate, with: SageMakerClientTypes.RStudioServerProDomainSettingsForUpdate.write(value:to:))

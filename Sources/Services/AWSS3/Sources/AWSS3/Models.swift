@@ -2363,7 +2363,7 @@ extension S3ClientTypes.SessionCredentials: Swift.CustomDebugStringConvertible {
 }
 
 public struct CreateSessionOutput {
-    /// The established temporary security credentials for the created session..
+    /// The established temporary security credentials for the created session.
     /// This member is required.
     public var credentials: S3ClientTypes.SessionCredentials?
 
@@ -5084,7 +5084,7 @@ extension S3ClientTypes {
 extension S3ClientTypes {
     /// Specifies when noncurrent object versions expire. Upon expiration, Amazon S3 permanently deletes the noncurrent object versions. You set this lifecycle configuration action on a bucket that has versioning enabled (or suspended) to request that Amazon S3 delete noncurrent object versions at a specific period in the object's lifetime.
     public struct NoncurrentVersionExpiration {
-        /// Specifies how many newer noncurrent versions must exist before Amazon S3 can perform the associated action on a given version. If there are this many more recent noncurrent versions, Amazon S3 will take the associated action. For more information about noncurrent versions, see [Lifecycle configuration elements](https://docs.aws.amazon.com/AmazonS3/latest/userguide/intro-lifecycle-rules.html) in the Amazon S3 User Guide.
+        /// Specifies how many noncurrent versions Amazon S3 will retain. You can specify up to 100 noncurrent versions to retain. Amazon S3 will permanently delete any additional noncurrent versions beyond the specified number to retain. For more information about noncurrent versions, see [Lifecycle configuration elements](https://docs.aws.amazon.com/AmazonS3/latest/userguide/intro-lifecycle-rules.html) in the Amazon S3 User Guide.
         public var newerNoncurrentVersions: Swift.Int?
         /// Specifies the number of days an object is noncurrent before Amazon S3 can perform the associated action. The value must be a non-zero positive integer. For information about the noncurrent days calculations, see [How Amazon S3 Calculates When an Object Became Noncurrent](https://docs.aws.amazon.com/AmazonS3/latest/dev/intro-lifecycle-rules.html#non-current-days-calculations) in the Amazon S3 User Guide.
         public var noncurrentDays: Swift.Int?
@@ -5145,7 +5145,7 @@ extension S3ClientTypes {
 extension S3ClientTypes {
     /// Container for the transition rule that describes when noncurrent objects transition to the STANDARD_IA, ONEZONE_IA, INTELLIGENT_TIERING, GLACIER_IR, GLACIER, or DEEP_ARCHIVE storage class. If your bucket is versioning-enabled (or versioning is suspended), you can set this action to request that Amazon S3 transition noncurrent object versions to the STANDARD_IA, ONEZONE_IA, INTELLIGENT_TIERING, GLACIER_IR, GLACIER, or DEEP_ARCHIVE storage class at a specific period in the object's lifetime.
     public struct NoncurrentVersionTransition {
-        /// Specifies how many newer noncurrent versions must exist before Amazon S3 can perform the associated action on a given version. If there are this many more recent noncurrent versions, Amazon S3 will take the associated action. For more information about noncurrent versions, see [Lifecycle configuration elements](https://docs.aws.amazon.com/AmazonS3/latest/userguide/intro-lifecycle-rules.html) in the Amazon S3 User Guide.
+        /// Specifies how many noncurrent versions Amazon S3 will retain in the same storage class before transitioning objects. You can specify up to 100 noncurrent versions to retain. Amazon S3 will transition any additional noncurrent versions beyond the specified number to retain. For more information about noncurrent versions, see [Lifecycle configuration elements](https://docs.aws.amazon.com/AmazonS3/latest/userguide/intro-lifecycle-rules.html) in the Amazon S3 User Guide.
         public var newerNoncurrentVersions: Swift.Int?
         /// Specifies the number of days an object is noncurrent before Amazon S3 can perform the associated action. For information about the noncurrent days calculations, see [How Amazon S3 Calculates How Long an Object Has Been Noncurrent](https://docs.aws.amazon.com/AmazonS3/latest/dev/intro-lifecycle-rules.html#non-current-days-calculations) in the Amazon S3 User Guide.
         public var noncurrentDays: Swift.Int?
@@ -6820,7 +6820,7 @@ extension S3ClientTypes {
 extension S3ClientTypes {
     /// Container for the Suffix element.
     public struct IndexDocument {
-        /// A suffix that is appended to a request that is for a directory on the website endpoint (for example,if the suffix is index.html and you make a request to samplebucket/images/ the data that is returned will be for the object with the key name images/index.html) The suffix must not be empty and must not include a slash character. Replacement must be made for object keys containing special characters (such as carriage returns) when using XML requests. For more information, see [ XML related object key constraints](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints).
+        /// A suffix that is appended to a request that is for a directory on the website endpoint. (For example, if the suffix is index.html and you make a request to samplebucket/images/, the data that is returned will be for the object with the key name images/index.html.) The suffix must not be empty and must not include a slash character. Replacement must be made for object keys containing special characters (such as carriage returns) when using XML requests. For more information, see [ XML related object key constraints](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints).
         /// This member is required.
         public var suffix: Swift.String?
 
@@ -8210,6 +8210,18 @@ public struct HeadObjectInput {
     public var range: Swift.String?
     /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for corresponding charges to copy the object. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
     public var requestPayer: S3ClientTypes.RequestPayer?
+    /// Sets the Cache-Control header of the response.
+    public var responseCacheControl: Swift.String?
+    /// Sets the Content-Disposition header of the response.
+    public var responseContentDisposition: Swift.String?
+    /// Sets the Content-Encoding header of the response.
+    public var responseContentEncoding: Swift.String?
+    /// Sets the Content-Language header of the response.
+    public var responseContentLanguage: Swift.String?
+    /// Sets the Content-Type header of the response.
+    public var responseContentType: Swift.String?
+    /// Sets the Expires header of the response.
+    public var responseExpires: Foundation.Date?
     /// Specifies the algorithm to use when encrypting the object (for example, AES256). This functionality is not supported for directory buckets.
     public var sseCustomerAlgorithm: Swift.String?
     /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon S3 does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side-encryption-customer-algorithm header. This functionality is not supported for directory buckets.
@@ -8231,6 +8243,12 @@ public struct HeadObjectInput {
         partNumber: Swift.Int? = nil,
         range: Swift.String? = nil,
         requestPayer: S3ClientTypes.RequestPayer? = nil,
+        responseCacheControl: Swift.String? = nil,
+        responseContentDisposition: Swift.String? = nil,
+        responseContentEncoding: Swift.String? = nil,
+        responseContentLanguage: Swift.String? = nil,
+        responseContentType: Swift.String? = nil,
+        responseExpires: Foundation.Date? = nil,
         sseCustomerAlgorithm: Swift.String? = nil,
         sseCustomerKey: Swift.String? = nil,
         sseCustomerKeyMD5: Swift.String? = nil,
@@ -8248,6 +8266,12 @@ public struct HeadObjectInput {
         self.partNumber = partNumber
         self.range = range
         self.requestPayer = requestPayer
+        self.responseCacheControl = responseCacheControl
+        self.responseContentDisposition = responseContentDisposition
+        self.responseContentEncoding = responseContentEncoding
+        self.responseContentLanguage = responseContentLanguage
+        self.responseContentType = responseContentType
+        self.responseExpires = responseExpires
         self.sseCustomerAlgorithm = sseCustomerAlgorithm
         self.sseCustomerKey = sseCustomerKey
         self.sseCustomerKeyMD5 = sseCustomerKeyMD5
@@ -8257,7 +8281,7 @@ public struct HeadObjectInput {
 
 extension HeadObjectInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "HeadObjectInput(bucket: \(Swift.String(describing: bucket)), checksumMode: \(Swift.String(describing: checksumMode)), expectedBucketOwner: \(Swift.String(describing: expectedBucketOwner)), ifMatch: \(Swift.String(describing: ifMatch)), ifModifiedSince: \(Swift.String(describing: ifModifiedSince)), ifNoneMatch: \(Swift.String(describing: ifNoneMatch)), ifUnmodifiedSince: \(Swift.String(describing: ifUnmodifiedSince)), key: \(Swift.String(describing: key)), partNumber: \(Swift.String(describing: partNumber)), range: \(Swift.String(describing: range)), requestPayer: \(Swift.String(describing: requestPayer)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), versionId: \(Swift.String(describing: versionId)), sseCustomerKey: \"CONTENT_REDACTED\")"}
+        "HeadObjectInput(bucket: \(Swift.String(describing: bucket)), checksumMode: \(Swift.String(describing: checksumMode)), expectedBucketOwner: \(Swift.String(describing: expectedBucketOwner)), ifMatch: \(Swift.String(describing: ifMatch)), ifModifiedSince: \(Swift.String(describing: ifModifiedSince)), ifNoneMatch: \(Swift.String(describing: ifNoneMatch)), ifUnmodifiedSince: \(Swift.String(describing: ifUnmodifiedSince)), key: \(Swift.String(describing: key)), partNumber: \(Swift.String(describing: partNumber)), range: \(Swift.String(describing: range)), requestPayer: \(Swift.String(describing: requestPayer)), responseCacheControl: \(Swift.String(describing: responseCacheControl)), responseContentDisposition: \(Swift.String(describing: responseContentDisposition)), responseContentEncoding: \(Swift.String(describing: responseContentEncoding)), responseContentLanguage: \(Swift.String(describing: responseContentLanguage)), responseContentType: \(Swift.String(describing: responseContentType)), responseExpires: \(Swift.String(describing: responseExpires)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), versionId: \(Swift.String(describing: versionId)), sseCustomerKey: \"CONTENT_REDACTED\")"}
 }
 
 extension S3ClientTypes {
@@ -14376,9 +14400,33 @@ extension HeadObjectInput {
             let versionIdQueryItem = Smithy.URIQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
             items.append(versionIdQueryItem)
         }
+        if let responseContentDisposition = value.responseContentDisposition {
+            let responseContentDispositionQueryItem = Smithy.URIQueryItem(name: "response-content-disposition".urlPercentEncoding(), value: Swift.String(responseContentDisposition).urlPercentEncoding())
+            items.append(responseContentDispositionQueryItem)
+        }
         if let partNumber = value.partNumber {
             let partNumberQueryItem = Smithy.URIQueryItem(name: "partNumber".urlPercentEncoding(), value: Swift.String(partNumber).urlPercentEncoding())
             items.append(partNumberQueryItem)
+        }
+        if let responseContentType = value.responseContentType {
+            let responseContentTypeQueryItem = Smithy.URIQueryItem(name: "response-content-type".urlPercentEncoding(), value: Swift.String(responseContentType).urlPercentEncoding())
+            items.append(responseContentTypeQueryItem)
+        }
+        if let responseExpires = value.responseExpires {
+            let responseExpiresQueryItem = Smithy.URIQueryItem(name: "response-expires".urlPercentEncoding(), value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .httpDate).string(from: responseExpires)).urlPercentEncoding())
+            items.append(responseExpiresQueryItem)
+        }
+        if let responseContentEncoding = value.responseContentEncoding {
+            let responseContentEncodingQueryItem = Smithy.URIQueryItem(name: "response-content-encoding".urlPercentEncoding(), value: Swift.String(responseContentEncoding).urlPercentEncoding())
+            items.append(responseContentEncodingQueryItem)
+        }
+        if let responseCacheControl = value.responseCacheControl {
+            let responseCacheControlQueryItem = Smithy.URIQueryItem(name: "response-cache-control".urlPercentEncoding(), value: Swift.String(responseCacheControl).urlPercentEncoding())
+            items.append(responseCacheControlQueryItem)
+        }
+        if let responseContentLanguage = value.responseContentLanguage {
+            let responseContentLanguageQueryItem = Smithy.URIQueryItem(name: "response-content-language".urlPercentEncoding(), value: Swift.String(responseContentLanguage).urlPercentEncoding())
+            items.append(responseContentLanguageQueryItem)
         }
         return items
     }

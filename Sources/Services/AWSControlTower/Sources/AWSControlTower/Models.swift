@@ -162,6 +162,135 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
+public struct GetBaselineOperationInput {
+    /// The operation ID returned from mutating asynchronous APIs (Enable, Disable, Update, Reset).
+    /// This member is required.
+    public var operationIdentifier: Swift.String?
+
+    public init(
+        operationIdentifier: Swift.String? = nil
+    )
+    {
+        self.operationIdentifier = operationIdentifier
+    }
+}
+
+extension ControlTowerClientTypes {
+
+    public enum BaselineOperationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disableBaseline
+        case enableBaseline
+        case resetEnabledBaseline
+        case updateEnabledBaseline
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BaselineOperationType] {
+            return [
+                .disableBaseline,
+                .enableBaseline,
+                .resetEnabledBaseline,
+                .updateEnabledBaseline
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disableBaseline: return "DISABLE_BASELINE"
+            case .enableBaseline: return "ENABLE_BASELINE"
+            case .resetEnabledBaseline: return "RESET_ENABLED_BASELINE"
+            case .updateEnabledBaseline: return "UPDATE_ENABLED_BASELINE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ControlTowerClientTypes {
+
+    public enum BaselineOperationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case inProgress
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BaselineOperationStatus] {
+            return [
+                .failed,
+                .inProgress,
+                .succeeded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ControlTowerClientTypes {
+    /// An object of shape BaselineOperation, returning details about the specified Baseline operation ID.
+    public struct BaselineOperation {
+        /// The end time of the operation (if applicable), in ISO 8601 format.
+        public var endTime: Foundation.Date?
+        /// The identifier of the specified operation.
+        public var operationIdentifier: Swift.String?
+        /// An enumerated type (enum) with possible values of ENABLE_BASELINE, DISABLE_BASELINE, UPDATE_ENABLED_BASELINE, or RESET_ENABLED_BASELINE.
+        public var operationType: ControlTowerClientTypes.BaselineOperationType?
+        /// The start time of the operation, in ISO 8601 format.
+        public var startTime: Foundation.Date?
+        /// An enumerated type (enum) with possible values of SUCCEEDED, FAILED, or IN_PROGRESS.
+        public var status: ControlTowerClientTypes.BaselineOperationStatus?
+        /// A status message that gives more information about the operation's status, if applicable.
+        public var statusMessage: Swift.String?
+
+        public init(
+            endTime: Foundation.Date? = nil,
+            operationIdentifier: Swift.String? = nil,
+            operationType: ControlTowerClientTypes.BaselineOperationType? = nil,
+            startTime: Foundation.Date? = nil,
+            status: ControlTowerClientTypes.BaselineOperationStatus? = nil,
+            statusMessage: Swift.String? = nil
+        )
+        {
+            self.endTime = endTime
+            self.operationIdentifier = operationIdentifier
+            self.operationType = operationType
+            self.startTime = startTime
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+    }
+
+}
+
+public struct GetBaselineOperationOutput {
+    /// A baselineOperation object that shows information about the specified operation ID.
+    /// This member is required.
+    public var baselineOperation: ControlTowerClientTypes.BaselineOperation?
+
+    public init(
+        baselineOperation: ControlTowerClientTypes.BaselineOperation? = nil
+    )
+    {
+        self.baselineOperation = baselineOperation
+    }
+}
+
 public struct GetBaselineInput {
     /// The ARN of the Baseline resource to be retrieved.
     /// This member is required.
@@ -395,7 +524,7 @@ public struct GetControlOperationOutput {
 }
 
 extension ControlTowerClientTypes {
-    /// A filter object that lets you call ListCOntrolOperations with a specific filter.
+    /// A filter object that lets you call ListControlOperations with a specific filter.
     public struct ControlOperationFilter {
         /// The set of controlIdentifier returned by the filter.
         public var controlIdentifiers: [Swift.String]?
@@ -495,7 +624,7 @@ extension ControlTowerClientTypes {
 }
 
 public struct ListControlOperationsOutput {
-    /// Returns a list of output from control operations. PLACEHOLDER
+    /// Returns a list of output from control operations.
     /// This member is required.
     public var controlOperations: [ControlTowerClientTypes.ControlOperationSummary]?
     /// A pagination token.
@@ -689,135 +818,6 @@ public struct EnableBaselineOutput {
     }
 }
 
-public struct GetBaselineOperationInput {
-    /// The operation ID returned from mutating asynchronous APIs (Enable, Disable, Update, Reset).
-    /// This member is required.
-    public var operationIdentifier: Swift.String?
-
-    public init(
-        operationIdentifier: Swift.String? = nil
-    )
-    {
-        self.operationIdentifier = operationIdentifier
-    }
-}
-
-extension ControlTowerClientTypes {
-
-    public enum BaselineOperationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case disableBaseline
-        case enableBaseline
-        case resetEnabledBaseline
-        case updateEnabledBaseline
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [BaselineOperationType] {
-            return [
-                .disableBaseline,
-                .enableBaseline,
-                .resetEnabledBaseline,
-                .updateEnabledBaseline
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .disableBaseline: return "DISABLE_BASELINE"
-            case .enableBaseline: return "ENABLE_BASELINE"
-            case .resetEnabledBaseline: return "RESET_ENABLED_BASELINE"
-            case .updateEnabledBaseline: return "UPDATE_ENABLED_BASELINE"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension ControlTowerClientTypes {
-
-    public enum BaselineOperationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case failed
-        case inProgress
-        case succeeded
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [BaselineOperationStatus] {
-            return [
-                .failed,
-                .inProgress,
-                .succeeded
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .failed: return "FAILED"
-            case .inProgress: return "IN_PROGRESS"
-            case .succeeded: return "SUCCEEDED"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension ControlTowerClientTypes {
-    /// An object of shape BaselineOperation, returning details about the specified Baseline operation ID.
-    public struct BaselineOperation {
-        /// The end time of the operation (if applicable), in ISO 8601 format.
-        public var endTime: Foundation.Date?
-        /// The identifier of the specified operation.
-        public var operationIdentifier: Swift.String?
-        /// An enumerated type (enum) with possible values of ENABLE_BASELINE, DISABLE_BASELINE, UPDATE_ENABLED_BASELINE, or RESET_ENABLED_BASELINE.
-        public var operationType: ControlTowerClientTypes.BaselineOperationType?
-        /// The start time of the operation, in ISO 8601 format.
-        public var startTime: Foundation.Date?
-        /// An enumerated type (enum) with possible values of SUCCEEDED, FAILED, or IN_PROGRESS.
-        public var status: ControlTowerClientTypes.BaselineOperationStatus?
-        /// A status message that gives more information about the operation's status, if applicable.
-        public var statusMessage: Swift.String?
-
-        public init(
-            endTime: Foundation.Date? = nil,
-            operationIdentifier: Swift.String? = nil,
-            operationType: ControlTowerClientTypes.BaselineOperationType? = nil,
-            startTime: Foundation.Date? = nil,
-            status: ControlTowerClientTypes.BaselineOperationStatus? = nil,
-            statusMessage: Swift.String? = nil
-        )
-        {
-            self.endTime = endTime
-            self.operationIdentifier = operationIdentifier
-            self.operationType = operationType
-            self.startTime = startTime
-            self.status = status
-            self.statusMessage = statusMessage
-        }
-    }
-
-}
-
-public struct GetBaselineOperationOutput {
-    /// A baselineOperation object that shows information about the specified operation ID.
-    /// This member is required.
-    public var baselineOperation: ControlTowerClientTypes.BaselineOperation?
-
-    public init(
-        baselineOperation: ControlTowerClientTypes.BaselineOperation? = nil
-    )
-    {
-        self.baselineOperation = baselineOperation
-    }
-}
-
 public struct GetEnabledBaselineInput {
     /// Identifier of the EnabledBaseline resource to be retrieved, in ARN format.
     /// This member is required.
@@ -886,17 +886,17 @@ extension ControlTowerClientTypes {
 }
 
 extension ControlTowerClientTypes {
-    /// The deployment summary of the enabled control.
+    /// The deployment summary of an EnabledControl or EnabledBaseline resource.
     public struct EnablementStatusSummary {
-        /// The last operation identifier for the enabled control.
+        /// The last operation identifier for the enabled resource.
         public var lastOperationIdentifier: Swift.String?
-        /// The deployment status of the enabled control. Valid values:
+        /// The deployment status of the enabled resource. Valid values:
         ///
-        /// * SUCCEEDED: The enabledControl configuration was deployed successfully.
+        /// * SUCCEEDED: The EnabledControl or EnabledBaseline configuration was deployed successfully.
         ///
-        /// * UNDER_CHANGE: The enabledControl configuration is changing.
+        /// * UNDER_CHANGE: The EnabledControl or EnabledBaseline configuration is changing.
         ///
-        /// * FAILED: The enabledControl configuration failed to deploy.
+        /// * FAILED: The EnabledControl or EnabledBaseline configuration failed to deploy.
         public var status: ControlTowerClientTypes.EnablementStatus?
 
         public init(
@@ -924,7 +924,7 @@ extension ControlTowerClientTypes {
         public var baselineVersion: Swift.String?
         /// Shows the parameters that are applied when enabling this Baseline.
         public var parameters: [ControlTowerClientTypes.EnabledBaselineParameterSummary]?
-        /// The deployment summary of the enabled control.
+        /// The deployment summary of an EnabledControl or EnabledBaseline resource.
         /// This member is required.
         public var statusSummary: ControlTowerClientTypes.EnablementStatusSummary?
         /// The target on which to enable the Baseline.
@@ -1014,7 +1014,7 @@ extension ControlTowerClientTypes {
         public var baselineIdentifier: Swift.String?
         /// The enabled version of the baseline.
         public var baselineVersion: Swift.String?
-        /// The deployment summary of the enabled control.
+        /// The deployment summary of an EnabledControl or EnabledBaseline resource.
         /// This member is required.
         public var statusSummary: ControlTowerClientTypes.EnablementStatusSummary?
         /// The target upon which the baseline is enabled.
@@ -1370,7 +1370,7 @@ extension ControlTowerClientTypes {
 }
 
 public struct ListEnabledControlsInput {
-    /// An input filter for the ListCEnabledControls API that lets you select the types of control operations to view.
+    /// An input filter for the ListEnabledControls API that lets you select the types of control operations to view.
     public var filter: ControlTowerClientTypes.EnabledControlFilter?
     /// How many results to return per API call.
     public var maxResults: Swift.Int?
@@ -1470,6 +1470,230 @@ public struct UpdateEnabledControlOutput {
     )
     {
         self.operationIdentifier = operationIdentifier
+    }
+}
+
+public struct GetLandingZoneOperationInput {
+    /// A unique identifier assigned to a landing zone operation.
+    /// This member is required.
+    public var operationIdentifier: Swift.String?
+
+    public init(
+        operationIdentifier: Swift.String? = nil
+    )
+    {
+        self.operationIdentifier = operationIdentifier
+    }
+}
+
+extension ControlTowerClientTypes {
+
+    public enum LandingZoneOperationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case create
+        case delete
+        case reset
+        case update
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LandingZoneOperationType] {
+            return [
+                .create,
+                .delete,
+                .reset,
+                .update
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .create: return "CREATE"
+            case .delete: return "DELETE"
+            case .reset: return "RESET"
+            case .update: return "UPDATE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ControlTowerClientTypes {
+
+    public enum LandingZoneOperationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case inProgress
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LandingZoneOperationStatus] {
+            return [
+                .failed,
+                .inProgress,
+                .succeeded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ControlTowerClientTypes {
+    /// Information about a landing zone operation.
+    public struct LandingZoneOperationDetail {
+        /// The landing zone operation end time.
+        public var endTime: Foundation.Date?
+        /// The operationIdentifier of the landing zone operation.
+        public var operationIdentifier: Swift.String?
+        /// The landing zone operation type. Valid values:
+        ///
+        /// * DELETE: The DeleteLandingZone operation.
+        ///
+        /// * CREATE: The CreateLandingZone operation.
+        ///
+        /// * UPDATE: The UpdateLandingZone operation.
+        ///
+        /// * RESET: The ResetLandingZone operation.
+        public var operationType: ControlTowerClientTypes.LandingZoneOperationType?
+        /// The landing zone operation start time.
+        public var startTime: Foundation.Date?
+        /// Valid values:
+        ///
+        /// * SUCCEEDED: The landing zone operation succeeded.
+        ///
+        /// * IN_PROGRESS: The landing zone operation is in progress.
+        ///
+        /// * FAILED: The landing zone operation failed.
+        public var status: ControlTowerClientTypes.LandingZoneOperationStatus?
+        /// If the operation result is FAILED, this string contains a message explaining why the operation failed.
+        public var statusMessage: Swift.String?
+
+        public init(
+            endTime: Foundation.Date? = nil,
+            operationIdentifier: Swift.String? = nil,
+            operationType: ControlTowerClientTypes.LandingZoneOperationType? = nil,
+            startTime: Foundation.Date? = nil,
+            status: ControlTowerClientTypes.LandingZoneOperationStatus? = nil,
+            statusMessage: Swift.String? = nil
+        )
+        {
+            self.endTime = endTime
+            self.operationIdentifier = operationIdentifier
+            self.operationType = operationType
+            self.startTime = startTime
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+    }
+
+}
+
+public struct GetLandingZoneOperationOutput {
+    /// Details about a landing zone operation.
+    /// This member is required.
+    public var operationDetails: ControlTowerClientTypes.LandingZoneOperationDetail?
+
+    public init(
+        operationDetails: ControlTowerClientTypes.LandingZoneOperationDetail? = nil
+    )
+    {
+        self.operationDetails = operationDetails
+    }
+}
+
+extension ControlTowerClientTypes {
+    /// A filter object that lets you call ListLandingZoneOperations with a specific filter.
+    public struct LandingZoneOperationFilter {
+        /// The statuses of the set of landing zone operations selected by the filter.
+        public var statuses: [ControlTowerClientTypes.LandingZoneOperationStatus]?
+        /// The set of landing zone operation types selected by the filter.
+        public var types: [ControlTowerClientTypes.LandingZoneOperationType]?
+
+        public init(
+            statuses: [ControlTowerClientTypes.LandingZoneOperationStatus]? = nil,
+            types: [ControlTowerClientTypes.LandingZoneOperationType]? = nil
+        )
+        {
+            self.statuses = statuses
+            self.types = types
+        }
+    }
+
+}
+
+public struct ListLandingZoneOperationsInput {
+    /// An input filter for the ListLandingZoneOperations API that lets you select the types of landing zone operations to view.
+    public var filter: ControlTowerClientTypes.LandingZoneOperationFilter?
+    /// How many results to return per API call.
+    public var maxResults: Swift.Int?
+    /// The token to continue the list from a previous API call with the same parameters.
+    public var nextToken: Swift.String?
+
+    public init(
+        filter: ControlTowerClientTypes.LandingZoneOperationFilter? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.filter = filter
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension ControlTowerClientTypes {
+    /// Returns a summary of information about a landing zone operation.
+    public struct LandingZoneOperationSummary {
+        /// The operationIdentifier of the landing zone operation.
+        public var operationIdentifier: Swift.String?
+        /// The type of the landing zone operation.
+        public var operationType: ControlTowerClientTypes.LandingZoneOperationType?
+        /// The status of the landing zone operation.
+        public var status: ControlTowerClientTypes.LandingZoneOperationStatus?
+
+        public init(
+            operationIdentifier: Swift.String? = nil,
+            operationType: ControlTowerClientTypes.LandingZoneOperationType? = nil,
+            status: ControlTowerClientTypes.LandingZoneOperationStatus? = nil
+        )
+        {
+            self.operationIdentifier = operationIdentifier
+            self.operationType = operationType
+            self.status = status
+        }
+    }
+
+}
+
+public struct ListLandingZoneOperationsOutput {
+    /// Lists landing zone operations.
+    /// This member is required.
+    public var landingZoneOperations: [ControlTowerClientTypes.LandingZoneOperationSummary]?
+    /// Retrieves the next page of results. If the string is empty, the response is the end of the results.
+    public var nextToken: Swift.String?
+
+    public init(
+        landingZoneOperations: [ControlTowerClientTypes.LandingZoneOperationSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.landingZoneOperations = landingZoneOperations
+        self.nextToken = nextToken
     }
 }
 
@@ -1684,145 +1908,6 @@ public struct GetLandingZoneOutput {
     }
 }
 
-public struct GetLandingZoneOperationInput {
-    /// A unique identifier assigned to a landing zone operation.
-    /// This member is required.
-    public var operationIdentifier: Swift.String?
-
-    public init(
-        operationIdentifier: Swift.String? = nil
-    )
-    {
-        self.operationIdentifier = operationIdentifier
-    }
-}
-
-extension ControlTowerClientTypes {
-
-    public enum LandingZoneOperationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case create
-        case delete
-        case reset
-        case update
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [LandingZoneOperationType] {
-            return [
-                .create,
-                .delete,
-                .reset,
-                .update
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .create: return "CREATE"
-            case .delete: return "DELETE"
-            case .reset: return "RESET"
-            case .update: return "UPDATE"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension ControlTowerClientTypes {
-
-    public enum LandingZoneOperationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case failed
-        case inProgress
-        case succeeded
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [LandingZoneOperationStatus] {
-            return [
-                .failed,
-                .inProgress,
-                .succeeded
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .failed: return "FAILED"
-            case .inProgress: return "IN_PROGRESS"
-            case .succeeded: return "SUCCEEDED"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension ControlTowerClientTypes {
-    /// Information about a landing zone operation.
-    public struct LandingZoneOperationDetail {
-        /// The landing zone operation end time.
-        public var endTime: Foundation.Date?
-        /// The landing zone operation type. Valid values:
-        ///
-        /// * DELETE: The DeleteLandingZone operation.
-        ///
-        /// * CREATE: The CreateLandingZone operation.
-        ///
-        /// * UPDATE: The UpdateLandingZone operation.
-        ///
-        /// * RESET: The ResetLandingZone operation.
-        public var operationType: ControlTowerClientTypes.LandingZoneOperationType?
-        /// The landing zone operation start time.
-        public var startTime: Foundation.Date?
-        /// Valid values:
-        ///
-        /// * SUCCEEDED: The landing zone operation succeeded.
-        ///
-        /// * IN_PROGRESS: The landing zone operation is in progress.
-        ///
-        /// * FAILED: The landing zone operation failed.
-        public var status: ControlTowerClientTypes.LandingZoneOperationStatus?
-        /// If the operation result is FAILED, this string contains a message explaining why the operation failed.
-        public var statusMessage: Swift.String?
-
-        public init(
-            endTime: Foundation.Date? = nil,
-            operationType: ControlTowerClientTypes.LandingZoneOperationType? = nil,
-            startTime: Foundation.Date? = nil,
-            status: ControlTowerClientTypes.LandingZoneOperationStatus? = nil,
-            statusMessage: Swift.String? = nil
-        )
-        {
-            self.endTime = endTime
-            self.operationType = operationType
-            self.startTime = startTime
-            self.status = status
-            self.statusMessage = statusMessage
-        }
-    }
-
-}
-
-public struct GetLandingZoneOperationOutput {
-    /// Details about a landing zone operation.
-    /// This member is required.
-    public var operationDetails: ControlTowerClientTypes.LandingZoneOperationDetail?
-
-    public init(
-        operationDetails: ControlTowerClientTypes.LandingZoneOperationDetail? = nil
-    )
-    {
-        self.operationDetails = operationDetails
-    }
-}
-
 public struct ListLandingZonesInput {
     /// The maximum number of returned landing zone ARNs, which is one.
     public var maxResults: Swift.Int?
@@ -1902,7 +1987,7 @@ public struct UpdateLandingZoneInput {
     /// The unique identifier of the landing zone.
     /// This member is required.
     public var landingZoneIdentifier: Swift.String?
-    /// The manifest JSON file is a text file that describes your Amazon Web Services resources. For examples, review [Launch your landing zone](https://docs.aws.amazon.com/controltower/latest/userguide/lz-api-launch).
+    /// The manifest file (JSON) is a text file that describes your Amazon Web Services resources. For an example, review [Launch your landing zone](https://docs.aws.amazon.com/controltower/latest/userguide/lz-api-launch). The example manifest file contains each of the available parameters. The schema for the landing zone's JSON manifest file is not published, by design.
     /// This member is required.
     public var manifest: SmithyReadWrite.Document?
     /// The landing zone version, for example, 3.2.
@@ -2122,6 +2207,13 @@ extension ListEnabledControlsInput {
 
     static func urlPathProvider(_ value: ListEnabledControlsInput) -> Swift.String? {
         return "/list-enabled-controls"
+    }
+}
+
+extension ListLandingZoneOperationsInput {
+
+    static func urlPathProvider(_ value: ListLandingZoneOperationsInput) -> Swift.String? {
+        return "/list-landingzone-operations"
     }
 }
 
@@ -2364,6 +2456,16 @@ extension ListEnabledControlsInput {
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
         try writer["targetIdentifier"].write(value.targetIdentifier)
+    }
+}
+
+extension ListLandingZoneOperationsInput {
+
+    static func write(value: ListLandingZoneOperationsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filter"].write(value.filter, with: ControlTowerClientTypes.LandingZoneOperationFilter.write(value:to:))
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
     }
 }
 
@@ -2637,6 +2739,19 @@ extension ListEnabledControlsOutput {
         let reader = responseReader
         var value = ListEnabledControlsOutput()
         value.enabledControls = try reader["enabledControls"].readListIfPresent(memberReadingClosure: ControlTowerClientTypes.EnabledControlSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListLandingZoneOperationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListLandingZoneOperationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListLandingZoneOperationsOutput()
+        value.landingZoneOperations = try reader["landingZoneOperations"].readListIfPresent(memberReadingClosure: ControlTowerClientTypes.LandingZoneOperationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -3053,6 +3168,23 @@ enum ListEnabledControlsOutputError {
     }
 }
 
+enum ListLandingZoneOperationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListLandingZonesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
@@ -3461,9 +3593,10 @@ extension ControlTowerClientTypes.LandingZoneOperationDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ControlTowerClientTypes.LandingZoneOperationDetail()
         value.operationType = try reader["operationType"].readIfPresent()
+        value.operationIdentifier = try reader["operationIdentifier"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
         value.startTime = try reader["startTime"].readTimestampIfPresent(format: .dateTime)
         value.endTime = try reader["endTime"].readTimestampIfPresent(format: .dateTime)
-        value.status = try reader["status"].readIfPresent()
         value.statusMessage = try reader["statusMessage"].readIfPresent()
         return value
     }
@@ -3527,6 +3660,18 @@ extension ControlTowerClientTypes.EnabledControlSummary {
     }
 }
 
+extension ControlTowerClientTypes.LandingZoneOperationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.LandingZoneOperationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ControlTowerClientTypes.LandingZoneOperationSummary()
+        value.operationType = try reader["operationType"].readIfPresent()
+        value.operationIdentifier = try reader["operationIdentifier"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
 extension ControlTowerClientTypes.LandingZoneSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.LandingZoneSummary {
@@ -3583,6 +3728,15 @@ extension ControlTowerClientTypes.EnabledControlFilter {
         try writer["controlIdentifiers"].writeList(value.controlIdentifiers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["driftStatuses"].writeList(value.driftStatuses, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ControlTowerClientTypes.DriftStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["statuses"].writeList(value.statuses, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ControlTowerClientTypes.EnablementStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ControlTowerClientTypes.LandingZoneOperationFilter {
+
+    static func write(value: ControlTowerClientTypes.LandingZoneOperationFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["statuses"].writeList(value.statuses, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ControlTowerClientTypes.LandingZoneOperationStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["types"].writeList(value.types, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ControlTowerClientTypes.LandingZoneOperationType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

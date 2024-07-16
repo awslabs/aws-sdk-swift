@@ -2643,7 +2643,7 @@ extension CustomerProfilesClientTypes {
 }
 
 public struct CreateProfileInput {
-    /// A unique account number that you have given to the customer.
+    /// An account number that you have given to the customer.
     public var accountNumber: Swift.String?
     /// Any additional information relevant to the customer’s profile.
     public var additionalInformation: Swift.String?
@@ -3991,6 +3991,10 @@ public struct GetProfileObjectTypeOutput {
     public var keys: [Swift.String: [CustomerProfilesClientTypes.ObjectTypeKey]]?
     /// The timestamp of when the domain was most recently edited.
     public var lastUpdatedAt: Foundation.Date?
+    /// The amount of provisioned profile object max count available.
+    public var maxAvailableProfileObjectCount: Swift.Int?
+    /// The amount of profile object max count assigned to the object type.
+    public var maxProfileObjectCount: Swift.Int?
     /// The name of the profile object type.
     /// This member is required.
     public var objectTypeName: Swift.String?
@@ -4010,6 +4014,8 @@ public struct GetProfileObjectTypeOutput {
         fields: [Swift.String: CustomerProfilesClientTypes.ObjectTypeField]? = nil,
         keys: [Swift.String: [CustomerProfilesClientTypes.ObjectTypeKey]]? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
+        maxAvailableProfileObjectCount: Swift.Int? = nil,
+        maxProfileObjectCount: Swift.Int? = nil,
         objectTypeName: Swift.String? = nil,
         sourceLastUpdatedTimestampFormat: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
@@ -4024,6 +4030,8 @@ public struct GetProfileObjectTypeOutput {
         self.fields = fields
         self.keys = keys
         self.lastUpdatedAt = lastUpdatedAt
+        self.maxAvailableProfileObjectCount = maxAvailableProfileObjectCount
+        self.maxProfileObjectCount = maxProfileObjectCount
         self.objectTypeName = objectTypeName
         self.sourceLastUpdatedTimestampFormat = sourceLastUpdatedTimestampFormat
         self.tags = tags
@@ -4033,7 +4041,7 @@ public struct GetProfileObjectTypeOutput {
 
 extension GetProfileObjectTypeOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetProfileObjectTypeOutput(allowProfileCreation: \(Swift.String(describing: allowProfileCreation)), createdAt: \(Swift.String(describing: createdAt)), encryptionKey: \(Swift.String(describing: encryptionKey)), expirationDays: \(Swift.String(describing: expirationDays)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), objectTypeName: \(Swift.String(describing: objectTypeName)), sourceLastUpdatedTimestampFormat: \(Swift.String(describing: sourceLastUpdatedTimestampFormat)), tags: \(Swift.String(describing: tags)), templateId: \(Swift.String(describing: templateId)), description: \"CONTENT_REDACTED\", fields: \"CONTENT_REDACTED\", keys: \"CONTENT_REDACTED\")"}
+        "GetProfileObjectTypeOutput(allowProfileCreation: \(Swift.String(describing: allowProfileCreation)), createdAt: \(Swift.String(describing: createdAt)), encryptionKey: \(Swift.String(describing: encryptionKey)), expirationDays: \(Swift.String(describing: expirationDays)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), maxAvailableProfileObjectCount: \(Swift.String(describing: maxAvailableProfileObjectCount)), maxProfileObjectCount: \(Swift.String(describing: maxProfileObjectCount)), objectTypeName: \(Swift.String(describing: objectTypeName)), sourceLastUpdatedTimestampFormat: \(Swift.String(describing: sourceLastUpdatedTimestampFormat)), tags: \(Swift.String(describing: tags)), templateId: \(Swift.String(describing: templateId)), description: \"CONTENT_REDACTED\", fields: \"CONTENT_REDACTED\", keys: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetProfileObjectTypeTemplateInput {
@@ -4959,6 +4967,10 @@ extension CustomerProfilesClientTypes {
         public var description: Swift.String?
         /// The timestamp of when the domain was most recently edited.
         public var lastUpdatedAt: Foundation.Date?
+        /// The amount of provisioned profile object max count available.
+        public var maxAvailableProfileObjectCount: Swift.Int?
+        /// The amount of profile object max count assigned to the object type.
+        public var maxProfileObjectCount: Swift.Int?
         /// The name of the profile object type.
         /// This member is required.
         public var objectTypeName: Swift.String?
@@ -4969,6 +4981,8 @@ extension CustomerProfilesClientTypes {
             createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
             lastUpdatedAt: Foundation.Date? = nil,
+            maxAvailableProfileObjectCount: Swift.Int? = nil,
+            maxProfileObjectCount: Swift.Int? = nil,
             objectTypeName: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
         )
@@ -4976,6 +4990,8 @@ extension CustomerProfilesClientTypes {
             self.createdAt = createdAt
             self.description = description
             self.lastUpdatedAt = lastUpdatedAt
+            self.maxAvailableProfileObjectCount = maxAvailableProfileObjectCount
+            self.maxProfileObjectCount = maxProfileObjectCount
             self.objectTypeName = objectTypeName
             self.tags = tags
         }
@@ -5495,6 +5511,8 @@ public struct PutProfileObjectTypeInput {
     public var fields: [Swift.String: CustomerProfilesClientTypes.ObjectTypeField]?
     /// A list of unique keys that can be used to map data to the profile.
     public var keys: [Swift.String: [CustomerProfilesClientTypes.ObjectTypeKey]]?
+    /// The amount of profile object max count assigned to the object type
+    public var maxProfileObjectCount: Swift.Int?
     /// The name of the profile object type.
     /// This member is required.
     public var objectTypeName: Swift.String?
@@ -5513,6 +5531,7 @@ public struct PutProfileObjectTypeInput {
         expirationDays: Swift.Int? = nil,
         fields: [Swift.String: CustomerProfilesClientTypes.ObjectTypeField]? = nil,
         keys: [Swift.String: [CustomerProfilesClientTypes.ObjectTypeKey]]? = nil,
+        maxProfileObjectCount: Swift.Int? = nil,
         objectTypeName: Swift.String? = nil,
         sourceLastUpdatedTimestampFormat: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
@@ -5526,6 +5545,7 @@ public struct PutProfileObjectTypeInput {
         self.expirationDays = expirationDays
         self.fields = fields
         self.keys = keys
+        self.maxProfileObjectCount = maxProfileObjectCount
         self.objectTypeName = objectTypeName
         self.sourceLastUpdatedTimestampFormat = sourceLastUpdatedTimestampFormat
         self.tags = tags
@@ -5535,7 +5555,7 @@ public struct PutProfileObjectTypeInput {
 
 extension PutProfileObjectTypeInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "PutProfileObjectTypeInput(allowProfileCreation: \(Swift.String(describing: allowProfileCreation)), domainName: \(Swift.String(describing: domainName)), encryptionKey: \(Swift.String(describing: encryptionKey)), expirationDays: \(Swift.String(describing: expirationDays)), objectTypeName: \(Swift.String(describing: objectTypeName)), sourceLastUpdatedTimestampFormat: \(Swift.String(describing: sourceLastUpdatedTimestampFormat)), tags: \(Swift.String(describing: tags)), templateId: \(Swift.String(describing: templateId)), description: \"CONTENT_REDACTED\", fields: \"CONTENT_REDACTED\", keys: \"CONTENT_REDACTED\")"}
+        "PutProfileObjectTypeInput(allowProfileCreation: \(Swift.String(describing: allowProfileCreation)), domainName: \(Swift.String(describing: domainName)), encryptionKey: \(Swift.String(describing: encryptionKey)), expirationDays: \(Swift.String(describing: expirationDays)), maxProfileObjectCount: \(Swift.String(describing: maxProfileObjectCount)), objectTypeName: \(Swift.String(describing: objectTypeName)), sourceLastUpdatedTimestampFormat: \(Swift.String(describing: sourceLastUpdatedTimestampFormat)), tags: \(Swift.String(describing: tags)), templateId: \(Swift.String(describing: templateId)), description: \"CONTENT_REDACTED\", fields: \"CONTENT_REDACTED\", keys: \"CONTENT_REDACTED\")"}
 }
 
 public struct PutProfileObjectTypeOutput {
@@ -5556,6 +5576,10 @@ public struct PutProfileObjectTypeOutput {
     public var keys: [Swift.String: [CustomerProfilesClientTypes.ObjectTypeKey]]?
     /// The timestamp of when the domain was most recently edited.
     public var lastUpdatedAt: Foundation.Date?
+    /// The amount of provisioned profile object max count available.
+    public var maxAvailableProfileObjectCount: Swift.Int?
+    /// The amount of profile object max count assigned to the object type.
+    public var maxProfileObjectCount: Swift.Int?
     /// The name of the profile object type.
     /// This member is required.
     public var objectTypeName: Swift.String?
@@ -5575,6 +5599,8 @@ public struct PutProfileObjectTypeOutput {
         fields: [Swift.String: CustomerProfilesClientTypes.ObjectTypeField]? = nil,
         keys: [Swift.String: [CustomerProfilesClientTypes.ObjectTypeKey]]? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
+        maxAvailableProfileObjectCount: Swift.Int? = nil,
+        maxProfileObjectCount: Swift.Int? = nil,
         objectTypeName: Swift.String? = nil,
         sourceLastUpdatedTimestampFormat: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
@@ -5589,6 +5615,8 @@ public struct PutProfileObjectTypeOutput {
         self.fields = fields
         self.keys = keys
         self.lastUpdatedAt = lastUpdatedAt
+        self.maxAvailableProfileObjectCount = maxAvailableProfileObjectCount
+        self.maxProfileObjectCount = maxProfileObjectCount
         self.objectTypeName = objectTypeName
         self.sourceLastUpdatedTimestampFormat = sourceLastUpdatedTimestampFormat
         self.tags = tags
@@ -5598,7 +5626,7 @@ public struct PutProfileObjectTypeOutput {
 
 extension PutProfileObjectTypeOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "PutProfileObjectTypeOutput(allowProfileCreation: \(Swift.String(describing: allowProfileCreation)), createdAt: \(Swift.String(describing: createdAt)), encryptionKey: \(Swift.String(describing: encryptionKey)), expirationDays: \(Swift.String(describing: expirationDays)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), objectTypeName: \(Swift.String(describing: objectTypeName)), sourceLastUpdatedTimestampFormat: \(Swift.String(describing: sourceLastUpdatedTimestampFormat)), tags: \(Swift.String(describing: tags)), templateId: \(Swift.String(describing: templateId)), description: \"CONTENT_REDACTED\", fields: \"CONTENT_REDACTED\", keys: \"CONTENT_REDACTED\")"}
+        "PutProfileObjectTypeOutput(allowProfileCreation: \(Swift.String(describing: allowProfileCreation)), createdAt: \(Swift.String(describing: createdAt)), encryptionKey: \(Swift.String(describing: encryptionKey)), expirationDays: \(Swift.String(describing: expirationDays)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), maxAvailableProfileObjectCount: \(Swift.String(describing: maxAvailableProfileObjectCount)), maxProfileObjectCount: \(Swift.String(describing: maxProfileObjectCount)), objectTypeName: \(Swift.String(describing: objectTypeName)), sourceLastUpdatedTimestampFormat: \(Swift.String(describing: sourceLastUpdatedTimestampFormat)), tags: \(Swift.String(describing: tags)), templateId: \(Swift.String(describing: templateId)), description: \"CONTENT_REDACTED\", fields: \"CONTENT_REDACTED\", keys: \"CONTENT_REDACTED\")"}
 }
 
 extension CustomerProfilesClientTypes {
@@ -5699,7 +5727,7 @@ extension CustomerProfilesClientTypes {
 extension CustomerProfilesClientTypes {
     /// The standard profile of a customer.
     public struct Profile {
-        /// A unique account number that you have given to the customer.
+        /// An account number that you have given to the customer.
         public var accountNumber: Swift.String?
         /// Any additional information relevant to the customer’s profile.
         public var additionalInformation: Swift.String?
@@ -6111,7 +6139,7 @@ extension CustomerProfilesClientTypes.UpdateAddress: Swift.CustomDebugStringConv
 }
 
 public struct UpdateProfileInput {
-    /// A unique account number that you have given to the customer.
+    /// An account number that you have given to the customer.
     public var accountNumber: Swift.String?
     /// Any additional information relevant to the customer’s profile.
     public var additionalInformation: Swift.String?
@@ -7311,6 +7339,7 @@ extension PutProfileObjectTypeInput {
         try writer["ExpirationDays"].write(value.expirationDays)
         try writer["Fields"].writeMap(value.fields, valueWritingClosure: CustomerProfilesClientTypes.ObjectTypeField.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["Keys"].writeMap(value.keys, valueWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: CustomerProfilesClientTypes.ObjectTypeKey.write(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["MaxProfileObjectCount"].write(value.maxProfileObjectCount)
         try writer["SourceLastUpdatedTimestampFormat"].write(value.sourceLastUpdatedTimestampFormat)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["TemplateId"].write(value.templateId)
@@ -7747,6 +7776,8 @@ extension GetProfileObjectTypeOutput {
         value.fields = try reader["Fields"].readMapIfPresent(valueReadingClosure: CustomerProfilesClientTypes.ObjectTypeField.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.keys = try reader["Keys"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: CustomerProfilesClientTypes.ObjectTypeKey.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: .epochSeconds)
+        value.maxAvailableProfileObjectCount = try reader["MaxAvailableProfileObjectCount"].readIfPresent()
+        value.maxProfileObjectCount = try reader["MaxProfileObjectCount"].readIfPresent()
         value.objectTypeName = try reader["ObjectTypeName"].readIfPresent()
         value.sourceLastUpdatedTimestampFormat = try reader["SourceLastUpdatedTimestampFormat"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -8051,6 +8082,8 @@ extension PutProfileObjectTypeOutput {
         value.fields = try reader["Fields"].readMapIfPresent(valueReadingClosure: CustomerProfilesClientTypes.ObjectTypeField.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.keys = try reader["Keys"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: CustomerProfilesClientTypes.ObjectTypeKey.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: .epochSeconds)
+        value.maxAvailableProfileObjectCount = try reader["MaxAvailableProfileObjectCount"].readIfPresent()
+        value.maxProfileObjectCount = try reader["MaxProfileObjectCount"].readIfPresent()
         value.objectTypeName = try reader["ObjectTypeName"].readIfPresent()
         value.sourceLastUpdatedTimestampFormat = try reader["SourceLastUpdatedTimestampFormat"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -9700,6 +9733,8 @@ extension CustomerProfilesClientTypes.ListProfileObjectTypeItem {
         value.description = try reader["Description"].readIfPresent()
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: .epochSeconds)
         value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: .epochSeconds)
+        value.maxProfileObjectCount = try reader["MaxProfileObjectCount"].readIfPresent()
+        value.maxAvailableProfileObjectCount = try reader["MaxAvailableProfileObjectCount"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }

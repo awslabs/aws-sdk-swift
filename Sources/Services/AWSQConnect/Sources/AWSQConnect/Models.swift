@@ -48,6 +48,22 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 extension QConnectClientTypes {
+    /// Content association data for a [step-by-step guide](https://docs.aws.amazon.com/connect/latest/adminguide/step-by-step-guided-experiences.html).
+    public struct AmazonConnectGuideAssociationData {
+        /// The Amazon Resource Name (ARN) of an Amazon Connect flow. Step-by-step guides are a type of flow.
+        public var flowId: Swift.String?
+
+        public init(
+            flowId: Swift.String? = nil
+        )
+        {
+            self.flowId = flowId
+        }
+    }
+
+}
+
+extension QConnectClientTypes {
     /// A leaf node condition which can be used to specify a tag condition.
     public struct TagCondition {
         /// The tag key in the tag condition.
@@ -2135,6 +2151,332 @@ extension QConnectClientTypes {
 
 }
 
+/// The throttling limit has been exceeded.
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ThrottlingException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { true }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+extension QConnectClientTypes {
+    /// The contents of a content association.
+    public enum ContentAssociationContents {
+        /// The data of the step-by-step guide association.
+        case amazonconnectguideassociation(QConnectClientTypes.AmazonConnectGuideAssociationData)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension QConnectClientTypes {
+
+    public enum ContentAssociationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case amazonConnectGuide
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContentAssociationType] {
+            return [
+                .amazonConnectGuide
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .amazonConnectGuide: return "AMAZON_CONNECT_GUIDE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateContentAssociationInput {
+    /// The identifier of the associated resource.
+    /// This member is required.
+    public var association: QConnectClientTypes.ContentAssociationContents?
+    /// The type of association.
+    /// This member is required.
+    public var associationType: QConnectClientTypes.ContentAssociationType?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
+    /// The identifier of the content.
+    /// This member is required.
+    public var contentId: Swift.String?
+    /// The identifier of the knowledge base.
+    /// This member is required.
+    public var knowledgeBaseId: Swift.String?
+    /// The tags used to organize, track, or control access for this resource.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        association: QConnectClientTypes.ContentAssociationContents? = nil,
+        associationType: QConnectClientTypes.ContentAssociationType? = nil,
+        clientToken: Swift.String? = nil,
+        contentId: Swift.String? = nil,
+        knowledgeBaseId: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    )
+    {
+        self.association = association
+        self.associationType = associationType
+        self.clientToken = clientToken
+        self.contentId = contentId
+        self.knowledgeBaseId = knowledgeBaseId
+        self.tags = tags
+    }
+}
+
+extension QConnectClientTypes {
+    /// Information about the content association.
+    public struct ContentAssociationData {
+        /// The content association.
+        /// This member is required.
+        public var associationData: QConnectClientTypes.ContentAssociationContents?
+        /// The type of association.
+        /// This member is required.
+        public var associationType: QConnectClientTypes.ContentAssociationType?
+        /// The Amazon Resource Name (ARN) of the content.
+        /// This member is required.
+        public var contentArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the content association.
+        /// This member is required.
+        public var contentAssociationArn: Swift.String?
+        /// The identifier of the content association. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        /// This member is required.
+        public var contentAssociationId: Swift.String?
+        /// The identifier of the content.
+        /// This member is required.
+        public var contentId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the knowledge base.
+        /// This member is required.
+        public var knowledgeBaseArn: Swift.String?
+        /// The identifier of the knowledge base.
+        /// This member is required.
+        public var knowledgeBaseId: Swift.String?
+        /// The tags used to organize, track, or control access for this resource.
+        public var tags: [Swift.String: Swift.String]?
+
+        public init(
+            associationData: QConnectClientTypes.ContentAssociationContents? = nil,
+            associationType: QConnectClientTypes.ContentAssociationType? = nil,
+            contentArn: Swift.String? = nil,
+            contentAssociationArn: Swift.String? = nil,
+            contentAssociationId: Swift.String? = nil,
+            contentId: Swift.String? = nil,
+            knowledgeBaseArn: Swift.String? = nil,
+            knowledgeBaseId: Swift.String? = nil,
+            tags: [Swift.String: Swift.String]? = nil
+        )
+        {
+            self.associationData = associationData
+            self.associationType = associationType
+            self.contentArn = contentArn
+            self.contentAssociationArn = contentAssociationArn
+            self.contentAssociationId = contentAssociationId
+            self.contentId = contentId
+            self.knowledgeBaseArn = knowledgeBaseArn
+            self.knowledgeBaseId = knowledgeBaseId
+            self.tags = tags
+        }
+    }
+
+}
+
+public struct CreateContentAssociationOutput {
+    /// The association between Amazon Q in Connect content and another resource.
+    public var contentAssociation: QConnectClientTypes.ContentAssociationData?
+
+    public init(
+        contentAssociation: QConnectClientTypes.ContentAssociationData? = nil
+    )
+    {
+        self.contentAssociation = contentAssociation
+    }
+}
+
+public struct DeleteContentAssociationInput {
+    /// The identifier of the content association. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// This member is required.
+    public var contentAssociationId: Swift.String?
+    /// The identifier of the content.
+    /// This member is required.
+    public var contentId: Swift.String?
+    /// The identifier of the knowledge base.
+    /// This member is required.
+    public var knowledgeBaseId: Swift.String?
+
+    public init(
+        contentAssociationId: Swift.String? = nil,
+        contentId: Swift.String? = nil,
+        knowledgeBaseId: Swift.String? = nil
+    )
+    {
+        self.contentAssociationId = contentAssociationId
+        self.contentId = contentId
+        self.knowledgeBaseId = knowledgeBaseId
+    }
+}
+
+public struct DeleteContentAssociationOutput {
+
+    public init() { }
+}
+
+public struct GetContentAssociationInput {
+    /// The identifier of the content association. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// This member is required.
+    public var contentAssociationId: Swift.String?
+    /// The identifier of the content.
+    /// This member is required.
+    public var contentId: Swift.String?
+    /// The identifier of the knowledge base.
+    /// This member is required.
+    public var knowledgeBaseId: Swift.String?
+
+    public init(
+        contentAssociationId: Swift.String? = nil,
+        contentId: Swift.String? = nil,
+        knowledgeBaseId: Swift.String? = nil
+    )
+    {
+        self.contentAssociationId = contentAssociationId
+        self.contentId = contentId
+        self.knowledgeBaseId = knowledgeBaseId
+    }
+}
+
+public struct GetContentAssociationOutput {
+    /// The association between Amazon Q in Connect content and another resource.
+    public var contentAssociation: QConnectClientTypes.ContentAssociationData?
+
+    public init(
+        contentAssociation: QConnectClientTypes.ContentAssociationData? = nil
+    )
+    {
+        self.contentAssociation = contentAssociation
+    }
+}
+
+public struct ListContentAssociationsInput {
+    /// The identifier of the content.
+    /// This member is required.
+    public var contentId: Swift.String?
+    /// The identifier of the knowledge base.
+    /// This member is required.
+    public var knowledgeBaseId: Swift.String?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        contentId: Swift.String? = nil,
+        knowledgeBaseId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.contentId = contentId
+        self.knowledgeBaseId = knowledgeBaseId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension QConnectClientTypes {
+    /// Summary information about a content association.
+    public struct ContentAssociationSummary {
+        /// The content association.
+        /// This member is required.
+        public var associationData: QConnectClientTypes.ContentAssociationContents?
+        /// The type of association.
+        /// This member is required.
+        public var associationType: QConnectClientTypes.ContentAssociationType?
+        /// The Amazon Resource Name (ARN) of the content.
+        /// This member is required.
+        public var contentArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the content association.
+        /// This member is required.
+        public var contentAssociationArn: Swift.String?
+        /// The identifier of the content association. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        /// This member is required.
+        public var contentAssociationId: Swift.String?
+        /// The identifier of the content.
+        /// This member is required.
+        public var contentId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the knowledge base.
+        /// This member is required.
+        public var knowledgeBaseArn: Swift.String?
+        /// The identifier of the knowledge base.
+        /// This member is required.
+        public var knowledgeBaseId: Swift.String?
+        /// The tags used to organize, track, or control access for this resource.
+        public var tags: [Swift.String: Swift.String]?
+
+        public init(
+            associationData: QConnectClientTypes.ContentAssociationContents? = nil,
+            associationType: QConnectClientTypes.ContentAssociationType? = nil,
+            contentArn: Swift.String? = nil,
+            contentAssociationArn: Swift.String? = nil,
+            contentAssociationId: Swift.String? = nil,
+            contentId: Swift.String? = nil,
+            knowledgeBaseArn: Swift.String? = nil,
+            knowledgeBaseId: Swift.String? = nil,
+            tags: [Swift.String: Swift.String]? = nil
+        )
+        {
+            self.associationData = associationData
+            self.associationType = associationType
+            self.contentArn = contentArn
+            self.contentAssociationArn = contentAssociationArn
+            self.contentAssociationId = contentAssociationId
+            self.contentId = contentId
+            self.knowledgeBaseArn = knowledgeBaseArn
+            self.knowledgeBaseId = knowledgeBaseId
+            self.tags = tags
+        }
+    }
+
+}
+
+public struct ListContentAssociationsOutput {
+    /// Summary information about content associations.
+    /// This member is required.
+    public var contentAssociationSummaries: [QConnectClientTypes.ContentAssociationSummary]?
+    /// If there are additional results, this is the token for the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        contentAssociationSummaries: [QConnectClientTypes.ContentAssociationSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.contentAssociationSummaries = contentAssociationSummaries
+        self.nextToken = nextToken
+    }
+}
+
 public struct CreateContentInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
@@ -3300,7 +3642,7 @@ extension QConnectClientTypes {
         public var createdTime: Foundation.Date?
         /// The configuration information of the external data source.
         public var externalSourceConfiguration: QConnectClientTypes.ExternalSourceConfiguration?
-        /// The link to donwload the information of resource data that failed to be imported.
+        /// The link to download the information of resource data that failed to be imported.
         public var failedRecordReport: Swift.String?
         /// The identifier of the import job.
         /// This member is required.
@@ -4771,6 +5113,19 @@ extension CreateContentInput {
     }
 }
 
+extension CreateContentAssociationInput {
+
+    static func urlPathProvider(_ value: CreateContentAssociationInput) -> Swift.String? {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
+            return nil
+        }
+        guard let contentId = value.contentId else {
+            return nil
+        }
+        return "/knowledgeBases/\(knowledgeBaseId.urlPercentEncoding())/contents/\(contentId.urlPercentEncoding())/associations"
+    }
+}
+
 extension CreateKnowledgeBaseInput {
 
     static func urlPathProvider(_ value: CreateKnowledgeBaseInput) -> Swift.String? {
@@ -4831,6 +5186,22 @@ extension DeleteContentInput {
             return nil
         }
         return "/knowledgeBases/\(knowledgeBaseId.urlPercentEncoding())/contents/\(contentId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteContentAssociationInput {
+
+    static func urlPathProvider(_ value: DeleteContentAssociationInput) -> Swift.String? {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
+            return nil
+        }
+        guard let contentId = value.contentId else {
+            return nil
+        }
+        guard let contentAssociationId = value.contentAssociationId else {
+            return nil
+        }
+        return "/knowledgeBases/\(knowledgeBaseId.urlPercentEncoding())/contents/\(contentId.urlPercentEncoding())/associations/\(contentAssociationId.urlPercentEncoding())"
     }
 }
 
@@ -4903,6 +5274,22 @@ extension GetContentInput {
             return nil
         }
         return "/knowledgeBases/\(knowledgeBaseId.urlPercentEncoding())/contents/\(contentId.urlPercentEncoding())"
+    }
+}
+
+extension GetContentAssociationInput {
+
+    static func urlPathProvider(_ value: GetContentAssociationInput) -> Swift.String? {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
+            return nil
+        }
+        guard let contentId = value.contentId else {
+            return nil
+        }
+        guard let contentAssociationId = value.contentAssociationId else {
+            return nil
+        }
+        return "/knowledgeBases/\(knowledgeBaseId.urlPercentEncoding())/contents/\(contentId.urlPercentEncoding())/associations/\(contentAssociationId.urlPercentEncoding())"
     }
 }
 
@@ -5033,6 +5420,35 @@ extension ListAssistantsInput {
 extension ListAssistantsInput {
 
     static func queryItemProvider(_ value: ListAssistantsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListContentAssociationsInput {
+
+    static func urlPathProvider(_ value: ListContentAssociationsInput) -> Swift.String? {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
+            return nil
+        }
+        guard let contentId = value.contentId else {
+            return nil
+        }
+        return "/knowledgeBases/\(knowledgeBaseId.urlPercentEncoding())/contents/\(contentId.urlPercentEncoding())/associations"
+    }
+}
+
+extension ListContentAssociationsInput {
+
+    static func queryItemProvider(_ value: ListContentAssociationsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
@@ -5421,6 +5837,17 @@ extension CreateContentInput {
     }
 }
 
+extension CreateContentAssociationInput {
+
+    static func write(value: CreateContentAssociationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["association"].write(value.association, with: QConnectClientTypes.ContentAssociationContents.write(value:to:))
+        try writer["associationType"].write(value.associationType)
+        try writer["clientToken"].write(value.clientToken)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
 extension CreateKnowledgeBaseInput {
 
     static func write(value: CreateKnowledgeBaseInput?, to writer: SmithyJSON.Writer) throws {
@@ -5635,6 +6062,18 @@ extension CreateContentOutput {
     }
 }
 
+extension CreateContentAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateContentAssociationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateContentAssociationOutput()
+        value.contentAssociation = try reader["contentAssociation"].readIfPresent(with: QConnectClientTypes.ContentAssociationData.read(from:))
+        return value
+    }
+}
+
 extension CreateKnowledgeBaseOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateKnowledgeBaseOutput {
@@ -5692,6 +6131,13 @@ extension DeleteContentOutput {
     }
 }
 
+extension DeleteContentAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteContentAssociationOutput {
+        return DeleteContentAssociationOutput()
+    }
+}
+
 extension DeleteImportJobOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteImportJobOutput {
@@ -5745,6 +6191,18 @@ extension GetContentOutput {
         let reader = responseReader
         var value = GetContentOutput()
         value.content = try reader["content"].readIfPresent(with: QConnectClientTypes.ContentData.read(from:))
+        return value
+    }
+}
+
+extension GetContentAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetContentAssociationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetContentAssociationOutput()
+        value.contentAssociation = try reader["contentAssociation"].readIfPresent(with: QConnectClientTypes.ContentAssociationData.read(from:))
         return value
     }
 }
@@ -5843,6 +6301,19 @@ extension ListAssistantsOutput {
         let reader = responseReader
         var value = ListAssistantsOutput()
         value.assistantSummaries = try reader["assistantSummaries"].readListIfPresent(memberReadingClosure: QConnectClientTypes.AssistantSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListContentAssociationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListContentAssociationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListContentAssociationsOutput()
+        value.contentAssociationSummaries = try reader["contentAssociationSummaries"].readListIfPresent(memberReadingClosure: QConnectClientTypes.ContentAssociationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -6142,6 +6613,25 @@ enum CreateContentOutputError {
     }
 }
 
+enum CreateContentAssociationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateKnowledgeBaseOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
@@ -6242,6 +6732,22 @@ enum DeleteContentOutputError {
     }
 }
 
+enum DeleteContentAssociationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteImportJobOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
@@ -6325,6 +6831,22 @@ enum GetAssistantAssociationOutputError {
 }
 
 enum GetContentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetContentAssociationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -6461,6 +6983,22 @@ enum ListAssistantsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListContentAssociationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -6853,6 +7391,19 @@ extension ResourceNotFoundException {
     }
 }
 
+extension ThrottlingException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+        let reader = baseError.errorBodyReader
+        var value = ThrottlingException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension RequestTimeoutException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> RequestTimeoutException {
@@ -7007,6 +7558,63 @@ extension QConnectClientTypes.ContentData {
         value.linkOutUri = try reader["linkOutUri"].readIfPresent()
         value.url = try reader["url"].readIfPresent()
         value.urlExpiry = try reader["urlExpiry"].readTimestampIfPresent(format: .epochSeconds)
+        return value
+    }
+}
+
+extension QConnectClientTypes.ContentAssociationData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ContentAssociationData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.ContentAssociationData()
+        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent()
+        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent()
+        value.contentId = try reader["contentId"].readIfPresent()
+        value.contentArn = try reader["contentArn"].readIfPresent()
+        value.contentAssociationId = try reader["contentAssociationId"].readIfPresent()
+        value.contentAssociationArn = try reader["contentAssociationArn"].readIfPresent()
+        value.associationType = try reader["associationType"].readIfPresent()
+        value.associationData = try reader["associationData"].readIfPresent(with: QConnectClientTypes.ContentAssociationContents.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension QConnectClientTypes.ContentAssociationContents {
+
+    static func write(value: QConnectClientTypes.ContentAssociationContents?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .amazonconnectguideassociation(amazonconnectguideassociation):
+                try writer["amazonConnectGuideAssociation"].write(amazonconnectguideassociation, with: QConnectClientTypes.AmazonConnectGuideAssociationData.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ContentAssociationContents {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "amazonConnectGuideAssociation":
+                return .amazonconnectguideassociation(try reader["amazonConnectGuideAssociation"].read(with: QConnectClientTypes.AmazonConnectGuideAssociationData.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension QConnectClientTypes.AmazonConnectGuideAssociationData {
+
+    static func write(value: QConnectClientTypes.AmazonConnectGuideAssociationData?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["flowId"].write(value.flowId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AmazonConnectGuideAssociationData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.AmazonConnectGuideAssociationData()
+        value.flowId = try reader["flowId"].readIfPresent()
         return value
     }
 }
@@ -7602,6 +8210,24 @@ extension QConnectClientTypes.AssistantSummary {
         value.serverSideEncryptionConfiguration = try reader["serverSideEncryptionConfiguration"].readIfPresent(with: QConnectClientTypes.ServerSideEncryptionConfiguration.read(from:))
         value.integrationConfiguration = try reader["integrationConfiguration"].readIfPresent(with: QConnectClientTypes.AssistantIntegrationConfiguration.read(from:))
         value.capabilityConfiguration = try reader["capabilityConfiguration"].readIfPresent(with: QConnectClientTypes.AssistantCapabilityConfiguration.read(from:))
+        return value
+    }
+}
+
+extension QConnectClientTypes.ContentAssociationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ContentAssociationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.ContentAssociationSummary()
+        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent()
+        value.knowledgeBaseArn = try reader["knowledgeBaseArn"].readIfPresent()
+        value.contentId = try reader["contentId"].readIfPresent()
+        value.contentArn = try reader["contentArn"].readIfPresent()
+        value.contentAssociationId = try reader["contentAssociationId"].readIfPresent()
+        value.contentAssociationArn = try reader["contentAssociationArn"].readIfPresent()
+        value.associationType = try reader["associationType"].readIfPresent()
+        value.associationData = try reader["associationData"].readIfPresent(with: QConnectClientTypes.ContentAssociationContents.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
