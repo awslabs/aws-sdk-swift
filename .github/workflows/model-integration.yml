@@ -43,8 +43,8 @@ jobs:
         with:
           distribution: corretto
           java-version: 17
-      - name: Install OpenSSL
-        run: apt-get -q update && apt-get -q install -y libssl-dev
+      - name: Install OpenSSL & jq
+        run: apt-get -q update && apt-get -q install -y libssl-dev jq
       - name: Tools Versions
         run: ./scripts/ci_steps/log_tool_versions.sh
       - name: Update models from aws/aws-models repo
