@@ -2,6 +2,7 @@ package software.amazon.smithy.aws.swift.codegen.plugins
 
 import software.amazon.smithy.aws.swift.codegen.AWSAuthUtils
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTypes
+import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKIdentityTypes
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.swift.codegen.AuthSchemeResolverGenerator
 import software.amazon.smithy.swift.codegen.SwiftWriter
@@ -30,6 +31,7 @@ class DefaultAWSAuthSchemePlugin(private val serviceConfig: ServiceConfig) : Plu
                     writer.write("config.authSchemeResolver = \$L", "Default${AuthSchemeResolverGenerator.getSdkId(ctx)}AuthSchemeResolver()")
                     writer.write("config.authSchemes = \$L", AWSAuthUtils(ctx).getModeledAuthSchemesSupportedBySDK(ctx, writer))
                     writer.write("config.awsCredentialIdentityResolver = try \$N.awsCredentialIdentityResolver()", AWSClientRuntimeTypes.Core.AWSClientConfigDefaultsProvider)
+                    writer.write("config.bearerTokenIdentityResolver = try \$N", AWSSDKIdentityTypes.DefaultBearerTokenIdentityResolverChain)
                 }
             }
         }
