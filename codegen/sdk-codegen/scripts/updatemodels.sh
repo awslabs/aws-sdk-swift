@@ -38,10 +38,9 @@ JSON_MODEL_FILES=`find ${TEMPDIR}/aws-models |grep -e "smithy\/model\.json$"`
 rm -rf $OUTPUT_DIR/*
 
 for model in ${JSON_MODEL_FILES}; do
-    SDKID=`cat ${model} |grep \"sdkId\": | sed 's/.*: \(.*\)/\1/g' | tr -d "\"" | tr -d "," | tr '[:upper:]' '[:lower:]' | tr " " "-"`
-    FILENAME="${SDKID}.json"
-
-    cp -v $model ${OUTPUT_DIR}/${FILENAME}
+  SDK_ID=`jq -r '.shapes[] | select (.type == "service") | .traits."aws.api#service".sdkId' $model`
+  FILENAME=`echo "$SDK_ID" | tr -d "," | tr '[:upper:]' '[:lower:]' | tr " " "-"`
+  cp -v "$model" "${OUTPUT_DIR}/${FILENAME}.json"
 done
 
 cleanup
