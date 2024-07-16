@@ -286,7 +286,7 @@ extension DirectConnectClientTypes {
 }
 
 public struct AcceptDirectConnectGatewayAssociationProposalOutput {
-    /// Information about an association between a Direct Connect gateway and a virtual private gateway or transit gateway.
+    /// Information about an association between a Direct Connect gateway and a virtual gateway or transit gateway.
     public var directConnectGatewayAssociation: DirectConnectClientTypes.DirectConnectGatewayAssociation?
 
     public init(
@@ -683,7 +683,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
 }
 
 public struct AllocateHostedConnectionInput {
-    /// The bandwidth of the connection. The possible values are 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, 500Mbps, 1Gbps, 2Gbps, 5Gbps, and 10Gbps. Note that only those Direct Connect Partners who have met specific requirements are allowed to create a 1Gbps, 2Gbps, 5Gbps or 10Gbps hosted connection.
+    /// The bandwidth of the connection. The possible values are 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, 500Mbps, 1Gbps, 2Gbps, 5Gbps, 10Gbps, and 25Gbps. Note that only those Direct Connect Partners who have met specific requirements are allowed to create a 1Gbps, 2Gbps, 5Gbps, 10Gbps, or 25Gbps hosted connection.
     /// This member is required.
     public var bandwidth: Swift.String?
     /// The ID of the interconnect or LAG.
@@ -849,7 +849,7 @@ extension DirectConnectClientTypes {
         public var authKey: Swift.String?
         /// The IP address assigned to the customer interface.
         public var customerAddress: Swift.String?
-        /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500.
+        /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500.
         public var mtu: Swift.Int?
         /// The tags associated with the private virtual interface.
         public var tags: [DirectConnectClientTypes.Tag]?
@@ -1165,7 +1165,7 @@ public struct AllocatePrivateVirtualInterfaceOutput {
     ///
     /// * unknown: The state of the virtual interface is not available.
     public var virtualInterfaceState: DirectConnectClientTypes.VirtualInterfaceState?
-    /// The type of virtual interface. The possible values are private and public.
+    /// The type of virtual interface. The possible values are private, public and transit.
     public var virtualInterfaceType: Swift.String?
     /// The ID of the VLAN.
     public var vlan: Swift.Int
@@ -1370,7 +1370,7 @@ public struct AllocatePublicVirtualInterfaceOutput {
     ///
     /// * unknown: The state of the virtual interface is not available.
     public var virtualInterfaceState: DirectConnectClientTypes.VirtualInterfaceState?
-    /// The type of virtual interface. The possible values are private and public.
+    /// The type of virtual interface. The possible values are private, public and transit.
     public var virtualInterfaceType: Swift.String?
     /// The ID of the VLAN.
     public var vlan: Swift.Int
@@ -1573,7 +1573,7 @@ extension DirectConnectClientTypes {
         ///
         /// * unknown: The state of the virtual interface is not available.
         public var virtualInterfaceState: DirectConnectClientTypes.VirtualInterfaceState?
-        /// The type of virtual interface. The possible values are private and public.
+        /// The type of virtual interface. The possible values are private, public and transit.
         public var virtualInterfaceType: Swift.String?
         /// The ID of the VLAN.
         public var vlan: Swift.Int
@@ -1639,7 +1639,7 @@ extension DirectConnectClientTypes {
 }
 
 public struct AllocateTransitVirtualInterfaceOutput {
-    /// Information about a virtual interface.
+    /// Information about the transit virtual interface.
     public var virtualInterface: DirectConnectClientTypes.VirtualInterface?
 
     public init(
@@ -2045,7 +2045,7 @@ public struct AssociateVirtualInterfaceOutput {
     ///
     /// * unknown: The state of the virtual interface is not available.
     public var virtualInterfaceState: DirectConnectClientTypes.VirtualInterfaceState?
-    /// The type of virtual interface. The possible values are private and public.
+    /// The type of virtual interface. The possible values are private, public and transit.
     public var virtualInterfaceType: Swift.String?
     /// The ID of the VLAN.
     public var vlan: Swift.Int
@@ -2918,7 +2918,7 @@ public struct CreateDirectConnectGatewayAssociationProposalOutput {
 }
 
 public struct CreateInterconnectInput {
-    /// The port bandwidth, in Gbps. The possible values are 1 and 10.
+    /// The port bandwidth, in Gbps. The possible values are 1, 10, and 100.
     /// This member is required.
     public var bandwidth: Swift.String?
     /// The name of the interconnect.
@@ -3085,7 +3085,7 @@ public struct CreateLagInput {
     public var childConnectionTags: [DirectConnectClientTypes.Tag]?
     /// The ID of an existing dedicated connection to migrate to the LAG.
     public var connectionId: Swift.String?
-    /// The bandwidth of the individual physical dedicated connections bundled by the LAG. The possible values are 1Gbps and 10Gbps.
+    /// The bandwidth of the individual physical dedicated connections bundled by the LAG. The possible values are 1Gbps,10Gbps, 100Gbps, and 400Gbps.
     /// This member is required.
     public var connectionsBandwidth: Swift.String?
     /// The name of the LAG.
@@ -3094,7 +3094,7 @@ public struct CreateLagInput {
     /// The location for the LAG.
     /// This member is required.
     public var location: Swift.String?
-    /// The number of physical dedicated connections initially provisioned and bundled by the LAG. You can have a maximum of four connections when the port speed is 1G or 10G, or two when the port speed is 100G.
+    /// The number of physical dedicated connections initially provisioned and bundled by the LAG. You can have a maximum of four connections when the port speed is 1Gbps or 10Gbps, or two when the port speed is 100Gbps or 400Gbps.
     /// This member is required.
     public var numberOfConnections: Swift.Int?
     /// The name of the service provider associated with the LAG.
@@ -3185,7 +3185,7 @@ public struct CreateLagOutput {
     public var awsLogicalDeviceId: Swift.String?
     /// The connections bundled by the LAG.
     public var connections: [DirectConnectClientTypes.Connection]?
-    /// The individual bandwidth of the physical connections bundled by the LAG. The possible values are 1Gbps and 10Gbps.
+    /// The individual bandwidth of the physical connections bundled by the LAG. The possible values are 1Gbps, 10Gbps, 100Gbps, or 400 Gbps..
     public var connectionsBandwidth: Swift.String?
     /// The LAG MAC Security (MACsec) encryption mode. The valid values are no_encrypt, should_encrypt, and must_encrypt.
     public var encryptionMode: Swift.String?
@@ -3221,7 +3221,7 @@ public struct CreateLagOutput {
     public var macSecKeys: [DirectConnectClientTypes.MacSecKey]?
     /// The minimum number of physical dedicated connections that must be operational for the LAG itself to be operational.
     public var minimumLinks: Swift.Int
-    /// The number of physical dedicated connections bundled by the LAG, up to a maximum of 10.
+    /// The number of physical dedicated connections initially provisioned and bundled by the LAG. You can have a maximum of four connections when the port speed is 1 Gbps or 10 Gbps, or two when the port speed is 100 Gbps or 400 Gbps.
     public var numberOfConnections: Swift.Int
     /// The ID of the Amazon Web Services account that owns the LAG.
     public var ownerAccount: Swift.String?
@@ -3298,7 +3298,7 @@ extension DirectConnectClientTypes {
         public var directConnectGatewayId: Swift.String?
         /// Indicates whether to enable or disable SiteLink.
         public var enableSiteLink: Swift.Bool?
-        /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500.
+        /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500.
         public var mtu: Swift.Int?
         /// The tags associated with the private virtual interface.
         public var tags: [DirectConnectClientTypes.Tag]?
@@ -3429,7 +3429,7 @@ public struct CreatePrivateVirtualInterfaceOutput {
     ///
     /// * unknown: The state of the virtual interface is not available.
     public var virtualInterfaceState: DirectConnectClientTypes.VirtualInterfaceState?
-    /// The type of virtual interface. The possible values are private and public.
+    /// The type of virtual interface. The possible values are private, public and transit.
     public var virtualInterfaceType: Swift.String?
     /// The ID of the VLAN.
     public var vlan: Swift.Int
@@ -3629,7 +3629,7 @@ public struct CreatePublicVirtualInterfaceOutput {
     ///
     /// * unknown: The state of the virtual interface is not available.
     public var virtualInterfaceState: DirectConnectClientTypes.VirtualInterfaceState?
-    /// The type of virtual interface. The possible values are private and public.
+    /// The type of virtual interface. The possible values are private, public and transit.
     public var virtualInterfaceType: Swift.String?
     /// The ID of the VLAN.
     public var vlan: Swift.Int
@@ -4090,7 +4090,7 @@ public struct DeleteLagOutput {
     public var awsLogicalDeviceId: Swift.String?
     /// The connections bundled by the LAG.
     public var connections: [DirectConnectClientTypes.Connection]?
-    /// The individual bandwidth of the physical connections bundled by the LAG. The possible values are 1Gbps and 10Gbps.
+    /// The individual bandwidth of the physical connections bundled by the LAG. The possible values are 1Gbps, 10Gbps, 100Gbps, or 400 Gbps..
     public var connectionsBandwidth: Swift.String?
     /// The LAG MAC Security (MACsec) encryption mode. The valid values are no_encrypt, should_encrypt, and must_encrypt.
     public var encryptionMode: Swift.String?
@@ -4126,7 +4126,7 @@ public struct DeleteLagOutput {
     public var macSecKeys: [DirectConnectClientTypes.MacSecKey]?
     /// The minimum number of physical dedicated connections that must be operational for the LAG itself to be operational.
     public var minimumLinks: Swift.Int
-    /// The number of physical dedicated connections bundled by the LAG, up to a maximum of 10.
+    /// The number of physical dedicated connections initially provisioned and bundled by the LAG. You can have a maximum of four connections when the port speed is 1 Gbps or 10 Gbps, or two when the port speed is 100 Gbps or 400 Gbps.
     public var numberOfConnections: Swift.Int
     /// The ID of the Amazon Web Services account that owns the LAG.
     public var ownerAccount: Swift.String?
@@ -4885,7 +4885,7 @@ extension DirectConnectClientTypes {
         public var awsLogicalDeviceId: Swift.String?
         /// The connections bundled by the LAG.
         public var connections: [DirectConnectClientTypes.Connection]?
-        /// The individual bandwidth of the physical connections bundled by the LAG. The possible values are 1Gbps and 10Gbps.
+        /// The individual bandwidth of the physical connections bundled by the LAG. The possible values are 1Gbps, 10Gbps, 100Gbps, or 400 Gbps..
         public var connectionsBandwidth: Swift.String?
         /// The LAG MAC Security (MACsec) encryption mode. The valid values are no_encrypt, should_encrypt, and must_encrypt.
         public var encryptionMode: Swift.String?
@@ -4921,7 +4921,7 @@ extension DirectConnectClientTypes {
         public var macSecKeys: [DirectConnectClientTypes.MacSecKey]?
         /// The minimum number of physical dedicated connections that must be operational for the LAG itself to be operational.
         public var minimumLinks: Swift.Int
-        /// The number of physical dedicated connections bundled by the LAG, up to a maximum of 10.
+        /// The number of physical dedicated connections initially provisioned and bundled by the LAG. You can have a maximum of four connections when the port speed is 1 Gbps or 10 Gbps, or two when the port speed is 100 Gbps or 400 Gbps.
         public var numberOfConnections: Swift.Int
         /// The ID of the Amazon Web Services account that owns the LAG.
         public var ownerAccount: Swift.String?
@@ -5791,7 +5791,7 @@ public struct UpdateDirectConnectGatewayInput {
 }
 
 public struct UpdateDirectConnectGatewayOutput {
-    /// Information about a Direct Connect gateway, which enables you to connect virtual interfaces and virtual private gateway or transit gateways.
+    /// Informaiton about a Direct Connect gateway, which enables you to connect virtual interfaces and virtual private gateways or transit gateways.
     public var directConnectGateway: DirectConnectClientTypes.DirectConnectGateway?
 
     public init(
@@ -5872,7 +5872,7 @@ public struct UpdateLagOutput {
     public var awsLogicalDeviceId: Swift.String?
     /// The connections bundled by the LAG.
     public var connections: [DirectConnectClientTypes.Connection]?
-    /// The individual bandwidth of the physical connections bundled by the LAG. The possible values are 1Gbps and 10Gbps.
+    /// The individual bandwidth of the physical connections bundled by the LAG. The possible values are 1Gbps, 10Gbps, 100Gbps, or 400 Gbps..
     public var connectionsBandwidth: Swift.String?
     /// The LAG MAC Security (MACsec) encryption mode. The valid values are no_encrypt, should_encrypt, and must_encrypt.
     public var encryptionMode: Swift.String?
@@ -5908,7 +5908,7 @@ public struct UpdateLagOutput {
     public var macSecKeys: [DirectConnectClientTypes.MacSecKey]?
     /// The minimum number of physical dedicated connections that must be operational for the LAG itself to be operational.
     public var minimumLinks: Swift.Int
-    /// The number of physical dedicated connections bundled by the LAG, up to a maximum of 10.
+    /// The number of physical dedicated connections initially provisioned and bundled by the LAG. You can have a maximum of four connections when the port speed is 1 Gbps or 10 Gbps, or two when the port speed is 100 Gbps or 400 Gbps.
     public var numberOfConnections: Swift.Int
     /// The ID of the Amazon Web Services account that owns the LAG.
     public var ownerAccount: Swift.String?
@@ -5970,7 +5970,7 @@ public struct UpdateLagOutput {
 public struct UpdateVirtualInterfaceAttributesInput {
     /// Indicates whether to enable or disable SiteLink.
     public var enableSiteLink: Swift.Bool?
-    /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500.
+    /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500.
     public var mtu: Swift.Int?
     /// The ID of the virtual private interface.
     /// This member is required.
@@ -6060,7 +6060,7 @@ public struct UpdateVirtualInterfaceAttributesOutput {
     ///
     /// * unknown: The state of the virtual interface is not available.
     public var virtualInterfaceState: DirectConnectClientTypes.VirtualInterfaceState?
-    /// The type of virtual interface. The possible values are private and public.
+    /// The type of virtual interface. The possible values are private, public and transit.
     public var virtualInterfaceType: Swift.String?
     /// The ID of the VLAN.
     public var vlan: Swift.Int

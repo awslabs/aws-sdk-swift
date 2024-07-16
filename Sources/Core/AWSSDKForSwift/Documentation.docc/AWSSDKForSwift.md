@@ -577,6 +577,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSProton](../../../../../swift/api/awsproton/latest)
 
+[AWSQApps](../../../../../swift/api/awsqapps/latest)
+
 [AWSQBusiness](../../../../../swift/api/awsqbusiness/latest)
 
 [AWSQConnect](../../../../../swift/api/awsqconnect/latest)

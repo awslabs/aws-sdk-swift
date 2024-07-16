@@ -434,11 +434,11 @@ extension IVSRealTimeClientTypes {
 }
 
 extension IVSRealTimeClientTypes {
-    /// Object specifying an auto-participant-recording configuration.
+    /// Object specifying a configuration for individual participant recording.
     public struct AutoParticipantRecordingConfiguration {
         /// Types of media to be recorded. Default: AUDIO_VIDEO.
         public var mediaTypes: [IVSRealTimeClientTypes.ParticipantRecordingMediaType]?
-        /// ARN of the [StorageConfiguration] resource to use for auto participant recording. Default: "" (empty string, no storage configuration is specified). Individual participant recording cannot be started unless a storage configuration is specified, when a [Stage] is created or updated.
+        /// ARN of the [StorageConfiguration] resource to use for individual participant recording. Default: "" (empty string, no storage configuration is specified). Individual participant recording cannot be started unless a storage configuration is specified, when a [Stage] is created or updated.
         /// This member is required.
         public var storageConfigurationArn: Swift.String?
 
@@ -483,7 +483,7 @@ extension IVSRealTimeClientTypes {
 }
 
 public struct CreateStageInput {
-    /// Auto participant recording configuration object attached to the stage.
+    /// Configuration object for individual participant recording, to attach to the new stage.
     public var autoParticipantRecordingConfiguration: IVSRealTimeClientTypes.AutoParticipantRecordingConfiguration?
     /// Optional name that can be specified for the stage being created.
     public var name: Swift.String?
@@ -507,6 +507,26 @@ public struct CreateStageInput {
 }
 
 extension IVSRealTimeClientTypes {
+    /// Summary information about various endpoints for a stage.
+    public struct StageEndpoints {
+        /// Events endpoint.
+        public var events: Swift.String?
+        /// WHIP endpoint.
+        public var whip: Swift.String?
+
+        public init(
+            events: Swift.String? = nil,
+            whip: Swift.String? = nil
+        )
+        {
+            self.events = events
+            self.whip = whip
+        }
+    }
+
+}
+
+extension IVSRealTimeClientTypes {
     /// Object specifying a stage.
     public struct Stage {
         /// ID of the active session within the stage.
@@ -514,8 +534,10 @@ extension IVSRealTimeClientTypes {
         /// Stage ARN.
         /// This member is required.
         public var arn: Swift.String?
-        /// Auto-participant-recording configuration object attached to the stage.
+        /// Configuration object for individual participant recording, attached to the stage.
         public var autoParticipantRecordingConfiguration: IVSRealTimeClientTypes.AutoParticipantRecordingConfiguration?
+        /// Summary information about various endpoints for a stage.
+        public var endpoints: IVSRealTimeClientTypes.StageEndpoints?
         /// Stage name.
         public var name: Swift.String?
         /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
@@ -525,6 +547,7 @@ extension IVSRealTimeClientTypes {
             activeSessionId: Swift.String? = nil,
             arn: Swift.String? = nil,
             autoParticipantRecordingConfiguration: IVSRealTimeClientTypes.AutoParticipantRecordingConfiguration? = nil,
+            endpoints: IVSRealTimeClientTypes.StageEndpoints? = nil,
             name: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil
         )
@@ -532,6 +555,7 @@ extension IVSRealTimeClientTypes {
             self.activeSessionId = activeSessionId
             self.arn = arn
             self.autoParticipantRecordingConfiguration = autoParticipantRecordingConfiguration
+            self.endpoints = endpoints
             self.name = name
             self.tags = tags
         }
@@ -648,6 +672,24 @@ public struct DeleteEncoderConfigurationInput {
 }
 
 public struct DeleteEncoderConfigurationOutput {
+
+    public init() { }
+}
+
+public struct DeletePublicKeyInput {
+    /// ARN of the public key to be deleted.
+    /// This member is required.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    )
+    {
+        self.arn = arn
+    }
+}
+
+public struct DeletePublicKeyOutput {
 
     public init() { }
 }
@@ -1024,15 +1066,15 @@ extension IVSRealTimeClientTypes {
 extension IVSRealTimeClientTypes {
     /// Configuration information specific to Grid layout, for server-side composition. See "Layouts" in [Server-Side Composition](https://docs.aws.amazon.com/ivs/latest/RealTimeUserGuide/server-side-composition.html).
     public struct GridConfiguration {
-        /// This attribute name identifies the featured slot. A participant with this attribute set to "true" (as a string value) in [ParticipantTokenConfiguration] is placed in the featured slot.
+        /// This attribute name identifies the featured slot. A participant with this attribute set to "true" (as a string value) in [ParticipantTokenConfiguration] is placed in the featured slot. Default: "" (no featured participant).
         public var featuredParticipantAttribute: Swift.String?
         /// Specifies the spacing between participant tiles in pixels. Default: 2.
         public var gridGap: Swift.Int
         /// Determines whether to omit participants with stopped video in the composition. Default: false.
         public var omitStoppedVideo: Swift.Bool
-        /// Sets the non-featured participant display mode. Default: VIDEO.
+        /// Sets the non-featured participant display mode, to control the aspect ratio of video tiles. VIDEO is 16:9, SQUARE is 1:1, and PORTRAIT is 3:4. Default: VIDEO.
         public var videoAspectRatio: IVSRealTimeClientTypes.VideoAspectRatio?
-        /// Defines how video fits within the participant tile. When not set, videoFillMode defaults to COVER fill mode for participants in the grid and to CONTAIN fill mode for featured participants.
+        /// Defines how video content fits within the participant tile: FILL (stretched), COVER (cropped), or CONTAIN (letterboxed). When not set, videoFillMode defaults to COVER fill mode for participants in the grid and to CONTAIN fill mode for featured participants.
         public var videoFillMode: IVSRealTimeClientTypes.VideoFillMode?
 
         public init(
@@ -1120,25 +1162,25 @@ extension IVSRealTimeClientTypes {
 extension IVSRealTimeClientTypes {
     /// Configuration information specific to Picture-in-Picture (PiP) layout, for [server-side composition](https://docs.aws.amazon.com/ivs/latest/RealTimeUserGuide/server-side-composition.html).
     public struct PipConfiguration {
-        /// This attribute name identifies the featured slot. A participant with this attribute set to "true" (as a string value) in [ParticipantTokenConfiguration] is placed in the featured slot.
+        /// This attribute name identifies the featured slot. A participant with this attribute set to "true" (as a string value) in [ParticipantTokenConfiguration] is placed in the featured slot. Default: "" (no featured participant).
         public var featuredParticipantAttribute: Swift.String?
         /// Specifies the spacing between participant tiles in pixels. Default: 0.
         public var gridGap: Swift.Int
         /// Determines whether to omit participants with stopped video in the composition. Default: false.
         public var omitStoppedVideo: Swift.Bool
-        /// Defines PiP behavior when all participants have left. Default: STATIC.
+        /// Defines PiP behavior when all participants have left: STATIC (maintains original position/size) or DYNAMIC (expands to full composition). Default: STATIC.
         public var pipBehavior: IVSRealTimeClientTypes.PipBehavior?
         /// Specifies the height of the PiP window in pixels. When this is not set explicitly, pipHeight’s value will be based on the size of the composition and the aspect ratio of the participant’s video.
         public var pipHeight: Swift.Int?
         /// Sets the PiP window’s offset position in pixels from the closest edges determined by PipPosition. Default: 0.
         public var pipOffset: Swift.Int
-        /// Identifies the PiP slot. A participant with this attribute set to "true" (as a string value) in [ParticipantTokenConfiguration] is placed in the PiP slot.
+        /// Specifies the participant for the PiP window. A participant with this attribute set to "true" (as a string value) in [ParticipantTokenConfiguration] is placed in the PiP slot. Default: "" (no PiP participant).
         public var pipParticipantAttribute: Swift.String?
         /// Determines the corner position of the PiP window. Default: BOTTOM_RIGHT.
         public var pipPosition: IVSRealTimeClientTypes.PipPosition?
         /// Specifies the width of the PiP window in pixels. When this is not set explicitly, pipWidth’s value will be based on the size of the composition and the aspect ratio of the participant’s video.
         public var pipWidth: Swift.Int?
-        /// Defines how video fits within the participant tile. Default: COVER.
+        /// Defines how video content fits within the participant tile: FILL (stretched), COVER (cropped), or CONTAIN (letterboxed). Default: COVER.
         public var videoFillMode: IVSRealTimeClientTypes.VideoFillMode?
 
         public init(
@@ -1429,9 +1471,9 @@ extension IVSRealTimeClientTypes {
         public var published: Swift.Bool
         /// Name of the S3 bucket to where the participant is being recorded, if individual participant recording is enabled, or "" (empty string), if recording is not enabled.
         public var recordingS3BucketName: Swift.String?
-        /// S3 prefix of the S3 bucket to where the participant is being recorded, if individual participant recording is enabled, or "" (empty string), if recording is not enabled.
+        /// S3 prefix of the S3 bucket where the participant is being recorded, if individual participant recording is enabled, or "" (empty string), if recording is not enabled.
         public var recordingS3Prefix: Swift.String?
-        /// Participant’s recording state.
+        /// The participant’s recording state.
         public var recordingState: IVSRealTimeClientTypes.ParticipantRecordingState?
         /// The participant’s SDK version.
         public var sdkVersion: Swift.String?
@@ -1487,6 +1529,63 @@ public struct GetParticipantOutput {
     )
     {
         self.participant = participant
+    }
+}
+
+public struct GetPublicKeyInput {
+    /// ARN of the public key for which the information is to be retrieved.
+    /// This member is required.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    )
+    {
+        self.arn = arn
+    }
+}
+
+extension IVSRealTimeClientTypes {
+    /// Object specifying a public key used to sign stage participant tokens.
+    public struct PublicKey {
+        /// Public key ARN.
+        public var arn: Swift.String?
+        /// The public key fingerprint, a short string used to identify or verify the full public key.
+        public var fingerprint: Swift.String?
+        /// Public key name.
+        public var name: Swift.String?
+        /// Public key material.
+        public var publicKeyMaterial: Swift.String?
+        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
+        public var tags: [Swift.String: Swift.String]?
+
+        public init(
+            arn: Swift.String? = nil,
+            fingerprint: Swift.String? = nil,
+            name: Swift.String? = nil,
+            publicKeyMaterial: Swift.String? = nil,
+            tags: [Swift.String: Swift.String]? = nil
+        )
+        {
+            self.arn = arn
+            self.fingerprint = fingerprint
+            self.name = name
+            self.publicKeyMaterial = publicKeyMaterial
+            self.tags = tags
+        }
+    }
+
+}
+
+public struct GetPublicKeyOutput {
+    /// The public key that is returned.
+    public var publicKey: IVSRealTimeClientTypes.PublicKey?
+
+    public init(
+        publicKey: IVSRealTimeClientTypes.PublicKey? = nil
+    )
+    {
+        self.publicKey = publicKey
     }
 }
 
@@ -1591,6 +1690,39 @@ public struct GetStorageConfigurationOutput {
     )
     {
         self.storageConfiguration = storageConfiguration
+    }
+}
+
+public struct ImportPublicKeyInput {
+    /// Name of the public key to be imported.
+    public var name: Swift.String?
+    /// The content of the public key to be imported.
+    /// This member is required.
+    public var publicKeyMaterial: Swift.String?
+    /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        name: Swift.String? = nil,
+        publicKeyMaterial: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    )
+    {
+        self.name = name
+        self.publicKeyMaterial = publicKeyMaterial
+        self.tags = tags
+    }
+}
+
+public struct ImportPublicKeyOutput {
+    /// The public key that was imported.
+    public var publicKey: IVSRealTimeClientTypes.PublicKey?
+
+    public init(
+        publicKey: IVSRealTimeClientTypes.PublicKey? = nil
+    )
+    {
+        self.publicKey = publicKey
     }
 }
 
@@ -2018,7 +2150,7 @@ extension IVSRealTimeClientTypes {
         public var participantId: Swift.String?
         /// Whether the participant ever published to the stage session.
         public var published: Swift.Bool
-        /// Participant’s recording state.
+        /// The participant’s recording state.
         public var recordingState: IVSRealTimeClientTypes.ParticipantRecordingState?
         /// Whether the participant is connected to or disconnected from the stage.
         public var state: IVSRealTimeClientTypes.ParticipantState?
@@ -2059,6 +2191,63 @@ public struct ListParticipantsOutput {
     {
         self.nextToken = nextToken
         self.participants = participants
+    }
+}
+
+public struct ListPublicKeysInput {
+    /// Maximum number of results to return. Default: 50.
+    public var maxResults: Swift.Int?
+    /// The first public key to retrieve. This is used for pagination; see the nextToken response field.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension IVSRealTimeClientTypes {
+    /// Summary information about a public key.
+    public struct PublicKeySummary {
+        /// Public key ARN.
+        public var arn: Swift.String?
+        /// Public key name.
+        public var name: Swift.String?
+        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
+        public var tags: [Swift.String: Swift.String]?
+
+        public init(
+            arn: Swift.String? = nil,
+            name: Swift.String? = nil,
+            tags: [Swift.String: Swift.String]? = nil
+        )
+        {
+            self.arn = arn
+            self.name = name
+            self.tags = tags
+        }
+    }
+
+}
+
+public struct ListPublicKeysOutput {
+    /// If there are more public keys than maxResults, use nextToken in the request to get the next set.
+    public var nextToken: Swift.String?
+    /// List of the matching public keys (summary information only).
+    /// This member is required.
+    public var publicKeys: [IVSRealTimeClientTypes.PublicKeySummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        publicKeys: [IVSRealTimeClientTypes.PublicKeySummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.publicKeys = publicKeys
     }
 }
 
@@ -2384,7 +2573,7 @@ public struct UpdateStageInput {
     /// ARN of the stage to be updated.
     /// This member is required.
     public var arn: Swift.String?
-    /// Auto-participant-recording configuration object to attach to the stage. Auto-participant-recording configuration cannot be updated while recording is active.
+    /// Configuration object for individual participant recording, to attach to the stage. Note that this cannot be updated while recording is active.
     public var autoParticipantRecordingConfiguration: IVSRealTimeClientTypes.AutoParticipantRecordingConfiguration?
     /// Name of the stage to be updated.
     public var name: Swift.String?
@@ -2448,6 +2637,13 @@ extension DeleteEncoderConfigurationInput {
     }
 }
 
+extension DeletePublicKeyInput {
+
+    static func urlPathProvider(_ value: DeletePublicKeyInput) -> Swift.String? {
+        return "/DeletePublicKey"
+    }
+}
+
 extension DeleteStageInput {
 
     static func urlPathProvider(_ value: DeleteStageInput) -> Swift.String? {
@@ -2490,6 +2686,13 @@ extension GetParticipantInput {
     }
 }
 
+extension GetPublicKeyInput {
+
+    static func urlPathProvider(_ value: GetPublicKeyInput) -> Swift.String? {
+        return "/GetPublicKey"
+    }
+}
+
 extension GetStageInput {
 
     static func urlPathProvider(_ value: GetStageInput) -> Swift.String? {
@@ -2508,6 +2711,13 @@ extension GetStorageConfigurationInput {
 
     static func urlPathProvider(_ value: GetStorageConfigurationInput) -> Swift.String? {
         return "/GetStorageConfiguration"
+    }
+}
+
+extension ImportPublicKeyInput {
+
+    static func urlPathProvider(_ value: ImportPublicKeyInput) -> Swift.String? {
+        return "/ImportPublicKey"
     }
 }
 
@@ -2536,6 +2746,13 @@ extension ListParticipantsInput {
 
     static func urlPathProvider(_ value: ListParticipantsInput) -> Swift.String? {
         return "/ListParticipants"
+    }
+}
+
+extension ListPublicKeysInput {
+
+    static func urlPathProvider(_ value: ListPublicKeysInput) -> Swift.String? {
+        return "/ListPublicKeys"
     }
 }
 
@@ -2678,6 +2895,14 @@ extension DeleteEncoderConfigurationInput {
     }
 }
 
+extension DeletePublicKeyInput {
+
+    static func write(value: DeletePublicKeyInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["arn"].write(value.arn)
+    }
+}
+
 extension DeleteStageInput {
 
     static func write(value: DeleteStageInput?, to writer: SmithyJSON.Writer) throws {
@@ -2730,6 +2955,14 @@ extension GetParticipantInput {
     }
 }
 
+extension GetPublicKeyInput {
+
+    static func write(value: GetPublicKeyInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["arn"].write(value.arn)
+    }
+}
+
 extension GetStageInput {
 
     static func write(value: GetStageInput?, to writer: SmithyJSON.Writer) throws {
@@ -2752,6 +2985,16 @@ extension GetStorageConfigurationInput {
     static func write(value: GetStorageConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["arn"].write(value.arn)
+    }
+}
+
+extension ImportPublicKeyInput {
+
+    static func write(value: ImportPublicKeyInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["publicKeyMaterial"].write(value.publicKeyMaterial)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -2799,6 +3042,15 @@ extension ListParticipantsInput {
         try writer["nextToken"].write(value.nextToken)
         try writer["sessionId"].write(value.sessionId)
         try writer["stageArn"].write(value.stageArn)
+    }
+}
+
+extension ListPublicKeysInput {
+
+    static func write(value: ListPublicKeysInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
     }
 }
 
@@ -2924,6 +3176,13 @@ extension DeleteEncoderConfigurationOutput {
     }
 }
 
+extension DeletePublicKeyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeletePublicKeyOutput {
+        return DeletePublicKeyOutput()
+    }
+}
+
 extension DeleteStageOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteStageOutput {
@@ -2981,6 +3240,18 @@ extension GetParticipantOutput {
     }
 }
 
+extension GetPublicKeyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetPublicKeyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetPublicKeyOutput()
+        value.publicKey = try reader["publicKey"].readIfPresent(with: IVSRealTimeClientTypes.PublicKey.read(from:))
+        return value
+    }
+}
+
 extension GetStageOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetStageOutput {
@@ -3013,6 +3284,18 @@ extension GetStorageConfigurationOutput {
         let reader = responseReader
         var value = GetStorageConfigurationOutput()
         value.storageConfiguration = try reader["storageConfiguration"].readIfPresent(with: IVSRealTimeClientTypes.StorageConfiguration.read(from:))
+        return value
+    }
+}
+
+extension ImportPublicKeyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ImportPublicKeyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ImportPublicKeyOutput()
+        value.publicKey = try reader["publicKey"].readIfPresent(with: IVSRealTimeClientTypes.PublicKey.read(from:))
         return value
     }
 }
@@ -3065,6 +3348,19 @@ extension ListParticipantsOutput {
         var value = ListParticipantsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.participants = try reader["participants"].readListIfPresent(memberReadingClosure: IVSRealTimeClientTypes.ParticipantSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListPublicKeysOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPublicKeysOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListPublicKeysOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.publicKeys = try reader["publicKeys"].readListIfPresent(memberReadingClosure: IVSRealTimeClientTypes.PublicKeySummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -3259,6 +3555,24 @@ enum DeleteEncoderConfigurationOutputError {
     }
 }
 
+enum DeletePublicKeyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "PendingVerification": return try PendingVerification.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteStageOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
@@ -3367,6 +3681,22 @@ enum GetParticipantOutputError {
     }
 }
 
+enum GetPublicKeyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetStageOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
@@ -3411,6 +3741,24 @@ enum GetStorageConfigurationOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ImportPublicKeyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "PendingVerification": return try PendingVerification.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -3470,6 +3818,21 @@ enum ListParticipantEventsOutputError {
 }
 
 enum ListParticipantsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListPublicKeysOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -3790,6 +4153,18 @@ extension IVSRealTimeClientTypes.Stage {
         value.activeSessionId = try reader["activeSessionId"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.autoParticipantRecordingConfiguration = try reader["autoParticipantRecordingConfiguration"].readIfPresent(with: IVSRealTimeClientTypes.AutoParticipantRecordingConfiguration.read(from:))
+        value.endpoints = try reader["endpoints"].readIfPresent(with: IVSRealTimeClientTypes.StageEndpoints.read(from:))
+        return value
+    }
+}
+
+extension IVSRealTimeClientTypes.StageEndpoints {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.StageEndpoints {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IVSRealTimeClientTypes.StageEndpoints()
+        value.events = try reader["events"].readIfPresent()
+        value.whip = try reader["whip"].readIfPresent()
         return value
     }
 }
@@ -4058,6 +4433,20 @@ extension IVSRealTimeClientTypes.Participant {
     }
 }
 
+extension IVSRealTimeClientTypes.PublicKey {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.PublicKey {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IVSRealTimeClientTypes.PublicKey()
+        value.arn = try reader["arn"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.publicKeyMaterial = try reader["publicKeyMaterial"].readIfPresent()
+        value.fingerprint = try reader["fingerprint"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension IVSRealTimeClientTypes.StageSession {
 
     static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.StageSession {
@@ -4136,6 +4525,18 @@ extension IVSRealTimeClientTypes.ParticipantSummary {
         value.firstJoinTime = try reader["firstJoinTime"].readTimestampIfPresent(format: .dateTime)
         value.published = try reader["published"].readIfPresent() ?? false
         value.recordingState = try reader["recordingState"].readIfPresent()
+        return value
+    }
+}
+
+extension IVSRealTimeClientTypes.PublicKeySummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.PublicKeySummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IVSRealTimeClientTypes.PublicKeySummary()
+        value.arn = try reader["arn"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }

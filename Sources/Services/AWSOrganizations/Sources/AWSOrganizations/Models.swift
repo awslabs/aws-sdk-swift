@@ -1110,6 +1110,7 @@ extension OrganizationsClientTypes {
         case accountNumberLimitExceeded
         case cannotCloseManagementAccount
         case cannotRegisterMasterAsDelegatedAdministrator
+        case cannotRegisterSuspendedAccountAsDelegatedAdministrator
         case cannotRemoveDelegatedAdministratorFromOrg
         case closeAccountQuotaExceeded
         case closeAccountRequestsLimitExceeded
@@ -1148,6 +1149,7 @@ extension OrganizationsClientTypes {
                 .accountNumberLimitExceeded,
                 .cannotCloseManagementAccount,
                 .cannotRegisterMasterAsDelegatedAdministrator,
+                .cannotRegisterSuspendedAccountAsDelegatedAdministrator,
                 .cannotRemoveDelegatedAdministratorFromOrg,
                 .closeAccountQuotaExceeded,
                 .closeAccountRequestsLimitExceeded,
@@ -1192,6 +1194,7 @@ extension OrganizationsClientTypes {
             case .accountNumberLimitExceeded: return "ACCOUNT_NUMBER_LIMIT_EXCEEDED"
             case .cannotCloseManagementAccount: return "CANNOT_CLOSE_MANAGEMENT_ACCOUNT"
             case .cannotRegisterMasterAsDelegatedAdministrator: return "CANNOT_REGISTER_MASTER_AS_DELEGATED_ADMINISTRATOR"
+            case .cannotRegisterSuspendedAccountAsDelegatedAdministrator: return "CANNOT_REGISTER_SUSPENDED_ACCOUNT_AS_DELEGATED_ADMINISTRATOR"
             case .cannotRemoveDelegatedAdministratorFromOrg: return "CANNOT_REMOVE_DELEGATED_ADMINISTRATOR_FROM_ORG"
             case .closeAccountQuotaExceeded: return "CLOSE_ACCOUNT_QUOTA_EXCEEDED"
             case .closeAccountRequestsLimitExceeded: return "CLOSE_ACCOUNT_REQUESTS_LIMIT_EXCEEDED"
@@ -1258,7 +1261,7 @@ extension OrganizationsClientTypes {
 ///
 /// * INVALID_PAYMENT_INSTRUMENT: You cannot remove an account because no supported payment method is associated with the account. Amazon Web Services does not support cards issued by financial institutions in Russia or Belarus. For more information, see [Managing your Amazon Web Services payments](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/manage-general.html).
 ///
-/// * MASTER_ACCOUNT_ADDRESS_DOES_NOT_MATCH_MARKETPLACE: To create an account in this organization, you first must migrate the organization's management account to the marketplace that corresponds to the management account's address. For example, accounts with India addresses must be associated with the AISPL marketplace. All accounts in an organization must be associated with the same marketplace.
+/// * MASTER_ACCOUNT_ADDRESS_DOES_NOT_MATCH_MARKETPLACE: To create an account in this organization, you first must migrate the organization's management account to the marketplace that corresponds to the management account's address. All accounts in an organization must be associated with the same marketplace.
 ///
 /// * MASTER_ACCOUNT_MISSING_BUSINESS_LICENSE: Applies only to the Amazon Web Services Regions in China. To create an organization, the master must have a valid business license. For more information, contact customer support.
 ///

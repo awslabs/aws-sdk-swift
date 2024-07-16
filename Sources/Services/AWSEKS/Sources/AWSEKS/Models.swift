@@ -1991,6 +1991,8 @@ extension EKSClientTypes {
 public struct CreateClusterInput {
     /// The access configuration for the cluster.
     public var accessConfig: EKSClientTypes.CreateAccessConfigRequest?
+    /// If you set this value to False when creating a cluster, the default networking add-ons will not be installed. The default networking addons include vpc-cni, coredns, and kube-proxy. Use this option when you plan to install third-party alternative add-ons or self-manage the default networking add-ons.
+    public var bootstrapSelfManagedAddons: Swift.Bool?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     public var clientRequestToken: Swift.String?
     /// The encryption configuration for the cluster.
@@ -2017,6 +2019,7 @@ public struct CreateClusterInput {
 
     public init(
         accessConfig: EKSClientTypes.CreateAccessConfigRequest? = nil,
+        bootstrapSelfManagedAddons: Swift.Bool? = nil,
         clientRequestToken: Swift.String? = nil,
         encryptionConfig: [EKSClientTypes.EncryptionConfig]? = nil,
         kubernetesNetworkConfig: EKSClientTypes.KubernetesNetworkConfigRequest? = nil,
@@ -2030,6 +2033,7 @@ public struct CreateClusterInput {
     )
     {
         self.accessConfig = accessConfig
+        self.bootstrapSelfManagedAddons = bootstrapSelfManagedAddons
         self.clientRequestToken = clientRequestToken
         self.encryptionConfig = encryptionConfig
         self.kubernetesNetworkConfig = kubernetesNetworkConfig
@@ -2919,12 +2923,14 @@ public struct CreateFargateProfileOutput {
 extension EKSClientTypes {
 
     public enum CapacityTypes: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case capacityBlock
         case onDemand
         case spot
         case sdkUnknown(Swift.String)
 
         public static var allCases: [CapacityTypes] {
             return [
+                .capacityBlock,
                 .onDemand,
                 .spot
             ]
@@ -2937,6 +2943,7 @@ extension EKSClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .capacityBlock: return "CAPACITY_BLOCK"
             case .onDemand: return "ON_DEMAND"
             case .spot: return "SPOT"
             case let .sdkUnknown(s): return s
@@ -6993,6 +7000,7 @@ extension CreateClusterInput {
     static func write(value: CreateClusterInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["accessConfig"].write(value.accessConfig, with: EKSClientTypes.CreateAccessConfigRequest.write(value:to:))
+        try writer["bootstrapSelfManagedAddons"].write(value.bootstrapSelfManagedAddons)
         try writer["clientRequestToken"].write(value.clientRequestToken)
         try writer["encryptionConfig"].writeList(value.encryptionConfig, memberWritingClosure: EKSClientTypes.EncryptionConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["kubernetesNetworkConfig"].write(value.kubernetesNetworkConfig, with: EKSClientTypes.KubernetesNetworkConfigRequest.write(value:to:))

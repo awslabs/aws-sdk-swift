@@ -161,6 +161,7 @@ extension GlueClient {
 extension GetDatabasesInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> GetDatabasesInput {
         return GetDatabasesInput(
+            attributesToGet: self.attributesToGet,
             catalogId: self.catalogId,
             maxResults: self.maxResults,
             nextToken: token,

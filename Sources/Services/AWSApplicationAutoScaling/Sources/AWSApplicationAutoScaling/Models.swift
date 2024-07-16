@@ -196,6 +196,7 @@ extension ApplicationAutoScalingClientTypes {
         case sagemakerinferencecomponentdesiredcopycount
         case sagemakervariantdesiredinstancecount
         case sagemakervariantdesiredprovisionedconcurrency
+        case workspacesworkspacespooldesiredusersessions
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ScalableDimension] {
@@ -221,7 +222,8 @@ extension ApplicationAutoScalingClientTypes {
                 .rdsclusterreadreplicacount,
                 .sagemakerinferencecomponentdesiredcopycount,
                 .sagemakervariantdesiredinstancecount,
-                .sagemakervariantdesiredprovisionedconcurrency
+                .sagemakervariantdesiredprovisionedconcurrency,
+                .workspacesworkspacespooldesiredusersessions
             ]
         }
 
@@ -254,6 +256,7 @@ extension ApplicationAutoScalingClientTypes {
             case .sagemakerinferencecomponentdesiredcopycount: return "sagemaker:inference-component:DesiredCopyCount"
             case .sagemakervariantdesiredinstancecount: return "sagemaker:variant:DesiredInstanceCount"
             case .sagemakervariantdesiredprovisionedconcurrency: return "sagemaker:variant:DesiredProvisionedConcurrency"
+            case .workspacesworkspacespooldesiredusersessions: return "workspaces:workspacespool:DesiredUserSessions"
             case let .sdkUnknown(s): return s
             }
         }
@@ -277,6 +280,7 @@ extension ApplicationAutoScalingClientTypes {
         case neptune
         case rds
         case sagemaker
+        case workspaces
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ServiceNamespace] {
@@ -294,7 +298,8 @@ extension ApplicationAutoScalingClientTypes {
                 .lambda,
                 .neptune,
                 .rds,
-                .sagemaker
+                .sagemaker,
+                .workspaces
             ]
         }
 
@@ -319,6 +324,7 @@ extension ApplicationAutoScalingClientTypes {
             case .neptune: return "neptune"
             case .rds: return "rds"
             case .sagemaker: return "sagemaker"
+            case .workspaces: return "workspaces"
             case let .sdkUnknown(s): return s
             }
         }
@@ -331,7 +337,7 @@ public struct DeleteScalingPolicyInput {
     public var policyName: Swift.String?
     /// The identifier of the resource associated with the scalable target. This string consists of the resource type and unique identifier.
     ///
-    /// * ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.
+    /// * ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/my-cluster/my-service.
     ///
     /// * Spot Fleet - The resource type is spot-fleet-request and the unique identifier is the Spot Fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.
     ///
@@ -363,20 +369,22 @@ public struct DeleteScalingPolicyInput {
     ///
     /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
     ///
-    /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
+    /// * SageMaker serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
     ///
     /// * SageMaker inference component - The resource type is inference-component and the unique identifier is the resource ID. Example: inference-component/my-inference-component.
+    ///
+    /// * Pool of WorkSpaces - The resource type is workspacespool and the unique identifier is the pool ID. Example: workspacespool/wspool-123456.
     /// This member is required.
     public var resourceId: Swift.String?
     /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.
     ///
-    /// * ecs:service:DesiredCount - The desired task count of an ECS service.
+    /// * ecs:service:DesiredCount - The task count of an ECS service.
     ///
     /// * elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.
     ///
     /// * ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot Fleet.
     ///
-    /// * appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.
+    /// * appstream:fleet:DesiredCapacity - The capacity of an AppStream 2.0 fleet.
     ///
     /// * dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.
     ///
@@ -410,9 +418,11 @@ public struct DeleteScalingPolicyInput {
     ///
     /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
     ///
-    /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
+    /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker serverless endpoint.
     ///
     /// * sagemaker:inference-component:DesiredCopyCount - The number of copies across an endpoint for a SageMaker inference component.
+    ///
+    /// * workspaces:workspacespool:DesiredUserSessions - The number of user sessions for the WorkSpaces in the pool.
     /// This member is required.
     public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
     /// The namespace of the Amazon Web Services service that provides the resource. For a resource provided by your own application or service, use custom-resource instead.
@@ -441,7 +451,7 @@ public struct DeleteScalingPolicyOutput {
 public struct DeleteScheduledActionInput {
     /// The identifier of the resource associated with the scheduled action. This string consists of the resource type and unique identifier.
     ///
-    /// * ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.
+    /// * ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/my-cluster/my-service.
     ///
     /// * Spot Fleet - The resource type is spot-fleet-request and the unique identifier is the Spot Fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.
     ///
@@ -473,20 +483,22 @@ public struct DeleteScheduledActionInput {
     ///
     /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
     ///
-    /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
+    /// * SageMaker serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
     ///
     /// * SageMaker inference component - The resource type is inference-component and the unique identifier is the resource ID. Example: inference-component/my-inference-component.
+    ///
+    /// * Pool of WorkSpaces - The resource type is workspacespool and the unique identifier is the pool ID. Example: workspacespool/wspool-123456.
     /// This member is required.
     public var resourceId: Swift.String?
     /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.
     ///
-    /// * ecs:service:DesiredCount - The desired task count of an ECS service.
+    /// * ecs:service:DesiredCount - The task count of an ECS service.
     ///
     /// * elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.
     ///
     /// * ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot Fleet.
     ///
-    /// * appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.
+    /// * appstream:fleet:DesiredCapacity - The capacity of an AppStream 2.0 fleet.
     ///
     /// * dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.
     ///
@@ -520,9 +532,11 @@ public struct DeleteScheduledActionInput {
     ///
     /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
     ///
-    /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
+    /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker serverless endpoint.
     ///
     /// * sagemaker:inference-component:DesiredCopyCount - The number of copies across an endpoint for a SageMaker inference component.
+    ///
+    /// * workspaces:workspacespool:DesiredUserSessions - The number of user sessions for the WorkSpaces in the pool.
     /// This member is required.
     public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
     /// The name of the scheduled action.
@@ -554,7 +568,7 @@ public struct DeleteScheduledActionOutput {
 public struct DeregisterScalableTargetInput {
     /// The identifier of the resource associated with the scalable target. This string consists of the resource type and unique identifier.
     ///
-    /// * ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.
+    /// * ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/my-cluster/my-service.
     ///
     /// * Spot Fleet - The resource type is spot-fleet-request and the unique identifier is the Spot Fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.
     ///
@@ -586,20 +600,22 @@ public struct DeregisterScalableTargetInput {
     ///
     /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
     ///
-    /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
+    /// * SageMaker serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
     ///
     /// * SageMaker inference component - The resource type is inference-component and the unique identifier is the resource ID. Example: inference-component/my-inference-component.
+    ///
+    /// * Pool of WorkSpaces - The resource type is workspacespool and the unique identifier is the pool ID. Example: workspacespool/wspool-123456.
     /// This member is required.
     public var resourceId: Swift.String?
     /// The scalable dimension associated with the scalable target. This string consists of the service namespace, resource type, and scaling property.
     ///
-    /// * ecs:service:DesiredCount - The desired task count of an ECS service.
+    /// * ecs:service:DesiredCount - The task count of an ECS service.
     ///
     /// * elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.
     ///
     /// * ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot Fleet.
     ///
-    /// * appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.
+    /// * appstream:fleet:DesiredCapacity - The capacity of an AppStream 2.0 fleet.
     ///
     /// * dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.
     ///
@@ -633,9 +649,11 @@ public struct DeregisterScalableTargetInput {
     ///
     /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
     ///
-    /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
+    /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker serverless endpoint.
     ///
     /// * sagemaker:inference-component:DesiredCopyCount - The number of copies across an endpoint for a SageMaker inference component.
+    ///
+    /// * workspaces:workspacespool:DesiredUserSessions - The number of user sessions for the WorkSpaces in the pool.
     /// This member is required.
     public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
     /// The namespace of the Amazon Web Services service that provides the resource. For a resource provided by your own application or service, use custom-resource instead.
@@ -690,7 +708,7 @@ public struct DescribeScalableTargetsInput {
     public var nextToken: Swift.String?
     /// The identifier of the resource associated with the scalable target. This string consists of the resource type and unique identifier.
     ///
-    /// * ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.
+    /// * ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/my-cluster/my-service.
     ///
     /// * Spot Fleet - The resource type is spot-fleet-request and the unique identifier is the Spot Fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.
     ///
@@ -722,19 +740,21 @@ public struct DescribeScalableTargetsInput {
     ///
     /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
     ///
-    /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
+    /// * SageMaker serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
     ///
     /// * SageMaker inference component - The resource type is inference-component and the unique identifier is the resource ID. Example: inference-component/my-inference-component.
+    ///
+    /// * Pool of WorkSpaces - The resource type is workspacespool and the unique identifier is the pool ID. Example: workspacespool/wspool-123456.
     public var resourceIds: [Swift.String]?
     /// The scalable dimension associated with the scalable target. This string consists of the service namespace, resource type, and scaling property. If you specify a scalable dimension, you must also specify a resource ID.
     ///
-    /// * ecs:service:DesiredCount - The desired task count of an ECS service.
+    /// * ecs:service:DesiredCount - The task count of an ECS service.
     ///
     /// * elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.
     ///
     /// * ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot Fleet.
     ///
-    /// * appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.
+    /// * appstream:fleet:DesiredCapacity - The capacity of an AppStream 2.0 fleet.
     ///
     /// * dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.
     ///
@@ -768,9 +788,11 @@ public struct DescribeScalableTargetsInput {
     ///
     /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
     ///
-    /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
+    /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker serverless endpoint.
     ///
     /// * sagemaker:inference-component:DesiredCopyCount - The number of copies across an endpoint for a SageMaker inference component.
+    ///
+    /// * workspaces:workspacespool:DesiredUserSessions - The number of user sessions for the WorkSpaces in the pool.
     public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
     /// The namespace of the Amazon Web Services service that provides the resource. For a resource provided by your own application or service, use custom-resource instead.
     /// This member is required.
@@ -830,7 +852,7 @@ extension ApplicationAutoScalingClientTypes {
         public var minCapacity: Swift.Int?
         /// The identifier of the resource associated with the scalable target. This string consists of the resource type and unique identifier.
         ///
-        /// * ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.
+        /// * ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/my-cluster/my-service.
         ///
         /// * Spot Fleet - The resource type is spot-fleet-request and the unique identifier is the Spot Fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.
         ///
@@ -862,9 +884,11 @@ extension ApplicationAutoScalingClientTypes {
         ///
         /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
         ///
-        /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
+        /// * SageMaker serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
         ///
         /// * SageMaker inference component - The resource type is inference-component and the unique identifier is the resource ID. Example: inference-component/my-inference-component.
+        ///
+        /// * Pool of WorkSpaces - The resource type is workspacespool and the unique identifier is the pool ID. Example: workspacespool/wspool-123456.
         /// This member is required.
         public var resourceId: Swift.String?
         /// The ARN of an IAM role that allows Application Auto Scaling to modify the scalable target on your behalf.
@@ -872,13 +896,13 @@ extension ApplicationAutoScalingClientTypes {
         public var roleARN: Swift.String?
         /// The scalable dimension associated with the scalable target. This string consists of the service namespace, resource type, and scaling property.
         ///
-        /// * ecs:service:DesiredCount - The desired task count of an ECS service.
+        /// * ecs:service:DesiredCount - The task count of an ECS service.
         ///
         /// * elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.
         ///
         /// * ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot Fleet.
         ///
-        /// * appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.
+        /// * appstream:fleet:DesiredCapacity - The capacity of an AppStream 2.0 fleet.
         ///
         /// * dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.
         ///
@@ -912,9 +936,11 @@ extension ApplicationAutoScalingClientTypes {
         ///
         /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
         ///
-        /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
+        /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker serverless endpoint.
         ///
         /// * sagemaker:inference-component:DesiredCopyCount - The number of copies across an endpoint for a SageMaker inference component.
+        ///
+        /// * workspaces:workspacespool:DesiredUserSessions - The number of user sessions for the WorkSpaces in the pool.
         /// This member is required.
         public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
         /// The ARN of the scalable target.
@@ -976,7 +1002,7 @@ public struct DescribeScalingActivitiesInput {
     public var nextToken: Swift.String?
     /// The identifier of the resource associated with the scaling activity. This string consists of the resource type and unique identifier.
     ///
-    /// * ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.
+    /// * ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/my-cluster/my-service.
     ///
     /// * Spot Fleet - The resource type is spot-fleet-request and the unique identifier is the Spot Fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.
     ///
@@ -1008,19 +1034,21 @@ public struct DescribeScalingActivitiesInput {
     ///
     /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
     ///
-    /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
+    /// * SageMaker serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
     ///
     /// * SageMaker inference component - The resource type is inference-component and the unique identifier is the resource ID. Example: inference-component/my-inference-component.
+    ///
+    /// * Pool of WorkSpaces - The resource type is workspacespool and the unique identifier is the pool ID. Example: workspacespool/wspool-123456.
     public var resourceId: Swift.String?
     /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property. If you specify a scalable dimension, you must also specify a resource ID.
     ///
-    /// * ecs:service:DesiredCount - The desired task count of an ECS service.
+    /// * ecs:service:DesiredCount - The task count of an ECS service.
     ///
     /// * elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.
     ///
     /// * ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot Fleet.
     ///
-    /// * appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.
+    /// * appstream:fleet:DesiredCapacity - The capacity of an AppStream 2.0 fleet.
     ///
     /// * dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.
     ///
@@ -1054,9 +1082,11 @@ public struct DescribeScalingActivitiesInput {
     ///
     /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
     ///
-    /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
+    /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker serverless endpoint.
     ///
     /// * sagemaker:inference-component:DesiredCopyCount - The number of copies across an endpoint for a SageMaker inference component.
+    ///
+    /// * workspaces:workspacespool:DesiredUserSessions - The number of user sessions for the WorkSpaces in the pool.
     public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
     /// The namespace of the Amazon Web Services service that provides the resource. For a resource provided by your own application or service, use custom-resource instead.
     /// This member is required.
@@ -1081,7 +1111,7 @@ public struct DescribeScalingActivitiesInput {
 }
 
 extension ApplicationAutoScalingClientTypes {
-    /// Describes the reason for an activity that isn't scaled (not scaled activity), in machine-readable format. For help interpreting the not scaled reason details, see [Scaling activities for Application Auto Scaling](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-scaling-activities.html).
+    /// Describes the reason for an activity that isn't scaled (not scaled activity), in machine-readable format. For help interpreting the not scaled reason details, see [Scaling activities for Application Auto Scaling](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-scaling-activities.html) in the Application Auto Scaling User Guide.
     public struct NotScaledReason {
         /// A code that represents the reason for not scaling. Valid values:
         ///
@@ -1180,7 +1210,7 @@ extension ApplicationAutoScalingClientTypes {
         public var notScaledReasons: [ApplicationAutoScalingClientTypes.NotScaledReason]?
         /// The identifier of the resource associated with the scaling activity. This string consists of the resource type and unique identifier.
         ///
-        /// * ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.
+        /// * ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/my-cluster/my-service.
         ///
         /// * Spot Fleet - The resource type is spot-fleet-request and the unique identifier is the Spot Fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.
         ///
@@ -1212,20 +1242,22 @@ extension ApplicationAutoScalingClientTypes {
         ///
         /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
         ///
-        /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
+        /// * SageMaker serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
         ///
         /// * SageMaker inference component - The resource type is inference-component and the unique identifier is the resource ID. Example: inference-component/my-inference-component.
+        ///
+        /// * Pool of WorkSpaces - The resource type is workspacespool and the unique identifier is the pool ID. Example: workspacespool/wspool-123456.
         /// This member is required.
         public var resourceId: Swift.String?
         /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.
         ///
-        /// * ecs:service:DesiredCount - The desired task count of an ECS service.
+        /// * ecs:service:DesiredCount - The task count of an ECS service.
         ///
         /// * elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.
         ///
         /// * ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot Fleet.
         ///
-        /// * appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.
+        /// * appstream:fleet:DesiredCapacity - The capacity of an AppStream 2.0 fleet.
         ///
         /// * dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.
         ///
@@ -1259,9 +1291,11 @@ extension ApplicationAutoScalingClientTypes {
         ///
         /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
         ///
-        /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
+        /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker serverless endpoint.
         ///
         /// * sagemaker:inference-component:DesiredCopyCount - The number of copies across an endpoint for a SageMaker inference component.
+        ///
+        /// * workspaces:workspacespool:DesiredUserSessions - The number of user sessions for the WorkSpaces in the pool.
         /// This member is required.
         public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
         /// The namespace of the Amazon Web Services service that provides the resource, or a custom-resource.
@@ -1357,7 +1391,7 @@ public struct DescribeScalingPoliciesInput {
     public var policyNames: [Swift.String]?
     /// The identifier of the resource associated with the scaling policy. This string consists of the resource type and unique identifier.
     ///
-    /// * ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.
+    /// * ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/my-cluster/my-service.
     ///
     /// * Spot Fleet - The resource type is spot-fleet-request and the unique identifier is the Spot Fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.
     ///
@@ -1389,19 +1423,21 @@ public struct DescribeScalingPoliciesInput {
     ///
     /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
     ///
-    /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
+    /// * SageMaker serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
     ///
     /// * SageMaker inference component - The resource type is inference-component and the unique identifier is the resource ID. Example: inference-component/my-inference-component.
+    ///
+    /// * Pool of WorkSpaces - The resource type is workspacespool and the unique identifier is the pool ID. Example: workspacespool/wspool-123456.
     public var resourceId: Swift.String?
     /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property. If you specify a scalable dimension, you must also specify a resource ID.
     ///
-    /// * ecs:service:DesiredCount - The desired task count of an ECS service.
+    /// * ecs:service:DesiredCount - The task count of an ECS service.
     ///
     /// * elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.
     ///
     /// * ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot Fleet.
     ///
-    /// * appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.
+    /// * appstream:fleet:DesiredCapacity - The capacity of an AppStream 2.0 fleet.
     ///
     /// * dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.
     ///
@@ -1435,9 +1471,11 @@ public struct DescribeScalingPoliciesInput {
     ///
     /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
     ///
-    /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
+    /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker serverless endpoint.
     ///
     /// * sagemaker:inference-component:DesiredCopyCount - The number of copies across an endpoint for a SageMaker inference component.
+    ///
+    /// * workspaces:workspacespool:DesiredUserSessions - The number of user sessions for the WorkSpaces in the pool.
     public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
     /// The namespace of the Amazon Web Services service that provides the resource. For a resource provided by your own application or service, use custom-resource instead.
     /// This member is required.
@@ -1663,7 +1701,7 @@ extension ApplicationAutoScalingClientTypes {
 }
 
 extension ApplicationAutoScalingClientTypes {
-    /// This structure defines the CloudWatch metric to return, along with the statistic, period, and unit. For more information about the CloudWatch terminology below, see [Amazon CloudWatch concepts](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html) in the Amazon CloudWatch User Guide.
+    /// This structure defines the CloudWatch metric to return, along with the statistic and unit. For more information about the CloudWatch terminology below, see [Amazon CloudWatch concepts](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html) in the Amazon CloudWatch User Guide.
     public struct TargetTrackingMetricStat {
         /// The CloudWatch metric to return, including the metric name, namespace, and dimensions. To get the exact metric name, namespace, and dimensions, inspect the [Metric](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_Metric.html) object that is returned by a call to [ListMetrics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_ListMetrics.html).
         /// This member is required.
@@ -1829,6 +1867,7 @@ extension ApplicationAutoScalingClientTypes {
         case sagemakerinferencecomponentinvocationspercopy
         case sagemakervariantinvocationsperinstance
         case sagemakervariantprovisionedconcurrencyutilization
+        case workspacesaverageusersessionscapacityutilization
         case sdkUnknown(Swift.String)
 
         public static var allCases: [MetricType] {
@@ -1856,7 +1895,8 @@ extension ApplicationAutoScalingClientTypes {
                 .rdsreaderaveragedatabaseconnections,
                 .sagemakerinferencecomponentinvocationspercopy,
                 .sagemakervariantinvocationsperinstance,
-                .sagemakervariantprovisionedconcurrencyutilization
+                .sagemakervariantprovisionedconcurrencyutilization,
+                .workspacesaverageusersessionscapacityutilization
             ]
         }
 
@@ -1891,6 +1931,7 @@ extension ApplicationAutoScalingClientTypes {
             case .sagemakerinferencecomponentinvocationspercopy: return "SageMakerInferenceComponentInvocationsPerCopy"
             case .sagemakervariantinvocationsperinstance: return "SageMakerVariantInvocationsPerInstance"
             case .sagemakervariantprovisionedconcurrencyutilization: return "SageMakerVariantProvisionedConcurrencyUtilization"
+            case .workspacesaverageusersessionscapacityutilization: return "WorkSpacesAverageUserSessionsCapacityUtilization"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1898,7 +1939,7 @@ extension ApplicationAutoScalingClientTypes {
 }
 
 extension ApplicationAutoScalingClientTypes {
-    /// Represents a predefined metric for a target tracking scaling policy to use with Application Auto Scaling. Only the Amazon Web Services that you're using send metrics to Amazon CloudWatch. To determine whether a desired metric already exists by looking up its namespace and dimension using the CloudWatch metrics dashboard in the console, follow the procedure in [Monitor your resources using CloudWatch](https://docs.aws.amazon.com/autoscaling/application/userguide/monitoring-cloudwatch.html) in the Application Auto Scaling User Guide.
+    /// Represents a predefined metric for a target tracking scaling policy to use with Application Auto Scaling. For more information, [Predefined metrics for target tracking scaling policies](https://docs.aws.amazon.com/autoscaling/application/userguide/monitor-cloudwatch-metrics.html#predefined-metrics) in the Application Auto Scaling User Guide.
     public struct PredefinedMetricSpecification {
         /// The metric type. The ALBRequestCountPerTarget metric type applies only to Spot Fleets and ECS services.
         /// This member is required.
@@ -1981,7 +2022,7 @@ extension ApplicationAutoScalingClientTypes {
         public var policyType: ApplicationAutoScalingClientTypes.PolicyType?
         /// The identifier of the resource associated with the scaling policy. This string consists of the resource type and unique identifier.
         ///
-        /// * ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.
+        /// * ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/my-cluster/my-service.
         ///
         /// * Spot Fleet - The resource type is spot-fleet-request and the unique identifier is the Spot Fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.
         ///
@@ -2013,20 +2054,22 @@ extension ApplicationAutoScalingClientTypes {
         ///
         /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
         ///
-        /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
+        /// * SageMaker serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
         ///
         /// * SageMaker inference component - The resource type is inference-component and the unique identifier is the resource ID. Example: inference-component/my-inference-component.
+        ///
+        /// * Pool of WorkSpaces - The resource type is workspacespool and the unique identifier is the pool ID. Example: workspacespool/wspool-123456.
         /// This member is required.
         public var resourceId: Swift.String?
         /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.
         ///
-        /// * ecs:service:DesiredCount - The desired task count of an ECS service.
+        /// * ecs:service:DesiredCount - The task count of an ECS service.
         ///
         /// * elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.
         ///
         /// * ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot Fleet.
         ///
-        /// * appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.
+        /// * appstream:fleet:DesiredCapacity - The capacity of an AppStream 2.0 fleet.
         ///
         /// * dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.
         ///
@@ -2060,9 +2103,11 @@ extension ApplicationAutoScalingClientTypes {
         ///
         /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
         ///
-        /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
+        /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker serverless endpoint.
         ///
         /// * sagemaker:inference-component:DesiredCopyCount - The number of copies across an endpoint for a SageMaker inference component.
+        ///
+        /// * workspaces:workspacespool:DesiredUserSessions - The number of user sessions for the WorkSpaces in the pool.
         /// This member is required.
         public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
         /// The namespace of the Amazon Web Services service that provides the resource, or a custom-resource.
@@ -2124,7 +2169,7 @@ public struct DescribeScheduledActionsInput {
     public var nextToken: Swift.String?
     /// The identifier of the resource associated with the scheduled action. This string consists of the resource type and unique identifier.
     ///
-    /// * ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.
+    /// * ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/my-cluster/my-service.
     ///
     /// * Spot Fleet - The resource type is spot-fleet-request and the unique identifier is the Spot Fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.
     ///
@@ -2156,19 +2201,21 @@ public struct DescribeScheduledActionsInput {
     ///
     /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
     ///
-    /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
+    /// * SageMaker serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
     ///
     /// * SageMaker inference component - The resource type is inference-component and the unique identifier is the resource ID. Example: inference-component/my-inference-component.
+    ///
+    /// * Pool of WorkSpaces - The resource type is workspacespool and the unique identifier is the pool ID. Example: workspacespool/wspool-123456.
     public var resourceId: Swift.String?
     /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property. If you specify a scalable dimension, you must also specify a resource ID.
     ///
-    /// * ecs:service:DesiredCount - The desired task count of an ECS service.
+    /// * ecs:service:DesiredCount - The task count of an ECS service.
     ///
     /// * elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.
     ///
     /// * ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot Fleet.
     ///
-    /// * appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.
+    /// * appstream:fleet:DesiredCapacity - The capacity of an AppStream 2.0 fleet.
     ///
     /// * dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.
     ///
@@ -2202,9 +2249,11 @@ public struct DescribeScheduledActionsInput {
     ///
     /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
     ///
-    /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
+    /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker serverless endpoint.
     ///
     /// * sagemaker:inference-component:DesiredCopyCount - The number of copies across an endpoint for a SageMaker inference component.
+    ///
+    /// * workspaces:workspacespool:DesiredUserSessions - The number of user sessions for the WorkSpaces in the pool.
     public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
     /// The names of the scheduled actions to describe.
     public var scheduledActionNames: [Swift.String]?
@@ -2260,7 +2309,7 @@ extension ApplicationAutoScalingClientTypes {
         public var endTime: Foundation.Date?
         /// The identifier of the resource associated with the scaling policy. This string consists of the resource type and unique identifier.
         ///
-        /// * ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.
+        /// * ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/my-cluster/my-service.
         ///
         /// * Spot Fleet - The resource type is spot-fleet-request and the unique identifier is the Spot Fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.
         ///
@@ -2292,20 +2341,22 @@ extension ApplicationAutoScalingClientTypes {
         ///
         /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
         ///
-        /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
+        /// * SageMaker serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
         ///
         /// * SageMaker inference component - The resource type is inference-component and the unique identifier is the resource ID. Example: inference-component/my-inference-component.
+        ///
+        /// * Pool of WorkSpaces - The resource type is workspacespool and the unique identifier is the pool ID. Example: workspacespool/wspool-123456.
         /// This member is required.
         public var resourceId: Swift.String?
         /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.
         ///
-        /// * ecs:service:DesiredCount - The desired task count of an ECS service.
+        /// * ecs:service:DesiredCount - The task count of an ECS service.
         ///
         /// * elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.
         ///
         /// * ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot Fleet.
         ///
-        /// * appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.
+        /// * appstream:fleet:DesiredCapacity - The capacity of an AppStream 2.0 fleet.
         ///
         /// * dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.
         ///
@@ -2339,9 +2390,11 @@ extension ApplicationAutoScalingClientTypes {
         ///
         /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
         ///
-        /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
+        /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker serverless endpoint.
         ///
         /// * sagemaker:inference-component:DesiredCopyCount - The number of copies across an endpoint for a SageMaker inference component.
+        ///
+        /// * workspaces:workspacespool:DesiredUserSessions - The number of user sessions for the WorkSpaces in the pool.
         public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
         /// The new minimum and maximum capacity. You can set both values or just one. At the scheduled time, if the current capacity is below the minimum capacity, Application Auto Scaling scales out to the minimum capacity. If the current capacity is above the maximum capacity, Application Auto Scaling scales in to the maximum capacity.
         public var scalableTargetAction: ApplicationAutoScalingClientTypes.ScalableTargetAction?
@@ -2354,7 +2407,7 @@ extension ApplicationAutoScalingClientTypes {
         /// * Cron expressions - "cron(fields)"
         ///
         ///
-        /// At expressions are useful for one-time schedules. Cron expressions are useful for scheduled actions that run periodically at a specified date and time, and rate expressions are useful for scheduled actions that run at a regular interval. At and cron expressions use Universal Coordinated Time (UTC) by default. The cron format consists of six fields separated by white spaces: [Minutes] [Hours] [Day_of_Month] [Month] [Day_of_Week] [Year]. For rate expressions, value is a positive integer and unit is minute | minutes | hour | hours | day | days. For more information and examples, see [Example scheduled actions for Application Auto Scaling](https://docs.aws.amazon.com/autoscaling/application/userguide/examples-scheduled-actions.html) in the Application Auto Scaling User Guide.
+        /// At expressions are useful for one-time schedules. Cron expressions are useful for scheduled actions that run periodically at a specified date and time, and rate expressions are useful for scheduled actions that run at a regular interval. At and cron expressions use Universal Coordinated Time (UTC) by default. The cron format consists of six fields separated by white spaces: [Minutes] [Hours] [Day_of_Month] [Month] [Day_of_Week] [Year]. For rate expressions, value is a positive integer and unit is minute | minutes | hour | hours | day | days. For more information, see [Schedule recurring scaling actions using cron expressions](https://docs.aws.amazon.com/autoscaling/application/userguide/scheduled-scaling-using-cron-expressions.html) in the Application Auto Scaling User Guide.
         /// This member is required.
         public var schedule: Swift.String?
         /// The Amazon Resource Name (ARN) of the scheduled action.
@@ -2502,7 +2555,7 @@ public struct PutScalingPolicyInput {
     public var policyType: ApplicationAutoScalingClientTypes.PolicyType?
     /// The identifier of the resource associated with the scaling policy. This string consists of the resource type and unique identifier.
     ///
-    /// * ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.
+    /// * ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/my-cluster/my-service.
     ///
     /// * Spot Fleet - The resource type is spot-fleet-request and the unique identifier is the Spot Fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.
     ///
@@ -2534,20 +2587,22 @@ public struct PutScalingPolicyInput {
     ///
     /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
     ///
-    /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
+    /// * SageMaker serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
     ///
     /// * SageMaker inference component - The resource type is inference-component and the unique identifier is the resource ID. Example: inference-component/my-inference-component.
+    ///
+    /// * Pool of WorkSpaces - The resource type is workspacespool and the unique identifier is the pool ID. Example: workspacespool/wspool-123456.
     /// This member is required.
     public var resourceId: Swift.String?
     /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.
     ///
-    /// * ecs:service:DesiredCount - The desired task count of an ECS service.
+    /// * ecs:service:DesiredCount - The task count of an ECS service.
     ///
     /// * elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.
     ///
     /// * ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot Fleet.
     ///
-    /// * appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.
+    /// * appstream:fleet:DesiredCapacity - The capacity of an AppStream 2.0 fleet.
     ///
     /// * dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.
     ///
@@ -2581,9 +2636,11 @@ public struct PutScalingPolicyInput {
     ///
     /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
     ///
-    /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
+    /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker serverless endpoint.
     ///
     /// * sagemaker:inference-component:DesiredCopyCount - The number of copies across an endpoint for a SageMaker inference component.
+    ///
+    /// * workspaces:workspacespool:DesiredUserSessions - The number of user sessions for the WorkSpaces in the pool.
     /// This member is required.
     public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
     /// The namespace of the Amazon Web Services service that provides the resource. For a resource provided by your own application or service, use custom-resource instead.
@@ -2636,7 +2693,7 @@ public struct PutScheduledActionInput {
     public var endTime: Foundation.Date?
     /// The identifier of the resource associated with the scheduled action. This string consists of the resource type and unique identifier.
     ///
-    /// * ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.
+    /// * ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/my-cluster/my-service.
     ///
     /// * Spot Fleet - The resource type is spot-fleet-request and the unique identifier is the Spot Fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.
     ///
@@ -2668,20 +2725,22 @@ public struct PutScheduledActionInput {
     ///
     /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
     ///
-    /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
+    /// * SageMaker serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
     ///
     /// * SageMaker inference component - The resource type is inference-component and the unique identifier is the resource ID. Example: inference-component/my-inference-component.
+    ///
+    /// * Pool of WorkSpaces - The resource type is workspacespool and the unique identifier is the pool ID. Example: workspacespool/wspool-123456.
     /// This member is required.
     public var resourceId: Swift.String?
     /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.
     ///
-    /// * ecs:service:DesiredCount - The desired task count of an ECS service.
+    /// * ecs:service:DesiredCount - The task count of an ECS service.
     ///
     /// * elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.
     ///
     /// * ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot Fleet.
     ///
-    /// * appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.
+    /// * appstream:fleet:DesiredCapacity - The capacity of an AppStream 2.0 fleet.
     ///
     /// * dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.
     ///
@@ -2715,9 +2774,11 @@ public struct PutScheduledActionInput {
     ///
     /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
     ///
-    /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
+    /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker serverless endpoint.
     ///
     /// * sagemaker:inference-component:DesiredCopyCount - The number of copies across an endpoint for a SageMaker inference component.
+    ///
+    /// * workspaces:workspacespool:DesiredUserSessions - The number of user sessions for the WorkSpaces in the pool.
     /// This member is required.
     public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
     /// The new minimum and maximum capacity. You can set both values or just one. At the scheduled time, if the current capacity is below the minimum capacity, Application Auto Scaling scales out to the minimum capacity. If the current capacity is above the maximum capacity, Application Auto Scaling scales in to the maximum capacity.
@@ -2731,7 +2792,7 @@ public struct PutScheduledActionInput {
     /// * Cron expressions - "cron(fields)"
     ///
     ///
-    /// At expressions are useful for one-time schedules. Cron expressions are useful for scheduled actions that run periodically at a specified date and time, and rate expressions are useful for scheduled actions that run at a regular interval. At and cron expressions use Universal Coordinated Time (UTC) by default. The cron format consists of six fields separated by white spaces: [Minutes] [Hours] [Day_of_Month] [Month] [Day_of_Week] [Year]. For rate expressions, value is a positive integer and unit is minute | minutes | hour | hours | day | days. For more information and examples, see [Example scheduled actions for Application Auto Scaling](https://docs.aws.amazon.com/autoscaling/application/userguide/examples-scheduled-actions.html) in the Application Auto Scaling User Guide.
+    /// At expressions are useful for one-time schedules. Cron expressions are useful for scheduled actions that run periodically at a specified date and time, and rate expressions are useful for scheduled actions that run at a regular interval. At and cron expressions use Universal Coordinated Time (UTC) by default. The cron format consists of six fields separated by white spaces: [Minutes] [Hours] [Day_of_Month] [Month] [Day_of_Week] [Year]. For rate expressions, value is a positive integer and unit is minute | minutes | hour | hours | day | days. For more information, see [Schedule recurring scaling actions using cron expressions](https://docs.aws.amazon.com/autoscaling/application/userguide/scheduled-scaling-using-cron-expressions.html) in the Application Auto Scaling User Guide.
     public var schedule: Swift.String?
     /// The name of the scheduled action. This name must be unique among all other scheduled actions on the specified scalable target.
     /// This member is required.
@@ -2790,7 +2851,9 @@ public struct RegisterScalableTargetInput {
     ///
     /// * SageMaker endpoint variants
     ///
-    /// * SageMaker Serverless endpoint provisioned concurrency
+    /// * SageMaker inference components
+    ///
+    /// * SageMaker serverless endpoint provisioned concurrency
     ///
     /// * Spot Fleets
     ///
@@ -2801,7 +2864,7 @@ public struct RegisterScalableTargetInput {
     public var minCapacity: Swift.Int?
     /// The identifier of the resource that is associated with the scalable target. This string consists of the resource type and unique identifier.
     ///
-    /// * ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.
+    /// * ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/my-cluster/my-service.
     ///
     /// * Spot Fleet - The resource type is spot-fleet-request and the unique identifier is the Spot Fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.
     ///
@@ -2833,22 +2896,24 @@ public struct RegisterScalableTargetInput {
     ///
     /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
     ///
-    /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
+    /// * SageMaker serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
     ///
     /// * SageMaker inference component - The resource type is inference-component and the unique identifier is the resource ID. Example: inference-component/my-inference-component.
+    ///
+    /// * Pool of WorkSpaces - The resource type is workspacespool and the unique identifier is the pool ID. Example: workspacespool/wspool-123456.
     /// This member is required.
     public var resourceId: Swift.String?
-    /// This parameter is required for services that do not support service-linked roles (such as Amazon EMR), and it must specify the ARN of an IAM role that allows Application Auto Scaling to modify the scalable target on your behalf. If the service supports service-linked roles, Application Auto Scaling uses a service-linked role, which it creates if it does not yet exist. For more information, see [Application Auto Scaling IAM roles](https://docs.aws.amazon.com/autoscaling/application/userguide/security_iam_service-with-iam.html#security_iam_service-with-iam-roles).
+    /// This parameter is required for services that do not support service-linked roles (such as Amazon EMR), and it must specify the ARN of an IAM role that allows Application Auto Scaling to modify the scalable target on your behalf. If the service supports service-linked roles, Application Auto Scaling uses a service-linked role, which it creates if it does not yet exist. For more information, see [How Application Auto Scaling works with IAM](https://docs.aws.amazon.com/autoscaling/application/userguide/security_iam_service-with-iam.html).
     public var roleARN: Swift.String?
     /// The scalable dimension associated with the scalable target. This string consists of the service namespace, resource type, and scaling property.
     ///
-    /// * ecs:service:DesiredCount - The desired task count of an ECS service.
+    /// * ecs:service:DesiredCount - The task count of an ECS service.
     ///
     /// * elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.
     ///
     /// * ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot Fleet.
     ///
-    /// * appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.
+    /// * appstream:fleet:DesiredCapacity - The capacity of an AppStream 2.0 fleet.
     ///
     /// * dynamodb:table:ReadCapacityUnits - The provisioned read capacity for a DynamoDB table.
     ///
@@ -2882,9 +2947,11 @@ public struct RegisterScalableTargetInput {
     ///
     /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
     ///
-    /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
+    /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker serverless endpoint.
     ///
     /// * sagemaker:inference-component:DesiredCopyCount - The number of copies across an endpoint for a SageMaker inference component.
+    ///
+    /// * workspaces:workspacespool:DesiredUserSessions - The number of user sessions for the WorkSpaces in the pool.
     /// This member is required.
     public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
     /// The namespace of the Amazon Web Services service that provides the resource. For a resource provided by your own application or service, use custom-resource instead.
@@ -2899,7 +2966,7 @@ public struct RegisterScalableTargetInput {
     /// * For ScheduledScalingSuspended, while a suspension is in effect, all scaling activities that involve scheduled actions are suspended.
     ///
     ///
-    /// For more information, see [Suspending and resuming scaling](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-suspend-resume-scaling.html) in the Application Auto Scaling User Guide.
+    /// For more information, see [Suspend and resume scaling](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-suspend-resume-scaling.html) in the Application Auto Scaling User Guide.
     public var suspendedState: ApplicationAutoScalingClientTypes.SuspendedState?
     /// Assigns one or more tags to the scalable target. Use this parameter to tag the scalable target when it is created. To tag an existing scalable target, use the [TagResource] operation. Each tag consists of a tag key and a tag value. Both the tag key and the tag value are required. You cannot have more than one tag on a scalable target with the same tag key. Use tags to control access to a scalable target. For more information, see [Tagging support for Application Auto Scaling](https://docs.aws.amazon.com/autoscaling/application/userguide/resource-tagging-support.html) in the Application Auto Scaling User Guide.
     public var tags: [Swift.String: Swift.String]?
@@ -2970,7 +3037,7 @@ public struct TagResourceInput {
     /// Identifies the Application Auto Scaling scalable target that you want to apply tags to. For example: arn:aws:application-autoscaling:us-east-1:123456789012:scalable-target/1234abcd56ab78cd901ef1234567890ab123 To get the ARN for a scalable target, use [DescribeScalableTargets].
     /// This member is required.
     public var resourceARN: Swift.String?
-    /// The tags assigned to the resource. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a tag key and a tag value. You cannot have more than one tag on an Application Auto Scaling scalable target with the same tag key. If you specify an existing tag key with a different tag value, Application Auto Scaling replaces the current tag value with the specified one. For information about the rules that apply to tag keys and tag values, see [User-defined tag restrictions](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/allocation-tag-restrictions.html) in the Amazon Web Services Billing and Cost Management User Guide.
+    /// The tags assigned to the resource. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a tag key and a tag value. You cannot have more than one tag on an Application Auto Scaling scalable target with the same tag key. If you specify an existing tag key with a different tag value, Application Auto Scaling replaces the current tag value with the specified one. For information about the rules that apply to tag keys and tag values, see [User-defined tag restrictions](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/allocation-tag-restrictions.html) in the Amazon Web Services Billing User Guide.
     /// This member is required.
     public var tags: [Swift.String: Swift.String]?
 

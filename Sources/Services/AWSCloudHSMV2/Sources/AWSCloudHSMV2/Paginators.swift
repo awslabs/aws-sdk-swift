@@ -30,6 +30,7 @@ extension DescribeBackupsInput: ClientRuntime.PaginateToken {
             filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token,
+            shared: self.shared,
             sortAscending: self.sortAscending
         )}
 }

@@ -516,6 +516,8 @@ public struct CreateEnvironmentInput {
     public var desktopArn: Swift.String?
     /// The URL for the identity provider login (only for environments that use AppStream 2.0).
     public var desktopEndpoint: Swift.String?
+    /// A map of the key-value pairs of the tag or tags to assign to the newly created devices for this environment.
+    public var deviceCreationTags: [Swift.String: Swift.String]?
     /// The Amazon Resource Name (ARN) of the Key Management Service key to use to encrypt the environment.
     public var kmsKeyArn: Swift.String?
     /// A specification for a time window to apply software updates.
@@ -534,6 +536,7 @@ public struct CreateEnvironmentInput {
         desiredSoftwareSetId: Swift.String? = nil,
         desktopArn: Swift.String? = nil,
         desktopEndpoint: Swift.String? = nil,
+        deviceCreationTags: [Swift.String: Swift.String]? = nil,
         kmsKeyArn: Swift.String? = nil,
         maintenanceWindow: WorkSpacesThinClientClientTypes.MaintenanceWindow? = nil,
         name: Swift.String? = nil,
@@ -546,6 +549,7 @@ public struct CreateEnvironmentInput {
         self.desiredSoftwareSetId = desiredSoftwareSetId
         self.desktopArn = desktopArn
         self.desktopEndpoint = desktopEndpoint
+        self.deviceCreationTags = deviceCreationTags
         self.kmsKeyArn = kmsKeyArn
         self.maintenanceWindow = maintenanceWindow
         self.name = name
@@ -557,7 +561,7 @@ public struct CreateEnvironmentInput {
 
 extension CreateEnvironmentInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateEnvironmentInput(clientToken: \(Swift.String(describing: clientToken)), desiredSoftwareSetId: \(Swift.String(describing: desiredSoftwareSetId)), desktopArn: \(Swift.String(describing: desktopArn)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), maintenanceWindow: \(Swift.String(describing: maintenanceWindow)), softwareSetUpdateMode: \(Swift.String(describing: softwareSetUpdateMode)), softwareSetUpdateSchedule: \(Swift.String(describing: softwareSetUpdateSchedule)), desktopEndpoint: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "CreateEnvironmentInput(clientToken: \(Swift.String(describing: clientToken)), desiredSoftwareSetId: \(Swift.String(describing: desiredSoftwareSetId)), desktopArn: \(Swift.String(describing: desktopArn)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), maintenanceWindow: \(Swift.String(describing: maintenanceWindow)), softwareSetUpdateMode: \(Swift.String(describing: softwareSetUpdateMode)), softwareSetUpdateSchedule: \(Swift.String(describing: softwareSetUpdateSchedule)), desktopEndpoint: \"CONTENT_REDACTED\", deviceCreationTags: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 extension WorkSpacesThinClientClientTypes {
@@ -1102,6 +1106,8 @@ extension WorkSpacesThinClientClientTypes {
         public var desktopEndpoint: Swift.String?
         /// The type of streaming desktop for the environment.
         public var desktopType: WorkSpacesThinClientClientTypes.DesktopType?
+        /// "The tag keys and optional values for the newly created devices for this environment."
+        public var deviceCreationTags: [Swift.String: Swift.String]?
         /// The ID of the environment.
         public var id: Swift.String?
         /// The Amazon Resource Name (ARN) of the Key Management Service key used to encrypt the environment.
@@ -1135,6 +1141,7 @@ extension WorkSpacesThinClientClientTypes {
             desktopArn: Swift.String? = nil,
             desktopEndpoint: Swift.String? = nil,
             desktopType: WorkSpacesThinClientClientTypes.DesktopType? = nil,
+            deviceCreationTags: [Swift.String: Swift.String]? = nil,
             id: Swift.String? = nil,
             kmsKeyArn: Swift.String? = nil,
             maintenanceWindow: WorkSpacesThinClientClientTypes.MaintenanceWindow? = nil,
@@ -1156,6 +1163,7 @@ extension WorkSpacesThinClientClientTypes {
             self.desktopArn = desktopArn
             self.desktopEndpoint = desktopEndpoint
             self.desktopType = desktopType
+            self.deviceCreationTags = deviceCreationTags
             self.id = id
             self.kmsKeyArn = kmsKeyArn
             self.maintenanceWindow = maintenanceWindow
@@ -1175,7 +1183,7 @@ extension WorkSpacesThinClientClientTypes {
 
 extension WorkSpacesThinClientClientTypes.Environment: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Environment(activationCode: \(Swift.String(describing: activationCode)), arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), desiredSoftwareSetId: \(Swift.String(describing: desiredSoftwareSetId)), desktopArn: \(Swift.String(describing: desktopArn)), desktopType: \(Swift.String(describing: desktopType)), id: \(Swift.String(describing: id)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), maintenanceWindow: \(Swift.String(describing: maintenanceWindow)), pendingSoftwareSetId: \(Swift.String(describing: pendingSoftwareSetId)), pendingSoftwareSetVersion: \(Swift.String(describing: pendingSoftwareSetVersion)), registeredDevicesCount: \(Swift.String(describing: registeredDevicesCount)), softwareSetComplianceStatus: \(Swift.String(describing: softwareSetComplianceStatus)), softwareSetUpdateMode: \(Swift.String(describing: softwareSetUpdateMode)), softwareSetUpdateSchedule: \(Swift.String(describing: softwareSetUpdateSchedule)), updatedAt: \(Swift.String(describing: updatedAt)), desktopEndpoint: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "Environment(activationCode: \(Swift.String(describing: activationCode)), arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), desiredSoftwareSetId: \(Swift.String(describing: desiredSoftwareSetId)), desktopArn: \(Swift.String(describing: desktopArn)), desktopType: \(Swift.String(describing: desktopType)), id: \(Swift.String(describing: id)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), maintenanceWindow: \(Swift.String(describing: maintenanceWindow)), pendingSoftwareSetId: \(Swift.String(describing: pendingSoftwareSetId)), pendingSoftwareSetVersion: \(Swift.String(describing: pendingSoftwareSetVersion)), registeredDevicesCount: \(Swift.String(describing: registeredDevicesCount)), softwareSetComplianceStatus: \(Swift.String(describing: softwareSetComplianceStatus)), softwareSetUpdateMode: \(Swift.String(describing: softwareSetUpdateMode)), softwareSetUpdateSchedule: \(Swift.String(describing: softwareSetUpdateSchedule)), updatedAt: \(Swift.String(describing: updatedAt)), desktopEndpoint: \"CONTENT_REDACTED\", deviceCreationTags: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetDeviceInput {
@@ -1618,6 +1626,8 @@ public struct UpdateEnvironmentInput {
     public var desktopArn: Swift.String?
     /// The URL for the identity provider login (only for environments that use AppStream 2.0).
     public var desktopEndpoint: Swift.String?
+    /// A map of the key-value pairs of the tag or tags to assign to the newly created devices for this environment.
+    public var deviceCreationTags: [Swift.String: Swift.String]?
     /// The ID of the environment to update.
     /// This member is required.
     public var id: Swift.String?
@@ -1634,6 +1644,7 @@ public struct UpdateEnvironmentInput {
         desiredSoftwareSetId: Swift.String? = nil,
         desktopArn: Swift.String? = nil,
         desktopEndpoint: Swift.String? = nil,
+        deviceCreationTags: [Swift.String: Swift.String]? = nil,
         id: Swift.String? = nil,
         maintenanceWindow: WorkSpacesThinClientClientTypes.MaintenanceWindow? = nil,
         name: Swift.String? = nil,
@@ -1644,6 +1655,7 @@ public struct UpdateEnvironmentInput {
         self.desiredSoftwareSetId = desiredSoftwareSetId
         self.desktopArn = desktopArn
         self.desktopEndpoint = desktopEndpoint
+        self.deviceCreationTags = deviceCreationTags
         self.id = id
         self.maintenanceWindow = maintenanceWindow
         self.name = name
@@ -1654,7 +1666,7 @@ public struct UpdateEnvironmentInput {
 
 extension UpdateEnvironmentInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateEnvironmentInput(desiredSoftwareSetId: \(Swift.String(describing: desiredSoftwareSetId)), desktopArn: \(Swift.String(describing: desktopArn)), id: \(Swift.String(describing: id)), maintenanceWindow: \(Swift.String(describing: maintenanceWindow)), softwareSetUpdateMode: \(Swift.String(describing: softwareSetUpdateMode)), softwareSetUpdateSchedule: \(Swift.String(describing: softwareSetUpdateSchedule)), desktopEndpoint: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "UpdateEnvironmentInput(desiredSoftwareSetId: \(Swift.String(describing: desiredSoftwareSetId)), desktopArn: \(Swift.String(describing: desktopArn)), id: \(Swift.String(describing: id)), maintenanceWindow: \(Swift.String(describing: maintenanceWindow)), softwareSetUpdateMode: \(Swift.String(describing: softwareSetUpdateMode)), softwareSetUpdateSchedule: \(Swift.String(describing: softwareSetUpdateSchedule)), desktopEndpoint: \"CONTENT_REDACTED\", deviceCreationTags: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateEnvironmentOutput {
@@ -1936,6 +1948,7 @@ extension CreateEnvironmentInput {
         try writer["desiredSoftwareSetId"].write(value.desiredSoftwareSetId)
         try writer["desktopArn"].write(value.desktopArn)
         try writer["desktopEndpoint"].write(value.desktopEndpoint)
+        try writer["deviceCreationTags"].writeMap(value.deviceCreationTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["kmsKeyArn"].write(value.kmsKeyArn)
         try writer["maintenanceWindow"].write(value.maintenanceWindow, with: WorkSpacesThinClientClientTypes.MaintenanceWindow.write(value:to:))
         try writer["name"].write(value.name)
@@ -1979,6 +1992,7 @@ extension UpdateEnvironmentInput {
         try writer["desiredSoftwareSetId"].write(value.desiredSoftwareSetId)
         try writer["desktopArn"].write(value.desktopArn)
         try writer["desktopEndpoint"].write(value.desktopEndpoint)
+        try writer["deviceCreationTags"].writeMap(value.deviceCreationTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["maintenanceWindow"].write(value.maintenanceWindow, with: WorkSpacesThinClientClientTypes.MaintenanceWindow.write(value:to:))
         try writer["name"].write(value.name)
         try writer["softwareSetUpdateMode"].write(value.softwareSetUpdateMode)
@@ -2666,6 +2680,7 @@ extension WorkSpacesThinClientClientTypes.Environment {
         value.arn = try reader["arn"].readIfPresent()
         value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.deviceCreationTags = try reader["deviceCreationTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }

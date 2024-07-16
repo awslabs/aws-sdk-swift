@@ -5096,9 +5096,11 @@ enum CreateAcceleratorOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServiceErrorException": return try InternalServiceErrorException.makeError(baseError: baseError)
             case "InvalidArgumentException": return try InvalidArgumentException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "TransactionInProgressException": return try TransactionInProgressException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -5134,6 +5136,7 @@ enum CreateCustomRoutingAcceleratorOutputError {
             case "InternalServiceErrorException": return try InternalServiceErrorException.makeError(baseError: baseError)
             case "InvalidArgumentException": return try InvalidArgumentException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "TransactionInProgressException": return try TransactionInProgressException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -5229,6 +5232,7 @@ enum DeleteAcceleratorOutputError {
             case "AssociatedListenerFoundException": return try AssociatedListenerFoundException.makeError(baseError: baseError)
             case "InternalServiceErrorException": return try InternalServiceErrorException.makeError(baseError: baseError)
             case "InvalidArgumentException": return try InvalidArgumentException.makeError(baseError: baseError)
+            case "TransactionInProgressException": return try TransactionInProgressException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -5265,6 +5269,7 @@ enum DeleteCustomRoutingAcceleratorOutputError {
             case "AssociatedListenerFoundException": return try AssociatedListenerFoundException.makeError(baseError: baseError)
             case "InternalServiceErrorException": return try InternalServiceErrorException.makeError(baseError: baseError)
             case "InvalidArgumentException": return try InvalidArgumentException.makeError(baseError: baseError)
+            case "TransactionInProgressException": return try TransactionInProgressException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -5726,8 +5731,11 @@ enum ListTagsForResourceOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AcceleratorNotFoundException": return try AcceleratorNotFoundException.makeError(baseError: baseError)
+            case "AttachmentNotFoundException": return try AttachmentNotFoundException.makeError(baseError: baseError)
+            case "EndpointGroupNotFoundException": return try EndpointGroupNotFoundException.makeError(baseError: baseError)
             case "InternalServiceErrorException": return try InternalServiceErrorException.makeError(baseError: baseError)
             case "InvalidArgumentException": return try InvalidArgumentException.makeError(baseError: baseError)
+            case "ListenerNotFoundException": return try ListenerNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -5830,8 +5838,10 @@ enum UpdateAcceleratorOutputError {
         switch baseError.code {
             case "AcceleratorNotFoundException": return try AcceleratorNotFoundException.makeError(baseError: baseError)
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServiceErrorException": return try InternalServiceErrorException.makeError(baseError: baseError)
             case "InvalidArgumentException": return try InvalidArgumentException.makeError(baseError: baseError)
+            case "TransactionInProgressException": return try TransactionInProgressException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -5849,6 +5859,7 @@ enum UpdateAcceleratorAttributesOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServiceErrorException": return try InternalServiceErrorException.makeError(baseError: baseError)
             case "InvalidArgumentException": return try InvalidArgumentException.makeError(baseError: baseError)
+            case "TransactionInProgressException": return try TransactionInProgressException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -5882,8 +5893,10 @@ enum UpdateCustomRoutingAcceleratorOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AcceleratorNotFoundException": return try AcceleratorNotFoundException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServiceErrorException": return try InternalServiceErrorException.makeError(baseError: baseError)
             case "InvalidArgumentException": return try InvalidArgumentException.makeError(baseError: baseError)
+            case "TransactionInProgressException": return try TransactionInProgressException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -5901,6 +5914,7 @@ enum UpdateCustomRoutingAcceleratorAttributesOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServiceErrorException": return try InternalServiceErrorException.makeError(baseError: baseError)
             case "InvalidArgumentException": return try InvalidArgumentException.makeError(baseError: baseError)
+            case "TransactionInProgressException": return try TransactionInProgressException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }

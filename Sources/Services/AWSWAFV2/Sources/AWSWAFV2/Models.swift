@@ -544,7 +544,7 @@ extension WAFV2ClientTypes {
 }
 
 extension WAFV2ClientTypes {
-    /// Inspect the body of the web request as JSON. The body immediately follows the request headers. This is used to indicate the web request component to inspect, in the [FieldToMatch] specification. Use the specifications in this object to indicate which parts of the JSON body to inspect using the rule's inspection criteria. WAF inspects only the parts of the JSON that result from the matches that you indicate. Example JSON: "JsonBody": { "MatchPattern": { "All": {} }, "MatchScope": "ALL" }
+    /// Inspect the body of the web request as JSON. The body immediately follows the request headers. This is used to indicate the web request component to inspect, in the [FieldToMatch] specification. Use the specifications in this object to indicate which parts of the JSON body to inspect using the rule's inspection criteria. WAF inspects only the parts of the JSON that result from the matches that you indicate. Example JSON: "JsonBody": { "MatchPattern": { "All": {} }, "MatchScope": "ALL" } For additional information about this request component option, see [JSON body](https://docs.aws.amazon.com/waf/latest/developerguide/waf-rule-statement-fields-list.html#waf-rule-statement-request-component-json-body) in the WAF Developer Guide.
     public struct JsonBody {
         /// What WAF should do if it fails to completely parse the JSON body. The options are the following:
         ///
@@ -555,13 +555,7 @@ extension WAFV2ClientTypes {
         /// * NO_MATCH - Treat the web request as not matching the rule statement.
         ///
         ///
-        /// If you don't provide this setting, WAF parses and evaluates the content only up to the first parsing failure that it encounters. WAF does its best to parse the entire JSON body, but might be forced to stop for reasons such as invalid characters, duplicate keys, truncation, and any content whose root node isn't an object or an array. WAF parses the JSON in the following examples as two valid key, value pairs:
-        ///
-        /// * Missing comma: {"key1":"value1""key2":"value2"}
-        ///
-        /// * Missing colon: {"key1":"value1","key2""value2"}
-        ///
-        /// * Extra colons: {"key1"::"value1","key2""value2"}
+        /// If you don't provide this setting, WAF parses and evaluates the content only up to the first parsing failure that it encounters. WAF parsing doesn't fully validate the input JSON string, so parsing can succeed even for invalid JSON. When parsing succeeds, WAF doesn't apply the fallback behavior. For more information, see [JSON body](https://docs.aws.amazon.com/waf/latest/developerguide/waf-rule-statement-fields-list.html#waf-rule-statement-request-component-json-body) in the WAF Developer Guide.
         public var invalidFallbackBehavior: WAFV2ClientTypes.BodyParsingFallbackBehavior?
         /// The patterns to look for in the JSON body. WAF inspects the results of these pattern matches against the rule inspection criteria.
         /// This member is required.

@@ -182,6 +182,59 @@ extension BedrockRuntimeClient {
 }
 
 extension BedrockRuntimeClient {
+    /// Performs the `ApplyGuardrail` operation on the `AmazonBedrockFrontendService` service.
+    ///
+    /// The action to apply a guardrail.
+    ///
+    /// - Parameter ApplyGuardrailInput : [no documentation found]
+    ///
+    /// - Returns: `ApplyGuardrailOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ServiceQuotaExceededException` : The number of requests exceeds the service quota. Resubmit your request later.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
+    public func applyGuardrail(input: ApplyGuardrailInput) async throws -> ApplyGuardrailOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "applyGuardrail")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "bedrock")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ApplyGuardrailInput, ApplyGuardrailOutput>(id: "applyGuardrail")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ApplyGuardrailInput, ApplyGuardrailOutput>(ApplyGuardrailInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ApplyGuardrailInput, ApplyGuardrailOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<ApplyGuardrailOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ApplyGuardrailInput, ApplyGuardrailOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ApplyGuardrailOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<ApplyGuardrailInput, ApplyGuardrailOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ApplyGuardrailInput, ApplyGuardrailOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ApplyGuardrailInput.write(value:to:)))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ApplyGuardrailInput, ApplyGuardrailOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ApplyGuardrailOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ApplyGuardrailOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ApplyGuardrailOutput>(ApplyGuardrailOutput.httpOutput(from:), ApplyGuardrailOutputError.httpError(from:)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ApplyGuardrailInput, ApplyGuardrailOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `Converse` operation on the `AmazonBedrockFrontendService` service.
     ///
     /// Sends messages to the specified Amazon Bedrock model. Converse provides a consistent interface that works with all models that support messages. This allows you to write code once and use it with different models. Should a model have unique inference parameters, you can also pass those unique parameters to the model. For information about the Converse API, see Use the Converse API in the Amazon Bedrock User Guide. To use a guardrail, see Use a guardrail with the Converse API in the Amazon Bedrock User Guide. To use a tool with a model, see Tool use (Function calling) in the Amazon Bedrock User Guide For example code, see Converse API examples in the Amazon Bedrock User Guide. This operation requires permission for the bedrock:InvokeModel action.

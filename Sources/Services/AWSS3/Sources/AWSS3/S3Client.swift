@@ -444,7 +444,7 @@ extension S3Client {
     /// For example policies, see [Example bucket policies for S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam-example-bucket-policies.html) and [Amazon Web Services Identity and Access Management (IAM) identity-based policies for S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam-identity-policies.html) in the Amazon S3 User Guide.
     ///
     ///
-    /// Response and special errors When the request is an HTTP 1.1 request, the response is chunk encoded. When the request is not an HTTP 1.1 request, the response would not contain the Content-Length. You always need to read the entire response body to check if the copy succeeds. to keep the connection alive while we copy the data.
+    /// Response and special errors When the request is an HTTP 1.1 request, the response is chunk encoded. When the request is not an HTTP 1.1 request, the response would not contain the Content-Length. You always need to read the entire response body to check if the copy succeeds.
     ///
     /// * If the copy is successful, you receive a response with information about the copied object.
     ///
@@ -1874,7 +1874,7 @@ extension S3Client {
     ///
     /// * s3:DeleteObject - To delete an object from a bucket, you must always specify the s3:DeleteObject permission.
     ///
-    /// * s3:DeleteObjectVersion - To delete a specific version of an object from a versiong-enabled bucket, you must specify the s3:DeleteObjectVersion permission.
+    /// * s3:DeleteObjectVersion - To delete a specific version of an object from a versioning-enabled bucket, you must specify the s3:DeleteObjectVersion permission.
     ///
     ///
     ///
@@ -7456,11 +7456,11 @@ extension S3Client {
     /// * If the destination bucket is a general purpose bucket, you must have the s3:PutObject permission to write the object copy to the destination bucket.
     ///
     ///
-    /// For information about permissions required to use the multipart upload API, see [Multipart Upload and Permissions](https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuAndPermissions.html) in the Amazon S3 User Guide.
+    /// For information about permissions required to use the multipart upload API, see [Multipart upload API and permissions](https://docs.aws.amazon.com/AmazonS3/latest/userguide/mpuoverview.html#mpuAndPermissions) in the Amazon S3 User Guide.
     ///
     /// * Directory bucket permissions - You must have permissions in a bucket policy or an IAM identity-based policy based on the source and destination bucket types in an UploadPartCopy operation.
     ///
-    /// * If the source object that you want to copy is in a directory bucket, you must have the s3express:CreateSession permission in the Action element of a policy to read the object . By default, the session is in the ReadWrite mode. If you want to restrict the access, you can explicitly set the s3express:SessionMode condition key to ReadOnly on the copy source bucket.
+    /// * If the source object that you want to copy is in a directory bucket, you must have the s3express:CreateSession permission in the Action element of a policy to read the object. By default, the session is in the ReadWrite mode. If you want to restrict the access, you can explicitly set the s3express:SessionMode condition key to ReadOnly on the copy source bucket.
     ///
     /// * If the copy destination is a directory bucket, you must have the s3express:CreateSession permission in the Action element of a policy to write the object to the destination. The s3express:SessionMode condition key cannot be set to ReadOnly on the copy destination.
     ///

@@ -494,7 +494,7 @@ extension ApplicationAutoScalingClient {
 
     /// Performs the `DescribeScheduledActions` operation on the `AnyScaleFrontendService` service.
     ///
-    /// Describes the Application Auto Scaling scheduled actions for the specified service namespace. You can filter the results using the ResourceId, ScalableDimension, and ScheduledActionNames parameters. For more information, see [Scheduled scaling](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-scheduled-scaling.html) and [Managing scheduled scaling](https://docs.aws.amazon.com/autoscaling/application/userguide/scheduled-scaling-additional-cli-commands.html) in the Application Auto Scaling User Guide.
+    /// Describes the Application Auto Scaling scheduled actions for the specified service namespace. You can filter the results using the ResourceId, ScalableDimension, and ScheduledActionNames parameters. For more information, see [Scheduled scaling](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-scheduled-scaling.html) in the Application Auto Scaling User Guide.
     ///
     /// - Parameter DescribeScheduledActionsInput : [no documentation found]
     ///
@@ -546,7 +546,7 @@ extension ApplicationAutoScalingClient {
 
     /// Performs the `ListTagsForResource` operation on the `AnyScaleFrontendService` service.
     ///
-    /// Returns all the tags on the specified Application Auto Scaling scalable target. For general information about tags, including the format and syntax, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference.
+    /// Returns all the tags on the specified Application Auto Scaling scalable target. For general information about tags, including the format and syntax, see [Tagging your Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
@@ -754,7 +754,7 @@ extension ApplicationAutoScalingClient {
 
     /// Performs the `TagResource` operation on the `AnyScaleFrontendService` service.
     ///
-    /// Adds or edits tags on an Application Auto Scaling scalable target. Each tag consists of a tag key and a tag value, which are both case-sensitive strings. To add a tag, specify a new tag key and a tag value. To edit a tag, specify an existing tag key and a new tag value. You can use this operation to tag an Application Auto Scaling scalable target, but you cannot tag a scaling policy or scheduled action. You can also add tags to an Application Auto Scaling scalable target while creating it (RegisterScalableTarget). For general information about tags, including the format and syntax, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference. Use tags to control access to a scalable target. For more information, see [Tagging support for Application Auto Scaling](https://docs.aws.amazon.com/autoscaling/application/userguide/resource-tagging-support.html) in the Application Auto Scaling User Guide.
+    /// Adds or edits tags on an Application Auto Scaling scalable target. Each tag consists of a tag key and a tag value, which are both case-sensitive strings. To add a tag, specify a new tag key and a tag value. To edit a tag, specify an existing tag key and a new tag value. You can use this operation to tag an Application Auto Scaling scalable target, but you cannot tag a scaling policy or scheduled action. You can also add tags to an Application Auto Scaling scalable target while creating it (RegisterScalableTarget). For general information about tags, including the format and syntax, see [Tagging your Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference. Use tags to control access to a scalable target. For more information, see [Tagging support for Application Auto Scaling](https://docs.aws.amazon.com/autoscaling/application/userguide/resource-tagging-support.html) in the Application Auto Scaling User Guide.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///

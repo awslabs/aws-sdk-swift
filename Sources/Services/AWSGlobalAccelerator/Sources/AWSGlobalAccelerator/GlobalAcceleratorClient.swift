@@ -410,9 +410,11 @@ extension GlobalAcceleratorClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access permission.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `LimitExceededException` : Processing your request would cause you to exceed an Global Accelerator limit.
+    /// - `TransactionInProgressException` : There's already a transaction in progress. Another transaction can't be processed.
     public func createAccelerator(input: CreateAcceleratorInput) async throws -> CreateAcceleratorOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -520,6 +522,7 @@ extension GlobalAcceleratorClient {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `LimitExceededException` : Processing your request would cause you to exceed an Global Accelerator limit.
+    /// - `TransactionInProgressException` : There's already a transaction in progress. Another transaction can't be processed.
     public func createCustomRoutingAccelerator(input: CreateCustomRoutingAcceleratorInput) async throws -> CreateCustomRoutingAcceleratorOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -795,6 +798,7 @@ extension GlobalAcceleratorClient {
     /// - `AssociatedListenerFoundException` : The accelerator that you specified has a listener associated with it. You must remove all dependent resources from an accelerator before you can delete it.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
+    /// - `TransactionInProgressException` : There's already a transaction in progress. Another transaction can't be processed.
     public func deleteAccelerator(input: DeleteAcceleratorInput) async throws -> DeleteAcceleratorOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -901,6 +905,7 @@ extension GlobalAcceleratorClient {
     /// - `AssociatedListenerFoundException` : The accelerator that you specified has a listener associated with it. You must remove all dependent resources from an accelerator before you can delete it.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
+    /// - `TransactionInProgressException` : There's already a transaction in progress. Another transaction can't be processed.
     public func deleteCustomRoutingAccelerator(input: DeleteCustomRoutingAcceleratorInput) async throws -> DeleteCustomRoutingAcceleratorOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2342,8 +2347,11 @@ extension GlobalAcceleratorClient {
     ///
     /// __Possible Exceptions:__
     /// - `AcceleratorNotFoundException` : The accelerator that you specified doesn't exist.
+    /// - `AttachmentNotFoundException` : No cross-account attachment was found.
+    /// - `EndpointGroupNotFoundException` : The endpoint group that you specified doesn't exist.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
+    /// - `ListenerNotFoundException` : The listener that you specified doesn't exist.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2671,8 +2679,10 @@ extension GlobalAcceleratorClient {
     /// __Possible Exceptions:__
     /// - `AcceleratorNotFoundException` : The accelerator that you specified doesn't exist.
     /// - `AccessDeniedException` : You don't have access permission.
+    /// - `ConflictException` : You can't use both of those options.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
+    /// - `TransactionInProgressException` : There's already a transaction in progress. Another transaction can't be processed.
     public func updateAccelerator(input: UpdateAcceleratorInput) async throws -> UpdateAcceleratorOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2725,6 +2735,7 @@ extension GlobalAcceleratorClient {
     /// - `AccessDeniedException` : You don't have access permission.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
+    /// - `TransactionInProgressException` : There's already a transaction in progress. Another transaction can't be processed.
     public func updateAcceleratorAttributes(input: UpdateAcceleratorAttributesInput) async throws -> UpdateAcceleratorAttributesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2828,8 +2839,10 @@ extension GlobalAcceleratorClient {
     ///
     /// __Possible Exceptions:__
     /// - `AcceleratorNotFoundException` : The accelerator that you specified doesn't exist.
+    /// - `ConflictException` : You can't use both of those options.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
+    /// - `TransactionInProgressException` : There's already a transaction in progress. Another transaction can't be processed.
     public func updateCustomRoutingAccelerator(input: UpdateCustomRoutingAcceleratorInput) async throws -> UpdateCustomRoutingAcceleratorOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2882,6 +2895,7 @@ extension GlobalAcceleratorClient {
     /// - `AccessDeniedException` : You don't have access permission.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
+    /// - `TransactionInProgressException` : There's already a transaction in progress. Another transaction can't be processed.
     public func updateCustomRoutingAcceleratorAttributes(input: UpdateCustomRoutingAcceleratorAttributesInput) async throws -> UpdateCustomRoutingAcceleratorAttributesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)

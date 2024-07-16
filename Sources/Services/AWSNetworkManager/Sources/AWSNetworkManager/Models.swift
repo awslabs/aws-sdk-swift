@@ -322,6 +322,81 @@ extension NetworkManagerClientTypes {
 }
 
 extension NetworkManagerClientTypes {
+
+    public enum AttachmentErrorCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case maximumNoEncapLimitExceeded
+        case subnetDuplicatedInAvailabilityZone
+        case subnetNotFound
+        case subnetNoFreeAddresses
+        case subnetNoIpv6Cidrs
+        case subnetUnsupportedAvailabilityZone
+        case vpcNotFound
+        case vpnConnectionNotFound
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AttachmentErrorCode] {
+            return [
+                .maximumNoEncapLimitExceeded,
+                .subnetDuplicatedInAvailabilityZone,
+                .subnetNotFound,
+                .subnetNoFreeAddresses,
+                .subnetNoIpv6Cidrs,
+                .subnetUnsupportedAvailabilityZone,
+                .vpcNotFound,
+                .vpnConnectionNotFound
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .maximumNoEncapLimitExceeded: return "MAXIMUM_NO_ENCAP_LIMIT_EXCEEDED"
+            case .subnetDuplicatedInAvailabilityZone: return "SUBNET_DUPLICATED_IN_AVAILABILITY_ZONE"
+            case .subnetNotFound: return "SUBNET_NOT_FOUND"
+            case .subnetNoFreeAddresses: return "SUBNET_NO_FREE_ADDRESSES"
+            case .subnetNoIpv6Cidrs: return "SUBNET_NO_IPV6_CIDRS"
+            case .subnetUnsupportedAvailabilityZone: return "SUBNET_UNSUPPORTED_AVAILABILITY_ZONE"
+            case .vpcNotFound: return "VPC_NOT_FOUND"
+            case .vpnConnectionNotFound: return "VPN_CONNECTION_NOT_FOUND"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension NetworkManagerClientTypes {
+    /// Describes the error associated with an attachment request.
+    public struct AttachmentError {
+        /// The error code for the attachment request.
+        public var code: NetworkManagerClientTypes.AttachmentErrorCode?
+        /// The message associated with the error code.
+        public var message: Swift.String?
+        /// The ID of the attachment request.
+        public var requestId: Swift.String?
+        /// The ARN of the requested attachment resource.
+        public var resourceArn: Swift.String?
+
+        public init(
+            code: NetworkManagerClientTypes.AttachmentErrorCode? = nil,
+            message: Swift.String? = nil,
+            requestId: Swift.String? = nil,
+            resourceArn: Swift.String? = nil
+        )
+        {
+            self.code = code
+            self.message = message
+            self.requestId = requestId
+            self.resourceArn = resourceArn
+        }
+    }
+
+}
+
+extension NetworkManagerClientTypes {
     /// Describes a tag.
     public struct Tag {
         /// The tag key. Constraints: Maximum length of 128 characters.
@@ -456,6 +531,8 @@ extension NetworkManagerClientTypes {
         public var createdAt: Foundation.Date?
         /// The Region where the edge is located.
         public var edgeLocation: Swift.String?
+        /// Describes the error associated with the attachment request.
+        public var lastModificationErrors: [NetworkManagerClientTypes.AttachmentError]?
         /// The name of the network function group.
         public var networkFunctionGroupName: Swift.String?
         /// The ID of the attachment account owner.
@@ -483,6 +560,7 @@ extension NetworkManagerClientTypes {
             coreNetworkId: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
             edgeLocation: Swift.String? = nil,
+            lastModificationErrors: [NetworkManagerClientTypes.AttachmentError]? = nil,
             networkFunctionGroupName: Swift.String? = nil,
             ownerAccountId: Swift.String? = nil,
             proposedNetworkFunctionGroupChange: NetworkManagerClientTypes.ProposedNetworkFunctionGroupChange? = nil,
@@ -501,6 +579,7 @@ extension NetworkManagerClientTypes {
             self.coreNetworkId = coreNetworkId
             self.createdAt = createdAt
             self.edgeLocation = edgeLocation
+            self.lastModificationErrors = lastModificationErrors
             self.networkFunctionGroupName = networkFunctionGroupName
             self.ownerAccountId = ownerAccountId
             self.proposedNetworkFunctionGroupChange = proposedNetworkFunctionGroupChange
@@ -1528,6 +1607,75 @@ extension NetworkManagerClientTypes {
 
 extension NetworkManagerClientTypes {
 
+    public enum ConnectPeerErrorCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case edgeLocationNoFreeIps
+        case edgeLocationPeerDuplicate
+        case invalidInsideCidrBlock
+        case ipOutsideSubnetCidrRange
+        case noAssociatedCidrBlock
+        case subnetNotFound
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConnectPeerErrorCode] {
+            return [
+                .edgeLocationNoFreeIps,
+                .edgeLocationPeerDuplicate,
+                .invalidInsideCidrBlock,
+                .ipOutsideSubnetCidrRange,
+                .noAssociatedCidrBlock,
+                .subnetNotFound
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .edgeLocationNoFreeIps: return "EDGE_LOCATION_NO_FREE_IPS"
+            case .edgeLocationPeerDuplicate: return "EDGE_LOCATION_PEER_DUPLICATE"
+            case .invalidInsideCidrBlock: return "INVALID_INSIDE_CIDR_BLOCK"
+            case .ipOutsideSubnetCidrRange: return "IP_OUTSIDE_SUBNET_CIDR_RANGE"
+            case .noAssociatedCidrBlock: return "NO_ASSOCIATED_CIDR_BLOCK"
+            case .subnetNotFound: return "SUBNET_NOT_FOUND"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension NetworkManagerClientTypes {
+    /// Describes an error associated with a Connect peer request
+    public struct ConnectPeerError {
+        /// The error code for the Connect peer request.
+        public var code: NetworkManagerClientTypes.ConnectPeerErrorCode?
+        /// The message associated with the error code.
+        public var message: Swift.String?
+        /// The ID of the Connect peer request.
+        public var requestId: Swift.String?
+        /// The ARN of the requested Connect peer resource.
+        public var resourceArn: Swift.String?
+
+        public init(
+            code: NetworkManagerClientTypes.ConnectPeerErrorCode? = nil,
+            message: Swift.String? = nil,
+            requestId: Swift.String? = nil,
+            resourceArn: Swift.String? = nil
+        )
+        {
+            self.code = code
+            self.message = message
+            self.requestId = requestId
+            self.resourceArn = resourceArn
+        }
+    }
+
+}
+
+extension NetworkManagerClientTypes {
+
     public enum ConnectPeerState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case available
         case creating
@@ -1576,6 +1724,8 @@ extension NetworkManagerClientTypes {
         public var createdAt: Foundation.Date?
         /// The Connect peer Regions where edges are located.
         public var edgeLocation: Swift.String?
+        /// Describes the error associated with the attachment request.
+        public var lastModificationErrors: [NetworkManagerClientTypes.ConnectPeerError]?
         /// The state of the Connect peer.
         public var state: NetworkManagerClientTypes.ConnectPeerState?
         /// The subnet ARN for the Connect peer. This only applies only when the protocol is NO_ENCAP.
@@ -1590,6 +1740,7 @@ extension NetworkManagerClientTypes {
             coreNetworkId: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
             edgeLocation: Swift.String? = nil,
+            lastModificationErrors: [NetworkManagerClientTypes.ConnectPeerError]? = nil,
             state: NetworkManagerClientTypes.ConnectPeerState? = nil,
             subnetArn: Swift.String? = nil,
             tags: [NetworkManagerClientTypes.Tag]? = nil
@@ -1601,6 +1752,7 @@ extension NetworkManagerClientTypes {
             self.coreNetworkId = coreNetworkId
             self.createdAt = createdAt
             self.edgeLocation = edgeLocation
+            self.lastModificationErrors = lastModificationErrors
             self.state = state
             self.subnetArn = subnetArn
             self.tags = tags
@@ -3251,6 +3403,95 @@ public struct CreateTransitGatewayPeeringInput {
 
 extension NetworkManagerClientTypes {
 
+    public enum PeeringErrorCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case edgeLocationPeerDuplicate
+        case internalError
+        case invalidTransitGatewayState
+        case missingRequiredPermissions
+        case transitGatewayNotFound
+        case transitGatewayPeersLimitExceeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PeeringErrorCode] {
+            return [
+                .edgeLocationPeerDuplicate,
+                .internalError,
+                .invalidTransitGatewayState,
+                .missingRequiredPermissions,
+                .transitGatewayNotFound,
+                .transitGatewayPeersLimitExceeded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .edgeLocationPeerDuplicate: return "EDGE_LOCATION_PEER_DUPLICATE"
+            case .internalError: return "INTERNAL_ERROR"
+            case .invalidTransitGatewayState: return "INVALID_TRANSIT_GATEWAY_STATE"
+            case .missingRequiredPermissions: return "MISSING_PERMISSIONS"
+            case .transitGatewayNotFound: return "TRANSIT_GATEWAY_NOT_FOUND"
+            case .transitGatewayPeersLimitExceeded: return "TRANSIT_GATEWAY_PEERS_LIMIT_EXCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension NetworkManagerClientTypes {
+    /// Describes additional information about missing permissions.
+    public struct PermissionsErrorContext {
+        /// The missing permissions.
+        public var missingPermission: Swift.String?
+
+        public init(
+            missingPermission: Swift.String? = nil
+        )
+        {
+            self.missingPermission = missingPermission
+        }
+    }
+
+}
+
+extension NetworkManagerClientTypes {
+    /// Describes an error associated with a peering request.
+    public struct PeeringError {
+        /// The error code for the peering request.
+        public var code: NetworkManagerClientTypes.PeeringErrorCode?
+        /// The message associated with the error code.
+        public var message: Swift.String?
+        /// Provides additional information about missing permissions for the peering error.
+        public var missingPermissionsContext: NetworkManagerClientTypes.PermissionsErrorContext?
+        /// The ID of the Peering request.
+        public var requestId: Swift.String?
+        /// The ARN of the requested peering resource.
+        public var resourceArn: Swift.String?
+
+        public init(
+            code: NetworkManagerClientTypes.PeeringErrorCode? = nil,
+            message: Swift.String? = nil,
+            missingPermissionsContext: NetworkManagerClientTypes.PermissionsErrorContext? = nil,
+            requestId: Swift.String? = nil,
+            resourceArn: Swift.String? = nil
+        )
+        {
+            self.code = code
+            self.message = message
+            self.missingPermissionsContext = missingPermissionsContext
+            self.requestId = requestId
+            self.resourceArn = resourceArn
+        }
+    }
+
+}
+
+extension NetworkManagerClientTypes {
+
     public enum PeeringType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case transitGateway
         case sdkUnknown(Swift.String)
@@ -3321,6 +3562,8 @@ extension NetworkManagerClientTypes {
         public var createdAt: Foundation.Date?
         /// The edge location for the peer.
         public var edgeLocation: Swift.String?
+        /// Describes the error associated with the Connect peer request.
+        public var lastModificationErrors: [NetworkManagerClientTypes.PeeringError]?
         /// The ID of the account owner.
         public var ownerAccountId: Swift.String?
         /// The ID of the peering attachment.
@@ -3339,6 +3582,7 @@ extension NetworkManagerClientTypes {
             coreNetworkId: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
             edgeLocation: Swift.String? = nil,
+            lastModificationErrors: [NetworkManagerClientTypes.PeeringError]? = nil,
             ownerAccountId: Swift.String? = nil,
             peeringId: Swift.String? = nil,
             peeringType: NetworkManagerClientTypes.PeeringType? = nil,
@@ -3351,6 +3595,7 @@ extension NetworkManagerClientTypes {
             self.coreNetworkId = coreNetworkId
             self.createdAt = createdAt
             self.edgeLocation = edgeLocation
+            self.lastModificationErrors = lastModificationErrors
             self.ownerAccountId = ownerAccountId
             self.peeringId = peeringId
             self.peeringType = peeringType
@@ -11458,6 +11703,20 @@ extension NetworkManagerClientTypes.Attachment {
         value.proposedNetworkFunctionGroupChange = try reader["ProposedNetworkFunctionGroupChange"].readIfPresent(with: NetworkManagerClientTypes.ProposedNetworkFunctionGroupChange.read(from:))
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: .epochSeconds)
         value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: .epochSeconds)
+        value.lastModificationErrors = try reader["LastModificationErrors"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.AttachmentError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.AttachmentError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.AttachmentError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.AttachmentError()
+        value.code = try reader["Code"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
         return value
     }
 }
@@ -11619,6 +11878,20 @@ extension NetworkManagerClientTypes.ConnectPeer {
         value.configuration = try reader["Configuration"].readIfPresent(with: NetworkManagerClientTypes.ConnectPeerConfiguration.read(from:))
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.subnetArn = try reader["SubnetArn"].readIfPresent()
+        value.lastModificationErrors = try reader["LastModificationErrors"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.ConnectPeerError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.ConnectPeerError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.ConnectPeerError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.ConnectPeerError()
+        value.code = try reader["Code"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
         return value
     }
 }
@@ -11882,6 +12155,31 @@ extension NetworkManagerClientTypes.Peering {
         value.resourceArn = try reader["ResourceArn"].readIfPresent()
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: .epochSeconds)
+        value.lastModificationErrors = try reader["LastModificationErrors"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.PeeringError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.PeeringError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.PeeringError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.PeeringError()
+        value.code = try reader["Code"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.missingPermissionsContext = try reader["MissingPermissionsContext"].readIfPresent(with: NetworkManagerClientTypes.PermissionsErrorContext.read(from:))
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.PermissionsErrorContext {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.PermissionsErrorContext {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.PermissionsErrorContext()
+        value.missingPermission = try reader["MissingPermission"].readIfPresent()
         return value
     }
 }

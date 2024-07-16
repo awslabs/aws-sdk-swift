@@ -502,6 +502,7 @@ extension ACMPCAClientTypes {
         case ecSecp384r1
         case rsa2048
         case rsa4096
+        case sm2
         case sdkUnknown(Swift.String)
 
         public static var allCases: [KeyAlgorithm] {
@@ -509,7 +510,8 @@ extension ACMPCAClientTypes {
                 .ecPrime256v1,
                 .ecSecp384r1,
                 .rsa2048,
-                .rsa4096
+                .rsa4096,
+                .sm2
             ]
         }
 
@@ -524,6 +526,7 @@ extension ACMPCAClientTypes {
             case .ecSecp384r1: return "EC_secp384r1"
             case .rsa2048: return "RSA_2048"
             case .rsa4096: return "RSA_4096"
+            case .sm2: return "SM2"
             case let .sdkUnknown(s): return s
             }
         }
@@ -539,6 +542,7 @@ extension ACMPCAClientTypes {
         case sha384withrsa
         case sha512withecdsa
         case sha512withrsa
+        case sm3withsm2
         case sdkUnknown(Swift.String)
 
         public static var allCases: [SigningAlgorithm] {
@@ -548,7 +552,8 @@ extension ACMPCAClientTypes {
                 .sha384withecdsa,
                 .sha384withrsa,
                 .sha512withecdsa,
-                .sha512withrsa
+                .sha512withrsa,
+                .sm3withsm2
             ]
         }
 
@@ -565,6 +570,7 @@ extension ACMPCAClientTypes {
             case .sha384withrsa: return "SHA384WITHRSA"
             case .sha512withecdsa: return "SHA512WITHECDSA"
             case .sha512withrsa: return "SHA512WITHRSA"
+            case .sm3withsm2: return "SM3WITHSM2"
             case let .sdkUnknown(s): return s
             }
         }
@@ -634,12 +640,14 @@ extension ACMPCAClientTypes {
 extension ACMPCAClientTypes {
 
     public enum KeyStorageSecurityStandard: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ccpcLevel1OrHigher
         case fips1402Level2OrHigher
         case fips1402Level3OrHigher
         case sdkUnknown(Swift.String)
 
         public static var allCases: [KeyStorageSecurityStandard] {
             return [
+                .ccpcLevel1OrHigher,
                 .fips1402Level2OrHigher,
                 .fips1402Level3OrHigher
             ]
@@ -652,6 +660,7 @@ extension ACMPCAClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .ccpcLevel1OrHigher: return "CCPC_LEVEL_1_OR_HIGHER"
             case .fips1402Level2OrHigher: return "FIPS_140_2_LEVEL_2_OR_HIGHER"
             case .fips1402Level3OrHigher: return "FIPS_140_2_LEVEL_3_OR_HIGHER"
             case let .sdkUnknown(s): return s
