@@ -10,6 +10,12 @@ import struct SmithyIdentity.BearerTokenIdentity
 import struct Smithy.Attributes
 import enum Smithy.ClientError
 
+/// The default chain of bearer token identity resolvers.
+/// This is the default resolver when no token identity resolver is provided by the user.
+/// The chain of resolvers can be customized by the user to include their custom resolvers.
+///
+/// At default, the chain resolves the bearer token identity in the following order:
+/// 1. SSOTokenProvider
 public struct DefaultBearerTokenIdentityResolverChain: BearerTokenIdentityResolver {
     public var chain: [any BearerTokenIdentityResolver]
 

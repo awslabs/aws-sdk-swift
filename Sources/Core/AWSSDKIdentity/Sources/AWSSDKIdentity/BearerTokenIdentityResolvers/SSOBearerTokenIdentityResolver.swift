@@ -14,11 +14,16 @@ import CryptoKit
 import Foundation
 import enum Smithy.ClientError
 
+/// The bearer token identity resolver that resolves token identity using the config file & the cached SSO token.
+/// This resolver does not handle creation of the SSO token; it must be created by the user beforehand (e.g., using AWS CLI, etc.).
 public struct SSOBearerTokenIdentityResolver: BearerTokenIdentityResolver {
     private let profileName: String?
     private let configFilePath: String?
     private let fileBasedConfig: CRTFileBasedConfiguration
 
+    /// - Parameters:
+    ///    - profileName: The profile name to use. If not provided it will be resolved internally via the `AWS_PROFILE` environment variable or defaulted to `default` if not configured.
+    ///    - configFilePath: The path to the configuration file to use. If not provided it will be resolved internally via the `AWS_CONFIG_FILE` environment variable or defaulted  to `~/.aws/config` if not configured.
     public init(
         profileName: String? = nil,
         configFilePath: String? = nil
