@@ -71,7 +71,7 @@ private struct TokenFile: Decodable {
     var refreshToken: String
 }
 
-private func loadTokenFile(fileURL: URL) throws -> String {
+public func loadTokenFile(fileURL: URL) throws -> String {
     do {
         let data = try Data(contentsOf: fileURL)
         let decoder = JSONDecoder()
