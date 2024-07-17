@@ -7,8 +7,8 @@
 
 import class AwsCommonRuntimeKit.HTTPRequestBase
 import class AwsCommonRuntimeKit.Signer
-import class SmithyHTTPAPI.SdkHttpRequest
-import class SmithyHTTPAPI.SdkHttpRequestBuilder
+import class SmithyHTTPAPI.HTTPRequest
+import class SmithyHTTPAPI.HTTPRequestBuilder
 import enum AwsCommonRuntimeKit.CommonRunTimeError
 import enum Smithy.ClientError
 import enum SmithyHTTPAuthAPI.AWSSignedBodyHeader
@@ -37,10 +37,10 @@ public class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer {
     public init() {}
 
     public func signRequest<IdentityT: SmithyIdentityAPI.Identity>(
-        requestBuilder: SmithyHTTPAPI.SdkHttpRequestBuilder,
+        requestBuilder: HTTPRequestBuilder,
         identity: IdentityT,
         signingProperties: Smithy.Attributes
-    ) async throws -> SmithyHTTPAPI.SdkHttpRequestBuilder {
+    ) async throws -> HTTPRequestBuilder {
         guard let isBidirectionalStreamingEnabled = signingProperties.get(
             key: SigningPropertyKeys.bidirectionalStreaming
         ) else {
@@ -160,7 +160,7 @@ public class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer {
     let logger: Smithy.SwiftLogger = SwiftLogger(label: "AWSSigV4Signer")
 
     public func sigV4SignedURL(
-        requestBuilder: SmithyHTTPAPI.SdkHttpRequestBuilder,
+        requestBuilder: HTTPRequestBuilder,
         awsCredentialIdentityResolver: any AWSCredentialIdentityResolver,
         signingName: Swift.String,
         signingRegion: Swift.String,
@@ -202,9 +202,9 @@ public class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer {
     }
 
     public func sigV4SignedRequest(
-        requestBuilder: SmithyHTTPAPI.SdkHttpRequestBuilder,
+        requestBuilder: HTTPRequestBuilder,
         signingConfig: AWSSigningConfig
-    ) async -> SmithyHTTPAPI.SdkHttpRequest? {
+    ) async -> HTTPRequest? {
         let originalRequest = requestBuilder.build()
         do {
             let crtUnsignedRequest = try originalRequest.toHttpRequest()

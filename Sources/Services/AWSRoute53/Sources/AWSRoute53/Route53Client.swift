@@ -16,8 +16,8 @@ import class ClientRuntime.OrchestratorBuilder
 import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.ContextBuilder
-import class SmithyHTTPAPI.HttpResponse
-import class SmithyHTTPAPI.SdkHttpRequest
+import class SmithyHTTPAPI.HTTPRequest
+import class SmithyHTTPAPI.HTTPResponse
 import class SmithyXML.Writer
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
@@ -219,7 +219,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ActivateKeySigningKeyInput, ActivateKeySigningKeyOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ActivateKeySigningKeyInput, ActivateKeySigningKeyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -304,7 +304,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<AssociateVPCWithHostedZoneInput, AssociateVPCWithHostedZoneOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<AssociateVPCWithHostedZoneInput, AssociateVPCWithHostedZoneOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -379,7 +379,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ChangeCidrCollectionInput, ChangeCidrCollectionOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ChangeCidrCollectionInput, ChangeCidrCollectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -457,7 +457,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ChangeResourceRecordSetsInput, ChangeResourceRecordSetsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ChangeResourceRecordSetsInput, ChangeResourceRecordSetsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -527,7 +527,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ChangeTagsForResourceInput, ChangeTagsForResourceOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ChangeTagsForResourceInput, ChangeTagsForResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -595,7 +595,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateCidrCollectionInput, CreateCidrCollectionOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateCidrCollectionInput, CreateCidrCollectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -672,7 +672,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateHealthCheckInput, CreateHealthCheckOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateHealthCheckInput, CreateHealthCheckOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -769,7 +769,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateHostedZoneInput, CreateHostedZoneOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateHostedZoneInput, CreateHostedZoneOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -843,7 +843,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateKeySigningKeyInput, CreateKeySigningKeyOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateKeySigningKeyInput, CreateKeySigningKeyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -964,7 +964,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateQueryLoggingConfigInput, CreateQueryLoggingConfigOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateQueryLoggingConfigInput, CreateQueryLoggingConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1056,7 +1056,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateReusableDelegationSetInput, CreateReusableDelegationSetOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateReusableDelegationSetInput, CreateReusableDelegationSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1124,7 +1124,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateTrafficPolicyInput, CreateTrafficPolicyOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateTrafficPolicyInput, CreateTrafficPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1193,7 +1193,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateTrafficPolicyInstanceInput, CreateTrafficPolicyInstanceOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateTrafficPolicyInstanceInput, CreateTrafficPolicyInstanceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1262,7 +1262,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateTrafficPolicyVersionInput, CreateTrafficPolicyVersionOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateTrafficPolicyVersionInput, CreateTrafficPolicyVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1331,7 +1331,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<CreateVPCAssociationAuthorizationInput, CreateVPCAssociationAuthorizationOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateVPCAssociationAuthorizationInput, CreateVPCAssociationAuthorizationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1403,7 +1403,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeactivateKeySigningKeyInput, DeactivateKeySigningKeyOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DeactivateKeySigningKeyInput, DeactivateKeySigningKeyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1469,7 +1469,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteCidrCollectionInput, DeleteCidrCollectionOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteCidrCollectionInput, DeleteCidrCollectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1533,7 +1533,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteHealthCheckInput, DeleteHealthCheckOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteHealthCheckInput, DeleteHealthCheckOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1603,7 +1603,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteHostedZoneInput, DeleteHostedZoneOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteHostedZoneInput, DeleteHostedZoneOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1671,7 +1671,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteKeySigningKeyInput, DeleteKeySigningKeyOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteKeySigningKeyInput, DeleteKeySigningKeyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1736,7 +1736,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteQueryLoggingConfigInput, DeleteQueryLoggingConfigOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteQueryLoggingConfigInput, DeleteQueryLoggingConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1801,7 +1801,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteReusableDelegationSetInput, DeleteReusableDelegationSetOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteReusableDelegationSetInput, DeleteReusableDelegationSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1873,7 +1873,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteTrafficPolicyInput, DeleteTrafficPolicyOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteTrafficPolicyInput, DeleteTrafficPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -1937,7 +1937,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteTrafficPolicyInstanceInput, DeleteTrafficPolicyInstanceOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteTrafficPolicyInstanceInput, DeleteTrafficPolicyInstanceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2003,7 +2003,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DeleteVPCAssociationAuthorizationInput, DeleteVPCAssociationAuthorizationOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteVPCAssociationAuthorizationInput, DeleteVPCAssociationAuthorizationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2076,7 +2076,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DisableHostedZoneDNSSECInput, DisableHostedZoneDNSSECOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DisableHostedZoneDNSSECInput, DisableHostedZoneDNSSECOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2163,7 +2163,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<DisassociateVPCFromHostedZoneInput, DisassociateVPCFromHostedZoneOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<DisassociateVPCFromHostedZoneInput, DisassociateVPCFromHostedZoneOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2237,7 +2237,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<EnableHostedZoneDNSSECInput, EnableHostedZoneDNSSECOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<EnableHostedZoneDNSSECInput, EnableHostedZoneDNSSECOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2300,7 +2300,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetAccountLimitInput, GetAccountLimitOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetAccountLimitInput, GetAccountLimitOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2367,7 +2367,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetChangeInput, GetChangeOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetChangeInput, GetChangeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2424,7 +2424,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetCheckerIpRangesInput, GetCheckerIpRangesOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetCheckerIpRangesInput, GetCheckerIpRangesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2488,7 +2488,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetDNSSECInput, GetDNSSECOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetDNSSECInput, GetDNSSECOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2552,7 +2552,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetGeoLocationInput, GetGeoLocationOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetGeoLocationInput, GetGeoLocationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2617,7 +2617,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetHealthCheckInput, GetHealthCheckOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetHealthCheckInput, GetHealthCheckOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2674,7 +2674,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetHealthCheckCountInput, GetHealthCheckCountOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetHealthCheckCountInput, GetHealthCheckCountOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2737,7 +2737,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetHealthCheckLastFailureReasonInput, GetHealthCheckLastFailureReasonOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetHealthCheckLastFailureReasonInput, GetHealthCheckLastFailureReasonOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2800,7 +2800,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetHealthCheckStatusInput, GetHealthCheckStatusOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetHealthCheckStatusInput, GetHealthCheckStatusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2863,7 +2863,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetHostedZoneInput, GetHostedZoneOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetHostedZoneInput, GetHostedZoneOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2926,7 +2926,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetHostedZoneCountInput, GetHostedZoneCountOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetHostedZoneCountInput, GetHostedZoneCountOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -2990,7 +2990,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetHostedZoneLimitInput, GetHostedZoneLimitOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetHostedZoneLimitInput, GetHostedZoneLimitOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3054,7 +3054,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetQueryLoggingConfigInput, GetQueryLoggingConfigOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetQueryLoggingConfigInput, GetQueryLoggingConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3118,7 +3118,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetReusableDelegationSetInput, GetReusableDelegationSetOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetReusableDelegationSetInput, GetReusableDelegationSetOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3182,7 +3182,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetReusableDelegationSetLimitInput, GetReusableDelegationSetLimitOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetReusableDelegationSetLimitInput, GetReusableDelegationSetLimitOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3246,7 +3246,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetTrafficPolicyInput, GetTrafficPolicyOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetTrafficPolicyInput, GetTrafficPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3309,7 +3309,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetTrafficPolicyInstanceInput, GetTrafficPolicyInstanceOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetTrafficPolicyInstanceInput, GetTrafficPolicyInstanceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3366,7 +3366,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetTrafficPolicyInstanceCountInput, GetTrafficPolicyInstanceCountOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<GetTrafficPolicyInstanceCountInput, GetTrafficPolicyInstanceCountOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3430,7 +3430,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListCidrBlocksInput, ListCidrBlocksOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListCidrBlocksInput, ListCidrBlocksOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3493,7 +3493,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListCidrCollectionsInput, ListCidrCollectionsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListCidrCollectionsInput, ListCidrCollectionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3557,7 +3557,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListCidrLocationsInput, ListCidrLocationsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListCidrLocationsInput, ListCidrLocationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3620,7 +3620,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListGeoLocationsInput, ListGeoLocationsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListGeoLocationsInput, ListGeoLocationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3684,7 +3684,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListHealthChecksInput, ListHealthChecksOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListHealthChecksInput, ListHealthChecksOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3749,7 +3749,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListHostedZonesInput, ListHostedZonesOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListHostedZonesInput, ListHostedZonesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3821,7 +3821,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListHostedZonesByNameInput, ListHostedZonesByNameOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListHostedZonesByNameInput, ListHostedZonesByNameOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3901,7 +3901,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListHostedZonesByVPCInput, ListHostedZonesByVPCOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListHostedZonesByVPCInput, ListHostedZonesByVPCOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -3966,7 +3966,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListQueryLoggingConfigsInput, ListQueryLoggingConfigsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListQueryLoggingConfigsInput, ListQueryLoggingConfigsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4030,7 +4030,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListResourceRecordSetsInput, ListResourceRecordSetsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListResourceRecordSetsInput, ListResourceRecordSetsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4094,7 +4094,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListReusableDelegationSetsInput, ListReusableDelegationSetsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListReusableDelegationSetsInput, ListReusableDelegationSetsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4161,7 +4161,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4227,7 +4227,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTagsForResourcesInput, ListTagsForResourcesOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListTagsForResourcesInput, ListTagsForResourcesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4292,7 +4292,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTrafficPoliciesInput, ListTrafficPoliciesOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListTrafficPoliciesInput, ListTrafficPoliciesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4356,7 +4356,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTrafficPolicyInstancesInput, ListTrafficPolicyInstancesOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListTrafficPolicyInstancesInput, ListTrafficPolicyInstancesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4421,7 +4421,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTrafficPolicyInstancesByHostedZoneInput, ListTrafficPolicyInstancesByHostedZoneOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListTrafficPolicyInstancesByHostedZoneInput, ListTrafficPolicyInstancesByHostedZoneOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4486,7 +4486,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTrafficPolicyInstancesByPolicyInput, ListTrafficPolicyInstancesByPolicyOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListTrafficPolicyInstancesByPolicyInput, ListTrafficPolicyInstancesByPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4550,7 +4550,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListTrafficPolicyVersionsInput, ListTrafficPolicyVersionsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListTrafficPolicyVersionsInput, ListTrafficPolicyVersionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4615,7 +4615,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<ListVPCAssociationAuthorizationsInput, ListVPCAssociationAuthorizationsOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<ListVPCAssociationAuthorizationsInput, ListVPCAssociationAuthorizationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4680,7 +4680,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<TestDNSAnswerInput, TestDNSAnswerOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<TestDNSAnswerInput, TestDNSAnswerOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4745,7 +4745,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateHealthCheckInput, UpdateHealthCheckOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateHealthCheckInput, UpdateHealthCheckOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4812,7 +4812,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateHostedZoneCommentInput, UpdateHostedZoneCommentOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateHostedZoneCommentInput, UpdateHostedZoneCommentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4880,7 +4880,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateTrafficPolicyCommentInput, UpdateTrafficPolicyCommentOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateTrafficPolicyCommentInput, UpdateTrafficPolicyCommentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -4955,7 +4955,7 @@ extension Route53Client {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<UpdateTrafficPolicyInstanceInput, UpdateTrafficPolicyInstanceOutput, SmithyHTTPAPI.SdkHttpRequest, SmithyHTTPAPI.HttpResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateTrafficPolicyInstanceInput, UpdateTrafficPolicyInstanceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }

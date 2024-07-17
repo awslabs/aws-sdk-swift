@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0.
  */
 
-import class SmithyHTTPAPI.HttpResponse
+import class SmithyHTTPAPI.HTTPResponse
 import ClientRuntime
 
 /// AWS specific Service Error structure used when exact error could not be deduced from the `HttpResponse`
@@ -21,7 +21,7 @@ import ClientRuntime
 
     public var requestID2: String?
 
-    public var httpResponse: HttpResponse
+    public var httpResponse: HTTPResponse
 }
 
 extension UnknownAWSHTTPServiceError {
@@ -34,7 +34,7 @@ extension UnknownAWSHTTPServiceError {
     ///   - requestID2: The request ID2 associated with this error (defined on S3 only.)  Defaults to `nil`.
     ///   - typeName: The non-namespaced name of the error type for this error.
     public init(
-        httpResponse: HttpResponse,
+        httpResponse: HTTPResponse,
         message: String?,
         requestID: String?,
         requestID2: String? = nil,
@@ -42,7 +42,7 @@ extension UnknownAWSHTTPServiceError {
     ) {
         self.typeName = typeName
         self.message = message
-        self.requestID = requestID ?? httpResponse.requestId
+        self.requestID = requestID ?? httpResponse.requestID
         self.requestID2 = requestID2
         self.httpResponse = httpResponse
     }

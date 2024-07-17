@@ -13,7 +13,7 @@ class PresignerGeneratorTests {
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 extension GetFooInput {
-    public func presign(config: ExampleClient.ExampleClientConfiguration, expiration: Foundation.TimeInterval) async throws -> SmithyHTTPAPI.SdkHttpRequest? {
+    public func presign(config: ExampleClient.ExampleClientConfiguration, expiration: Foundation.TimeInterval) async throws -> SmithyHTTPAPI.HTTPRequest? {
         let serviceName = "example"
         let input = self
         let context = Smithy.ContextBuilder()
@@ -64,7 +64,7 @@ extension GetFooInput {
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 extension PostFooInput {
-    public func presign(config: ExampleClient.ExampleClientConfiguration, expiration: Foundation.TimeInterval) async throws -> SmithyHTTPAPI.SdkHttpRequest? {
+    public func presign(config: ExampleClient.ExampleClientConfiguration, expiration: Foundation.TimeInterval) async throws -> SmithyHTTPAPI.HTTPRequest? {
         let serviceName = "example"
         let input = self
         let context = Smithy.ContextBuilder()
@@ -118,7 +118,7 @@ extension PostFooInput {
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 extension PutFooInput {
-    public func presign(config: ExampleClient.ExampleClientConfiguration, expiration: Foundation.TimeInterval) async throws -> SmithyHTTPAPI.SdkHttpRequest? {
+    public func presign(config: ExampleClient.ExampleClientConfiguration, expiration: Foundation.TimeInterval) async throws -> SmithyHTTPAPI.HTTPRequest? {
         let serviceName = "example"
         let input = self
         let context = Smithy.ContextBuilder()
@@ -172,7 +172,7 @@ extension PutFooInput {
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 extension PutObjectInput {
-    public func presign(config: S3Client.S3ClientConfiguration, expiration: Foundation.TimeInterval) async throws -> SmithyHTTPAPI.SdkHttpRequest? {
+    public func presign(config: S3Client.S3ClientConfiguration, expiration: Foundation.TimeInterval) async throws -> SmithyHTTPAPI.HTTPRequest? {
         let serviceName = "S3"
         let input = self
         let context = Smithy.ContextBuilder()

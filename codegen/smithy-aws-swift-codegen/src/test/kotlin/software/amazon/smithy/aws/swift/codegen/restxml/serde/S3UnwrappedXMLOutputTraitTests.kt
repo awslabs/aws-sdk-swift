@@ -17,7 +17,7 @@ class S3UnwrappedXMLOutputTraitTests {
         val expectedContents = """
 extension GetBucketLocationOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetBucketLocationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetBucketLocationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader.unwrap()

@@ -7,7 +7,7 @@
 
 import protocol ClientRuntime.BaseError
 import enum ClientRuntime.BaseErrorDecodeError
-import class SmithyHTTPAPI.HttpResponse
+import class SmithyHTTPAPI.HTTPResponse
 import class SmithyXML.Reader
 
 public struct EC2QueryError: BaseError {
@@ -16,10 +16,10 @@ public struct EC2QueryError: BaseError {
     public let requestID: String?
     public let errorBodyReader: Reader
 
-    public let httpResponse: HttpResponse
+    public let httpResponse: HTTPResponse
     public let responseReader: Reader
 
-    public init(httpResponse: HttpResponse, responseReader: Reader, noErrorWrapping: Bool) throws {
+    public init(httpResponse: HTTPResponse, responseReader: Reader, noErrorWrapping: Bool) throws {
         self.httpResponse = httpResponse
         self.responseReader = responseReader
         self.errorBodyReader = responseReader["Errors"]["Error"]
