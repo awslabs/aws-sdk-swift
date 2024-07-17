@@ -9,8 +9,7 @@ import protocol SmithyIdentity.BearerTokenIdentityResolver
 import struct SmithyIdentity.BearerTokenIdentity
 import struct Smithy.Attributes
 @_spi(FileBasedConfig) import AWSSDKCommon
-import class AwsCommonRuntimeKit.FileBasedConfiguration
-import CryptoKit
+import AwsCommonRuntimeKit
 import Foundation
 import enum Smithy.ClientError
 
@@ -48,7 +47,7 @@ public struct SSOBearerTokenIdentityResolver: BearerTokenIdentityResolver {
         guard let ssoSessionName else {
             throw ClientError.dataNotFound("Failed to retrieve name of sso-session name in the config file.")
         }
-        let tokenFileName = ssoSessionName.data(using: .utf8)!.sha1 + ".json"
+        let tokenFileName = try ssoSessionName.data(using: .utf8)!.computeSHA1().encodeToHexString() + ".json"
         // Get the access token file URL
         let homeDir = FileManager.default.homeDirectoryForCurrentUser
         let relativePath = ".aws/sso/cache/\(tokenFileName)"
@@ -56,14 +55,6 @@ public struct SSOBearerTokenIdentityResolver: BearerTokenIdentityResolver {
         // Load & return the access token
         return try loadTokenFile(fileURL: tokenFileURL)
     }
-}
-
-fileprivate extension Data {
-    var sha1: String { return hexString(Insecure.SHA1.hash(data: self).makeIterator()) }
-}
-
-private func hexString(_ iterator: Array<UInt8>.Iterator) -> String {
-    return iterator.map { String(format: "%02x", $0) }.joined()
 }
 
 private struct TokenFile: Decodable {
