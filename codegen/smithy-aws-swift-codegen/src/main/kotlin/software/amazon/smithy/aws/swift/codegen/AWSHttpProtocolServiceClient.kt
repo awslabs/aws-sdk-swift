@@ -5,6 +5,7 @@
 
 package software.amazon.smithy.aws.swift.codegen
 
+import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKIdentityTypes
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.swift.codegen.AuthSchemeResolverGenerator
 import software.amazon.smithy.swift.codegen.SwiftWriter
@@ -52,7 +53,7 @@ class AWSHttpProtocolServiceClient(
                     ConfigProperty(
                         "bearerTokenIdentityResolver",
                         SmithyIdentityTypes.BearerTokenIdentityResolver.toGeneric(),
-                        { it.format("AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain()") },
+                        { it.format("\$N()", AWSSDKIdentityTypes.DefaultBearerTokenIdentityResolverChain) },
                         true
                     )
                 }

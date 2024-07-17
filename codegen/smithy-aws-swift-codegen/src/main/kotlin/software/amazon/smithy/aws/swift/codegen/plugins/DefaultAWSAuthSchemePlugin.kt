@@ -31,7 +31,7 @@ class DefaultAWSAuthSchemePlugin(private val serviceConfig: ServiceConfig) : Plu
                     writer.write("config.authSchemeResolver = \$L", "Default${AuthSchemeResolverGenerator.getSdkId(ctx)}AuthSchemeResolver()")
                     writer.write("config.authSchemes = \$L", AWSAuthUtils(ctx).getModeledAuthSchemesSupportedBySDK(ctx, writer))
                     writer.write("config.awsCredentialIdentityResolver = try \$N.awsCredentialIdentityResolver()", AWSClientRuntimeTypes.Core.AWSClientConfigDefaultsProvider)
-                    writer.write("config.bearerTokenIdentityResolver = try \$N", AWSSDKIdentityTypes.DefaultBearerTokenIdentityResolverChain)
+                    writer.write("config.bearerTokenIdentityResolver = try \$N()", AWSSDKIdentityTypes.DefaultBearerTokenIdentityResolverChain)
                 }
             }
         }
