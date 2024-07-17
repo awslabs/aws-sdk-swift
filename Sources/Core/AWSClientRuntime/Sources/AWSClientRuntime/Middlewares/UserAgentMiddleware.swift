@@ -22,7 +22,7 @@ public struct UserAgentMiddleware<OperationStackInput, OperationStackOutput>: Mi
     }
 
     public func handle<H>(context: Context,
-                          input: SdkHttpRequestBuilder,
+                          input: HTTPRequestBuilder,
                           next: H) async throws -> OperationOutput<OperationStackOutput>
     where H: Handler,
           Self.MInput == H.Input,
@@ -31,11 +31,11 @@ public struct UserAgentMiddleware<OperationStackInput, OperationStackOutput>: Mi
         return try await next.handle(context: context, input: input)
     }
 
-    private func addHeader(builder: SdkHttpRequestBuilder) {
+    private func addHeader(builder: HTTPRequestBuilder) {
         builder.withHeader(name: USER_AGENT, value: metadata.userAgent)
     }
 
-    public typealias MInput = SdkHttpRequestBuilder
+    public typealias MInput = HTTPRequestBuilder
     public typealias MOutput = OperationOutput<OperationStackOutput>
 }
 
@@ -43,7 +43,7 @@ extension UserAgentMiddleware: HttpInterceptor {
     public typealias InputType = OperationStackInput
     public typealias OutputType = OperationStackOutput
 
-    public func modifyBeforeRetryLoop(context: some MutableRequest<Self.InputType, SdkHttpRequest>) async throws {
+    public func modifyBeforeRetryLoop(context: some MutableRequest<Self.InputType, HTTPRequest>) async throws {
         let builder = context.getRequest().toBuilder()
         addHeader(builder: builder)
         context.updateRequest(updated: builder.build())

@@ -251,7 +251,7 @@ class FlexibleChecksumsMiddlewareTests: XCTestCase {
     ) async throws -> () {
         var isChecksumValidated = false
         let mockHandler = MockHandler { (_, input) in
-            let httpResponse = HttpResponse(body: responseBody, statusCode: HttpStatusCode.ok)
+            let httpResponse = HTTPResponse(body: responseBody, statusCode: .ok)
             httpResponse.headers.add(name: expectedHeader, value: expectedChecksum)
             let mockOutput = try await MockOutput.responseClosure(httpResponse)
             let output = OperationOutput<MockOutput>(httpResponse: httpResponse, output: mockOutput)
@@ -291,7 +291,7 @@ class FlexibleChecksumsMiddlewareTests: XCTestCase {
             if expectedHeader != "" {
                 XCTAssert(input.headers.value(for: expectedHeader) != nil, file: file, line: line)
             }
-            let httpResponse = HttpResponse(body: responseBody, statusCode: HttpStatusCode.ok)
+            let httpResponse = HTTPResponse(body: responseBody, statusCode: .ok)
             httpResponse.headers.add(name: expectedHeader, value: expectedChecksum)
             let mockOutput = try await MockOutput.responseClosure(httpResponse)
             let output = OperationOutput<MockOutput>(httpResponse: httpResponse, output: mockOutput)
@@ -327,7 +327,7 @@ class FlexibleChecksumsMiddlewareTests: XCTestCase {
         var validatedChecksum: String? = nil
         let mockHandler = MockHandler { (_, input) in
             let responseBody = ByteStream.data(Data("Hello, world!".utf8))
-            let httpResponse = HttpResponse(body: responseBody, statusCode: HttpStatusCode.ok)
+            let httpResponse = HTTPResponse(body: responseBody, statusCode: .ok)
             httpResponse.headers.addAll(headers: responseHeaders)
             let mockOutput = try await MockOutput.responseClosure(httpResponse)
             let output = OperationOutput<MockOutput>(httpResponse: httpResponse, output: mockOutput)
@@ -380,7 +380,7 @@ class FlexibleChecksumsMiddlewareTests: XCTestCase {
             // Verify that the request headers are correctly set
             XCTAssertEqual(input.headers.value(for: "x-amz-content-sha256"), "UNSIGNED-PAYLOAD")
             XCTAssertEqual(input.headers.value(for: "x-amz-checksum-sha256"), expectedChecksumSHA256)
-            let httpResponse = HttpResponse(body: ByteStream.noStream, statusCode: HttpStatusCode.ok)
+            let httpResponse = HTTPResponse(body: ByteStream.noStream, statusCode: .ok)
             let mockOutput = try await MockOutput.responseClosure(httpResponse)
             return OperationOutput<MockOutput>(httpResponse: httpResponse, output: mockOutput)
         }

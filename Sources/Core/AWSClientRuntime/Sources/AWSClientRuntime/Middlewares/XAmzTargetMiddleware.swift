@@ -25,7 +25,7 @@ public struct XAmzTargetMiddleware<OperationStackInput, OperationStackOutput>: M
         return try await next.handle(context: context, input: input)
     }
 
-    private func addHeader(builder: SdkHttpRequestBuilder) {
+    private func addHeader(builder: HTTPRequestBuilder) {
         builder.withHeader(name: "X-Amz-Target", value: xAmzTarget)
     }
 

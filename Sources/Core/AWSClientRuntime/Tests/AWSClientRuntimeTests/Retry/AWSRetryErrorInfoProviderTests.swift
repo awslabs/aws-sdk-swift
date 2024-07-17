@@ -117,12 +117,12 @@ private struct TestServiceError: ServiceError, Error {
 }
 
 private struct TestHTTPError: HTTPError, Error {
-    var httpResponse: HttpResponse
+    var httpResponse: HTTPResponse
 
     init(statusCode: Int, headers: [String: String] = [:]) throws {
-        let status = try XCTUnwrap(HttpStatusCode(rawValue: statusCode))
+        let status = try XCTUnwrap(HTTPStatusCode(rawValue: statusCode))
         let httpHeaders = Headers(Dictionary(uniqueKeysWithValues: headers.map { ($0.key, [$0.value]) }))
-        self.httpResponse = HttpResponse(headers: httpHeaders, statusCode: status)
+        self.httpResponse = HTTPResponse(headers: httpHeaders, statusCode: status)
     }
 }
 
