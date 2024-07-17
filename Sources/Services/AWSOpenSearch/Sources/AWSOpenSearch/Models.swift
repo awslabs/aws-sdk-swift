@@ -1090,6 +1090,167 @@ extension OpenSearchClientTypes {
 
 }
 
+extension OpenSearchClientTypes {
+
+    public enum NaturalLanguageQueryGenerationDesiredState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NaturalLanguageQueryGenerationDesiredState] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+    /// Container for parameters required to enable the natural language query generation feature.
+    public struct NaturalLanguageQueryGenerationOptionsInput {
+        /// The desired state of the natural language query generation feature. Valid values are ENABLED and DISABLED.
+        public var desiredState: OpenSearchClientTypes.NaturalLanguageQueryGenerationDesiredState?
+
+        public init(
+            desiredState: OpenSearchClientTypes.NaturalLanguageQueryGenerationDesiredState? = nil
+        )
+        {
+            self.desiredState = desiredState
+        }
+    }
+
+}
+
+extension OpenSearchClientTypes {
+    /// Container for parameters required to enable all machine learning features.
+    public struct AIMLOptionsInput {
+        /// Container for parameters required for natural language query generation on the specified domain.
+        public var naturalLanguageQueryGenerationOptions: OpenSearchClientTypes.NaturalLanguageQueryGenerationOptionsInput?
+
+        public init(
+            naturalLanguageQueryGenerationOptions: OpenSearchClientTypes.NaturalLanguageQueryGenerationOptionsInput? = nil
+        )
+        {
+            self.naturalLanguageQueryGenerationOptions = naturalLanguageQueryGenerationOptions
+        }
+    }
+
+}
+
+extension OpenSearchClientTypes {
+
+    public enum NaturalLanguageQueryGenerationCurrentState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disablecomplete
+        case disablefailed
+        case disableinprogress
+        case enablecomplete
+        case enablefailed
+        case enableinprogress
+        case notenabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NaturalLanguageQueryGenerationCurrentState] {
+            return [
+                .disablecomplete,
+                .disablefailed,
+                .disableinprogress,
+                .enablecomplete,
+                .enablefailed,
+                .enableinprogress,
+                .notenabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disablecomplete: return "DISABLE_COMPLETE"
+            case .disablefailed: return "DISABLE_FAILED"
+            case .disableinprogress: return "DISABLE_IN_PROGRESS"
+            case .enablecomplete: return "ENABLE_COMPLETE"
+            case .enablefailed: return "ENABLE_FAILED"
+            case .enableinprogress: return "ENABLE_IN_PROGRESS"
+            case .notenabled: return "NOT_ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+    /// Container for parameters representing the state of the natural language query generation feature on the specified domain.
+    public struct NaturalLanguageQueryGenerationOptionsOutput {
+        /// The current state of the natural language query generation feature, indicating completion, in progress, or failure.
+        public var currentState: OpenSearchClientTypes.NaturalLanguageQueryGenerationCurrentState?
+        /// The desired state of the natural language query generation feature. Valid values are ENABLED and DISABLED.
+        public var desiredState: OpenSearchClientTypes.NaturalLanguageQueryGenerationDesiredState?
+
+        public init(
+            currentState: OpenSearchClientTypes.NaturalLanguageQueryGenerationCurrentState? = nil,
+            desiredState: OpenSearchClientTypes.NaturalLanguageQueryGenerationDesiredState? = nil
+        )
+        {
+            self.currentState = currentState
+            self.desiredState = desiredState
+        }
+    }
+
+}
+
+extension OpenSearchClientTypes {
+    /// Container for parameters representing the state of machine learning features on the specified domain.
+    public struct AIMLOptionsOutput {
+        /// Container for parameters required for natural language query generation on the specified domain.
+        public var naturalLanguageQueryGenerationOptions: OpenSearchClientTypes.NaturalLanguageQueryGenerationOptionsOutput?
+
+        public init(
+            naturalLanguageQueryGenerationOptions: OpenSearchClientTypes.NaturalLanguageQueryGenerationOptionsOutput? = nil
+        )
+        {
+            self.naturalLanguageQueryGenerationOptions = naturalLanguageQueryGenerationOptions
+        }
+    }
+
+}
+
+extension OpenSearchClientTypes {
+    /// The status of machine learning options on the specified domain.
+    public struct AIMLOptionsStatus {
+        /// Machine learning options on the specified domain.
+        public var options: OpenSearchClientTypes.AIMLOptionsOutput?
+        /// Provides the current status of an entity.
+        public var status: OpenSearchClientTypes.OptionStatus?
+
+        public init(
+            options: OpenSearchClientTypes.AIMLOptionsOutput? = nil,
+            status: OpenSearchClientTypes.OptionStatus? = nil
+        )
+        {
+            self.options = options
+            self.status = status
+        }
+    }
+
+}
+
 /// An error occurred because the client attempts to remove a resource that is currently in use.
 public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -2587,6 +2748,8 @@ public struct CreateDomainInput {
     public var advancedOptions: [Swift.String: Swift.String]?
     /// Options for fine-grained access control.
     public var advancedSecurityOptions: OpenSearchClientTypes.AdvancedSecurityOptionsInput?
+    /// Options for all machine learning features for the specified domain.
+    public var aimlOptions: OpenSearchClientTypes.AIMLOptionsInput?
     /// Options for Auto-Tune.
     public var autoTuneOptions: OpenSearchClientTypes.AutoTuneOptionsInput?
     /// Container for the cluster configuration of a domain.
@@ -2625,6 +2788,7 @@ public struct CreateDomainInput {
         accessPolicies: Swift.String? = nil,
         advancedOptions: [Swift.String: Swift.String]? = nil,
         advancedSecurityOptions: OpenSearchClientTypes.AdvancedSecurityOptionsInput? = nil,
+        aimlOptions: OpenSearchClientTypes.AIMLOptionsInput? = nil,
         autoTuneOptions: OpenSearchClientTypes.AutoTuneOptionsInput? = nil,
         clusterConfig: OpenSearchClientTypes.ClusterConfig? = nil,
         cognitoOptions: OpenSearchClientTypes.CognitoOptions? = nil,
@@ -2646,6 +2810,7 @@ public struct CreateDomainInput {
         self.accessPolicies = accessPolicies
         self.advancedOptions = advancedOptions
         self.advancedSecurityOptions = advancedSecurityOptions
+        self.aimlOptions = aimlOptions
         self.autoTuneOptions = autoTuneOptions
         self.clusterConfig = clusterConfig
         self.cognitoOptions = cognitoOptions
@@ -2994,6 +3159,8 @@ extension OpenSearchClientTypes {
         public var advancedOptions: [Swift.String: Swift.String]?
         /// Settings for fine-grained access control.
         public var advancedSecurityOptions: OpenSearchClientTypes.AdvancedSecurityOptions?
+        /// Container for parameters required to enable all machine learning features.
+        public var aimlOptions: OpenSearchClientTypes.AIMLOptionsOutput?
         /// The Amazon Resource Name (ARN) of the domain. For more information, see [IAM identifiers ](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html) in the AWS Identity and Access Management User Guide.
         /// This member is required.
         public var arn: Swift.String?
@@ -3065,6 +3232,7 @@ extension OpenSearchClientTypes {
             accessPolicies: Swift.String? = nil,
             advancedOptions: [Swift.String: Swift.String]? = nil,
             advancedSecurityOptions: OpenSearchClientTypes.AdvancedSecurityOptions? = nil,
+            aimlOptions: OpenSearchClientTypes.AIMLOptionsOutput? = nil,
             arn: Swift.String? = nil,
             autoTuneOptions: OpenSearchClientTypes.AutoTuneOptionsOutput? = nil,
             changeProgressDetails: OpenSearchClientTypes.ChangeProgressDetails? = nil,
@@ -3099,6 +3267,7 @@ extension OpenSearchClientTypes {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
+            self.aimlOptions = aimlOptions
             self.arn = arn
             self.autoTuneOptions = autoTuneOptions
             self.changeProgressDetails = changeProgressDetails
@@ -4711,6 +4880,8 @@ extension OpenSearchClientTypes {
         public var advancedOptions: OpenSearchClientTypes.AdvancedOptionsStatus?
         /// Container for fine-grained access control settings for the domain.
         public var advancedSecurityOptions: OpenSearchClientTypes.AdvancedSecurityOptionsStatus?
+        /// Container for parameters required to enable all machine learning features.
+        public var aimlOptions: OpenSearchClientTypes.AIMLOptionsStatus?
         /// Container for Auto-Tune settings for the domain.
         public var autoTuneOptions: OpenSearchClientTypes.AutoTuneOptionsStatus?
         /// Container for information about the progress of an existing configuration change.
@@ -4748,6 +4919,7 @@ extension OpenSearchClientTypes {
             accessPolicies: OpenSearchClientTypes.AccessPoliciesStatus? = nil,
             advancedOptions: OpenSearchClientTypes.AdvancedOptionsStatus? = nil,
             advancedSecurityOptions: OpenSearchClientTypes.AdvancedSecurityOptionsStatus? = nil,
+            aimlOptions: OpenSearchClientTypes.AIMLOptionsStatus? = nil,
             autoTuneOptions: OpenSearchClientTypes.AutoTuneOptionsStatus? = nil,
             changeProgressDetails: OpenSearchClientTypes.ChangeProgressDetails? = nil,
             clusterConfig: OpenSearchClientTypes.ClusterConfigStatus? = nil,
@@ -4769,6 +4941,7 @@ extension OpenSearchClientTypes {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
+            self.aimlOptions = aimlOptions
             self.autoTuneOptions = autoTuneOptions
             self.changeProgressDetails = changeProgressDetails
             self.clusterConfig = clusterConfig
@@ -7608,6 +7781,8 @@ public struct UpdateDomainConfigInput {
     public var advancedOptions: [Swift.String: Swift.String]?
     /// Options for fine-grained access control.
     public var advancedSecurityOptions: OpenSearchClientTypes.AdvancedSecurityOptionsInput?
+    /// Options for all machine learning features for the specified domain.
+    public var aimlOptions: OpenSearchClientTypes.AIMLOptionsInput?
     /// Options for Auto-Tune.
     public var autoTuneOptions: OpenSearchClientTypes.AutoTuneOptions?
     /// Changes that you want to make to the cluster configuration, such as the instance type and number of EC2 instances.
@@ -7650,6 +7825,7 @@ public struct UpdateDomainConfigInput {
         accessPolicies: Swift.String? = nil,
         advancedOptions: [Swift.String: Swift.String]? = nil,
         advancedSecurityOptions: OpenSearchClientTypes.AdvancedSecurityOptionsInput? = nil,
+        aimlOptions: OpenSearchClientTypes.AIMLOptionsInput? = nil,
         autoTuneOptions: OpenSearchClientTypes.AutoTuneOptions? = nil,
         clusterConfig: OpenSearchClientTypes.ClusterConfig? = nil,
         cognitoOptions: OpenSearchClientTypes.CognitoOptions? = nil,
@@ -7671,6 +7847,7 @@ public struct UpdateDomainConfigInput {
         self.accessPolicies = accessPolicies
         self.advancedOptions = advancedOptions
         self.advancedSecurityOptions = advancedSecurityOptions
+        self.aimlOptions = aimlOptions
         self.autoTuneOptions = autoTuneOptions
         self.clusterConfig = clusterConfig
         self.cognitoOptions = cognitoOptions
@@ -8861,6 +9038,7 @@ extension CreateDomainInput {
 
     static func write(value: CreateDomainInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AIMLOptions"].write(value.aimlOptions, with: OpenSearchClientTypes.AIMLOptionsInput.write(value:to:))
         try writer["AccessPolicies"].write(value.accessPolicies)
         try writer["AdvancedOptions"].writeMap(value.advancedOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["AdvancedSecurityOptions"].write(value.advancedSecurityOptions, with: OpenSearchClientTypes.AdvancedSecurityOptionsInput.write(value:to:))
@@ -9031,6 +9209,7 @@ extension UpdateDomainConfigInput {
 
     static func write(value: UpdateDomainConfigInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AIMLOptions"].write(value.aimlOptions, with: OpenSearchClientTypes.AIMLOptionsInput.write(value:to:))
         try writer["AccessPolicies"].write(value.accessPolicies)
         try writer["AdvancedOptions"].writeMap(value.advancedOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["AdvancedSecurityOptions"].write(value.advancedSecurityOptions, with: OpenSearchClientTypes.AdvancedSecurityOptionsInput.write(value:to:))
@@ -11343,6 +11522,28 @@ extension OpenSearchClientTypes.DomainStatus {
         value.softwareUpdateOptions = try reader["SoftwareUpdateOptions"].readIfPresent(with: OpenSearchClientTypes.SoftwareUpdateOptions.read(from:))
         value.domainProcessingStatus = try reader["DomainProcessingStatus"].readIfPresent()
         value.modifyingProperties = try reader["ModifyingProperties"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.ModifyingProperties.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.aimlOptions = try reader["AIMLOptions"].readIfPresent(with: OpenSearchClientTypes.AIMLOptionsOutput.read(from:))
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.AIMLOptionsOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.AIMLOptionsOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.AIMLOptionsOutput()
+        value.naturalLanguageQueryGenerationOptions = try reader["NaturalLanguageQueryGenerationOptions"].readIfPresent(with: OpenSearchClientTypes.NaturalLanguageQueryGenerationOptionsOutput.read(from:))
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.NaturalLanguageQueryGenerationOptionsOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.NaturalLanguageQueryGenerationOptionsOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.NaturalLanguageQueryGenerationOptionsOutput()
+        value.desiredState = try reader["DesiredState"].readIfPresent()
+        value.currentState = try reader["CurrentState"].readIfPresent()
         return value
     }
 }
@@ -11932,16 +12133,17 @@ extension OpenSearchClientTypes.DomainConfig {
         value.offPeakWindowOptions = try reader["OffPeakWindowOptions"].readIfPresent(with: OpenSearchClientTypes.OffPeakWindowOptionsStatus.read(from:))
         value.softwareUpdateOptions = try reader["SoftwareUpdateOptions"].readIfPresent(with: OpenSearchClientTypes.SoftwareUpdateOptionsStatus.read(from:))
         value.modifyingProperties = try reader["ModifyingProperties"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.ModifyingProperties.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.aimlOptions = try reader["AIMLOptions"].readIfPresent(with: OpenSearchClientTypes.AIMLOptionsStatus.read(from:))
         return value
     }
 }
 
-extension OpenSearchClientTypes.SoftwareUpdateOptionsStatus {
+extension OpenSearchClientTypes.AIMLOptionsStatus {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.SoftwareUpdateOptionsStatus {
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.AIMLOptionsStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OpenSearchClientTypes.SoftwareUpdateOptionsStatus()
-        value.options = try reader["Options"].readIfPresent(with: OpenSearchClientTypes.SoftwareUpdateOptions.read(from:))
+        var value = OpenSearchClientTypes.AIMLOptionsStatus()
+        value.options = try reader["Options"].readIfPresent(with: OpenSearchClientTypes.AIMLOptionsOutput.read(from:))
         value.status = try reader["Status"].readIfPresent(with: OpenSearchClientTypes.OptionStatus.read(from:))
         return value
     }
@@ -11957,6 +12159,17 @@ extension OpenSearchClientTypes.OptionStatus {
         value.updateVersion = try reader["UpdateVersion"].readIfPresent() ?? 0
         value.state = try reader["State"].readIfPresent()
         value.pendingDeletion = try reader["PendingDeletion"].readIfPresent()
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.SoftwareUpdateOptionsStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.SoftwareUpdateOptionsStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.SoftwareUpdateOptionsStatus()
+        value.options = try reader["Options"].readIfPresent(with: OpenSearchClientTypes.SoftwareUpdateOptions.read(from:))
+        value.status = try reader["Status"].readIfPresent(with: OpenSearchClientTypes.OptionStatus.read(from:))
         return value
     }
 }
@@ -12663,6 +12876,22 @@ extension OpenSearchClientTypes.AutoTuneOptionsInput {
         try writer["DesiredState"].write(value.desiredState)
         try writer["MaintenanceSchedules"].writeList(value.maintenanceSchedules, memberWritingClosure: OpenSearchClientTypes.AutoTuneMaintenanceSchedule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["UseOffPeakWindow"].write(value.useOffPeakWindow)
+    }
+}
+
+extension OpenSearchClientTypes.AIMLOptionsInput {
+
+    static func write(value: OpenSearchClientTypes.AIMLOptionsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["NaturalLanguageQueryGenerationOptions"].write(value.naturalLanguageQueryGenerationOptions, with: OpenSearchClientTypes.NaturalLanguageQueryGenerationOptionsInput.write(value:to:))
+    }
+}
+
+extension OpenSearchClientTypes.NaturalLanguageQueryGenerationOptionsInput {
+
+    static func write(value: OpenSearchClientTypes.NaturalLanguageQueryGenerationOptionsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DesiredState"].write(value.desiredState)
     }
 }
 

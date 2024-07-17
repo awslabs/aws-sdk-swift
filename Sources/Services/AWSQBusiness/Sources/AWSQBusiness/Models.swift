@@ -979,6 +979,98 @@ extension QBusinessClientTypes.EncryptionConfiguration: Swift.CustomDebugStringC
 }
 
 extension QBusinessClientTypes {
+
+    public enum PersonalizationControlMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PersonalizationControlMode] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+    /// Configuration information about chat response personalization. For more information, see [Personalizing chat responses](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/personalizing-chat-responses.html).
+    public struct PersonalizationConfiguration {
+        /// An option to allow Amazon Q Business to customize chat responses using user specific metadata—specifically, location and job information—in your IAM Identity Center instance.
+        /// This member is required.
+        public var personalizationControlMode: QBusinessClientTypes.PersonalizationControlMode?
+
+        public init(
+            personalizationControlMode: QBusinessClientTypes.PersonalizationControlMode? = nil
+        )
+        {
+            self.personalizationControlMode = personalizationControlMode
+        }
+    }
+
+}
+
+extension QBusinessClientTypes {
+
+    public enum QAppsControlMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QAppsControlMode] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+    /// Configuration information about Amazon Q Apps. (preview feature)
+    public struct QAppsConfiguration {
+        /// Status information about whether end users can create and use Amazon Q Apps in the web experience.
+        /// This member is required.
+        public var qAppsControlMode: QBusinessClientTypes.QAppsControlMode?
+
+        public init(
+            qAppsControlMode: QBusinessClientTypes.QAppsControlMode? = nil
+        )
+        {
+            self.qAppsControlMode = qAppsControlMode
+        }
+    }
+
+}
+
+extension QBusinessClientTypes {
     /// A list of key/value pairs that identify an index, FAQ, or data source. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @.
     public struct Tag {
         /// The key for the tag. Keys are not case sensitive and must be unique for the Amazon Q Business application or data source.
@@ -1014,6 +1106,10 @@ public struct CreateApplicationInput {
     public var encryptionConfiguration: QBusinessClientTypes.EncryptionConfiguration?
     /// The Amazon Resource Name (ARN) of the IAM Identity Center instance you are either creating for—or connecting to—your Amazon Q Business application.
     public var identityCenterInstanceArn: Swift.String?
+    /// Configuration information about chat response personalization. For more information, see [Personalizing chat responses](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/personalizing-chat-responses.html)
+    public var personalizationConfiguration: QBusinessClientTypes.PersonalizationConfiguration?
+    /// An option to allow end users to create and use Amazon Q Apps in the web experience.
+    public var qAppsConfiguration: QBusinessClientTypes.QAppsConfiguration?
     /// The Amazon Resource Name (ARN) of an IAM role with permissions to access your Amazon CloudWatch logs and metrics.
     public var roleArn: Swift.String?
     /// A list of key-value pairs that identify or categorize your Amazon Q Business application. You can also use tags to help control access to the application. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @.
@@ -1026,6 +1122,8 @@ public struct CreateApplicationInput {
         displayName: Swift.String? = nil,
         encryptionConfiguration: QBusinessClientTypes.EncryptionConfiguration? = nil,
         identityCenterInstanceArn: Swift.String? = nil,
+        personalizationConfiguration: QBusinessClientTypes.PersonalizationConfiguration? = nil,
+        qAppsConfiguration: QBusinessClientTypes.QAppsConfiguration? = nil,
         roleArn: Swift.String? = nil,
         tags: [QBusinessClientTypes.Tag]? = nil
     )
@@ -1036,6 +1134,8 @@ public struct CreateApplicationInput {
         self.displayName = displayName
         self.encryptionConfiguration = encryptionConfiguration
         self.identityCenterInstanceArn = identityCenterInstanceArn
+        self.personalizationConfiguration = personalizationConfiguration
+        self.qAppsConfiguration = qAppsConfiguration
         self.roleArn = roleArn
         self.tags = tags
     }
@@ -1178,6 +1278,10 @@ public struct GetApplicationOutput {
     public var error: QBusinessClientTypes.ErrorDetail?
     /// The Amazon Resource Name (ARN) of the AWS IAM Identity Center instance attached to your Amazon Q Business application.
     public var identityCenterApplicationArn: Swift.String?
+    /// Configuration information about chat response personalization. For more information, see [Personalizing chat responses](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/personalizing-chat-responses.html).
+    public var personalizationConfiguration: QBusinessClientTypes.PersonalizationConfiguration?
+    /// Settings for whether end users can create and use Amazon Q Apps in the web experience.
+    public var qAppsConfiguration: QBusinessClientTypes.QAppsConfiguration?
     /// The Amazon Resource Name (ARN) of the IAM with permissions to access your CloudWatch logs and metrics.
     public var roleArn: Swift.String?
     /// The status of the Amazon Q Business application.
@@ -1195,6 +1299,8 @@ public struct GetApplicationOutput {
         encryptionConfiguration: QBusinessClientTypes.EncryptionConfiguration? = nil,
         error: QBusinessClientTypes.ErrorDetail? = nil,
         identityCenterApplicationArn: Swift.String? = nil,
+        personalizationConfiguration: QBusinessClientTypes.PersonalizationConfiguration? = nil,
+        qAppsConfiguration: QBusinessClientTypes.QAppsConfiguration? = nil,
         roleArn: Swift.String? = nil,
         status: QBusinessClientTypes.ApplicationStatus? = nil,
         updatedAt: Foundation.Date? = nil
@@ -1209,6 +1315,8 @@ public struct GetApplicationOutput {
         self.encryptionConfiguration = encryptionConfiguration
         self.error = error
         self.identityCenterApplicationArn = identityCenterApplicationArn
+        self.personalizationConfiguration = personalizationConfiguration
+        self.qAppsConfiguration = qAppsConfiguration
         self.roleArn = roleArn
         self.status = status
         self.updatedAt = updatedAt
@@ -1275,7 +1383,7 @@ public struct CreateIndexInput {
     public var displayName: Swift.String?
     /// A list of key-value pairs that identify or categorize the index. You can also use tags to help control access to the index. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @.
     public var tags: [QBusinessClientTypes.Tag]?
-    /// The index type that's suitable for your needs. For more information on what's included in each type of index or index tier, see [Amazon Q Business tiers](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/what-is.html#tiers).
+    /// The index type that's suitable for your needs. For more information on what's included in each type of index, see [Amazon Q Business tiers](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/tiers.html#index-tiers).
     public var type: QBusinessClientTypes.IndexType?
 
     public init(
@@ -3382,6 +3490,10 @@ public struct UpdateApplicationInput {
     public var displayName: Swift.String?
     /// The Amazon Resource Name (ARN) of the IAM Identity Center instance you are either creating for—or connecting to—your Amazon Q Business application.
     public var identityCenterInstanceArn: Swift.String?
+    /// Configuration information about chat response personalization. For more information, see [Personalizing chat responses](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/personalizing-chat-responses.html).
+    public var personalizationConfiguration: QBusinessClientTypes.PersonalizationConfiguration?
+    /// An option to allow end users to create and use Amazon Q Apps in the web experience.
+    public var qAppsConfiguration: QBusinessClientTypes.QAppsConfiguration?
     /// An Amazon Web Services Identity and Access Management (IAM) role that gives Amazon Q Business permission to access Amazon CloudWatch logs and metrics.
     public var roleArn: Swift.String?
 
@@ -3391,6 +3503,8 @@ public struct UpdateApplicationInput {
         description: Swift.String? = nil,
         displayName: Swift.String? = nil,
         identityCenterInstanceArn: Swift.String? = nil,
+        personalizationConfiguration: QBusinessClientTypes.PersonalizationConfiguration? = nil,
+        qAppsConfiguration: QBusinessClientTypes.QAppsConfiguration? = nil,
         roleArn: Swift.String? = nil
     )
     {
@@ -3399,6 +3513,8 @@ public struct UpdateApplicationInput {
         self.description = description
         self.displayName = displayName
         self.identityCenterInstanceArn = identityCenterInstanceArn
+        self.personalizationConfiguration = personalizationConfiguration
+        self.qAppsConfiguration = qAppsConfiguration
         self.roleArn = roleArn
     }
 }
@@ -6241,7 +6357,7 @@ extension QBusinessClientTypes {
         public var andAllFilters: [QBusinessClientTypes.AttributeFilter]?
         /// Returns true when a document contains all the specified document attributes or metadata fields. Supported for the following [document attribute value types](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentAttributeValue.html): stringListValue.
         public var containsAll: QBusinessClientTypes.DocumentAttribute?
-        /// Returns true when a document contains any of the specified document attributes or metadata fields. Supported for the following [document attribute value types](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentAttributeValue.html): dateValue, longValue, stringListValue and stringValue.
+        /// Returns true when a document contains any of the specified document attributes or metadata fields. Supported for the following [document attribute value types](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentAttributeValue.html): stringListValue.
         public var containsAny: QBusinessClientTypes.DocumentAttribute?
         /// Performs an equals operation on two document attributes or metadata fields. Supported for the following [document attribute value types](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentAttributeValue.html): dateValue, longValue, stringListValue and stringValue.
         public var equalsTo: QBusinessClientTypes.DocumentAttribute?
@@ -6348,7 +6464,7 @@ public struct ChatSyncInput {
     public var clientToken: Swift.String?
     /// The identifier of the Amazon Q Business conversation.
     public var conversationId: Swift.String?
-    /// The identifier of the previous end user text input message in a conversation.
+    /// The identifier of the previous system message in a conversation.
     public var parentMessageId: Swift.String?
     /// The groups that a user associated with the chat input belongs to.
     public var userGroups: [Swift.String]?
@@ -7513,6 +7629,8 @@ extension CreateApplicationInput {
         try writer["displayName"].write(value.displayName)
         try writer["encryptionConfiguration"].write(value.encryptionConfiguration, with: QBusinessClientTypes.EncryptionConfiguration.write(value:to:))
         try writer["identityCenterInstanceArn"].write(value.identityCenterInstanceArn)
+        try writer["personalizationConfiguration"].write(value.personalizationConfiguration, with: QBusinessClientTypes.PersonalizationConfiguration.write(value:to:))
+        try writer["qAppsConfiguration"].write(value.qAppsConfiguration, with: QBusinessClientTypes.QAppsConfiguration.write(value:to:))
         try writer["roleArn"].write(value.roleArn)
         try writer["tags"].writeList(value.tags, memberWritingClosure: QBusinessClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -7634,6 +7752,8 @@ extension UpdateApplicationInput {
         try writer["description"].write(value.description)
         try writer["displayName"].write(value.displayName)
         try writer["identityCenterInstanceArn"].write(value.identityCenterInstanceArn)
+        try writer["personalizationConfiguration"].write(value.personalizationConfiguration, with: QBusinessClientTypes.PersonalizationConfiguration.write(value:to:))
+        try writer["qAppsConfiguration"].write(value.qAppsConfiguration, with: QBusinessClientTypes.QAppsConfiguration.write(value:to:))
         try writer["roleArn"].write(value.roleArn)
     }
 }
@@ -7948,6 +8068,8 @@ extension GetApplicationOutput {
         value.encryptionConfiguration = try reader["encryptionConfiguration"].readIfPresent(with: QBusinessClientTypes.EncryptionConfiguration.read(from:))
         value.error = try reader["error"].readIfPresent(with: QBusinessClientTypes.ErrorDetail.read(from:))
         value.identityCenterApplicationArn = try reader["identityCenterApplicationArn"].readIfPresent()
+        value.personalizationConfiguration = try reader["personalizationConfiguration"].readIfPresent(with: QBusinessClientTypes.PersonalizationConfiguration.read(from:))
+        value.qAppsConfiguration = try reader["qAppsConfiguration"].readIfPresent(with: QBusinessClientTypes.QAppsConfiguration.read(from:))
         value.roleArn = try reader["roleArn"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: .epochSeconds)
@@ -9856,6 +9978,36 @@ extension QBusinessClientTypes.AppliedAttachmentsConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QBusinessClientTypes.AppliedAttachmentsConfiguration()
         value.attachmentsControlMode = try reader["attachmentsControlMode"].readIfPresent()
+        return value
+    }
+}
+
+extension QBusinessClientTypes.QAppsConfiguration {
+
+    static func write(value: QBusinessClientTypes.QAppsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["qAppsControlMode"].write(value.qAppsControlMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.QAppsConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.QAppsConfiguration()
+        value.qAppsControlMode = try reader["qAppsControlMode"].readIfPresent()
+        return value
+    }
+}
+
+extension QBusinessClientTypes.PersonalizationConfiguration {
+
+    static func write(value: QBusinessClientTypes.PersonalizationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["personalizationControlMode"].write(value.personalizationControlMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.PersonalizationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.PersonalizationConfiguration()
+        value.personalizationControlMode = try reader["personalizationControlMode"].readIfPresent()
         return value
     }
 }

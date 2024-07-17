@@ -29,6 +29,8 @@ import struct SmithyEventStreams.DefaultMessageDecoderStream
 import struct SmithyEventStreamsAPI.Message
 import struct SmithyHTTPAPI.Header
 import struct SmithyHTTPAPI.Headers
+import struct SmithyReadWrite.ReadingClosureBox
+import struct SmithyReadWrite.WritingClosureBox
 import typealias SmithyEventStreamsAPI.UnmarshalClosure
 
 /// The request is denied because of missing access permissions.
@@ -79,86 +81,6 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-/// The request failed due to an error while processing the model.
-public struct ModelErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        public internal(set) var message: Swift.String? = nil
-        /// The original status code.
-        public internal(set) var originalStatusCode: Swift.Int? = nil
-        /// The resource name.
-        public internal(set) var resourceName: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ModelErrorException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        originalStatusCode: Swift.Int? = nil,
-        resourceName: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-        self.properties.originalStatusCode = originalStatusCode
-        self.properties.resourceName = resourceName
-    }
-}
-
-/// The model specified in the request is not ready to serve inference requests.
-public struct ModelNotReadyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ModelNotReadyException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-    }
-}
-
-/// The request took too long to process. Processing time exceeded the model timeout length.
-public struct ModelTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ModelTimeoutException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-    }
-}
-
 /// The specified resource ARN was not found. Check the ARN and try your request again.
 public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -168,6 +90,30 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+/// The number of requests exceeds the service quota. Resubmit your request later.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -233,15 +179,17 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension BedrockRuntimeClientTypes {
 
-    public enum GuardrailTrace: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case disabled
-        case enabled
+    public enum GuardrailContentQualifier: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case groundingSource
+        case guardContent
+        case query
         case sdkUnknown(Swift.String)
 
-        public static var allCases: [GuardrailTrace] {
+        public static var allCases: [GuardrailContentQualifier] {
             return [
-                .disabled,
-                .enabled
+                .groundingSource,
+                .guardContent,
+                .query
             ]
         }
 
@@ -252,8 +200,9 @@ extension BedrockRuntimeClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
-            case .disabled: return "disabled"
-            case .enabled: return "enabled"
+            case .groundingSource: return "grounding_source"
+            case .guardContent: return "guard_content"
+            case .query: return "query"
             case let .sdkUnknown(s): return s
             }
         }
@@ -261,157 +210,20 @@ extension BedrockRuntimeClientTypes {
 }
 
 extension BedrockRuntimeClientTypes {
-    /// Configuration information for a guardrail that you use with the [Converse] action.
-    public struct GuardrailConfiguration {
-        /// The identifier for the guardrail.
-        /// This member is required.
-        public var guardrailIdentifier: Swift.String?
-        /// The version of the guardrail.
-        /// This member is required.
-        public var guardrailVersion: Swift.String?
-        /// The trace behavior for the guardrail.
-        public var trace: BedrockRuntimeClientTypes.GuardrailTrace?
-
-        public init(
-            guardrailIdentifier: Swift.String? = nil,
-            guardrailVersion: Swift.String? = nil,
-            trace: BedrockRuntimeClientTypes.GuardrailTrace? = nil
-        )
-        {
-            self.guardrailIdentifier = guardrailIdentifier
-            self.guardrailVersion = guardrailVersion
-            self.trace = trace
-        }
-    }
-
-}
-
-extension BedrockRuntimeClientTypes {
-    /// Base inference parameters to pass to a model in a call to [Converse](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html) or [ConverseStream](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_ConverseStream.html). For more information, see [Inference parameters for foundation models](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html). If you need to pass additional parameters that the model supports, use the additionalModelRequestFields request field in the call to Converse or ConverseStream. For more information, see [Model parameters](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html).
-    public struct InferenceConfiguration {
-        /// The maximum number of tokens to allow in the generated response. The default value is the maximum allowed value for the model that you are using. For more information, see [Inference parameters for foundation models](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html).
-        public var maxTokens: Swift.Int?
-        /// A list of stop sequences. A stop sequence is a sequence of characters that causes the model to stop generating the response.
-        public var stopSequences: [Swift.String]?
-        /// The likelihood of the model selecting higher-probability options while generating a response. A lower value makes the model more likely to choose higher-probability options, while a higher value makes the model more likely to choose lower-probability options. The default value is the default value for the model that you are using. For more information, see [Inference parameters for foundation models](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html).
-        public var temperature: Swift.Float?
-        /// The percentage of most-likely candidates that the model considers for the next token. For example, if you choose a value of 0.8 for topP, the model selects from the top 80% of the probability distribution of tokens that could be next in the sequence. The default value is the default value for the model that you are using. For more information, see [Inference parameters for foundation models](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html).
-        public var topp: Swift.Float?
-
-        public init(
-            maxTokens: Swift.Int? = nil,
-            stopSequences: [Swift.String]? = nil,
-            temperature: Swift.Float? = nil,
-            topp: Swift.Float? = nil
-        )
-        {
-            self.maxTokens = maxTokens
-            self.stopSequences = stopSequences
-            self.temperature = temperature
-            self.topp = topp
-        }
-    }
-
-}
-
-extension BedrockRuntimeClientTypes {
-
-    public enum DocumentFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case csv
-        case doc
-        case docx
-        case html
-        case md
-        case pdf
-        case txt
-        case xls
-        case xlsx
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [DocumentFormat] {
-            return [
-                .csv,
-                .doc,
-                .docx,
-                .html,
-                .md,
-                .pdf,
-                .txt,
-                .xls,
-                .xlsx
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .csv: return "csv"
-            case .doc: return "doc"
-            case .docx: return "docx"
-            case .html: return "html"
-            case .md: return "md"
-            case .pdf: return "pdf"
-            case .txt: return "txt"
-            case .xls: return "xls"
-            case .xlsx: return "xlsx"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension BedrockRuntimeClientTypes {
-    /// Contains the content of the document included in a message when sending a [Converse](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html) or [ConverseStream](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_ConverseStream.html) request or in the response.
-    public enum DocumentSource {
-        /// A base64-encoded string of a UTF-8 encoded file, that is the document to include in the message.
-        case bytes(Foundation.Data)
-        case sdkUnknown(Swift.String)
-    }
-
-}
-
-extension BedrockRuntimeClientTypes {
-    /// A document to include in a message when sending a [Converse](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html) or [ConverseStream](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_ConverseStream.html) request. You can include up to 5 documents in a request. The maximum document size is 50 MB.
-    public struct DocumentBlock {
-        /// The format of a document, or its extension.
-        /// This member is required.
-        public var format: BedrockRuntimeClientTypes.DocumentFormat?
-        /// A name for the document.
-        /// This member is required.
-        public var name: Swift.String?
-        /// Contains the content of the document.
-        /// This member is required.
-        public var source: BedrockRuntimeClientTypes.DocumentSource?
-
-        public init(
-            format: BedrockRuntimeClientTypes.DocumentFormat? = nil,
-            name: Swift.String? = nil,
-            source: BedrockRuntimeClientTypes.DocumentSource? = nil
-        )
-        {
-            self.format = format
-            self.name = name
-            self.source = source
-        }
-    }
-
-}
-
-extension BedrockRuntimeClientTypes {
-    /// A text block that contains text that you want to assess with a guardrail. For more information, see [GuardrailConverseContentBlock].
-    public struct GuardrailConverseTextBlock {
-        /// The text that you want to guard.
+    /// The text block to be evaluated by the guardrail.
+    public struct GuardrailTextBlock {
+        /// The qualifiers describing the text block.
+        public var qualifiers: [BedrockRuntimeClientTypes.GuardrailContentQualifier]?
+        /// The input text details to be evaluated by the guardrail.
         /// This member is required.
         public var text: Swift.String?
 
         public init(
+            qualifiers: [BedrockRuntimeClientTypes.GuardrailContentQualifier]? = nil,
             text: Swift.String? = nil
         )
         {
+            self.qualifiers = qualifiers
             self.text = text
         }
     }
@@ -419,10 +231,10 @@ extension BedrockRuntimeClientTypes {
 }
 
 extension BedrockRuntimeClientTypes {
-    /// A content block for selective guarding with the Converse API ([Converse] and [ConverseStream]).
-    public enum GuardrailConverseContentBlock {
-        /// The text to guard.
-        case text(BedrockRuntimeClientTypes.GuardrailConverseTextBlock)
+    /// The content block to be evaluated by the guardrail.
+    public enum GuardrailContentBlock {
+        /// Text within content block to be evaluated by the guardrail.
+        case text(BedrockRuntimeClientTypes.GuardrailTextBlock)
         case sdkUnknown(Swift.String)
     }
 
@@ -430,19 +242,15 @@ extension BedrockRuntimeClientTypes {
 
 extension BedrockRuntimeClientTypes {
 
-    public enum ImageFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case gif
-        case jpeg
-        case png
-        case webp
+    public enum GuardrailContentSource: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case input
+        case output
         case sdkUnknown(Swift.String)
 
-        public static var allCases: [ImageFormat] {
+        public static var allCases: [GuardrailContentSource] {
             return [
-                .gif,
-                .jpeg,
-                .png,
-                .webp
+                .input,
+                .output
             ]
         }
 
@@ -453,439 +261,53 @@ extension BedrockRuntimeClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
-            case .gif: return "gif"
-            case .jpeg: return "jpeg"
-            case .png: return "png"
-            case .webp: return "webp"
+            case .input: return "INPUT"
+            case .output: return "OUTPUT"
             case let .sdkUnknown(s): return s
             }
         }
     }
 }
 
-extension BedrockRuntimeClientTypes {
-    /// The source for an image.
-    public enum ImageSource {
-        /// The raw image bytes for the image. If you use an AWS SDK, you don't need to base64 encode the image bytes.
-        case bytes(Foundation.Data)
-        case sdkUnknown(Swift.String)
-    }
-
-}
-
-extension BedrockRuntimeClientTypes {
-    /// Image content for a message.
-    public struct ImageBlock {
-        /// The format of the image.
-        /// This member is required.
-        public var format: BedrockRuntimeClientTypes.ImageFormat?
-        /// The source for the image.
-        /// This member is required.
-        public var source: BedrockRuntimeClientTypes.ImageSource?
-
-        public init(
-            format: BedrockRuntimeClientTypes.ImageFormat? = nil,
-            source: BedrockRuntimeClientTypes.ImageSource? = nil
-        )
-        {
-            self.format = format
-            self.source = source
-        }
-    }
-
-}
-
-extension BedrockRuntimeClientTypes {
-    /// The tool result content block.
-    public enum ToolResultContentBlock {
-        /// A tool result that is JSON format data.
-        case json(SmithyReadWrite.Document)
-        /// A tool result that is text.
-        case text(Swift.String)
-        /// A tool result that is an image. This field is only supported by Anthropic Claude 3 models.
-        case image(BedrockRuntimeClientTypes.ImageBlock)
-        /// A tool result that is a document.
-        case document(BedrockRuntimeClientTypes.DocumentBlock)
-        case sdkUnknown(Swift.String)
-    }
-
-}
-
-extension BedrockRuntimeClientTypes {
-
-    public enum ToolResultStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case error
-        case success
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ToolResultStatus] {
-            return [
-                .error,
-                .success
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .error: return "error"
-            case .success: return "success"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension BedrockRuntimeClientTypes {
-    /// A tool result block that contains the results for a tool request that the model previously made.
-    public struct ToolResultBlock {
-        /// The content for tool result content block.
-        /// This member is required.
-        public var content: [BedrockRuntimeClientTypes.ToolResultContentBlock]?
-        /// The status for the tool result content block. This field is only supported Anthropic Claude 3 models.
-        public var status: BedrockRuntimeClientTypes.ToolResultStatus?
-        /// The ID of the tool request that this is the result for.
-        /// This member is required.
-        public var toolUseId: Swift.String?
-
-        public init(
-            content: [BedrockRuntimeClientTypes.ToolResultContentBlock]? = nil,
-            status: BedrockRuntimeClientTypes.ToolResultStatus? = nil,
-            toolUseId: Swift.String? = nil
-        )
-        {
-            self.content = content
-            self.status = status
-            self.toolUseId = toolUseId
-        }
-    }
-
-}
-
-extension BedrockRuntimeClientTypes {
-    /// A tool use content block. Contains information about a tool that the model is requesting be run., The model uses the result from the tool to generate a response.
-    public struct ToolUseBlock {
-        /// The input to pass to the tool.
-        /// This member is required.
-        public var input: SmithyReadWrite.Document?
-        /// The name of the tool that the model wants to use.
-        /// This member is required.
-        public var name: Swift.String?
-        /// The ID for the tool request.
-        /// This member is required.
-        public var toolUseId: Swift.String?
-
-        public init(
-            input: SmithyReadWrite.Document? = nil,
-            name: Swift.String? = nil,
-            toolUseId: Swift.String? = nil
-        )
-        {
-            self.input = input
-            self.name = name
-            self.toolUseId = toolUseId
-        }
-    }
-
-}
-
-extension BedrockRuntimeClientTypes {
-    /// A block of content for a message that you pass to, or receive from, a model with the Converse API ([Converse] and [ConverseStream]).
-    public enum ContentBlock {
-        /// Text to include in the message.
-        case text(Swift.String)
-        /// Image to include in the message. This field is only supported by Anthropic Claude 3 models.
-        case image(BedrockRuntimeClientTypes.ImageBlock)
-        /// A document to include in the message.
-        case document(BedrockRuntimeClientTypes.DocumentBlock)
-        /// Information about a tool use request from a model.
-        case tooluse(BedrockRuntimeClientTypes.ToolUseBlock)
-        /// The result for a tool request that a model makes.
-        case toolresult(BedrockRuntimeClientTypes.ToolResultBlock)
-        /// Contains the content to assess with the guardrail. If you don't specify guardContent in a call to the Converse API, the guardrail (if passed in the Converse API) assesses the entire message. For more information, see Use a guardrail with the Converse API in the Amazon Bedrock User Guide.
-        case guardcontent(BedrockRuntimeClientTypes.GuardrailConverseContentBlock)
-        case sdkUnknown(Swift.String)
-    }
-
-}
-
-extension BedrockRuntimeClientTypes {
-
-    public enum ConversationRole: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case assistant
-        case user
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ConversationRole] {
-            return [
-                .assistant,
-                .user
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .assistant: return "assistant"
-            case .user: return "user"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension BedrockRuntimeClientTypes {
-    /// A message input, or returned from, a call to [Converse](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html) or [ConverseStream](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_ConverseStream.html).
-    public struct Message {
-        /// The message content.
-        /// This member is required.
-        public var content: [BedrockRuntimeClientTypes.ContentBlock]?
-        /// The role that the message plays in the message.
-        /// This member is required.
-        public var role: BedrockRuntimeClientTypes.ConversationRole?
-
-        public init(
-            content: [BedrockRuntimeClientTypes.ContentBlock]? = nil,
-            role: BedrockRuntimeClientTypes.ConversationRole? = nil
-        )
-        {
-            self.content = content
-            self.role = role
-        }
-    }
-
-}
-
-extension BedrockRuntimeClientTypes {
-    /// A system content block.
-    public enum SystemContentBlock {
-        /// A system prompt for the model.
-        case text(Swift.String)
-        /// A content block to assess with the guardrail. Use with the Converse API ([Converse] and [ConverseStream]). For more information, see Use a guardrail with the Converse API in the Amazon Bedrock User Guide.
-        case guardcontent(BedrockRuntimeClientTypes.GuardrailConverseContentBlock)
-        case sdkUnknown(Swift.String)
-    }
-
-}
-
-extension BedrockRuntimeClientTypes {
-    /// The model must request at least one tool (no text is generated). For example, {"any" : {}}.
-    public struct AnyToolChoice {
-
-        public init() { }
-    }
-
-}
-
-extension BedrockRuntimeClientTypes {
-    /// The Model automatically decides if a tool should be called or whether to generate text instead. For example, {"auto" : {}}.
-    public struct AutoToolChoice {
-
-        public init() { }
-    }
-
-}
-
-extension BedrockRuntimeClientTypes {
-    /// The model must request a specific tool. For example, {"tool" : {"name" : "Your tool name"}}. This field is only supported by Anthropic Claude 3 models.
-    public struct SpecificToolChoice {
-        /// The name of the tool that the model must request.
-        /// This member is required.
-        public var name: Swift.String?
-
-        public init(
-            name: Swift.String? = nil
-        )
-        {
-            self.name = name
-        }
-    }
-
-}
-
-extension BedrockRuntimeClientTypes {
-    /// Determines which tools the model should request in a call to Converse or ConverseStream. ToolChoice is only supported by Anthropic Claude 3 models and by Mistral AI Mistral Large.
-    public enum ToolChoice {
-        /// (Default). The Model automatically decides if a tool should be called or whether to generate text instead.
-        case auto(BedrockRuntimeClientTypes.AutoToolChoice)
-        /// The model must request at least one tool (no text is generated).
-        case any(BedrockRuntimeClientTypes.AnyToolChoice)
-        /// The Model must request the specified tool. Only supported by Anthropic Claude 3 models.
-        case tool(BedrockRuntimeClientTypes.SpecificToolChoice)
-        case sdkUnknown(Swift.String)
-    }
-
-}
-
-extension BedrockRuntimeClientTypes {
-    /// The schema for the tool. The top level schema type must be object.
-    public enum ToolInputSchema {
-        /// The JSON schema for the tool. For more information, see [JSON Schema Reference](https://json-schema.org/understanding-json-schema/reference).
-        case json(SmithyReadWrite.Document)
-        case sdkUnknown(Swift.String)
-    }
-
-}
-
-extension BedrockRuntimeClientTypes {
-    /// The specification for the tool.
-    public struct ToolSpecification {
-        /// The description for the tool.
-        public var description: Swift.String?
-        /// The input schema for the tool in JSON format.
-        /// This member is required.
-        public var inputSchema: BedrockRuntimeClientTypes.ToolInputSchema?
-        /// The name for the tool.
-        /// This member is required.
-        public var name: Swift.String?
-
-        public init(
-            description: Swift.String? = nil,
-            inputSchema: BedrockRuntimeClientTypes.ToolInputSchema? = nil,
-            name: Swift.String? = nil
-        )
-        {
-            self.description = description
-            self.inputSchema = inputSchema
-            self.name = name
-        }
-    }
-
-}
-
-extension BedrockRuntimeClientTypes {
-    /// Information about a tool that you can use with the Converse API.
-    public enum Tool {
-        /// The specfication for the tool.
-        case toolspec(BedrockRuntimeClientTypes.ToolSpecification)
-        case sdkUnknown(Swift.String)
-    }
-
-}
-
-extension BedrockRuntimeClientTypes {
-    /// Configuration information for the tools that you pass to a model. This field is only supported by Anthropic Claude 3, Cohere Command R, Cohere Command R+, and Mistral Large models.
-    public struct ToolConfiguration {
-        /// If supported by model, forces the model to request a tool.
-        public var toolChoice: BedrockRuntimeClientTypes.ToolChoice?
-        /// An array of tools that you want to pass to a model.
-        /// This member is required.
-        public var tools: [BedrockRuntimeClientTypes.Tool]?
-
-        public init(
-            toolChoice: BedrockRuntimeClientTypes.ToolChoice? = nil,
-            tools: [BedrockRuntimeClientTypes.Tool]? = nil
-        )
-        {
-            self.toolChoice = toolChoice
-            self.tools = tools
-        }
-    }
-
-}
-
-public struct ConverseInput {
-    /// Additional inference parameters that the model supports, beyond the base set of inference parameters that Converse supports in the inferenceConfig field. For more information, see [Model parameters](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html).
-    public var additionalModelRequestFields: SmithyReadWrite.Document?
-    /// Additional model parameters field paths to return in the response. Converse returns the requested fields as a JSON Pointer object in the additionalModelResponseFields field. The following is example JSON for additionalModelResponseFieldPaths. [ "/stop_sequence" ] For information about the JSON Pointer syntax, see the [Internet Engineering Task Force (IETF)](https://datatracker.ietf.org/doc/html/rfc6901) documentation. Converse rejects an empty JSON Pointer or incorrectly structured JSON Pointer with a 400 error code. if the JSON Pointer is valid, but the requested field is not in the model response, it is ignored by Converse.
-    public var additionalModelResponseFieldPaths: [Swift.String]?
-    /// Configuration information for a guardrail that you want to use in the request.
-    public var guardrailConfig: BedrockRuntimeClientTypes.GuardrailConfiguration?
-    /// Inference parameters to pass to the model. Converse supports a base set of inference parameters. If you need to pass additional parameters that the model supports, use the additionalModelRequestFields request field.
-    public var inferenceConfig: BedrockRuntimeClientTypes.InferenceConfiguration?
-    /// The messages that you want to send to the model.
+public struct ApplyGuardrailInput {
+    /// The content details used in the request to apply the guardrail.
     /// This member is required.
-    public var messages: [BedrockRuntimeClientTypes.Message]?
-    /// The identifier for the model that you want to call. The modelId to provide depends on the type of model that you use:
-    ///
-    /// * If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see [Amazon Bedrock base model IDs (on-demand throughput)](https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html#model-ids-arns) in the Amazon Bedrock User Guide.
-    ///
-    /// * If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see [Run inference using a Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-thru-use.html) in the Amazon Bedrock User Guide.
-    ///
-    /// * If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see [Use a custom model in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-use.html) in the Amazon Bedrock User Guide.
+    public var content: [BedrockRuntimeClientTypes.GuardrailContentBlock]?
+    /// The guardrail identifier used in the request to apply the guardrail.
     /// This member is required.
-    public var modelId: Swift.String?
-    /// A system prompt to pass to the model.
-    public var system: [BedrockRuntimeClientTypes.SystemContentBlock]?
-    /// Configuration information for the tools that the model can use when generating a response. This field is only supported by Anthropic Claude 3, Cohere Command R, Cohere Command R+, and Mistral Large models.
-    public var toolConfig: BedrockRuntimeClientTypes.ToolConfiguration?
+    public var guardrailIdentifier: Swift.String?
+    /// The guardrail version used in the request to apply the guardrail.
+    /// This member is required.
+    public var guardrailVersion: Swift.String?
+    /// The source of data used in the request to apply the guardrail.
+    /// This member is required.
+    public var source: BedrockRuntimeClientTypes.GuardrailContentSource?
 
     public init(
-        additionalModelRequestFields: SmithyReadWrite.Document? = nil,
-        additionalModelResponseFieldPaths: [Swift.String]? = nil,
-        guardrailConfig: BedrockRuntimeClientTypes.GuardrailConfiguration? = nil,
-        inferenceConfig: BedrockRuntimeClientTypes.InferenceConfiguration? = nil,
-        messages: [BedrockRuntimeClientTypes.Message]? = nil,
-        modelId: Swift.String? = nil,
-        system: [BedrockRuntimeClientTypes.SystemContentBlock]? = nil,
-        toolConfig: BedrockRuntimeClientTypes.ToolConfiguration? = nil
+        content: [BedrockRuntimeClientTypes.GuardrailContentBlock]? = nil,
+        guardrailIdentifier: Swift.String? = nil,
+        guardrailVersion: Swift.String? = nil,
+        source: BedrockRuntimeClientTypes.GuardrailContentSource? = nil
     )
     {
-        self.additionalModelRequestFields = additionalModelRequestFields
-        self.additionalModelResponseFieldPaths = additionalModelResponseFieldPaths
-        self.guardrailConfig = guardrailConfig
-        self.inferenceConfig = inferenceConfig
-        self.messages = messages
-        self.modelId = modelId
-        self.system = system
-        self.toolConfig = toolConfig
+        self.content = content
+        self.guardrailIdentifier = guardrailIdentifier
+        self.guardrailVersion = guardrailVersion
+        self.source = source
     }
 }
 
 extension BedrockRuntimeClientTypes {
-    /// Metrics for a call to [Converse](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html).
-    public struct ConverseMetrics {
-        /// The latency of the call to Converse, in milliseconds.
-        /// This member is required.
-        public var latencyMs: Swift.Int?
 
-        public init(
-            latencyMs: Swift.Int? = nil
-        )
-        {
-            self.latencyMs = latencyMs
-        }
-    }
-
-}
-
-extension BedrockRuntimeClientTypes {
-    /// The output from a call to [Converse](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html).
-    public enum ConverseOutput {
-        /// The message that the model generates.
-        case message(BedrockRuntimeClientTypes.Message)
-        case sdkUnknown(Swift.String)
-    }
-
-}
-
-extension BedrockRuntimeClientTypes {
-
-    public enum StopReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case contentFiltered
-        case endTurn
+    public enum GuardrailAction: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case guardrailIntervened
-        case maxTokens
-        case stopSequence
-        case toolUse
+        case `none`
         case sdkUnknown(Swift.String)
 
-        public static var allCases: [StopReason] {
+        public static var allCases: [GuardrailAction] {
             return [
-                .contentFiltered,
-                .endTurn,
                 .guardrailIntervened,
-                .maxTokens,
-                .stopSequence,
-                .toolUse
+                .none
             ]
         }
 
@@ -896,12 +318,8 @@ extension BedrockRuntimeClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
-            case .contentFiltered: return "content_filtered"
-            case .endTurn: return "end_turn"
-            case .guardrailIntervened: return "guardrail_intervened"
-            case .maxTokens: return "max_tokens"
-            case .stopSequence: return "stop_sequence"
-            case .toolUse: return "tool_use"
+            case .guardrailIntervened: return "GUARDRAIL_INTERVENED"
+            case .none: return "NONE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1046,6 +464,112 @@ extension BedrockRuntimeClientTypes {
 
         public init(
             filters: [BedrockRuntimeClientTypes.GuardrailContentFilter]? = nil
+        )
+        {
+            self.filters = filters
+        }
+    }
+
+}
+
+extension BedrockRuntimeClientTypes {
+
+    public enum GuardrailContextualGroundingPolicyAction: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case blocked
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailContextualGroundingPolicyAction] {
+            return [
+                .blocked,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .blocked: return "BLOCKED"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    public enum GuardrailContextualGroundingFilterType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case grounding
+        case relevance
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailContextualGroundingFilterType] {
+            return [
+                .grounding,
+                .relevance
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .grounding: return "GROUNDING"
+            case .relevance: return "RELEVANCE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+    /// The details for the guardrails contextual grounding filter.
+    public struct GuardrailContextualGroundingFilter {
+        /// The action performed by the guardrails contextual grounding filter.
+        /// This member is required.
+        public var action: BedrockRuntimeClientTypes.GuardrailContextualGroundingPolicyAction?
+        /// The score generated by contextual grounding filter.
+        /// This member is required.
+        public var score: Swift.Double?
+        /// The threshold used by contextual grounding filter to determine whether the content is grounded or not.
+        /// This member is required.
+        public var threshold: Swift.Double?
+        /// The contextual grounding filter type.
+        /// This member is required.
+        public var type: BedrockRuntimeClientTypes.GuardrailContextualGroundingFilterType?
+
+        public init(
+            action: BedrockRuntimeClientTypes.GuardrailContextualGroundingPolicyAction? = nil,
+            score: Swift.Double? = nil,
+            threshold: Swift.Double? = nil,
+            type: BedrockRuntimeClientTypes.GuardrailContextualGroundingFilterType? = nil
+        )
+        {
+            self.action = action
+            self.score = score
+            self.threshold = threshold
+            self.type = type
+        }
+    }
+
+}
+
+extension BedrockRuntimeClientTypes {
+    /// The policy assessment details for the guardrails contextual grounding filter.
+    public struct GuardrailContextualGroundingPolicyAssessment {
+        /// The filter details for the guardrails contextual grounding filter.
+        public var filters: [BedrockRuntimeClientTypes.GuardrailContextualGroundingFilter]?
+
+        public init(
+            filters: [BedrockRuntimeClientTypes.GuardrailContextualGroundingFilter]? = nil
         )
         {
             self.filters = filters
@@ -1501,6 +1025,8 @@ extension BedrockRuntimeClientTypes {
     public struct GuardrailAssessment {
         /// The content policy.
         public var contentPolicy: BedrockRuntimeClientTypes.GuardrailContentPolicyAssessment?
+        /// The contextual grounding policy used for the guardrail assessment.
+        public var contextualGroundingPolicy: BedrockRuntimeClientTypes.GuardrailContextualGroundingPolicyAssessment?
         /// The sensitive information policy.
         public var sensitiveInformationPolicy: BedrockRuntimeClientTypes.GuardrailSensitiveInformationPolicyAssessment?
         /// The topic policy.
@@ -1510,18 +1036,920 @@ extension BedrockRuntimeClientTypes {
 
         public init(
             contentPolicy: BedrockRuntimeClientTypes.GuardrailContentPolicyAssessment? = nil,
+            contextualGroundingPolicy: BedrockRuntimeClientTypes.GuardrailContextualGroundingPolicyAssessment? = nil,
             sensitiveInformationPolicy: BedrockRuntimeClientTypes.GuardrailSensitiveInformationPolicyAssessment? = nil,
             topicPolicy: BedrockRuntimeClientTypes.GuardrailTopicPolicyAssessment? = nil,
             wordPolicy: BedrockRuntimeClientTypes.GuardrailWordPolicyAssessment? = nil
         )
         {
             self.contentPolicy = contentPolicy
+            self.contextualGroundingPolicy = contextualGroundingPolicy
             self.sensitiveInformationPolicy = sensitiveInformationPolicy
             self.topicPolicy = topicPolicy
             self.wordPolicy = wordPolicy
         }
     }
 
+}
+
+extension BedrockRuntimeClientTypes {
+    /// The output content produced by the guardrail.
+    public struct GuardrailOutputContent {
+        /// The specific text for the output content produced by the guardrail.
+        public var text: Swift.String?
+
+        public init(
+            text: Swift.String? = nil
+        )
+        {
+            self.text = text
+        }
+    }
+
+}
+
+extension BedrockRuntimeClientTypes {
+    /// The details on the use of the guardrail.
+    public struct GuardrailUsage {
+        /// The content policy units processed by the guardrail.
+        /// This member is required.
+        public var contentPolicyUnits: Swift.Int?
+        /// The contextual grounding policy units processed by the guardrail.
+        /// This member is required.
+        public var contextualGroundingPolicyUnits: Swift.Int?
+        /// The sensitive information policy free units processed by the guardrail.
+        /// This member is required.
+        public var sensitiveInformationPolicyFreeUnits: Swift.Int?
+        /// The sensitive information policy units processed by the guardrail.
+        /// This member is required.
+        public var sensitiveInformationPolicyUnits: Swift.Int?
+        /// The topic policy units processed by the guardrail.
+        /// This member is required.
+        public var topicPolicyUnits: Swift.Int?
+        /// The word policy units processed by the guardrail.
+        /// This member is required.
+        public var wordPolicyUnits: Swift.Int?
+
+        public init(
+            contentPolicyUnits: Swift.Int? = nil,
+            contextualGroundingPolicyUnits: Swift.Int? = nil,
+            sensitiveInformationPolicyFreeUnits: Swift.Int? = nil,
+            sensitiveInformationPolicyUnits: Swift.Int? = nil,
+            topicPolicyUnits: Swift.Int? = nil,
+            wordPolicyUnits: Swift.Int? = nil
+        )
+        {
+            self.contentPolicyUnits = contentPolicyUnits
+            self.contextualGroundingPolicyUnits = contextualGroundingPolicyUnits
+            self.sensitiveInformationPolicyFreeUnits = sensitiveInformationPolicyFreeUnits
+            self.sensitiveInformationPolicyUnits = sensitiveInformationPolicyUnits
+            self.topicPolicyUnits = topicPolicyUnits
+            self.wordPolicyUnits = wordPolicyUnits
+        }
+    }
+
+}
+
+public struct ApplyGuardrailOutput {
+    /// The action taken in the response from the guardrail.
+    /// This member is required.
+    public var action: BedrockRuntimeClientTypes.GuardrailAction?
+    /// The assessment details in the response from the guardrail.
+    /// This member is required.
+    public var assessments: [BedrockRuntimeClientTypes.GuardrailAssessment]?
+    /// The output details in the response from the guardrail.
+    /// This member is required.
+    public var outputs: [BedrockRuntimeClientTypes.GuardrailOutputContent]?
+    /// The usage details in the response from the guardrail.
+    /// This member is required.
+    public var usage: BedrockRuntimeClientTypes.GuardrailUsage?
+
+    public init(
+        action: BedrockRuntimeClientTypes.GuardrailAction? = nil,
+        assessments: [BedrockRuntimeClientTypes.GuardrailAssessment]? = nil,
+        outputs: [BedrockRuntimeClientTypes.GuardrailOutputContent]? = nil,
+        usage: BedrockRuntimeClientTypes.GuardrailUsage? = nil
+    )
+    {
+        self.action = action
+        self.assessments = assessments
+        self.outputs = outputs
+        self.usage = usage
+    }
+}
+
+/// The request failed due to an error while processing the model.
+public struct ModelErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+        /// The original status code.
+        public internal(set) var originalStatusCode: Swift.Int? = nil
+        /// The resource name.
+        public internal(set) var resourceName: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ModelErrorException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        originalStatusCode: Swift.Int? = nil,
+        resourceName: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+        self.properties.originalStatusCode = originalStatusCode
+        self.properties.resourceName = resourceName
+    }
+}
+
+/// The model specified in the request is not ready to serve inference requests.
+public struct ModelNotReadyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ModelNotReadyException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+/// The request took too long to process. Processing time exceeded the model timeout length.
+public struct ModelTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ModelTimeoutException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    public enum GuardrailTrace: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailTrace] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "disabled"
+            case .enabled: return "enabled"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+    /// Configuration information for a guardrail that you use with the [Converse](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html) operation.
+    public struct GuardrailConfiguration {
+        /// The identifier for the guardrail.
+        /// This member is required.
+        public var guardrailIdentifier: Swift.String?
+        /// The version of the guardrail.
+        /// This member is required.
+        public var guardrailVersion: Swift.String?
+        /// The trace behavior for the guardrail.
+        public var trace: BedrockRuntimeClientTypes.GuardrailTrace?
+
+        public init(
+            guardrailIdentifier: Swift.String? = nil,
+            guardrailVersion: Swift.String? = nil,
+            trace: BedrockRuntimeClientTypes.GuardrailTrace? = nil
+        )
+        {
+            self.guardrailIdentifier = guardrailIdentifier
+            self.guardrailVersion = guardrailVersion
+            self.trace = trace
+        }
+    }
+
+}
+
+extension BedrockRuntimeClientTypes {
+    /// Base inference parameters to pass to a model in a call to [Converse](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html) or [ConverseStream](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_ConverseStream.html). For more information, see [Inference parameters for foundation models](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html). If you need to pass additional parameters that the model supports, use the additionalModelRequestFields request field in the call to Converse or ConverseStream. For more information, see [Model parameters](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html).
+    public struct InferenceConfiguration {
+        /// The maximum number of tokens to allow in the generated response. The default value is the maximum allowed value for the model that you are using. For more information, see [Inference parameters for foundation models](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html).
+        public var maxTokens: Swift.Int?
+        /// A list of stop sequences. A stop sequence is a sequence of characters that causes the model to stop generating the response.
+        public var stopSequences: [Swift.String]?
+        /// The likelihood of the model selecting higher-probability options while generating a response. A lower value makes the model more likely to choose higher-probability options, while a higher value makes the model more likely to choose lower-probability options. The default value is the default value for the model that you are using. For more information, see [Inference parameters for foundation models](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html).
+        public var temperature: Swift.Float?
+        /// The percentage of most-likely candidates that the model considers for the next token. For example, if you choose a value of 0.8 for topP, the model selects from the top 80% of the probability distribution of tokens that could be next in the sequence. The default value is the default value for the model that you are using. For more information, see [Inference parameters for foundation models](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html).
+        public var topp: Swift.Float?
+
+        public init(
+            maxTokens: Swift.Int? = nil,
+            stopSequences: [Swift.String]? = nil,
+            temperature: Swift.Float? = nil,
+            topp: Swift.Float? = nil
+        )
+        {
+            self.maxTokens = maxTokens
+            self.stopSequences = stopSequences
+            self.temperature = temperature
+            self.topp = topp
+        }
+    }
+
+}
+
+extension BedrockRuntimeClientTypes {
+
+    public enum DocumentFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case csv
+        case doc
+        case docx
+        case html
+        case md
+        case pdf
+        case txt
+        case xls
+        case xlsx
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DocumentFormat] {
+            return [
+                .csv,
+                .doc,
+                .docx,
+                .html,
+                .md,
+                .pdf,
+                .txt,
+                .xls,
+                .xlsx
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .csv: return "csv"
+            case .doc: return "doc"
+            case .docx: return "docx"
+            case .html: return "html"
+            case .md: return "md"
+            case .pdf: return "pdf"
+            case .txt: return "txt"
+            case .xls: return "xls"
+            case .xlsx: return "xlsx"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+    /// Contains the content of a document.
+    public enum DocumentSource {
+        /// The raw bytes for the document. If you use an Amazon Web Services SDK, you don't need to encode the bytes in base64.
+        case bytes(Foundation.Data)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension BedrockRuntimeClientTypes {
+    /// A document to include in a message.
+    public struct DocumentBlock {
+        /// The format of a document, or its extension.
+        /// This member is required.
+        public var format: BedrockRuntimeClientTypes.DocumentFormat?
+        /// A name for the document. The name can only contain the following characters:
+        ///
+        /// * Alphanumeric characters
+        ///
+        /// * Whitespace characters (no more than one in a row)
+        ///
+        /// * Hyphens
+        ///
+        /// * Parentheses
+        ///
+        /// * Square brackets
+        ///
+        ///
+        /// This field is vulnerable to prompt injections, because the model might inadvertently interpret it as instructions. Therefore, we recommend that you specify a neutral name.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Contains the content of the document.
+        /// This member is required.
+        public var source: BedrockRuntimeClientTypes.DocumentSource?
+
+        public init(
+            format: BedrockRuntimeClientTypes.DocumentFormat? = nil,
+            name: Swift.String? = nil,
+            source: BedrockRuntimeClientTypes.DocumentSource? = nil
+        )
+        {
+            self.format = format
+            self.name = name
+            self.source = source
+        }
+    }
+
+}
+
+extension BedrockRuntimeClientTypes {
+
+    public enum GuardrailConverseContentQualifier: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case groundingSource
+        case guardContent
+        case query
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailConverseContentQualifier] {
+            return [
+                .groundingSource,
+                .guardContent,
+                .query
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .groundingSource: return "grounding_source"
+            case .guardContent: return "guard_content"
+            case .query: return "query"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+    /// A text block that contains text that you want to assess with a guardrail. For more information, see [GuardrailConverseContentBlock].
+    public struct GuardrailConverseTextBlock {
+        /// The qualifier details for the guardrails contextual grounding filter.
+        public var qualifiers: [BedrockRuntimeClientTypes.GuardrailConverseContentQualifier]?
+        /// The text that you want to guard.
+        /// This member is required.
+        public var text: Swift.String?
+
+        public init(
+            qualifiers: [BedrockRuntimeClientTypes.GuardrailConverseContentQualifier]? = nil,
+            text: Swift.String? = nil
+        )
+        {
+            self.qualifiers = qualifiers
+            self.text = text
+        }
+    }
+
+}
+
+extension BedrockRuntimeClientTypes {
+    /// A content block for selective guarding with the [Converse](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html) or [ConverseStream](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_ConverseStream.html) API operations.
+    public enum GuardrailConverseContentBlock {
+        /// The text to guard.
+        case text(BedrockRuntimeClientTypes.GuardrailConverseTextBlock)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension BedrockRuntimeClientTypes {
+
+    public enum ImageFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case gif
+        case jpeg
+        case png
+        case webp
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ImageFormat] {
+            return [
+                .gif,
+                .jpeg,
+                .png,
+                .webp
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .gif: return "gif"
+            case .jpeg: return "jpeg"
+            case .png: return "png"
+            case .webp: return "webp"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+    /// The source for an image.
+    public enum ImageSource {
+        /// The raw image bytes for the image. If you use an AWS SDK, you don't need to encode the image bytes in base64.
+        case bytes(Foundation.Data)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension BedrockRuntimeClientTypes {
+    /// Image content for a message.
+    public struct ImageBlock {
+        /// The format of the image.
+        /// This member is required.
+        public var format: BedrockRuntimeClientTypes.ImageFormat?
+        /// The source for the image.
+        /// This member is required.
+        public var source: BedrockRuntimeClientTypes.ImageSource?
+
+        public init(
+            format: BedrockRuntimeClientTypes.ImageFormat? = nil,
+            source: BedrockRuntimeClientTypes.ImageSource? = nil
+        )
+        {
+            self.format = format
+            self.source = source
+        }
+    }
+
+}
+
+extension BedrockRuntimeClientTypes {
+    /// The tool result content block.
+    public enum ToolResultContentBlock {
+        /// A tool result that is JSON format data.
+        case json(SmithyReadWrite.Document)
+        /// A tool result that is text.
+        case text(Swift.String)
+        /// A tool result that is an image. This field is only supported by Anthropic Claude 3 models.
+        case image(BedrockRuntimeClientTypes.ImageBlock)
+        /// A tool result that is a document.
+        case document(BedrockRuntimeClientTypes.DocumentBlock)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension BedrockRuntimeClientTypes {
+
+    public enum ToolResultStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case error
+        case success
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ToolResultStatus] {
+            return [
+                .error,
+                .success
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .error: return "error"
+            case .success: return "success"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+    /// A tool result block that contains the results for a tool request that the model previously made.
+    public struct ToolResultBlock {
+        /// The content for tool result content block.
+        /// This member is required.
+        public var content: [BedrockRuntimeClientTypes.ToolResultContentBlock]?
+        /// The status for the tool result content block. This field is only supported Anthropic Claude 3 models.
+        public var status: BedrockRuntimeClientTypes.ToolResultStatus?
+        /// The ID of the tool request that this is the result for.
+        /// This member is required.
+        public var toolUseId: Swift.String?
+
+        public init(
+            content: [BedrockRuntimeClientTypes.ToolResultContentBlock]? = nil,
+            status: BedrockRuntimeClientTypes.ToolResultStatus? = nil,
+            toolUseId: Swift.String? = nil
+        )
+        {
+            self.content = content
+            self.status = status
+            self.toolUseId = toolUseId
+        }
+    }
+
+}
+
+extension BedrockRuntimeClientTypes {
+    /// A tool use content block. Contains information about a tool that the model is requesting be run., The model uses the result from the tool to generate a response.
+    public struct ToolUseBlock {
+        /// The input to pass to the tool.
+        /// This member is required.
+        public var input: SmithyReadWrite.Document?
+        /// The name of the tool that the model wants to use.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The ID for the tool request.
+        /// This member is required.
+        public var toolUseId: Swift.String?
+
+        public init(
+            input: SmithyReadWrite.Document? = nil,
+            name: Swift.String? = nil,
+            toolUseId: Swift.String? = nil
+        )
+        {
+            self.input = input
+            self.name = name
+            self.toolUseId = toolUseId
+        }
+    }
+
+}
+
+extension BedrockRuntimeClientTypes {
+    /// A block of content for a message that you pass to, or receive from, a model with the [Converse](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html) or [ConverseStream](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_ConverseStream.html) API operations.
+    public enum ContentBlock {
+        /// Text to include in the message.
+        case text(Swift.String)
+        /// Image to include in the message. This field is only supported by Anthropic Claude 3 models.
+        case image(BedrockRuntimeClientTypes.ImageBlock)
+        /// A document to include in the message.
+        case document(BedrockRuntimeClientTypes.DocumentBlock)
+        /// Information about a tool use request from a model.
+        case tooluse(BedrockRuntimeClientTypes.ToolUseBlock)
+        /// The result for a tool request that a model makes.
+        case toolresult(BedrockRuntimeClientTypes.ToolResultBlock)
+        /// Contains the content to assess with the guardrail. If you don't specify guardContent in a call to the Converse API, the guardrail (if passed in the Converse API) assesses the entire message. For more information, see Use a guardrail with the Converse API in the Amazon Bedrock User Guide.
+        case guardcontent(BedrockRuntimeClientTypes.GuardrailConverseContentBlock)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension BedrockRuntimeClientTypes {
+
+    public enum ConversationRole: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case assistant
+        case user
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConversationRole] {
+            return [
+                .assistant,
+                .user
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .assistant: return "assistant"
+            case .user: return "user"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+    /// A message input, or returned from, a call to [Converse](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html) or [ConverseStream](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_ConverseStream.html).
+    public struct Message {
+        /// The message content. Note the following restrictions:
+        ///
+        /// * You can include up to 20 images. Each image's size, height, and width must be no more than 3.75 MB, 8000 px, and 8000 px, respectively.
+        ///
+        /// * You can include up to five documents. Each document's size must be no more than 4.5 MB.
+        ///
+        /// * If you include a ContentBlock with a document field in the array, you must also include a ContentBlock with a text field.
+        ///
+        /// * You can only include images and documents if the role is user.
+        /// This member is required.
+        public var content: [BedrockRuntimeClientTypes.ContentBlock]?
+        /// The role that the message plays in the message.
+        /// This member is required.
+        public var role: BedrockRuntimeClientTypes.ConversationRole?
+
+        public init(
+            content: [BedrockRuntimeClientTypes.ContentBlock]? = nil,
+            role: BedrockRuntimeClientTypes.ConversationRole? = nil
+        )
+        {
+            self.content = content
+            self.role = role
+        }
+    }
+
+}
+
+extension BedrockRuntimeClientTypes {
+    /// A system content block.
+    public enum SystemContentBlock {
+        /// A system prompt for the model.
+        case text(Swift.String)
+        /// A content block to assess with the guardrail. Use with the [Converse](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html) or [ConverseStream](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_ConverseStream.html) API operations. For more information, see Use a guardrail with the Converse API in the Amazon Bedrock User Guide.
+        case guardcontent(BedrockRuntimeClientTypes.GuardrailConverseContentBlock)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension BedrockRuntimeClientTypes {
+    /// The model must request at least one tool (no text is generated). For example, {"any" : {}}.
+    public struct AnyToolChoice {
+
+        public init() { }
+    }
+
+}
+
+extension BedrockRuntimeClientTypes {
+    /// The Model automatically decides if a tool should be called or whether to generate text instead. For example, {"auto" : {}}.
+    public struct AutoToolChoice {
+
+        public init() { }
+    }
+
+}
+
+extension BedrockRuntimeClientTypes {
+    /// The model must request a specific tool. For example, {"tool" : {"name" : "Your tool name"}}. This field is only supported by Anthropic Claude 3 models.
+    public struct SpecificToolChoice {
+        /// The name of the tool that the model must request.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            name: Swift.String? = nil
+        )
+        {
+            self.name = name
+        }
+    }
+
+}
+
+extension BedrockRuntimeClientTypes {
+    /// Determines which tools the model should request in a call to Converse or ConverseStream. ToolChoice is only supported by Anthropic Claude 3 models and by Mistral AI Mistral Large.
+    public enum ToolChoice {
+        /// (Default). The Model automatically decides if a tool should be called or whether to generate text instead.
+        case auto(BedrockRuntimeClientTypes.AutoToolChoice)
+        /// The model must request at least one tool (no text is generated).
+        case any(BedrockRuntimeClientTypes.AnyToolChoice)
+        /// The Model must request the specified tool. Only supported by Anthropic Claude 3 models.
+        case tool(BedrockRuntimeClientTypes.SpecificToolChoice)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension BedrockRuntimeClientTypes {
+    /// The schema for the tool. The top level schema type must be object.
+    public enum ToolInputSchema {
+        /// The JSON schema for the tool. For more information, see [JSON Schema Reference](https://json-schema.org/understanding-json-schema/reference).
+        case json(SmithyReadWrite.Document)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension BedrockRuntimeClientTypes {
+    /// The specification for the tool.
+    public struct ToolSpecification {
+        /// The description for the tool.
+        public var description: Swift.String?
+        /// The input schema for the tool in JSON format.
+        /// This member is required.
+        public var inputSchema: BedrockRuntimeClientTypes.ToolInputSchema?
+        /// The name for the tool.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            description: Swift.String? = nil,
+            inputSchema: BedrockRuntimeClientTypes.ToolInputSchema? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.description = description
+            self.inputSchema = inputSchema
+            self.name = name
+        }
+    }
+
+}
+
+extension BedrockRuntimeClientTypes {
+    /// Information about a tool that you can use with the Converse API. For more information, see [Tool use (function calling)](https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use.html) in the Amazon Bedrock User Guide.
+    public enum Tool {
+        /// The specfication for the tool.
+        case toolspec(BedrockRuntimeClientTypes.ToolSpecification)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension BedrockRuntimeClientTypes {
+    /// Configuration information for the tools that you pass to a model. For more information, see [Tool use (function calling)](https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use.html) in the Amazon Bedrock User Guide. This field is only supported by Anthropic Claude 3, Cohere Command R, Cohere Command R+, and Mistral Large models.
+    public struct ToolConfiguration {
+        /// If supported by model, forces the model to request a tool.
+        public var toolChoice: BedrockRuntimeClientTypes.ToolChoice?
+        /// An array of tools that you want to pass to a model.
+        /// This member is required.
+        public var tools: [BedrockRuntimeClientTypes.Tool]?
+
+        public init(
+            toolChoice: BedrockRuntimeClientTypes.ToolChoice? = nil,
+            tools: [BedrockRuntimeClientTypes.Tool]? = nil
+        )
+        {
+            self.toolChoice = toolChoice
+            self.tools = tools
+        }
+    }
+
+}
+
+public struct ConverseInput {
+    /// Additional inference parameters that the model supports, beyond the base set of inference parameters that Converse supports in the inferenceConfig field. For more information, see [Model parameters](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html).
+    public var additionalModelRequestFields: SmithyReadWrite.Document?
+    /// Additional model parameters field paths to return in the response. Converse returns the requested fields as a JSON Pointer object in the additionalModelResponseFields field. The following is example JSON for additionalModelResponseFieldPaths. [ "/stop_sequence" ] For information about the JSON Pointer syntax, see the [Internet Engineering Task Force (IETF)](https://datatracker.ietf.org/doc/html/rfc6901) documentation. Converse rejects an empty JSON Pointer or incorrectly structured JSON Pointer with a 400 error code. if the JSON Pointer is valid, but the requested field is not in the model response, it is ignored by Converse.
+    public var additionalModelResponseFieldPaths: [Swift.String]?
+    /// Configuration information for a guardrail that you want to use in the request.
+    public var guardrailConfig: BedrockRuntimeClientTypes.GuardrailConfiguration?
+    /// Inference parameters to pass to the model. Converse supports a base set of inference parameters. If you need to pass additional parameters that the model supports, use the additionalModelRequestFields request field.
+    public var inferenceConfig: BedrockRuntimeClientTypes.InferenceConfiguration?
+    /// The messages that you want to send to the model.
+    /// This member is required.
+    public var messages: [BedrockRuntimeClientTypes.Message]?
+    /// The identifier for the model that you want to call. The modelId to provide depends on the type of model that you use:
+    ///
+    /// * If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see [Amazon Bedrock base model IDs (on-demand throughput)](https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html#model-ids-arns) in the Amazon Bedrock User Guide.
+    ///
+    /// * If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see [Run inference using a Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-thru-use.html) in the Amazon Bedrock User Guide.
+    ///
+    /// * If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see [Use a custom model in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-use.html) in the Amazon Bedrock User Guide.
+    /// This member is required.
+    public var modelId: Swift.String?
+    /// A system prompt to pass to the model.
+    public var system: [BedrockRuntimeClientTypes.SystemContentBlock]?
+    /// Configuration information for the tools that the model can use when generating a response. This field is only supported by Anthropic Claude 3, Cohere Command R, Cohere Command R+, and Mistral Large models.
+    public var toolConfig: BedrockRuntimeClientTypes.ToolConfiguration?
+
+    public init(
+        additionalModelRequestFields: SmithyReadWrite.Document? = nil,
+        additionalModelResponseFieldPaths: [Swift.String]? = nil,
+        guardrailConfig: BedrockRuntimeClientTypes.GuardrailConfiguration? = nil,
+        inferenceConfig: BedrockRuntimeClientTypes.InferenceConfiguration? = nil,
+        messages: [BedrockRuntimeClientTypes.Message]? = nil,
+        modelId: Swift.String? = nil,
+        system: [BedrockRuntimeClientTypes.SystemContentBlock]? = nil,
+        toolConfig: BedrockRuntimeClientTypes.ToolConfiguration? = nil
+    )
+    {
+        self.additionalModelRequestFields = additionalModelRequestFields
+        self.additionalModelResponseFieldPaths = additionalModelResponseFieldPaths
+        self.guardrailConfig = guardrailConfig
+        self.inferenceConfig = inferenceConfig
+        self.messages = messages
+        self.modelId = modelId
+        self.system = system
+        self.toolConfig = toolConfig
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+    /// Metrics for a call to [Converse](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html).
+    public struct ConverseMetrics {
+        /// The latency of the call to Converse, in milliseconds.
+        /// This member is required.
+        public var latencyMs: Swift.Int?
+
+        public init(
+            latencyMs: Swift.Int? = nil
+        )
+        {
+            self.latencyMs = latencyMs
+        }
+    }
+
+}
+
+extension BedrockRuntimeClientTypes {
+    /// The output from a call to [Converse](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html).
+    public enum ConverseOutput {
+        /// The message that the model generates.
+        case message(BedrockRuntimeClientTypes.Message)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension BedrockRuntimeClientTypes {
+
+    public enum StopReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case contentFiltered
+        case endTurn
+        case guardrailIntervened
+        case maxTokens
+        case stopSequence
+        case toolUse
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StopReason] {
+            return [
+                .contentFiltered,
+                .endTurn,
+                .guardrailIntervened,
+                .maxTokens,
+                .stopSequence,
+                .toolUse
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .contentFiltered: return "content_filtered"
+            case .endTurn: return "end_turn"
+            case .guardrailIntervened: return "guardrail_intervened"
+            case .maxTokens: return "max_tokens"
+            case .stopSequence: return "stop_sequence"
+            case .toolUse: return "tool_use"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
 }
 
 extension BedrockRuntimeClientTypes {
@@ -1549,7 +1977,7 @@ extension BedrockRuntimeClientTypes {
 }
 
 extension BedrockRuntimeClientTypes {
-    /// The trace object in a response from [Converse]. Currently, you can only trace guardrails.
+    /// The trace object in a response from [Converse](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html). Currently, you can only trace guardrails.
     public struct ConverseTrace {
         /// The guardrail trace object.
         public var guardrail: BedrockRuntimeClientTypes.GuardrailTraceAssessment?
@@ -1912,7 +2340,7 @@ extension BedrockRuntimeClientTypes {
 }
 
 extension BedrockRuntimeClientTypes {
-    /// The trace object in a response from [ConverseStream]. Currently, you can only trace guardrails.
+    /// The trace object in a response from [ConverseStream](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_ConverseStream.html). Currently, you can only trace guardrails.
     public struct ConverseStreamTrace {
         /// The guardrail trace object.
         public var guardrail: BedrockRuntimeClientTypes.GuardrailTraceAssessment?
@@ -1933,7 +2361,7 @@ extension BedrockRuntimeClientTypes {
         /// The metrics for the conversation stream metadata event.
         /// This member is required.
         public var metrics: BedrockRuntimeClientTypes.ConverseStreamMetrics?
-        /// The trace object in the response from [ConverseStream] that contains information about the guardrail behavior.
+        /// The trace object in the response from [ConverseStream](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_ConverseStream.html) that contains information about the guardrail behavior.
         public var trace: BedrockRuntimeClientTypes.ConverseStreamTrace?
         /// Usage information for the conversation stream event.
         /// This member is required.
@@ -2014,30 +2442,6 @@ public struct ConverseStreamOutput {
     )
     {
         self.stream = stream
-    }
-}
-
-/// The number of requests exceeds the service quota. Resubmit your request later.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
     }
 }
 
@@ -2253,6 +2657,19 @@ public struct InvokeModelWithResponseStreamOutput {
     }
 }
 
+extension ApplyGuardrailInput {
+
+    static func urlPathProvider(_ value: ApplyGuardrailInput) -> Swift.String? {
+        guard let guardrailIdentifier = value.guardrailIdentifier else {
+            return nil
+        }
+        guard let guardrailVersion = value.guardrailVersion else {
+            return nil
+        }
+        return "/guardrail/\(guardrailIdentifier.urlPercentEncoding())/version/\(guardrailVersion.urlPercentEncoding())/apply"
+    }
+}
+
 extension ConverseInput {
 
     static func urlPathProvider(_ value: ConverseInput) -> Swift.String? {
@@ -2339,6 +2756,15 @@ extension InvokeModelWithResponseStreamInput {
     }
 }
 
+extension ApplyGuardrailInput {
+
+    static func write(value: ApplyGuardrailInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["content"].writeList(value.content, memberWritingClosure: BedrockRuntimeClientTypes.GuardrailContentBlock.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["source"].write(value.source)
+    }
+}
+
 extension ConverseInput {
 
     static func write(value: ConverseInput?, to writer: SmithyJSON.Writer) throws {
@@ -2380,6 +2806,21 @@ extension InvokeModelWithResponseStreamInput {
     static func write(value: InvokeModelWithResponseStreamInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["body"].write(value.body)
+    }
+}
+
+extension ApplyGuardrailOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ApplyGuardrailOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ApplyGuardrailOutput()
+        value.action = try reader["action"].readIfPresent()
+        value.assessments = try reader["assessments"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailAssessment.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.outputs = try reader["outputs"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailOutputContent.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.usage = try reader["usage"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailUsage.read(from:))
+        return value
     }
 }
 
@@ -2445,6 +2886,25 @@ extension InvokeModelWithResponseStreamOutput {
             value.body = decoderStream.toAsyncStream()
         }
         return value
+    }
+}
+
+enum ApplyGuardrailOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
     }
 }
 
@@ -2535,19 +2995,6 @@ enum InvokeModelWithResponseStreamOutputError {
     }
 }
 
-extension ModelTimeoutException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ModelTimeoutException {
-        let reader = baseError.errorBodyReader
-        var value = ModelTimeoutException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension AccessDeniedException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
@@ -2613,6 +3060,32 @@ extension ValidationException {
     }
 }
 
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceQuotaExceededException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ModelTimeoutException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ModelTimeoutException {
+        let reader = baseError.errorBodyReader
+        var value = ModelTimeoutException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ModelNotReadyException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ModelNotReadyException {
@@ -2634,19 +3107,6 @@ extension ModelErrorException {
         value.properties.message = try reader["message"].readIfPresent()
         value.properties.originalStatusCode = try reader["originalStatusCode"].readIfPresent()
         value.properties.resourceName = try reader["resourceName"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ServiceQuotaExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
-        let reader = baseError.errorBodyReader
-        var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2775,6 +3235,182 @@ extension BedrockRuntimeClientTypes.ResponseStream {
     }
 }
 
+extension BedrockRuntimeClientTypes.GuardrailUsage {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailUsage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.GuardrailUsage()
+        value.topicPolicyUnits = try reader["topicPolicyUnits"].readIfPresent()
+        value.contentPolicyUnits = try reader["contentPolicyUnits"].readIfPresent()
+        value.wordPolicyUnits = try reader["wordPolicyUnits"].readIfPresent()
+        value.sensitiveInformationPolicyUnits = try reader["sensitiveInformationPolicyUnits"].readIfPresent()
+        value.sensitiveInformationPolicyFreeUnits = try reader["sensitiveInformationPolicyFreeUnits"].readIfPresent()
+        value.contextualGroundingPolicyUnits = try reader["contextualGroundingPolicyUnits"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailOutputContent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailOutputContent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.GuardrailOutputContent()
+        value.text = try reader["text"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailAssessment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailAssessment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.GuardrailAssessment()
+        value.topicPolicy = try reader["topicPolicy"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailTopicPolicyAssessment.read(from:))
+        value.contentPolicy = try reader["contentPolicy"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailContentPolicyAssessment.read(from:))
+        value.wordPolicy = try reader["wordPolicy"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailWordPolicyAssessment.read(from:))
+        value.sensitiveInformationPolicy = try reader["sensitiveInformationPolicy"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailSensitiveInformationPolicyAssessment.read(from:))
+        value.contextualGroundingPolicy = try reader["contextualGroundingPolicy"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailContextualGroundingPolicyAssessment.read(from:))
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailContextualGroundingPolicyAssessment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailContextualGroundingPolicyAssessment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.GuardrailContextualGroundingPolicyAssessment()
+        value.filters = try reader["filters"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailContextualGroundingFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailContextualGroundingFilter {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailContextualGroundingFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.GuardrailContextualGroundingFilter()
+        value.type = try reader["type"].readIfPresent()
+        value.threshold = try reader["threshold"].readIfPresent()
+        value.score = try reader["score"].readIfPresent()
+        value.action = try reader["action"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailSensitiveInformationPolicyAssessment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailSensitiveInformationPolicyAssessment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.GuardrailSensitiveInformationPolicyAssessment()
+        value.piiEntities = try reader["piiEntities"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailPiiEntityFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.regexes = try reader["regexes"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailRegexFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailRegexFilter {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailRegexFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.GuardrailRegexFilter()
+        value.name = try reader["name"].readIfPresent()
+        value.match = try reader["match"].readIfPresent()
+        value.regex = try reader["regex"].readIfPresent()
+        value.action = try reader["action"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailPiiEntityFilter {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailPiiEntityFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.GuardrailPiiEntityFilter()
+        value.match = try reader["match"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        value.action = try reader["action"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailWordPolicyAssessment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailWordPolicyAssessment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.GuardrailWordPolicyAssessment()
+        value.customWords = try reader["customWords"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailCustomWord.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.managedWordLists = try reader["managedWordLists"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailManagedWord.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailManagedWord {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailManagedWord {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.GuardrailManagedWord()
+        value.match = try reader["match"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        value.action = try reader["action"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailCustomWord {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailCustomWord {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.GuardrailCustomWord()
+        value.match = try reader["match"].readIfPresent()
+        value.action = try reader["action"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailContentPolicyAssessment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailContentPolicyAssessment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.GuardrailContentPolicyAssessment()
+        value.filters = try reader["filters"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailContentFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailContentFilter {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailContentFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.GuardrailContentFilter()
+        value.type = try reader["type"].readIfPresent()
+        value.confidence = try reader["confidence"].readIfPresent()
+        value.action = try reader["action"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailTopicPolicyAssessment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailTopicPolicyAssessment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.GuardrailTopicPolicyAssessment()
+        value.topics = try reader["topics"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailTopic.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailTopic {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailTopic {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.GuardrailTopic()
+        value.name = try reader["name"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        value.action = try reader["action"].readIfPresent()
+        return value
+    }
+}
+
 extension BedrockRuntimeClientTypes.ConverseOutput {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.ConverseOutput {
@@ -2878,6 +3514,7 @@ extension BedrockRuntimeClientTypes.GuardrailConverseTextBlock {
 
     static func write(value: BedrockRuntimeClientTypes.GuardrailConverseTextBlock?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["qualifiers"].writeList(value.qualifiers, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BedrockRuntimeClientTypes.GuardrailConverseContentQualifier>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["text"].write(value.text)
     }
 
@@ -2885,6 +3522,7 @@ extension BedrockRuntimeClientTypes.GuardrailConverseTextBlock {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockRuntimeClientTypes.GuardrailConverseTextBlock()
         value.text = try reader["text"].readIfPresent()
+        value.qualifiers = try reader["qualifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BedrockRuntimeClientTypes.GuardrailConverseContentQualifier>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -3091,133 +3729,6 @@ extension BedrockRuntimeClientTypes.GuardrailTraceAssessment {
     }
 }
 
-extension BedrockRuntimeClientTypes.GuardrailAssessment {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailAssessment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockRuntimeClientTypes.GuardrailAssessment()
-        value.topicPolicy = try reader["topicPolicy"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailTopicPolicyAssessment.read(from:))
-        value.contentPolicy = try reader["contentPolicy"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailContentPolicyAssessment.read(from:))
-        value.wordPolicy = try reader["wordPolicy"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailWordPolicyAssessment.read(from:))
-        value.sensitiveInformationPolicy = try reader["sensitiveInformationPolicy"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailSensitiveInformationPolicyAssessment.read(from:))
-        return value
-    }
-}
-
-extension BedrockRuntimeClientTypes.GuardrailSensitiveInformationPolicyAssessment {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailSensitiveInformationPolicyAssessment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockRuntimeClientTypes.GuardrailSensitiveInformationPolicyAssessment()
-        value.piiEntities = try reader["piiEntities"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailPiiEntityFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.regexes = try reader["regexes"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailRegexFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension BedrockRuntimeClientTypes.GuardrailRegexFilter {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailRegexFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockRuntimeClientTypes.GuardrailRegexFilter()
-        value.name = try reader["name"].readIfPresent()
-        value.match = try reader["match"].readIfPresent()
-        value.regex = try reader["regex"].readIfPresent()
-        value.action = try reader["action"].readIfPresent()
-        return value
-    }
-}
-
-extension BedrockRuntimeClientTypes.GuardrailPiiEntityFilter {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailPiiEntityFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockRuntimeClientTypes.GuardrailPiiEntityFilter()
-        value.match = try reader["match"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.action = try reader["action"].readIfPresent()
-        return value
-    }
-}
-
-extension BedrockRuntimeClientTypes.GuardrailWordPolicyAssessment {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailWordPolicyAssessment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockRuntimeClientTypes.GuardrailWordPolicyAssessment()
-        value.customWords = try reader["customWords"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailCustomWord.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.managedWordLists = try reader["managedWordLists"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailManagedWord.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension BedrockRuntimeClientTypes.GuardrailManagedWord {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailManagedWord {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockRuntimeClientTypes.GuardrailManagedWord()
-        value.match = try reader["match"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.action = try reader["action"].readIfPresent()
-        return value
-    }
-}
-
-extension BedrockRuntimeClientTypes.GuardrailCustomWord {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailCustomWord {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockRuntimeClientTypes.GuardrailCustomWord()
-        value.match = try reader["match"].readIfPresent()
-        value.action = try reader["action"].readIfPresent()
-        return value
-    }
-}
-
-extension BedrockRuntimeClientTypes.GuardrailContentPolicyAssessment {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailContentPolicyAssessment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockRuntimeClientTypes.GuardrailContentPolicyAssessment()
-        value.filters = try reader["filters"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailContentFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension BedrockRuntimeClientTypes.GuardrailContentFilter {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailContentFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockRuntimeClientTypes.GuardrailContentFilter()
-        value.type = try reader["type"].readIfPresent()
-        value.confidence = try reader["confidence"].readIfPresent()
-        value.action = try reader["action"].readIfPresent()
-        return value
-    }
-}
-
-extension BedrockRuntimeClientTypes.GuardrailTopicPolicyAssessment {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailTopicPolicyAssessment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockRuntimeClientTypes.GuardrailTopicPolicyAssessment()
-        value.topics = try reader["topics"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailTopic.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension BedrockRuntimeClientTypes.GuardrailTopic {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailTopic {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockRuntimeClientTypes.GuardrailTopic()
-        value.name = try reader["name"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.action = try reader["action"].readIfPresent()
-        return value
-    }
-}
-
 extension ThrottlingException {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ThrottlingException {
@@ -3413,6 +3924,28 @@ extension BedrockRuntimeClientTypes.PayloadPart {
         var value = BedrockRuntimeClientTypes.PayloadPart()
         value.bytes = try reader["bytes"].readIfPresent()
         return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailContentBlock {
+
+    static func write(value: BedrockRuntimeClientTypes.GuardrailContentBlock?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .text(text):
+                try writer["text"].write(text, with: BedrockRuntimeClientTypes.GuardrailTextBlock.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailTextBlock {
+
+    static func write(value: BedrockRuntimeClientTypes.GuardrailTextBlock?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["qualifiers"].writeList(value.qualifiers, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BedrockRuntimeClientTypes.GuardrailContentQualifier>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["text"].write(value.text)
     }
 }
 

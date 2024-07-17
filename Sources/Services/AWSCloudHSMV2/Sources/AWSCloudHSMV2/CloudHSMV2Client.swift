@@ -180,7 +180,7 @@ extension CloudHSMV2Client {
 extension CloudHSMV2Client {
     /// Performs the `CopyBackupToRegion` operation on the `BaldrApiService` service.
     ///
-    /// Copy an AWS CloudHSM cluster backup to a different region.
+    /// Copy an CloudHSM cluster backup to a different region. Cross-account use: No. You cannot perform this operation on an CloudHSM backup in a different Amazon Web Services account.
     ///
     /// - Parameter CopyBackupToRegionInput : [no documentation found]
     ///
@@ -190,7 +190,7 @@ extension CloudHSMV2Client {
     ///
     /// __Possible Exceptions:__
     /// - `CloudHsmAccessDeniedException` : The request was rejected because the requester does not have permission to perform the requested operation.
-    /// - `CloudHsmInternalFailureException` : The request was rejected because of an AWS CloudHSM internal failure. The request can be retried.
+    /// - `CloudHsmInternalFailureException` : The request was rejected because of an CloudHSM internal failure. The request can be retried.
     /// - `CloudHsmInvalidRequestException` : The request was rejected because it is not a valid request.
     /// - `CloudHsmResourceNotFoundException` : The request was rejected because it refers to a resource that cannot be found.
     /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
@@ -234,7 +234,7 @@ extension CloudHSMV2Client {
 
     /// Performs the `CreateCluster` operation on the `BaldrApiService` service.
     ///
-    /// Creates a new AWS CloudHSM cluster.
+    /// Creates a new CloudHSM cluster. Cross-account use: Yes. To perform this operation with an CloudHSM backup in a different AWS account, specify the full backup ARN in the value of the SourceBackupId parameter.
     ///
     /// - Parameter CreateClusterInput : [no documentation found]
     ///
@@ -244,7 +244,7 @@ extension CloudHSMV2Client {
     ///
     /// __Possible Exceptions:__
     /// - `CloudHsmAccessDeniedException` : The request was rejected because the requester does not have permission to perform the requested operation.
-    /// - `CloudHsmInternalFailureException` : The request was rejected because of an AWS CloudHSM internal failure. The request can be retried.
+    /// - `CloudHsmInternalFailureException` : The request was rejected because of an CloudHSM internal failure. The request can be retried.
     /// - `CloudHsmInvalidRequestException` : The request was rejected because it is not a valid request.
     /// - `CloudHsmResourceNotFoundException` : The request was rejected because it refers to a resource that cannot be found.
     /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
@@ -288,7 +288,7 @@ extension CloudHSMV2Client {
 
     /// Performs the `CreateHsm` operation on the `BaldrApiService` service.
     ///
-    /// Creates a new hardware security module (HSM) in the specified AWS CloudHSM cluster.
+    /// Creates a new hardware security module (HSM) in the specified CloudHSM cluster. Cross-account use: No. You cannot perform this operation on an CloudHSM cluster in a different Amazon Web Service account.
     ///
     /// - Parameter CreateHsmInput : [no documentation found]
     ///
@@ -298,7 +298,7 @@ extension CloudHSMV2Client {
     ///
     /// __Possible Exceptions:__
     /// - `CloudHsmAccessDeniedException` : The request was rejected because the requester does not have permission to perform the requested operation.
-    /// - `CloudHsmInternalFailureException` : The request was rejected because of an AWS CloudHSM internal failure. The request can be retried.
+    /// - `CloudHsmInternalFailureException` : The request was rejected because of an CloudHSM internal failure. The request can be retried.
     /// - `CloudHsmInvalidRequestException` : The request was rejected because it is not a valid request.
     /// - `CloudHsmResourceNotFoundException` : The request was rejected because it refers to a resource that cannot be found.
     /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
@@ -341,7 +341,7 @@ extension CloudHSMV2Client {
 
     /// Performs the `DeleteBackup` operation on the `BaldrApiService` service.
     ///
-    /// Deletes a specified AWS CloudHSM backup. A backup can be restored up to 7 days after the DeleteBackup request is made. For more information on restoring a backup, see [RestoreBackup].
+    /// Deletes a specified CloudHSM backup. A backup can be restored up to 7 days after the DeleteBackup request is made. For more information on restoring a backup, see [RestoreBackup]. Cross-account use: No. You cannot perform this operation on an CloudHSM backup in a different Amazon Web Services account.
     ///
     /// - Parameter DeleteBackupInput : [no documentation found]
     ///
@@ -351,7 +351,7 @@ extension CloudHSMV2Client {
     ///
     /// __Possible Exceptions:__
     /// - `CloudHsmAccessDeniedException` : The request was rejected because the requester does not have permission to perform the requested operation.
-    /// - `CloudHsmInternalFailureException` : The request was rejected because of an AWS CloudHSM internal failure. The request can be retried.
+    /// - `CloudHsmInternalFailureException` : The request was rejected because of an CloudHSM internal failure. The request can be retried.
     /// - `CloudHsmInvalidRequestException` : The request was rejected because it is not a valid request.
     /// - `CloudHsmResourceNotFoundException` : The request was rejected because it refers to a resource that cannot be found.
     /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
@@ -394,7 +394,7 @@ extension CloudHSMV2Client {
 
     /// Performs the `DeleteCluster` operation on the `BaldrApiService` service.
     ///
-    /// Deletes the specified AWS CloudHSM cluster. Before you can delete a cluster, you must delete all HSMs in the cluster. To see if the cluster contains any HSMs, use [DescribeClusters]. To delete an HSM, use [DeleteHsm].
+    /// Deletes the specified CloudHSM cluster. Before you can delete a cluster, you must delete all HSMs in the cluster. To see if the cluster contains any HSMs, use [DescribeClusters]. To delete an HSM, use [DeleteHsm]. Cross-account use: No. You cannot perform this operation on an CloudHSM cluster in a different Amazon Web Services account.
     ///
     /// - Parameter DeleteClusterInput : [no documentation found]
     ///
@@ -404,7 +404,7 @@ extension CloudHSMV2Client {
     ///
     /// __Possible Exceptions:__
     /// - `CloudHsmAccessDeniedException` : The request was rejected because the requester does not have permission to perform the requested operation.
-    /// - `CloudHsmInternalFailureException` : The request was rejected because of an AWS CloudHSM internal failure. The request can be retried.
+    /// - `CloudHsmInternalFailureException` : The request was rejected because of an CloudHSM internal failure. The request can be retried.
     /// - `CloudHsmInvalidRequestException` : The request was rejected because it is not a valid request.
     /// - `CloudHsmResourceNotFoundException` : The request was rejected because it refers to a resource that cannot be found.
     /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
@@ -448,7 +448,7 @@ extension CloudHSMV2Client {
 
     /// Performs the `DeleteHsm` operation on the `BaldrApiService` service.
     ///
-    /// Deletes the specified HSM. To specify an HSM, you can use its identifier (ID), the IP address of the HSM's elastic network interface (ENI), or the ID of the HSM's ENI. You need to specify only one of these values. To find these values, use [DescribeClusters].
+    /// Deletes the specified HSM. To specify an HSM, you can use its identifier (ID), the IP address of the HSM's elastic network interface (ENI), or the ID of the HSM's ENI. You need to specify only one of these values. To find these values, use [DescribeClusters]. Cross-account use: No. You cannot perform this operation on an CloudHSM hsm in a different Amazon Web Services account.
     ///
     /// - Parameter DeleteHsmInput : [no documentation found]
     ///
@@ -458,7 +458,7 @@ extension CloudHSMV2Client {
     ///
     /// __Possible Exceptions:__
     /// - `CloudHsmAccessDeniedException` : The request was rejected because the requester does not have permission to perform the requested operation.
-    /// - `CloudHsmInternalFailureException` : The request was rejected because of an AWS CloudHSM internal failure. The request can be retried.
+    /// - `CloudHsmInternalFailureException` : The request was rejected because of an CloudHSM internal failure. The request can be retried.
     /// - `CloudHsmInvalidRequestException` : The request was rejected because it is not a valid request.
     /// - `CloudHsmResourceNotFoundException` : The request was rejected because it refers to a resource that cannot be found.
     /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
@@ -499,9 +499,62 @@ extension CloudHSMV2Client {
         return result
     }
 
+    /// Performs the `DeleteResourcePolicy` operation on the `BaldrApiService` service.
+    ///
+    /// Deletes an CloudHSM resource policy. Deleting a resource policy will result in the resource being unshared and removed from any RAM resource shares. Deleting the resource policy attached to a backup will not impact any clusters created from that backup. Cross-account use: No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account.
+    ///
+    /// - Parameter DeleteResourcePolicyInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteResourcePolicyOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CloudHsmAccessDeniedException` : The request was rejected because the requester does not have permission to perform the requested operation.
+    /// - `CloudHsmInternalFailureException` : The request was rejected because of an CloudHSM internal failure. The request can be retried.
+    /// - `CloudHsmInvalidRequestException` : The request was rejected because it is not a valid request.
+    /// - `CloudHsmResourceNotFoundException` : The request was rejected because it refers to a resource that cannot be found.
+    /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
+    public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteResourcePolicy")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "cloudhsm")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(id: "deleteResourcePolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(DeleteResourcePolicyInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<DeleteResourcePolicyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteResourcePolicyOutput>())
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(xAmzTarget: "BaldrApiService.DeleteResourcePolicy"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteResourcePolicyInput.write(value:to:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteResourcePolicyOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteResourcePolicyOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteResourcePolicyOutput>(DeleteResourcePolicyOutput.httpOutput(from:), DeleteResourcePolicyOutputError.httpError(from:)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `DescribeBackups` operation on the `BaldrApiService` service.
     ///
-    /// Gets information about backups of AWS CloudHSM clusters. This is a paginated operation, which means that each response might contain only a subset of all the backups. When the response contains only a subset of backups, it includes a NextToken value. Use this value in a subsequent DescribeBackups request to get more backups. When you receive a response with no NextToken (or an empty or null value), that means there are no more backups to get.
+    /// Gets information about backups of CloudHSM clusters. Lists either the backups you own or the backups shared with you when the Shared parameter is true. This is a paginated operation, which means that each response might contain only a subset of all the backups. When the response contains only a subset of backups, it includes a NextToken value. Use this value in a subsequent DescribeBackups request to get more backups. When you receive a response with no NextToken (or an empty or null value), that means there are no more backups to get. Cross-account use: Yes. Customers can describe backups in other Amazon Web Services accounts that are shared with them.
     ///
     /// - Parameter DescribeBackupsInput : [no documentation found]
     ///
@@ -511,7 +564,7 @@ extension CloudHSMV2Client {
     ///
     /// __Possible Exceptions:__
     /// - `CloudHsmAccessDeniedException` : The request was rejected because the requester does not have permission to perform the requested operation.
-    /// - `CloudHsmInternalFailureException` : The request was rejected because of an AWS CloudHSM internal failure. The request can be retried.
+    /// - `CloudHsmInternalFailureException` : The request was rejected because of an CloudHSM internal failure. The request can be retried.
     /// - `CloudHsmInvalidRequestException` : The request was rejected because it is not a valid request.
     /// - `CloudHsmResourceNotFoundException` : The request was rejected because it refers to a resource that cannot be found.
     /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
@@ -555,7 +608,7 @@ extension CloudHSMV2Client {
 
     /// Performs the `DescribeClusters` operation on the `BaldrApiService` service.
     ///
-    /// Gets information about AWS CloudHSM clusters. This is a paginated operation, which means that each response might contain only a subset of all the clusters. When the response contains only a subset of clusters, it includes a NextToken value. Use this value in a subsequent DescribeClusters request to get more clusters. When you receive a response with no NextToken (or an empty or null value), that means there are no more clusters to get.
+    /// Gets information about CloudHSM clusters. This is a paginated operation, which means that each response might contain only a subset of all the clusters. When the response contains only a subset of clusters, it includes a NextToken value. Use this value in a subsequent DescribeClusters request to get more clusters. When you receive a response with no NextToken (or an empty or null value), that means there are no more clusters to get. Cross-account use: No. You cannot perform this operation on CloudHSM clusters in a different Amazon Web Services account.
     ///
     /// - Parameter DescribeClustersInput : [no documentation found]
     ///
@@ -565,7 +618,7 @@ extension CloudHSMV2Client {
     ///
     /// __Possible Exceptions:__
     /// - `CloudHsmAccessDeniedException` : The request was rejected because the requester does not have permission to perform the requested operation.
-    /// - `CloudHsmInternalFailureException` : The request was rejected because of an AWS CloudHSM internal failure. The request can be retried.
+    /// - `CloudHsmInternalFailureException` : The request was rejected because of an CloudHSM internal failure. The request can be retried.
     /// - `CloudHsmInvalidRequestException` : The request was rejected because it is not a valid request.
     /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
     /// - `CloudHsmTagException` : The request was rejected because of a tagging failure. Verify the tag conditions in all applicable policies, and then retry the request.
@@ -606,9 +659,62 @@ extension CloudHSMV2Client {
         return result
     }
 
+    /// Performs the `GetResourcePolicy` operation on the `BaldrApiService` service.
+    ///
+    /// Retrieves the resource policy document attached to a given resource. Cross-account use: No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account.
+    ///
+    /// - Parameter GetResourcePolicyInput : [no documentation found]
+    ///
+    /// - Returns: `GetResourcePolicyOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CloudHsmAccessDeniedException` : The request was rejected because the requester does not have permission to perform the requested operation.
+    /// - `CloudHsmInternalFailureException` : The request was rejected because of an CloudHSM internal failure. The request can be retried.
+    /// - `CloudHsmInvalidRequestException` : The request was rejected because it is not a valid request.
+    /// - `CloudHsmResourceNotFoundException` : The request was rejected because it refers to a resource that cannot be found.
+    /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
+    public func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getResourcePolicy")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "cloudhsm")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<GetResourcePolicyInput, GetResourcePolicyOutput>(id: "getResourcePolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(GetResourcePolicyInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<GetResourcePolicyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetResourcePolicyOutput>())
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(xAmzTarget: "BaldrApiService.GetResourcePolicy"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetResourcePolicyInput.write(value:to:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetResourcePolicyOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetResourcePolicyOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetResourcePolicyOutput>(GetResourcePolicyOutput.httpOutput(from:), GetResourcePolicyOutputError.httpError(from:)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `InitializeCluster` operation on the `BaldrApiService` service.
     ///
-    /// Claims an AWS CloudHSM cluster by submitting the cluster certificate issued by your issuing certificate authority (CA) and the CA's root certificate. Before you can claim a cluster, you must sign the cluster's certificate signing request (CSR) with your issuing CA. To get the cluster's CSR, use [DescribeClusters].
+    /// Claims an CloudHSM cluster by submitting the cluster certificate issued by your issuing certificate authority (CA) and the CA's root certificate. Before you can claim a cluster, you must sign the cluster's certificate signing request (CSR) with your issuing CA. To get the cluster's CSR, use [DescribeClusters]. Cross-account use: No. You cannot perform this operation on an CloudHSM cluster in a different Amazon Web Services account.
     ///
     /// - Parameter InitializeClusterInput : [no documentation found]
     ///
@@ -618,7 +724,7 @@ extension CloudHSMV2Client {
     ///
     /// __Possible Exceptions:__
     /// - `CloudHsmAccessDeniedException` : The request was rejected because the requester does not have permission to perform the requested operation.
-    /// - `CloudHsmInternalFailureException` : The request was rejected because of an AWS CloudHSM internal failure. The request can be retried.
+    /// - `CloudHsmInternalFailureException` : The request was rejected because of an CloudHSM internal failure. The request can be retried.
     /// - `CloudHsmInvalidRequestException` : The request was rejected because it is not a valid request.
     /// - `CloudHsmResourceNotFoundException` : The request was rejected because it refers to a resource that cannot be found.
     /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
@@ -661,7 +767,7 @@ extension CloudHSMV2Client {
 
     /// Performs the `ListTags` operation on the `BaldrApiService` service.
     ///
-    /// Gets a list of tags for the specified AWS CloudHSM cluster. This is a paginated operation, which means that each response might contain only a subset of all the tags. When the response contains only a subset of tags, it includes a NextToken value. Use this value in a subsequent ListTags request to get more tags. When you receive a response with no NextToken (or an empty or null value), that means there are no more tags to get.
+    /// Gets a list of tags for the specified CloudHSM cluster. This is a paginated operation, which means that each response might contain only a subset of all the tags. When the response contains only a subset of tags, it includes a NextToken value. Use this value in a subsequent ListTags request to get more tags. When you receive a response with no NextToken (or an empty or null value), that means there are no more tags to get. Cross-account use: No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account.
     ///
     /// - Parameter ListTagsInput : [no documentation found]
     ///
@@ -671,7 +777,7 @@ extension CloudHSMV2Client {
     ///
     /// __Possible Exceptions:__
     /// - `CloudHsmAccessDeniedException` : The request was rejected because the requester does not have permission to perform the requested operation.
-    /// - `CloudHsmInternalFailureException` : The request was rejected because of an AWS CloudHSM internal failure. The request can be retried.
+    /// - `CloudHsmInternalFailureException` : The request was rejected because of an CloudHSM internal failure. The request can be retried.
     /// - `CloudHsmInvalidRequestException` : The request was rejected because it is not a valid request.
     /// - `CloudHsmResourceNotFoundException` : The request was rejected because it refers to a resource that cannot be found.
     /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
@@ -715,7 +821,7 @@ extension CloudHSMV2Client {
 
     /// Performs the `ModifyBackupAttributes` operation on the `BaldrApiService` service.
     ///
-    /// Modifies attributes for AWS CloudHSM backup.
+    /// Modifies attributes for CloudHSM backup. Cross-account use: No. You cannot perform this operation on an CloudHSM backup in a different Amazon Web Services account.
     ///
     /// - Parameter ModifyBackupAttributesInput : [no documentation found]
     ///
@@ -725,7 +831,7 @@ extension CloudHSMV2Client {
     ///
     /// __Possible Exceptions:__
     /// - `CloudHsmAccessDeniedException` : The request was rejected because the requester does not have permission to perform the requested operation.
-    /// - `CloudHsmInternalFailureException` : The request was rejected because of an AWS CloudHSM internal failure. The request can be retried.
+    /// - `CloudHsmInternalFailureException` : The request was rejected because of an CloudHSM internal failure. The request can be retried.
     /// - `CloudHsmInvalidRequestException` : The request was rejected because it is not a valid request.
     /// - `CloudHsmResourceNotFoundException` : The request was rejected because it refers to a resource that cannot be found.
     /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
@@ -768,7 +874,7 @@ extension CloudHSMV2Client {
 
     /// Performs the `ModifyCluster` operation on the `BaldrApiService` service.
     ///
-    /// Modifies AWS CloudHSM cluster.
+    /// Modifies CloudHSM cluster. Cross-account use: No. You cannot perform this operation on an CloudHSM cluster in a different Amazon Web Services account.
     ///
     /// - Parameter ModifyClusterInput : [no documentation found]
     ///
@@ -778,7 +884,7 @@ extension CloudHSMV2Client {
     ///
     /// __Possible Exceptions:__
     /// - `CloudHsmAccessDeniedException` : The request was rejected because the requester does not have permission to perform the requested operation.
-    /// - `CloudHsmInternalFailureException` : The request was rejected because of an AWS CloudHSM internal failure. The request can be retried.
+    /// - `CloudHsmInternalFailureException` : The request was rejected because of an CloudHSM internal failure. The request can be retried.
     /// - `CloudHsmInvalidRequestException` : The request was rejected because it is not a valid request.
     /// - `CloudHsmResourceNotFoundException` : The request was rejected because it refers to a resource that cannot be found.
     /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
@@ -819,9 +925,67 @@ extension CloudHSMV2Client {
         return result
     }
 
+    /// Performs the `PutResourcePolicy` operation on the `BaldrApiService` service.
+    ///
+    /// Creates or updates an CloudHSM resource policy. A resource policy helps you to define the IAM entity (for example, an Amazon Web Services account) that can manage your CloudHSM resources. The following resources support CloudHSM resource policies:
+    ///
+    /// * Backup - The resource policy allows you to describe the backup and restore a cluster from the backup in another Amazon Web Services account.
+    ///
+    ///
+    /// In order to share a backup, it must be in a 'READY' state and you must own it. While you can share a backup using the CloudHSM PutResourcePolicy operation, we recommend using Resource Access Manager (RAM) instead. Using RAM provides multiple benefits as it creates the policy for you, allows multiple resources to be shared at one time, and increases the discoverability of shared resources. If you use PutResourcePolicy and want consumers to be able to describe the backups you share with them, you must promote the backup to a standard RAM Resource Share using the RAM PromoteResourceShareCreatedFromPolicy API operation. For more information, see [ Working with shared backups](https://docs.aws.amazon.com/cloudhsm/latest/userguide/sharing.html) in the CloudHSM User Guide Cross-account use: No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account.
+    ///
+    /// - Parameter PutResourcePolicyInput : [no documentation found]
+    ///
+    /// - Returns: `PutResourcePolicyOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CloudHsmAccessDeniedException` : The request was rejected because the requester does not have permission to perform the requested operation.
+    /// - `CloudHsmInternalFailureException` : The request was rejected because of an CloudHSM internal failure. The request can be retried.
+    /// - `CloudHsmInvalidRequestException` : The request was rejected because it is not a valid request.
+    /// - `CloudHsmResourceNotFoundException` : The request was rejected because it refers to a resource that cannot be found.
+    /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
+    public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putResourcePolicy")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "cloudhsm")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<PutResourcePolicyInput, PutResourcePolicyOutput>(id: "putResourcePolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(PutResourcePolicyInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.EndpointResolverMiddleware<PutResourcePolicyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<PutResourcePolicyOutput>())
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(xAmzTarget: "BaldrApiService.PutResourcePolicy"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutResourcePolicyInput.write(value:to:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.ContentTypeMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<SmithyRetries.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutResourcePolicyOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<PutResourcePolicyOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutResourcePolicyOutput>(PutResourcePolicyOutput.httpOutput(from:), PutResourcePolicyOutputError.httpError(from:)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `RestoreBackup` operation on the `BaldrApiService` service.
     ///
-    /// Restores a specified AWS CloudHSM backup that is in the PENDING_DELETION state. For mor information on deleting a backup, see [DeleteBackup].
+    /// Restores a specified CloudHSM backup that is in the PENDING_DELETION state. For more information on deleting a backup, see [DeleteBackup]. Cross-account use: No. You cannot perform this operation on an CloudHSM backup in a different Amazon Web Services account.
     ///
     /// - Parameter RestoreBackupInput : [no documentation found]
     ///
@@ -831,7 +995,7 @@ extension CloudHSMV2Client {
     ///
     /// __Possible Exceptions:__
     /// - `CloudHsmAccessDeniedException` : The request was rejected because the requester does not have permission to perform the requested operation.
-    /// - `CloudHsmInternalFailureException` : The request was rejected because of an AWS CloudHSM internal failure. The request can be retried.
+    /// - `CloudHsmInternalFailureException` : The request was rejected because of an CloudHSM internal failure. The request can be retried.
     /// - `CloudHsmInvalidRequestException` : The request was rejected because it is not a valid request.
     /// - `CloudHsmResourceNotFoundException` : The request was rejected because it refers to a resource that cannot be found.
     /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
@@ -874,7 +1038,7 @@ extension CloudHSMV2Client {
 
     /// Performs the `TagResource` operation on the `BaldrApiService` service.
     ///
-    /// Adds or overwrites one or more tags for the specified AWS CloudHSM cluster.
+    /// Adds or overwrites one or more tags for the specified CloudHSM cluster. Cross-account use: No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
@@ -884,7 +1048,7 @@ extension CloudHSMV2Client {
     ///
     /// __Possible Exceptions:__
     /// - `CloudHsmAccessDeniedException` : The request was rejected because the requester does not have permission to perform the requested operation.
-    /// - `CloudHsmInternalFailureException` : The request was rejected because of an AWS CloudHSM internal failure. The request can be retried.
+    /// - `CloudHsmInternalFailureException` : The request was rejected because of an CloudHSM internal failure. The request can be retried.
     /// - `CloudHsmInvalidRequestException` : The request was rejected because it is not a valid request.
     /// - `CloudHsmResourceNotFoundException` : The request was rejected because it refers to a resource that cannot be found.
     /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
@@ -928,7 +1092,7 @@ extension CloudHSMV2Client {
 
     /// Performs the `UntagResource` operation on the `BaldrApiService` service.
     ///
-    /// Removes the specified tag or tags from the specified AWS CloudHSM cluster.
+    /// Removes the specified tag or tags from the specified CloudHSM cluster. Cross-account use: No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
@@ -938,7 +1102,7 @@ extension CloudHSMV2Client {
     ///
     /// __Possible Exceptions:__
     /// - `CloudHsmAccessDeniedException` : The request was rejected because the requester does not have permission to perform the requested operation.
-    /// - `CloudHsmInternalFailureException` : The request was rejected because of an AWS CloudHSM internal failure. The request can be retried.
+    /// - `CloudHsmInternalFailureException` : The request was rejected because of an CloudHSM internal failure. The request can be retried.
     /// - `CloudHsmInvalidRequestException` : The request was rejected because it is not a valid request.
     /// - `CloudHsmResourceNotFoundException` : The request was rejected because it refers to a resource that cannot be found.
     /// - `CloudHsmServiceException` : The request was rejected because an error occurred.

@@ -258,6 +258,164 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    public enum AggType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case average
+        case column
+        case count
+        case custom
+        case distinctCount
+        case max
+        case median
+        case min
+        case percentile
+        case ptdAverage
+        case ptdCount
+        case ptdDistinctCount
+        case ptdMax
+        case ptdMin
+        case ptdSum
+        case stdev
+        case stdevp
+        case sum
+        case `var`
+        case varp
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AggType] {
+            return [
+                .average,
+                .column,
+                .count,
+                .custom,
+                .distinctCount,
+                .max,
+                .median,
+                .min,
+                .percentile,
+                .ptdAverage,
+                .ptdCount,
+                .ptdDistinctCount,
+                .ptdMax,
+                .ptdMin,
+                .ptdSum,
+                .stdev,
+                .stdevp,
+                .sum,
+                .var,
+                .varp
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .average: return "AVERAGE"
+            case .column: return "COLUMN"
+            case .count: return "COUNT"
+            case .custom: return "CUSTOM"
+            case .distinctCount: return "DISTINCT_COUNT"
+            case .max: return "MAX"
+            case .median: return "MEDIAN"
+            case .min: return "MIN"
+            case .percentile: return "PERCENTILE"
+            case .ptdAverage: return "PTD_AVERAGE"
+            case .ptdCount: return "PTD_COUNT"
+            case .ptdDistinctCount: return "PTD_DISTINCT_COUNT"
+            case .ptdMax: return "PTD_MAX"
+            case .ptdMin: return "PTD_MIN"
+            case .ptdSum: return "PTD_SUM"
+            case .stdev: return "STDEV"
+            case .stdevp: return "STDEVP"
+            case .sum: return "SUM"
+            case .var: return "VAR"
+            case .varp: return "VARP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum TopicTimeGranularity: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case day
+        case hour
+        case minute
+        case month
+        case quarter
+        case second
+        case week
+        case year
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TopicTimeGranularity] {
+            return [
+                .day,
+                .hour,
+                .minute,
+                .month,
+                .quarter,
+                .second,
+                .week,
+                .year
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .day: return "DAY"
+            case .hour: return "HOUR"
+            case .minute: return "MINUTE"
+            case .month: return "MONTH"
+            case .quarter: return "QUARTER"
+            case .second: return "SECOND"
+            case .week: return "WEEK"
+            case .year: return "YEAR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The definition of an Agg function.
+    public struct AggFunction {
+        /// The aggregation of an Agg function.
+        public var aggregation: QuickSightClientTypes.AggType?
+        /// The aggregation parameters for an Agg function.
+        public var aggregationFunctionParameters: [Swift.String: Swift.String]?
+        /// The period of an Agg function.
+        public var period: QuickSightClientTypes.TopicTimeGranularity?
+        /// The period field for an Agg function.
+        public var periodField: Swift.String?
+
+        public init(
+            aggregation: QuickSightClientTypes.AggType? = nil,
+            aggregationFunctionParameters: [Swift.String: Swift.String]? = nil,
+            period: QuickSightClientTypes.TopicTimeGranularity? = nil,
+            periodField: Swift.String? = nil
+        )
+        {
+            self.aggregation = aggregation
+            self.aggregationFunctionParameters = aggregationFunctionParameters
+            self.period = period
+            self.periodField = periodField
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+
     public enum SimpleAttributeAggregationFunction: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case uniqueValue
         case sdkUnknown(Swift.String)
@@ -517,6 +675,76 @@ extension QuickSightClientTypes {
             self.categoricalAggregationFunction = categoricalAggregationFunction
             self.dateAggregationFunction = dateAggregationFunction
             self.numericalAggregationFunction = numericalAggregationFunction
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+
+    public enum TimeGranularity: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case day
+        case hour
+        case millisecond
+        case minute
+        case month
+        case quarter
+        case second
+        case week
+        case year
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TimeGranularity] {
+            return [
+                .day,
+                .hour,
+                .millisecond,
+                .minute,
+                .month,
+                .quarter,
+                .second,
+                .week,
+                .year
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .day: return "DAY"
+            case .hour: return "HOUR"
+            case .millisecond: return "MILLISECOND"
+            case .minute: return "MINUTE"
+            case .month: return "MONTH"
+            case .quarter: return "QUARTER"
+            case .second: return "SECOND"
+            case .week: return "WEEK"
+            case .year: return "YEAR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The definition of an AggregationPartitionBy.
+    public struct AggregationPartitionBy {
+        /// The field Name for an AggregationPartitionBy.
+        public var fieldName: Swift.String?
+        /// The TimeGranularity for an AggregationPartitionBy.
+        public var timeGranularity: QuickSightClientTypes.TimeGranularity?
+
+        public init(
+            fieldName: Swift.String? = nil,
+            timeGranularity: QuickSightClientTypes.TimeGranularity? = nil
+        )
+        {
+            self.fieldName = fieldName
+            self.timeGranularity = timeGranularity
         }
     }
 
@@ -2437,20 +2665,28 @@ extension QuickSightClientTypes {
 extension QuickSightClientTypes {
     /// The display options of a control.
     public struct DateTimePickerControlDisplayOptions {
+        /// The date icon visibility of the DateTimePickerControlDisplayOptions.
+        public var dateIconVisibility: QuickSightClientTypes.Visibility?
         /// Customize how dates are formatted in controls.
         public var dateTimeFormat: Swift.String?
+        /// The helper text visibility of the DateTimePickerControlDisplayOptions.
+        public var helperTextVisibility: QuickSightClientTypes.Visibility?
         /// The configuration of info icon label options.
         public var infoIconLabelOptions: QuickSightClientTypes.SheetControlInfoIconLabelOptions?
         /// The options to configure the title visibility, name, and font size.
         public var titleOptions: QuickSightClientTypes.LabelOptions?
 
         public init(
+            dateIconVisibility: QuickSightClientTypes.Visibility? = nil,
             dateTimeFormat: Swift.String? = nil,
+            helperTextVisibility: QuickSightClientTypes.Visibility? = nil,
             infoIconLabelOptions: QuickSightClientTypes.SheetControlInfoIconLabelOptions? = nil,
             titleOptions: QuickSightClientTypes.LabelOptions? = nil
         )
         {
+            self.dateIconVisibility = dateIconVisibility
             self.dateTimeFormat = dateTimeFormat
+            self.helperTextVisibility = helperTextVisibility
             self.infoIconLabelOptions = infoIconLabelOptions
             self.titleOptions = titleOptions
         }
@@ -3018,6 +3254,80 @@ extension QuickSightClientTypes {
 }
 
 extension QuickSightClientTypes {
+    /// A CategoryInnerFilter filters text values for the NestedFilter.
+    public struct CategoryInnerFilter {
+        /// A column of a data set.
+        /// This member is required.
+        public var column: QuickSightClientTypes.ColumnIdentifier?
+        /// The configuration for a CategoryFilter. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
+        /// This member is required.
+        public var configuration: QuickSightClientTypes.CategoryFilterConfiguration?
+        /// The default configuration for all dependent controls of the filter.
+        public var defaultFilterControlConfiguration: QuickSightClientTypes.DefaultFilterControlConfiguration?
+
+        public init(
+            column: QuickSightClientTypes.ColumnIdentifier? = nil,
+            configuration: QuickSightClientTypes.CategoryFilterConfiguration? = nil,
+            defaultFilterControlConfiguration: QuickSightClientTypes.DefaultFilterControlConfiguration? = nil
+        )
+        {
+            self.column = column
+            self.configuration = configuration
+            self.defaultFilterControlConfiguration = defaultFilterControlConfiguration
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    /// The InnerFilter defines the subset of data to be used with the NestedFilter.
+    public struct InnerFilter {
+        /// A CategoryInnerFilter filters text values for the NestedFilter.
+        public var categoryInnerFilter: QuickSightClientTypes.CategoryInnerFilter?
+
+        public init(
+            categoryInnerFilter: QuickSightClientTypes.CategoryInnerFilter? = nil
+        )
+        {
+            self.categoryInnerFilter = categoryInnerFilter
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    /// A NestedFilter filters data with a subset of data that is defined by the nested inner filter.
+    public struct NestedFilter {
+        /// The column that the filter is applied to.
+        /// This member is required.
+        public var column: QuickSightClientTypes.ColumnIdentifier?
+        /// An identifier that uniquely identifies a filter within a dashboard, analysis, or template.
+        /// This member is required.
+        public var filterId: Swift.String?
+        /// A boolean condition to include or exclude the subset that is defined by the values of the nested inner filter.
+        /// This member is required.
+        public var includeInnerSet: Swift.Bool
+        /// The InnerFilter defines the subset of data to be used with the NestedFilter.
+        /// This member is required.
+        public var innerFilter: QuickSightClientTypes.InnerFilter?
+
+        public init(
+            column: QuickSightClientTypes.ColumnIdentifier? = nil,
+            filterId: Swift.String? = nil,
+            includeInnerSet: Swift.Bool = false,
+            innerFilter: QuickSightClientTypes.InnerFilter? = nil
+        )
+        {
+            self.column = column
+            self.filterId = filterId
+            self.includeInnerSet = includeInnerSet
+            self.innerFilter = innerFilter
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
 
     public enum NumericEqualityMatchOperator: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case doesNotEqual
@@ -3261,56 +3571,6 @@ extension QuickSightClientTypes {
         }
     }
 
-}
-
-extension QuickSightClientTypes {
-
-    public enum TimeGranularity: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case day
-        case hour
-        case millisecond
-        case minute
-        case month
-        case quarter
-        case second
-        case week
-        case year
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [TimeGranularity] {
-            return [
-                .day,
-                .hour,
-                .millisecond,
-                .minute,
-                .month,
-                .quarter,
-                .second,
-                .week,
-                .year
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .day: return "DAY"
-            case .hour: return "HOUR"
-            case .millisecond: return "MILLISECOND"
-            case .minute: return "MINUTE"
-            case .month: return "MONTH"
-            case .quarter: return "QUARTER"
-            case .second: return "SECOND"
-            case .week: return "WEEK"
-            case .year: return "YEAR"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
 }
 
 extension QuickSightClientTypes {
@@ -3689,6 +3949,8 @@ extension QuickSightClientTypes {
     public struct Filter {
         /// A CategoryFilter filters text values. For more information, see [Adding text filters](https://docs.aws.amazon.com/quicksight/latest/user/add-a-text-filter-data-prep.html) in the Amazon QuickSight User Guide.
         public var categoryFilter: QuickSightClientTypes.CategoryFilter?
+        /// A NestedFilter filters data with a subset of data that is defined by the nested inner filter.
+        public var nestedFilter: QuickSightClientTypes.NestedFilter?
         /// A NumericEqualityFilter filters numeric values that equal or do not equal a given numeric value.
         public var numericEqualityFilter: QuickSightClientTypes.NumericEqualityFilter?
         /// A NumericRangeFilter filters numeric values that are either inside or outside a given numeric range.
@@ -3704,6 +3966,7 @@ extension QuickSightClientTypes {
 
         public init(
             categoryFilter: QuickSightClientTypes.CategoryFilter? = nil,
+            nestedFilter: QuickSightClientTypes.NestedFilter? = nil,
             numericEqualityFilter: QuickSightClientTypes.NumericEqualityFilter? = nil,
             numericRangeFilter: QuickSightClientTypes.NumericRangeFilter? = nil,
             relativeDatesFilter: QuickSightClientTypes.RelativeDatesFilter? = nil,
@@ -3713,6 +3976,7 @@ extension QuickSightClientTypes {
         )
         {
             self.categoryFilter = categoryFilter
+            self.nestedFilter = nestedFilter
             self.numericEqualityFilter = numericEqualityFilter
             self.numericRangeFilter = numericRangeFilter
             self.relativeDatesFilter = relativeDatesFilter
@@ -5179,6 +5443,142 @@ extension QuickSightClientTypes {
 }
 
 extension QuickSightClientTypes {
+    /// The sort configuration for a column that is not used in a field well.
+    public struct ColumnSort {
+        /// The aggregation function that is defined in the column sort.
+        public var aggregationFunction: QuickSightClientTypes.AggregationFunction?
+        /// The sort direction.
+        /// This member is required.
+        public var direction: QuickSightClientTypes.SortDirection?
+        /// A column of a data set.
+        /// This member is required.
+        public var sortBy: QuickSightClientTypes.ColumnIdentifier?
+
+        public init(
+            aggregationFunction: QuickSightClientTypes.AggregationFunction? = nil,
+            direction: QuickSightClientTypes.SortDirection? = nil,
+            sortBy: QuickSightClientTypes.ColumnIdentifier? = nil
+        )
+        {
+            self.aggregationFunction = aggregationFunction
+            self.direction = direction
+            self.sortBy = sortBy
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    /// Describes the Category dataset column and constraints for the dynamic values used to repeat the contents of a section.
+    public struct BodySectionDynamicCategoryDimensionConfiguration {
+        /// A column of a data set.
+        /// This member is required.
+        public var column: QuickSightClientTypes.ColumnIdentifier?
+        /// Number of values to use from the column for repetition.
+        public var limit: Swift.Int?
+        /// Sort criteria on the column values that you use for repetition.
+        public var sortByMetrics: [QuickSightClientTypes.ColumnSort]?
+
+        public init(
+            column: QuickSightClientTypes.ColumnIdentifier? = nil,
+            limit: Swift.Int? = nil,
+            sortByMetrics: [QuickSightClientTypes.ColumnSort]? = nil
+        )
+        {
+            self.column = column
+            self.limit = limit
+            self.sortByMetrics = sortByMetrics
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    /// Describes the Numeric dataset column and constraints for the dynamic values used to repeat the contents of a section.
+    public struct BodySectionDynamicNumericDimensionConfiguration {
+        /// A column of a data set.
+        /// This member is required.
+        public var column: QuickSightClientTypes.ColumnIdentifier?
+        /// Number of values to use from the column for repetition.
+        public var limit: Swift.Int?
+        /// Sort criteria on the column values that you use for repetition.
+        public var sortByMetrics: [QuickSightClientTypes.ColumnSort]?
+
+        public init(
+            column: QuickSightClientTypes.ColumnIdentifier? = nil,
+            limit: Swift.Int? = nil,
+            sortByMetrics: [QuickSightClientTypes.ColumnSort]? = nil
+        )
+        {
+            self.column = column
+            self.limit = limit
+            self.sortByMetrics = sortByMetrics
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    /// Describes the dataset column and constraints for the dynamic values used to repeat the contents of a section. The dataset column is either Category or Numeric column configuration
+    public struct BodySectionRepeatDimensionConfiguration {
+        /// Describes the Category dataset column and constraints around the dynamic values that will be used in repeating the section contents.
+        public var dynamicCategoryDimensionConfiguration: QuickSightClientTypes.BodySectionDynamicCategoryDimensionConfiguration?
+        /// Describes the Numeric dataset column and constraints around the dynamic values used to repeat the contents of a section.
+        public var dynamicNumericDimensionConfiguration: QuickSightClientTypes.BodySectionDynamicNumericDimensionConfiguration?
+
+        public init(
+            dynamicCategoryDimensionConfiguration: QuickSightClientTypes.BodySectionDynamicCategoryDimensionConfiguration? = nil,
+            dynamicNumericDimensionConfiguration: QuickSightClientTypes.BodySectionDynamicNumericDimensionConfiguration? = nil
+        )
+        {
+            self.dynamicCategoryDimensionConfiguration = dynamicCategoryDimensionConfiguration
+            self.dynamicNumericDimensionConfiguration = dynamicNumericDimensionConfiguration
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    /// The page break configuration to apply for each repeating instance.
+    public struct BodySectionRepeatPageBreakConfiguration {
+        /// The configuration of a page break after a section.
+        public var after: QuickSightClientTypes.SectionAfterPageBreak?
+
+        public init(
+            after: QuickSightClientTypes.SectionAfterPageBreak? = nil
+        )
+        {
+            self.after = after
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    /// Describes the configurations that are required to declare a section as repeating.
+    public struct BodySectionRepeatConfiguration {
+        /// List of BodySectionRepeatDimensionConfiguration values that describe the dataset column and constraints for the column used to repeat the contents of a section.
+        public var dimensionConfigurations: [QuickSightClientTypes.BodySectionRepeatDimensionConfiguration]?
+        /// List of visuals to exclude from repetition in repeating sections. The visuals will render identically, and ignore the repeating configurations in all repeating instances.
+        public var nonRepeatingVisuals: [Swift.String]?
+        /// Page break configuration to apply for each repeating instance.
+        public var pageBreakConfiguration: QuickSightClientTypes.BodySectionRepeatPageBreakConfiguration?
+
+        public init(
+            dimensionConfigurations: [QuickSightClientTypes.BodySectionRepeatDimensionConfiguration]? = nil,
+            nonRepeatingVisuals: [Swift.String]? = nil,
+            pageBreakConfiguration: QuickSightClientTypes.BodySectionRepeatPageBreakConfiguration? = nil
+        )
+        {
+            self.dimensionConfigurations = dimensionConfigurations
+            self.nonRepeatingVisuals = nonRepeatingVisuals
+            self.pageBreakConfiguration = pageBreakConfiguration
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
     /// The options that style a section.
     public struct SectionStyle {
         /// The height of a section. Heights can only be defined for header and footer sections. The default height margin is 0.5 inches.
@@ -5206,6 +5606,8 @@ extension QuickSightClientTypes {
         public var content: QuickSightClientTypes.BodySectionContent?
         /// The configuration of a page break for a section.
         public var pageBreakConfiguration: QuickSightClientTypes.SectionPageBreakConfiguration?
+        /// Describes the configurations that are required to declare a section as repeating.
+        public var repeatConfiguration: QuickSightClientTypes.BodySectionRepeatConfiguration?
         /// The unique identifier of a body section.
         /// This member is required.
         public var sectionId: Swift.String?
@@ -5215,12 +5617,14 @@ extension QuickSightClientTypes {
         public init(
             content: QuickSightClientTypes.BodySectionContent? = nil,
             pageBreakConfiguration: QuickSightClientTypes.SectionPageBreakConfiguration? = nil,
+            repeatConfiguration: QuickSightClientTypes.BodySectionRepeatConfiguration? = nil,
             sectionId: Swift.String? = nil,
             style: QuickSightClientTypes.SectionStyle? = nil
         )
         {
             self.content = content
             self.pageBreakConfiguration = pageBreakConfiguration
+            self.repeatConfiguration = repeatConfiguration
             self.sectionId = sectionId
             self.style = style
         }
@@ -8012,32 +8416,6 @@ extension QuickSightClientTypes {
         {
             self.itemsLimit = itemsLimit
             self.otherCategories = otherCategories
-        }
-    }
-
-}
-
-extension QuickSightClientTypes {
-    /// The sort configuration for a column that is not used in a field well.
-    public struct ColumnSort {
-        /// The aggregation function that is defined in the column sort.
-        public var aggregationFunction: QuickSightClientTypes.AggregationFunction?
-        /// The sort direction.
-        /// This member is required.
-        public var direction: QuickSightClientTypes.SortDirection?
-        /// A column of a data set.
-        /// This member is required.
-        public var sortBy: QuickSightClientTypes.ColumnIdentifier?
-
-        public init(
-            aggregationFunction: QuickSightClientTypes.AggregationFunction? = nil,
-            direction: QuickSightClientTypes.SortDirection? = nil,
-            sortBy: QuickSightClientTypes.ColumnIdentifier? = nil
-        )
-        {
-            self.aggregationFunction = aggregationFunction
-            self.direction = direction
-            self.sortBy = sortBy
         }
     }
 
@@ -17332,6 +17710,56 @@ extension QuickSightClientTypes {
 }
 
 extension QuickSightClientTypes {
+
+    public enum AnchorType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case today
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnchorType] {
+            return [
+                .today
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .today: return "TODAY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The definition of the Anchor.
+    public struct Anchor {
+        /// The AnchorType for the Anchor.
+        public var anchorType: QuickSightClientTypes.AnchorType?
+        /// The offset of the Anchor.
+        public var offset: Swift.Int
+        /// The TimeGranularity of the Anchor.
+        public var timeGranularity: QuickSightClientTypes.TimeGranularity?
+
+        public init(
+            anchorType: QuickSightClientTypes.AnchorType? = nil,
+            offset: Swift.Int = 0,
+            timeGranularity: QuickSightClientTypes.TimeGranularity? = nil
+        )
+        {
+            self.anchorType = anchorType
+            self.offset = offset
+            self.timeGranularity = timeGranularity
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
     /// Information about the dashboard that you want to embed.
     public struct AnonymousUserDashboardEmbeddingConfiguration {
         /// The dashboard ID for the dashboard that you want the user to see first. This ID is included in the output URL. When the URL in response is accessed, Amazon QuickSight renders this dashboard. The Amazon Resource Name (ARN) of this dashboard must be included in the AuthorizedResourceArns parameter. Otherwise, the request will fail with InvalidParameterValueException.
@@ -20165,71 +20593,6 @@ extension QuickSightClientTypes {
     }
 }
 
-extension QuickSightClientTypes {
-    /// The bookmarks configuration of an embedded dashboard.
-    public struct BookmarksConfigurations {
-        /// A Boolean value that determines whether a user can bookmark an embedded dashboard.
-        /// This member is required.
-        public var enabled: Swift.Bool
-
-        public init(
-            enabled: Swift.Bool = false
-        )
-        {
-            self.enabled = enabled
-        }
-    }
-
-}
-
-extension QuickSightClientTypes {
-    /// The display options for tile borders for visuals.
-    public struct BorderStyle {
-        /// The option to enable display of borders for visuals.
-        public var show: Swift.Bool?
-
-        public init(
-            show: Swift.Bool? = nil
-        )
-        {
-            self.show = show
-        }
-    }
-
-}
-
-extension QuickSightClientTypes {
-    /// A calculated column for a dataset.
-    public struct CalculatedColumn {
-        /// A unique ID to identify a calculated column. During a dataset update, if the column ID of a calculated column matches that of an existing calculated column, Amazon QuickSight preserves the existing calculated column.
-        /// This member is required.
-        public var columnId: Swift.String?
-        /// Column name.
-        /// This member is required.
-        public var columnName: Swift.String?
-        /// An expression that defines the calculated column.
-        /// This member is required.
-        public var expression: Swift.String?
-
-        public init(
-            columnId: Swift.String? = nil,
-            columnName: Swift.String? = nil,
-            expression: Swift.String? = nil
-        )
-        {
-            self.columnId = columnId
-            self.columnName = columnName
-            self.expression = expression
-        }
-    }
-
-}
-
-extension QuickSightClientTypes.CalculatedColumn: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "CalculatedColumn(columnId: \(Swift.String(describing: columnId)), columnName: \(Swift.String(describing: columnName)), expression: \"CONTENT_REDACTED\")"}
-}
-
 /// An internal failure occurred.
 public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -20336,38 +20699,6 @@ extension QuickSightClientTypes {
     }
 }
 
-/// The resource specified already exists.
-public struct ResourceExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        public internal(set) var message: Swift.String? = nil
-        /// The Amazon Web Services request ID for this request.
-        public internal(set) var requestId: Swift.String? = nil
-        /// The resource type for this request.
-        public internal(set) var resourceType: QuickSightClientTypes.ExceptionResourceType? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ResourceExistsException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        requestId: Swift.String? = nil,
-        resourceType: QuickSightClientTypes.ExceptionResourceType? = nil
-    )
-    {
-        self.properties.message = message
-        self.properties.requestId = requestId
-        self.properties.resourceType = resourceType
-    }
-}
-
 /// One or more resources can't be found.
 public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -20425,6 +20756,1315 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     {
         self.properties.message = message
         self.properties.requestId = requestId
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum ContributionAnalysisDirection: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case decrease
+        case increase
+        case neutral
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContributionAnalysisDirection] {
+            return [
+                .decrease,
+                .increase,
+                .neutral
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .decrease: return "DECREASE"
+            case .increase: return "INCREASE"
+            case .neutral: return "NEUTRAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The definition for the ContributionAnalysisFactor.
+    public struct ContributionAnalysisFactor {
+        /// The field name of the ContributionAnalysisFactor.
+        public var fieldName: Swift.String?
+
+        public init(
+            fieldName: Swift.String? = nil
+        )
+        {
+            self.fieldName = fieldName
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+
+    public enum ContributionAnalysisSortType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case absoluteDifference
+        case contributionPercentage
+        case deviationFromExpected
+        case percentageDifference
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContributionAnalysisSortType] {
+            return [
+                .absoluteDifference,
+                .contributionPercentage,
+                .deviationFromExpected,
+                .percentageDifference
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .absoluteDifference: return "ABSOLUTE_DIFFERENCE"
+            case .contributionPercentage: return "CONTRIBUTION_PERCENTAGE"
+            case .deviationFromExpected: return "DEVIATION_FROM_EXPECTED"
+            case .percentageDifference: return "PERCENTAGE_DIFFERENCE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The definition for the identifier.
+    public struct Identifier {
+        /// The identity of the identifier.
+        /// This member is required.
+        public var identity: Swift.String?
+
+        public init(
+            identity: Swift.String? = nil
+        )
+        {
+            self.identity = identity
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+
+    public enum TopicSortDirection: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ascending
+        case descending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TopicSortDirection] {
+            return [
+                .ascending,
+                .descending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ascending: return "ASCENDING"
+            case .descending: return "DESCENDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The definition for the FilterAggMetrics.
+    public struct FilterAggMetrics {
+        /// The function for the FilterAggMetrics.
+        public var function: QuickSightClientTypes.AggType?
+        /// The metric operand of the FilterAggMetrics.
+        public var metricOperand: QuickSightClientTypes.Identifier?
+        /// The sort direction for FilterAggMetrics.
+        public var sortDirection: QuickSightClientTypes.TopicSortDirection?
+
+        public init(
+            function: QuickSightClientTypes.AggType? = nil,
+            metricOperand: QuickSightClientTypes.Identifier? = nil,
+            sortDirection: QuickSightClientTypes.TopicSortDirection? = nil
+        )
+        {
+            self.function = function
+            self.metricOperand = metricOperand
+            self.sortDirection = sortDirection
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+
+    public enum ConstantType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case collective
+        case range
+        case singular
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConstantType] {
+            return [
+                .collective,
+                .range,
+                .singular
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .collective: return "COLLECTIVE"
+            case .range: return "RANGE"
+            case .singular: return "SINGULAR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The definition for a CollectiveConstantEntry.
+    public struct CollectiveConstantEntry {
+        /// The ConstantType of a CollectiveConstantEntry.
+        public var constantType: QuickSightClientTypes.ConstantType?
+        /// The value of a CollectiveConstantEntry.
+        public var value: Swift.String?
+
+        public init(
+            constantType: QuickSightClientTypes.ConstantType? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.constantType = constantType
+            self.value = value
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    /// The definition for a TopicConstantValue.
+    public struct TopicConstantValue {
+        /// The constant type of a TopicConstantValue.
+        public var constantType: QuickSightClientTypes.ConstantType?
+        /// The maximum for the TopicConstantValue.
+        public var maximum: Swift.String?
+        /// The minimum for the TopicConstantValue.
+        public var minimum: Swift.String?
+        /// The value of the TopicConstantValue.
+        public var value: Swift.String?
+        /// The value list of the TopicConstantValue.
+        public var valueList: [QuickSightClientTypes.CollectiveConstantEntry]?
+
+        public init(
+            constantType: QuickSightClientTypes.ConstantType? = nil,
+            maximum: Swift.String? = nil,
+            minimum: Swift.String? = nil,
+            value: Swift.String? = nil,
+            valueList: [QuickSightClientTypes.CollectiveConstantEntry]? = nil
+        )
+        {
+            self.constantType = constantType
+            self.maximum = maximum
+            self.minimum = minimum
+            self.value = value
+            self.valueList = valueList
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+
+    public enum FilterClass: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case conditionalValueFilter
+        case enforcedValueFilter
+        case namedValueFilter
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FilterClass] {
+            return [
+                .conditionalValueFilter,
+                .enforcedValueFilter,
+                .namedValueFilter
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .conditionalValueFilter: return "CONDITIONAL_VALUE_FILTER"
+            case .enforcedValueFilter: return "ENFORCED_VALUE_FILTER"
+            case .namedValueFilter: return "NAMED_VALUE_FILTER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum TopicIRFilterType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case acceptAllFilter
+        case categoryFilter
+        case dateRangeFilter
+        case equals
+        case numericEqualityFilter
+        case numericRangeFilter
+        case rankLimitFilter
+        case relativeDateFilter
+        case topBottomFilter
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TopicIRFilterType] {
+            return [
+                .acceptAllFilter,
+                .categoryFilter,
+                .dateRangeFilter,
+                .equals,
+                .numericEqualityFilter,
+                .numericRangeFilter,
+                .rankLimitFilter,
+                .relativeDateFilter,
+                .topBottomFilter
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .acceptAllFilter: return "ACCEPT_ALL_FILTER"
+            case .categoryFilter: return "CATEGORY_FILTER"
+            case .dateRangeFilter: return "DATE_RANGE_FILTER"
+            case .equals: return "EQUALS"
+            case .numericEqualityFilter: return "NUMERIC_EQUALITY_FILTER"
+            case .numericRangeFilter: return "NUMERIC_RANGE_FILTER"
+            case .rankLimitFilter: return "RANK_LIMIT_FILTER"
+            case .relativeDateFilter: return "RELATIVE_DATE_FILTER"
+            case .topBottomFilter: return "TOP_BOTTOM_FILTER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum TopicIRFilterFunction: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case contains
+        case containsString
+        case endsWith
+        case exact
+        case last
+        case next
+        case now
+        case previous
+        case startsWith
+        case `this`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TopicIRFilterFunction] {
+            return [
+                .contains,
+                .containsString,
+                .endsWith,
+                .exact,
+                .last,
+                .next,
+                .now,
+                .previous,
+                .startsWith,
+                .this
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .contains: return "CONTAINS"
+            case .containsString: return "CONTAINS_STRING"
+            case .endsWith: return "ENDS_WITH"
+            case .exact: return "EXACT"
+            case .last: return "LAST"
+            case .next: return "NEXT"
+            case .now: return "NOW"
+            case .previous: return "PREVIOUS"
+            case .startsWith: return "STARTS_WITH"
+            case .this: return "THIS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum NullFilterOption: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case allValues
+        case nonNullsOnly
+        case nullsOnly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NullFilterOption] {
+            return [
+                .allValues,
+                .nonNullsOnly,
+                .nullsOnly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .allValues: return "ALL_VALUES"
+            case .nonNullsOnly: return "NON_NULLS_ONLY"
+            case .nullsOnly: return "NULLS_ONLY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The definition for a TopicIRFilterOption.
+    public struct TopicIRFilterOption {
+        /// The agg metrics for the TopicIRFilterOption.
+        public var aggMetrics: [QuickSightClientTypes.FilterAggMetrics]?
+        /// The aggregation for the TopicIRFilterOption.
+        public var aggregation: QuickSightClientTypes.AggType?
+        /// The aggregation function parameters for the TopicIRFilterOption.
+        public var aggregationFunctionParameters: [Swift.String: Swift.String]?
+        /// The AggregationPartitionBy for the TopicIRFilterOption.
+        public var aggregationPartitionBy: [QuickSightClientTypes.AggregationPartitionBy]?
+        /// The anchor for the TopicIRFilterOption.
+        public var anchor: QuickSightClientTypes.Anchor?
+        /// The constant for the TopicIRFilterOption.
+        public var constant: QuickSightClientTypes.TopicConstantValue?
+        /// The filter class for the TopicIRFilterOption.
+        public var filterClass: QuickSightClientTypes.FilterClass?
+        /// The filter type for the TopicIRFilterOption.
+        public var filterType: QuickSightClientTypes.TopicIRFilterType?
+        /// The function for the TopicIRFilterOption.
+        public var function: QuickSightClientTypes.TopicIRFilterFunction?
+        /// The inclusive for the TopicIRFilterOption.
+        public var inclusive: Swift.Bool
+        /// The inverse for the TopicIRFilterOption.
+        public var inverse: Swift.Bool
+        /// The last next offset for the TopicIRFilterOption.
+        public var lastNextOffset: QuickSightClientTypes.TopicConstantValue?
+        /// The null filter for the TopicIRFilterOption.
+        public var nullFilter: QuickSightClientTypes.NullFilterOption?
+        /// The operand field for the TopicIRFilterOption.
+        public var operandField: QuickSightClientTypes.Identifier?
+        /// The range for the TopicIRFilterOption.
+        public var range: QuickSightClientTypes.TopicConstantValue?
+        /// The sort direction for the TopicIRFilterOption.
+        public var sortDirection: QuickSightClientTypes.TopicSortDirection?
+        /// The time granularity for the TopicIRFilterOption.
+        public var timeGranularity: QuickSightClientTypes.TimeGranularity?
+        /// The TopBottomLimit for the TopicIRFilterOption.
+        public var topBottomLimit: QuickSightClientTypes.TopicConstantValue?
+
+        public init(
+            aggMetrics: [QuickSightClientTypes.FilterAggMetrics]? = nil,
+            aggregation: QuickSightClientTypes.AggType? = nil,
+            aggregationFunctionParameters: [Swift.String: Swift.String]? = nil,
+            aggregationPartitionBy: [QuickSightClientTypes.AggregationPartitionBy]? = nil,
+            anchor: QuickSightClientTypes.Anchor? = nil,
+            constant: QuickSightClientTypes.TopicConstantValue? = nil,
+            filterClass: QuickSightClientTypes.FilterClass? = nil,
+            filterType: QuickSightClientTypes.TopicIRFilterType? = nil,
+            function: QuickSightClientTypes.TopicIRFilterFunction? = nil,
+            inclusive: Swift.Bool = false,
+            inverse: Swift.Bool = false,
+            lastNextOffset: QuickSightClientTypes.TopicConstantValue? = nil,
+            nullFilter: QuickSightClientTypes.NullFilterOption? = nil,
+            operandField: QuickSightClientTypes.Identifier? = nil,
+            range: QuickSightClientTypes.TopicConstantValue? = nil,
+            sortDirection: QuickSightClientTypes.TopicSortDirection? = nil,
+            timeGranularity: QuickSightClientTypes.TimeGranularity? = nil,
+            topBottomLimit: QuickSightClientTypes.TopicConstantValue? = nil
+        )
+        {
+            self.aggMetrics = aggMetrics
+            self.aggregation = aggregation
+            self.aggregationFunctionParameters = aggregationFunctionParameters
+            self.aggregationPartitionBy = aggregationPartitionBy
+            self.anchor = anchor
+            self.constant = constant
+            self.filterClass = filterClass
+            self.filterType = filterType
+            self.function = function
+            self.inclusive = inclusive
+            self.inverse = inverse
+            self.lastNextOffset = lastNextOffset
+            self.nullFilter = nullFilter
+            self.operandField = operandField
+            self.range = range
+            self.sortDirection = sortDirection
+            self.timeGranularity = timeGranularity
+            self.topBottomLimit = topBottomLimit
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    /// The definition for the ContributionAnalysisTimeRanges.
+    public struct ContributionAnalysisTimeRanges {
+        /// The end range for the ContributionAnalysisTimeRanges.
+        public var endRange: QuickSightClientTypes.TopicIRFilterOption?
+        /// The start range for the ContributionAnalysisTimeRanges.
+        public var startRange: QuickSightClientTypes.TopicIRFilterOption?
+
+        public init(
+            endRange: QuickSightClientTypes.TopicIRFilterOption? = nil,
+            startRange: QuickSightClientTypes.TopicIRFilterOption? = nil
+        )
+        {
+            self.endRange = endRange
+            self.startRange = startRange
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    /// The definition for a TopicIRContributionAnalysis.
+    public struct TopicIRContributionAnalysis {
+        /// The direction for the TopicIRContributionAnalysis.
+        public var direction: QuickSightClientTypes.ContributionAnalysisDirection?
+        /// The factors for a TopicIRContributionAnalysis.
+        public var factors: [QuickSightClientTypes.ContributionAnalysisFactor]?
+        /// The sort type for the TopicIRContributionAnalysis.
+        public var sortType: QuickSightClientTypes.ContributionAnalysisSortType?
+        /// The time ranges for the TopicIRContributionAnalysis.
+        public var timeRanges: QuickSightClientTypes.ContributionAnalysisTimeRanges?
+
+        public init(
+            direction: QuickSightClientTypes.ContributionAnalysisDirection? = nil,
+            factors: [QuickSightClientTypes.ContributionAnalysisFactor]? = nil,
+            sortType: QuickSightClientTypes.ContributionAnalysisSortType? = nil,
+            timeRanges: QuickSightClientTypes.ContributionAnalysisTimeRanges? = nil
+        )
+        {
+            self.direction = direction
+            self.factors = factors
+            self.sortType = sortType
+            self.timeRanges = timeRanges
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+
+    public enum DisplayFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case auto
+        case currency
+        case date
+        case number
+        case percent
+        case string
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DisplayFormat] {
+            return [
+                .auto,
+                .currency,
+                .date,
+                .number,
+                .percent,
+                .string
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .auto: return "AUTO"
+            case .currency: return "CURRENCY"
+            case .date: return "DATE"
+            case .number: return "NUMBER"
+            case .percent: return "PERCENT"
+            case .string: return "STRING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum TopicNumericSeparatorSymbol: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case comma
+        case dot
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TopicNumericSeparatorSymbol] {
+            return [
+                .comma,
+                .dot
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .comma: return "COMMA"
+            case .dot: return "DOT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A structure that represents a negative format.
+    public struct NegativeFormat {
+        /// The prefix for a negative format.
+        public var `prefix`: Swift.String?
+        /// The suffix for a negative format.
+        public var suffix: Swift.String?
+
+        public init(
+            `prefix`: Swift.String? = nil,
+            suffix: Swift.String? = nil
+        )
+        {
+            self.`prefix` = `prefix`
+            self.suffix = suffix
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    /// A structure that represents additional options for display formatting.
+    public struct DisplayFormatOptions {
+        /// Determines the blank cell format.
+        public var blankCellFormat: Swift.String?
+        /// The currency symbol, such as USD.
+        public var currencySymbol: Swift.String?
+        /// Determines the DateTime format.
+        public var dateFormat: Swift.String?
+        /// Determines the decimal separator.
+        public var decimalSeparator: QuickSightClientTypes.TopicNumericSeparatorSymbol?
+        /// Determines the number of fraction digits.
+        public var fractionDigits: Swift.Int
+        /// Determines the grouping separator.
+        public var groupingSeparator: Swift.String?
+        /// The negative format.
+        public var negativeFormat: QuickSightClientTypes.NegativeFormat?
+        /// The prefix value for a display format.
+        public var `prefix`: Swift.String?
+        /// The suffix value for a display format.
+        public var suffix: Swift.String?
+        /// The unit scaler. Valid values for this structure are: NONE, AUTO, THOUSANDS, MILLIONS, BILLIONS, and TRILLIONS.
+        public var unitScaler: QuickSightClientTypes.NumberScale?
+        /// A Boolean value that indicates whether to use blank cell format.
+        public var useBlankCellFormat: Swift.Bool
+        /// A Boolean value that indicates whether to use grouping.
+        public var useGrouping: Swift.Bool
+
+        public init(
+            blankCellFormat: Swift.String? = nil,
+            currencySymbol: Swift.String? = nil,
+            dateFormat: Swift.String? = nil,
+            decimalSeparator: QuickSightClientTypes.TopicNumericSeparatorSymbol? = nil,
+            fractionDigits: Swift.Int = 0,
+            groupingSeparator: Swift.String? = nil,
+            negativeFormat: QuickSightClientTypes.NegativeFormat? = nil,
+            `prefix`: Swift.String? = nil,
+            suffix: Swift.String? = nil,
+            unitScaler: QuickSightClientTypes.NumberScale? = nil,
+            useBlankCellFormat: Swift.Bool = false,
+            useGrouping: Swift.Bool = false
+        )
+        {
+            self.blankCellFormat = blankCellFormat
+            self.currencySymbol = currencySymbol
+            self.dateFormat = dateFormat
+            self.decimalSeparator = decimalSeparator
+            self.fractionDigits = fractionDigits
+            self.groupingSeparator = groupingSeparator
+            self.negativeFormat = negativeFormat
+            self.`prefix` = `prefix`
+            self.suffix = suffix
+            self.unitScaler = unitScaler
+            self.useBlankCellFormat = useBlankCellFormat
+            self.useGrouping = useGrouping
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    /// The definition for a NamedEntityRef.
+    public struct NamedEntityRef {
+        /// The NamedEntityName for the NamedEntityRef.
+        public var namedEntityName: Swift.String?
+
+        public init(
+            namedEntityName: Swift.String? = nil
+        )
+        {
+            self.namedEntityName = namedEntityName
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    /// The definition for a TopicSortClause.
+    public struct TopicSortClause {
+        /// The operand for a TopicSortClause.
+        public var operand: QuickSightClientTypes.Identifier?
+        /// The sort direction for the TopicSortClause.
+        public var sortDirection: QuickSightClientTypes.TopicSortDirection?
+
+        public init(
+            operand: QuickSightClientTypes.Identifier? = nil,
+            sortDirection: QuickSightClientTypes.TopicSortDirection? = nil
+        )
+        {
+            self.operand = operand
+            self.sortDirection = sortDirection
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    /// The definition for a TopicIRGroupBy.
+    public struct TopicIRGroupBy {
+        /// The display format for the TopicIRGroupBy.
+        public var displayFormat: QuickSightClientTypes.DisplayFormat?
+        /// A structure that represents additional options for display formatting.
+        public var displayFormatOptions: QuickSightClientTypes.DisplayFormatOptions?
+        /// The field name for the TopicIRGroupBy.
+        public var fieldName: QuickSightClientTypes.Identifier?
+        /// The named entity for the TopicIRGroupBy.
+        public var namedEntity: QuickSightClientTypes.NamedEntityRef?
+        /// The sort for the TopicIRGroupBy.
+        public var sort: QuickSightClientTypes.TopicSortClause?
+        /// The time granularity for the TopicIRGroupBy.
+        public var timeGranularity: QuickSightClientTypes.TopicTimeGranularity?
+
+        public init(
+            displayFormat: QuickSightClientTypes.DisplayFormat? = nil,
+            displayFormatOptions: QuickSightClientTypes.DisplayFormatOptions? = nil,
+            fieldName: QuickSightClientTypes.Identifier? = nil,
+            namedEntity: QuickSightClientTypes.NamedEntityRef? = nil,
+            sort: QuickSightClientTypes.TopicSortClause? = nil,
+            timeGranularity: QuickSightClientTypes.TopicTimeGranularity? = nil
+        )
+        {
+            self.displayFormat = displayFormat
+            self.displayFormatOptions = displayFormatOptions
+            self.fieldName = fieldName
+            self.namedEntity = namedEntity
+            self.sort = sort
+            self.timeGranularity = timeGranularity
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+
+    public enum ComparisonMethodType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case diff
+        case diffAsPerc
+        case movingAverage
+        case percentOfTotal
+        case percDiff
+        case popCurrentDiff
+        case popCurrentDiffAsPerc
+        case popOvertimeDiff
+        case popOvertimeDiffAsPerc
+        case runningSum
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ComparisonMethodType] {
+            return [
+                .diff,
+                .diffAsPerc,
+                .movingAverage,
+                .percentOfTotal,
+                .percDiff,
+                .popCurrentDiff,
+                .popCurrentDiffAsPerc,
+                .popOvertimeDiff,
+                .popOvertimeDiffAsPerc,
+                .runningSum
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .diff: return "DIFF"
+            case .diffAsPerc: return "DIFF_AS_PERC"
+            case .movingAverage: return "MOVING_AVERAGE"
+            case .percentOfTotal: return "PERCENT_OF_TOTAL"
+            case .percDiff: return "PERC_DIFF"
+            case .popCurrentDiff: return "POP_CURRENT_DIFF"
+            case .popCurrentDiffAsPerc: return "POP_CURRENT_DIFF_AS_PERC"
+            case .popOvertimeDiff: return "POP_OVERTIME_DIFF"
+            case .popOvertimeDiffAsPerc: return "POP_OVERTIME_DIFF_AS_PERC"
+            case .runningSum: return "RUNNING_SUM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The definition of a TopicIRComparisonMethod.
+    public struct TopicIRComparisonMethod {
+        /// The period for the TopicIRComparisonMethod.
+        public var period: QuickSightClientTypes.TopicTimeGranularity?
+        /// The type for the TopicIRComparisonMethod.
+        public var type: QuickSightClientTypes.ComparisonMethodType?
+        /// The window size for the TopicIRComparisonMethod.
+        public var windowSize: Swift.Int
+
+        public init(
+            period: QuickSightClientTypes.TopicTimeGranularity? = nil,
+            type: QuickSightClientTypes.ComparisonMethodType? = nil,
+            windowSize: Swift.Int = 0
+        )
+        {
+            self.period = period
+            self.type = type
+            self.windowSize = windowSize
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    /// The definition for a TopicIRMetric.
+    public struct TopicIRMetric {
+        /// The calculated field references for the TopicIRMetric.
+        public var calculatedFieldReferences: [QuickSightClientTypes.Identifier]?
+        /// The comparison method for the TopicIRMetric.
+        public var comparisonMethod: QuickSightClientTypes.TopicIRComparisonMethod?
+        /// The display format for the TopicIRMetric.
+        public var displayFormat: QuickSightClientTypes.DisplayFormat?
+        /// A structure that represents additional options for display formatting.
+        public var displayFormatOptions: QuickSightClientTypes.DisplayFormatOptions?
+        /// The expression for the TopicIRMetric.
+        public var expression: Swift.String?
+        /// The function for the TopicIRMetric.
+        public var function: QuickSightClientTypes.AggFunction?
+        /// The metric ID for the TopicIRMetric.
+        public var metricId: QuickSightClientTypes.Identifier?
+        /// The named entity for the TopicIRMetric.
+        public var namedEntity: QuickSightClientTypes.NamedEntityRef?
+        /// The operands for the TopicIRMetric.
+        public var operands: [QuickSightClientTypes.Identifier]?
+
+        public init(
+            calculatedFieldReferences: [QuickSightClientTypes.Identifier]? = nil,
+            comparisonMethod: QuickSightClientTypes.TopicIRComparisonMethod? = nil,
+            displayFormat: QuickSightClientTypes.DisplayFormat? = nil,
+            displayFormatOptions: QuickSightClientTypes.DisplayFormatOptions? = nil,
+            expression: Swift.String? = nil,
+            function: QuickSightClientTypes.AggFunction? = nil,
+            metricId: QuickSightClientTypes.Identifier? = nil,
+            namedEntity: QuickSightClientTypes.NamedEntityRef? = nil,
+            operands: [QuickSightClientTypes.Identifier]? = nil
+        )
+        {
+            self.calculatedFieldReferences = calculatedFieldReferences
+            self.comparisonMethod = comparisonMethod
+            self.displayFormat = displayFormat
+            self.displayFormatOptions = displayFormatOptions
+            self.expression = expression
+            self.function = function
+            self.metricId = metricId
+            self.namedEntity = namedEntity
+            self.operands = operands
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.TopicIRMetric: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "TopicIRMetric(calculatedFieldReferences: \(Swift.String(describing: calculatedFieldReferences)), comparisonMethod: \(Swift.String(describing: comparisonMethod)), displayFormat: \(Swift.String(describing: displayFormat)), displayFormatOptions: \(Swift.String(describing: displayFormatOptions)), function: \(Swift.String(describing: function)), metricId: \(Swift.String(describing: metricId)), namedEntity: \(Swift.String(describing: namedEntity)), operands: \(Swift.String(describing: operands)), expression: \"CONTENT_REDACTED\")"}
+}
+
+extension QuickSightClientTypes {
+    /// The definition for a VisualOptions.
+    public struct VisualOptions {
+        /// The type for a VisualOptions.
+        public var type: Swift.String?
+
+        public init(
+            type: Swift.String? = nil
+        )
+        {
+            self.type = type
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    /// The definition for a TopicIR.
+    public struct TopicIR {
+        /// The contribution analysis for the TopicIR.
+        public var contributionAnalysis: QuickSightClientTypes.TopicIRContributionAnalysis?
+        /// The filters for the TopicIR.
+        public var filters: [[QuickSightClientTypes.TopicIRFilterOption]]?
+        /// The GroupBy list for the TopicIR.
+        public var groupByList: [QuickSightClientTypes.TopicIRGroupBy]?
+        /// The metrics for the TopicIR.
+        public var metrics: [QuickSightClientTypes.TopicIRMetric]?
+        /// The sort for the TopicIR.
+        public var sort: QuickSightClientTypes.TopicSortClause?
+        /// The visual for the TopicIR.
+        public var visual: QuickSightClientTypes.VisualOptions?
+
+        public init(
+            contributionAnalysis: QuickSightClientTypes.TopicIRContributionAnalysis? = nil,
+            filters: [[QuickSightClientTypes.TopicIRFilterOption]]? = nil,
+            groupByList: [QuickSightClientTypes.TopicIRGroupBy]? = nil,
+            metrics: [QuickSightClientTypes.TopicIRMetric]? = nil,
+            sort: QuickSightClientTypes.TopicSortClause? = nil,
+            visual: QuickSightClientTypes.VisualOptions? = nil
+        )
+        {
+            self.contributionAnalysis = contributionAnalysis
+            self.filters = filters
+            self.groupByList = groupByList
+            self.metrics = metrics
+            self.sort = sort
+            self.visual = visual
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+
+    public enum VisualRole: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case complimentary
+        case fallback
+        case fragment
+        case multiIntent
+        case primary
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VisualRole] {
+            return [
+                .complimentary,
+                .fallback,
+                .fragment,
+                .multiIntent,
+                .primary
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .complimentary: return "COMPLIMENTARY"
+            case .fallback: return "FALLBACK"
+            case .fragment: return "FRAGMENT"
+            case .multiIntent: return "MULTI_INTENT"
+            case .primary: return "PRIMARY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The definition for the slot.
+    public struct Slot {
+        /// The slot ID of the slot.
+        public var slotId: Swift.String?
+        /// The visual ID for the slot.
+        public var visualId: Swift.String?
+
+        public init(
+            slotId: Swift.String? = nil,
+            visualId: Swift.String? = nil
+        )
+        {
+            self.slotId = slotId
+            self.visualId = visualId
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    /// The definition for a TopicTemplate.
+    public struct TopicTemplate {
+        /// The slots for the TopicTemplate.
+        public var slots: [QuickSightClientTypes.Slot]?
+        /// The template type for the TopicTemplate.
+        public var templateType: Swift.String?
+
+        public init(
+            slots: [QuickSightClientTypes.Slot]? = nil,
+            templateType: Swift.String? = nil
+        )
+        {
+            self.slots = slots
+            self.templateType = templateType
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+
+    public enum ReviewedAnswerErrorCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case datasetDoesNotExist
+        case duplicatedAnswer
+        case internalError
+        case invalidData
+        case invalidDatasetArn
+        case missingAnswer
+        case missingRequiredFields
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReviewedAnswerErrorCode] {
+            return [
+                .datasetDoesNotExist,
+                .duplicatedAnswer,
+                .internalError,
+                .invalidData,
+                .invalidDatasetArn,
+                .missingAnswer,
+                .missingRequiredFields
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .datasetDoesNotExist: return "DATASET_DOES_NOT_EXIST"
+            case .duplicatedAnswer: return "DUPLICATED_ANSWER"
+            case .internalError: return "INTERNAL_ERROR"
+            case .invalidData: return "INVALID_DATA"
+            case .invalidDatasetArn: return "INVALID_DATASET_ARN"
+            case .missingAnswer: return "MISSING_ANSWER"
+            case .missingRequiredFields: return "MISSING_REQUIRED_FIELDS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The definition for a InvalidTopicReviewedAnswer.
+    public struct InvalidTopicReviewedAnswer {
+        /// The answer ID for the InvalidTopicReviewedAnswer.
+        public var answerId: Swift.String?
+        /// The error that is returned for the InvalidTopicReviewedAnswer.
+        public var error: QuickSightClientTypes.ReviewedAnswerErrorCode?
+
+        public init(
+            answerId: Swift.String? = nil,
+            error: QuickSightClientTypes.ReviewedAnswerErrorCode? = nil
+        )
+        {
+            self.answerId = answerId
+            self.error = error
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    /// The definition for a SucceededTopicReviewedAnswer.
+    public struct SucceededTopicReviewedAnswer {
+        /// The answer ID for the SucceededTopicReviewedAnswer.
+        public var answerId: Swift.String?
+
+        public init(
+            answerId: Swift.String? = nil
+        )
+        {
+            self.answerId = answerId
+        }
+    }
+
+}
+
+public struct BatchCreateTopicReviewedAnswerOutput {
+    /// The definition of Answers that are invalid and not created.
+    public var invalidAnswers: [QuickSightClientTypes.InvalidTopicReviewedAnswer]?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+    /// The definition of Answers that are successfully created.
+    public var succeededAnswers: [QuickSightClientTypes.SucceededTopicReviewedAnswer]?
+    /// The Amazon Resource Name (ARN) of the topic.
+    public var topicArn: Swift.String?
+    /// The ID for the topic reviewed answer that you want to create. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    public var topicId: Swift.String?
+
+    public init(
+        invalidAnswers: [QuickSightClientTypes.InvalidTopicReviewedAnswer]? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0,
+        succeededAnswers: [QuickSightClientTypes.SucceededTopicReviewedAnswer]? = nil,
+        topicArn: Swift.String? = nil,
+        topicId: Swift.String? = nil
+    )
+    {
+        self.invalidAnswers = invalidAnswers
+        self.requestId = requestId
+        self.status = status
+        self.succeededAnswers = succeededAnswers
+        self.topicArn = topicArn
+        self.topicId = topicId
+    }
+}
+
+/// Updating or deleting a resource can cause an inconsistent state.
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+        /// The Amazon Web Services request ID for this request.
+        public internal(set) var requestId: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        requestId: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+        self.properties.requestId = requestId
+    }
+}
+
+public struct BatchDeleteTopicReviewedAnswerInput {
+    /// The Answer IDs of the Answers to be deleted.
+    public var answerIds: [Swift.String]?
+    /// The ID of the Amazon Web Services account that you want to delete a reviewed answers in.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The ID for the topic reviewed answer that you want to delete. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    /// This member is required.
+    public var topicId: Swift.String?
+
+    public init(
+        answerIds: [Swift.String]? = nil,
+        awsAccountId: Swift.String? = nil,
+        topicId: Swift.String? = nil
+    )
+    {
+        self.answerIds = answerIds
+        self.awsAccountId = awsAccountId
+        self.topicId = topicId
+    }
+}
+
+public struct BatchDeleteTopicReviewedAnswerOutput {
+    /// The definition of Answers that are invalid and not deleted.
+    public var invalidAnswers: [QuickSightClientTypes.InvalidTopicReviewedAnswer]?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+    /// The definition of Answers that are successfully deleted.
+    public var succeededAnswers: [QuickSightClientTypes.SucceededTopicReviewedAnswer]?
+    /// The Amazon Resource Name (ARN) of the topic.
+    public var topicArn: Swift.String?
+    /// The ID of the topic reviewed answer that you want to delete. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    public var topicId: Swift.String?
+
+    public init(
+        invalidAnswers: [QuickSightClientTypes.InvalidTopicReviewedAnswer]? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0,
+        succeededAnswers: [QuickSightClientTypes.SucceededTopicReviewedAnswer]? = nil,
+        topicArn: Swift.String? = nil,
+        topicId: Swift.String? = nil
+    )
+    {
+        self.invalidAnswers = invalidAnswers
+        self.requestId = requestId
+        self.status = status
+        self.succeededAnswers = succeededAnswers
+        self.topicArn = topicArn
+        self.topicId = topicId
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The bookmarks configuration of an embedded dashboard.
+    public struct BookmarksConfigurations {
+        /// A Boolean value that determines whether a user can bookmark an embedded dashboard.
+        /// This member is required.
+        public var enabled: Swift.Bool
+
+        public init(
+            enabled: Swift.Bool = false
+        )
+        {
+            self.enabled = enabled
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    /// The display options for tile borders for visuals.
+    public struct BorderStyle {
+        /// The option to enable display of borders for visuals.
+        public var show: Swift.Bool?
+
+        public init(
+            show: Swift.Bool? = nil
+        )
+        {
+            self.show = show
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    /// A calculated column for a dataset.
+    public struct CalculatedColumn {
+        /// A unique ID to identify a calculated column. During a dataset update, if the column ID of a calculated column matches that of an existing calculated column, Amazon QuickSight preserves the existing calculated column.
+        /// This member is required.
+        public var columnId: Swift.String?
+        /// Column name.
+        /// This member is required.
+        public var columnName: Swift.String?
+        /// An expression that defines the calculated column.
+        /// This member is required.
+        public var expression: Swift.String?
+
+        public init(
+            columnId: Swift.String? = nil,
+            columnName: Swift.String? = nil,
+            expression: Swift.String? = nil
+        )
+        {
+            self.columnId = columnId
+            self.columnName = columnName
+            self.expression = expression
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.CalculatedColumn: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CalculatedColumn(columnId: \(Swift.String(describing: columnId)), columnName: \(Swift.String(describing: columnName)), expression: \"CONTENT_REDACTED\")"}
+}
+
+/// The resource specified already exists.
+public struct ResourceExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+        /// The Amazon Web Services request ID for this request.
+        public internal(set) var requestId: Swift.String? = nil
+        /// The resource type for this request.
+        public internal(set) var resourceType: QuickSightClientTypes.ExceptionResourceType? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceExistsException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        resourceType: QuickSightClientTypes.ExceptionResourceType? = nil
+    )
+    {
+        self.properties.message = message
+        self.properties.requestId = requestId
+        self.properties.resourceType = resourceType
     }
 }
 
@@ -21061,66 +22701,6 @@ public struct ConcurrentUpdatingException: ClientRuntime.ModeledError, AWSClient
     {
         self.properties.message = message
         self.properties.requestId = requestId
-    }
-}
-
-/// Updating or deleting a resource can cause an inconsistent state.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        public internal(set) var message: Swift.String? = nil
-        /// The Amazon Web Services request ID for this request.
-        public internal(set) var requestId: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ConflictException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HttpResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        requestId: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-        self.properties.requestId = requestId
-    }
-}
-
-extension QuickSightClientTypes {
-
-    public enum ConstantType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case collective
-        case range
-        case singular
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ConstantType] {
-            return [
-                .collective,
-                .range,
-                .singular
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .collective: return "COLLECTIVE"
-            case .range: return "RANGE"
-            case .singular: return "SINGULAR"
-            case let .sdkUnknown(s): return s
-            }
-        }
     }
 }
 
@@ -25435,156 +27015,6 @@ extension QuickSightClientTypes {
 }
 
 extension QuickSightClientTypes {
-
-    public enum DisplayFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case auto
-        case currency
-        case date
-        case number
-        case percent
-        case string
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [DisplayFormat] {
-            return [
-                .auto,
-                .currency,
-                .date,
-                .number,
-                .percent,
-                .string
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .auto: return "AUTO"
-            case .currency: return "CURRENCY"
-            case .date: return "DATE"
-            case .number: return "NUMBER"
-            case .percent: return "PERCENT"
-            case .string: return "STRING"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension QuickSightClientTypes {
-
-    public enum TopicNumericSeparatorSymbol: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case comma
-        case dot
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [TopicNumericSeparatorSymbol] {
-            return [
-                .comma,
-                .dot
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .comma: return "COMMA"
-            case .dot: return "DOT"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension QuickSightClientTypes {
-    /// A structure that represents a negative format.
-    public struct NegativeFormat {
-        /// The prefix for a negative format.
-        public var `prefix`: Swift.String?
-        /// The suffix for a negative format.
-        public var suffix: Swift.String?
-
-        public init(
-            `prefix`: Swift.String? = nil,
-            suffix: Swift.String? = nil
-        )
-        {
-            self.`prefix` = `prefix`
-            self.suffix = suffix
-        }
-    }
-
-}
-
-extension QuickSightClientTypes {
-    /// A structure that represents additional options for display formatting.
-    public struct DisplayFormatOptions {
-        /// Determines the blank cell format.
-        public var blankCellFormat: Swift.String?
-        /// The currency symbol, such as USD.
-        public var currencySymbol: Swift.String?
-        /// Determines the DateTime format.
-        public var dateFormat: Swift.String?
-        /// Determines the decimal separator.
-        public var decimalSeparator: QuickSightClientTypes.TopicNumericSeparatorSymbol?
-        /// Determines the number of fraction digits.
-        public var fractionDigits: Swift.Int
-        /// Determines the grouping separator.
-        public var groupingSeparator: Swift.String?
-        /// The negative format.
-        public var negativeFormat: QuickSightClientTypes.NegativeFormat?
-        /// The prefix value for a display format.
-        public var `prefix`: Swift.String?
-        /// The suffix value for a display format.
-        public var suffix: Swift.String?
-        /// The unit scaler. Valid values for this structure are: NONE, AUTO, THOUSANDS, MILLIONS, BILLIONS, and TRILLIONS.
-        public var unitScaler: QuickSightClientTypes.NumberScale?
-        /// A Boolean value that indicates whether to use blank cell format.
-        public var useBlankCellFormat: Swift.Bool
-        /// A Boolean value that indicates whether to use grouping.
-        public var useGrouping: Swift.Bool
-
-        public init(
-            blankCellFormat: Swift.String? = nil,
-            currencySymbol: Swift.String? = nil,
-            dateFormat: Swift.String? = nil,
-            decimalSeparator: QuickSightClientTypes.TopicNumericSeparatorSymbol? = nil,
-            fractionDigits: Swift.Int = 0,
-            groupingSeparator: Swift.String? = nil,
-            negativeFormat: QuickSightClientTypes.NegativeFormat? = nil,
-            `prefix`: Swift.String? = nil,
-            suffix: Swift.String? = nil,
-            unitScaler: QuickSightClientTypes.NumberScale? = nil,
-            useBlankCellFormat: Swift.Bool = false,
-            useGrouping: Swift.Bool = false
-        )
-        {
-            self.blankCellFormat = blankCellFormat
-            self.currencySymbol = currencySymbol
-            self.dateFormat = dateFormat
-            self.decimalSeparator = decimalSeparator
-            self.fractionDigits = fractionDigits
-            self.groupingSeparator = groupingSeparator
-            self.negativeFormat = negativeFormat
-            self.`prefix` = `prefix`
-            self.suffix = suffix
-            self.unitScaler = unitScaler
-            self.useBlankCellFormat = useBlankCellFormat
-            self.useGrouping = useGrouping
-        }
-    }
-
-}
-
-extension QuickSightClientTypes {
     /// A structure that represents a default formatting definition.
     public struct DefaultFormatting {
         /// The display format. Valid values for this structure are AUTO, PERCENT, CURRENCY, NUMBER, DATE, and STRING.
@@ -25647,53 +27077,6 @@ extension QuickSightClientTypes {
 extension QuickSightClientTypes.SemanticType: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "SemanticType(falseyCellValueSynonyms: \(Swift.String(describing: falseyCellValueSynonyms)), subTypeName: \(Swift.String(describing: subTypeName)), truthyCellValueSynonyms: \(Swift.String(describing: truthyCellValueSynonyms)), typeName: \(Swift.String(describing: typeName)), typeParameters: \(Swift.String(describing: typeParameters)), falseyCellValue: \"CONTENT_REDACTED\", truthyCellValue: \"CONTENT_REDACTED\")"}
-}
-
-extension QuickSightClientTypes {
-
-    public enum TopicTimeGranularity: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case day
-        case hour
-        case minute
-        case month
-        case quarter
-        case second
-        case week
-        case year
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [TopicTimeGranularity] {
-            return [
-                .day,
-                .hour,
-                .minute,
-                .month,
-                .quarter,
-                .second,
-                .week,
-                .year
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .day: return "DAY"
-            case .hour: return "HOUR"
-            case .minute: return "MINUTE"
-            case .month: return "MONTH"
-            case .quarter: return "QUARTER"
-            case .second: return "SECOND"
-            case .week: return "WEEK"
-            case .year: return "YEAR"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
 }
 
 extension QuickSightClientTypes {
@@ -26016,38 +27399,6 @@ extension QuickSightClientTypes {
 extension QuickSightClientTypes.TopicDateRangeFilter: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "TopicDateRangeFilter(inclusive: \(Swift.String(describing: inclusive)), constant: \"CONTENT_REDACTED\")"}
-}
-
-extension QuickSightClientTypes {
-
-    public enum FilterClass: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case conditionalValueFilter
-        case enforcedValueFilter
-        case namedValueFilter
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [FilterClass] {
-            return [
-                .conditionalValueFilter,
-                .enforcedValueFilter,
-                .namedValueFilter
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .conditionalValueFilter: return "CONDITIONAL_VALUE_FILTER"
-            case .enforcedValueFilter: return "ENFORCED_VALUE_FILTER"
-            case .namedValueFilter: return "NAMED_VALUE_FILTER"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
 }
 
 extension QuickSightClientTypes {
@@ -35044,6 +36395,24 @@ public struct ListTopicRefreshSchedulesOutput {
     }
 }
 
+public struct ListTopicReviewedAnswersInput {
+    /// The ID of the Amazon Web Services account that containd the reviewed answers that you want listed.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The ID for the topic that contains the reviewed answer that you want to list. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    /// This member is required.
+    public var topicId: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        topicId: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.topicId = topicId
+    }
+}
+
 public struct ListTopicsInput {
     /// The ID of the Amazon Web Services account that contains the topics that you want to list.
     /// This member is required.
@@ -38135,6 +39504,193 @@ public struct UpdateVPCConnectionOutput {
     }
 }
 
+extension QuickSightClientTypes {
+    /// The definition for a TopicVisual.
+    public struct TopicVisual {
+        /// The ir for the TopicVisual.
+        public var ir: QuickSightClientTypes.TopicIR?
+        /// The role for the TopicVisual.
+        public var role: QuickSightClientTypes.VisualRole?
+        /// The supporting visuals for the TopicVisual.
+        public var supportingVisuals: [QuickSightClientTypes.TopicVisual]?
+        /// The visual ID for the TopicVisual.
+        public var visualId: Swift.String?
+
+        public init(
+            ir: QuickSightClientTypes.TopicIR? = nil,
+            role: QuickSightClientTypes.VisualRole? = nil,
+            supportingVisuals: [QuickSightClientTypes.TopicVisual]? = nil,
+            visualId: Swift.String? = nil
+        )
+        {
+            self.ir = ir
+            self.role = role
+            self.supportingVisuals = supportingVisuals
+            self.visualId = visualId
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    /// The definition for a CreateTopicReviewedAnswer.
+    public struct CreateTopicReviewedAnswer {
+        /// The answer ID for the CreateTopicReviewedAnswer.
+        /// This member is required.
+        public var answerId: Swift.String?
+        /// The Dataset arn for the CreateTopicReviewedAnswer.
+        /// This member is required.
+        public var datasetArn: Swift.String?
+        /// The Mir for the CreateTopicReviewedAnswer.
+        public var mir: QuickSightClientTypes.TopicIR?
+        /// The PrimaryVisual for the CreateTopicReviewedAnswer.
+        public var primaryVisual: QuickSightClientTypes.TopicVisual?
+        /// The Question to be created.
+        /// This member is required.
+        public var question: Swift.String?
+        /// The template for the CreateTopicReviewedAnswer.
+        public var template: QuickSightClientTypes.TopicTemplate?
+
+        public init(
+            answerId: Swift.String? = nil,
+            datasetArn: Swift.String? = nil,
+            mir: QuickSightClientTypes.TopicIR? = nil,
+            primaryVisual: QuickSightClientTypes.TopicVisual? = nil,
+            question: Swift.String? = nil,
+            template: QuickSightClientTypes.TopicTemplate? = nil
+        )
+        {
+            self.answerId = answerId
+            self.datasetArn = datasetArn
+            self.mir = mir
+            self.primaryVisual = primaryVisual
+            self.question = question
+            self.template = template
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    /// The deinition for a TopicReviewedAnswer.
+    public struct TopicReviewedAnswer {
+        /// The answer ID of the reviewed answer.
+        /// This member is required.
+        public var answerId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the reviewed answer.
+        public var arn: Swift.String?
+        /// The Dataset ARN for the TopicReviewedAnswer.
+        /// This member is required.
+        public var datasetArn: Swift.String?
+        /// The mir for the TopicReviewedAnswer.
+        public var mir: QuickSightClientTypes.TopicIR?
+        /// The primary visual for the TopicReviewedAnswer.
+        public var primaryVisual: QuickSightClientTypes.TopicVisual?
+        /// The question for the TopicReviewedAnswer.
+        /// This member is required.
+        public var question: Swift.String?
+        /// The template for the TopicReviewedAnswer.
+        public var template: QuickSightClientTypes.TopicTemplate?
+
+        public init(
+            answerId: Swift.String? = nil,
+            arn: Swift.String? = nil,
+            datasetArn: Swift.String? = nil,
+            mir: QuickSightClientTypes.TopicIR? = nil,
+            primaryVisual: QuickSightClientTypes.TopicVisual? = nil,
+            question: Swift.String? = nil,
+            template: QuickSightClientTypes.TopicTemplate? = nil
+        )
+        {
+            self.answerId = answerId
+            self.arn = arn
+            self.datasetArn = datasetArn
+            self.mir = mir
+            self.primaryVisual = primaryVisual
+            self.question = question
+            self.template = template
+        }
+    }
+
+}
+
+public struct BatchCreateTopicReviewedAnswerInput {
+    /// The definition of the Answers to be created.
+    /// This member is required.
+    public var answers: [QuickSightClientTypes.CreateTopicReviewedAnswer]?
+    /// The ID of the Amazon Web Services account that you want to create a reviewed answer in.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The ID for the topic reviewed answer that you want to create. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    /// This member is required.
+    public var topicId: Swift.String?
+
+    public init(
+        answers: [QuickSightClientTypes.CreateTopicReviewedAnswer]? = nil,
+        awsAccountId: Swift.String? = nil,
+        topicId: Swift.String? = nil
+    )
+    {
+        self.answers = answers
+        self.awsAccountId = awsAccountId
+        self.topicId = topicId
+    }
+}
+
+public struct ListTopicReviewedAnswersOutput {
+    /// The definition of all Answers in the topic.
+    public var answers: [QuickSightClientTypes.TopicReviewedAnswer]?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+    /// The Amazon Resource Name (ARN) of the topic.
+    public var topicArn: Swift.String?
+    /// The ID for the topic that contains the reviewed answer that you want to list. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    public var topicId: Swift.String?
+
+    public init(
+        answers: [QuickSightClientTypes.TopicReviewedAnswer]? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0,
+        topicArn: Swift.String? = nil,
+        topicId: Swift.String? = nil
+    )
+    {
+        self.answers = answers
+        self.requestId = requestId
+        self.status = status
+        self.topicArn = topicArn
+        self.topicId = topicId
+    }
+}
+
+extension BatchCreateTopicReviewedAnswerInput {
+
+    static func urlPathProvider(_ value: BatchCreateTopicReviewedAnswerInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let topicId = value.topicId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/topics/\(topicId.urlPercentEncoding())/batch-create-reviewed-answers"
+    }
+}
+
+extension BatchDeleteTopicReviewedAnswerInput {
+
+    static func urlPathProvider(_ value: BatchDeleteTopicReviewedAnswerInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let topicId = value.topicId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/topics/\(topicId.urlPercentEncoding())/batch-delete-reviewed-answers"
+    }
+}
+
 extension CancelIngestionInput {
 
     static func urlPathProvider(_ value: CancelIngestionInput) -> Swift.String? {
@@ -40424,6 +41980,19 @@ extension ListTopicRefreshSchedulesInput {
     }
 }
 
+extension ListTopicReviewedAnswersInput {
+
+    static func urlPathProvider(_ value: ListTopicReviewedAnswersInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let topicId = value.topicId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/topics/\(topicId.urlPercentEncoding())/reviewed-answers"
+    }
+}
+
 extension ListTopicsInput {
 
     static func urlPathProvider(_ value: ListTopicsInput) -> Swift.String? {
@@ -41184,6 +42753,22 @@ extension UpdateVPCConnectionInput {
     }
 }
 
+extension BatchCreateTopicReviewedAnswerInput {
+
+    static func write(value: BatchCreateTopicReviewedAnswerInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Answers"].writeList(value.answers, memberWritingClosure: QuickSightClientTypes.CreateTopicReviewedAnswer.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BatchDeleteTopicReviewedAnswerInput {
+
+    static func write(value: BatchDeleteTopicReviewedAnswerInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AnswerIds"].writeList(value.answerIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension CreateAccountCustomizationInput {
 
     static func write(value: CreateAccountCustomizationInput?, to writer: SmithyJSON.Writer) throws {
@@ -41905,6 +43490,40 @@ extension UpdateVPCConnectionInput {
         try writer["RoleArn"].write(value.roleArn)
         try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BatchCreateTopicReviewedAnswerOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BatchCreateTopicReviewedAnswerOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchCreateTopicReviewedAnswerOutput()
+        value.invalidAnswers = try reader["InvalidAnswers"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.InvalidTopicReviewedAnswer.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.succeededAnswers = try reader["SucceededAnswers"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.SucceededTopicReviewedAnswer.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.topicArn = try reader["TopicArn"].readIfPresent()
+        value.topicId = try reader["TopicId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension BatchDeleteTopicReviewedAnswerOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BatchDeleteTopicReviewedAnswerOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchDeleteTopicReviewedAnswerOutput()
+        value.invalidAnswers = try reader["InvalidAnswers"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.InvalidTopicReviewedAnswer.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.succeededAnswers = try reader["SucceededAnswers"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.SucceededTopicReviewedAnswer.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.topicArn = try reader["TopicArn"].readIfPresent()
+        value.topicId = try reader["TopicId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
     }
 }
 
@@ -43778,6 +45397,22 @@ extension ListTopicRefreshSchedulesOutput {
     }
 }
 
+extension ListTopicReviewedAnswersOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTopicReviewedAnswersOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListTopicReviewedAnswersOutput()
+        value.answers = try reader["Answers"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.TopicReviewedAnswer.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.topicArn = try reader["TopicArn"].readIfPresent()
+        value.topicId = try reader["TopicId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
 extension ListTopicsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTopicsOutput {
@@ -44559,6 +46194,43 @@ extension UpdateVPCConnectionOutput {
         value.vpcConnectionId = try reader["VPCConnectionId"].readIfPresent()
         value.status = httpResponse.statusCode.rawValue
         return value
+    }
+}
+
+enum BatchCreateTopicReviewedAnswerOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum BatchDeleteTopicReviewedAnswerOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
     }
 }
 
@@ -46961,6 +48633,24 @@ enum ListTopicRefreshSchedulesOutputError {
     }
 }
 
+enum ListTopicReviewedAnswersOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListTopicsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
@@ -48019,21 +49709,6 @@ extension AccessDeniedException {
     }
 }
 
-extension ResourceExistsException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceExistsException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceExistsException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.requestId = try reader["RequestId"].readIfPresent()
-        value.properties.resourceType = try reader["ResourceType"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ThrottlingException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
@@ -48083,6 +49758,21 @@ extension ConflictException {
         var value = ConflictException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.properties.requestId = try reader["RequestId"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ResourceExistsException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceExistsException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceExistsException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.requestId = try reader["RequestId"].readIfPresent()
+        value.properties.resourceType = try reader["ResourceType"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -48256,6 +49946,27 @@ extension InvalidRequestException {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
+        return value
+    }
+}
+
+extension QuickSightClientTypes.SucceededTopicReviewedAnswer {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SucceededTopicReviewedAnswer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.SucceededTopicReviewedAnswer()
+        value.answerId = try reader["AnswerId"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.InvalidTopicReviewedAnswer {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.InvalidTopicReviewedAnswer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.InvalidTopicReviewedAnswer()
+        value.answerId = try reader["AnswerId"].readIfPresent()
+        value.error = try reader["Error"].readIfPresent()
         return value
     }
 }
@@ -49118,6 +50829,7 @@ extension QuickSightClientTypes.Filter {
     static func write(value: QuickSightClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CategoryFilter"].write(value.categoryFilter, with: QuickSightClientTypes.CategoryFilter.write(value:to:))
+        try writer["NestedFilter"].write(value.nestedFilter, with: QuickSightClientTypes.NestedFilter.write(value:to:))
         try writer["NumericEqualityFilter"].write(value.numericEqualityFilter, with: QuickSightClientTypes.NumericEqualityFilter.write(value:to:))
         try writer["NumericRangeFilter"].write(value.numericRangeFilter, with: QuickSightClientTypes.NumericRangeFilter.write(value:to:))
         try writer["RelativeDatesFilter"].write(value.relativeDatesFilter, with: QuickSightClientTypes.RelativeDatesFilter.write(value:to:))
@@ -49136,32 +50848,61 @@ extension QuickSightClientTypes.Filter {
         value.timeRangeFilter = try reader["TimeRangeFilter"].readIfPresent(with: QuickSightClientTypes.TimeRangeFilter.read(from:))
         value.relativeDatesFilter = try reader["RelativeDatesFilter"].readIfPresent(with: QuickSightClientTypes.RelativeDatesFilter.read(from:))
         value.topBottomFilter = try reader["TopBottomFilter"].readIfPresent(with: QuickSightClientTypes.TopBottomFilter.read(from:))
+        value.nestedFilter = try reader["NestedFilter"].readIfPresent(with: QuickSightClientTypes.NestedFilter.read(from:))
         return value
     }
 }
 
-extension QuickSightClientTypes.TopBottomFilter {
+extension QuickSightClientTypes.NestedFilter {
 
-    static func write(value: QuickSightClientTypes.TopBottomFilter?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: QuickSightClientTypes.NestedFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["AggregationSortConfigurations"].writeList(value.aggregationSortConfigurations, memberWritingClosure: QuickSightClientTypes.AggregationSortConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Column"].write(value.column, with: QuickSightClientTypes.ColumnIdentifier.write(value:to:))
-        try writer["DefaultFilterControlConfiguration"].write(value.defaultFilterControlConfiguration, with: QuickSightClientTypes.DefaultFilterControlConfiguration.write(value:to:))
         try writer["FilterId"].write(value.filterId)
-        try writer["Limit"].write(value.limit)
-        try writer["ParameterName"].write(value.parameterName)
-        try writer["TimeGranularity"].write(value.timeGranularity)
+        try writer["IncludeInnerSet"].write(value.includeInnerSet)
+        try writer["InnerFilter"].write(value.innerFilter, with: QuickSightClientTypes.InnerFilter.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TopBottomFilter {
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.NestedFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.TopBottomFilter()
+        var value = QuickSightClientTypes.NestedFilter()
         value.filterId = try reader["FilterId"].readIfPresent()
         value.column = try reader["Column"].readIfPresent(with: QuickSightClientTypes.ColumnIdentifier.read(from:))
-        value.limit = try reader["Limit"].readIfPresent()
-        value.aggregationSortConfigurations = try reader["AggregationSortConfigurations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.AggregationSortConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.timeGranularity = try reader["TimeGranularity"].readIfPresent()
-        value.parameterName = try reader["ParameterName"].readIfPresent()
+        value.includeInnerSet = try reader["IncludeInnerSet"].readIfPresent() ?? false
+        value.innerFilter = try reader["InnerFilter"].readIfPresent(with: QuickSightClientTypes.InnerFilter.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.InnerFilter {
+
+    static func write(value: QuickSightClientTypes.InnerFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CategoryInnerFilter"].write(value.categoryInnerFilter, with: QuickSightClientTypes.CategoryInnerFilter.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.InnerFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.InnerFilter()
+        value.categoryInnerFilter = try reader["CategoryInnerFilter"].readIfPresent(with: QuickSightClientTypes.CategoryInnerFilter.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.CategoryInnerFilter {
+
+    static func write(value: QuickSightClientTypes.CategoryInnerFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Column"].write(value.column, with: QuickSightClientTypes.ColumnIdentifier.write(value:to:))
+        try writer["Configuration"].write(value.configuration, with: QuickSightClientTypes.CategoryFilterConfiguration.write(value:to:))
+        try writer["DefaultFilterControlConfiguration"].write(value.defaultFilterControlConfiguration, with: QuickSightClientTypes.DefaultFilterControlConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CategoryInnerFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.CategoryInnerFilter()
+        value.column = try reader["Column"].readIfPresent(with: QuickSightClientTypes.ColumnIdentifier.read(from:))
+        value.configuration = try reader["Configuration"].readIfPresent(with: QuickSightClientTypes.CategoryFilterConfiguration.read(from:))
         value.defaultFilterControlConfiguration = try reader["DefaultFilterControlConfiguration"].readIfPresent(with: QuickSightClientTypes.DefaultFilterControlConfiguration.read(from:))
         return value
     }
@@ -49603,7 +51344,9 @@ extension QuickSightClientTypes.DateTimePickerControlDisplayOptions {
 
     static func write(value: QuickSightClientTypes.DateTimePickerControlDisplayOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["DateIconVisibility"].write(value.dateIconVisibility)
         try writer["DateTimeFormat"].write(value.dateTimeFormat)
+        try writer["HelperTextVisibility"].write(value.helperTextVisibility)
         try writer["InfoIconLabelOptions"].write(value.infoIconLabelOptions, with: QuickSightClientTypes.SheetControlInfoIconLabelOptions.write(value:to:))
         try writer["TitleOptions"].write(value.titleOptions, with: QuickSightClientTypes.LabelOptions.write(value:to:))
     }
@@ -49614,6 +51357,119 @@ extension QuickSightClientTypes.DateTimePickerControlDisplayOptions {
         value.titleOptions = try reader["TitleOptions"].readIfPresent(with: QuickSightClientTypes.LabelOptions.read(from:))
         value.dateTimeFormat = try reader["DateTimeFormat"].readIfPresent()
         value.infoIconLabelOptions = try reader["InfoIconLabelOptions"].readIfPresent(with: QuickSightClientTypes.SheetControlInfoIconLabelOptions.read(from:))
+        value.helperTextVisibility = try reader["HelperTextVisibility"].readIfPresent()
+        value.dateIconVisibility = try reader["DateIconVisibility"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.CategoryFilterConfiguration {
+
+    static func write(value: QuickSightClientTypes.CategoryFilterConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CustomFilterConfiguration"].write(value.customFilterConfiguration, with: QuickSightClientTypes.CustomFilterConfiguration.write(value:to:))
+        try writer["CustomFilterListConfiguration"].write(value.customFilterListConfiguration, with: QuickSightClientTypes.CustomFilterListConfiguration.write(value:to:))
+        try writer["FilterListConfiguration"].write(value.filterListConfiguration, with: QuickSightClientTypes.FilterListConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CategoryFilterConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.CategoryFilterConfiguration()
+        value.filterListConfiguration = try reader["FilterListConfiguration"].readIfPresent(with: QuickSightClientTypes.FilterListConfiguration.read(from:))
+        value.customFilterListConfiguration = try reader["CustomFilterListConfiguration"].readIfPresent(with: QuickSightClientTypes.CustomFilterListConfiguration.read(from:))
+        value.customFilterConfiguration = try reader["CustomFilterConfiguration"].readIfPresent(with: QuickSightClientTypes.CustomFilterConfiguration.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.CustomFilterConfiguration {
+
+    static func write(value: QuickSightClientTypes.CustomFilterConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CategoryValue"].write(value.categoryValue)
+        try writer["MatchOperator"].write(value.matchOperator)
+        try writer["NullOption"].write(value.nullOption)
+        try writer["ParameterName"].write(value.parameterName)
+        try writer["SelectAllOptions"].write(value.selectAllOptions)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CustomFilterConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.CustomFilterConfiguration()
+        value.matchOperator = try reader["MatchOperator"].readIfPresent()
+        value.categoryValue = try reader["CategoryValue"].readIfPresent()
+        value.selectAllOptions = try reader["SelectAllOptions"].readIfPresent()
+        value.parameterName = try reader["ParameterName"].readIfPresent()
+        value.nullOption = try reader["NullOption"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.CustomFilterListConfiguration {
+
+    static func write(value: QuickSightClientTypes.CustomFilterListConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CategoryValues"].writeList(value.categoryValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MatchOperator"].write(value.matchOperator)
+        try writer["NullOption"].write(value.nullOption)
+        try writer["SelectAllOptions"].write(value.selectAllOptions)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CustomFilterListConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.CustomFilterListConfiguration()
+        value.matchOperator = try reader["MatchOperator"].readIfPresent()
+        value.categoryValues = try reader["CategoryValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.selectAllOptions = try reader["SelectAllOptions"].readIfPresent()
+        value.nullOption = try reader["NullOption"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.FilterListConfiguration {
+
+    static func write(value: QuickSightClientTypes.FilterListConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CategoryValues"].writeList(value.categoryValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MatchOperator"].write(value.matchOperator)
+        try writer["NullOption"].write(value.nullOption)
+        try writer["SelectAllOptions"].write(value.selectAllOptions)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.FilterListConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.FilterListConfiguration()
+        value.matchOperator = try reader["MatchOperator"].readIfPresent()
+        value.categoryValues = try reader["CategoryValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.selectAllOptions = try reader["SelectAllOptions"].readIfPresent()
+        value.nullOption = try reader["NullOption"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.TopBottomFilter {
+
+    static func write(value: QuickSightClientTypes.TopBottomFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AggregationSortConfigurations"].writeList(value.aggregationSortConfigurations, memberWritingClosure: QuickSightClientTypes.AggregationSortConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Column"].write(value.column, with: QuickSightClientTypes.ColumnIdentifier.write(value:to:))
+        try writer["DefaultFilterControlConfiguration"].write(value.defaultFilterControlConfiguration, with: QuickSightClientTypes.DefaultFilterControlConfiguration.write(value:to:))
+        try writer["FilterId"].write(value.filterId)
+        try writer["Limit"].write(value.limit)
+        try writer["ParameterName"].write(value.parameterName)
+        try writer["TimeGranularity"].write(value.timeGranularity)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TopBottomFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.TopBottomFilter()
+        value.filterId = try reader["FilterId"].readIfPresent()
+        value.column = try reader["Column"].readIfPresent(with: QuickSightClientTypes.ColumnIdentifier.read(from:))
+        value.limit = try reader["Limit"].readIfPresent()
+        value.aggregationSortConfigurations = try reader["AggregationSortConfigurations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.AggregationSortConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.timeGranularity = try reader["TimeGranularity"].readIfPresent()
+        value.parameterName = try reader["ParameterName"].readIfPresent()
+        value.defaultFilterControlConfiguration = try reader["DefaultFilterControlConfiguration"].readIfPresent(with: QuickSightClientTypes.DefaultFilterControlConfiguration.read(from:))
         return value
     }
 }
@@ -49972,90 +51828,6 @@ extension QuickSightClientTypes.CategoryFilter {
         value.column = try reader["Column"].readIfPresent(with: QuickSightClientTypes.ColumnIdentifier.read(from:))
         value.configuration = try reader["Configuration"].readIfPresent(with: QuickSightClientTypes.CategoryFilterConfiguration.read(from:))
         value.defaultFilterControlConfiguration = try reader["DefaultFilterControlConfiguration"].readIfPresent(with: QuickSightClientTypes.DefaultFilterControlConfiguration.read(from:))
-        return value
-    }
-}
-
-extension QuickSightClientTypes.CategoryFilterConfiguration {
-
-    static func write(value: QuickSightClientTypes.CategoryFilterConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CustomFilterConfiguration"].write(value.customFilterConfiguration, with: QuickSightClientTypes.CustomFilterConfiguration.write(value:to:))
-        try writer["CustomFilterListConfiguration"].write(value.customFilterListConfiguration, with: QuickSightClientTypes.CustomFilterListConfiguration.write(value:to:))
-        try writer["FilterListConfiguration"].write(value.filterListConfiguration, with: QuickSightClientTypes.FilterListConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CategoryFilterConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.CategoryFilterConfiguration()
-        value.filterListConfiguration = try reader["FilterListConfiguration"].readIfPresent(with: QuickSightClientTypes.FilterListConfiguration.read(from:))
-        value.customFilterListConfiguration = try reader["CustomFilterListConfiguration"].readIfPresent(with: QuickSightClientTypes.CustomFilterListConfiguration.read(from:))
-        value.customFilterConfiguration = try reader["CustomFilterConfiguration"].readIfPresent(with: QuickSightClientTypes.CustomFilterConfiguration.read(from:))
-        return value
-    }
-}
-
-extension QuickSightClientTypes.CustomFilterConfiguration {
-
-    static func write(value: QuickSightClientTypes.CustomFilterConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CategoryValue"].write(value.categoryValue)
-        try writer["MatchOperator"].write(value.matchOperator)
-        try writer["NullOption"].write(value.nullOption)
-        try writer["ParameterName"].write(value.parameterName)
-        try writer["SelectAllOptions"].write(value.selectAllOptions)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CustomFilterConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.CustomFilterConfiguration()
-        value.matchOperator = try reader["MatchOperator"].readIfPresent()
-        value.categoryValue = try reader["CategoryValue"].readIfPresent()
-        value.selectAllOptions = try reader["SelectAllOptions"].readIfPresent()
-        value.parameterName = try reader["ParameterName"].readIfPresent()
-        value.nullOption = try reader["NullOption"].readIfPresent()
-        return value
-    }
-}
-
-extension QuickSightClientTypes.CustomFilterListConfiguration {
-
-    static func write(value: QuickSightClientTypes.CustomFilterListConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CategoryValues"].writeList(value.categoryValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["MatchOperator"].write(value.matchOperator)
-        try writer["NullOption"].write(value.nullOption)
-        try writer["SelectAllOptions"].write(value.selectAllOptions)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CustomFilterListConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.CustomFilterListConfiguration()
-        value.matchOperator = try reader["MatchOperator"].readIfPresent()
-        value.categoryValues = try reader["CategoryValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.selectAllOptions = try reader["SelectAllOptions"].readIfPresent()
-        value.nullOption = try reader["NullOption"].readIfPresent()
-        return value
-    }
-}
-
-extension QuickSightClientTypes.FilterListConfiguration {
-
-    static func write(value: QuickSightClientTypes.FilterListConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CategoryValues"].writeList(value.categoryValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["MatchOperator"].write(value.matchOperator)
-        try writer["NullOption"].write(value.nullOption)
-        try writer["SelectAllOptions"].write(value.selectAllOptions)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.FilterListConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.FilterListConfiguration()
-        value.matchOperator = try reader["MatchOperator"].readIfPresent()
-        value.categoryValues = try reader["CategoryValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.selectAllOptions = try reader["SelectAllOptions"].readIfPresent()
-        value.nullOption = try reader["NullOption"].readIfPresent()
         return value
     }
 }
@@ -50718,6 +52490,7 @@ extension QuickSightClientTypes.BodySectionConfiguration {
         guard let value else { return }
         try writer["Content"].write(value.content, with: QuickSightClientTypes.BodySectionContent.write(value:to:))
         try writer["PageBreakConfiguration"].write(value.pageBreakConfiguration, with: QuickSightClientTypes.SectionPageBreakConfiguration.write(value:to:))
+        try writer["RepeatConfiguration"].write(value.repeatConfiguration, with: QuickSightClientTypes.BodySectionRepeatConfiguration.write(value:to:))
         try writer["SectionId"].write(value.sectionId)
         try writer["Style"].write(value.style, with: QuickSightClientTypes.SectionStyle.write(value:to:))
     }
@@ -50729,20 +52502,40 @@ extension QuickSightClientTypes.BodySectionConfiguration {
         value.content = try reader["Content"].readIfPresent(with: QuickSightClientTypes.BodySectionContent.read(from:))
         value.style = try reader["Style"].readIfPresent(with: QuickSightClientTypes.SectionStyle.read(from:))
         value.pageBreakConfiguration = try reader["PageBreakConfiguration"].readIfPresent(with: QuickSightClientTypes.SectionPageBreakConfiguration.read(from:))
+        value.repeatConfiguration = try reader["RepeatConfiguration"].readIfPresent(with: QuickSightClientTypes.BodySectionRepeatConfiguration.read(from:))
         return value
     }
 }
 
-extension QuickSightClientTypes.SectionPageBreakConfiguration {
+extension QuickSightClientTypes.BodySectionRepeatConfiguration {
 
-    static func write(value: QuickSightClientTypes.SectionPageBreakConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: QuickSightClientTypes.BodySectionRepeatConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DimensionConfigurations"].writeList(value.dimensionConfigurations, memberWritingClosure: QuickSightClientTypes.BodySectionRepeatDimensionConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["NonRepeatingVisuals"].writeList(value.nonRepeatingVisuals, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PageBreakConfiguration"].write(value.pageBreakConfiguration, with: QuickSightClientTypes.BodySectionRepeatPageBreakConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.BodySectionRepeatConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.BodySectionRepeatConfiguration()
+        value.dimensionConfigurations = try reader["DimensionConfigurations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.BodySectionRepeatDimensionConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.pageBreakConfiguration = try reader["PageBreakConfiguration"].readIfPresent(with: QuickSightClientTypes.BodySectionRepeatPageBreakConfiguration.read(from:))
+        value.nonRepeatingVisuals = try reader["NonRepeatingVisuals"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension QuickSightClientTypes.BodySectionRepeatPageBreakConfiguration {
+
+    static func write(value: QuickSightClientTypes.BodySectionRepeatPageBreakConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["After"].write(value.after, with: QuickSightClientTypes.SectionAfterPageBreak.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SectionPageBreakConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.BodySectionRepeatPageBreakConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.SectionPageBreakConfiguration()
+        var value = QuickSightClientTypes.BodySectionRepeatPageBreakConfiguration()
         value.after = try reader["After"].readIfPresent(with: QuickSightClientTypes.SectionAfterPageBreak.read(from:))
         return value
     }
@@ -50759,6 +52552,95 @@ extension QuickSightClientTypes.SectionAfterPageBreak {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.SectionAfterPageBreak()
         value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.BodySectionRepeatDimensionConfiguration {
+
+    static func write(value: QuickSightClientTypes.BodySectionRepeatDimensionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DynamicCategoryDimensionConfiguration"].write(value.dynamicCategoryDimensionConfiguration, with: QuickSightClientTypes.BodySectionDynamicCategoryDimensionConfiguration.write(value:to:))
+        try writer["DynamicNumericDimensionConfiguration"].write(value.dynamicNumericDimensionConfiguration, with: QuickSightClientTypes.BodySectionDynamicNumericDimensionConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.BodySectionRepeatDimensionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.BodySectionRepeatDimensionConfiguration()
+        value.dynamicCategoryDimensionConfiguration = try reader["DynamicCategoryDimensionConfiguration"].readIfPresent(with: QuickSightClientTypes.BodySectionDynamicCategoryDimensionConfiguration.read(from:))
+        value.dynamicNumericDimensionConfiguration = try reader["DynamicNumericDimensionConfiguration"].readIfPresent(with: QuickSightClientTypes.BodySectionDynamicNumericDimensionConfiguration.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.BodySectionDynamicNumericDimensionConfiguration {
+
+    static func write(value: QuickSightClientTypes.BodySectionDynamicNumericDimensionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Column"].write(value.column, with: QuickSightClientTypes.ColumnIdentifier.write(value:to:))
+        try writer["Limit"].write(value.limit)
+        try writer["SortByMetrics"].writeList(value.sortByMetrics, memberWritingClosure: QuickSightClientTypes.ColumnSort.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.BodySectionDynamicNumericDimensionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.BodySectionDynamicNumericDimensionConfiguration()
+        value.column = try reader["Column"].readIfPresent(with: QuickSightClientTypes.ColumnIdentifier.read(from:))
+        value.limit = try reader["Limit"].readIfPresent()
+        value.sortByMetrics = try reader["SortByMetrics"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ColumnSort.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension QuickSightClientTypes.ColumnSort {
+
+    static func write(value: QuickSightClientTypes.ColumnSort?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AggregationFunction"].write(value.aggregationFunction, with: QuickSightClientTypes.AggregationFunction.write(value:to:))
+        try writer["Direction"].write(value.direction)
+        try writer["SortBy"].write(value.sortBy, with: QuickSightClientTypes.ColumnIdentifier.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ColumnSort {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ColumnSort()
+        value.sortBy = try reader["SortBy"].readIfPresent(with: QuickSightClientTypes.ColumnIdentifier.read(from:))
+        value.direction = try reader["Direction"].readIfPresent()
+        value.aggregationFunction = try reader["AggregationFunction"].readIfPresent(with: QuickSightClientTypes.AggregationFunction.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.BodySectionDynamicCategoryDimensionConfiguration {
+
+    static func write(value: QuickSightClientTypes.BodySectionDynamicCategoryDimensionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Column"].write(value.column, with: QuickSightClientTypes.ColumnIdentifier.write(value:to:))
+        try writer["Limit"].write(value.limit)
+        try writer["SortByMetrics"].writeList(value.sortByMetrics, memberWritingClosure: QuickSightClientTypes.ColumnSort.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.BodySectionDynamicCategoryDimensionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.BodySectionDynamicCategoryDimensionConfiguration()
+        value.column = try reader["Column"].readIfPresent(with: QuickSightClientTypes.ColumnIdentifier.read(from:))
+        value.limit = try reader["Limit"].readIfPresent()
+        value.sortByMetrics = try reader["SortByMetrics"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ColumnSort.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension QuickSightClientTypes.SectionPageBreakConfiguration {
+
+    static func write(value: QuickSightClientTypes.SectionPageBreakConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["After"].write(value.after, with: QuickSightClientTypes.SectionAfterPageBreak.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SectionPageBreakConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.SectionPageBreakConfiguration()
+        value.after = try reader["After"].readIfPresent(with: QuickSightClientTypes.SectionAfterPageBreak.read(from:))
         return value
     }
 }
@@ -51853,25 +53735,6 @@ extension QuickSightClientTypes.FieldSortOptions {
         var value = QuickSightClientTypes.FieldSortOptions()
         value.fieldSort = try reader["FieldSort"].readIfPresent(with: QuickSightClientTypes.FieldSort.read(from:))
         value.columnSort = try reader["ColumnSort"].readIfPresent(with: QuickSightClientTypes.ColumnSort.read(from:))
-        return value
-    }
-}
-
-extension QuickSightClientTypes.ColumnSort {
-
-    static func write(value: QuickSightClientTypes.ColumnSort?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AggregationFunction"].write(value.aggregationFunction, with: QuickSightClientTypes.AggregationFunction.write(value:to:))
-        try writer["Direction"].write(value.direction)
-        try writer["SortBy"].write(value.sortBy, with: QuickSightClientTypes.ColumnIdentifier.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ColumnSort {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.ColumnSort()
-        value.sortBy = try reader["SortBy"].readIfPresent(with: QuickSightClientTypes.ColumnIdentifier.read(from:))
-        value.direction = try reader["Direction"].readIfPresent()
-        value.aggregationFunction = try reader["AggregationFunction"].readIfPresent(with: QuickSightClientTypes.AggregationFunction.read(from:))
         return value
     }
 }
@@ -62330,6 +64193,457 @@ extension QuickSightClientTypes.TopicRefreshScheduleSummary {
     }
 }
 
+extension QuickSightClientTypes.TopicReviewedAnswer {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TopicReviewedAnswer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.TopicReviewedAnswer()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.answerId = try reader["AnswerId"].readIfPresent()
+        value.datasetArn = try reader["DatasetArn"].readIfPresent()
+        value.question = try reader["Question"].readIfPresent()
+        value.mir = try reader["Mir"].readIfPresent(with: QuickSightClientTypes.TopicIR.read(from:))
+        value.primaryVisual = try reader["PrimaryVisual"].readIfPresent(with: QuickSightClientTypes.TopicVisual.read(from:))
+        value.template = try reader["Template"].readIfPresent(with: QuickSightClientTypes.TopicTemplate.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.TopicTemplate {
+
+    static func write(value: QuickSightClientTypes.TopicTemplate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Slots"].writeList(value.slots, memberWritingClosure: QuickSightClientTypes.Slot.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TemplateType"].write(value.templateType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TopicTemplate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.TopicTemplate()
+        value.templateType = try reader["TemplateType"].readIfPresent()
+        value.slots = try reader["Slots"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.Slot.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension QuickSightClientTypes.Slot {
+
+    static func write(value: QuickSightClientTypes.Slot?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SlotId"].write(value.slotId)
+        try writer["VisualId"].write(value.visualId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.Slot {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.Slot()
+        value.slotId = try reader["SlotId"].readIfPresent()
+        value.visualId = try reader["VisualId"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.TopicVisual {
+
+    static func write(value: QuickSightClientTypes.TopicVisual?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Ir"].write(value.ir, with: QuickSightClientTypes.TopicIR.write(value:to:))
+        try writer["Role"].write(value.role)
+        try writer["SupportingVisuals"].writeList(value.supportingVisuals, memberWritingClosure: QuickSightClientTypes.TopicVisual.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["VisualId"].write(value.visualId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TopicVisual {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.TopicVisual()
+        value.visualId = try reader["VisualId"].readIfPresent()
+        value.role = try reader["Role"].readIfPresent()
+        value.ir = try reader["Ir"].readIfPresent(with: QuickSightClientTypes.TopicIR.read(from:))
+        value.supportingVisuals = try reader["SupportingVisuals"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.TopicVisual.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension QuickSightClientTypes.TopicIR {
+
+    static func write(value: QuickSightClientTypes.TopicIR?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ContributionAnalysis"].write(value.contributionAnalysis, with: QuickSightClientTypes.TopicIRContributionAnalysis.write(value:to:))
+        try writer["Filters"].writeList(value.filters, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: QuickSightClientTypes.TopicIRFilterOption.write(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        try writer["GroupByList"].writeList(value.groupByList, memberWritingClosure: QuickSightClientTypes.TopicIRGroupBy.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Metrics"].writeList(value.metrics, memberWritingClosure: QuickSightClientTypes.TopicIRMetric.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Sort"].write(value.sort, with: QuickSightClientTypes.TopicSortClause.write(value:to:))
+        try writer["Visual"].write(value.visual, with: QuickSightClientTypes.VisualOptions.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TopicIR {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.TopicIR()
+        value.metrics = try reader["Metrics"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.TopicIRMetric.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.groupByList = try reader["GroupByList"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.TopicIRGroupBy.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.filters = try reader["Filters"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: QuickSightClientTypes.TopicIRFilterOption.read(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        value.sort = try reader["Sort"].readIfPresent(with: QuickSightClientTypes.TopicSortClause.read(from:))
+        value.contributionAnalysis = try reader["ContributionAnalysis"].readIfPresent(with: QuickSightClientTypes.TopicIRContributionAnalysis.read(from:))
+        value.visual = try reader["Visual"].readIfPresent(with: QuickSightClientTypes.VisualOptions.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.VisualOptions {
+
+    static func write(value: QuickSightClientTypes.VisualOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.VisualOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.VisualOptions()
+        value.type = try reader["type"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.TopicIRContributionAnalysis {
+
+    static func write(value: QuickSightClientTypes.TopicIRContributionAnalysis?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Direction"].write(value.direction)
+        try writer["Factors"].writeList(value.factors, memberWritingClosure: QuickSightClientTypes.ContributionAnalysisFactor.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SortType"].write(value.sortType)
+        try writer["TimeRanges"].write(value.timeRanges, with: QuickSightClientTypes.ContributionAnalysisTimeRanges.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TopicIRContributionAnalysis {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.TopicIRContributionAnalysis()
+        value.factors = try reader["Factors"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ContributionAnalysisFactor.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.timeRanges = try reader["TimeRanges"].readIfPresent(with: QuickSightClientTypes.ContributionAnalysisTimeRanges.read(from:))
+        value.direction = try reader["Direction"].readIfPresent()
+        value.sortType = try reader["SortType"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.ContributionAnalysisTimeRanges {
+
+    static func write(value: QuickSightClientTypes.ContributionAnalysisTimeRanges?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EndRange"].write(value.endRange, with: QuickSightClientTypes.TopicIRFilterOption.write(value:to:))
+        try writer["StartRange"].write(value.startRange, with: QuickSightClientTypes.TopicIRFilterOption.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ContributionAnalysisTimeRanges {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ContributionAnalysisTimeRanges()
+        value.startRange = try reader["StartRange"].readIfPresent(with: QuickSightClientTypes.TopicIRFilterOption.read(from:))
+        value.endRange = try reader["EndRange"].readIfPresent(with: QuickSightClientTypes.TopicIRFilterOption.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.TopicIRFilterOption {
+
+    static func write(value: QuickSightClientTypes.TopicIRFilterOption?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AggMetrics"].writeList(value.aggMetrics, memberWritingClosure: QuickSightClientTypes.FilterAggMetrics.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Aggregation"].write(value.aggregation)
+        try writer["AggregationFunctionParameters"].writeMap(value.aggregationFunctionParameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["AggregationPartitionBy"].writeList(value.aggregationPartitionBy, memberWritingClosure: QuickSightClientTypes.AggregationPartitionBy.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Anchor"].write(value.anchor, with: QuickSightClientTypes.Anchor.write(value:to:))
+        try writer["Constant"].write(value.constant, with: QuickSightClientTypes.TopicConstantValue.write(value:to:))
+        try writer["FilterClass"].write(value.filterClass)
+        try writer["FilterType"].write(value.filterType)
+        try writer["Function"].write(value.function)
+        try writer["Inclusive"].write(value.inclusive)
+        try writer["Inverse"].write(value.inverse)
+        try writer["LastNextOffset"].write(value.lastNextOffset, with: QuickSightClientTypes.TopicConstantValue.write(value:to:))
+        try writer["NullFilter"].write(value.nullFilter)
+        try writer["OperandField"].write(value.operandField, with: QuickSightClientTypes.Identifier.write(value:to:))
+        try writer["Range"].write(value.range, with: QuickSightClientTypes.TopicConstantValue.write(value:to:))
+        try writer["SortDirection"].write(value.sortDirection)
+        try writer["TimeGranularity"].write(value.timeGranularity)
+        try writer["TopBottomLimit"].write(value.topBottomLimit, with: QuickSightClientTypes.TopicConstantValue.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TopicIRFilterOption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.TopicIRFilterOption()
+        value.filterType = try reader["FilterType"].readIfPresent()
+        value.filterClass = try reader["FilterClass"].readIfPresent()
+        value.operandField = try reader["OperandField"].readIfPresent(with: QuickSightClientTypes.Identifier.read(from:))
+        value.function = try reader["Function"].readIfPresent()
+        value.constant = try reader["Constant"].readIfPresent(with: QuickSightClientTypes.TopicConstantValue.read(from:))
+        value.inverse = try reader["Inverse"].readIfPresent() ?? false
+        value.nullFilter = try reader["NullFilter"].readIfPresent()
+        value.aggregation = try reader["Aggregation"].readIfPresent()
+        value.aggregationFunctionParameters = try reader["AggregationFunctionParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.aggregationPartitionBy = try reader["AggregationPartitionBy"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.AggregationPartitionBy.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.range = try reader["Range"].readIfPresent(with: QuickSightClientTypes.TopicConstantValue.read(from:))
+        value.inclusive = try reader["Inclusive"].readIfPresent() ?? false
+        value.timeGranularity = try reader["TimeGranularity"].readIfPresent()
+        value.lastNextOffset = try reader["LastNextOffset"].readIfPresent(with: QuickSightClientTypes.TopicConstantValue.read(from:))
+        value.aggMetrics = try reader["AggMetrics"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.FilterAggMetrics.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.topBottomLimit = try reader["TopBottomLimit"].readIfPresent(with: QuickSightClientTypes.TopicConstantValue.read(from:))
+        value.sortDirection = try reader["SortDirection"].readIfPresent()
+        value.anchor = try reader["Anchor"].readIfPresent(with: QuickSightClientTypes.Anchor.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.Anchor {
+
+    static func write(value: QuickSightClientTypes.Anchor?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AnchorType"].write(value.anchorType)
+        try writer["Offset"].write(value.offset)
+        try writer["TimeGranularity"].write(value.timeGranularity)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.Anchor {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.Anchor()
+        value.anchorType = try reader["AnchorType"].readIfPresent()
+        value.timeGranularity = try reader["TimeGranularity"].readIfPresent()
+        value.offset = try reader["Offset"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension QuickSightClientTypes.TopicConstantValue {
+
+    static func write(value: QuickSightClientTypes.TopicConstantValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConstantType"].write(value.constantType)
+        try writer["Maximum"].write(value.maximum)
+        try writer["Minimum"].write(value.minimum)
+        try writer["Value"].write(value.value)
+        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: QuickSightClientTypes.CollectiveConstantEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TopicConstantValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.TopicConstantValue()
+        value.constantType = try reader["ConstantType"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        value.minimum = try reader["Minimum"].readIfPresent()
+        value.maximum = try reader["Maximum"].readIfPresent()
+        value.valueList = try reader["ValueList"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.CollectiveConstantEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension QuickSightClientTypes.CollectiveConstantEntry {
+
+    static func write(value: QuickSightClientTypes.CollectiveConstantEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConstantType"].write(value.constantType)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CollectiveConstantEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.CollectiveConstantEntry()
+        value.constantType = try reader["ConstantType"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.FilterAggMetrics {
+
+    static func write(value: QuickSightClientTypes.FilterAggMetrics?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Function"].write(value.function)
+        try writer["MetricOperand"].write(value.metricOperand, with: QuickSightClientTypes.Identifier.write(value:to:))
+        try writer["SortDirection"].write(value.sortDirection)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.FilterAggMetrics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.FilterAggMetrics()
+        value.metricOperand = try reader["MetricOperand"].readIfPresent(with: QuickSightClientTypes.Identifier.read(from:))
+        value.function = try reader["Function"].readIfPresent()
+        value.sortDirection = try reader["SortDirection"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.Identifier {
+
+    static func write(value: QuickSightClientTypes.Identifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Identity"].write(value.identity)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.Identifier {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.Identifier()
+        value.identity = try reader["Identity"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.AggregationPartitionBy {
+
+    static func write(value: QuickSightClientTypes.AggregationPartitionBy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FieldName"].write(value.fieldName)
+        try writer["TimeGranularity"].write(value.timeGranularity)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AggregationPartitionBy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.AggregationPartitionBy()
+        value.fieldName = try reader["FieldName"].readIfPresent()
+        value.timeGranularity = try reader["TimeGranularity"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.ContributionAnalysisFactor {
+
+    static func write(value: QuickSightClientTypes.ContributionAnalysisFactor?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FieldName"].write(value.fieldName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ContributionAnalysisFactor {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ContributionAnalysisFactor()
+        value.fieldName = try reader["FieldName"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.TopicSortClause {
+
+    static func write(value: QuickSightClientTypes.TopicSortClause?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Operand"].write(value.operand, with: QuickSightClientTypes.Identifier.write(value:to:))
+        try writer["SortDirection"].write(value.sortDirection)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TopicSortClause {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.TopicSortClause()
+        value.operand = try reader["Operand"].readIfPresent(with: QuickSightClientTypes.Identifier.read(from:))
+        value.sortDirection = try reader["SortDirection"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.TopicIRGroupBy {
+
+    static func write(value: QuickSightClientTypes.TopicIRGroupBy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DisplayFormat"].write(value.displayFormat)
+        try writer["DisplayFormatOptions"].write(value.displayFormatOptions, with: QuickSightClientTypes.DisplayFormatOptions.write(value:to:))
+        try writer["FieldName"].write(value.fieldName, with: QuickSightClientTypes.Identifier.write(value:to:))
+        try writer["NamedEntity"].write(value.namedEntity, with: QuickSightClientTypes.NamedEntityRef.write(value:to:))
+        try writer["Sort"].write(value.sort, with: QuickSightClientTypes.TopicSortClause.write(value:to:))
+        try writer["TimeGranularity"].write(value.timeGranularity)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TopicIRGroupBy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.TopicIRGroupBy()
+        value.fieldName = try reader["FieldName"].readIfPresent(with: QuickSightClientTypes.Identifier.read(from:))
+        value.timeGranularity = try reader["TimeGranularity"].readIfPresent()
+        value.sort = try reader["Sort"].readIfPresent(with: QuickSightClientTypes.TopicSortClause.read(from:))
+        value.displayFormat = try reader["DisplayFormat"].readIfPresent()
+        value.displayFormatOptions = try reader["DisplayFormatOptions"].readIfPresent(with: QuickSightClientTypes.DisplayFormatOptions.read(from:))
+        value.namedEntity = try reader["NamedEntity"].readIfPresent(with: QuickSightClientTypes.NamedEntityRef.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.NamedEntityRef {
+
+    static func write(value: QuickSightClientTypes.NamedEntityRef?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["NamedEntityName"].write(value.namedEntityName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.NamedEntityRef {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.NamedEntityRef()
+        value.namedEntityName = try reader["NamedEntityName"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.TopicIRMetric {
+
+    static func write(value: QuickSightClientTypes.TopicIRMetric?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CalculatedFieldReferences"].writeList(value.calculatedFieldReferences, memberWritingClosure: QuickSightClientTypes.Identifier.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ComparisonMethod"].write(value.comparisonMethod, with: QuickSightClientTypes.TopicIRComparisonMethod.write(value:to:))
+        try writer["DisplayFormat"].write(value.displayFormat)
+        try writer["DisplayFormatOptions"].write(value.displayFormatOptions, with: QuickSightClientTypes.DisplayFormatOptions.write(value:to:))
+        try writer["Expression"].write(value.expression)
+        try writer["Function"].write(value.function, with: QuickSightClientTypes.AggFunction.write(value:to:))
+        try writer["MetricId"].write(value.metricId, with: QuickSightClientTypes.Identifier.write(value:to:))
+        try writer["NamedEntity"].write(value.namedEntity, with: QuickSightClientTypes.NamedEntityRef.write(value:to:))
+        try writer["Operands"].writeList(value.operands, memberWritingClosure: QuickSightClientTypes.Identifier.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TopicIRMetric {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.TopicIRMetric()
+        value.metricId = try reader["MetricId"].readIfPresent(with: QuickSightClientTypes.Identifier.read(from:))
+        value.function = try reader["Function"].readIfPresent(with: QuickSightClientTypes.AggFunction.read(from:))
+        value.operands = try reader["Operands"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.Identifier.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.comparisonMethod = try reader["ComparisonMethod"].readIfPresent(with: QuickSightClientTypes.TopicIRComparisonMethod.read(from:))
+        value.expression = try reader["Expression"].readIfPresent()
+        value.calculatedFieldReferences = try reader["CalculatedFieldReferences"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.Identifier.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.displayFormat = try reader["DisplayFormat"].readIfPresent()
+        value.displayFormatOptions = try reader["DisplayFormatOptions"].readIfPresent(with: QuickSightClientTypes.DisplayFormatOptions.read(from:))
+        value.namedEntity = try reader["NamedEntity"].readIfPresent(with: QuickSightClientTypes.NamedEntityRef.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.TopicIRComparisonMethod {
+
+    static func write(value: QuickSightClientTypes.TopicIRComparisonMethod?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Period"].write(value.period)
+        try writer["Type"].write(value.type)
+        try writer["WindowSize"].write(value.windowSize)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TopicIRComparisonMethod {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.TopicIRComparisonMethod()
+        value.type = try reader["Type"].readIfPresent()
+        value.period = try reader["Period"].readIfPresent()
+        value.windowSize = try reader["WindowSize"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension QuickSightClientTypes.AggFunction {
+
+    static func write(value: QuickSightClientTypes.AggFunction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Aggregation"].write(value.aggregation)
+        try writer["AggregationFunctionParameters"].writeMap(value.aggregationFunctionParameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["Period"].write(value.period)
+        try writer["PeriodField"].write(value.periodField)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AggFunction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.AggFunction()
+        value.aggregation = try reader["Aggregation"].readIfPresent()
+        value.aggregationFunctionParameters = try reader["AggregationFunctionParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.period = try reader["Period"].readIfPresent()
+        value.periodField = try reader["PeriodField"].readIfPresent()
+        return value
+    }
+}
+
 extension QuickSightClientTypes.TopicSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TopicSummary {
@@ -62400,6 +64714,19 @@ extension QuickSightClientTypes.SuccessfulKeyRegistrationEntry {
         value.keyArn = try reader["KeyArn"].readIfPresent()
         value.statusCode = try reader["StatusCode"].readIfPresent() ?? 0
         return value
+    }
+}
+
+extension QuickSightClientTypes.CreateTopicReviewedAnswer {
+
+    static func write(value: QuickSightClientTypes.CreateTopicReviewedAnswer?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AnswerId"].write(value.answerId)
+        try writer["DatasetArn"].write(value.datasetArn)
+        try writer["Mir"].write(value.mir, with: QuickSightClientTypes.TopicIR.write(value:to:))
+        try writer["PrimaryVisual"].write(value.primaryVisual, with: QuickSightClientTypes.TopicVisual.write(value:to:))
+        try writer["Question"].write(value.question)
+        try writer["Template"].write(value.template, with: QuickSightClientTypes.TopicTemplate.write(value:to:))
     }
 }
 

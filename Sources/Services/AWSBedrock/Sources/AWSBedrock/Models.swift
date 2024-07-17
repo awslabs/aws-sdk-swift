@@ -1013,11 +1013,7 @@ extension BedrockClientTypes {
     /// * Violence – Describes language or a statement that includes glorification of or threats to inflict physical pain, hurt, or injury toward a person, group or thing.
     ///
     ///
-    /// Content filtering depends on the confidence classification of user inputs and FM responses across each of the four harmful categories. All input and output statements are classified into one of four confidence levels (NONE, LOW, MEDIUM, HIGH) for each harmful category. For example, if a statement is classified as Hate with HIGH confidence, the likelihood of the statement representing hateful content is high. A single statement can be classified across multiple categories with varying confidence levels. For example, a single statement can be classified as Hate with HIGH confidence, Insults with LOW confidence, Sexual with NONE confidence, and Violence with MEDIUM confidence. For more information, see [Guardrails content filters](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-filters.html). This data type is used in the following API operations:
-    ///
-    /// * [CreateGuardrail request body](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_CreateGuardrail.html#API_CreateGuardrail_RequestSyntax)
-    ///
-    /// * [UpdateGuardrail request body](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_UpdateGuardrail.html#API_UpdateGuardrail_RequestSyntax)
+    /// Content filtering depends on the confidence classification of user inputs and FM responses across each of the four harmful categories. All input and output statements are classified into one of four confidence levels (NONE, LOW, MEDIUM, HIGH) for each harmful category. For example, if a statement is classified as Hate with HIGH confidence, the likelihood of the statement representing hateful content is high. A single statement can be classified across multiple categories with varying confidence levels. For example, a single statement can be classified as Hate with HIGH confidence, Insults with LOW confidence, Sexual with NONE confidence, and Violence with MEDIUM confidence. For more information, see [Guardrails content filters](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-filters.html).
     public struct GuardrailContentFilterConfig {
         /// The strength of the content filter to apply to prompts. As you increase the filter strength, the likelihood of filtering harmful content increases and the probability of seeing harmful content in your application reduces.
         /// This member is required.
@@ -1044,11 +1040,7 @@ extension BedrockClientTypes {
 }
 
 extension BedrockClientTypes {
-    /// Contains details about how to handle harmful content. This data type is used in the following API operations:
-    ///
-    /// * [CreateGuardrail request body](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_CreateGuardrail.html#API_CreateGuardrail_RequestSyntax)
-    ///
-    /// * [UpdateGuardrail request body](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_UpdateGuardrail.html#API_UpdateGuardrail_RequestSyntax)
+    /// Contains details about how to handle harmful content.
     public struct GuardrailContentPolicyConfig {
         /// Contains the type of the content filter and how strongly it should apply to prompts and model responses.
         /// This member is required.
@@ -1056,6 +1048,74 @@ extension BedrockClientTypes {
 
         public init(
             filtersConfig: [BedrockClientTypes.GuardrailContentFilterConfig]? = nil
+        )
+        {
+            self.filtersConfig = filtersConfig
+        }
+    }
+
+}
+
+extension BedrockClientTypes {
+
+    public enum GuardrailContextualGroundingFilterType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case grounding
+        case relevance
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailContextualGroundingFilterType] {
+            return [
+                .grounding,
+                .relevance
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .grounding: return "GROUNDING"
+            case .relevance: return "RELEVANCE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockClientTypes {
+    /// The filter configuration details for the guardrails contextual grounding filter.
+    public struct GuardrailContextualGroundingFilterConfig {
+        /// The threshold details for the guardrails contextual grounding filter.
+        /// This member is required.
+        public var threshold: Swift.Double?
+        /// The filter details for the guardrails contextual grounding filter.
+        /// This member is required.
+        public var type: BedrockClientTypes.GuardrailContextualGroundingFilterType?
+
+        public init(
+            threshold: Swift.Double? = nil,
+            type: BedrockClientTypes.GuardrailContextualGroundingFilterType? = nil
+        )
+        {
+            self.threshold = threshold
+            self.type = type
+        }
+    }
+
+}
+
+extension BedrockClientTypes {
+    /// The policy configuration details for the guardrails contextual grounding policy.
+    public struct GuardrailContextualGroundingPolicyConfig {
+        /// The filter configuration details for the guardrails contextual grounding policy.
+        /// This member is required.
+        public var filtersConfig: [BedrockClientTypes.GuardrailContextualGroundingFilterConfig]?
+
+        public init(
+            filtersConfig: [BedrockClientTypes.GuardrailContextualGroundingFilterConfig]? = nil
         )
         {
             self.filtersConfig = filtersConfig
@@ -1215,7 +1275,103 @@ extension BedrockClientTypes {
         /// Configure guardrail action when the PII entity is detected.
         /// This member is required.
         public var action: BedrockClientTypes.GuardrailSensitiveInformationAction?
-        /// Configure guardrail type when the PII entity is detected.
+        /// Configure guardrail type when the PII entity is detected. The following PIIs are used to block or mask sensitive information:
+        ///
+        /// * General
+        ///
+        /// * ADDRESS A physical address, such as "100 Main Street, Anytown, USA" or "Suite #12, Building 123". An address can include information such as the street, building, location, city, state, country, county, zip code, precinct, and neighborhood.
+        ///
+        /// * AGE An individual's age, including the quantity and unit of time. For example, in the phrase "I am 40 years old," Guarrails recognizes "40 years" as an age.
+        ///
+        /// * NAME An individual's name. This entity type does not include titles, such as Dr., Mr., Mrs., or Miss. guardrails doesn't apply this entity type to names that are part of organizations or addresses. For example, guardrails recognizes the "John Doe Organization" as an organization, and it recognizes "Jane Doe Street" as an address.
+        ///
+        /// * EMAIL An email address, such as marymajor@email.com.
+        ///
+        /// * PHONE A phone number. This entity type also includes fax and pager numbers.
+        ///
+        /// * USERNAME A user name that identifies an account, such as a login name, screen name, nick name, or handle.
+        ///
+        /// * PASSWORD An alphanumeric string that is used as a password, such as "*very20special#pass*".
+        ///
+        /// * DRIVER_ID The number assigned to a driver's license, which is an official document permitting an individual to operate one or more motorized vehicles on a public road. A driver's license number consists of alphanumeric characters.
+        ///
+        /// * LICENSE_PLATE A license plate for a vehicle is issued by the state or country where the vehicle is registered. The format for passenger vehicles is typically five to eight digits, consisting of upper-case letters and numbers. The format varies depending on the location of the issuing state or country.
+        ///
+        /// * VEHICLE_IDENTIFICATION_NUMBER A Vehicle Identification Number (VIN) uniquely identifies a vehicle. VIN content and format are defined in the ISO 3779 specification. Each country has specific codes and formats for VINs.
+        ///
+        ///
+        ///
+        ///
+        /// * Finance
+        ///
+        /// * REDIT_DEBIT_CARD_CVV A three-digit card verification code (CVV) that is present on VISA, MasterCard, and Discover credit and debit cards. For American Express credit or debit cards, the CVV is a four-digit numeric code.
+        ///
+        /// * CREDIT_DEBIT_CARD_EXPIRY The expiration date for a credit or debit card. This number is usually four digits long and is often formatted as month/year or MM/YY. Guardrails recognizes expiration dates such as 01/21, 01/2021, and Jan 2021.
+        ///
+        /// * CREDIT_DEBIT_CARD_NUMBER The number for a credit or debit card. These numbers can vary from 13 to 16 digits in length. However, Amazon Comprehend also recognizes credit or debit card numbers when only the last four digits are present.
+        ///
+        /// * PIN A four-digit personal identification number (PIN) with which you can access your bank account.
+        ///
+        /// * INTERNATIONAL_BANK_ACCOUNT_NUMBER An International Bank Account Number has specific formats in each country. For more information, see [www.iban.com/structure](https://www.iban.com/structure).
+        ///
+        /// * SWIFT_CODE A SWIFT code is a standard format of Bank Identifier Code (BIC) used to specify a particular bank or branch. Banks use these codes for money transfers such as international wire transfers. SWIFT codes consist of eight or 11 characters. The 11-digit codes refer to specific branches, while eight-digit codes (or 11-digit codes ending in 'XXX') refer to the head or primary office.
+        ///
+        ///
+        ///
+        ///
+        /// * IT
+        ///
+        /// * IP_ADDRESS An IPv4 address, such as 198.51.100.0.
+        ///
+        /// * MAC_ADDRESS A media access control (MAC) address is a unique identifier assigned to a network interface controller (NIC).
+        ///
+        /// * URL A web address, such as www.example.com.
+        ///
+        /// * AWS_ACCESS_KEY A unique identifier that's associated with a secret access key; you use the access key ID and secret access key to sign programmatic Amazon Web Services requests cryptographically.
+        ///
+        /// * AWS_SECRET_KEY A unique identifier that's associated with an access key. You use the access key ID and secret access key to sign programmatic Amazon Web Services requests cryptographically.
+        ///
+        ///
+        ///
+        ///
+        /// * USA specific
+        ///
+        /// * US_BANK_ACCOUNT_NUMBER A US bank account number, which is typically 10 to 12 digits long.
+        ///
+        /// * US_BANK_ROUTING_NUMBER A US bank account routing number. These are typically nine digits long,
+        ///
+        /// * US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER A US Individual Taxpayer Identification Number (ITIN) is a nine-digit number that starts with a "9" and contain a "7" or "8" as the fourth digit. An ITIN can be formatted with a space or a dash after the third and forth digits.
+        ///
+        /// * US_PASSPORT_NUMBER A US passport number. Passport numbers range from six to nine alphanumeric characters.
+        ///
+        /// * US_SOCIAL_SECURITY_NUMBER A US Social Security Number (SSN) is a nine-digit number that is issued to US citizens, permanent residents, and temporary working residents.
+        ///
+        ///
+        ///
+        ///
+        /// * Canada specific
+        ///
+        /// * CA_HEALTH_NUMBER A Canadian Health Service Number is a 10-digit unique identifier, required for individuals to access healthcare benefits.
+        ///
+        /// * CA_SOCIAL_INSURANCE_NUMBER A Canadian Social Insurance Number (SIN) is a nine-digit unique identifier, required for individuals to access government programs and benefits. The SIN is formatted as three groups of three digits, such as 123-456-789. A SIN can be validated through a simple check-digit process called the [Luhn algorithm](https://www.wikipedia.org/wiki/Luhn_algorithm).
+        ///
+        ///
+        ///
+        ///
+        /// * UK Specific
+        ///
+        /// * UK_NATIONAL_HEALTH_SERVICE_NUMBER A UK National Health Service Number is a 10-17 digit number, such as 485 777 3456. The current system formats the 10-digit number with spaces after the third and sixth digits. The final digit is an error-detecting checksum.
+        ///
+        /// * UK_NATIONAL_INSURANCE_NUMBER A UK National Insurance Number (NINO) provides individuals with access to National Insurance (social security) benefits. It is also used for some purposes in the UK tax system. The number is nine digits long and starts with two letters, followed by six numbers and one letter. A NINO can be formatted with a space or a dash after the two letters and after the second, forth, and sixth digits.
+        ///
+        /// * UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER A UK Unique Taxpayer Reference (UTR) is a 10-digit number that identifies a taxpayer or a business.
+        ///
+        ///
+        ///
+        ///
+        /// * Custom
+        ///
+        /// * Regex filter - You can use a regular expressions to define patterns for a guardrail to recognize and act upon such as serial number, booking ID etc..
         /// This member is required.
         public var type: BedrockClientTypes.GuardrailPiiEntityType?
 
@@ -1309,11 +1465,7 @@ extension BedrockClientTypes {
 }
 
 extension BedrockClientTypes {
-    /// Details about topics for the guardrail to identify and deny. This data type is used in the following API operations:
-    ///
-    /// * [CreateGuardrail request body](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_CreateGuardrail.html#API_CreateGuardrail_RequestSyntax)
-    ///
-    /// * [UpdateGuardrail request body](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_UpdateGuardrail.html#API_UpdateGuardrail_RequestSyntax)
+    /// Details about topics for the guardrail to identify and deny.
     public struct GuardrailTopicConfig {
         /// A definition of the topic to deny.
         /// This member is required.
@@ -1349,11 +1501,7 @@ extension BedrockClientTypes.GuardrailTopicConfig: Swift.CustomDebugStringConver
 }
 
 extension BedrockClientTypes {
-    /// Contains details about topics that the guardrail should identify and deny. This data type is used in the following API operations:
-    ///
-    /// * [CreateGuardrail request body](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_CreateGuardrail.html#API_CreateGuardrail_RequestSyntax)
-    ///
-    /// * [UpdateGuardrail request body](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_UpdateGuardrail.html#API_UpdateGuardrail_RequestSyntax)
+    /// Contains details about topics that the guardrail should identify and deny.
     public struct GuardrailTopicPolicyConfig {
         /// A list of policies related to topics that the guardrail should deny.
         /// This member is required.
@@ -1460,6 +1608,8 @@ public struct CreateGuardrailInput {
     public var clientRequestToken: Swift.String?
     /// The content filter policies to configure for the guardrail.
     public var contentPolicyConfig: BedrockClientTypes.GuardrailContentPolicyConfig?
+    /// The contextual grounding policy configuration used to create a guardrail.
+    public var contextualGroundingPolicyConfig: BedrockClientTypes.GuardrailContextualGroundingPolicyConfig?
     /// A description of the guardrail.
     public var description: Swift.String?
     /// The ARN of the KMS key that you use to encrypt the guardrail.
@@ -1481,6 +1631,7 @@ public struct CreateGuardrailInput {
         blockedOutputsMessaging: Swift.String? = nil,
         clientRequestToken: Swift.String? = nil,
         contentPolicyConfig: BedrockClientTypes.GuardrailContentPolicyConfig? = nil,
+        contextualGroundingPolicyConfig: BedrockClientTypes.GuardrailContextualGroundingPolicyConfig? = nil,
         description: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -1494,6 +1645,7 @@ public struct CreateGuardrailInput {
         self.blockedOutputsMessaging = blockedOutputsMessaging
         self.clientRequestToken = clientRequestToken
         self.contentPolicyConfig = contentPolicyConfig
+        self.contextualGroundingPolicyConfig = contextualGroundingPolicyConfig
         self.description = description
         self.kmsKeyId = kmsKeyId
         self.name = name
@@ -1506,20 +1658,20 @@ public struct CreateGuardrailInput {
 
 extension CreateGuardrailInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateGuardrailInput(clientRequestToken: \(Swift.String(describing: clientRequestToken)), contentPolicyConfig: \(Swift.String(describing: contentPolicyConfig)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), sensitiveInformationPolicyConfig: \(Swift.String(describing: sensitiveInformationPolicyConfig)), tags: \(Swift.String(describing: tags)), topicPolicyConfig: \(Swift.String(describing: topicPolicyConfig)), wordPolicyConfig: \(Swift.String(describing: wordPolicyConfig)), blockedInputMessaging: \"CONTENT_REDACTED\", blockedOutputsMessaging: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CreateGuardrailInput(clientRequestToken: \(Swift.String(describing: clientRequestToken)), contentPolicyConfig: \(Swift.String(describing: contentPolicyConfig)), contextualGroundingPolicyConfig: \(Swift.String(describing: contextualGroundingPolicyConfig)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), sensitiveInformationPolicyConfig: \(Swift.String(describing: sensitiveInformationPolicyConfig)), tags: \(Swift.String(describing: tags)), topicPolicyConfig: \(Swift.String(describing: topicPolicyConfig)), wordPolicyConfig: \(Swift.String(describing: wordPolicyConfig)), blockedInputMessaging: \"CONTENT_REDACTED\", blockedOutputsMessaging: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateGuardrailOutput {
     /// The time at which the guardrail was created.
     /// This member is required.
     public var createdAt: Foundation.Date?
-    /// The ARN of the guardrail that was created.
+    /// The ARN of the guardrail.
     /// This member is required.
     public var guardrailArn: Swift.String?
     /// The unique identifier of the guardrail that was created.
     /// This member is required.
     public var guardrailId: Swift.String?
-    /// The version of the guardrail that was created. This value should be 1.
+    /// The version of the guardrail that was created. This value will always be DRAFT.
     /// This member is required.
     public var version: Swift.String?
 
@@ -1542,7 +1694,7 @@ public struct CreateGuardrailVersionInput {
     public var clientRequestToken: Swift.String?
     /// A description of the guardrail version.
     public var description: Swift.String?
-    /// The unique identifier of the guardrail.
+    /// The unique identifier of the guardrail. This can be an ID or the ARN.
     /// This member is required.
     public var guardrailIdentifier: Swift.String?
 
@@ -1582,7 +1734,7 @@ public struct CreateGuardrailVersionOutput {
 }
 
 public struct DeleteGuardrailInput {
-    /// The unique identifier of the guardrail.
+    /// The unique identifier of the guardrail. This can be an ID or the ARN.
     /// This member is required.
     public var guardrailIdentifier: Swift.String?
     /// The version of the guardrail.
@@ -1604,7 +1756,7 @@ public struct DeleteGuardrailOutput {
 }
 
 public struct GetGuardrailInput {
-    /// The unique identifier of the guardrail for which to get details.
+    /// The unique identifier of the guardrail for which to get details. This can be an ID or the ARN.
     /// This member is required.
     public var guardrailIdentifier: Swift.String?
     /// The version of the guardrail for which to get details. If you don't specify a version, the response returns details for the DRAFT version.
@@ -1670,6 +1822,45 @@ extension BedrockClientTypes {
 
         public init(
             filters: [BedrockClientTypes.GuardrailContentFilter]? = nil
+        )
+        {
+            self.filters = filters
+        }
+    }
+
+}
+
+extension BedrockClientTypes {
+    /// The details for the guardrails contextual grounding filter.
+    public struct GuardrailContextualGroundingFilter {
+        /// The threshold details for the guardrails contextual grounding filter.
+        /// This member is required.
+        public var threshold: Swift.Double?
+        /// The filter type details for the guardrails contextual grounding filter.
+        /// This member is required.
+        public var type: BedrockClientTypes.GuardrailContextualGroundingFilterType?
+
+        public init(
+            threshold: Swift.Double? = nil,
+            type: BedrockClientTypes.GuardrailContextualGroundingFilterType? = nil
+        )
+        {
+            self.threshold = threshold
+            self.type = type
+        }
+    }
+
+}
+
+extension BedrockClientTypes {
+    /// The details for the guardrails contextual grounding policy.
+    public struct GuardrailContextualGroundingPolicy {
+        /// The filter details for the guardrails contextual grounding policy.
+        /// This member is required.
+        public var filters: [BedrockClientTypes.GuardrailContextualGroundingFilter]?
+
+        public init(
+            filters: [BedrockClientTypes.GuardrailContextualGroundingFilter]? = nil
         )
         {
             self.filters = filters
@@ -1849,7 +2040,7 @@ extension BedrockClientTypes {
 }
 
 extension BedrockClientTypes {
-    /// The managed word list that was configured for the guardrail. (This is a list of words that are pre-defined and managed by Guardrails only.)
+    /// The managed word list that was configured for the guardrail. (This is a list of words that are pre-defined and managed by guardrails only.)
     public struct GuardrailManagedWords {
         /// ManagedWords$type The managed word type that was configured for the guardrail. (For now, we only offer profanity word list)
         /// This member is required.
@@ -1911,6 +2102,8 @@ public struct GetGuardrailOutput {
     public var blockedOutputsMessaging: Swift.String?
     /// The content policy that was configured for the guardrail.
     public var contentPolicy: BedrockClientTypes.GuardrailContentPolicy?
+    /// The contextual grounding policy used in the guardrail.
+    public var contextualGroundingPolicy: BedrockClientTypes.GuardrailContextualGroundingPolicy?
     /// The date and time at which the guardrail was created.
     /// This member is required.
     public var createdAt: Foundation.Date?
@@ -1918,7 +2111,7 @@ public struct GetGuardrailOutput {
     public var description: Swift.String?
     /// Appears if the status of the guardrail is FAILED. A list of recommendations to carry out before retrying the request.
     public var failureRecommendations: [Swift.String]?
-    /// The ARN of the guardrail that was created.
+    /// The ARN of the guardrail.
     /// This member is required.
     public var guardrailArn: Swift.String?
     /// The unique identifier of the guardrail.
@@ -1951,6 +2144,7 @@ public struct GetGuardrailOutput {
         blockedInputMessaging: Swift.String? = nil,
         blockedOutputsMessaging: Swift.String? = nil,
         contentPolicy: BedrockClientTypes.GuardrailContentPolicy? = nil,
+        contextualGroundingPolicy: BedrockClientTypes.GuardrailContextualGroundingPolicy? = nil,
         createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
         failureRecommendations: [Swift.String]? = nil,
@@ -1970,6 +2164,7 @@ public struct GetGuardrailOutput {
         self.blockedInputMessaging = blockedInputMessaging
         self.blockedOutputsMessaging = blockedOutputsMessaging
         self.contentPolicy = contentPolicy
+        self.contextualGroundingPolicy = contextualGroundingPolicy
         self.createdAt = createdAt
         self.description = description
         self.failureRecommendations = failureRecommendations
@@ -1989,11 +2184,11 @@ public struct GetGuardrailOutput {
 
 extension GetGuardrailOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetGuardrailOutput(contentPolicy: \(Swift.String(describing: contentPolicy)), createdAt: \(Swift.String(describing: createdAt)), failureRecommendations: \(Swift.String(describing: failureRecommendations)), guardrailArn: \(Swift.String(describing: guardrailArn)), guardrailId: \(Swift.String(describing: guardrailId)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), sensitiveInformationPolicy: \(Swift.String(describing: sensitiveInformationPolicy)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), topicPolicy: \(Swift.String(describing: topicPolicy)), updatedAt: \(Swift.String(describing: updatedAt)), version: \(Swift.String(describing: version)), wordPolicy: \(Swift.String(describing: wordPolicy)), blockedInputMessaging: \"CONTENT_REDACTED\", blockedOutputsMessaging: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "GetGuardrailOutput(contentPolicy: \(Swift.String(describing: contentPolicy)), contextualGroundingPolicy: \(Swift.String(describing: contextualGroundingPolicy)), createdAt: \(Swift.String(describing: createdAt)), failureRecommendations: \(Swift.String(describing: failureRecommendations)), guardrailArn: \(Swift.String(describing: guardrailArn)), guardrailId: \(Swift.String(describing: guardrailId)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), sensitiveInformationPolicy: \(Swift.String(describing: sensitiveInformationPolicy)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), topicPolicy: \(Swift.String(describing: topicPolicy)), updatedAt: \(Swift.String(describing: updatedAt)), version: \(Swift.String(describing: version)), wordPolicy: \(Swift.String(describing: wordPolicy)), blockedInputMessaging: \"CONTENT_REDACTED\", blockedOutputsMessaging: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListGuardrailsInput {
-    /// The unique identifier of the guardrail.
+    /// The unique identifier of the guardrail. This can be an ID or the ARN.
     public var guardrailIdentifier: Swift.String?
     /// The maximum number of results to return in the response.
     public var maxResults: Swift.Int?
@@ -2096,9 +2291,11 @@ public struct UpdateGuardrailInput {
     public var blockedOutputsMessaging: Swift.String?
     /// The content policy to configure for the guardrail.
     public var contentPolicyConfig: BedrockClientTypes.GuardrailContentPolicyConfig?
+    /// The contextual grounding policy configuration used to update a guardrail.
+    public var contextualGroundingPolicyConfig: BedrockClientTypes.GuardrailContextualGroundingPolicyConfig?
     /// A description of the guardrail.
     public var description: Swift.String?
-    /// The unique identifier of the guardrail
+    /// The unique identifier of the guardrail. This can be an ID or the ARN.
     /// This member is required.
     public var guardrailIdentifier: Swift.String?
     /// The ARN of the KMS key with which to encrypt the guardrail.
@@ -2117,6 +2314,7 @@ public struct UpdateGuardrailInput {
         blockedInputMessaging: Swift.String? = nil,
         blockedOutputsMessaging: Swift.String? = nil,
         contentPolicyConfig: BedrockClientTypes.GuardrailContentPolicyConfig? = nil,
+        contextualGroundingPolicyConfig: BedrockClientTypes.GuardrailContextualGroundingPolicyConfig? = nil,
         description: Swift.String? = nil,
         guardrailIdentifier: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
@@ -2129,6 +2327,7 @@ public struct UpdateGuardrailInput {
         self.blockedInputMessaging = blockedInputMessaging
         self.blockedOutputsMessaging = blockedOutputsMessaging
         self.contentPolicyConfig = contentPolicyConfig
+        self.contextualGroundingPolicyConfig = contextualGroundingPolicyConfig
         self.description = description
         self.guardrailIdentifier = guardrailIdentifier
         self.kmsKeyId = kmsKeyId
@@ -2141,11 +2340,11 @@ public struct UpdateGuardrailInput {
 
 extension UpdateGuardrailInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateGuardrailInput(contentPolicyConfig: \(Swift.String(describing: contentPolicyConfig)), guardrailIdentifier: \(Swift.String(describing: guardrailIdentifier)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), sensitiveInformationPolicyConfig: \(Swift.String(describing: sensitiveInformationPolicyConfig)), topicPolicyConfig: \(Swift.String(describing: topicPolicyConfig)), wordPolicyConfig: \(Swift.String(describing: wordPolicyConfig)), blockedInputMessaging: \"CONTENT_REDACTED\", blockedOutputsMessaging: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "UpdateGuardrailInput(contentPolicyConfig: \(Swift.String(describing: contentPolicyConfig)), contextualGroundingPolicyConfig: \(Swift.String(describing: contextualGroundingPolicyConfig)), guardrailIdentifier: \(Swift.String(describing: guardrailIdentifier)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), sensitiveInformationPolicyConfig: \(Swift.String(describing: sensitiveInformationPolicyConfig)), topicPolicyConfig: \(Swift.String(describing: topicPolicyConfig)), wordPolicyConfig: \(Swift.String(describing: wordPolicyConfig)), blockedInputMessaging: \"CONTENT_REDACTED\", blockedOutputsMessaging: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateGuardrailOutput {
-    /// The ARN of the guardrail that was created.
+    /// The ARN of the guardrail.
     /// This member is required.
     public var guardrailArn: Swift.String?
     /// The unique identifier of the guardrail
@@ -4371,6 +4570,7 @@ extension CreateGuardrailInput {
         try writer["blockedOutputsMessaging"].write(value.blockedOutputsMessaging)
         try writer["clientRequestToken"].write(value.clientRequestToken)
         try writer["contentPolicyConfig"].write(value.contentPolicyConfig, with: BedrockClientTypes.GuardrailContentPolicyConfig.write(value:to:))
+        try writer["contextualGroundingPolicyConfig"].write(value.contextualGroundingPolicyConfig, with: BedrockClientTypes.GuardrailContextualGroundingPolicyConfig.write(value:to:))
         try writer["description"].write(value.description)
         try writer["kmsKeyId"].write(value.kmsKeyId)
         try writer["name"].write(value.name)
@@ -4465,6 +4665,7 @@ extension UpdateGuardrailInput {
         try writer["blockedInputMessaging"].write(value.blockedInputMessaging)
         try writer["blockedOutputsMessaging"].write(value.blockedOutputsMessaging)
         try writer["contentPolicyConfig"].write(value.contentPolicyConfig, with: BedrockClientTypes.GuardrailContentPolicyConfig.write(value:to:))
+        try writer["contextualGroundingPolicyConfig"].write(value.contextualGroundingPolicyConfig, with: BedrockClientTypes.GuardrailContextualGroundingPolicyConfig.write(value:to:))
         try writer["description"].write(value.description)
         try writer["kmsKeyId"].write(value.kmsKeyId)
         try writer["name"].write(value.name)
@@ -4646,6 +4847,7 @@ extension GetGuardrailOutput {
         value.blockedInputMessaging = try reader["blockedInputMessaging"].readIfPresent()
         value.blockedOutputsMessaging = try reader["blockedOutputsMessaging"].readIfPresent()
         value.contentPolicy = try reader["contentPolicy"].readIfPresent(with: BedrockClientTypes.GuardrailContentPolicy.read(from:))
+        value.contextualGroundingPolicy = try reader["contextualGroundingPolicy"].readIfPresent(with: BedrockClientTypes.GuardrailContextualGroundingPolicy.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: .dateTime)
         value.description = try reader["description"].readIfPresent()
         value.failureRecommendations = try reader["failureRecommendations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -5991,6 +6193,27 @@ extension BedrockClientTypes.GuardrailPiiEntity {
     }
 }
 
+extension BedrockClientTypes.GuardrailContextualGroundingPolicy {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.GuardrailContextualGroundingPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.GuardrailContextualGroundingPolicy()
+        value.filters = try reader["filters"].readListIfPresent(memberReadingClosure: BedrockClientTypes.GuardrailContextualGroundingFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockClientTypes.GuardrailContextualGroundingFilter {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.GuardrailContextualGroundingFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.GuardrailContextualGroundingFilter()
+        value.type = try reader["type"].readIfPresent()
+        value.threshold = try reader["threshold"].readIfPresent()
+        return value
+    }
+}
+
 extension BedrockClientTypes.VpcConfig {
 
     static func write(value: BedrockClientTypes.VpcConfig?, to writer: SmithyJSON.Writer) throws {
@@ -6278,6 +6501,23 @@ extension BedrockClientTypes.GuardrailPiiEntityConfig {
     static func write(value: BedrockClientTypes.GuardrailPiiEntityConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["action"].write(value.action)
+        try writer["type"].write(value.type)
+    }
+}
+
+extension BedrockClientTypes.GuardrailContextualGroundingPolicyConfig {
+
+    static func write(value: BedrockClientTypes.GuardrailContextualGroundingPolicyConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filtersConfig"].writeList(value.filtersConfig, memberWritingClosure: BedrockClientTypes.GuardrailContextualGroundingFilterConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BedrockClientTypes.GuardrailContextualGroundingFilterConfig {
+
+    static func write(value: BedrockClientTypes.GuardrailContextualGroundingFilterConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["threshold"].write(value.threshold)
         try writer["type"].write(value.type)
     }
 }

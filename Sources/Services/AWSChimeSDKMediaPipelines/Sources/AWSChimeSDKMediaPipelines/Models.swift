@@ -374,7 +374,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
 }
 
 extension ChimeSDKMediaPipelinesClientTypes {
-    /// A structure that contains the configuration settings for an Amazon Transcribe processor.
+    /// A structure that contains the configuration settings for an Amazon Transcribe processor. Calls to this API must include a LanguageCode, IdentifyLanguage, or IdentifyMultipleLanguages parameter. If you include more than one of those parameters, your transcription job fails.
     public struct AmazonTranscribeProcessorConfiguration {
         /// Labels all personally identifiable information (PII) identified in your transcript. Content identification is performed at the segment level; PII specified in PiiEntityTypes is flagged upon complete transcription of an audio segment. You can’t set ContentIdentificationType and ContentRedactionType in the same request. If you set both, your request returns a BadRequestException. For more information, see [Redacting or identifying personally identifiable information](https://docs.aws.amazon.com/transcribe/latest/dg/pii-redaction.html) in the Amazon Transcribe Developer Guide.
         public var contentIdentificationType: ChimeSDKMediaPipelinesClientTypes.ContentType?
@@ -386,6 +386,8 @@ extension ChimeSDKMediaPipelinesClientTypes {
         public var filterPartialResults: Swift.Bool
         /// Turns language identification on or off.
         public var identifyLanguage: Swift.Bool
+        /// Turns language identification on or off for multiple languages.
+        public var identifyMultipleLanguages: Swift.Bool
         /// The language code that represents the language spoken in your audio. If you're unsure of the language spoken in your audio, consider using IdentifyLanguage to enable automatic language identification. For a list of languages that real-time Call Analytics supports, see the [Supported languages table](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html) in the Amazon Transcribe Developer Guide.
         public var languageCode: ChimeSDKMediaPipelinesClientTypes.CallAnalyticsLanguageCode?
         /// The name of the custom language model that you want to use when processing your transcription. Note that language model names are case sensitive. The language of the specified language model must match the language code you specify in your transcription request. If the languages don't match, the custom language model isn't applied. There are no errors or warnings associated with a language mismatch. For more information, see [Custom language models](https://docs.aws.amazon.com/transcribe/latest/dg/custom-language-models.html) in the Amazon Transcribe Developer Guide.
@@ -417,6 +419,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
             enablePartialResultsStabilization: Swift.Bool = false,
             filterPartialResults: Swift.Bool = false,
             identifyLanguage: Swift.Bool = false,
+            identifyMultipleLanguages: Swift.Bool = false,
             languageCode: ChimeSDKMediaPipelinesClientTypes.CallAnalyticsLanguageCode? = nil,
             languageModelName: Swift.String? = nil,
             languageOptions: Swift.String? = nil,
@@ -436,6 +439,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
             self.enablePartialResultsStabilization = enablePartialResultsStabilization
             self.filterPartialResults = filterPartialResults
             self.identifyLanguage = identifyLanguage
+            self.identifyMultipleLanguages = identifyMultipleLanguages
             self.languageCode = languageCode
             self.languageModelName = languageModelName
             self.languageOptions = languageOptions
@@ -3587,7 +3591,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 extension ChimeSDKMediaPipelinesClientTypes {
-    /// The configuration of an Kinesis video stream.
+    /// The configuration of an Kinesis video stream. If a meeting uses an opt-in Region as its [MediaRegion](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_CreateMeeting.html#chimesdk-meeting-chime_CreateMeeting-request-MediaRegion), the KVS stream must be in that same Region. For example, if a meeting uses the af-south-1 Region, the KVS stream must also be in af-south-1. However, if the meeting uses a Region that AWS turns on by default, the KVS stream can be in any available Region, including an opt-in Region. For example, if the meeting uses ca-central-1, the KVS stream can be in eu-west-2, us-east-1, af-south-1, or any other Region that the Amazon Chime SDK supports. To learn which AWS Region a meeting uses, call the [GetMeeting](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_GetMeeting.html) API and use the [MediaRegion](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_CreateMeeting.html#chimesdk-meeting-chime_CreateMeeting-request-MediaRegion) parameter from the response. For more information about opt-in Regions, refer to [Available Regions](https://docs.aws.amazon.com/chime-sdk/latest/dg/sdk-available-regions.html) in the Amazon Chime SDK Developer Guide, and [Specify which AWS Regions your account can use](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-regions.html#rande-manage-enable.html), in the AWS Account Management Reference Guide.
     public struct KinesisVideoStreamConfiguration {
         /// The amount of time that data is retained.
         public var dataRetentionInHours: Swift.Int?
@@ -3610,13 +3614,13 @@ extension ChimeSDKMediaPipelinesClientTypes {
 public struct CreateMediaPipelineKinesisVideoStreamPoolInput {
     /// The token assigned to the client making the request.
     public var clientRequestToken: Swift.String?
-    /// The name of the video stream pool.
+    /// The name of the pool.
     /// This member is required.
     public var poolName: Swift.String?
-    /// The configuration settings for the video stream.
+    /// The configuration settings for the stream.
     /// This member is required.
     public var streamConfiguration: ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamConfiguration?
-    /// The tags assigned to the video stream pool.
+    /// The tags assigned to the stream pool.
     public var tags: [ChimeSDKMediaPipelinesClientTypes.Tag]?
 
     public init(
@@ -3726,7 +3730,7 @@ extension ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamPoolConfiguration:
 }
 
 public struct CreateMediaPipelineKinesisVideoStreamPoolOutput {
-    /// The configuration for the Kinesis video stream pool.
+    /// The configuration for applying the streams to the pool.
     public var kinesisVideoStreamPoolConfiguration: ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamPoolConfiguration?
 
     public init(
@@ -3801,7 +3805,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// Specifies the number of streams that the sink can accept.
         /// This member is required.
         public var reservedStreamCapacity: Swift.Int?
-        /// The ARN of the media stream sink.
+        /// The ARN of the Kinesis Video Stream pool returned by the [CreateMediaPipelineKinesisVideoStreamPool] API.
         /// This member is required.
         public var sinkArn: Swift.String?
         /// The media stream sink's type.
@@ -3832,7 +3836,7 @@ extension ChimeSDKMediaPipelinesClientTypes.MediaStreamSink: Swift.CustomDebugSt
 extension ChimeSDKMediaPipelinesClientTypes {
     /// Structure that contains the settings for media stream sources.
     public struct MediaStreamSource {
-        /// The ARN of the media stream source.
+        /// The ARN of the meeting.
         /// This member is required.
         public var sourceArn: Swift.String?
         /// The type of media stream source.
@@ -3979,7 +3983,7 @@ public struct DeleteMediaPipelineInput {
 }
 
 public struct DeleteMediaPipelineKinesisVideoStreamPoolInput {
-    /// The ID of the pool being deleted.
+    /// The unique identifier of the requested resource. Valid values include the name and ARN of the media pipeline Kinesis Video Stream pool.
     /// This member is required.
     public var identifier: Swift.String?
 
@@ -4099,7 +4103,7 @@ public struct GetMediaPipelineOutput {
 }
 
 public struct GetMediaPipelineKinesisVideoStreamPoolInput {
-    /// The ID of the video stream pool.
+    /// The unique identifier of the requested resource. Valid values include the name and ARN of the media pipeline Kinesis Video Stream pool.
     /// This member is required.
     public var identifier: Swift.String?
 
@@ -4859,7 +4863,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
 }
 
 public struct UpdateMediaPipelineKinesisVideoStreamPoolInput {
-    /// The ID of the video stream pool.
+    /// The unique identifier of the requested resource. Valid values include the name and ARN of the media pipeline Kinesis Video Stream pool.
     /// This member is required.
     public var identifier: Swift.String?
     /// The configuration settings for the video stream.
@@ -7407,6 +7411,7 @@ extension ChimeSDKMediaPipelinesClientTypes.AmazonTranscribeProcessorConfigurati
         try writer["EnablePartialResultsStabilization"].write(value.enablePartialResultsStabilization)
         try writer["FilterPartialResults"].write(value.filterPartialResults)
         try writer["IdentifyLanguage"].write(value.identifyLanguage)
+        try writer["IdentifyMultipleLanguages"].write(value.identifyMultipleLanguages)
         try writer["LanguageCode"].write(value.languageCode)
         try writer["LanguageModelName"].write(value.languageModelName)
         try writer["LanguageOptions"].write(value.languageOptions)
@@ -7437,6 +7442,7 @@ extension ChimeSDKMediaPipelinesClientTypes.AmazonTranscribeProcessorConfigurati
         value.languageModelName = try reader["LanguageModelName"].readIfPresent()
         value.filterPartialResults = try reader["FilterPartialResults"].readIfPresent() ?? false
         value.identifyLanguage = try reader["IdentifyLanguage"].readIfPresent() ?? false
+        value.identifyMultipleLanguages = try reader["IdentifyMultipleLanguages"].readIfPresent() ?? false
         value.languageOptions = try reader["LanguageOptions"].readIfPresent()
         value.preferredLanguage = try reader["PreferredLanguage"].readIfPresent()
         value.vocabularyNames = try reader["VocabularyNames"].readIfPresent()

@@ -424,7 +424,7 @@ extension MqClientTypes {
         /// Required. The type of broker engine. Currently, Amazon MQ supports ACTIVEMQ and RABBITMQ.
         /// This member is required.
         public var engineType: MqClientTypes.EngineType?
-        /// Required. The broker engine's version. For a list of supported engine versions, see, [Supported engines](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/broker-engine.html).
+        /// The broker engine version. Defaults to the latest available version for the specified broker engine type. For a list of supported engine versions, see the [ActiveMQ version management](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/activemq-version-management.html) and the [RabbitMQ version management](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/rabbitmq-version-management.html) sections in the Amazon MQ Developer Guide.
         /// This member is required.
         public var engineVersion: Swift.String?
         /// Required. The unique ID that Amazon MQ generates for the configuration.
@@ -1018,8 +1018,7 @@ extension MqClientTypes {
 public struct CreateBrokerInput {
     /// Optional. The authentication strategy used to secure the broker. The default is SIMPLE.
     public var authenticationStrategy: MqClientTypes.AuthenticationStrategy?
-    /// Enables automatic upgrades to new minor versions for brokers, as new versions are released and supported by Amazon MQ. Automatic upgrades occur during the scheduled maintenance window of the broker or after a manual broker reboot. Set to true by default, if no value is specified.
-    /// This member is required.
+    /// Enables automatic upgrades to new patch versions for brokers as new versions are released and supported by Amazon MQ. Automatic upgrades occur during the scheduled maintenance window or after a manual broker reboot. Set to true by default, if no value is specified. Must be set to true for ActiveMQ brokers version 5.18 and above and for RabbitMQ brokers version 3.13 and above.
     public var autoMinorVersionUpgrade: Swift.Bool?
     /// Required. The broker's name. This value must be unique in your Amazon Web Services account, 1-50 characters long, must contain only letters, numbers, dashes, and underscores, and must not contain white spaces, brackets, wildcard characters, or special characters. Do not add personally identifiable information (PII) or other confidential or sensitive information in broker names. Broker names are accessible to other Amazon Web Services services, including CloudWatch Logs. Broker names are not intended to be used for private or sensitive data.
     /// This member is required.
@@ -1040,8 +1039,7 @@ public struct CreateBrokerInput {
     /// Required. The type of broker engine. Currently, Amazon MQ supports ACTIVEMQ and RABBITMQ.
     /// This member is required.
     public var engineType: MqClientTypes.EngineType?
-    /// Required. The broker engine's version. For a list of supported engine versions, see [Supported engines](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/broker-engine.html).
-    /// This member is required.
+    /// The broker engine version. Defaults to the latest available version for the specified broker engine type. For more information, see the [ActiveMQ version management](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/activemq-version-management.html) and the [RabbitMQ version management](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/rabbitmq-version-management.html) sections in the Amazon MQ Developer Guide.
     public var engineVersion: Swift.String?
     /// Required. The broker's instance type.
     /// This member is required.
@@ -1138,8 +1136,7 @@ public struct CreateConfigurationInput {
     /// Required. The type of broker engine. Currently, Amazon MQ supports ACTIVEMQ and RABBITMQ.
     /// This member is required.
     public var engineType: MqClientTypes.EngineType?
-    /// Required. The broker engine's version. For a list of supported engine versions, see [Supported engines](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/broker-engine.html).
-    /// This member is required.
+    /// The broker engine version. Defaults to the latest available version for the specified broker engine type. For more information, see the [ActiveMQ version management](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/activemq-version-management.html) and the [RabbitMQ version management](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/rabbitmq-version-management.html) sections in the Amazon MQ Developer Guide.
     public var engineVersion: Swift.String?
     /// Required. The name of the configuration. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 1-150 characters long.
     /// This member is required.
@@ -1522,7 +1519,7 @@ public struct DescribeBrokerOutput {
     public var actionsRequired: [MqClientTypes.ActionRequired]?
     /// The authentication strategy used to secure the broker. The default is SIMPLE.
     public var authenticationStrategy: MqClientTypes.AuthenticationStrategy?
-    /// Enables automatic upgrades to new minor versions for brokers, as new versions are released and supported by Amazon MQ. Automatic upgrades occur during the scheduled maintenance window of the broker or after a manual broker reboot.
+    /// Enables automatic upgrades to new patch versions for brokers as new versions are released and supported by Amazon MQ. Automatic upgrades occur during the scheduled maintenance window or after a manual broker reboot.
     public var autoMinorVersionUpgrade: Swift.Bool?
     /// The broker's Amazon Resource Name (ARN).
     public var brokerArn: Swift.String?
@@ -1548,7 +1545,7 @@ public struct DescribeBrokerOutput {
     public var encryptionOptions: MqClientTypes.EncryptionOptions?
     /// The type of broker engine. Currently, Amazon MQ supports ACTIVEMQ and RABBITMQ.
     public var engineType: MqClientTypes.EngineType?
-    /// The broker engine's version. For a list of supported engine versions, see [Supported engines](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/broker-engine.html).
+    /// The broker engine version. For more information, see the [ActiveMQ version management](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/activemq-version-management.html) and the [RabbitMQ version management](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/rabbitmq-version-management.html) sections in the Amazon MQ Developer Guide.
     public var engineVersion: Swift.String?
     /// The broker's instance type.
     public var hostInstanceType: Swift.String?
@@ -1564,7 +1561,7 @@ public struct DescribeBrokerOutput {
     public var pendingDataReplicationMetadata: MqClientTypes.DataReplicationMetadataOutput?
     /// Describes whether this broker will be a part of a data replication pair after reboot.
     public var pendingDataReplicationMode: MqClientTypes.DataReplicationMode?
-    /// The broker engine version to upgrade to. For a list of supported engine versions, see [Supported engines](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/broker-engine.html).
+    /// The broker engine version to upgrade to. For more information, see the [ActiveMQ version management](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/activemq-version-management.html) and the [RabbitMQ version management](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/rabbitmq-version-management.html) sections in the Amazon MQ Developer Guide.
     public var pendingEngineVersion: Swift.String?
     /// The broker's host instance type to upgrade to. For a list of supported instance types, see [Broker instance types](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/broker.html#broker-instance-types).
     public var pendingHostInstanceType: Swift.String?
@@ -1769,7 +1766,7 @@ public struct DescribeConfigurationOutput {
     public var description: Swift.String?
     /// Required. The type of broker engine. Currently, Amazon MQ supports ACTIVEMQ and RABBITMQ.
     public var engineType: MqClientTypes.EngineType?
-    /// Required. The broker engine's version. For a list of supported engine versions, see, [Supported engines](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/broker-engine.html).
+    /// The broker engine version. Defaults to the latest available version for the specified broker engine type. For a list of supported engine versions, see the [ActiveMQ version management](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/activemq-version-management.html) and the [RabbitMQ version management](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/rabbitmq-version-management.html) sections in the Amazon MQ Developer Guide.
     public var engineVersion: Swift.String?
     /// Required. The unique ID that Amazon MQ generates for the configuration.
     public var id: Swift.String?
@@ -2189,7 +2186,7 @@ public struct RebootBrokerOutput {
 public struct UpdateBrokerInput {
     /// Optional. The authentication strategy used to secure the broker. The default is SIMPLE.
     public var authenticationStrategy: MqClientTypes.AuthenticationStrategy?
-    /// Enables automatic upgrades to new minor versions for brokers, as new versions are released and supported by Amazon MQ. Automatic upgrades occur during the scheduled maintenance window of the broker or after a manual broker reboot.
+    /// Enables automatic upgrades to new patch versions for brokers as new versions are released and supported by Amazon MQ. Automatic upgrades occur during the scheduled maintenance window or after a manual broker reboot. Must be set to true for ActiveMQ brokers version 5.18 and above and for RabbitMQ brokers version 3.13 and above.
     public var autoMinorVersionUpgrade: Swift.Bool?
     /// The unique ID that Amazon MQ generates for the broker.
     /// This member is required.
@@ -2198,7 +2195,7 @@ public struct UpdateBrokerInput {
     public var configuration: MqClientTypes.ConfigurationId?
     /// Defines whether this broker is a part of a data replication pair.
     public var dataReplicationMode: MqClientTypes.DataReplicationMode?
-    /// The broker engine version. For a list of supported engine versions, see [Supported engines](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/broker-engine.html).
+    /// The broker engine version. For more information, see the [ActiveMQ version management](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/activemq-version-management.html) and the [RabbitMQ version management](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/rabbitmq-version-management.html) sections in the Amazon MQ Developer Guide. When upgrading to ActiveMQ version 5.18 and above or RabbitMQ version 3.13 and above, you must have autoMinorVersionUpgrade set to true for the broker.
     public var engineVersion: Swift.String?
     /// The broker's host instance type to upgrade to. For a list of supported instance types, see [Broker instance types](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/broker.html#broker-instance-types).
     public var hostInstanceType: Swift.String?
@@ -2242,7 +2239,7 @@ public struct UpdateBrokerInput {
 public struct UpdateBrokerOutput {
     /// Optional. The authentication strategy used to secure the broker. The default is SIMPLE.
     public var authenticationStrategy: MqClientTypes.AuthenticationStrategy?
-    /// The new boolean value that specifies whether broker engines automatically upgrade to new minor versions as new versions are released and supported by Amazon MQ.
+    /// Enables automatic upgrades to new patch versions for brokers as new versions are released and supported by Amazon MQ. Automatic upgrades occur during the scheduled maintenance window or after a manual broker reboot.
     public var autoMinorVersionUpgrade: Swift.Bool?
     /// Required. The unique ID that Amazon MQ generates for the broker.
     public var brokerId: Swift.String?
@@ -2252,7 +2249,7 @@ public struct UpdateBrokerOutput {
     public var dataReplicationMetadata: MqClientTypes.DataReplicationMetadataOutput?
     /// Describes whether this broker is a part of a data replication pair.
     public var dataReplicationMode: MqClientTypes.DataReplicationMode?
-    /// The broker engine version to upgrade to. For a list of supported engine versions, see [Supported engines](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/broker-engine.html).
+    /// The broker engine version to upgrade to. For more information, see the [ActiveMQ version management](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/activemq-version-management.html) and the [RabbitMQ version management](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/rabbitmq-version-management.html) sections in the Amazon MQ Developer Guide.
     public var engineVersion: Swift.String?
     /// The broker's host instance type to upgrade to. For a list of supported instance types, see [Broker instance types](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/broker.html#broker-instance-types).
     public var hostInstanceType: Swift.String?

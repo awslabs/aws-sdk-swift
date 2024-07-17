@@ -2519,6 +2519,8 @@ extension BatchClientTypes {
         public var container: BatchClientTypes.ContainerProperties?
         /// This is an object that represents the properties of the node range for a multi-node parallel job.
         public var ecsProperties: BatchClientTypes.EcsProperties?
+        /// This is an object that represents the properties of the node range for a multi-node parallel job.
+        public var eksProperties: BatchClientTypes.EksProperties?
         /// The instance types of the underlying host infrastructure of a multi-node parallel job. This parameter isn't applicable to jobs that are running on Fargate resources. In addition, this list object is currently limited to one element.
         public var instanceTypes: [Swift.String]?
         /// The range of nodes, using node index values. A range of 0:3 indicates nodes with index values of 0 through 3. If the starting range value is omitted (:n), then 0 is used to start the range. If the ending range value is omitted (n:), then the highest possible node index is used to end the range. Your accumulative node ranges must account for all nodes (0:n). You can nest node ranges (for example, 0:10 and 4:5). In this case, the 4:5 range properties override the 0:10 properties.
@@ -2528,12 +2530,14 @@ extension BatchClientTypes {
         public init(
             container: BatchClientTypes.ContainerProperties? = nil,
             ecsProperties: BatchClientTypes.EcsProperties? = nil,
+            eksProperties: BatchClientTypes.EksProperties? = nil,
             instanceTypes: [Swift.String]? = nil,
             targetNodes: Swift.String? = nil
         )
         {
             self.container = container
             self.ecsProperties = ecsProperties
+            self.eksProperties = eksProperties
             self.instanceTypes = instanceTypes
             self.targetNodes = targetNodes
         }
@@ -3301,6 +3305,8 @@ extension BatchClientTypes {
     public struct EksAttemptDetail {
         /// The details for the final status of the containers for this job attempt.
         public var containers: [BatchClientTypes.EksAttemptContainerDetail]?
+        /// The Amazon Resource Name (ARN) of the Amazon EKS cluster.
+        public var eksClusterArn: Swift.String?
         /// The details for the init containers.
         public var initContainers: [BatchClientTypes.EksAttemptContainerDetail]?
         /// The name of the node for this job attempt.
@@ -3316,6 +3322,7 @@ extension BatchClientTypes {
 
         public init(
             containers: [BatchClientTypes.EksAttemptContainerDetail]? = nil,
+            eksClusterArn: Swift.String? = nil,
             initContainers: [BatchClientTypes.EksAttemptContainerDetail]? = nil,
             nodeName: Swift.String? = nil,
             podName: Swift.String? = nil,
@@ -3325,6 +3332,7 @@ extension BatchClientTypes {
         )
         {
             self.containers = containers
+            self.eksClusterArn = eksClusterArn
             self.initContainers = initContainers
             self.nodeName = nodeName
             self.podName = podName
@@ -4370,6 +4378,8 @@ extension BatchClientTypes {
         public var containerOverrides: BatchClientTypes.ContainerOverrides?
         /// An object that contains the properties that you want to replace for the existing Amazon ECS resources of a job.
         public var ecsPropertiesOverride: BatchClientTypes.EcsPropertiesOverride?
+        /// An object that contains the properties that you want to replace for the existing Amazon EKS resources of a job.
+        public var eksPropertiesOverride: BatchClientTypes.EksPropertiesOverride?
         /// An object that contains the instance types that you want to replace for the existing resources of a job.
         public var instanceTypes: [Swift.String]?
         /// The range of nodes, using node index values, that's used to override. A range of 0:3 indicates nodes with index values of 0 through 3. If the starting range value is omitted (:n), then 0 is used to start the range. If the ending range value is omitted (n:), then the highest possible node index is used to end the range.
@@ -4379,12 +4389,14 @@ extension BatchClientTypes {
         public init(
             containerOverrides: BatchClientTypes.ContainerOverrides? = nil,
             ecsPropertiesOverride: BatchClientTypes.EcsPropertiesOverride? = nil,
+            eksPropertiesOverride: BatchClientTypes.EksPropertiesOverride? = nil,
             instanceTypes: [Swift.String]? = nil,
             targetNodes: Swift.String? = nil
         )
         {
             self.containerOverrides = containerOverrides
             self.ecsPropertiesOverride = ecsPropertiesOverride
+            self.eksPropertiesOverride = eksPropertiesOverride
             self.instanceTypes = instanceTypes
             self.targetNodes = targetNodes
         }
@@ -6813,6 +6825,7 @@ extension BatchClientTypes.NodeRangeProperty {
         guard let value else { return }
         try writer["container"].write(value.container, with: BatchClientTypes.ContainerProperties.write(value:to:))
         try writer["ecsProperties"].write(value.ecsProperties, with: BatchClientTypes.EcsProperties.write(value:to:))
+        try writer["eksProperties"].write(value.eksProperties, with: BatchClientTypes.EksProperties.write(value:to:))
         try writer["instanceTypes"].writeList(value.instanceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["targetNodes"].write(value.targetNodes)
     }
@@ -6824,6 +6837,7 @@ extension BatchClientTypes.NodeRangeProperty {
         value.container = try reader["container"].readIfPresent(with: BatchClientTypes.ContainerProperties.read(from:))
         value.instanceTypes = try reader["instanceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.ecsProperties = try reader["ecsProperties"].readIfPresent(with: BatchClientTypes.EcsProperties.read(from:))
+        value.eksProperties = try reader["eksProperties"].readIfPresent(with: BatchClientTypes.EksProperties.read(from:))
         return value
     }
 }
@@ -7129,6 +7143,7 @@ extension BatchClientTypes.EksAttemptDetail {
         var value = BatchClientTypes.EksAttemptDetail()
         value.containers = try reader["containers"].readListIfPresent(memberReadingClosure: BatchClientTypes.EksAttemptContainerDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.initContainers = try reader["initContainers"].readListIfPresent(memberReadingClosure: BatchClientTypes.EksAttemptContainerDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.eksClusterArn = try reader["eksClusterArn"].readIfPresent()
         value.podName = try reader["podName"].readIfPresent()
         value.nodeName = try reader["nodeName"].readIfPresent()
         value.startedAt = try reader["startedAt"].readIfPresent()
@@ -7514,35 +7529,9 @@ extension BatchClientTypes.NodePropertyOverride {
         guard let value else { return }
         try writer["containerOverrides"].write(value.containerOverrides, with: BatchClientTypes.ContainerOverrides.write(value:to:))
         try writer["ecsPropertiesOverride"].write(value.ecsPropertiesOverride, with: BatchClientTypes.EcsPropertiesOverride.write(value:to:))
+        try writer["eksPropertiesOverride"].write(value.eksPropertiesOverride, with: BatchClientTypes.EksPropertiesOverride.write(value:to:))
         try writer["instanceTypes"].writeList(value.instanceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["targetNodes"].write(value.targetNodes)
-    }
-}
-
-extension BatchClientTypes.EcsPropertiesOverride {
-
-    static func write(value: BatchClientTypes.EcsPropertiesOverride?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["taskProperties"].writeList(value.taskProperties, memberWritingClosure: BatchClientTypes.TaskPropertiesOverride.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension BatchClientTypes.TaskPropertiesOverride {
-
-    static func write(value: BatchClientTypes.TaskPropertiesOverride?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["containers"].writeList(value.containers, memberWritingClosure: BatchClientTypes.TaskContainerOverrides.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension BatchClientTypes.TaskContainerOverrides {
-
-    static func write(value: BatchClientTypes.TaskContainerOverrides?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["command"].writeList(value.command, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["environment"].writeList(value.environment, memberWritingClosure: BatchClientTypes.KeyValuePair.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["name"].write(value.name)
-        try writer["resourceRequirements"].writeList(value.resourceRequirements, memberWritingClosure: BatchClientTypes.ResourceRequirement.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -7574,6 +7563,33 @@ extension BatchClientTypes.EksContainerOverride {
         try writer["image"].write(value.image)
         try writer["name"].write(value.name)
         try writer["resources"].write(value.resources, with: BatchClientTypes.EksContainerResourceRequirements.write(value:to:))
+    }
+}
+
+extension BatchClientTypes.EcsPropertiesOverride {
+
+    static func write(value: BatchClientTypes.EcsPropertiesOverride?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["taskProperties"].writeList(value.taskProperties, memberWritingClosure: BatchClientTypes.TaskPropertiesOverride.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BatchClientTypes.TaskPropertiesOverride {
+
+    static func write(value: BatchClientTypes.TaskPropertiesOverride?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["containers"].writeList(value.containers, memberWritingClosure: BatchClientTypes.TaskContainerOverrides.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BatchClientTypes.TaskContainerOverrides {
+
+    static func write(value: BatchClientTypes.TaskContainerOverrides?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["command"].writeList(value.command, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["environment"].writeList(value.environment, memberWritingClosure: BatchClientTypes.KeyValuePair.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["name"].write(value.name)
+        try writer["resourceRequirements"].writeList(value.resourceRequirements, memberWritingClosure: BatchClientTypes.ResourceRequirement.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
