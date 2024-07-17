@@ -7,8 +7,11 @@
 
 import protocol SmithyIdentity.BearerTokenIdentityResolver
 import struct SmithyIdentity.BearerTokenIdentity
-import struct Smithy.Attributes
 import class Foundation.FileManager
+import struct Foundation.URL
+import struct Foundation.Data
+import class Foundation.JSONDecoder
+import struct Smithy.Attributes
 import AwsCommonRuntimeKit
 import enum Smithy.ClientError
 @_spi(FileBasedConfig) import AWSSDKCommon
