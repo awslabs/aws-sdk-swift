@@ -39,7 +39,7 @@ class RestJSONErrorTests: HttpResponseTestBase {
                 header: "Header",
                 topLevel: "Top level"
             )
-            XCTAssertEqual(actual.httpResponse.statusCode, HttpStatusCode(rawValue: 400))
+            XCTAssertEqual(actual.httpResponse.statusCode, HTTPStatusCode(rawValue: 400))
             XCTAssertEqual(actual.header, expected.header)
             XCTAssertEqual(actual.topLevel, expected.topLevel)
         } else {
@@ -63,7 +63,7 @@ class RestJSONErrorTests: HttpResponseTestBase {
 
 public struct ComplexError: AWSServiceError, HTTPError, Error {
     public var typeName: String?
-    public var httpResponse = HttpResponse()
+    public var httpResponse = HTTPResponse()
     public var message: String?
     public var requestID: String?
     public var header: String?
@@ -102,7 +102,7 @@ extension ComplexError {
 
 public enum GreetingWithErrorsError {
     
-    static func httpError(from httpResponse: HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

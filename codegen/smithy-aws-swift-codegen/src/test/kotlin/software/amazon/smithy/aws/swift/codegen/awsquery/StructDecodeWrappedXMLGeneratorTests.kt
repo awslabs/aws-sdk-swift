@@ -22,7 +22,7 @@ class StructDecodeWrappedXMLGeneratorTests {
         val expectedContents = """
 extension FlattenedXmlMapOutput {
 
-    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> FlattenedXmlMapOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> FlattenedXmlMapOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["FlattenedXmlMapResult"]

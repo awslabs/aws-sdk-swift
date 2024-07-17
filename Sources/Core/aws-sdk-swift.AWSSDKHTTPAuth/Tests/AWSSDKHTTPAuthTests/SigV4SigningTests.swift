@@ -29,7 +29,7 @@ class Sigv4SigningTests: XCTestCase {
         let dateString = "2024-01-16T12:36:00Z"
         let date = try XCTUnwrap(TimestampFormatter(format: .dateTime).date(from: dateString))
 
-        let requestBuilder = SdkHttpRequestBuilder()
+        let requestBuilder = HTTPRequestBuilder()
             .withHost("example.amazonaws.com")
             .withPath("/")
             .withMethod(.get)
@@ -62,7 +62,7 @@ class Sigv4SigningTests: XCTestCase {
         let dateString = "2024-01-16T12:36:00Z"
         let date = try XCTUnwrap(TimestampFormatter(format: .dateTime).date(from: dateString))
 
-        let requestBuilder = SdkHttpRequestBuilder()
+        let requestBuilder = HTTPRequestBuilder()
             .withHost("example.amazonaws.com")
             .withPath("/")
             .withMethod(.get)
@@ -98,7 +98,7 @@ class Sigv4SigningTests: XCTestCase {
         let dateString = "2024-01-16T12:36:00Z"
         let date = try XCTUnwrap(TimestampFormatter(format: .dateTime).date(from: dateString))
 
-        let requestBuilder = SdkHttpRequestBuilder()
+        let requestBuilder = HTTPRequestBuilder()
             .withHost("example.amazonaws.com")
             .withPath("/")
             .withMethod(.get)
@@ -135,7 +135,7 @@ class Sigv4SigningTests: XCTestCase {
         let dateString = "2024-01-16T12:36:00Z"
         let date = try XCTUnwrap(TimestampFormatter(format: .dateTime).date(from: dateString))
 
-        let requestBuilder = SdkHttpRequestBuilder()
+        let requestBuilder = HTTPRequestBuilder()
             .withHost("example.amazonaws.com")
             .withPath("/")
             .withMethod(.get)
@@ -171,7 +171,7 @@ class Sigv4SigningTests: XCTestCase {
         let dateString = "2024-01-16T12:36:00Z"
         let date = try XCTUnwrap(TimestampFormatter(format: .dateTime).date(from: dateString))
 
-        let requestBuilder = SdkHttpRequestBuilder()
+        let requestBuilder = HTTPRequestBuilder()
             .withHost("example.amazonaws.com")
             .withPath("/")
             .withMethod(.get)
@@ -207,7 +207,7 @@ class Sigv4SigningTests: XCTestCase {
         let dateString = "2024-01-16T12:36:00Z"
         let date = try XCTUnwrap(TimestampFormatter(format: .dateTime).date(from: dateString))
 
-        let requestBuilder = SdkHttpRequestBuilder()
+        let requestBuilder = HTTPRequestBuilder()
             .withHost("example.amazonaws.com")
             .withPath("/")
             .withMethod(.get)
@@ -243,7 +243,7 @@ class Sigv4SigningTests: XCTestCase {
         let dateString = "2024-01-16T12:36:00Z"
         let date = try XCTUnwrap(TimestampFormatter(format: .dateTime).date(from: dateString))
 
-        let requestBuilder = SdkHttpRequestBuilder()
+        let requestBuilder = HTTPRequestBuilder()
             .withHost("example.amazonaws.com")
             .withPath("/")
             .withMethod(.get)
@@ -279,7 +279,7 @@ class Sigv4SigningTests: XCTestCase {
         let dateString = "2015-08-30T12:36:00Z"
         let date = try XCTUnwrap(TimestampFormatter(format: .dateTime).date(from: dateString))
 
-        let requestBuilder = SdkHttpRequestBuilder()
+        let requestBuilder = HTTPRequestBuilder()
             .withHost("example.amazonaws.com")
             .withPath("")
             .withMethod(.get)

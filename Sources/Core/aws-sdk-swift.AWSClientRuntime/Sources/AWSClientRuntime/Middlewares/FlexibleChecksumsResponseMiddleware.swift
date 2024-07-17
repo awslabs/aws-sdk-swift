@@ -30,7 +30,7 @@ public struct FlexibleChecksumsResponseMiddleware<OperationStackInput, Operation
     }
 
     public func handle<H>(context: Context,
-                          input: SdkHttpRequest,
+                          input: HTTPRequest,
                           next: H) async throws -> OperationOutput<OperationStackOutput>
     where H: Handler,
     Self.MInput == H.Input,
@@ -50,7 +50,7 @@ public struct FlexibleChecksumsResponseMiddleware<OperationStackInput, Operation
         return output
     }
 
-    private func validateChecksum(response: HttpResponse, logger: any LogAgent, attributes: Context) async throws {
+    private func validateChecksum(response: HTTPResponse, logger: any LogAgent, attributes: Context) async throws {
         // Exit if validation should not be performed
         if !validationMode {
             logger.info("Checksum validation should not be performed! Skipping workflow...")
@@ -112,7 +112,7 @@ public struct FlexibleChecksumsResponseMiddleware<OperationStackInput, Operation
         }
     }
 
-    public typealias MInput = SdkHttpRequest
+    public typealias MInput = HTTPRequest
     public typealias MOutput = OperationOutput<OperationStackOutput>
 }
 

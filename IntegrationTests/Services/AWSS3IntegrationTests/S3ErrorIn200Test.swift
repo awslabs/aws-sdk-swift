@@ -20,7 +20,7 @@ public class MockHttpClientEngine: HTTPClient {
     // Public initializer
     public init() {}
 
-    func successHttpResponse(request: SdkHttpRequest) -> HttpResponse {
+    func successHttpResponse(request: SmithyHTTPAPI.HTTPRequest) -> HTTPResponse {
         let errorResponsePayload = """
             <Error>
                 <Code>SlowDown</Code>
@@ -30,14 +30,14 @@ public class MockHttpClientEngine: HTTPClient {
             </Error>
         """
         request.withHeader(name: "Date", value: "Wed, 21 Oct 2015 07:28:00 GMT")
-        return HttpResponse(
+        return HTTPResponse(
             headers: request.headers,
             body: ByteStream.data(errorResponsePayload.data(using: .utf8)),
-            statusCode: HttpStatusCode.ok
+            statusCode: .ok
         )
     }
 
-    public func send(request: SdkHttpRequest) async throws -> HttpResponse {
+    public func send(request: SmithyHTTPAPI.HTTPRequest) async throws -> HTTPResponse {
         return successHttpResponse(request: request)
     }
 }
