@@ -14,6 +14,7 @@ import class Foundation.JSONDecoder
 import struct Smithy.Attributes
 import AwsCommonRuntimeKit
 import enum Smithy.ClientError
+import func Foundation.NSHomeDirectory
 @_spi(FileBasedConfig) import AWSSDKCommon
 
 /// The bearer token identity resolver that resolves token identity using the config file & the cached SSO token.
@@ -52,11 +53,21 @@ public struct SSOBearerTokenIdentityResolver: BearerTokenIdentityResolver {
         }
         let tokenFileName = try ssoSessionName.data(using: .utf8)!.computeSHA1().encodeToHexString() + ".json"
         // Get the access token file URL
-        let homeDir = FileManager.default.homeDirectoryForCurrentUser
+        let homeDir = getHomeDirectoryURL()
         let relativePath = ".aws/sso/cache/\(tokenFileName)"
         let tokenFileURL = homeDir.appendingPathComponent(relativePath)
         // Load & return the access token
         return try loadTokenFile(fileURL: tokenFileURL)
+    }
+
+    private func getHomeDirectoryURL() -> URL {
+        #if os(macOS)
+        // On macOS, use homeDirectoryForCurrentUser
+        return FileManager.default.homeDirectoryForCurrentUser
+        #else
+        // On iOS, tvOS, and watchOS, use NSHomeDirectory()
+        return URL(fileURLWithPath: NSHomeDirectory(), isDirectory: true)
+        #endif
     }
 }
 
